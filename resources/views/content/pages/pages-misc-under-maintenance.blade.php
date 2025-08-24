@@ -4,7 +4,7 @@
 
 @section('page-style')
 <!-- Page -->
-@vite(['resources/assets/vendor/scss/pages/page-misc.scss'])
+<link href="{{ asset('assets/vendor/scss/pages/page-misc.scss')}}">
 @endsection
 
 @section('content')

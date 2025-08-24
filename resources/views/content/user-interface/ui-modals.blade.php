@@ -3,7 +3,7 @@
 @section('title', 'Modals - UI elements')
 
 @section('page-script')
-@vite(['resources/assets/js/ui-modals.js'])
+<script src="{{ asset('assets/js/ui-modals.js') }}"></script>
 @endsection
 
 @section('content')

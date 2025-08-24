@@ -3,7 +3,7 @@
 @section('title', 'Toasts - UI elements')
 
 @section('page-script')
-@vite(['resources/assets/js/ui-toasts.js'])
+<script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
 @endsection
 
 @section('content')

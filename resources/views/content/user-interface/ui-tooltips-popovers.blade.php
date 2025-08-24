@@ -4,7 +4,7 @@
 
 <!-- Page Script -->
 @section('page-script')
-@vite(['resources/assets/js/ui-popover.js'])
+<script src="{{ asset('assets/js/ui-popover.js') }}"></script>"
 @endsection
 
 @section('content')

@@ -3,9 +3,7 @@
 @section('title', 'Register Basic - Pages')
 
 @section('page-style')
-@vite([
-  'resources/assets/vendor/scss/pages/page-auth.scss'
-])
+<link href="{{ asset('assets/vendor/scss/pages/page-auth.scss') }}">
 @endsection
 
 

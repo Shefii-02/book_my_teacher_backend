@@ -3,7 +3,7 @@
 @section('title', 'Account settings - Account')
 
 @section('page-script')
-@vite(['resources/assets/js/pages-account-settings-account.js'])
+<script src="{{ asset('assets/js/pages-account-settings-account.js') }}"></script>
 @endsection
 
 @section('content')

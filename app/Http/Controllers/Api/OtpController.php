@@ -28,40 +28,40 @@ class OtpController extends Controller
       'mobile' => 'required|digits:12',
     ]);
 
-    $company_id = 1;
+    // $company_id = 1;
     $mobile = $request->mobile; // add country code
 
-    $otp = rand(1000, 9999);
+    // $otp = rand(1000, 9999);
 
-    $expTime = 20;
+    // $expTime = 20;
 
-    // Save OTP in database
-    Otp::create([
-      'mobile'     => $mobile,
-      'otp'        => $otp,
-      'expires_at' => Carbon::now()->addMinutes($expTime),
-      'company_id' => $company_id,
-      'type'       => 'mobile'
-    ]);
-
-
-    // Send OTP via SMS Gateway Hub API
-    $response = Http::get("https://www.smsgatewayhub.com/api/mt/SendSMS", [
-      'APIKey'        => config('services.smsgatewayhub.key'),
-      'senderid'      => config('services.smsgatewayhub.senderid'),
-      'channel'       => 2,
-      'DCS'           => 0,
-      'flashsms'      => 0,
-      'number'        => $mobile,
-      'text'          => "{$otp} is your One Time Password (OTP) for login/signup at BookMyTeacher By Pachavellam Education.This OTP will only be valid for {$expTime} minutes. Do not share anyone",
-      'route'         => 54,
-      'EntityId'      => config('services.smsgatewayhub.entity_id'),
-      'dlttemplateid' => config('services.smsgatewayhub.template_id'),
-    ]);
+    // // Save OTP in database
+    // Otp::create([
+    //   'mobile'     => $mobile,
+    //   'otp'        => $otp,
+    //   'expires_at' => Carbon::now()->addMinutes($expTime),
+    //   'company_id' => $company_id,
+    //   'type'       => 'mobile'
+    // ]);
 
 
+    // // Send OTP via SMS Gateway Hub API
+    // $response = Http::get("https://www.smsgatewayhub.com/api/mt/SendSMS", [
+    //   'APIKey'        => config('services.smsgatewayhub.key'),
+    //   'senderid'      => config('services.smsgatewayhub.senderid'),
+    //   'channel'       => 2,
+    //   'DCS'           => 0,
+    //   'flashsms'      => 0,
+    //   'number'        => $mobile,
+    //   'text'          => "{$otp} is your One Time Password (OTP) for login/signup at BookMyTeacher By Pachavellam Education.This OTP will only be valid for {$expTime} minutes. Do not share anyone",
+    //   'route'         => 54,
+    //   'EntityId'      => config('services.smsgatewayhub.entity_id'),
+    //   'dlttemplateid' => config('services.smsgatewayhub.template_id'),
+    // ]);
 
-    if ($response->successful()) {
+
+
+    if (isset($response) && $response->successful()) {
       return $this->success('OTP sent successfully', ['mobile' => $mobile]);
     }
 

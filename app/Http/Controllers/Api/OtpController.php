@@ -92,6 +92,12 @@ class OtpController extends Controller
 
     $expTime = 20;
 
+    $userExist = $this->userExistNot($mobile, $company_id);
+
+    if (!$userExist) {
+      return $this->error('User already signed..', Response::HTTP_NOT_FOUND);
+    }
+
     // // Save OTP in database
     Otp::create([
       'mobile'     => $mobile,
@@ -134,6 +140,24 @@ class OtpController extends Controller
 
     if ($otpRecord) {
       $otpRecord->update(['verified' => true]);
+
+      $user = User::where('mobile', $mobile)->where('company_id', 1)->first();
+
+      if (!$user) {
+        $user                     = new User();
+        $user->name               = null;
+        $user->mobile             = $mobile;
+        $user->mobile_verified    = true;
+        $user->company_id         = 1;
+        $user->last_login         = null;
+        $user->email              = null;
+        $user->email_verified_at  = null;
+        $user->password           = null;
+        $user->save();
+      } else {
+        $user->mobile_verified    = true;
+        $user->save();
+      }
 
       return $this->success('OTP verified successfully');
     }

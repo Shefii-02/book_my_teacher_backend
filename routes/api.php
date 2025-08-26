@@ -9,8 +9,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/send-otp-signIn', 'OtpController@sendOtpSignIn');
   Route::post('/verify-otp-signIn', 'OtpController@verifyOtpSignIn');
 
-  Route::post('/send-otp-signUp', 'OtpController@sendOtpSignIn');
-  Route::post('/verify-otp-signUp', 'OtpController@verifyOtpSignIn');
+
+  Route::post('/send-otp-signUp', 'OtpController@sendOtpSignUp');
+  Route::post('/verify-otp-signUp', 'OtpController@verifyOtpSignUp');
 
   Route::post('/send-email-otp', 'OtpController@sendEmailOtp');
   Route::post('/verify-email-otp', 'OtpController@verifyEmailOtp');
@@ -21,7 +22,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/user-details', 'UserController@index');
   Route::post('/teacher-home', 'TeacherController@home');
   Route::post('/student-home', 'StudentController@home');
-
 
   Route::post('/teacher-profile', 'TeacherController@home');
 

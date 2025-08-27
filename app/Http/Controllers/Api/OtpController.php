@@ -109,7 +109,7 @@ class OtpController extends Controller
       'mobile' => 'required',
       'otp'    => 'required',
     ]);
-
+    Log::info($request->all());
     $mobile   = $request->mobile;
     $otpInput = $request->otp;
 

@@ -94,7 +94,7 @@ class OtpController extends Controller
 
     $userExist = $this->userExistNot($mobile, $company_id);
 
-    if (!$userExist) {
+    if ($userExist) {
       return $this->error('User already signed..', Response::HTTP_NOT_FOUND);
     }
 

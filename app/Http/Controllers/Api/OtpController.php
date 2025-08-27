@@ -55,7 +55,7 @@ class OtpController extends Controller
       'attempt'    => '1'
     ]);
 
-    $this->SmsApiFunction($mobile, $otp);
+    $response = $this->SmsApiFunction($mobile, $otp);
     // // Send OTP via SMS Gateway Hub API
     // $response = Http::get("https://www.smsgatewayhub.com/api/mt/SendSMS", [
     //   'APIKey'        => config('services.smsgatewayhub.key'),
@@ -69,8 +69,6 @@ class OtpController extends Controller
     //   'EntityId'      => config('services.smsgatewayhub.entity_id'),
     //   'dlttemplateid' => config('services.smsgatewayhub.template_id'),
     // ]);
-
-
 
     if (isset($response) && $response->successful()) {
       return $this->success('OTP sent successfully', ['mobile' => $mobile]);
@@ -108,8 +106,7 @@ class OtpController extends Controller
       'attempt'    => '1'
     ]);
 
-    $this->SmsApiFunction($mobile, $otp);
-
+    $response = $this->SmsApiFunction($mobile, $otp);
 
     if (isset($response) && $response->successful()) {
       return $this->success('OTP sent successfully', ['mobile' => $mobile]);
@@ -276,8 +273,10 @@ class OtpController extends Controller
         'EntityId'      => config('services.smsgatewayhub.entity_id'),
         'dlttemplateid' => config('services.smsgatewayhub.template_id'),
       ]);
+      return $response;
     }
-    return true;
+
+    return false;
   }
 
 

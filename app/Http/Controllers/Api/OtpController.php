@@ -93,7 +93,7 @@ class OtpController extends Controller
 
     if ($response && $response->successful()) {
       return $this->success('OTP sent successfully', ['mobile' => $mobile]);
-    } else if (env('SMSOTP', false)) {
+    } else if (!env('SMSOTP', true)) {
       return $this->success('OTP sent successfully', ['mobile' => $mobile]);
     }
 

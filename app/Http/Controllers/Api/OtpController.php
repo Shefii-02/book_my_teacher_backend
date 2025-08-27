@@ -52,6 +52,8 @@ class OtpController extends Controller
 
     if ($response && $response->successful()) {
       return $this->success('OTP sent successfully', ['mobile' => $mobile]);
+    } else if (env('SMSOTP', false)) {
+      return $this->success('OTP sent successfully', ['mobile' => $mobile]);
     }
 
     return $this->error('Failed to send OTP', Response::HTTP_BAD_REQUEST);
@@ -90,6 +92,8 @@ class OtpController extends Controller
     $response = $this->SmsApiFunction($mobile, $otp, $expTime);
 
     if ($response && $response->successful()) {
+      return $this->success('OTP sent successfully', ['mobile' => $mobile]);
+    } else if (env('SMSOTP', false)) {
       return $this->success('OTP sent successfully', ['mobile' => $mobile]);
     }
 

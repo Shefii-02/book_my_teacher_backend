@@ -52,7 +52,7 @@ class OtpController extends Controller
 
     if ($response && $response->successful()) {
       return $this->success('OTP sent successfully', ['mobile' => $mobile]);
-    } else if (env('SMSOTP', false)) {
+    } else if (!env('SMSOTP', false)) {
       return $this->success('OTP sent successfully', ['mobile' => $mobile]);
     }
 
@@ -73,9 +73,10 @@ class OtpController extends Controller
 
     $otp = rand(1000, 9999);
     $expTime = 20;
+    $userr =  User::where('mobile', $mobile)->where('company_id', $company_id)->where('profile_fill', 0)->exists();
 
     // user already exists? → stop signup
-    if ($this->userExistNot($mobile, $company_id)) {
+    if ($userr) {
       return $this->error('User already registered', Response::HTTP_CONFLICT);
     }
 
@@ -133,6 +134,7 @@ class OtpController extends Controller
       $user->mobile          = $mobile;
       $user->mobile_verified = true;
       $user->company_id      = 1;
+      $user->profile_fill    = 0;
       $user->save();
     } else {
       $user->update(['mobile_verified' => true]);
@@ -172,6 +174,7 @@ class OtpController extends Controller
     $user->mobile          = $mobile;
     $user->mobile_verified = true;
     $user->company_id      = $company_id;
+    $user->profile_fill    = 0;
     $user->save();
 
     return $this->success('OTP verified successfully');

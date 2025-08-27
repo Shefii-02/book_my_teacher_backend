@@ -109,8 +109,8 @@ class OtpController extends Controller
       'mobile' => 'required',
       'otp'    => 'required',
     ]);
-    Log::info($request->all());
-    $mobile   = $request->mobile;
+
+    $mobile = '91' . $request->mobile;
     $otpInput = $request->otp;
 
     $otpRecord = Otp::where('mobile', $mobile)
@@ -151,7 +151,7 @@ class OtpController extends Controller
       'otp'    => 'required',
     ]);
     Log::info($request->all());
-    $mobile    = $request->mobile;
+    $mobile = '91' . $request->mobile;
     $otpInput  = $request->otp;
     $company_id = 1;
 

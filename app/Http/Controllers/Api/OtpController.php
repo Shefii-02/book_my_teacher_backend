@@ -73,7 +73,7 @@ class OtpController extends Controller
 
     $otp = rand(1000, 9999);
     $expTime = 20;
-    $userr =  User::where('mobile', $mobile)->where('company_id', $company_id)->where('profile_fill', 0)->exists();
+    $userr =  User::where('mobile', $mobile)->where('company_id', $company_id)->where('profile_fill', 1)->exists();
 
     // user already exists? → stop signup
     if ($userr) {

@@ -18,6 +18,8 @@ return new class extends Migration
       $table->string('acc_type')->nullable()->after('mobile_verified');
       $table->string('company_id')->nullable()->after('acc_type');
       $table->string('last_login')->nullable()->after('company_id');
+      $table->integer('profile_fill')->default(0)->nullable()->after('last_login');
+
     });
   }
 

@@ -19,7 +19,7 @@ class RegisterController extends Controller
   public function teacherSignup(Request $request)
   {
 
-        Log::info($request->all());
+    Log::info($request->all());
 
     $validator = Validator::make($request->all(), [
       'name'        => 'required|string|max:100',
@@ -32,7 +32,7 @@ class RegisterController extends Controller
       'country'     => 'required|string|max:100',
       'profession'  => 'required|string|max:100',
       'teacher_id'  => 'required|exists:users,id',
-      'avatar'      => 'nullable|string|max:255',
+      'avatar'      => 'nullable',
     ]);
 
     if ($validator->fails()) {

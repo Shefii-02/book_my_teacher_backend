@@ -14,5 +14,5 @@ class TeachingSubject extends Model
   ];
 
 
-  protected $table = 'teaching_subjects';
+  protected $table = 'teacher_subjects';
 }

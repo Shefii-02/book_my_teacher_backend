@@ -152,7 +152,7 @@ class RegisterController extends Controller
         ]);
       }
 
-      User::where('id', $user->id)->where('company_id', 1)->update('profile_fill', 1);
+      User::where('id', $user->id)->where('company_id', 1)->update(['profile_fill' => 1]);
       DB::commit();
 
       return response()->json([

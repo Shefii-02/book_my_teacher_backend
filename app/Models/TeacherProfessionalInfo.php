@@ -18,4 +18,7 @@ class TeacherProfessionalInfo extends Model
     'online_exp',
     'home_exp',
   ];
+
+
+    protected $table = 'teacher_professional_info';
 }

@@ -137,7 +137,7 @@ class RegisterController extends Controller
         MediaFile::create([
           'teacher_id' => $user->id,
           'company_id' => $company_id,
-          'file_category'  => 'avatar',
+          'file_type'  => 'avatar',
           'file_path'  => $path,
           'name'       => $fileName,
           'mime_type'  => $fileMimeType,

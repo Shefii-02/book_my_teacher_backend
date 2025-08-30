@@ -14,7 +14,7 @@ use App\Models\TeacherGrade;
 use App\Models\TeachingSubject;
 use App\Models\MediaFile;
 
-class TeacherController extends Controller
+class RegisterController extends Controller
 {
   public function store(Request $request)
   {
@@ -144,8 +144,6 @@ class TeacherController extends Controller
       }
 
       User::where('id', $user->id)->where('company_id', 1)->update('profile_fill',1);
-
-
       DB::commit();
 
       return response()->json([

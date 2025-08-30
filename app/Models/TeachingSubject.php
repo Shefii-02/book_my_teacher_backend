@@ -9,7 +9,7 @@ class TeachingSubject extends Model
 {
   use HasFactory;
   protected $fillable = [
-    'user_id',
+    'teacher_id',
     'subject'
   ];
 

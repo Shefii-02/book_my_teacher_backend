@@ -16,7 +16,7 @@ use App\Models\MediaFile;
 
 class RegisterController extends Controller
 {
-  public function store(Request $request)
+  public function teacherSignup(Request $request)
   {
     DB::beginTransaction();
     $company_id = 1;

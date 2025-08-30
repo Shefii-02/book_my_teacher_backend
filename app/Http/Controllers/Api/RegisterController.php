@@ -22,18 +22,23 @@ class RegisterController extends Controller
     $company_id = 1;
     try {
       // 1️⃣ Create User (or find existing)
-      $user = User::create([
-        'name'       => $request->name,
-        'email'      => $request->email,
-        'mobile'     => $request->mobile ?? null,
-        'address'    => $request->address,
-        'city'       => $request->city,
-        'postal_code' => $request->postal_code,
-        'district'   => $request->district,
-        'state'      => $request->state,
-        'country'    => $request->country,
-        'company_id' => 1,
-      ]);
+      $user = User::updateOrCreate(
+        [
+          'mobile' => $request->mobile,   // condition to check
+          'company_id' => 1,
+        ],
+        [
+          'name'        => $request->name,
+          'email'       => $request->email,
+          'address'     => $request->address,
+          'city'        => $request->city,
+          'postal_code' => $request->postal_code,
+          'district'    => $request->district,
+          'state'       => $request->state,
+          'country'     => $request->country,
+        ]
+      );
+
 
       // 2️⃣ Professional Info
       $profInfo = TeacherProfessionalInfo::create([

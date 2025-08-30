@@ -12,4 +12,7 @@ class TeachingSubject extends Model
     'user_id',
     'subject'
   ];
+
+
+  protected $table = 'teaching_subjects';
 }

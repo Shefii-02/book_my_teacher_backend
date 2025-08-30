@@ -111,12 +111,12 @@ class RegisterController extends Controller
         );
 
         MediaFile::create([
-          'teacher_id' => $user->id,
-          'file_type'  => 'avatar',
-          'file_path'  => $path,
+          'user_id' => $user->id,
           'company_id' => $company_id,
+          'file_category'  => 'avatar',
+          'url'  => $path,
           'name'       => $fileName,
-          'mime_type'  => $fileMimeType,
+          'file_type'  => $fileMimeType,
         ]);
       }
 
@@ -134,16 +134,24 @@ class RegisterController extends Controller
         );
 
         MediaFile::create([
-          'teacher_id' => $user->id,
-          'file_type'  => 'cv',
-          'file_path'  => $cvPath,
+          'user_id' => $user->id,
           'company_id' => $company_id,
+          'file_category'  => 'avatar',
+          'url'  => $path,
           'name'       => $fileName,
-          'mime_type'  => $fileMimeType,
+          'file_type'  => $fileMimeType,
+
+          // 'user_id' => $user->id,
+          // 'file_type'  => 'cv',
+          // 'file_path'  => $cvPath,
+          // 'company_id' => $company_id,
+          // 'name'       => $fileName,
+          // 'mime_type'  => $fileMimeType,
+
         ]);
       }
 
-      User::where('id', $user->id)->where('company_id', 1)->update('profile_fill',1);
+      User::where('id', $user->id)->where('company_id', 1)->update('profile_fill', 1);
       DB::commit();
 
       return response()->json([

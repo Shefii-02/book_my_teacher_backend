@@ -125,6 +125,9 @@ class OtpController extends Controller
       return $this->error('Invalid or expired OTP', Response::HTTP_UNAUTHORIZED);
     }
 
+    User::where('mobile', $mobile)->where('company_id', 1)->update(['mobile_verified' => 1]);
+
+
     $otpRecord->update(['verified' => true]);
 
     $user = User::where('mobile', $mobile)->where('company_id', 1)->first();
@@ -242,6 +245,7 @@ class OtpController extends Controller
     }
 
     $otpRecord->update(['verified' => true]);
+    User::where('email', $email)->where('company_id', 1)->update(['email_verified_at' => date('Y-m-d H:i:s')]);
 
     return $this->success('OTP verified successfully');
   }

@@ -13,6 +13,7 @@ use App\Models\TeacherWorkingHour;
 use App\Models\TeacherGrade;
 use App\Models\TeachingSubject;
 use App\Models\MediaFile;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -42,6 +43,7 @@ class RegisterController extends Controller
       );
 
 
+      Log::info($mobile);
       // 2️⃣ Professional Info
       $profInfo = TeacherProfessionalInfo::create([
         'teacher_id'        => $user->id,

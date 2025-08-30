@@ -110,13 +110,14 @@ class RegisterController extends Controller
           'public'
         );
 
+
         MediaFile::create([
-          'user_id' => $user->id,
+          'teacher_id' => $user->id,
           'company_id' => $company_id,
           'file_category'  => 'avatar',
-          'url'  => $path,
+          'file_path'  => $path,
           'name'       => $fileName,
-          'file_type'  => $fileMimeType,
+          'mime_type'  => $fileMimeType,
         ]);
       }
 
@@ -134,12 +135,12 @@ class RegisterController extends Controller
         );
 
         MediaFile::create([
-          'user_id' => $user->id,
+          'teacher_id' => $user->id,
           'company_id' => $company_id,
           'file_category'  => 'avatar',
-          'url'  => $path,
+          'file_path'  => $path,
           'name'       => $fileName,
-          'file_type'  => $fileMimeType,
+          'mime_type'  => $fileMimeType,
 
           // 'user_id' => $user->id,
           // 'file_type'  => 'cv',

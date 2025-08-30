@@ -11,11 +11,11 @@ class MediaFile extends Model
 
 
   protected $fillable = [
-    'user_id',
+    'teacher_id',
+    'mime_type',
     'company_id',
     'file_category',
-    'url',
-    'file_type',
+    'file_path',
     'name',
   ];
 }

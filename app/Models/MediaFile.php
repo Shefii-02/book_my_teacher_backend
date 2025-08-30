@@ -14,7 +14,7 @@ class MediaFile extends Model
     'teacher_id',
     'mime_type',
     'company_id',
-    'file_category',
+    'file_type',
     'file_path',
     'name',
   ];

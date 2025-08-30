@@ -51,7 +51,7 @@ class RegisterController extends Controller
         $days = explode(',', $request->working_days);
         foreach ($days as $day) {
           TeacherWorkingDay::create([
-            'user_id' => $user->id,
+            'teacher_id' => $user->id,
             'day'     => trim($day),
           ]);
         }
@@ -62,7 +62,7 @@ class RegisterController extends Controller
         $hours = explode(',', $request->working_hours);
         foreach ($hours as $hour) {
           TeacherWorkingHour::create([
-            'user_id' => $user->id,
+            'teacher_id' => $user->id,
             'time_range' => trim($hour),
           ]);
         }
@@ -73,7 +73,7 @@ class RegisterController extends Controller
         $grades = explode(',', $request->teaching_grades);
         foreach ($grades as $grade) {
           TeacherGrade::create([
-            'user_id' => $user->id,
+            'teacher_id' => $user->id,
             'grade'   => trim($grade),
           ]);
         }
@@ -84,7 +84,7 @@ class RegisterController extends Controller
         $subjects = explode(',', $request->teaching_subjects);
         foreach ($subjects as $subject) {
           TeachingSubject::create([
-            'user_id' => $user->id,
+            'teacher_id' => $user->id,
             'subject' => trim($subject),
           ]);
         }

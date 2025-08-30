@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class TeacherWorkingHour extends Model
 {
-    use HasFactory;
+  use HasFactory;
+  protected $fillable = [
+    'teacher_id',
+    'time_slot'
+  ];
 }

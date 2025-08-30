@@ -37,7 +37,7 @@ class RegisterController extends Controller
 
       // 2️⃣ Professional Info
       $profInfo = TeacherProfessionalInfo::create([
-        'user_id'        => $user->id,
+        'teacher_id'        => $user->id,
         'profession'     => $request->profession,
         'ready_to_work'  => $request->ready_to_work,
         'experience'     => $request->experience,

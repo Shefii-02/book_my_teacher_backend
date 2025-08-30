@@ -140,7 +140,12 @@ class OtpController extends Controller
       $user->update(['mobile_verified' => true]);
     }
 
-    return $this->success('OTP verified successfully');
+    // return $this->success('OTP verified successfully');
+    return response()->json([
+      'success' => true,
+      'message' => 'OTP verified successfully',
+      'user'    => $user,
+    ], 200);
   }
 
   /**

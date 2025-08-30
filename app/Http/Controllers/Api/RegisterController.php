@@ -19,16 +19,22 @@ class RegisterController extends Controller
 {
   public function teacherSignup(Request $request)
   {
+    Log::info($request->all());
     DB::beginTransaction();
     $company_id = 1;
+
+
+    $user = User::where('tecaher')->first();
+
+
     $mobile = '91' . $request->mobile;
 
     try {
-      // 1️⃣ Create User (or find existing)
+      // 1️⃣ Create or Update User
       $user = User::updateOrCreate(
         [
-          'mobile' => $mobile,   // condition to check
-          'company_id' => 1,
+          'mobile'     => $mobile,
+          'company_id' => $company_id,
         ],
         [
           'name'        => $request->name,
@@ -42,59 +48,59 @@ class RegisterController extends Controller
         ]
       );
 
+      // 2️⃣ Professional Info (updateOrCreate to avoid duplicates)
+      $profInfo = TeacherProfessionalInfo::updateOrCreate(
+        ['teacher_id' => $user->id],
+        [
+          'profession'    => $request->profession,
+          'ready_to_work' => $request->ready_to_work,
+          'experience'    => $request->experience,
+          'offline_exp'   => $request->offline_exp,
+          'online_exp'    => $request->online_exp,
+          'home_exp'      => $request->home_exp,
+        ]
+      );
 
-      Log::info($mobile);
-      // 2️⃣ Professional Info
-      $profInfo = TeacherProfessionalInfo::create([
-        'teacher_id'        => $user->id,
-        'profession'     => $request->profession,
-        'ready_to_work'  => $request->ready_to_work,
-        'experience'     => $request->experience,
-        'offline_exp'    => $request->offline_exp,
-        'online_exp'     => $request->online_exp,
-        'home_exp'       => $request->home_exp,
-      ]);
-
-      // 3️⃣ Working Days
+      // 3️⃣ Sync Working Days
       if ($request->filled('working_days')) {
-        $days = explode(',', $request->working_days);
-        foreach ($days as $day) {
+        TeacherWorkingDay::where('teacher_id', $user->id)->delete();
+        foreach (explode(',', $request->working_days) as $day) {
           TeacherWorkingDay::create([
             'teacher_id' => $user->id,
-            'day'     => trim($day),
+            'day'        => trim($day),
           ]);
         }
       }
 
-      // 4️⃣ Working Hours
+      // 4️⃣ Sync Working Hours
       if ($request->filled('working_hours')) {
-        $hours = explode(',', $request->working_hours);
-        foreach ($hours as $hour) {
+        TeacherWorkingHour::where('teacher_id', $user->id)->delete();
+        foreach (explode(',', $request->working_hours) as $hour) {
           TeacherWorkingHour::create([
             'teacher_id' => $user->id,
-            'time_slot' => trim($hour),
+            'time_slot'  => trim($hour),
           ]);
         }
       }
 
-      // 5️⃣ Grades
+      // 5️⃣ Sync Grades
       if ($request->filled('teaching_grades')) {
-        $grades = explode(',', $request->teaching_grades);
-        foreach ($grades as $grade) {
+        TeacherGrade::where('teacher_id', $user->id)->delete();
+        foreach (explode(',', $request->teaching_grades) as $grade) {
           TeacherGrade::create([
             'teacher_id' => $user->id,
-            'grade'   => trim($grade),
+            'grade'      => trim($grade),
           ]);
         }
       }
 
-      // 6️⃣ Subjects
+      // 6️⃣ Sync Subjects
       if ($request->filled('teaching_subjects')) {
-        $subjects = explode(',', $request->teaching_subjects);
-        foreach ($subjects as $subject) {
+        TeachingSubject::where('teacher_id', $user->id)->delete();
+        foreach (explode(',', $request->teaching_subjects) as $subject) {
           TeachingSubject::create([
             'teacher_id' => $user->id,
-            'subject' => trim($subject),
+            'subject'    => trim($subject),
           ]);
         }
       }
@@ -102,71 +108,48 @@ class RegisterController extends Controller
       // 7️⃣ Media Files (Avatar + CV)
       if ($request->hasFile('avatar')) {
         $file = $request->file('avatar');
-
-        // Original file name
-        $fileName = $file->getClientOriginalName();
-
-        // File extension
-        $fileExtension = $file->getClientOriginalExtension();
-
-        // Mime type
-        $fileMimeType = $file->getMimeType();
-
-        // Store file with unique name to avoid overwriting
         $path = $file->storeAs(
           'uploads/avatars',
-          time() . '_' . uniqid() . '.' . $fileExtension,
+          time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
           'public'
         );
-
 
         MediaFile::create([
           'teacher_id' => $user->id,
           'company_id' => $company_id,
           'file_type'  => 'avatar',
           'file_path'  => $path,
-          'name'       => $fileName,
-          'mime_type'  => $fileMimeType,
+          'name'       => $file->getClientOriginalName(),
+          'mime_type'  => $file->getMimeType(),
         ]);
       }
 
       if ($request->hasFile('cv_file')) {
         $file = $request->file('cv_file');
-
-        $fileName    = $file->getClientOriginalName();
-        $fileMimeType = $file->getMimeType();
-        $fileExtension = $file->getClientOriginalExtension();
-
         $cvPath = $file->storeAs(
           'uploads/cv_files',
-          time() . '_' . uniqid() . '.' . $fileExtension,
+          time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
           'public'
         );
 
         MediaFile::create([
           'teacher_id' => $user->id,
           'company_id' => $company_id,
-          'file_type'  => 'avatar',
-          'file_path'  => $path,
-          'name'       => $fileName,
-          'mime_type'  => $fileMimeType,
-
-          // 'user_id' => $user->id,
-          // 'file_type'  => 'cv',
-          // 'file_path'  => $cvPath,
-          // 'company_id' => $company_id,
-          // 'name'       => $fileName,
-          // 'mime_type'  => $fileMimeType,
-
+          'file_type'  => 'cv', // ✅ FIXED
+          'file_path'  => $cvPath, // ✅ FIXED
+          'name'       => $file->getClientOriginalName(),
+          'mime_type'  => $file->getMimeType(),
         ]);
       }
 
-      User::where('id', $user->id)->where('company_id', 1)->update(['profile_fill' => 1]);
+      // 8️⃣ Mark profile as filled
+      $user->update(['profile_fill' => 1]);
+
       DB::commit();
 
       return response()->json([
-        'message' => 'Teacher registered successfully',
-        'user' => $user,
+        'message'           => 'Teacher registered successfully',
+        'user'              => $user,
         'professional_info' => $profInfo,
       ], 201);
     } catch (\Exception $e) {

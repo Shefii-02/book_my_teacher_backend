@@ -63,7 +63,7 @@ class RegisterController extends Controller
         foreach ($hours as $hour) {
           TeacherWorkingHour::create([
             'teacher_id' => $user->id,
-            'time_range' => trim($hour),
+            'time_slot' => trim($hour),
           ]);
         }
       }

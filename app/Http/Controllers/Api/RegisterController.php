@@ -20,11 +20,13 @@ class RegisterController extends Controller
   {
     DB::beginTransaction();
     $company_id = 1;
+    $mobile = '91' . $request->mobile;
+
     try {
       // 1️⃣ Create User (or find existing)
       $user = User::updateOrCreate(
         [
-          'mobile' => $request->mobile,   // condition to check
+          'mobile' => $mobile,   // condition to check
           'company_id' => 1,
         ],
         [

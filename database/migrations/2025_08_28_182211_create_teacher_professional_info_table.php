@@ -12,6 +12,7 @@ return new class extends Migration
   public function up(): void
   {
     Schema::create('teacher_professional_info', function (Blueprint $table) {
+      $table->id();
       $table->unsignedBigInteger('teacher_id');
       $table->string('profession')->nullable();
       $table->enum('ready_to_work', ['Yes', 'No'])->default('Yes');

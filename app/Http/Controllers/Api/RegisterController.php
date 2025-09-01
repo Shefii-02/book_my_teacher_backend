@@ -45,13 +45,6 @@ class RegisterController extends Controller
               'country'     => $request->country,
             ]
           );
-      } else {
-        DB::rollBack();
-        return response()->json([
-          'message' => 'Registration failed',
-          'error'   => "User not found",
-        ], 500);
-      }
 
 
       // 2️⃣ Professional Info (updateOrCreate to avoid duplicates)
@@ -158,6 +151,17 @@ class RegisterController extends Controller
         'user'              => $user,
         'professional_info' => $profInfo,
       ], 201);
+
+
+      } else {
+        DB::rollBack();
+        return response()->json([
+          'message' => 'Registration failed',
+          'error'   => "User not found",
+        ], 500);
+      }
+
+
     } catch (\Exception $e) {
       DB::rollBack();
       return response()->json([

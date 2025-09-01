@@ -25,9 +25,9 @@ class RegisterController extends Controller
     $mobile_no = $request->teacher_id;
 
     Log::info($request->all());
+// where('mobile', $mobile_no)->where('company_id', $company_id)->
 
-
-    $user = User::where('mobile', $mobile_no)->where('company_id', $company_id)->first();
+    $user = User::first();
     $mobile = '91' . $request->mobile;
     Log::info($user);
     try {

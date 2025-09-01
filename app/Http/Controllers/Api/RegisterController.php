@@ -19,34 +19,40 @@ class RegisterController extends Controller
 {
   public function teacherSignup(Request $request)
   {
-    Log::info($request->all());
+
     DB::beginTransaction();
     $company_id = 1;
+    $teacher_id = $request->teacher_id;
 
+    Log::info($request->all());
 
-    $user = User::where('tecaher')->first();
-
-
+    $user = User::where('id', $teacher_id)->where('company_id', $company_id)->first();
     $mobile = '91' . $request->mobile;
 
     try {
-      // 1️⃣ Create or Update User
-      $user = User::updateOrCreate(
-        [
-          'mobile'     => $mobile,
-          'company_id' => $company_id,
-        ],
-        [
-          'name'        => $request->name,
-          'email'       => $request->email,
-          'address'     => $request->address,
-          'city'        => $request->city,
-          'postal_code' => $request->postal_code,
-          'district'    => $request->district,
-          'state'       => $request->state,
-          'country'     => $request->country,
-        ]
-      );
+      if ($user) {
+        // 1️⃣ Create or Update User
+        User::where('id', $user->id)
+          ->update(
+            [
+              'name'        => $request->name,
+              'email'       => $request->email,
+              'address'     => $request->address,
+              'city'        => $request->city,
+              'postal_code' => $request->postal_code,
+              'district'    => $request->district,
+              'state'       => $request->state,
+              'country'     => $request->country,
+            ]
+          );
+      } else {
+        DB::rollBack();
+        return response()->json([
+          'message' => 'Registration failed',
+          'error'   => "User not found",
+        ], 500);
+      }
+
 
       // 2️⃣ Professional Info (updateOrCreate to avoid duplicates)
       $profInfo = TeacherProfessionalInfo::updateOrCreate(

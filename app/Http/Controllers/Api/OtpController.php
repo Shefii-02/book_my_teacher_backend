@@ -77,7 +77,7 @@ class OtpController extends Controller
 
     // user already exists? → stop signup
     if ($userr) {
-      return $this->error('User already registered', Response::HTTP_CONFLICT);
+      return $this->error('User already registered, Please SignIn', Response::HTTP_CONFLICT);
     }
 
     // Save OTP

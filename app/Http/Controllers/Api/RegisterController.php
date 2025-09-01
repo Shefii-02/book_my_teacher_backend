@@ -38,6 +38,7 @@ class RegisterController extends Controller
               'name'        => $request->name,
               'email'       => $request->email,
               'address'     => $request->address,
+              'acc_type'    => 'teacher',
               'city'        => $request->city,
               'postal_code' => $request->postal_code,
               'district'    => $request->district,

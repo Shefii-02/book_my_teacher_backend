@@ -22,17 +22,15 @@ class RegisterController extends Controller
 
     DB::beginTransaction();
     $company_id = 1;
-    $teacher_id = $request->teacher_id;
+    $mobile_no = $request->mobile_no;
 
-    Log::info($request->all());
-
-    $user = User::where('id', $teacher_id)->where('company_id', $company_id)->first();
+    $user = User::where('mobile', $mobile_no)->where('company_id', $company_id)->first();
     $mobile = '91' . $request->mobile;
 
     try {
       if ($user) {
         // 1️⃣ Create or Update User
-        User::where('id', $user->id)
+        User::where('mobile', $mobile_no)
           ->update(
             [
               'name'        => $request->name,

@@ -28,12 +28,7 @@ class UserController extends Controller
       return response()->json([
         'success' => true,
         'message' => 'User details found successfully',
-        'data'    => [
-          'id'        => $user->id,
-          'name'      => $user->name,
-          'email'     => $user->email,
-          'mobile'    => $user->mobile,
-        ],
+        'data'    => $user,
       ], 200);
     }
 

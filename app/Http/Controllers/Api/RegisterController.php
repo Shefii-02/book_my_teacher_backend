@@ -170,4 +170,57 @@ class RegisterController extends Controller
       ], 500);
     }
   }
+
+  public function studentSignup(Request $request)
+  {
+
+    // DB::beginTransaction();
+    $company_id = 1;
+    $student_id = $request->student_id;
+
+    Log::info($request->all());
+
+    $user = User::where('id', $student_id)->where('company_id', $company_id)->first();
+    Log::info($user);
+    try {
+      if ($user) {
+        User::where('id', $student_id)
+          ->update(
+            [
+              'name'        => $request->student_name,
+              'email'       => $request->email,
+              'address'     => $request->address,
+              'acc_type'    => 'student',
+              'city'        => $request->city,
+              'postal_code' => $request->postal_code,
+              'district'    => $request->district,
+              'state'       => $request->state,
+              'country'     => $request->country,
+            ]
+          );
+
+        $user->save();
+
+        Log::info($user);
+
+        DB::commit();
+
+        return response()->json([
+          'message'           => 'Student registered successfully',
+          'user'              => $user
+        ], 201);
+      } else {
+        return response()->json([
+          'message' => 'Registration failed',
+          'error'   => "User not found",
+        ], 500);
+      }
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return response()->json([
+        'message' => 'Registration failed',
+        'error'   => $e->getMessage(),
+      ], 500);
+    }
+  }
 }

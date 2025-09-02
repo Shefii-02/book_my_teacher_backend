@@ -28,6 +28,7 @@ class User extends Authenticatable
     'state',
     'country',
     'company_id',
+    'acc_type',
   ];
 
   /**

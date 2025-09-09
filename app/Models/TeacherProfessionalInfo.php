@@ -13,7 +13,7 @@ class TeacherProfessionalInfo extends Model
     'teacher_id',
     'profession',
     'ready_to_work',
-    'experience',
+    'teaching_mode',
     'offline_exp',
     'online_exp',
     'home_exp',

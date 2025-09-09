@@ -9,6 +9,6 @@ class Analytics extends Controller
 {
   public function index()
   {
-    return view('admin.dashboard.dashboards-analytics');
+    return view('company.dashboard.index');
   }
 }

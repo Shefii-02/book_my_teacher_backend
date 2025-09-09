@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +52,7 @@ class RegisterController extends Controller
           [
             'profession'    => $request->profession,
             'ready_to_work' => $request->ready_to_work,
-            'experience'    => $request->experience,
+            'teaching_mode'    => $request->interest,
             'offline_exp'   => $request->offline_exp,
             'online_exp'    => $request->online_exp,
             'home_exp'      => $request->home_exp,
@@ -115,7 +113,7 @@ class RegisterController extends Controller
           );
 
           MediaFile::create([
-            'teacher_id' => $user->id,
+            'user_id' => $user->id,
             'company_id' => $company_id,
             'file_type'  => 'avatar',
             'file_path'  => $path,
@@ -133,7 +131,7 @@ class RegisterController extends Controller
           );
 
           MediaFile::create([
-            'teacher_id' => $user->id,
+            'user_id' => $user->id,
             'company_id' => $company_id,
             'file_type'  => 'cv', // ✅ FIXED
             'file_path'  => $cvPath, // ✅ FIXED

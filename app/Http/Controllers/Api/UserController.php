@@ -38,4 +38,22 @@ class UserController extends Controller
       'data'    => null,
     ], 404);
   }
+
+    public function overviewTeacher($id)
+  {
+    $teacher = User::with([
+      'professionalInfo',
+      'workingDays',
+      'workingHours',
+      'teacherGrades',
+      'subjects',
+      'mediaFiles'
+    ])->where('id', $id)->where('acc_type', 'teacher')->first();
+
+    if (!$teacher) {
+      return response()->json(['message' => 'Teacher not found'], 404);
+    }
+
+    return response()->json($teacher, 200);
+  }
 }

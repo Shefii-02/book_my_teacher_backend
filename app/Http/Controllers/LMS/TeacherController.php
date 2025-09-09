@@ -4,50 +4,501 @@ namespace App\Http\Controllers\LMS;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\MediaFile;
+use App\Models\TeacherGrade;
+use App\Models\TeacherProfessionalInfo;
+use App\Models\TeacherWorkingDay;
+use App\Models\TeacherWorkingHour;
+use App\Models\TeachingSubject;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TeacherController extends Controller
 {
+
   public function index()
   {
-    $analytics = [
-      [
-        "icon"  => asset("assets/img/icons/unicons/chart-success.png"),
-        "url"   => "#",
-        "title" => "Total Teachers",
-        "count" => 12628,
-        "growth" => "+72.80%",
-        "growth_icon" => "bx bx-up-arrow-alt",
-        "growth_color" => "text-success",
+    $teachers = User::with('professionalInfo')
+      ->where('company_id', 1)
+      ->where('acc_type', 'teacher')
+      ->get();
+
+    // Group by status
+    $verifiedTeachers    = $teachers->where('status', 1);
+    $unverifiedTeachers  = $teachers->where('status', 0);
+    $rejectedTeachers    = $teachers->where('status', -1);
+
+    // Helper to count by teaching mode
+    $countByMode = function ($collection, $mode) {
+      return $collection->filter(fn($t) => $t->professionalInfo?->teaching_mode === $mode)->count();
+    };
+
+    $data = [
+      'total' => [
+        'teachers'        => $teachers->count(),
+        'online_teachers' => $countByMode($teachers, 'online'),
+        'offline_teachers' => $countByMode($teachers, 'offline'),
+        'both_teachers'   => $countByMode($teachers, 'both'),
       ],
-      [
-        "icon"  => asset("assets/img/icons/unicons/chart-success.png"),
-        "url"   => "#",
-        "title" => "Pending Teachers",
-        "count" => 12628,
-        "growth" => "+72.80%",
-        "growth_icon" => "bx bx-up-arrow-alt",
-        "growth_color" => "text-success",
+      'verified' => [
+        'teachers'        => $verifiedTeachers->count(),
+        'online_teachers' => $countByMode($verifiedTeachers, 'online'),
+        'offline_teachers' => $countByMode($verifiedTeachers, 'offline'),
+        'both_teachers'   => $countByMode($verifiedTeachers, 'both'),
       ],
-      [
-        "icon"  => asset("assets/img/icons/unicons/chart-success.png"),
-        "url"   => "#",
-        "title" => "Selected Teachers",
-        "count" => 12628,
-        "growth" => "+72.80%",
-        "growth_icon" => "bx bx-up-arrow-alt",
-        "growth_color" => "text-success",
+      'unverified' => [
+        'teachers'        => $unverifiedTeachers->count(),
+        'online_teachers' => $countByMode($unverifiedTeachers, 'online'),
+        'offline_teachers' => $countByMode($unverifiedTeachers, 'offline'),
+        'both_teachers'   => $countByMode($unverifiedTeachers, 'both'),
       ],
-      [
-        "icon"  => asset("assets/img/icons/unicons/chart-success.png"),
-        "url"   => "#",
-        "title" => "Rejected Teachers",
-        "count" => 12628,
-        "growth" => "+72.80%",
-        "growth_icon" => "bx bx-up-arrow-alt",
-        "growth_color" => "text-success",
+      'rejected' => [
+        'teachers'        => $rejectedTeachers->count(),
+        'online_teachers' => $countByMode($rejectedTeachers, 'online'),
+        'offline_teachers' => $countByMode($rejectedTeachers, 'offline'),
+        'both_teachers'   => $countByMode($rejectedTeachers, 'both'),
       ],
     ];
-    return view('admin.teachers.index', compact('analytics'));
+
+    $teachers = User::where('acc_type', 'teacher')->where('company_id', 1)->get();
+
+    return view('company.teachers.index', compact('data', 'teachers'));
+  }
+
+  public function overview($id)
+  {
+    $teacher = User::with([
+      'professionalInfo',
+      'workingDays',
+      'workingHours',
+      'teacherGrades',
+      'subjects',
+      'mediaFiles'
+    ])->where('id', $id)->where('acc_type', 'teacher')->first();
+
+    if (!$teacher) {
+      return response()->json(['message' => 'Teacher not found'], 404);
+    }
+
+    return view('company.teachers.overview', compact('teacher'));
+  }
+
+  public function create()
+  {
+
+    return view('company.teachers.create');
+  }
+
+  public function store(Request $request)
+  {
+
+    DB::beginTransaction();
+    $company_id = 1;
+
+    $teachingSubjects = $request->input('teaching_subjects', []); // array
+    $otherSubject = $request->input('other_subject'); // string
+
+    // Merge into one array
+    $allSubjects = $teachingSubjects;
+
+    if ($request->filled('other_subject')) {
+      if (!empty($otherSubject)) {
+        $allSubjects[] = $otherSubject; // Add only if not null
+      }
+
+      $allSubjects = array_filter(array_merge(
+        $request->input('teaching_subjects', []),
+        [$request->input('other_subject')]
+      ));
+    }
+
+
+    Log::info($request->all());
+
+
+    try {
+      // 1️⃣ Create or Update User
+      $user = User::create(
+        [
+          'name'        => $request->name,
+          'email'       => $request->email,
+          'mobile'      => $request->phone,
+          'address'     => $request->address,
+          'acc_type'    => 'teacher',
+          'city'        => $request->city,
+          'postal_code' => $request->postal_code,
+          'district'    => $request->district,
+          'state'       => $request->state,
+          'country'     => $request->country,
+          'company_id'  => $company_id,
+        ]
+      );
+
+
+      // 2️⃣ Professional Info (updateOrCreate to avoid duplicates)
+      $profInfo = TeacherProfessionalInfo::updateOrCreate(
+        ['teacher_id' => $user->id],
+        [
+          'profession'    => $request->profession,
+          'ready_to_work' => $request->ready_to_work,
+          'teaching_mode' => $request->mode,
+          'offline_exp'   => $request->offline_exp,
+          'online_exp'    => $request->online_exp,
+          'home_exp'      => $request->home_exp,
+        ]
+      );
+
+
+      // 3️⃣ Sync Working Days
+      if ($request->filled('working_days')) {
+        TeacherWorkingDay::where('teacher_id', $user->id)->delete();
+        foreach ($request->working_days as $day) {
+          TeacherWorkingDay::create([
+            'teacher_id' => $user->id,
+            'day'        => trim($day),
+          ]);
+        }
+      }
+
+      // 4️⃣ Sync Working Hours
+      if ($request->filled('working_hours')) {
+        TeacherWorkingHour::where('teacher_id', $user->id)->delete();
+        foreach ($request->working_hours as $hour) {
+          TeacherWorkingHour::create([
+            'teacher_id' => $user->id,
+            'time_slot'  => trim($hour),
+          ]);
+        }
+      }
+
+      // 5️⃣ Sync Grades
+      if ($request->filled('teaching_grades')) {
+        TeacherGrade::where('teacher_id', $user->id)->delete();
+        foreach ($request->teaching_grades as $grade) {
+          TeacherGrade::create([
+            'teacher_id' => $user->id,
+            'grade'      => trim($grade),
+          ]);
+        }
+      }
+
+      // 6️⃣ Sync Subjects
+      if ($allSubjects) {
+        TeachingSubject::where('teacher_id', $user->id)->delete();
+        foreach ($allSubjects as $subject) {
+          TeachingSubject::create([
+            'teacher_id' => $user->id,
+            'subject'    => trim($subject),
+          ]);
+        }
+      }
+
+      // 7️⃣ Media Files (Avatar + CV)
+      if ($request->hasFile('avatar')) {
+        $file = $request->file('avatar');
+        $path = $file->storeAs(
+          'uploads/avatars',
+          time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
+          'public'
+        );
+
+        MediaFile::create([
+          'user_id' => $user->id,
+          'company_id' => $company_id,
+          'file_type'  => 'avatar',
+          'file_path'  => $path,
+          'name'       => $file->getClientOriginalName(),
+          'mime_type'  => $file->getMimeType(),
+        ]);
+      }
+
+      if ($request->hasFile('cv_file')) {
+        $file = $request->file('cv_file');
+        $cvPath = $file->storeAs(
+          'uploads/cv_files',
+          time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
+          'public'
+        );
+
+        MediaFile::create([
+          'user_id' => $user->id,
+          'company_id' => $company_id,
+          'file_type'  => 'cv', // ✅ FIXED
+          'file_path'  => $cvPath, // ✅ FIXED
+          'name'       => $file->getClientOriginalName(),
+          'mime_type'  => $file->getMimeType(),
+        ]);
+      }
+
+      // 8️⃣ Mark profile as filled
+      $user->profile_fill = 1;
+      $user->save();
+
+      Log::info($user);
+
+      DB::commit();
+
+      return redirect()->route('admin.teachers')->with('success', 'Teacher created successfully!');
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return redirect()->back()->with('success', 'Teacher creation failed! ' . $e->getMessage());
+    }
+  }
+  public function edit($id)
+  {
+
+
+    $user = User::with([
+      'professionalInfo',
+      'workingDays',
+      'workingHours',
+      'teacherGrades',
+      'subjects',
+      'mediaFiles'
+    ])->where('id', $id)->where('acc_type', 'teacher')->first();
+
+    if (!$user) {
+      return response()->json(['message' => 'Teacher not found'], 404);
+    }
+
+    return view('company.teachers.edit', compact('user'));
+  }
+
+  public function update(Request $request, $id)
+  {
+
+    $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
+
+    if (!$teacher) {
+      return response()->json(['message' => 'Teacher not found'], 404);
+    }
+
+
+
+    DB::beginTransaction();
+    $company_id = 1;
+
+    $teachingSubjects = $request->input('teaching_subjects', []); // array
+    $otherSubject = $request->input('other_subject'); // string
+
+    // Merge into one array
+    $allSubjects = $teachingSubjects;
+
+    if ($request->filled('other_subject')) {
+      if (!empty($otherSubject)) {
+        $allSubjects[] = $otherSubject; // Add only if not null
+      }
+
+      $allSubjects = array_filter(array_merge(
+        $request->input('teaching_subjects', []),
+        [$request->input('other_subject')]
+      ));
+    }
+
+
+    Log::info($request->all());
+
+
+    try {
+      // 1️⃣  Update User
+
+      $teacher->update([
+        'name'        => $request->name ?? $teacher->name,
+        'email'       => $request->email ?? $teacher->email,
+        'mobile'      => $request->phone ?? $teacher->mobile,
+        'address'     => $request->address ?? $teacher->address,
+        'city'        => $request->city ?? $teacher->city,
+        'postal_code' => $request->postal_code ?? $teacher->postal_code,
+        'district'    => $request->district ?? $teacher->district,
+        'state'       => $request->state ?? $teacher->state,
+        'country'     => $request->country ?? $teacher->country,
+        'account_status' =>  $request->account_status ?? $teacher->account_status,
+      ]);
+
+
+      // 2️⃣ Professional Info (updateOrCreate to avoid duplicates)
+      $profInfo = TeacherProfessionalInfo::updateOrCreate(
+        ['teacher_id' => $teacher->id],
+        [
+          'profession'    => $request->profession,
+          'ready_to_work' => $request->ready_to_work,
+          'teaching_mode' => $request->mode,
+          'offline_exp'   => $request->offline_exp,
+          'online_exp'    => $request->online_exp,
+          'home_exp'      => $request->home_exp,
+        ]
+      );
+
+
+      // 3️⃣ Sync Working Days
+      if ($request->filled('working_days')) {
+        TeacherWorkingDay::where('teacher_id', $teacher->id)->delete();
+        foreach ($request->working_days as $day) {
+          TeacherWorkingDay::create([
+            'teacher_id' => $teacher->id,
+            'day'        => trim($day),
+          ]);
+        }
+      }
+
+      // 4️⃣ Sync Working Hours
+      if ($request->filled('working_hours')) {
+        TeacherWorkingHour::where('teacher_id', $teacher->id)->delete();
+        foreach ($request->working_hours as $hour) {
+          TeacherWorkingHour::create([
+            'teacher_id' => $teacher->id,
+            'time_slot'  => trim($hour),
+          ]);
+        }
+      }
+
+      // 5️⃣ Sync Grades
+      if ($request->filled('teaching_grades')) {
+        TeacherGrade::where('teacher_id', $teacher->id)->delete();
+        foreach ($request->teaching_grades as $grade) {
+          TeacherGrade::create([
+            'teacher_id' => $teacher->id,
+            'grade'      => trim($grade),
+          ]);
+        }
+      }
+
+      // 6️⃣ Sync Subjects
+      if ($allSubjects) {
+        TeachingSubject::where('teacher_id', $teacher->id)->delete();
+        foreach ($allSubjects as $subject) {
+          TeachingSubject::create([
+            'teacher_id' => $teacher->id,
+            'subject'    => trim($subject),
+          ]);
+        }
+      }
+
+      // 7️⃣ Media Files (Avatar + CV)
+      if ($request->hasFile('avatar')) {
+        $file = $request->file('avatar');
+        $path = $file->storeAs(
+          'uploads/avatars',
+          time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
+          'public'
+        );
+
+        MediaFile::create([
+          'user_id' => $teacher->id,
+          'company_id' => $company_id,
+          'file_type'  => 'avatar',
+          'file_path'  => $path,
+          'name'       => $file->getClientOriginalName(),
+          'mime_type'  => $file->getMimeType(),
+        ]);
+      }
+
+      if ($request->hasFile('cv_file')) {
+        $file = $request->file('cv_file');
+        $cvPath = $file->storeAs(
+          'uploads/cv_files',
+          time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
+          'public'
+        );
+
+        MediaFile::create([
+          'user_id' => $teacher->id,
+          'company_id' => $company_id,
+          'file_type'  => 'cv', // ✅ FIXED
+          'file_path'  => $cvPath, // ✅ FIXED
+          'name'       => $file->getClientOriginalName(),
+          'mime_type'  => $file->getMimeType(),
+        ]);
+      }
+
+      // 8️⃣ Mark profile as filled
+      $teacher->profile_fill = 1;
+      $teacher->save();
+
+      Log::info($teacher);
+
+      DB::commit();
+
+      return redirect()->route('admin.teachers')->with('success', 'Teacher created successfully!');
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return redirect()->back()->with('success', 'Teacher creation failed! ' . $e->getMessage());
+    }
+  }
+
+
+  /**
+   * Teacher Delete
+   */
+  public function delete($id)
+  {
+    DB::beginTransaction();
+    try {
+      $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
+
+      if (!$teacher) {
+        return response()->json(['message' => 'Teacher not found'], 404);
+      }
+
+      // Delete related data
+      TeacherProfessionalInfo::where('teacher_id', $teacher->id)->delete();
+      TeacherWorkingDay::where('teacher_id', $teacher->id)->delete();
+      TeacherWorkingHour::where('teacher_id', $teacher->id)->delete();
+      TeacherGrade::where('teacher_id', $teacher->id)->delete();
+      TeachingSubject::where('teacher_id', $teacher->id)->delete();
+      MediaFile::where('user_id', $teacher->id)->delete();
+
+      // Delete teacher account
+      $teacher->delete();
+
+      DB::commit();
+
+      return response()->json(['message' => 'Teacher deleted successfully'], 200);
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return response()->json([
+        'message' => 'Failed to delete teacher',
+        'error'   => $e->getMessage()
+      ], 500);
+    }
+  }
+
+
+  public function loginSecurity($id)
+  {
+    $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
+    return view('company.teachers.login-security', compact('teacher'));
+  }
+
+
+  public function loginSecurityChange($id, Request $request)
+  {
+    DB::beginTransaction();
+    try {
+      $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
+
+      if (!$teacher) {
+        return redirect()->back(['error' => 'Teacher not found'], 404);
+      }
+
+      $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
+
+      if ($request->filled('password')) {
+        $teacher->password = $request->password;
+      }
+
+      $teacher->email  = $request->email;
+      $teacher->mobile = $request->mobile;
+      $teacher->save();
+
+      DB::commit();
+
+      return redirect()->route('admin.teachers.index')->with('success', 'Teacher deleted successfully');
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return redirect()->back()->with(['error', 'Failed to delete teacher' . $e->getMessage()]);
+    }
   }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
   {
     Schema::create('media_files', function (Blueprint $table) {
       $table->id();
-      $table->unsignedBigInteger('teacher_id');
+      $table->unsignedBigInteger('user_id');
       $table->string('file_type'); // avatar, cv, etc.
       $table->string('file_path');
       $table->string('name');
@@ -21,7 +21,7 @@ return new class extends Migration
       $table->string('mime_type')->nullable();
       $table->timestamps();
 
-      $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
+      $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
     });
   }
 

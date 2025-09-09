@@ -134,6 +134,17 @@
                                 <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Students</span>
                             </a>
                         </li>
+                        <li class="mt-0.5 w-full">
+                            <a class=" dark:text-white {{ Request::routeIs('admin.otp-list') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
+                                href="{{ route('admin.otp-list') }}">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                    <i
+                                        class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-unlock-fill"></i>
+                                </div>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">OTP List</span>
+                            </a>
+                        </li>
 
                         <li class="mt-0.5 w-full">
                             <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
@@ -248,8 +259,8 @@
                         <li class="flex items-center">
                             <div class="flex items-center gap-4">
                                 <img class="w-10 h-10 rounded-full" data-dropdown-toggle="userDropdown"
-                                    data-dropdown-placement="bottom-start"
-                                    src="{{ auth()->user()->avatar_url }}" alt="">
+                                    data-dropdown-placement="bottom-start" src="{{ auth()->user()->avatar_url }}"
+                                    alt="">
                                 <div class="font-medium dark:text-white">
                                     <div class="text-black font-bold dark:text-white capitalize">
                                         {{ auth()->user()->name }}</div>

@@ -1,5 +1,4 @@
 <html>
-
 <head>
     <style>
         #root {
@@ -9,20 +8,15 @@
         }
     </style>
 </head>
-
 <body>
-    <div id="root"></div>
-    <div id="whiteboard"></div>
+<div id="root"></div>
+<div id="whiteboard"></div>
 </body>
 
-<!--add whiteboard plugins before UIKits SDK -->
+<!-- Whiteboard + UIKit SDKs -->
 <script src="https://unpkg.com/zego-superboard-web@2.15.3/index.js"></script>
 <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.9.0/vconsole.min.js"></script>
-<script>
-    // VConsole will be exported to `window.VConsole` by default.
-    var vConsole = new window.VConsole();
-</script>
+
 <script>
     function getUrlParams(url = window.location.href) {
         let urlStr = url.split("?")[1];
@@ -31,9 +25,12 @@
 
     const roomID = getUrlParams().get("roomID") || "room_" + Math.floor(Math.random() * 1000);
     const userID = Math.floor(Math.random() * 10000) + "";
-    const userName = "userName" + userID;
+    const userName = "user_" + userID;
     const appID = {{ $app_id }};
     const serverSecret = `{{ $secret_id }}`;
+
+    // role=host OR role=audience
+    const role = getUrlParams().get("role") || "audience";
 
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appID,
@@ -43,72 +40,43 @@
         userName
     );
 
-    // const zp = ZegoUIKitPrebuilt.create(kitToken);
-
-    // zp.joinRoom({
-    //     container: document.querySelector("#root"),
-    //     joinScreen: {
-    //         visible: true,
-    //         title: "Join Room",
-    //         inviteURL: window.location.origin + window.location.pathname + "?roomID=" + roomID
-    //     },
-    //     micEnabled: true,
-    //     cameraEnabled: true,
-    //     userCanToggleSelfCamera: true,
-    //     userCanToggleSelfMic: true,
-    //     deviceSettings: true,
-    //     chatEnabled: true,
-    //     userListEnabled: true,
-    //     notification: {
-    //         userOnlineOfflineTips: true,
-    //         unreadMessageTips: true
-    //     },
-    //     leaveRoomCallback: () => {
-    //         console.log("Left the room");
-    //     },
-    //     branding: {
-    //         logoURL: "https://bookmyteacher.shefii.com/assets/images/logo/BookMyTeacher-white.png",
-    //     },
-    //     onJoinRoom: async () => {
-    //         // ✅ Initialize Whiteboard after joining room
-    //         const superBoard = new ZegoSuperBoardManager();
-
-    //         // Bind to the same ZegoEngine instance
-    //         superBoard.init(zp.getZegoExpressEngine());
-
-    //         // Create whiteboard view
-    //         const wbContainer = document.getElementById("whiteboard");
-    //         superBoard.createWhiteboardView({ container: wbContainer })
-    //             .then(boardView => {
-    //                 console.log("Whiteboard ready:", boardView);
-    //             })
-    //             .catch(err => {
-    //                 console.error("Whiteboard error:", err);
-    //             });
-    //     }
-    // });
     const zp = ZegoUIKitPrebuilt.create(kitToken);
-    zp.addPlugins({
-        ZegoSuperBoardManager
-    });
+    zp.addPlugins({ ZegoSuperBoardManager });
 
-    zp.joinRoom({
+    // ✅ Common settings
+    const roomConfig = {
         container: document.querySelector("#root"),
         sharedLinks: [{
             name: "Copy Link",
-            url: window.location.origin + window.location.pathname + "?roomID=" + roomID,
+            url: window.location.origin + window.location.pathname + "?roomID=" + roomID + "&role=audience",
         }],
         scenario: {
-            mode: ZegoUIKitPrebuilt.GroupCall,
+            mode: ZegoUIKitPrebuilt.LiveStreaming,
+            config: {
+                role: role === "host" ? ZegoUIKitPrebuilt.Host : ZegoUIKitPrebuilt.Audience
+            }
         },
-        showWhiteboardButton: true, // ✅ enables the whiteboard icon
+        showWhiteboardButton: role === "host",
         whiteboardConfig: {
             showCreateButton: true,
             showAddImageButton: true,
             showUploadDocsButton: true,
-        },
+        }
+    };
 
-    });
+    // ✅ Role-specific permissions
+    if (role === "host") {
+        roomConfig.micEnabled = true;
+        roomConfig.cameraEnabled = true;
+        roomConfig.showScreenSharingButton = true;
+    } else {
+        roomConfig.micEnabled = false;            // no mic
+        roomConfig.cameraEnabled = false;         // no camera
+        roomConfig.turnOnMicrophoneWhenJoining = false;
+        roomConfig.turnOnCameraWhenJoining = false;
+        roomConfig.showScreenSharingButton = false;
+    }
+
+    zp.joinRoom(roomConfig);
 </script>
-
 </html>

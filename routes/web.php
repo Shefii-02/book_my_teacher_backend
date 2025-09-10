@@ -45,4 +45,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('/staffs', 'LMS\StaffController@index')->name('staffs');
 
   Route::get('/otp', 'dashboard\UserController@otp')->name('otp-list');
+
+
 });
+
+
+
+  Route::get('admin/webinar', function () {
+    $app_id = 2342334234234;
+    return view('company.webinar.index', compact('app_id'));
+  });

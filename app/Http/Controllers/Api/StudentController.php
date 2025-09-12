@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 
-class TeacherController extends Controller
+class StudentController extends Controller
 {
 
 

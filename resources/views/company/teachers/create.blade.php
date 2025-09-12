@@ -1,17 +1,5 @@
 @extends('layouts.layout')
 
-@push('styles')
-    <style>
-        .form-container {
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-        }
-    </style>
-@endpush
-
 @php
     if (isset($user)) {
         $profInfo = $user->professionalInfo;
@@ -96,7 +84,9 @@
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div></div>
+                        <div>
+
+                        </div>
 
                         <!-- Full Name -->
                         <div>

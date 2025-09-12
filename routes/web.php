@@ -1,7 +1,11 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\LMS\CourseCategoryController;
+use App\Http\Controllers\LMS\CourseClassController;
+use App\Http\Controllers\LMS\CourseClassPermissionController;
+use App\Http\Controllers\LMS\CourseController;
+use App\Http\Controllers\LMS\CourseSubCategoryController;
+use App\Http\Controllers\LMS\LivestreamClassController;
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
   // authentication
@@ -45,6 +49,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('/staffs', 'LMS\StaffController@index')->name('staffs');
 
   Route::get('/otp', 'dashboard\UserController@otp')->name('otp-list');
+
+  Route::resource('categories', CourseCategoryController::class)->names('courses.categories');
+  Route::resource('subcategories', CourseSubCategoryController::class)->names('courses.subcategories');
+  Route::resource('courses', CourseController::class)->names('courses');
+  Route::resource('classes', CourseClassController::class)->names('classes');
+  Route::resource('livestreams', LivestreamClassController::class)->names('livestreams');
+  Route::resource('class-permissions', CourseClassPermissionController::class);
+
 });
 
 

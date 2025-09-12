@@ -263,7 +263,7 @@ class OtpController extends Controller
         'DCS'           => 0,
         'flashsms'      => 0,
         'number'        => $mobile,
-        'text'          => "{$otp} is your One Time Password (OTP) for login/signup at BookMyTeacher. Valid for {$expTime} minutes. Do not share it with anyone.",
+        'text'          => "{$otp} is your One Time Password (OTP) for login/signup at BookMyTeacher By Pachavellam Education.This OTP will only be valid for {$expTime} minutes. Do not share anyone",
         'route'         => 54,
         'EntityId'      => config('services.smsgatewayhub.entity_id'),
         'dlttemplateid' => config('services.smsgatewayhub.template_id'),

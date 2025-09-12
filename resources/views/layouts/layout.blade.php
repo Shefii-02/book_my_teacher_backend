@@ -30,6 +30,15 @@
             document.documentElement.classList.remove('dark')
         }
     </script>
+     <style>
+        .form-container {
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+        }
+    </style>
     @stack('styles')
 </head>
 
@@ -147,8 +156,8 @@
                         </li>
 
                         <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
-                                href="{{ route('admin.dashboard') }}">
+                            <a class=" dark:text-white {{ Request::routeIs('admin.courses.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
+                                href="{{ route('admin.courses.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i class="relative top-0 leading-normal text-red-600 text-sm ni ni-world-2"></i>

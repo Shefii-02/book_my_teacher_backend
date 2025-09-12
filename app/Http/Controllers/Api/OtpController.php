@@ -256,7 +256,7 @@ class OtpController extends Controller
   private function SmsApiFunction($mobile = null, $otp = null, $expTime = 20)
   {
     if ($mobile && $otp && env('SMSOTP', true)) {
-      return Http::get("https://www.smsgatewayhub.com/api/mt/SendSMS", [
+      $response =  Http::get("https://www.smsgatewayhub.com/api/mt/SendSMS", [
         'APIKey'        => config('services.smsgatewayhub.key'),
         'senderid'      => config('services.smsgatewayhub.senderid'),
         'channel'       => 2,
@@ -268,6 +268,8 @@ class OtpController extends Controller
         'EntityId'      => config('services.smsgatewayhub.entity_id'),
         'dlttemplateid' => config('services.smsgatewayhub.template_id'),
       ]);
+      Log::info($response);
+      return $response;
     }
     return false;
   }

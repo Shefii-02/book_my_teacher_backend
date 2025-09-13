@@ -37,7 +37,7 @@
 
 
                                 <a href="{{ route('admin.courses.subcategories.create') }}"
-                                    class="bg-emerald-500/30 p-1.2 text-sm font-bold text-white rounded py-5 px-2.5">
+                                    class="bg-emerald-500/30 p-1.2 text-sm font-bold text-black dark:text-white rounded py-5 px-2.5">
                                     Create Sub Category</a>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($subCategories as $sub)
+                                    @forelse($subCategories as $key => $sub)
                                         <tr>
                                             <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">{{ $loop->iteration }}</td>
                                             <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
@@ -84,8 +84,6 @@
                                                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
                                                             d="M12 6h.01M12 12h.01M12 18h.01" />
                                                     </svg>
-
-
                                                 </button>
 
                                                 <!-- Dropdown menu -->
@@ -94,12 +92,12 @@
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
                                                         <li>
-                                                            <a href="{{ route('course_sub_category.edit', $sub->id) }}"
+                                                            <a href="{{ route('admin.courses.subcategories.edit', $sub->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         <li>
                                                             <form
-                                                                action="{{ route('course_sub_category.destroy', $sub->id) }}"
+                                                                action="{{ route('admin.courses.subcategories.destroy', $sub->id) }}"
                                                                 method="POST" class="d-inline-block  w-full">
                                                                 @csrf @method('DELETE')
                                                                 <button onclick="return confirm('Are you sure?')"

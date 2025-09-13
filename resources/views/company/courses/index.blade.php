@@ -32,8 +32,8 @@
 
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
-                                <a href="{{ route('admin.courses.categories.index') }}" class="bg-emerald-500/30 p-1.2 text-sm font-bold text-white rounded py-5 px-2.5 mr-3">Categories List</a>
-                                <a href="{{ route('admin.courses.create') }}" class="bg-emerald-500/30 p-1.2 text-sm font-bold text-white rounded py-5 px-2.5">Create Course</a>
+                                <a href="{{ route('admin.courses.categories.index') }}" class="bg-emerald-500/30 p-1.2 text-sm font-bold dark:text-white text-black rounded py-5 px-2.5 mr-3">Categories List</a>
+                                <a href="{{ route('admin.courses.create') }}" class="bg-emerald-500/30 p-1.2 text-sm font-bold dark:text-white text-black rounded py-5 px-2.5">Create Course</a>
                             </div>
                         </div>
                     </div>

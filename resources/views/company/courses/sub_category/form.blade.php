@@ -22,48 +22,26 @@
     <div class="container">
         <div class="card bg-white rounded-3 mb-3">
             <div class="card-title p-2 m-2">
-                <h5 class="font-bold">{{ isset($category) ? 'Edit' : 'Create' }} a Teacher</h5>
+                <h5 class="font-bold">{{ isset($category) ? 'Edit' : 'Create' }} a Sub Category</h5>
+            </div>
+            <div class="flex">
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4">
+                    <a href="{{ route('admin.courses.subcategories.create') }}"
+                        class="bg-emerald-500/30 p-1.2 text-sm font-bold text-black dark:text-white rounded py-5 px-2.5">
+                        Create Sub Category</a>
+                </div>
+
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                    <a href="{{ route('admin.courses.subcategories.index') }}"
+                        class="bg-emerald-500/30 p-1.2 text-sm font-bold text-black dark:text-white rounded py-5 px-2.5">
+                        Back</a>
+                </div>
             </div>
         </div>
 
         <div class="form-container">
-            <form method="POST" enctype="multipart/form-data"
-                action="{{ isset($subCategory) ? route('admin.courses.subcategories.update', $subCategory->id) : route('admin.courses.subcategories.store') }}">
-                @csrf
-                @if (isset($subCategory))
-                    @method('PUT')
-                @endif
-
-                <div class="mb-3">
-                    <label class="form-label">Title</label>
-                    <input type="text" name="title" value="{{ old('title', $subCategory->title ?? '') }}"
-                        class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Description</label>
-                    <textarea name="description" class="form-control" rows="3">{{ old('description', $subCategory->description ?? '') }}</textarea>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Thumbnail</label>
-                    <input type="file" name="thumbnail" class="form-control">
-                    @if (isset($subCategory) && $subCategory->thumbnail)
-                        <img src="{{ asset('storage/' . $subCategory->thumbnail) }}" class="h-16 mt-2">
-                    @endif
-                </div>
-
-                <button type="submit" class="btn btn-success">
-                    {{ isset($subCategory) ? 'Update' : 'Create' }}
-                </button>
-            </form>
-
-
-
-
-
             <form
-                action="{{ isset($category) ? route('admin.courses.categories.update', $category->id) : route('admin.courses.categories.store') }}"
+                action="{{ isset($subCategory) ? route('admin.courses.subcategories.update', $subCategory->id) : route('admin.courses.subcategories.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if (isset($category))
@@ -92,6 +70,21 @@
                     <div class="flex justify-center flex-col">
 
                     </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select name="category_id"
+                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
+                        required>
+                        <option value="">-- Select Category --</option>
+                        @foreach ($categories as $cat)
+                            <option value="{{ $cat->id }}"
+                                {{ isset($subCategory) && $subCategory->category_id == $cat->id ? 'selected' : '' }}>
+                                {{ $cat->title }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
 

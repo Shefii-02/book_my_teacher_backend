@@ -19,6 +19,7 @@ class CourseSubCategoryController extends Controller
 
   public function create()
   {
+
     $categories = CourseCategory::all();
     return view('company.courses.sub_category.form', compact('categories'));
   }
@@ -26,7 +27,7 @@ class CourseSubCategoryController extends Controller
   public function store(Request $request)
   {
     $request->validate([
-      'category_id' => 'required|exists:course_category,id',
+      'category_id' => 'required|exists:course_categories,id',
       'title'       => 'required|string|max:255',
       'description' => 'nullable|string',
       'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -42,11 +43,11 @@ class CourseSubCategoryController extends Controller
       'title'       => $request->title,
       'description' => $request->description,
       'thumbnail'   => $thumbnailPath,
-      'company_id'  => Auth::user()->company_id ?? null,
+      'company_id'  => 1 ?? null,
       'created_by'  => Auth::id(),
     ]);
 
-    return redirect()->route('admin.courses.sub_category.index')->with('success', 'Sub Category created successfully.');
+    return redirect()->route('admin.subcategories.index')->with('success', 'Sub Category created successfully.');
   }
 
   public function edit(CourseSubCategory $course_sub_category)
@@ -59,7 +60,7 @@ class CourseSubCategoryController extends Controller
   public function update(Request $request, CourseSubCategory $course_sub_category)
   {
     $request->validate([
-      'category_id' => 'required|exists:course_category,id',
+      'category_id' => 'required|exists:course_categories,id',
       'title'       => 'required|string|max:255',
       'description' => 'nullable|string',
       'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -80,7 +81,7 @@ class CourseSubCategoryController extends Controller
       'thumbnail'   => $thumbnailPath,
     ]);
 
-    return redirect()->route('admin.courses.sub_category.index')->with('success', 'Sub Category updated successfully.');
+    return redirect()->route('admin.subcategories.index')->with('success', 'Sub Category updated successfully.');
   }
 
   public function destroy(CourseSubCategory $course_sub_category)
@@ -91,6 +92,6 @@ class CourseSubCategoryController extends Controller
 
     $course_sub_category->delete();
 
-    return redirect()->route('admin.courses.sub_category.index')->with('success', 'Sub Category deleted successfully.');
+    return redirect()->route('admin.subcategories.index')->with('success', 'Sub Category deleted successfully.');
   }
 }

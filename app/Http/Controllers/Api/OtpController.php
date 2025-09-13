@@ -32,7 +32,7 @@ class OtpController extends Controller
 
     // check user exists
     if (!$this->userExistNot($mobile, $company_id)) {
-      return $this->error('User not found', Response::HTTP_NOT_FOUND);
+      return $this->error('User not found Please Sign up Account', Response::HTTP_NOT_FOUND);
     }
 
     $otp = rand(1000, 9999);

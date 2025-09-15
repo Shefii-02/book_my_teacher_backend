@@ -50,11 +50,12 @@ class CourseSubCategoryController extends Controller
     return redirect()->route('admin.subcategories.index')->with('success', 'Sub Category created successfully.');
   }
 
-  public function edit(CourseSubCategory $course_sub_category)
+  public function edit(Request $request,$course_sub_category)
   {
-    $categories = CourseCategory::all();
-    $subCategory = $course_sub_category;
-    return view('admin.courses.sub_category.form', compact('subCategory', 'categories'));
+    $categories = CourseCategory::where('company_id',1)->get();
+    $subCategory = CourseSubCategory::where('id',$course_sub_category)->where('company_id',1)->first();
+
+    return view('company.courses.sub_category.form', compact('subCategory', 'categories'));
   }
 
   public function update(Request $request, CourseSubCategory $course_sub_category)

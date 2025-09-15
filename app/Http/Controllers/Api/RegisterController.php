@@ -143,10 +143,11 @@ class RegisterController extends Controller
         // 8️⃣ Mark profile as filled
         $user->profile_fill = 1;
         $user->save();
+      DB::commit();
 
         Log::info($user);
 
-        DB::commit();
+
 
         return response()->json([
           'message'           => 'Teacher registered successfully',
@@ -199,9 +200,10 @@ class RegisterController extends Controller
 
         $user->save();
 
-        Log::info($user);
 
         DB::commit();
+
+        Log::info($user);
 
         return response()->json([
           'message'           => 'Student registered successfully',

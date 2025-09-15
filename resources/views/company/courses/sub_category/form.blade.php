@@ -21,113 +21,108 @@
 @section('content')
     <div class="container">
         <div class="card bg-white rounded-3 mb-3">
-            <div class="card-title p-2 m-2">
-                <h5 class="font-bold">{{ isset($category) ? 'Edit' : 'Create' }} a Sub Category</h5>
-            </div>
-            <div class="flex">
-                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4">
-                    <a href="{{ route('admin.courses.subcategories.create') }}"
-                        class="bg-emerald-500/30 p-1.2 text-sm font-bold text-black dark:text-white rounded py-5 px-2.5">
-                        Create Sub Category</a>
+            <div class="flex justify-content-around">
+                <div class="card-title p-2 m-2">
+                    <h5 class="font-bold">{{ isset($category) ? 'Edit' : 'Create' }} a Sub Category</h5>
                 </div>
-
                 <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                    <a href="{{ route('admin.courses.subcategories.index') }}"
-                        class="bg-emerald-500/30 p-1.2 text-sm font-bold text-black dark:text-white rounded py-5 px-2.5">
-                        Back</a>
+                    <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                        <a href="{{ route('admin.courses.subcategories.index') }}"
+                            class="bg-emerald-500/30 p-1.2 text-sm font-bold text-black dark:text-white rounded py-5 px-2.5">
+                            Back</a>
+                    </div>
                 </div>
             </div>
+
+            <div class="form-container">
+                <form
+                    action="{{ isset($subCategory) ? route('admin.courses.subcategories.update', $subCategory->id) : route('admin.courses.subcategories.store') }}"
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if (isset($category))
+                        @method('PUT')
+                    @else
+                        @method('POST')
+                    @endif
+                    <div class="grid gap-6 mb-6 md:grid-cols-2">
+                        <!-- Avatar -->
+                        <div class="flex justify-center flex-col">
+                            <p>
+                                <img id="imgPreview" width="100"
+                                    src="{{ old('avatar', isset($category) ? asset('storage/' . $category->thumbnail) : '' ?? '') }}"
+                                    class="rounded w-16 h-16 ms-5">
+                            </p>
+                            <label for="imgSelect" class="mb-2">Select an Thumbnail</label>
+                            <input type="file" id="imgSelect" name="thumbnail" accept="image/*"
+                                {{ isset($category) ? '' : 'required' }} ?>
+                            @error('thumbnail')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div>
+
+                        </div>
+                        <div class="flex justify-center flex-col">
+
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select name="category_id"
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
+                            required>
+                            <option value="">-- Select Category --</option>
+                            @foreach ($categories as $cat)
+                                <option value="{{ $cat->id }}"
+                                    {{ isset($subCategory) && $subCategory->category_id == $cat->id ? 'selected' : '' }}>
+                                    {{ $cat->title }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" name="title"
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
+                            value="{{ old('title', $category->title ?? '') }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" rows="4"
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">{{ old('description', $category->description ?? '') }}</textarea>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <button
+                            class="px-5 py-2.5 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-lg">{{ isset($category) ? 'Update' : 'Create' }}</button>
+                    </div>
+                </form>
+            </div>
         </div>
+    @endsection
 
-        <div class="form-container">
-            <form
-                action="{{ isset($subCategory) ? route('admin.courses.subcategories.update', $subCategory->id) : route('admin.courses.subcategories.store') }}"
-                method="POST" enctype="multipart/form-data">
-                @csrf
-                @if (isset($category))
-                    @method('PUT')
-                @else
-                    @method('POST')
-                @endif
-                <div class="grid gap-6 mb-6 md:grid-cols-2">
-                    <!-- Avatar -->
-                    <div class="flex justify-center flex-col">
-                        <p>
-                            <img id="imgPreview" width="100"
-                                src="{{ old('avatar', isset($category) ? asset('storage/' . $category->thumbnail) : '' ?? '') }}"
-                                class="rounded w-16 h-16 ms-5">
-                        </p>
-                        <label for="imgSelect" class="mb-2">Select an Thumbnail</label>
-                        <input type="file" id="imgSelect" name="thumbnail" accept="image/*"
-                            {{ isset($category) ? '' : 'required' }} ?>
-                        @error('thumbnail')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div>
-
-                    </div>
-                    <div class="flex justify-center flex-col">
-
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Category</label>
-                    <select name="category_id"
-                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
-                        required>
-                        <option value="">-- Select Category --</option>
-                        @foreach ($categories as $cat)
-                            <option value="{{ $cat->id }}"
-                                {{ isset($subCategory) && $subCategory->category_id == $cat->id ? 'selected' : '' }}>
-                                {{ $cat->title }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-
-                <div class="mb-3">
-                    <label class="form-label">Title</label>
-                    <input type="text" name="title"
-                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
-                        value="{{ old('title', $category->title ?? '') }}" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Description</label>
-                    <textarea name="description" rows="4"
-                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">{{ old('description', $category->description ?? '') }}</textarea>
-                </div>
-
-                <div class="flex justify-center">
-                    <button
-                        class="px-5 py-2.5 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-lg">{{ isset($category) ? 'Update' : 'Create' }}</button>
-                </div>
-            </form>
-        </div>
-    </div>
-@endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $("#imgSelect").change(function() {
-                if (this.files && this.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        $('#imgPreview').attr('src', e.target.result);
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+                $("#imgSelect").change(function() {
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            $('#imgPreview').attr('src', e.target.result);
+                        }
+                        reader.readAsDataURL(this.files[0]);
                     }
-                    reader.readAsDataURL(this.files[0]);
-                }
+                });
             });
-        });
-    </script>
-@endpush
+        </script>
+    @endpush
 
 
 
-<div class="form-container">
+    <div class="form-container">
 
-</div>
+    </div>

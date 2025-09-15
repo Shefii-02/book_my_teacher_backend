@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -143,11 +145,9 @@ class RegisterController extends Controller
         // 8️⃣ Mark profile as filled
         $user->profile_fill = 1;
         $user->save();
-      DB::commit();
-
+        DB::commit();
+        $user->refresh();
         Log::info($user);
-
-
 
         return response()->json([
           'message'           => 'Teacher registered successfully',
@@ -202,7 +202,7 @@ class RegisterController extends Controller
 
 
         DB::commit();
-
+        $user->refresh();
         Log::info($user);
 
         return response()->json([

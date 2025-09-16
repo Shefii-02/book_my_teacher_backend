@@ -25,6 +25,7 @@ class TeacherController extends Controller
   public function home(Request $request)
   {
 
+    Log::info($request->all());
     $teacherId = $request->input('teacher_id'); // frontend should send teacher_id
 
     $teacher = User::where('id', $teacherId)

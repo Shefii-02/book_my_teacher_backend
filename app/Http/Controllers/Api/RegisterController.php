@@ -13,6 +13,11 @@ use App\Models\TeacherWorkingHour;
 use App\Models\TeacherGrade;
 use App\Models\TeachingSubject;
 use App\Models\MediaFile;
+use App\Models\StudentAvailableDay;
+use App\Models\StudentAvailableHour;
+use App\Models\StudentGrade;
+use App\Models\StudentPersonalInfo;
+use App\Models\StudentRecommendedSubject;
 use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
@@ -217,11 +222,60 @@ class RegisterController extends Controller
           ]);
         }
 
-
         $user->profile_fill = 1;
-
         $user->save();
 
+        $personal = new StudentPersonalInfo();
+        $personal->parent_name = $request->parent_name;
+        $personal->parent_relation;
+        $personal->current_eduction;
+        $personal->study_mode = $request->interest;
+        $personal->save();
+
+
+        // 3️⃣ Sync Working Days
+        if ($request->filled('working_days')) {
+          StudentAvailableDay::where('student_id', $user->id)->delete();
+          foreach (explode(',', $request->working_days) as $day) {
+            StudentAvailableDay::create([
+              'student_id' => $user->id,
+              'day'        => trim($day),
+            ]);
+          }
+        }
+
+        // 4️⃣ Sync Working Hours
+        if ($request->filled('working_hours')) {
+          StudentAvailableHour::where('student_id', $user->id)->delete();
+          foreach (explode(',', $request->working_hours) as $hour) {
+            StudentAvailableHour::create([
+              'student_id' => $user->id,
+              'time_slot'  => trim($hour),
+            ]);
+          }
+        }
+
+        // 5️⃣ Sync Grades
+        if ($request->filled('teaching_grades')) {
+          StudentGrade::where('student_id', $user->id)->delete();
+          foreach (explode(',', $request->teaching_grades) as $grade) {
+            StudentGrade::create([
+              'student_id' => $user->id,
+              'grade'      => trim($grade),
+            ]);
+          }
+        }
+
+        // 6️⃣ Sync Subjects
+        if ($request->filled('teaching_subjects')) {
+          StudentRecommendedSubject::where('student_id', $user->id)->delete();
+          foreach (explode(',', $request->teaching_subjects) as $subject) {
+            StudentRecommendedSubject::create([
+              'student_id' => $user->id,
+              'subject'    => trim($subject),
+            ]);
+          }
+        }
 
         DB::commit();
         $user->refresh();

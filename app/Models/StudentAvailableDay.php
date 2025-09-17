@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentAvailableDay extends Model
 {
-    use HasFactory;
+  use HasFactory;
+  protected $fillable = ['student_id', 'day'];
 }
-

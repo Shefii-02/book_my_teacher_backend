@@ -25,7 +25,6 @@ class TeacherController extends Controller
   public function home(Request $request)
   {
 
-    Log::info($request->all());
     $teacherId = $request->input('teacher_id'); // frontend should send teacher_id
 
     $teacher = User::where('id', $teacherId)
@@ -40,25 +39,75 @@ class TeacherController extends Controller
     }
 
     // ✅ Collect related info
-    $profInfo = TeacherProfessionalInfo::where('teacher_id', $teacherId)->first();
-    $workingDays = TeacherWorkingDay::where('teacher_id', $teacherId)->pluck('day');
+    $profInfo     = TeacherProfessionalInfo::where('teacher_id', $teacherId)->first();
+    $workingDays  = TeacherWorkingDay::where('teacher_id', $teacherId)->pluck('day');
     $workingHours = TeacherWorkingHour::where('teacher_id', $teacherId)->pluck('time_slot');
-    $grades = TeacherGrade::where('teacher_id', $teacherId)->pluck('grade');
-    $subjects = TeachingSubject::where('teacher_id', $teacherId)->pluck('subject');
+    $grades       = TeacherGrade::where('teacher_id', $teacherId)->pluck('grade');
+    $subjects     = TeachingSubject::where('teacher_id', $teacherId)->pluck('subject');
 
     // ✅ Get avatar & CV from MediaFile
-    $avatar = MediaFile::where('user_id', $teacherId)->where('file_type', 'avatar')->first();
-    $cvFile = MediaFile::where('user_id', $teacherId)->where('file_type', 'cv')->first();
+    $avatar = MediaFile::where('user_id', $teacherId)
+      ->where('file_type', 'avatar')
+      ->first();
+
+    $cvFile = MediaFile::where('user_id', $teacherId)
+      ->where('file_type', 'cv')
+      ->first();
+
+    // ✅ Steps data as real array, not string
+    $steps = [
+      [
+        "title"    => "Personal Info",
+        "subtitle" => "Completed",
+        "status"   => "completed",
+        "route"    => "/personal-info",
+        "allow"    => true,
+      ],
+      [
+        "title"    => "Teaching Details",
+        "subtitle" => "Completed",
+        "status"   => "completed",
+        "route"    => "/teaching-details",
+        "allow"    => true,
+      ],
+      [
+        "title"    => "CV Upload",
+        "subtitle" => "Completed",
+        "status"   => "completed",
+        "route"    => "/cv-upload",
+        "allow"    => true,
+      ],
+      [
+        "title"    => "Verification Process",
+        "subtitle" => "In Progress",
+        "status"   => "inProgress",
+        "route"    => "/verification",
+        "allow"    => false,
+      ],
+      [
+        "title"  => "Schedule Interview",
+        "status" => "pending",
+        "route"  => "/schedule-interview",
+        "allow"  => false,
+      ],
+      [
+        "title"  => "Upload Demo Class",
+        "status" => "pending",
+        "route"  => "/upload-demo",
+        "allow"  => false,
+      ],
+    ];
 
     return response()->json([
-      'user' => $teacher,
+      'user'             => $teacher,
       'professional_info' => $profInfo,
-      'working_days' => $workingDays,
-      'working_hours' => $workingHours,
-      'grades' => $grades,
-      'subjects' => $subjects,
-      'avatar' => $avatar ? asset('storage/' . $avatar->file_path) : null,
-      'cv_file' => $cvFile ? asset('storage/' . $cvFile->file_path) : null,
+      'working_days'     => $workingDays,
+      'working_hours'    => $workingHours,
+      'grades'           => $grades,
+      'subjects'         => $subjects,
+      'avatar'           => $avatar ? asset('storage/' . $avatar->file_path) : null,
+      'cv_file'          => $cvFile ? asset('storage/' . $cvFile->file_path) : null,
+      'steps'            => $steps, // ✅ Proper JSON array
     ]);
   }
 }

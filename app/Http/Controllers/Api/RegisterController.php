@@ -198,6 +198,28 @@ class RegisterController extends Controller
             ]
           );
 
+        // 7️⃣ Media Files (Avatar + CV)
+        if ($request->hasFile('avatar')) {
+          $file = $request->file('avatar');
+          $path = $file->storeAs(
+            'uploads/avatars',
+            time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
+            'public'
+          );
+
+          MediaFile::create([
+            'user_id' => $user->id,
+            'company_id' => $company_id,
+            'file_type'  => 'avatar',
+            'file_path'  => $path,
+            'name'       => $file->getClientOriginalName(),
+            'mime_type'  => $file->getMimeType(),
+          ]);
+        }
+
+
+        $user->profile_fill = 1;
+
         $user->save();
 
 

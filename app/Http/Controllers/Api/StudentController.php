@@ -22,9 +22,9 @@ class StudentController extends Controller
     $studentId = $request->input('student_id'); // frontend should send teacher_id
 
     $student = User::where('id', $studentId)
-      ->where('acc_type', 'student')
-      ->where('company_id', 1)
-      ->first();
+                  ->where('acc_type', 'student')
+                  ->where('company_id', 1)
+                  ->first();
 
     if (!$student) {
       return response()->json([

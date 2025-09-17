@@ -20,7 +20,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::post('/user-details', 'UserController@index');
   Route::post('/teacher-home', 'TeacherController@home');
-  // Route::post('/student-home', 'StudentController@home');
+  Route::post('/student-home', 'StudentController@home');
 
   // Route::post('/teacher-profile', 'TeacherController@home');
 

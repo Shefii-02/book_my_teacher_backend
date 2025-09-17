@@ -226,6 +226,7 @@ class RegisterController extends Controller
         $user->save();
 
         $personal = new StudentPersonalInfo();
+        $personal->student_id = $user->id;
         $personal->parent_name = $request->parent_name;
         $personal->parent_relation;
         $personal->current_eduction;

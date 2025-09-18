@@ -112,6 +112,7 @@ class RegisterController extends Controller
 
         // 7️⃣ Media Files (Avatar + CV)
         if ($request->hasFile('avatar')) {
+          MediaFile::where('company_id', $company_id)->where('user_id', $user->id)->where('file_type', 'avatar')->delete();
           $file = $request->file('avatar');
           $path = $file->storeAs(
             'uploads/avatars',
@@ -130,6 +131,7 @@ class RegisterController extends Controller
         }
 
         if ($request->hasFile('cv_file')) {
+          MediaFile::where('company_id', $company_id)->where('user_id', $user->id)->where('file_type', 'cv')->delete();
           $file = $request->file('cv_file');
           $cvPath = $file->storeAs(
             'uploads/cv_files',
@@ -205,6 +207,7 @@ class RegisterController extends Controller
 
         // 7️⃣ Media Files (Avatar + CV)
         if ($request->hasFile('avatar')) {
+          MediaFile::where('company_id', $company_id)->where('user_id', $user->id)->where('file_type', 'avatar')->delete();
           $file = $request->file('avatar');
           $path = $file->storeAs(
             'uploads/avatars',
@@ -240,7 +243,7 @@ class RegisterController extends Controller
           foreach (explode(',', $request->working_days) as $day) {
             StudentAvailableDay::create([
               'student_id' => $user->id,
-              'day'        => trim($day),
+              'day'        => trim(strtolower($day)),
             ]);
           }
         }
@@ -262,7 +265,7 @@ class RegisterController extends Controller
           foreach (explode(',', $request->teaching_grades) as $grade) {
             StudentGrade::create([
               'student_id' => $user->id,
-              'grade'      => trim($grade),
+              'grade'      => trim(strtolower($grade)),
             ]);
           }
         }
@@ -273,7 +276,7 @@ class RegisterController extends Controller
           foreach (explode(',', $request->teaching_subjects) as $subject) {
             StudentRecommendedSubject::create([
               'student_id' => $user->id,
-              'subject'    => trim($subject),
+              'subject'    => trim(strtolower($subject)),
             ]);
           }
         }

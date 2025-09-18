@@ -113,8 +113,14 @@ class User extends Authenticatable
   }
 
   public function studentPersonalInfo(){
-    return $this->hasMany(StudentPersonalInfo::class, 'student_id');
+    return $this->hasOne(StudentPersonalInfo::class, 'student_id');
   }
+
+  public function studentGrades(){
+        return $this->hasMany(StudentGrade::class, 'student_id');
+  }
+
+
 
 
 }

@@ -258,7 +258,7 @@
                                                 class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 <div class="flex px-2 py-1">
                                                     <div>
-                                                        <img src="{{ asset('storage/' . $teacherMedia ? $teacherMedia->file_path : '') }}"
+                                                        <img src="{{ asset('storage/' . $teacher ? $teacher->avatar_url : '') }}"
                                                             class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
                                                             alt="user1" />
                                                     </div>
@@ -282,7 +282,7 @@
                                             <td
                                                 class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 <p
-                                                    class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                    class="mb-0 text-xs font-semibold capitalize leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                     {{-- {{ $teacher->address . ', ' . $teacher->city . ', ' . $teacher->postal_code . ', ' . $teacher->district . ', ' . $teacher->state . ', ' . $teacher->country }} --}}
                                                     {{ $teacher->professionalInfo->profession }}
                                                 </p>
@@ -298,13 +298,13 @@
                                                 class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 @if ($teacher->professionalInfo->teaching_mode == 'online')
                                                     <span
-                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Online</span>
+                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold capitalize leading-none text-white">Online</span>
                                                 @elseif($teacher->professionalInfo->teaching_mode == 'offline')
                                                     <span
-                                                        class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Offline</span>
+                                                        class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold capitalize leading-none text-white">Offline</span>
                                                 @elseif($teacher->professionalInfo->teaching_mode == 'both')
                                                     <span
-                                                        class="bg-gradient-to-tl from-blue-700 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Both</span>
+                                                        class="bg-gradient-to-tl from-blue-700 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold capitalize leading-none text-white">Both</span>
                                                 @endif
                                             </td>
                                             <td
@@ -316,13 +316,18 @@
                                                 class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 @if ($teacher->account_status == 'in progress')
                                                     <span
-                                                        class="bg-gradient-to-tl from-lime-200 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">In progress</span>
+                                                        class="bg-gradient-to-tl capitalize from-lime-200 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">In
+                                                        progress</span>
                                                 @elseif($teacher->account_status == 'ready for interview')
                                                     <span
-                                                        class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Ready for interview</span>
-                                                @elseif($teacher->account_status == 'approved')
+                                                        class="bg-gradient-to-tl capitalize from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">Ready
+                                                        for interview</span>
+                                                @elseif($teacher->account_status == 'verified')
                                                     <span
-                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Approved</span>
+                                                        class="bg-gradient-to-tl capitalize from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">Verified</span>
+                                                @elseif($teacher->account_status == 'rejected')
+                                                    <span
+                                                        class="bg-gradient-to-tl capitalize bg-red-900 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">Rejected</span>
                                                 @endif
                                             </td>
                                             <td
@@ -359,8 +364,14 @@
                                                                 Security</a>
                                                         </li>
                                                         <li>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Delete</a>
+                                                            <form id="form_{{ $teacher->id }}" class="m-0 p-0"
+                                                                action="{{ route('admin.teachers.destroy', $teacher->id) }}"
+                                                                method="POST" class="inline-block">
+                                                                @csrf @method('DELETE') </form>
+                                                                <a role="button" href="javascript:;"
+                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                    onclick="confirmDelete({{ $teacher->id }})">Delete</a>
+
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -374,6 +385,9 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="d-flex justify-content-center m-4">
+                        {!! $teachers->links() !!}
                     </div>
                 </div>
             </div>

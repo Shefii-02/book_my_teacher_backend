@@ -45,14 +45,14 @@ class StudentController extends Controller
         "subtitle" => "Completed",
         "status"   => "completed",
         "route"    => "/personal-info",
-        "allow"    => true,
+        "allow"    => false,
       ],
       [
         "title"    => "Study Details",
         "subtitle" => "Completed",
         "status"   => "completed",
         "route"    => "/study-details",
-        "allow"    => true,
+        "allow"    => false,
       ],
       [
         "title"    => "Verification Process",

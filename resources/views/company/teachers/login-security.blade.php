@@ -32,29 +32,36 @@
 
 @section('content')
     <div class="container">
-        <div class="card bg-white rounded-3 mb-3">
-            <div class="card-title p-2 m-2">
-                <h5 class="font-bold">Teacher Login Security</h5>
+        <div class="card bg-white rounded-3 my-3">
+            <div class="card-title p-3 my-3">
+                <div class="flex justify-between">
+                    <h5 class="font-bold">Teacher Login Security</h5>
+                    <a href="{{ route('admin.teachers') }}"
+                        class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2">Back</a>
+                </div>
             </div>
         </div>
         <div class="form-container">
-            <form action="{{ route('admin.teachers.login-security.change',$teacher->id) }}" method="POST">
-              @method('POST')
-              @csrf
+            <form action="{{ route('admin.teachers.login-security.change', $teacher->id) }}" method="POST">
+                @method('POST')
+                @csrf
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
                         <label for="login_email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                        <input type="email" name="email" value="{{ isset($teacher) ? $teacher->email : '' }}" id="login_email" placeholder="example@email.com"
+                        <input type="email" name="email" value="{{ isset($teacher) ? $teacher->email : '' }}"
+                            id="login_email" placeholder="example@email.com"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
                     </div>
                     <div>
                         <label for="login_phone" class="block mb-2 text-sm font-medium text-gray-900">Phone</label>
-                        <input type="text" name="mobile" value="{{ isset($teacher) ? $teacher->mobile : '' }}" id="login_phone" placeholder="9876543210"
+                        <input type="text" name="mobile" value="{{ isset($teacher) ? $teacher->mobile : '' }}"
+                            id="login_phone" placeholder="9876543210"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
                     </div>
                     <div>
                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                        <input type="password" name="password" autocomplete="new-password" id="password" placeholder="••••••••"
+                        <input type="password" name="password" autocomplete="new-password" id="password"
+                            placeholder="••••••••"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
                     </div>
                 </div>

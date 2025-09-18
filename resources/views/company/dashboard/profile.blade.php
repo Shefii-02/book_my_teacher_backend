@@ -35,9 +35,9 @@
 
 @section('content')
     <div class="container">
-        <div class="form-container space-y-10">
+        <div class="form-container1 space-y-10 mt-5">
             <!-- Profile Update -->
-            <div class="card rounded-xl border border-gray-200 shadow-md">
+            <div class="card rounded-xl border border-gray-200 shadow-md bg-white">
                 <div class="card-header border-b px-6 py-4">
                     <h5 class="font-semibold text-lg text-gray-700">Update Profile</h5>
                 </div>
@@ -99,7 +99,7 @@
             </div>
 
             <!-- Change Password -->
-            <div class="card rounded-xl border border-gray-200 shadow-md mt-5">
+            <div class="card rounded-xl border border-gray-200 shadow-md mt-5 bg-white">
                 <div class="card-header border-b px-6 py-4">
                     <h5 class="font-semibold text-lg text-gray-700">Change Password</h5>
                 </div>

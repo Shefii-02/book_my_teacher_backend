@@ -30,13 +30,27 @@
             document.documentElement.classList.remove('dark')
         }
     </script>
-     <style>
+    <style>
         .form-container {
             margin: 0 auto;
             background: white;
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             padding: 24px;
+        }
+
+        .swal2-icon.swal2-warning.swal2-icon-show {
+            background-color: #ff00008a !important;
+            color: #ffffff !important;
+        }
+
+        div:where(.swal2-container) img:where(.swal2-image),
+        div:where(.swal2-container) label:where(.swal2-checkbox) {
+            margin: 0 !important;
+        }
+
+        .swal2-checkbox {
+            display: none !important;
         }
     </style>
     @stack('styles')
@@ -213,7 +227,7 @@
                         </li>
                         <li class="mt-0.5 w-full">
                             <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
-                                href="{{ route('admin.dashboard') }}">
+                                href="{{ route('admin.profile') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i
@@ -467,10 +481,10 @@
         "extendedTimeOut": "5000",
     };
 
-    @if (session('success_msg'))
-        toastr.success("{{ session('success_msg') }}", "Success");
-    @elseif (session('failed_msg'))
-        toastr.error("{{ session('failed_msg') }}", "Error");
+    @if (session('success'))
+        toastr.success("{{ session('success') }}", "Success");
+    @elseif (session('error'))
+        toastr.error("{{ session('error') }}", "Error");
     @elseif (session('info'))
         toastr.info("{{ session('info') }}", "Info");
     @elseif (session('warning'))

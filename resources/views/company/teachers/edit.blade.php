@@ -77,10 +77,13 @@
 
 @section('content')
     <div class="container">
-        <div class="card bg-white rounded-3 mb-3">
-            <div class="card-title p-2 m-2">
-                <h5 class="font-bold">
-                    Edit a Teacher</h5>
+         <div class="card bg-white rounded-3 my-3">
+            <div class="card-title p-3 my-3">
+                <div class="flex justify-between">
+                    <h5 class="font-bold">Edit a Teacher</h5>
+                    <a href="{{ route('admin.teachers') }}" class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2">Back</a>
+                </div>
+
             </div>
         </div>
         <div class="form-container">
@@ -238,13 +241,13 @@
                         @php $subjects = old('teaching_subjects', $subjects ?? []) @endphp
                         <label><input type="checkbox" name="teaching_subjects[]" value="All Subjects"
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('All Subjects', $subjects) ? 'checked' : '' }}> All Subjects</label>
+                                {{ in_array('all subjects', $subjects) ? 'checked' : '' }}> All Subjects</label>
                         <label class="ml-4"><input type="checkbox" name="teaching_subjects[]" value="Mathematics"
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('Mathematics', $subjects) ? 'checked' : '' }}> Mathematics</label>
+                                {{ in_array('mathematics', $subjects) ? 'checked' : '' }}> Mathematics</label>
                         <label class="ml-4"><input type="checkbox" name="teaching_subjects[]" value="Science"
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('Science', $subjects) ? 'checked' : '' }}> Science</label>
+                                {{ in_array('science', $subjects) ? 'checked' : '' }}> Science</label>
                         <input type="text" name="other_subject" placeholder="Other subject..."
                             value="{{ old('other_subject', $profInfo->other_subject ?? '') }}"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4">
@@ -276,15 +279,15 @@
                     <div class="mb-4">
                         <p class="mb-2 text-sm font-medium">Currently Working As</p>
                         @php $profession = old('profession', $profInfo->profession ?? '') @endphp
-                        <label><input type="radio" name="profession" value="teacher" required
+                        <label><input type="radio" name="profession" value="Teacher" required
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $profession == 'teacher' ? 'checked' : '' }}> Teacher</label>
-                        <label class="ml-4"><input type="radio" name="profession" required value="student"
+                                {{ $profession == 'Teacher' ? 'checked' : '' }}> Teacher</label>
+                        <label class="ml-4"><input type="radio" name="profession" required value="Student"
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $profession == 'student' ? 'checked' : '' }}> Student</label>
-                        <label class="ml-4"><input type="radio" name="profession" required value="jobseeker"
+                                {{ $profession == 'Student' ? 'checked' : '' }}> Student</label>
+                        <label class="ml-4"><input type="radio" name="profession" required value="Jobseeker"
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $profession == 'jobseeker' ? 'checked' : '' }}> Seeking Job</label>
+                                {{ $profession == 'Jobseeker' ? 'checked' : '' }}> Seeking Job</label>
                     </div>
 
                     <!-- Ready to Work -->
@@ -352,6 +355,9 @@
                         <label class="ml-4"><input type="radio" name="account_status" required value="verified"
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
                                 {{ $account_status == 'verified' ? 'checked' : '' }}>Verified</label>
+                        <label class="ml-4"><input type="radio" name="account_status" required value="rejected"
+                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
+                                {{ $account_status == 'rejected' ? 'checked' : '' }}>Rejected</label>
                     </div>
                     <!-- Buttons -->
                     <div class="button-group mt-4 flex justify-center">

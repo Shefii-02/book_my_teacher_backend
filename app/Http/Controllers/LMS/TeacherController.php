@@ -27,9 +27,9 @@ class TeacherController extends Controller
       ->get();
 
     // Group by status
-    $verifiedTeachers    = $teachers->where('status', 1);
-    $unverifiedTeachers  = $teachers->where('status', 0);
-    $rejectedTeachers    = $teachers->where('status', -1);
+    $verifiedTeachers    = $teachers->where('account_status', 'verified');
+    $unverifiedTeachers  = $teachers->where('account_status', 'in progress');
+    $rejectedTeachers    = $teachers->where('account_status', 'rejected');
 
     // Helper to count by teaching mode
     $countByMode = function ($collection, $mode) {
@@ -63,7 +63,7 @@ class TeacherController extends Controller
       ],
     ];
 
-    $teachers = User::where('acc_type', 'teacher')->where('company_id', 1)->get();
+    $teachers = User::where('acc_type', 'teacher')->where('company_id', 1)->paginate('10');
 
     return view('company.teachers.index', compact('data', 'teachers'));
   }
@@ -80,7 +80,7 @@ class TeacherController extends Controller
     ])->where('id', $id)->where('acc_type', 'teacher')->first();
 
     if (!$teacher) {
-      return response()->json(['message' => 'Teacher not found'], 404);
+      return redirect()->back()->with('error','Teacher not found');
     }
 
     return view('company.teachers.overview', compact('teacher'));
@@ -158,7 +158,7 @@ class TeacherController extends Controller
         foreach ($request->working_days as $day) {
           TeacherWorkingDay::create([
             'teacher_id' => $user->id,
-            'day'        => trim($day),
+            'day'        => trim(strtolower($day)),
           ]);
         }
       }
@@ -180,7 +180,7 @@ class TeacherController extends Controller
         foreach ($request->teaching_grades as $grade) {
           TeacherGrade::create([
             'teacher_id' => $user->id,
-            'grade'      => trim($grade),
+            'grade'      => trim(strtolower($grade)),
           ]);
         }
       }
@@ -191,7 +191,7 @@ class TeacherController extends Controller
         foreach ($allSubjects as $subject) {
           TeachingSubject::create([
             'teacher_id' => $user->id,
-            'subject'    => trim($subject),
+            'subject'    => trim(strtolower($subject)),
           ]);
         }
       }
@@ -244,13 +244,11 @@ class TeacherController extends Controller
       return redirect()->route('admin.teachers')->with('success', 'Teacher created successfully!');
     } catch (\Exception $e) {
       DB::rollBack();
-      return redirect()->back()->with('success', 'Teacher creation failed! ' . $e->getMessage());
+      return redirect()->back()->with('error', 'Teacher creation failed! ' . $e->getMessage());
     }
   }
   public function edit($id)
   {
-
-
     $user = User::with([
       'professionalInfo',
       'workingDays',
@@ -261,7 +259,7 @@ class TeacherController extends Controller
     ])->where('id', $id)->where('acc_type', 'teacher')->first();
 
     if (!$user) {
-      return response()->json(['message' => 'Teacher not found'], 404);
+      return redirect()->back()->with('error','Teacher not found');
     }
 
     return view('company.teachers.edit', compact('user'));
@@ -269,14 +267,11 @@ class TeacherController extends Controller
 
   public function update(Request $request, $id)
   {
-
     $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
 
     if (!$teacher) {
-      return response()->json(['message' => 'Teacher not found'], 404);
+      return redirect()->back()->with('error','Teacher not found');
     }
-
-
 
     DB::beginTransaction();
     $company_id = 1;
@@ -377,8 +372,12 @@ class TeacherController extends Controller
         }
       }
 
+
+
+
       // 7️⃣ Media Files (Avatar + CV)
       if ($request->hasFile('avatar')) {
+        MediaFile::where('company_id', $company_id)->where('user_id', $teacher->id)->where('file_type', 'avatar')->delete();
         $file = $request->file('avatar');
         $path = $file->storeAs(
           'uploads/avatars',
@@ -396,7 +395,9 @@ class TeacherController extends Controller
         ]);
       }
 
+
       if ($request->hasFile('cv_file')) {
+        MediaFile::where('company_id', $company_id)->where('user_id', $teacher->id)->where('file_type', 'cv')->delete();
         $file = $request->file('cv_file');
         $cvPath = $file->storeAs(
           'uploads/cv_files',
@@ -425,7 +426,7 @@ class TeacherController extends Controller
       return redirect()->route('admin.teachers')->with('success', 'Teacher created successfully!');
     } catch (\Exception $e) {
       DB::rollBack();
-      return redirect()->back()->with('success', 'Teacher creation failed! ' . $e->getMessage());
+      return redirect()->back()->with('error', 'Teacher creation failed! ' . $e->getMessage());
     }
   }
 
@@ -440,7 +441,7 @@ class TeacherController extends Controller
       $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
 
       if (!$teacher) {
-        return response()->json(['message' => 'Teacher not found'], 404);
+        return redirect()->back()->with('success', 'Teacher not found');
       }
 
       // Delete related data
@@ -455,14 +456,10 @@ class TeacherController extends Controller
       $teacher->delete();
 
       DB::commit();
-
-      return response()->json(['message' => 'Teacher deleted successfully'], 200);
+      return redirect()->back()->with('success', 'Teacher deleted successfully');
     } catch (\Exception $e) {
       DB::rollBack();
-      return response()->json([
-        'message' => 'Failed to delete teacher',
-        'error'   => $e->getMessage()
-      ], 500);
+      return redirect()->back()->with('error', 'Failed to delete teacher' . $e->getMessage());
     }
   }
 
@@ -496,10 +493,10 @@ class TeacherController extends Controller
 
       DB::commit();
 
-      return redirect()->route('admin.teachers.index')->with('success', 'Teacher deleted successfully');
+      return redirect()->route('admin.teachers.index')->with('success', 'Teacher login security updated successfully');
     } catch (\Exception $e) {
       DB::rollBack();
-      return redirect()->back()->with(['error', 'Failed to delete teacher' . $e->getMessage()]);
+      return redirect()->back()->with(['error', 'Failed to teacher login security updation' . $e->getMessage()]);
     }
   }
 }

@@ -228,7 +228,10 @@
                                             Name</th>
                                         <th
                                             class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Profession</th>
+                                            Address</th>
+                                        <th
+                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Grades</th>
                                         <th
                                             class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Subject</th>
@@ -249,19 +252,22 @@
                                 <tbody>
                                     @foreach ($students ?? [] as $key => $student)
                                         @php
-                                            $studentMedia = $student->mediaFiles->where('file_type', 'avatar')->first();
-                                            $studentsubjects = $student->recommendedSubjects->pluck('subject')->toArray();
+                                            $studentsubjects = $student->recommendedSubjects
+                                                ->pluck('subject')
+                                                ->toArray();
+                                            $studentGrades = $student->studentGrades->pluck('grade')->toArray();
+                                            $studentPersonalInfo = $student->studentPersonalInfo;
                                         @endphp
 
                                         <tr>
                                             <td
                                                 class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 <div class="flex px-2 py-1">
-                                                    {{--      <div>
-                                                        <img src="{{ asset('storage/' . $studentMedia ? $studentMedia->file_path : '') }}"
+                                                    <div>
+                                                        <img src="{{ $student->avatar_url }}"
                                                             class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
                                                             alt="user1" />
-                                                    </div> --}}
+                                                    </div>
                                                     <div class="flex flex-col justify-center">
                                                         <h6 class="mb-0 text-sm text-neutral-900 dark:text-white">
                                                             {{ $student->name }}</h6>
@@ -283,8 +289,15 @@
                                                 class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 <p
                                                     class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                    {{ $student->address . ', ' . $student->city . ', ' . $student->postal_code . ', ' . $student->district . ', ' . $student->state . ', ' . $student->country }}
+                                                    {{ Str::limit($student->address . ', ' . $student->city . ', ' . $student->postal_code . ', ' . $student->district . ', ' . $student->state . ', ' . $student->country, 20) }}
 
+                                                </p>
+                                            </td>
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                <p
+                                                    class="mb-0 capitalize text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                    {{ implode(',', $studentGrades) }}
                                                 </p>
                                             </td>
                                             <td
@@ -296,15 +309,17 @@
                                             </td>
                                             <td
                                                 class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                @if ($student->teaching_mode == 'online')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Online</span>
-                                                @elseif($student->teaching_mode == 'offline')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Offline</span>
-                                                @elseif($student->teaching_mode == 'both')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-blue-700 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Both</span>
+                                                @if ($studentPersonalInfo)
+                                                    @if ($studentPersonalInfo->study_mode == 'online')
+                                                        <span
+                                                            class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Online</span>
+                                                    @elseif($studentPersonalInfo->study_mode == 'offline')
+                                                        <span
+                                                            class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Offline</span>
+                                                    @elseif($studentPersonalInfo->study_mode == 'both')
+                                                        <span
+                                                            class="bg-gradient-to-tl from-blue-700 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Both</span>
+                                                    @endif
                                                 @endif
                                             </td>
                                             <td
@@ -318,13 +333,9 @@
                                                     <span
                                                         class="bg-gradient-to-tl from-lime-200 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">In
                                                         progress</span>
-                                                @elseif($student->account_status == 'ready for interview')
+                                                @elseif($student->account_status == 'verified')
                                                     <span
-                                                        class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Ready
-                                                        for interview</span>
-                                                @elseif($student->account_status == 'approved')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Approved</span>
+                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Verified</span>
                                                 @endif
                                             </td>
                                             <td
@@ -355,14 +366,19 @@
                                                             <a href="{{ route('admin.students.edit', $student->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
-                                                        <li>
+                                                        {{-- <li>
                                                             <a href="{{ route('admin.students.login-security', $student->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login
                                                                 Security</a>
-                                                        </li>
+                                                        </li> --}}
                                                         <li>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Delete</a>
+                                                          <form id="form_{{ $student->id }}" class="m-0 p-0"
+                                                                action="{{ route('admin.students.destroy', $student->id) }}"
+                                                                method="POST" class="inline-block">
+                                                                @csrf @method('DELETE') </form>
+                                                                <a role="button" href="javascript:;"
+                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                    onclick="confirmDelete({{ $student->id }})">Delete</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -371,6 +387,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="d-flex justify-content-center m-4">
+                            {!! $students->links() !!}
                         </div>
                     </div>
                 </div>

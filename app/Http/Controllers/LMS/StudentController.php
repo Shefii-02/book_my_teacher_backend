@@ -15,6 +15,7 @@ use App\Models\studentWorkingDay;
 use App\Models\studentWorkingHour;
 use App\Models\TeachingSubject;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -29,16 +30,18 @@ class StudentController extends Controller
       ->where('acc_type', 'student')
       ->get();
 
-
-
     // Group by status
-    $verifiedstudents    = $students->where('status', 1);
-    $unverifiedstudents  = $students->where('status', 0);
-    $rejectedstudents    = $students->where('status', -1);
+    $verifiedstudents    = $students->where('account_status', 'verified');
+    $unverifiedstudents  = $students->where('account_status', 'in progress');
+    $rejectedstudents    = $students->where('account_status', 'rejected');
+
+    $threeWeeksAgo = Carbon::now()->subWeeks(3);
+
+    $unActive = User::where('last_activation', '<', $threeWeeksAgo)->get();
 
     // Helper to count by teaching mode
     $countByMode = function ($collection, $mode) {
-      return $collection->filter(fn($t) => $t->professionalInfo?->teaching_mode === $mode)->count();
+      return $collection->filter(fn($t) => $t->studentPersonalInfo?->study_mode === $mode)->count();
     };
 
     $data = [
@@ -61,14 +64,14 @@ class StudentController extends Controller
         'both_students'   => $countByMode($unverifiedstudents, 'both'),
       ],
       'unactive' => [
-        'students'        => $rejectedstudents->count(),
-        'online_students' => $countByMode($rejectedstudents, 'online'),
-        'offline_students' => $countByMode($rejectedstudents, 'offline'),
-        'both_students'   => $countByMode($rejectedstudents, 'both'),
+        'students'        => $unActive->count(),
+        'online_students' => $countByMode($unActive, 'online'),
+        'offline_students' => $countByMode($unActive, 'offline'),
+        'both_students'   => $countByMode($unActive, 'both'),
       ],
     ];
 
-    $students = User::where('acc_type', 'student')->where('company_id', 1)->get();
+    $students = User::where('acc_type', 'student')->where('company_id', 1)->paginate('10');
 
     return view('company.students.index', compact('data', 'students'));
   }
@@ -246,10 +249,10 @@ class StudentController extends Controller
 
       DB::commit();
 
-      return redirect()->route('admin.students')->with('success', 'student created successfully!');
+      return redirect()->back()->with('success', 'student created successfully!');
     } catch (\Exception $e) {
       DB::rollBack();
-      return redirect()->back()->with('success', 'student creation failed! ' . $e->getMessage());
+      return redirect()->back()->with('error', 'student creation failed! ' . $e->getMessage());
     }
   }
   public function edit($id)
@@ -428,10 +431,10 @@ class StudentController extends Controller
 
       DB::commit();
 
-      return redirect()->route('admin.students')->with('success', 'student created successfully!');
+      return redirect()->back()->with('success', 'student created successfully!');
     } catch (\Exception $e) {
       DB::rollBack();
-      return redirect()->back()->with('success', 'student creation failed! ' . $e->getMessage());
+      return redirect()->back()->with('error', 'student creation failed! ' . $e->getMessage());
     }
   }
 
@@ -446,7 +449,7 @@ class StudentController extends Controller
       $student = User::where('id', $id)->where('acc_type', 'student')->first();
 
       if (!$student) {
-        return response()->json(['message' => 'student not found'], 404);
+        return redirect()->back()->with('error', 'student not found');
       }
 
       // Delete related data
@@ -459,16 +462,11 @@ class StudentController extends Controller
 
       // Delete student account
       $student->delete();
-
       DB::commit();
-
-      return response()->json(['message' => 'student deleted successfully'], 200);
+      return redirect()->back()->with('success', 'student deleted successfully');
     } catch (\Exception $e) {
       DB::rollBack();
-      return response()->json([
-        'message' => 'Failed to delete student',
-        'error'   => $e->getMessage()
-      ], 500);
+      return redirect()->back()->with('error', 'Failed to delete student' . $e->getMessage());
     }
   }
 

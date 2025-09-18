@@ -41,6 +41,10 @@
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
                 <a class="text-white" href="javascript:;">Dashboard</a>
             </li>
+            <li
+                class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
+                <a class="text-white" href="{{ route('admin.teachers') }}">Teachers List</a>
+            </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Teachers Create</li>
         </ol>
@@ -50,21 +54,24 @@
 
 @section('content')
     <div class="container">
-        <div class="card bg-white rounded-3 mb-3">
-            <div class="card-title p-2 m-2">
-                <h5 class="font-bold">Create a Teacher</h5>
+        <div class="card bg-white rounded-3 my-3">
+            <div class="card-title p-3 my-3">
+                <div class="flex justify-between">
+                    <h5 class="font-bold">Create a Teacher</h5>
+                    <a href="{{ route('admin.teachers') }}" class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2">Back</a>
+                </div>
+
             </div>
         </div>
         <div class="form-container">
 
-          <!-- ✅ Form -->
+            <!-- ✅ Form -->
             <form action="{{ isset($user) ? route('admin.teachers.update', $user->id) : route('admin.teachers.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if (isset($user))
                     @method('PUT')
                 @endif
-
 
                 <!-- Step 1: Personal Information -->
                 <div class="form-step active">
@@ -79,7 +86,8 @@
                                     class="rounded-circle w-16 h-16 ms-5">
                             </p>
                             <label for="imgSelect" class="mb-2">Select an Avatar</label>
-                            <input type="file" id="imgSelect" name="avatar" accept="image/*" {{ isset($user)  ? '' : "required"}} ?>
+                            <input type="file" id="imgSelect" name="avatar" accept="image/*"
+                                {{ isset($user) ? '' : 'required' }} ?>
                             @error('avatar')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -302,8 +310,11 @@
                 <!-- Step 3: CV Upload -->
                 <div class="form-step">
                     <h2 class="text-lg font-bold mb-4">Upload CV</h2>
-                    <a class="text-red-500 mb-2 text-sm" target="_blank" href="{{ old('avatar', $user->cv_url ?? '') }}"><p>Existing CV</p></a>
-                    <input type="file" name="cv_file" {{ isset($user)  ? '' : "required"}}
+                    <a class="text-red-500 mb-2 text-sm" target="_blank"
+                        href="{{ old('avatar', $user->cv_url ?? '') }}">
+                        <p>Existing CV</p>
+                    </a>
+                    <input type="file" name="cv_file" {{ isset($user) ? '' : 'required' }}
                         class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
                     @error('cv_file')
                         <span class="text-red-500 text-sm">{{ $message }}</span>

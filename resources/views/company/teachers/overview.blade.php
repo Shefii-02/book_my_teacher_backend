@@ -29,50 +29,84 @@
     </nav>
 @endsection
 @section('content')
-<div class="w-full px-6 py-6 mx-auto">
-    <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
-        <h2 class="text-xl font-bold mb-4 dark:text-white">👤 Personal Information</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <p><span class="font-semibold">Full Name:</span> {{ $teacher->name }}</p>
+    <div class="container">
+
+        <div class="card bg-white rounded-3 my-3">
+            <div class="card-title p-3 my-3">
+                <div class="flex justify-between">
+                    <h5 class="font-bold">Teacher Overview</h5>
+                    <a href="{{ route('admin.teachers') }}"
+                        class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full px-6 py-4 mx-auto">
+        <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4 dark:text-white">👤 Personal Information</h2>
+            <img src="{{ $teacher->avatar_url }}" class="w-20 rounded-lg mb-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <p><span class="font-semibold">Full Name:</span> <span
+                        class="capitalize font-bold">{{ $teacher->name }}</span></p>
+                <p><span class="font-semibold">Email:</span> <span class="capitalize font-bold">{{ $teacher->email }}</span>
+                </p>
+                <p><span class="font-semibold">Phone:</span> <span
+                        class="capitalize font-bold">{{ $teacher->mobile }}</span></p>
+                <p><span class="font-semibold">Address:</span> <span class="capitalize font-bold">{{ $teacher->address }},
+                        {{ $teacher->city }}</span></p>
+                <p><span class="font-semibold">Postal Code:</span> <span
+                        class="capitalize font-bold">{{ $teacher->postal_code }}</span></p>
+                <p><span class="font-semibold">District:</span> <span
+                        class="capitalize font-bold">{{ $teacher->district }}</span></p>
+                <p><span class="font-semibold">State:</span> <span class="capitalize font-bold">{{ $teacher->state }}</span>
+                </p>
+                <p><span class="font-semibold">Country:</span> <span
+                        class="capitalize font-bold">{{ $teacher->country }}</span></p>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4 dark:text-white">🎓 Professional Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <p><span class="font-semibold">Mode of Interest:</span> <span
+                        class="capitalize font-bold">{{ $teacher->professionalInfo->teaching_mode }}</span></p>
+                <p><span class="font-semibold">Teaching Grades:</span> <span
+                        class="capitalize font-bold">{{ implode(', ', $teacher->teacherGrades->pluck('grade')->toArray() ?? []) }}</span>
+                </p>
+                {{-- <p><span class="font-semibold">Subjects:</span> {{ implode(', ', $teacherSubjects) }}</p> --}}
+                <p><span class="font-semibold">Years of Exp (Offline):</span> <span
+                        class="capitalize font-bold">{{ $teacher->professionalInfo->offline_exp }}</span></p>
+                <p><span class="font-semibold">Years of Exp (Online):</span> <span
+                        class="capitalize font-bold">{{ $teacher->professionalInfo->online_exp }}</span></p>
+                <p><span class="font-semibold ">Profession:</span> <span
+                        class="capitalize font-bold">{{ $teacher->professionalInfo->profession }}</span></p>
+                <p><span class="font-semibold">Preferred Days:</span> <span
+                        class="capitalize font-bold">{{ implode(', ', $teacher->workingDays->pluck('day')->toArray() ?? []) }}</span>
+                </p>
+                <p><span class="font-semibold">Preferred Times:</span> <span
+                        class="capitalize font-bold">{{ implode(', ', $teacher->workingHours->pluck('time_slot')->toArray() ?? []) }}</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4 dark:text-white">📄 CV</h2>
+            @if ($teacher->cv)
+                <a href="{{ $teacher->cv_url }}" target="_blank" class="text-blue-500 underline">View CV</a>
+            @else
+                <p>No CV uploaded.</p>
+            @endif
+        </div>
+
+        <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6">
+            <h2 class="text-xl font-bold mb-4 dark:text-white">🔐 Login & Security</h2>
             <p><span class="font-semibold">Email:</span> {{ $teacher->email }}</p>
             <p><span class="font-semibold">Phone:</span> {{ $teacher->mobile }}</p>
-            <p><span class="font-semibold">Address:</span> {{ $teacher->address }}, {{ $teacher->city }}</p>
-            <p><span class="font-semibold">Postal Code:</span> {{ $teacher->postal_code }}</p>
-            <p><span class="font-semibold">District:</span> {{ $teacher->district }}</p>
-            <p><span class="font-semibold">State:</span> {{ $teacher->state }}</p>
-            <p><span class="font-semibold">Country:</span> {{ $teacher->country }}</p>
+            <p><span class="font-semibold">Password:</span> ********</p>
         </div>
-    </div>
 
-    <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
-        <h2 class="text-xl font-bold mb-4 dark:text-white">🎓 Professional Information</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <p><span class="font-semibold">Mode of Interest:</span> {{ $teacher->professionalInfo->mode }}</p>
-            <p><span class="font-semibold">Teaching Grades:</span> {{ implode(', ', $teacher->professionalInfo->grades ?? []) }}</p>
-            {{-- <p><span class="font-semibold">Subjects:</span> {{ implode(', ', $teacherSubjects) }}</p> --}}
-            <p><span class="font-semibold">Years of Exp (Offline):</span> {{ $teacher->professionalInfo->exp_offline }}</p>
-            <p><span class="font-semibold">Years of Exp (Online):</span> {{ $teacher->professionalInfo->exp_online }}</p>
-            <p><span class="font-semibold">Profession:</span> {{ $teacher->professionalInfo->profession }}</p>
-            <p><span class="font-semibold">Preferred Days:</span> {{ implode(', ', $working_days ?? []) }}</p>
-            <p><span class="font-semibold">Preferred Times:</span> {{ implode(', ', $working_hours ?? []) }}</p>
-        </div>
     </div>
-
-    <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
-        <h2 class="text-xl font-bold mb-4 dark:text-white">📄 CV</h2>
-        @if($teacher->cv)
-            <a href="{{ asset('storage/'.$teacher->cv) }}" target="_blank" class="text-blue-500 underline">View CV</a>
-        @else
-            <p>No CV uploaded.</p>
-        @endif
-    </div>
-
-    <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6">
-        <h2 class="text-xl font-bold mb-4 dark:text-white">🔐 Login & Security</h2>
-        <p><span class="font-semibold">Email:</span> {{ $teacher->email }}</p>
-        <p><span class="font-semibold">Phone:</span> {{ $teacher->mobile }}</p>
-        <p><span class="font-semibold">Password:</span> ********</p>
-    </div>
-
-</div>
 @endsection

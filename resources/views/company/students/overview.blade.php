@@ -65,8 +65,6 @@
             </div>
         </div>
 
-
-
         <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6">
             <h2 class="text-xl font-bold mb-4 dark:text-white">🔐 Login & Security</h2>
             <p><span class="font-semibold">Email:</span> {{ $student->email }}</p>

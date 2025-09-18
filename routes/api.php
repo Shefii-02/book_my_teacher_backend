@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 
@@ -30,6 +32,22 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   // Route::post('/notifications', 'UserController@notifications');
 
+  Route::any('upload', function (Request $request) {
+    Log::info($request->all());
+    $source = $request->header('X-Request-Source', 'Unknown');
 
+        // if ($request->hasFile('avatar')) {
+        //     $avatarPath = $request->file('avatar')->store('avatars', 'public');
+        // }
 
+        // if ($request->hasFile('cv')) {
+        //     $cvPath = $request->file('cv')->store('cvs', 'public');
+        // }
+     return response()->json([
+            'message' => 'Files uploaded successfully',
+            'source' => $source,
+            'avatar' => "avatarPath" ?? null,
+            'cv' => "cvPath" ?? null,
+        ]);
+  });
 });

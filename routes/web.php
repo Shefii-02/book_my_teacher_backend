@@ -61,6 +61,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
 
 
 
+
+
 Route::get('admin/webinar', function () {
   $app_id          = 1367678059;
   $secret_id       = '01bcdaad780e092317bd65195c9243ad';

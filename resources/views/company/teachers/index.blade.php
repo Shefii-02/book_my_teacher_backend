@@ -32,7 +32,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div class="">
                                     <p
-                                        class="mb-0 font-sans font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
                                         Total Teachers</p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $data['total']['teachers'] }}</h5>
 
@@ -75,7 +75,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div>
                                     <p
-                                        class="mb-0 font-sans font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
                                         Unverifed </p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $data['unverified']['teachers'] }}</h5>
 
@@ -118,7 +118,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div>
                                     <p
-                                        class="mb-0 font-sans font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
                                         Verified </p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $data['verified']['teachers'] }}</h5>
 
@@ -161,7 +161,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div>
                                     <p
-                                        class="mb-0 font-sans font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
                                         Rejected </p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $data['rejected']['teachers'] }}</h5>
                                 </div>

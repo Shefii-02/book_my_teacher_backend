@@ -57,7 +57,7 @@
 </head>
 
 <body
-    class="m-0 font-sans antialiased font-normal dark:bg-slate-900 text-base leading-default bg-gray-50 text-slate-500">
+    class="m-0 font-petro antialiased font-normal dark:bg-slate-900 text-base leading-default bg-gray-50 text-slate-500">
 
     <div class="absolute w-full bg-emerald-500/30  min-h-75"></div>
     <!-- sidenav  -->

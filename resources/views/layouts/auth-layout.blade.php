@@ -41,7 +41,7 @@
 
 </head>
 
-<body class="m-0 font-sans antialiased font-normal bg-white text-start text-base leading-default text-slate-500">
+<body class="m-0 font-petro antialiased font-normal bg-white text-start text-base leading-default text-slate-500">
     <main class="mt-0 transition-all duration-200 ease-in-out">
         @yield('content')
     </main>

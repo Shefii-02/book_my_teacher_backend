@@ -32,7 +32,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div class="">
                                     <p
-                                        class="mb-0 font-sans font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
                                         Total Students</p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $data['total']['students'] }}</h5>
 
@@ -75,7 +75,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div>
                                     <p
-                                        class="mb-0 font-sans font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
                                         Course Joined </p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $data['joined']['students'] }}</h5>
 
@@ -118,7 +118,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div>
                                     <p
-                                        class="mb-0 font-sans font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
                                         Course UnJoined </p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $data['unjoined']['students'] }}</h5>
 
@@ -161,7 +161,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div>
                                     <p
-                                        class="mb-0 font-sans font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
                                         Non Active </p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $data['unactive']['students'] }}</h5>
                                 </div>

@@ -28,7 +28,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div>
                                     <p
-                                        class="mb-0 font-sans font-semibold leading-normal uppercase text-neutral-900 dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 font-petro font-semibold leading-normal uppercase text-neutral-900 dark:text-white dark:opacity-60 text-sm">
                                         Total Students</p>
                                     <h5 class="mb-2 font-bold dark:text-white">53,000</h5>
                                     <p class="mb-0 dark:text-white text-neutral-900 dark:opacity-60">
@@ -59,7 +59,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div>
                                     <p
-                                        class="mb-0 font-sans font-semibold leading-normal text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 font-petro font-semibold leading-normal text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
                                         Total Teachers</p>
                                     <h5 class="mb-2 font-bold dark:text-white">2,300</h5>
                                     <p class="mb-0 dark:text-white text-neutral-900 dark:opacity-60">
@@ -89,7 +89,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div>
                                     <p
-                                        class="mb-0 text-neutral-900 font-sans font-semibold leading-normal uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 text-neutral-900 font-petro font-semibold leading-normal uppercase dark:text-white dark:opacity-60 text-sm">
                                         Total Class's</p>
                                     <h5 class="mb-2 font-bold dark:text-white">+362</h5>
                                     <p class="mb-0 dark:text-white dark:opacity-60">
@@ -119,7 +119,7 @@
                             <div class="flex-none w-2/3 max-w-full px-3">
                                 <div>
                                     <p
-                                        class="mb-0 text-neutral-900 font-sans font-semibold leading-normal uppercase dark:text-white dark:opacity-60 text-sm">
+                                        class="mb-0 text-neutral-900 font-petro font-semibold leading-normal uppercase dark:text-white dark:opacity-60 text-sm">
                                         Total Revenue</p>
                                     <h5 class="mb-2 font-bold dark:text-white">₹103,430</h5>
                                     <p class="mb-0 text-neutral-900 dark:text-white dark:opacity-60">

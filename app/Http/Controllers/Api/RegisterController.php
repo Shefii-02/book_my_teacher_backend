@@ -31,6 +31,8 @@ class RegisterController extends Controller
 
     Log::info($request->all());
     // )->
+    $source = $request->header('X-Request-Source', 'Unknown');
+
 
     $user = User::where('id', $teacher_id)->where('company_id', $company_id)->first();
     Log::info($user);
@@ -49,6 +51,7 @@ class RegisterController extends Controller
               'district'    => $request->district,
               'state'       => $request->state,
               'country'     => $request->country,
+              'registration_source' => $source,
             ]
           );
 
@@ -187,7 +190,7 @@ class RegisterController extends Controller
     Log::info($request->all());
 
     $user = User::where('id', $student_id)->where('company_id', $company_id)->first();
-    Log::info($user);
+    $source = $request->header('X-Request-Source', 'Unknown');
     try {
       if ($user) {
         User::where('id', $student_id)
@@ -202,6 +205,7 @@ class RegisterController extends Controller
               'district'    => $request->district,
               'state'       => $request->state,
               'country'     => $request->country,
+              'registration_source' => $source,
             ]
           );
 

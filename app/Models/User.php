@@ -31,6 +31,9 @@ class User extends Authenticatable
     'acc_type',
     'account_status',
     'status',
+    'registration_source',
+    'last_login_source',
+
   ];
 
   /**

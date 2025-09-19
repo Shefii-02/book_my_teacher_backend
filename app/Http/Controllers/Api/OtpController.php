@@ -35,6 +35,13 @@ class OtpController extends Controller
       return $this->error('User not found Please Sign up Account', Response::HTTP_NOT_FOUND);
     }
 
+    $userr =  User::where('mobile', $mobile)->where('company_id', $company_id)->where('profile_fill',1)->exists();
+
+    // user already exists? → stop signup
+    if (!$userr) {
+      return $this->error('User not found Please Sign up Account', Response::HTTP_CONFLICT);
+    }
+
     $otp = rand(1000, 9999);
     $expTime = 20;
 

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MediaFile;
 use App\Models\StudentAvailableDay;
 use App\Models\StudentAvailableHour;
-use App\Models\studentGrade;
+use App\Models\StudentGrade;
 use App\Models\StudentPersonalInfo;
 use App\Models\studentProfessionalInfo;
 use App\Models\StudentRecommendedSubject;
@@ -82,7 +82,7 @@ class StudentController extends Controller
       'professionalInfo',
       'workingDays',
       'workingHours',
-      'studentGrades',
+      'StudentGrades',
       'subjects',
       'mediaFiles'
     ])->where('id', $id)->where('acc_type', 'student')->first();
@@ -263,7 +263,7 @@ class StudentController extends Controller
       'professionalInfo',
       'workingDays',
       'workingHours',
-      'studentGrades',
+      'StudentGrades',
       'subjects',
       'mediaFiles'
     ])->where('id', $id)->where('acc_type', 'student')->first();
@@ -366,9 +366,9 @@ class StudentController extends Controller
 
       // 5️⃣ Sync Grades
       if ($request->filled('teaching_grades')) {
-        studentGrade::where('student_id', $student->id)->delete();
+        StudentGrade::where('student_id', $student->id)->delete();
         foreach ($request->teaching_grades as $grade) {
-          studentGrade::create([
+          StudentGrade::create([
             'student_id' => $student->id,
             'grade'      => trim($grade),
           ]);

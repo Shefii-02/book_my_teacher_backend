@@ -36,18 +36,24 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Log::info($request->all());
     $source = $request->header('X-Request-Source', 'Unknown');
 
-        // if ($request->hasFile('avatar')) {
-        //     $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        // }
+    // if ($request->hasFile('avatar')) {
+    //     $avatarPath = $request->file('avatar')->store('avatars', 'public');
+    // }
 
-        // if ($request->hasFile('cv')) {
-        //     $cvPath = $request->file('cv')->store('cvs', 'public');
-        // }
-     return response()->json([
-            'message' => 'Files uploaded successfully',
-            'source' => $source,
-            'avatar' => "avatarPath" ?? null,
-            'cv' => "cvPath" ?? null,
-        ]);
+    // if ($request->hasFile('cv')) {
+    //     $cvPath = $request->file('cv')->store('cvs', 'public');
+    // }
+    return response()->json([
+      'message' => 'Files uploaded successfully',
+      'source' => $source,
+      'avatar' => "avatarPath" ?? null,
+      'cv' => "cvPath" ?? null,
+    ]);
+  });
+
+
+  Route::post('/check-user', function (\Illuminate\Http\Request $request) {
+    $exists = \App\Models\User::where('id', $request->user_id)->exists();
+    return response()->json(['exists' => $exists]);
   });
 });

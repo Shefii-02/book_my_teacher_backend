@@ -82,8 +82,8 @@
         <hr
             class="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent" />
         <div class="flex gap-2">
-            <div class="w-14 " style="border-right: 1px solid blanchedalmond;">
-                <ul class="px-3">
+            <div class=" " style="border-right: 1px solid blanchedalmond;">
+                <ul class="px-2">
                     <li class="mb-3">
                         <a href="">
                             <div
@@ -118,7 +118,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="">
+            <div class="w-full">
                 <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav-test grow basis-full">
                     <ul class="flex flex-col pl-0 mb-0">
                         <li class="mt-0.5 w-full">

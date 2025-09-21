@@ -53,7 +53,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   Route::post('/check-user', function (\Illuminate\Http\Request $request) {
-    $exists = \App\Models\User::where('id', $request->user_id)->exists();
+    $exists = \App\Models\User::where('id', $request->user_id)->where('acc_type',$request->acc_type)->exists();
     return response()->json(['exists' => $exists]);
   });
 });

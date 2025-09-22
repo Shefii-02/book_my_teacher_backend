@@ -147,6 +147,10 @@
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Status</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Account Status
+                                        </th>
 
                                     </tr>
                                 </thead>
@@ -175,7 +179,6 @@
                                                 <p
                                                     class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                     {{ $otp->otp }}
-
                                                 </p>
                                             </td>
                                             <td
@@ -183,7 +186,6 @@
                                                 <p
                                                     class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                     {{ $otp->created_at }}
-
                                                 </p>
                                             </td>
                                             <td
@@ -191,10 +193,19 @@
                                                 <p
                                                     class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                     {{ $otp->expires_at }}
-
                                                 </p>
                                             </td>
-
+                                            <td
+                                                class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                @if ($otp->user)
+                                                    <span
+                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold capitalize leading-none text-white">Created</span>
+                                                @else
+                                                    <span
+                                                        class="bg-red-600 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold capitalize leading-none text-white">Not
+                                                        Created</span>
+                                                @endif
+                                            </td>
                                             <td
                                                 class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 @if ($otp->verified == '1')

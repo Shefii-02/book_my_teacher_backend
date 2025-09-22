@@ -22,4 +22,9 @@ class Otp extends Model
     'expires_at' => 'datetime',
     'verified' => 'boolean',
   ];
+
+  public function user()
+  {
+    return $this->belongsTo(User::class, 'mobile', 'mobile');
+  }
 }

@@ -164,7 +164,7 @@
                                                         <h6 class="mb-0 text-sm text-neutral-900 dark:text-white">
                                                             {{ $otp->mobile }}</h6>
                                                         <div class="flex gap-3">
-                                                            <a target="_blank" href="https://wa.me/{{ $otp->mobile }}"
+                                                            <a target="_blank" href="https://web.whatsapp.com/send/?text=&type=custom_url&app_absent=0&utm_campaign=wa_api_send_v1&phone{{ $otp->mobile }}"
                                                                 class="mb-0 text-sm text-neutral-900 dark:text-white">
                                                                 <i class="bi bi-whatsapp text-green-400"></i></a>
                                                             <a target="_blank" href="tel://{{ $otp->mobile }}"

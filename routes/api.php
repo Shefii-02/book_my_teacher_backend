@@ -57,28 +57,55 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   Route::post('/fetch-grades', function () {
-
     return response()->json([
       'status' => true,
       'data' => [
-        ['id' => 1, 'name' => 'Primary (1–5)'],
-        ['id' => 2, 'name' => 'Middle (6–8)'],
-        ['id' => 3, 'name' => 'High School (9–12)'],
-        ['id' => 4, 'name' => 'Higher Secondary (11–12)'],
+        ['id' => 1,  'name' => 'Pre-Primary / Kindergarten'],
+        ['id' => 2, 'name' => 'Lower Primary'],
+        ['id' => 3, 'name' => 'Up to 10th'],
+        ['id' => 4, 'name' => 'Higher Secondary'],
+        ['id' => 5, 'name' => 'Under/Post Graduate Level'],
+        ['id' => 6, 'name' => 'Competitive Exams'],
+        ['id' => 7, 'name' => 'Skills Development'],
       ]
     ]);
   });
+
 
   Route::post('/fetch-subjects', function () {
     return response()->json([
       'status' => true,
       'data' => [
+        // Common subjects
         ['id' => 1, 'name' => 'All Subjects'],
         ['id' => 2, 'name' => 'Mathematics'],
         ['id' => 3, 'name' => 'Science'],
         ['id' => 4, 'name' => 'English'],
         ['id' => 5, 'name' => 'Social Studies'],
         ['id' => 6, 'name' => 'Computer Science'],
+
+        // Higher Secondary
+        ['id' => 7, 'name' => 'Physics'],
+        ['id' => 8, 'name' => 'Chemistry'],
+        ['id' => 9, 'name' => 'Biology'],
+
+        // UG/PG
+        ['id' => 10, 'name' => 'Commerce'],
+        ['id' => 11, 'name' => 'Economics'],
+        ['id' => 12, 'name' => 'Engineering Subjects'],
+        ['id' => 13, 'name' => 'Medical Subjects'],
+
+        // Competitive Exams
+        ['id' => 14, 'name' => 'General Knowledge'],
+        ['id' => 15, 'name' => 'Quantitative Aptitude'],
+        ['id' => 16, 'name' => 'Reasoning'],
+        ['id' => 17, 'name' => 'Current Affairs'],
+
+        // Skills
+        ['id' => 18, 'name' => 'Spoken English'],
+        ['id' => 19, 'name' => 'Programming'],
+        ['id' => 20, 'name' => 'Digital Marketing'],
+        ['id' => 21, 'name' => 'Designing'],
       ]
     ]);
   });

@@ -276,7 +276,7 @@
                                                                 class="__cf_email__">{{ $teacher->mobile }}</a>
                                                         </p>
                                                         <div class="flex gap-3">
-                                                            <a target="_blank" href="https://wa.me/{{ $teacher->mobile }}"
+                                                            <a target="_blank" href="https://web.whatsapp.com/send/?text=&type=custom_url&app_absent=0&utm_campaign=wa_api_send_v1&phone{{ $teacher->mobile }}"
                                                                 class="mb-0 text-sm text-neutral-900 dark:text-white">
                                                                 <i class="bi bi-whatsapp text-green-400"></i></a>
                                                             <a target="_blank" href="tel://{{ $teacher->mobile }}"

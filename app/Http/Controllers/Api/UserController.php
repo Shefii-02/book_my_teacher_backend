@@ -102,6 +102,8 @@ class UserController extends Controller
       ], 400);
     }
 
+
+
     $user = User::find($userId);
 
     if (!$user) {
@@ -110,6 +112,8 @@ class UserController extends Controller
         'message' => 'User not found'
       ], 404);
     }
+
+
 
     $user->api_token = bin2hex(random_bytes(30)); // generate new token
     $user->save();

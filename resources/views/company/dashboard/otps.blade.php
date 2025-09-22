@@ -171,6 +171,12 @@
                                                                 class="mb-0 text-sm text-neutral-900 dark:text-white">
                                                                 <i class="bi bi-telephone text-blue-400"></i></a>
                                                         </div>
+                                                        @if (in_array($otp->mobile, $duplicates))
+                                                            <span
+                                                                class="bg-red-800 mt-2 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold capitalize leading-none text-white">
+                                                                Repeated
+                                                            </span>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </td>

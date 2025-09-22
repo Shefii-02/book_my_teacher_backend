@@ -130,6 +130,10 @@ class UserController extends Controller
     $data['verified'] = $otps->where('status', 1)->count();
     $data['unverified'] = $otps->where('status', 0)->count();
     $otps = Otp::orderBy('created_at', 'desc')->cursorPaginate(30);
-    return view('company.dashboard.otps', compact('otps', 'data'));
+
+    $allMobiles = Otp::pluck('mobile');
+    $duplicates = $allMobiles->duplicates()->toArray();
+
+    return view('company.dashboard.otps', compact('otps', 'data','duplicates'));
   }
 }

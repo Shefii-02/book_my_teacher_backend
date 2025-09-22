@@ -21,10 +21,10 @@ class OtpController extends Controller
   /**
    * Send OTP for Sign In
    */
-public function sendOtpSignIn(Request $request)
-{
+  public function sendOtpSignIn(Request $request)
+  {
     $request->validate([
-        'mobile' => 'required|digits:10',
+      'mobile' => 'required|digits:10',
     ]);
 
     $company_id = 1;
@@ -33,68 +33,68 @@ public function sendOtpSignIn(Request $request)
 
     // check user exists
     if (!$this->userExistNot($mobile, $company_id)) {
-        return $this->error('User not found Please Sign up Account', Response::HTTP_NOT_FOUND);
+      return $this->error('User not found Please Sign up Account', Response::HTTP_NOT_FOUND);
     }
 
     $userr = User::where('mobile', $mobile)
-        ->where('company_id', $company_id)
-        ->where('profile_fill', 1)
-        ->exists();
+      ->where('company_id', $company_id)
+      ->where('profile_fill', 1)
+      ->exists();
 
     if (!$userr) {
-        return $this->error('User not found Please Sign up Account', Response::HTTP_CONFLICT);
+      return $this->error('User not found Please Sign up Account', Response::HTTP_CONFLICT);
     }
 
     // check existing unverified otp
     $existingOtp = Otp::where('mobile', $mobile)
-        ->where('company_id', $company_id)
-        ->where('verified', 0) // unverified
-        ->orderBy('created_at', 'DESC')
-        ->first();
+      ->where('company_id', $company_id)
+      ->where('verified', 0) // unverified
+      ->orderBy('created_at', 'DESC')
+      ->first();
 
     if ($existingOtp) {
-        // Reuse old otp → update expiry + attempt
-        $existingOtp->update([
-            'attempt'    => $existingOtp->attempt + 1,
-            'expires_at' => Carbon::now()->addMinutes($expTime),
-        ]);
+      // Reuse old otp → update expiry + attempt
+      $existingOtp->update([
+        'attempt'    => $existingOtp->attempt + 1,
+        'expires_at' => Carbon::now()->addMinutes($expTime),
+      ]);
 
-        $otp = $existingOtp->otp;
+      $otp = $existingOtp->otp;
     } else {
-        // Generate new OTP
-        $otp = rand(1000, 9999);
+      // Generate new OTP
+      $otp = rand(1000, 9999);
 
-        Otp::create([
-            'mobile'     => $mobile,
-            'otp'        => $otp,
-            'expires_at' => Carbon::now()->addMinutes($expTime),
-            'company_id' => $company_id,
-            'type'       => 'mobile',
-            'attempt'    => 1
-        ]);
+      Otp::create([
+        'mobile'     => $mobile,
+        'otp'        => $otp,
+        'expires_at' => Carbon::now()->addMinutes($expTime),
+        'company_id' => $company_id,
+        'type'       => 'mobile',
+        'attempt'    => 1
+      ]);
     }
 
     // send otp
     $response = $this->SmsApiFunction($mobile, $otp, $expTime);
 
     if ($response && $response->successful()) {
-        return $this->success('OTP sent successfully', ['mobile' => $mobile]);
+      return $this->success('OTP sent successfully', ['mobile' => $mobile]);
     } else if (!env('SMSOTP', false)) {
-        return $this->success('OTP sent successfully (Debug Mode)', ['mobile' => $mobile]);
+      return $this->success('OTP sent successfully (Debug Mode)', ['mobile' => $mobile]);
     }
 
     return $this->error('Failed to send OTP', Response::HTTP_BAD_REQUEST);
-}
+  }
 
 
 
   /**
    * Send OTP for Sign Up
    */
- public function sendOtpSignUp(Request $request)
-{
+  public function sendOtpSignUp(Request $request)
+  {
     $request->validate([
-        'mobile' => 'required|digits:10',
+      'mobile' => 'required|digits:10',
     ]);
 
     $company_id = 1;
@@ -103,58 +103,58 @@ public function sendOtpSignIn(Request $request)
 
     // Check if user already exists
     $userr = User::where('mobile', $mobile)
-        ->where('company_id', $company_id)
-        ->where('profile_fill', 1)
-        ->exists();
+      ->where('company_id', $company_id)
+      ->where('profile_fill', 1)
+      ->exists();
 
     if ($userr) {
-        return $this->error('User already registered, Please SignIn', Response::HTTP_CONFLICT);
+      return $this->error('User already registered, Please SignIn', Response::HTTP_CONFLICT);
     }
 
     // Check if there is already an unverified OTP
     $existingOtp = Otp::where('mobile', $mobile)
-        ->where('company_id', $company_id)
-        ->where('verified', 0) // not verified
-        ->orderBy('created_at', 'DESC')
-        ->first();
+      ->where('company_id', $company_id)
+      ->where('verified', 0) // not verified
+      ->orderBy('created_at', 'DESC')
+      ->first();
 
     if ($existingOtp) {
-        // Reuse existing OTP and update attempt count & expiry
-        $existingOtp->update([
-            'attempt'    => $existingOtp->attempt + 1,
-            'expires_at' => Carbon::now()->addMinutes($expTime),
-        ]);
+      // Reuse existing OTP and update attempt count & expiry
+      $existingOtp->update([
+        'attempt'    => $existingOtp->attempt + 1,
+        'expires_at' => Carbon::now()->addMinutes($expTime),
+      ]);
 
-        $otp = $existingOtp->otp;
+      $otp = $existingOtp->otp;
     } else {
-        // Generate new OTP
-        $otp = rand(1000, 9999);
+      // Generate new OTP
+      $otp = rand(1000, 9999);
 
-        Otp::create([
-            'mobile'     => $mobile,
-            'otp'        => $otp,
-            'expires_at' => Carbon::now()->addMinutes($expTime),
-            'company_id' => $company_id,
-            'type'       => $request->has('type') ? $request->type : 'mobile',
-            'attempt'    => 1
-        ]);
+      Otp::create([
+        'mobile'     => $mobile,
+        'otp'        => $otp,
+        'expires_at' => Carbon::now()->addMinutes($expTime),
+        'company_id' => $company_id,
+        'type'       => $request->has('type') ? $request->type : 'mobile',
+        'attempt'    => 1
+      ]);
     }
 
     // Send OTP
     $response = $this->SmsApiFunction($mobile, $otp, $expTime);
 
     if ($response && $response->successful()) {
-        return $this->success('OTP sent successfully', ['mobile' => $mobile]);
+      return $this->success('OTP sent successfully', ['mobile' => $mobile]);
     } else if (!env('SMSOTP', true)) {
-        return $this->success('OTP sent successfully (Debug Mode)', ['mobile' => $mobile]);
+      return $this->success('OTP sent successfully (Debug Mode)', ['mobile' => $mobile]);
     }
 
     return $this->error('Failed to send OTP', Response::HTTP_BAD_REQUEST);
-}
+  }
 
 
 
-/**
+  /**
    * Re Send OTP
    */
 
@@ -209,18 +209,65 @@ public function sendOtpSignIn(Request $request)
   /**
    * Verify OTP for Sign In
    */
+  // public function verifyOtpSignIn(Request $request)
+  // {
+  //   $request->validate([
+  //     'mobile' => 'required',
+  //     'otp'    => 'required',
+  //   ]);
+
+  //   $mobile = '91' . $request->mobile;
+  //   $otpInput = $request->otp;
+
+  //   $otpRecord = Otp::where('mobile', $mobile)
+  //     ->where('otp', $otpInput)
+  //     ->where('verified', 0)
+  //     ->where('expires_at', '>=', now())
+  //     ->latest()
+  //     ->first();
+
+  //   if (!$otpRecord) {
+  //     return $this->error('Invalid or expired OTP', Response::HTTP_UNAUTHORIZED);
+  //   }
+  //   User::where('mobile', $mobile)->where('company_id', 1)->update(['mobile_verified' => 1]);
+  //   if ($mobile == '919846366783' && $otpInput == '7878') {
+  //     $otpRecord->update(['verified' => false]);
+  //   } else {
+  //     $otpRecord->update(['verified' => true]);
+  //   }
+
+  //   $user = User::where('mobile', $mobile)->where('company_id', 1)->first();
+
+  //   if (!$user) {
+  //     $user = new User();
+  //     $user->mobile          = $mobile;
+  //     $user->mobile_verified = true;
+  //     $user->company_id      = 1;
+  //     $user->profile_fill    = 0;
+  //     $user->save();
+  //   } else {
+  //     $user->update(['mobile_verified' => true]);
+  //   }
+
+  //   // return $this->success('OTP verified successfully');
+  //   return response()->json([
+  //     'success' => true,
+  //     'message' => 'OTP verified successfully',
+  //     'user'    => $user,
+  //   ], 200);
+  // }
+
   public function verifyOtpSignIn(Request $request)
   {
     $request->validate([
-      'mobile' => 'required',
-      'otp'    => 'required',
+      'mobile' => 'required|digits:10',
+      'otp'    => 'required|digits:4',
     ]);
 
     $mobile = '91' . $request->mobile;
-    $otpInput = $request->otp;
 
     $otpRecord = Otp::where('mobile', $mobile)
-      ->where('otp', $otpInput)
+      ->where('otp', $request->otp)
       ->where('verified', 0)
       ->where('expires_at', '>=', now())
       ->latest()
@@ -229,33 +276,37 @@ public function sendOtpSignIn(Request $request)
     if (!$otpRecord) {
       return $this->error('Invalid or expired OTP', Response::HTTP_UNAUTHORIZED);
     }
-    User::where('mobile', $mobile)->where('company_id', 1)->update(['mobile_verified' => 1]);
-    if ($mobile == '919846366783' && $otpInput == '7878') {
-      $otpRecord->update(['verified' => false]);
+
+    // Mark OTP as verified (skip for test number)
+    if ($mobile == env('TEST_MOBILE') && $request->otp == env('TEST_OTP')) {
+      $otpRecord->update(['verified' => 0]); // keep unverified for testing
     } else {
-      $otpRecord->update(['verified' => true]);
+      $otpRecord->update(['verified' => 1]);
     }
 
+    // Fetch existing user
     $user = User::where('mobile', $mobile)->where('company_id', 1)->first();
 
     if (!$user) {
-      $user = new User();
-      $user->mobile          = $mobile;
-      $user->mobile_verified = true;
-      $user->company_id      = 1;
-      $user->profile_fill    = 0;
-      $user->save();
-    } else {
+      return $this->error('User not found, please sign up', Response::HTTP_NOT_FOUND);
+    }
+
+    // Mark user mobile as verified
+    if (!$user->mobile_verified) {
       $user->update(['mobile_verified' => true]);
     }
 
-    // return $this->success('OTP verified successfully');
+    // Generate token if using Sanctum
+    $token = $user->createToken('auth_token')->plainTextToken;
+
     return response()->json([
       'success' => true,
       'message' => 'OTP verified successfully',
       'user'    => $user,
+      'token'   => $token,
     ], 200);
   }
+
 
   /**
    * Verify OTP for Sign Up
@@ -263,12 +314,12 @@ public function sendOtpSignIn(Request $request)
   public function verifyOtpSignUp(Request $request)
   {
     $request->validate([
-      'mobile' => 'required',
-      'otp'    => 'required',
+      'mobile' => 'required|digits:10',
+      'otp'    => 'required|digits:4',
     ]);
-    Log::info($request->all());
+
     $mobile = '91' . $request->mobile;
-    $otpInput  = $request->otp;
+    $otpInput = $request->otp;
     $company_id = 1;
 
     $otpRecord = Otp::where('mobile', $mobile)
@@ -284,15 +335,120 @@ public function sendOtpSignIn(Request $request)
 
     $otpRecord->update(['verified' => true]);
 
-    $user = new User();
-    $user->mobile          = $mobile;
-    $user->mobile_verified = true;
-    $user->company_id      = $company_id;
-    $user->profile_fill    = 0;
-    $user->save();
+    $user = User::firstOrCreate(
+      ['mobile' => $mobile, 'company_id' => $company_id],
+      [
+        'mobile_verified' => true,
+        'profile_fill'    => 0,
+      ]
+    );
 
-    return $this->success('OTP verified successfully');
+    $token = $user->createToken('auth_token')->plainTextToken;
+
+    return $this->success('OTP verified successfully', [
+      'token' => $token,
+      'mobile' => $mobile
+    ]);
   }
+
+  // public function verifyOtpSignUp(Request $request)
+  // {
+  //   $request->validate([
+  //     'mobile' => 'required',
+  //     'otp'    => 'required',
+  //   ]);
+  //   Log::info($request->all());
+  //   $mobile = '91' . $request->mobile;
+  //   $otpInput  = $request->otp;
+  //   $company_id = 1;
+
+  //   $otpRecord = Otp::where('mobile', $mobile)
+  //     ->where('otp', $otpInput)
+  //     ->where('verified', 0)
+  //     ->where('expires_at', '>=', now())
+  //     ->latest()
+  //     ->first();
+
+  //   if (!$otpRecord) {
+  //     return $this->error('Invalid or expired OTP', Response::HTTP_UNAUTHORIZED);
+  //   }
+
+  //   $otpRecord->update(['verified' => true]);
+
+  //   $user = new User();
+  //   $user->mobile          = $mobile;
+  //   $user->mobile_verified = true;
+  //   $user->company_id      = $company_id;
+  //   $user->profile_fill    = 0;
+  //   $user->save();
+
+  //   return $this->success('OTP verified successfully');
+  // }
+
+
+  /**
+   * Verify OTP for Guest Sign Up
+   */
+
+  public function verifyGuestOtp(Request $request)
+  {
+    $request->validate([
+      'mobile' => 'required|digits:10',
+      'otp'    => 'required|digits:4',
+    ]);
+
+    $mobile = '91' . $request->mobile;
+    $company_id = 1;
+
+    $otpRecord = Otp::where('mobile', $mobile)
+      ->where('company_id', $company_id)
+      ->where('otp', $request->otp)
+      ->where('expires_at', '>=', now())
+      ->where('verified', 0)
+      ->first();
+
+    if (!$otpRecord) {
+      return $this->error('Invalid or expired OTP', Response::HTTP_UNAUTHORIZED);
+    }
+
+    // mark otp as used
+    $otpRecord->update(['verified' => 1]);
+
+
+    // check if user exists
+
+    $user = User::firstOrCreate(
+      ['mobile' => $mobile, 'company_id' => $company_id],
+      [
+        'mobile_verified' => true,
+        'acc_type'       => 'guest',
+        'profile_fill'   => 0,
+      ]
+    );
+
+    // $user = User::where('mobile', $mobile)->where('company_id', $company_id)->first();
+
+    // if (!$user) {
+    //   // create guest account
+    //   $user = User::create([
+    //     'mobile'     => $mobile,
+    //     'company_id' => $company_id,
+    //     'mobile_verified' => true,
+    //     'acc_type'       => 'guest',
+    //     'profile_fill' => 0,
+    //   ]);
+    // }
+
+    // generate token / login
+    $token = $user->createToken('auth_token')->plainTextToken;
+
+    return $this->success('OTP Verified successfully', [
+      'token' => $token,
+      'mobile' => $mobile,
+      'acc_type'  => $user->acc_type,
+    ]);
+  }
+
 
   /**
    * Send OTP via Email

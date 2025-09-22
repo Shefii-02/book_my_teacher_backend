@@ -39,7 +39,7 @@ class UserController extends Controller
     ], 404);
   }
 
-    public function overviewTeacher($id)
+  public function overviewTeacher($id)
   {
     $teacher = User::with([
       'professionalInfo',
@@ -55,5 +55,68 @@ class UserController extends Controller
     }
 
     return response()->json($teacher, 200);
+  }
+
+  // Fetch user data by token
+  public function getUserDetails(Request $request)
+  {
+    $token = $request->input('token');
+
+    if (!$token) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Token is required'
+      ], 400);
+    }
+
+    $user = User::where('api_token', $token)->first();
+
+    if (!$user) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'User not found'
+      ], 404);
+    }
+
+    return response()->json([
+      'status' => 'success',
+      'data' => [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'acc_type' => $user->acc_type,
+        'profile_fill' => $user->profile_fill,
+      ]
+    ], 200);
+  }
+
+  // Set or update user token
+  public function setUserToken(Request $request)
+  {
+    $userId = $request->input('user_id');
+
+    if (!$userId) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'User ID is required'
+      ], 400);
+    }
+
+    $user = User::find($userId);
+
+    if (!$user) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'User not found'
+      ], 404);
+    }
+
+    $user->api_token = bin2hex(random_bytes(30)); // generate new token
+    $user->save();
+
+    return response()->json([
+      'status' => 'success',
+      'token' => $user->api_token,
+    ], 200);
   }
 }

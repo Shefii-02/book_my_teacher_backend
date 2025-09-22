@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
   Route::post('user-exist-not', 'LoginController@userExistNot')->name('user-exist-no');
 
+  Route::post('/get-user-details', 'UserController@getUserDetails');
+  Route::post('/set-user-token', 'UserController::class@setUserToken');
+
   Route::post('/send-otp-signIn', 'OtpController@sendOtpSignIn');
   Route::post('/verify-otp-signIn', 'OtpController@verifyOtpSignIn');
 
@@ -61,12 +64,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       'status' => true,
       'data' => [
         ['id' => 1,  'name' => 'Pre-Primary / Kindergarten', 'value' => 'Pre-Primary / Kindergarten'],
-        ['id' => 2, 'name' => 'Lower Primary', 'value' =>'Lower Primary'],
-        ['id' => 3, 'name' => 'Up to 10th', 'value' =>'Up to 10th'],
-        ['id' => 4, 'name' => 'Higher Secondary', 'value' =>'Higher Secondary'],
-        ['id' => 5, 'name' => 'Under/Post Graduate Level', 'value' =>'Under/Post Graduate Level'],
-        ['id' => 6, 'name' => 'Competitive Exams', 'value' =>'Competitive Exams'],
-        ['id' => 7, 'name' => 'Skills Development', 'value' =>'Skills Development'],
+        ['id' => 2, 'name' => 'Lower Primary', 'value' => 'Lower Primary'],
+        ['id' => 3, 'name' => 'Up to 10th', 'value' => 'Up to 10th'],
+        ['id' => 4, 'name' => 'Higher Secondary', 'value' => 'Higher Secondary'],
+        ['id' => 5, 'name' => 'Under/Post Graduate Level', 'value' => 'Under/Post Graduate Level'],
+        ['id' => 6, 'name' => 'Competitive Exams', 'value' => 'Competitive Exams'],
+        ['id' => 7, 'name' => 'Skills Development', 'value' => 'Skills Development'],
       ]
     ]);
   });

@@ -14,7 +14,7 @@ trait Emails
       'to' => env('DEV_EMAIL'),
       'bccStatus' => false,
       'subject' => __("Error occured"),
-      'contents' => view('email.exception',compact('content'))->render(),
+      'contents' => view('emails.exception',compact('content'))->render(),
     ]));
   }
 

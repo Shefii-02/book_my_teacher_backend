@@ -52,8 +52,36 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   });
 
 
+  Route::post('/fetch-grades', function () {
+
+    return response()->json([
+      'status' => true,
+      'data' => [
+        ['id' => 1, 'name' => 'Primary (1–5)'],
+        ['id' => 2, 'name' => 'Middle (6–8)'],
+        ['id' => 3, 'name' => 'High School (9–12)'],
+        ['id' => 4, 'name' => 'Higher Secondary (11–12)'],
+      ]
+    ]);
+  });
+
+  Route::post('/fetch-subjects', function () {
+    return response()->json([
+      'status' => true,
+      'data' => [
+        ['id' => 1, 'name' => 'All Subjects'],
+        ['id' => 2, 'name' => 'Mathematics'],
+        ['id' => 3, 'name' => 'Science'],
+        ['id' => 4, 'name' => 'English'],
+        ['id' => 5, 'name' => 'Social Studies'],
+        ['id' => 6, 'name' => 'Computer Science'],
+      ]
+    ]);
+  });
+
+
   Route::post('/check-user', function (\Illuminate\Http\Request $request) {
-    $exists = \App\Models\User::where('id', $request->user_id)->where('acc_type',$request->acc_type)->exists();
+    $exists = \App\Models\User::where('id', $request->user_id)->where('acc_type', $request->acc_type)->exists();
     return response()->json(['exists' => $exists]);
   });
 });

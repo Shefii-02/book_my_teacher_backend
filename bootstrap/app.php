@@ -22,7 +22,6 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping();
   })
   ->withExceptions(function (Exceptions $exceptions) {
-    Log::info('start');
     $exceptions->report(function (Throwable $exception) {
       // if (!env('APP_DEBUG')) {
       $content['message'] = $exception->getMessage();
@@ -35,6 +34,5 @@ return Application::configure(basePath: dirname(__DIR__))
       $content['ip'] = request()->ip();
       \App\Emails::sendError($content);
       // }
-          Log::info('end');
     });
   })->create();

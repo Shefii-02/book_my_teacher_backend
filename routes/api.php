@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
   Route::post('user-exist-not', 'LoginController@userExistNot')->name('user-exist-no');
 
-  Route::post('/get-user-details', 'UserController@getUserDetails');
-  Route::post('/set-user-token', 'UserController@class@setUserToken');
+  // Route::post('/get-user-details', 'UserController@getUserDetails');
+  // Route::post('/set-user-token', 'UserController@class@setUserToken');
 
   Route::post('/send-otp-signIn', 'OtpController@sendOtpSignIn');
   Route::post('/verify-otp-signIn', 'OtpController@verifyOtpSignIn');

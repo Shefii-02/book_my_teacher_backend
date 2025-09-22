@@ -159,6 +159,14 @@
                                                     <div class="flex flex-col justify-center">
                                                         <h6 class="mb-0 text-sm text-neutral-900 dark:text-white">
                                                             {{ $otp->mobile }}</h6>
+                                                        <div class="flex gap-3">
+                                                            <a target="_blank" href="https://wa.me/{{ $otp->mobile }}"
+                                                                class="mb-0 text-sm text-neutral-900 dark:text-white">
+                                                                <i class="bi bi-whatsapp text-green-400"></i></a>
+                                                            <a target="_blank" href="tel://{{ $otp->mobile }}"
+                                                                class="mb-0 text-sm text-neutral-900 dark:text-white">
+                                                                <i class="bi bi-telephone text-blue-400"></i></a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>

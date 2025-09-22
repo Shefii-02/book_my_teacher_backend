@@ -275,6 +275,14 @@
                                                             <a href="#"
                                                                 class="__cf_email__">{{ $teacher->mobile }}</a>
                                                         </p>
+                                                        <div class="flex gap-3">
+                                                            <a target="_blank" href="https://wa.me/{{ $otp->mobile }}"
+                                                                class="mb-0 text-sm text-neutral-900 dark:text-white">
+                                                                <i class="bi bi-whatsapp text-green-400"></i></a>
+                                                            <a target="_blank" href="tel://{{ $otp->mobile }}"
+                                                                class="mb-0 text-sm text-neutral-900 dark:text-white">
+                                                                <i class="bi bi-telephone text-blue-400"></i></a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -341,8 +349,6 @@
                                                         <path stroke="currentColor" stroke-linecap="round"
                                                             stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01" />
                                                     </svg>
-
-
                                                 </button>
 
                                                 <!-- Dropdown menu -->

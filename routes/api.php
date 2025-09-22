@@ -17,6 +17,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/send-email-otp', 'OtpController@sendEmailOtp');
   Route::post('/verify-email-otp', 'OtpController@verifyEmailOtp');
 
+  Route::post('/re-send-otp', 'OtpController@reSendOtp');
+
+
+
   Route::post('/teacher-signup', 'RegisterController@teacherSignup');
   Route::post('/student-signup', 'RegisterController@studentSignup');
 
@@ -78,6 +82,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       ]
     ]);
   });
+
 
 
   Route::post('/check-user', function (\Illuminate\Http\Request $request) {

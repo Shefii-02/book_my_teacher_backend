@@ -21,88 +21,186 @@ class OtpController extends Controller
   /**
    * Send OTP for Sign In
    */
-  public function sendOtpSignIn(Request $request)
-  {
+public function sendOtpSignIn(Request $request)
+{
     $request->validate([
-      'mobile' => 'required|digits:10',
-    ]);
-
-    $company_id = 1;
-    $mobile = '91' . $request->mobile; // ✅ correct concatenation
-
-    // check user exists
-    if (!$this->userExistNot($mobile, $company_id)) {
-      return $this->error('User not found Please Sign up Account', Response::HTTP_NOT_FOUND);
-    }
-
-    $userr =  User::where('mobile', $mobile)->where('company_id', $company_id)->where('profile_fill',1)->exists();
-
-    // user already exists? → stop signup
-    if (!$userr) {
-      return $this->error('User not found Please Sign up Account', Response::HTTP_CONFLICT);
-    }
-
-    $otp = rand(1000, 9999);
-    $expTime = 20;
-
-    // Save OTP in DB
-    Otp::create([
-      'mobile'     => $mobile,
-      'otp'        => $otp,
-      'expires_at' => Carbon::now()->addMinutes($expTime),
-      'company_id' => $company_id,
-      'type'       => 'mobile',
-      'attempt'    => 1
-    ]);
-
-    $response = $this->SmsApiFunction($mobile, $otp, $expTime);
-
-    if ($response && $response->successful()) {
-      return $this->success('OTP sent successfully', ['mobile' => $mobile]);
-    } else if (!env('SMSOTP', false)) {
-      return $this->success('OTP sent successfully', ['mobile' => $mobile]);
-    }
-
-    return $this->error('Failed to send OTP', Response::HTTP_BAD_REQUEST);
-  }
-
-  /**
-   * Send OTP for Sign Up
-   */
-  public function sendOtpSignUp(Request $request)
-  {
-    $request->validate([
-      'mobile' => 'required|digits:10',
+        'mobile' => 'required|digits:10',
     ]);
 
     $company_id = 1;
     $mobile = '91' . $request->mobile;
-
-    $otp = rand(1000, 9999);
     $expTime = 20;
-    $userr =  User::where('mobile', $mobile)->where('company_id', $company_id)->where('profile_fill', 1)->exists();
 
-    // user already exists? → stop signup
-    if ($userr) {
-      return $this->error('User already registered, Please SignIn', Response::HTTP_CONFLICT);
+    // check user exists
+    if (!$this->userExistNot($mobile, $company_id)) {
+        return $this->error('User not found Please Sign up Account', Response::HTTP_NOT_FOUND);
     }
 
-    // Save OTP
-    Otp::create([
-      'mobile'     => $mobile,
-      'otp'        => $otp,
-      'expires_at' => Carbon::now()->addMinutes($expTime),
-      'company_id' => $company_id,
-      'type'       => 'mobile',
-      'attempt'    => 1
-    ]);
+    $userr = User::where('mobile', $mobile)
+        ->where('company_id', $company_id)
+        ->where('profile_fill', 1)
+        ->exists();
 
+    if (!$userr) {
+        return $this->error('User not found Please Sign up Account', Response::HTTP_CONFLICT);
+    }
+
+    // check existing unverified otp
+    $existingOtp = Otp::where('mobile', $mobile)
+        ->where('company_id', $company_id)
+        ->where('verified', 0) // unverified
+        ->orderBy('created_at', 'DESC')
+        ->first();
+
+    if ($existingOtp) {
+        // Reuse old otp → update expiry + attempt
+        $existingOtp->update([
+            'attempt'    => $existingOtp->attempt + 1,
+            'expires_at' => Carbon::now()->addMinutes($expTime),
+        ]);
+
+        $otp = $existingOtp->otp;
+    } else {
+        // Generate new OTP
+        $otp = rand(1000, 9999);
+
+        Otp::create([
+            'mobile'     => $mobile,
+            'otp'        => $otp,
+            'expires_at' => Carbon::now()->addMinutes($expTime),
+            'company_id' => $company_id,
+            'type'       => 'mobile',
+            'attempt'    => 1
+        ]);
+    }
+
+    // send otp
     $response = $this->SmsApiFunction($mobile, $otp, $expTime);
 
     if ($response && $response->successful()) {
-      return $this->success('OTP sent successfully', ['mobile' => $mobile]);
+        return $this->success('OTP sent successfully', ['mobile' => $mobile]);
+    } else if (!env('SMSOTP', false)) {
+        return $this->success('OTP sent successfully (Debug Mode)', ['mobile' => $mobile]);
+    }
+
+    return $this->error('Failed to send OTP', Response::HTTP_BAD_REQUEST);
+}
+
+
+
+  /**
+   * Send OTP for Sign Up
+   */
+ public function sendOtpSignUp(Request $request)
+{
+    $request->validate([
+        'mobile' => 'required|digits:10',
+    ]);
+
+    $company_id = 1;
+    $mobile = '91' . $request->mobile;
+    $expTime = 20;
+
+    // Check if user already exists
+    $userr = User::where('mobile', $mobile)
+        ->where('company_id', $company_id)
+        ->where('profile_fill', 1)
+        ->exists();
+
+    if ($userr) {
+        return $this->error('User already registered, Please SignIn', Response::HTTP_CONFLICT);
+    }
+
+    // Check if there is already an unverified OTP
+    $existingOtp = Otp::where('mobile', $mobile)
+        ->where('company_id', $company_id)
+        ->where('verified', 0) // not verified
+        ->orderBy('created_at', 'DESC')
+        ->first();
+
+    if ($existingOtp) {
+        // Reuse existing OTP and update attempt count & expiry
+        $existingOtp->update([
+            'attempt'    => $existingOtp->attempt + 1,
+            'expires_at' => Carbon::now()->addMinutes($expTime),
+        ]);
+
+        $otp = $existingOtp->otp;
+    } else {
+        // Generate new OTP
+        $otp = rand(1000, 9999);
+
+        Otp::create([
+            'mobile'     => $mobile,
+            'otp'        => $otp,
+            'expires_at' => Carbon::now()->addMinutes($expTime),
+            'company_id' => $company_id,
+            'type'       => $request->has('type') ? $request->type : 'mobile',
+            'attempt'    => 1
+        ]);
+    }
+
+    // Send OTP
+    $response = $this->SmsApiFunction($mobile, $otp, $expTime);
+
+    if ($response && $response->successful()) {
+        return $this->success('OTP sent successfully', ['mobile' => $mobile]);
     } else if (!env('SMSOTP', true)) {
-      return $this->success('OTP sent successfully', ['mobile' => $mobile]);
+        return $this->success('OTP sent successfully (Debug Mode)', ['mobile' => $mobile]);
+    }
+
+    return $this->error('Failed to send OTP', Response::HTTP_BAD_REQUEST);
+}
+
+
+
+/**
+   * Re Send OTP
+   */
+
+  public function reSendOtp(Request $request)
+  {
+    $request->validate([
+      'mobile' => 'required|digits:10',
+    ]);
+
+    $company_id = 1;
+    $mobile = '91' . $request->mobile; // add country code
+
+    // Get last unverified OTP
+    $otpData = Otp::where('mobile', $mobile)
+      ->where('company_id', $company_id)
+      ->where('verified', 0)
+      ->orderBy('created_at', 'desc')
+      ->first();
+
+    if (!$otpData) {
+      return $this->error('Resending Failed. Please close the app and retry.', Response::HTTP_NOT_FOUND);
+    }
+
+    $otp     = $otpData->otp;
+    $expTime = 20;
+
+    // ✅ Update existing OTP row
+    $otpData->update([
+      'expires_at' => Carbon::now()->addMinutes($expTime),
+      'attempt'    => $otpData->attempt + 1, // increase attempt count
+    ]);
+
+    // Send SMS
+    $response = $this->SmsApiFunction($mobile, $otp, $expTime);
+
+    if ($response && $response->successful()) {
+      return $this->success('Re-send OTP sent successfully', [
+        'mobile' => $mobile,
+        'otp_id' => $otpData->id,
+      ]);
+    } elseif (!env('SMSOTP', false)) {
+      // ✅ Allow bypass in dev mode
+      return $this->success('Re-send OTP sent successfully (DEV MODE)', [
+        'mobile' => $mobile,
+        'otp_id' => $otpData->id,
+      ]);
     }
 
     return $this->error('Failed to send OTP', Response::HTTP_BAD_REQUEST);
@@ -133,7 +231,7 @@ class OtpController extends Controller
     }
     User::where('mobile', $mobile)->where('company_id', 1)->update(['mobile_verified' => 1]);
     if ($mobile == '919846366783' && $otpInput == '7878') {
-       $otpRecord->update(['verified' => false]);
+      $otpRecord->update(['verified' => false]);
     } else {
       $otpRecord->update(['verified' => true]);
     }
@@ -257,6 +355,9 @@ class OtpController extends Controller
 
     return $this->success('OTP verified successfully');
   }
+
+
+
 
   /**
    * Reusable SMS Function

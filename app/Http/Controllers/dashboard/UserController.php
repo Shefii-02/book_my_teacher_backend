@@ -127,8 +127,8 @@ class UserController extends Controller
   {
     $otps = Otp::orderBy('created_at', 'desc')->get();
     $data['total_otp'] = $otps->count();
-    $data['verified'] = $otps->where('status', 1)->count();
-    $data['unverified'] = $otps->where('status', 0)->count();
+    $data['verified'] = $otps->where('verified', 1)->count();
+    $data['unverified'] = $otps->where('verified', 0)->count();
     $otps = Otp::orderBy('created_at', 'desc')->cursorPaginate(30);
 
     $allMobiles = Otp::pluck('mobile');

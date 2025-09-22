@@ -62,15 +62,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
 
 
 Route::get('/get-error', function () {
-
-
-
     $find = App\Models\User::find(100000)->id;
-
-
-
     return view('welcome');
-
 });
 
 Route::get('admin/webinar', function () {

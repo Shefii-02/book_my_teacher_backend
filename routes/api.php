@@ -12,7 +12,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('user-exist-not', 'LoginController@userExistNot')->name('user-exist-no');
 
 
-  Route::post('/get-user-details', 'UserController@getUserDetails');
+  Route::post('/get-user-details', 'UserController@getUserDetails')->middleware('auth:sanctum');
   Route::post('/set-user-token', 'UserController@setUserToken');
 
 

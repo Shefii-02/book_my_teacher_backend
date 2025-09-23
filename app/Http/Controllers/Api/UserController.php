@@ -76,6 +76,8 @@ class UserController extends Controller
 
     $user = $request->user();
 
+      Log::info($user);
+
     if (!$user) {
       return response()->json([
         'status' => 'error',

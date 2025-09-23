@@ -382,8 +382,10 @@ class RegisterController extends Controller
       $user->refresh();
 
       // Revoke old tokens and issue new one (guest is "fresh start")
-      $user->tokens()->delete();
-      $token = $user->createToken('auth_token')->plainTextToken;
+      // $user->tokens()->delete();
+      // $token = $user->createToken('auth_token')->plainTextToken;
+
+      $token = request()->user()->currentAccessToken()->token;
 
       return response()->json([
         'message' => 'Guest account registered successfully',

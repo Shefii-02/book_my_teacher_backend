@@ -296,6 +296,9 @@ class OtpController extends Controller
       $user->update(['mobile_verified' => true]);
     }
 
+    // Revoke all existing tokens
+    $user->tokens()->delete();
+
     // Generate token if using Sanctum
     $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -342,6 +345,9 @@ class OtpController extends Controller
         'profile_fill'    => 0,
       ]
     );
+
+    // Revoke all existing tokens
+    $user->tokens()->delete();
 
     $token = $user->createToken('auth_token')->plainTextToken;
 

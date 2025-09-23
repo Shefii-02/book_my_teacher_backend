@@ -448,6 +448,8 @@ class OtpController extends Controller
     //   ]);
     // }
 
+
+    $user->tokens()->delete();
     // generate token / login
     $token = $user->createToken('auth_token')->plainTextToken;
 

@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
 
 
+
+  Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/guest-signup', 'RegisterController@guestSignup');
+  });
+
+
+  Route::post('/teacher-signup', 'RegisterController@teacherSignup');
+  Route::post('/student-signup', 'RegisterController@studentSignup');
+
   Route::get('/check-server', 'UserController@checkServer');
   Route::post('user-exist-not', 'LoginController@userExistNot')->name('user-exist-no');
 
@@ -28,10 +37,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/re-send-otp', 'OtpController@reSendOtp');
 
 
-
-  Route::post('/teacher-signup', 'RegisterController@teacherSignup');
-  Route::post('/student-signup', 'RegisterController@studentSignup');
-  Route::post('/guest-signup', 'RegisterController@guestSignup');
 
 
   Route::post('/user-details', 'UserController@index');

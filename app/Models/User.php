@@ -34,6 +34,7 @@ class User extends Authenticatable
     'status',
     'registration_source',
     'last_login_source',
+    'profile_fill',
 
   ];
 

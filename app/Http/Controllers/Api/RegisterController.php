@@ -337,14 +337,14 @@ class RegisterController extends Controller
 
       // Validate incoming request
       $validated = $request->validate([
-        'student_name' => 'required|string|max:255',
+        'full_name' => 'required|string|max:255',
         'email'        => 'nullable|email|unique:users,email,' . $user->id,
         'avatar'       => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
       ]);
 
       // Update user details
       $user->update([
-        'name'                => $validated['student_name'],
+        'name'                => $validated['full_name'],
         'email'               => $validated['email'] ?? $user->email,
         'acc_type'            => 'guest',
         'registration_source' => $source,

@@ -159,9 +159,12 @@ class RegisterController extends Controller
         $user->refresh();
         Log::info($user);
 
+        $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
           'message'           => 'Teacher registered successfully',
           'user'              => $user,
+          'token'             => $token,
           'professional_info' => $profInfo,
         ], 201);
       } else {
@@ -183,7 +186,7 @@ class RegisterController extends Controller
   public function studentSignup(Request $request)
   {
 
-    // DB::beginTransaction();
+    DB::beginTransaction();
     $company_id = 1;
     $student_id = $request->student_id;
 
@@ -289,9 +292,12 @@ class RegisterController extends Controller
         $user->refresh();
         Log::info($user);
 
+        $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
           'message'           => 'Student registered successfully',
-          'user'              => $user
+          'user'              => $user,
+          'token'             => $token,
         ], 201);
       } else {
         return response()->json([
@@ -307,4 +313,88 @@ class RegisterController extends Controller
       ], 500);
     }
   }
+
+
+ public function guestSignup(Request $request)
+{
+    DB::beginTransaction();
+    $company_id = 1;
+
+    try {
+        // Get the logged-in user via Sanctum
+        $user = $request->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Authentication required',
+                'error'   => 'No user found from token',
+            ], 401);
+        }
+
+        $source = $request->header('X-Request-Source', 'Unknown');
+
+        // Validate incoming request
+        $validated = $request->validate([
+            'student_name' => 'required|string|max:255',
+            'email'        => 'nullable|email|unique:users,email,' . $user->id,
+            'avatar'       => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        // Update user details
+        $user->update([
+            'name'                => $validated['student_name'],
+            'email'               => $validated['email'] ?? $user->email,
+            'acc_type'            => 'guest',
+            'registration_source' => $source,
+            'profile_fill'        => 1,
+        ]);
+
+        // 🔹 Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar entry
+            MediaFile::where('company_id', $company_id)
+                ->where('user_id', $user->id)
+                ->where('file_type', 'avatar')
+                ->delete();
+
+            $file = $request->file('avatar');
+            $path = $file->storeAs(
+                'uploads/avatars',
+                time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
+                'public'
+            );
+
+            MediaFile::create([
+                'user_id'    => $user->id,
+                'company_id' => $company_id,
+                'file_type'  => 'avatar',
+                'file_path'  => $path,
+                'name'       => $file->getClientOriginalName(),
+                'mime_type'  => $file->getMimeType(),
+            ]);
+        }
+
+        DB::commit();
+
+        // Refresh to return updated data
+        $user->refresh();
+
+        // Revoke old tokens and issue new one (guest is "fresh start")
+        $user->tokens()->delete();
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Guest account registered successfully',
+            'user'    => $user,
+            'token'   => $token,
+        ], 201);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'message' => 'Registration failed',
+            'error'   => $e->getMessage(),
+        ], 500);
+    }
+}
+
 }

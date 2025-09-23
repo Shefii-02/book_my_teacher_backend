@@ -31,6 +31,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::post('/teacher-signup', 'RegisterController@teacherSignup');
   Route::post('/student-signup', 'RegisterController@studentSignup');
+  Route::post('/guest-signup', 'RegisterController@guestSignup');
+
 
   Route::post('/user-details', 'UserController@index');
   Route::post('/teacher-home', 'TeacherController@home');

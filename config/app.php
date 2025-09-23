@@ -123,8 +123,6 @@ return [
     'store' => env('APP_MAINTENANCE_STORE', 'database'),
   ],
 
-
   'status' => env('APP_STATUS', 'production'),
-
 
 ];

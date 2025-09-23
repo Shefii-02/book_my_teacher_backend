@@ -58,19 +58,20 @@ class UserController extends Controller
     return response()->json($teacher, 200);
   }
 
+
   // Fetch user data by token
   public function getUserDetails(Request $request)
   {
-    $token = $request->input('token');
+    // $token = $request->input('token');
 
-    if (!$token) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Token is required'
-      ], 400);
-    }
+    // if (!$token) {
+    //   return response()->json([
+    //     'status' => 'error',
+    //     'message' => 'Token is required'
+    //   ], 400);
+    // }
 
-    $user = User::where('api_token', $token)->first();
+    $user = $request->user();
 
     if (!$user) {
       return response()->json([
@@ -81,13 +82,7 @@ class UserController extends Controller
 
     return response()->json([
       'status' => 'success',
-      'data' => [
-        'id' => $user->id,
-        'name' => $user->name,
-        'email' => $user->email,
-        'acc_type' => $user->acc_type,
-        'profile_fill' => $user->profile_fill,
-      ]
+      'user' => $user,
     ], 200);
   }
 
@@ -95,6 +90,7 @@ class UserController extends Controller
   public function setUserToken(Request $request)
   {
     $userId = $request->input('user_id');
+    $company_id = 1;
 
     if (!$userId) {
       return response()->json([
@@ -102,8 +98,6 @@ class UserController extends Controller
         'message' => 'User ID is required'
       ], 400);
     }
-
-
 
     $user = User::find($userId);
 
@@ -114,47 +108,44 @@ class UserController extends Controller
       ], 404);
     }
 
-
-
-    $user->api_token = bin2hex(random_bytes(30)); // generate new token
-    $user->save();
+    $token = $user->createToken('MyAppToken')->plainTextToken;
 
     return response()->json([
       'status' => 'success',
-      'token' => $user->api_token,
+      'user'   => $user,
+      'token' => $token,
     ], 200);
   }
 
   public function checkServer(): JsonResponse
-    {
-        try {
-            // Example: You could load status from .env or database
-            $status = config('app.status', 'production');
-            // Or from env: env('APP_STATUS', 'production')
+  {
+    try {
+      // Example: You could load status from .env or database
+      $status = config('app.status', 'production');
+      // Or from env: env('APP_STATUS', 'production')
 
-            // You can also add server health check logic here
-            // Example: check DB connection
-            try {
-                DB::connection()->getPdo();
-                $db_status = "ok";
-            } catch (\Exception $e) {
-                $db_status = "failed";
-            }
+      // You can also add server health check logic here
+      // Example: check DB connection
+      try {
+        DB::connection()->getPdo();
+        $db_status = "ok";
+      } catch (\Exception $e) {
+        $db_status = "failed";
+      }
 
-            return response()->json([
-                'status' => $status, // "production" or "development"
-                'db_status' => $db_status,
-                'message' => $status === 'development'
-                    ? 'App under maintenance'
-                    : 'Server running fine',
-            ], 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Server check failed',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+      return response()->json([
+        'status' => $status, // "production" or "development"
+        'db_status' => $db_status,
+        'message' => $status === 'development'
+          ? 'App under maintenance'
+          : 'Server running fine',
+      ], 200);
+    } catch (\Exception $e) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Server check failed',
+        'error' => $e->getMessage(),
+      ], 500);
     }
+  }
 }

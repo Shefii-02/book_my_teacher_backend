@@ -287,12 +287,15 @@ class OtpController extends Controller
     // Fetch existing user
     $user = User::where('mobile', $mobile)->where('company_id', 1)->first();
 
-    if (!$user) {
-      return $this->error('User not found, please sign up', Response::HTTP_NOT_FOUND);
-    }
 
-    // Mark user mobile as verified
-    if (!$user->mobile_verified) {
+    if (!$user) {
+      $user = new User();
+      $user->mobile          = $mobile;
+      $user->mobile_verified = true;
+      $user->company_id      = 1;
+      $user->profile_fill    = 0;
+      $user->save();
+    } else {
       $user->update(['mobile_verified' => true]);
     }
 

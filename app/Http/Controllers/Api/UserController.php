@@ -62,6 +62,9 @@ class UserController extends Controller
   // Fetch user data by token
   public function getUserDetails(Request $request)
   {
+
+    Log::info($request->header());
+        Log::info($request->all());
     // $token = $request->input('token');
 
     // if (!$token) {

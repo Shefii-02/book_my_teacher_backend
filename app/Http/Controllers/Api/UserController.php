@@ -82,7 +82,7 @@ class UserController extends Controller
 
     return response()->json([
       'status' => 'success',
-      'user' => $user,
+      'data' => $user,
     ], 200);
   }
 
@@ -112,7 +112,7 @@ class UserController extends Controller
 
     return response()->json([
       'status' => 'success',
-      'user'   => $user,
+      'data'   => $user,
       'token' => $token,
     ], 200);
   }

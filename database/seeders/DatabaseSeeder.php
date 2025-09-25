@@ -15,9 +15,23 @@ class DatabaseSeeder extends Seeder
   {
     // User::factory(10)->create();
 
-    User::factory()->create([
-      'name' => 'Test User',
-      'email' => 'test@example.com',
+    // User::factory()->create([
+    //   'name' => 'Test User',
+    //   'mobile'=> '7887670989',
+    //   'acc_type'=> 'super_admin',
+    //   'company_id'=> 0,
+    //   'email' => 'superadmin@example.com',
+    //   'password'=> '$2y$12$hcr.nImGCtkr7osPHAto7.aStQ0y2rroFP98gSgKD2WfodkQBukO.',
+    //   'profile_fill'=>1,
+
+    // ]);
+
+
+    $this->call([
+        StreamProvidersTableSeeder::class,
+        ProviderCredentialsTableSeeder::class,
+        WebinarSeeder::class,
     ]);
+
   }
 }

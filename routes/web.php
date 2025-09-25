@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LMS\CourseCategoryController;
 use App\Http\Controllers\LMS\CourseClassController;
@@ -6,6 +7,7 @@ use App\Http\Controllers\LMS\CourseClassPermissionController;
 use App\Http\Controllers\LMS\CourseController;
 use App\Http\Controllers\LMS\CourseSubCategoryController;
 use App\Http\Controllers\LMS\LivestreamClassController;
+use App\Http\Controllers\LMS\WebinarController;
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
   // authentication
@@ -57,17 +59,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::resource('livestreams', LivestreamClassController::class)->names('livestreams');
   Route::resource('class-permissions', CourseClassPermissionController::class);
 
+
+  Route::resource('webinars', WebinarController::class);
+  Route::get('webinars/start', 'dashboard\UserController@otp')->name('webinars.start');
+  Route::get('webinars/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
+    ->name('admin.webinars.registrations.download-csv');
+
 });
 
 
 
 Route::get('/get-error', function () {
-    $find = App\Models\User::find(100000)->id;
-    return view('welcome');
+  $find = App\Models\User::find(100000)->id;
+  return view('welcome');
 });
 
 Route::get('admin/webinar', function () {
-  $app_id          = 1367678059;
-  $secret_id       = '01bcdaad780e092317bd65195c9243ad';
+  $app_id          = env('ZEGO_APP_ID');
+  $secret_id       = env('ZEGO_SERVER_SECRET');
   return view('company.webinar.index', compact('app_id', 'secret_id'));
 });

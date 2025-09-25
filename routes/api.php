@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\WebinarController;
+use App\Http\Controllers\Api\WebinarRegistrationController;
+use App\Http\Controllers\Api\ZegoTokenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +76,35 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   });
 
 
+  Route::post('/webinars', [WebinarController::class, 'index']);
+  Route::post('/webinars/{id}', [WebinarController::class, 'show']);
+  Route::post('/webinars/{id}/live', [WebinarController::class, 'liveDetails']);
+
+
+  // Public webinar listing and detail
+  // Route::get('webinars', [WebinarController::class, 'index']);
+  // Route::get('webinars/{webinar}', [WebinarController::class, 'show']);
+
+  // // Protected routes — add auth middleware as needed
+  // Route::post('webinars', [WebinarController::class, 'store']);       // create
+  // Route::put('webinars/{webinar}', [WebinarController::class, 'update']);
+  // Route::delete('webinars/{webinar}', [WebinarController::class, 'destroy']);
+
+  // // Start/end (host)
+  // Route::post('webinars/{webinar}/start', [WebinarController::class, 'start']);
+  // Route::post('webinars/{webinar}/end', [WebinarController::class, 'end']);
+
+  // registration
+  // Route::post('webinars/{webinar}/register', [WebinarRegistrationController::class, 'store']);
+  // Route::get('webinars/{webinar}/registrations', [WebinarRegistrationController::class, 'index']);
+
+  // // registered webinars for a user
+  // Route::get('registrations', [WebinarRegistrationController::class, 'registeredForUser']);
+
+  // // token generation for joining ZEGOCLOUD
+  // Route::post('webinars/{webinar}/token', [ZegoTokenController::class, 'generate']);
+
+
   Route::get('/fetch-grades', function () {
     return response()->json([
       'status' => true,
@@ -83,10 +115,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ['id' => 4, 'name' => 'Higher Secondary', 'value' => 'Higher Secondary'],
         ['id' => 5, 'name' => 'Under/Post Graduate Level', 'value' => 'Under/Post Graduate Level'],
         ['id' => 6, 'name' => 'Competitive Exams', 'value' => 'Competitive Exams'],
-        ['id' => 7, 'name' => 'Skills Development', 'value' => 'Skills Development'],
+        ['id' => 7, 'name' => 'Skill Development', 'value' => 'Skill Development'],
       ]
     ]);
   });
+
+
 
 
   Route::get('/fetch-subjects', function () {

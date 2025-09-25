@@ -35,11 +35,11 @@
         <!-- breadcrumb -->
         <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
             <li class="text-neutral-900 text-sm">
-                <a class="text-white " href="javascript:;">Home</a>
+                <a class="text-white " href="/">Home</a>
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="javascript:;">Dashboard</a>
+                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">

@@ -77,12 +77,21 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   // Route::middleware('auth:sanctum')->group(function () {
+  Route::any('webinars-list', function (Request $request) {
 
-    Route::post('/webinars-list', 'WebinarController@index')->middleware('auth:sanctum');
-    Route::post('/webinars/{id}', 'WebinarController@show');
-    Route::post('/webinars/{id}/live', 'WebinarController@liveDetails');
-    Route::post('/webinars/{id}/register', 'WebinarController@register');
-    Route::post('/webinars/{id}/join', 'WebinarController@join');
+
+    return response()->json([
+      'status' => true,
+      'data' => 'data',
+    ]);
+
+  })->middleware('auth:sanctum');
+
+    // Route::post('/webinars-list', 'WebinarApiController@index')->middleware('auth:sanctum');
+    Route::post('/webinars/{id}', 'WebinarApiController@show');
+    Route::post('/webinars/{id}/live', 'WebinarApiController@liveDetails');
+    Route::post('/webinars/{id}/register', 'WebinarApiController@register');
+    Route::post('/webinars/{id}/join', 'WebinarApiController@join');
   // });
 
 

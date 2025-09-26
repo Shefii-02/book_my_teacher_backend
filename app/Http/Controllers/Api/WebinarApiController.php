@@ -19,7 +19,7 @@ public function index(Request $request)
     $accType = $user->acc_type; // teacher/student/guest
 
     // Base query with relationships
-    $query = Webinar::with(['streamProvider', 'host', 'registrations.user']);
+    $query = Webinar::with(['provider', 'host', 'registrations.user']);
 
     // Filter by account type permissions
     if ($accType == 'teacher') {

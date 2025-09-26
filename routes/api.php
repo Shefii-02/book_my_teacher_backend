@@ -81,19 +81,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::any('webinars-list', function (Request $request) {
 
     $data = Webinar::get();
-
+    Log::info($data);
     return response()->json([
       'status' => true,
       'data' => Webinar::collection($data),
     ]);
-
   })->middleware('auth:sanctum');
 
-    // Route::post('/webinars-list', 'WebinarApiController@index')->middleware('auth:sanctum');
-    Route::post('/webinars/{id}', 'WebinarApiController@show');
-    Route::post('/webinars/{id}/live', 'WebinarApiController@liveDetails');
-    Route::post('/webinars/{id}/register', 'WebinarApiController@register');
-    Route::post('/webinars/{id}/join', 'WebinarApiController@join');
+  // Route::post('/webinars-list', 'WebinarApiController@index')->middleware('auth:sanctum');
+  Route::post('/webinars/{id}', 'WebinarApiController@show');
+  Route::post('/webinars/{id}/live', 'WebinarApiController@liveDetails');
+  Route::post('/webinars/{id}/register', 'WebinarApiController@register');
+  Route::post('/webinars/{id}/join', 'WebinarApiController@join');
   // });
 
 

@@ -24,7 +24,7 @@ class WebinarApiController extends Controller
     $user = $request->user(); // current logged in user
     $accType = $request->input('acc_type'); // teacher/student/guest filter
     Log::info('************************');
-    Log::info('user: ', $user);
+    // Log::info('user: ', $user);
     Log::info('accType: ', $accType);
     Log::info('************************');
 

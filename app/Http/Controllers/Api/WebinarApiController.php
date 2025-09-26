@@ -13,80 +13,89 @@ class WebinarApiController extends Controller
 {
 
   // List webinars
-  public function index(Request $request)
-  {
-    Log::info('************************');
-    Log::info('//Webinar Requests');
-    Log::info('Headers: ', $request->header());
-    Log::info('JSON Payload: ', $request->json()->all());
-    Log::info('************************');
+public function index(Request $request)
+{
+    $user = $request->user(); // current logged-in user
+    $accType = $user->acc_type; // teacher/student/guest
 
-    $user = $request->user(); // current logged in user
-    $accType = $user->acc_type; // teacher/student/guest filter
-    Log::info('************************');
-    Log::info('user: ', $user);
-    Log::info('accType: ', $user);
-    Log::info('************************');
+    // Base query with relationships
+    $query = Webinar::with(['streamProvider', 'host', 'registrations.user']);
 
-    //  'registrations.user'
-
-
-    $query = Webinar::with(['streamProvider', 'host']);
-    // ->when($accType, function ($q) use ($accType) {
-    //   $q->whereHas('registrations.user', function ($subQ) use ($accType) {
-    //     $subQ->where('acc_type', $accType);
-    //   });
-    // });
-
+    // Filter by account type permissions
     if ($accType == 'teacher') {
-      $query = $query->where('is_teacher_allowed', 1);
+        $query->where('is_teacher_allowed', 1);
     } elseif ($accType == 'student') {
-      $query = $query->where('is_student_allowed', 1);
+        $query->where('is_student_allowed', 1);
     } elseif ($accType == 'guest') {
-      $query = $query->where('is_guest_allowed', 1);
+        $query->where('is_guest_allowed', 1);
     } else {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'account type not matched'
-      ], 404);
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Account type not matched'
+        ], 404);
     }
-
 
     $webinars = $query->latest()->get();
 
+    // Prepare stats for dashboard
+    $totalParticipants = $webinars->sum(fn($w) => $w->registrations->count());
+    $totalTeachers = $webinars->sum(fn($w) => $w->registrations->where('user.acc_type', 'teacher')->count());
+    $totalStudents = $webinars->sum(fn($w) => $w->registrations->where('user.acc_type', 'student')->count());
+    $totalGuests = $webinars->sum(fn($w) => $w->registrations->where('user.acc_type', 'guest')->count());
+
+    // Map webinars for API response
     $data = $webinars->map(function ($webinar) use ($user) {
-      $isRegistered = $user
-        ? $webinar->registrations()->where('user_id', $user->id)->exists()
-        : false;
+        $isRegistered = $user
+            ? $webinar->registrations()->where('user_id', $user->id)->exists()
+            : false;
 
-      $hasJoined = $user
-        ? $webinar->registrations()
-        ->where('user_id', $user->id)
-        ->where('attended_status', true)
-        ->exists()
-        : false;
+        $hasJoined = $user
+            ? $webinar->registrations()
+                ->where('user_id', $user->id)
+                ->where('attended_status', true)
+                ->exists()
+            : false;
 
-      return [
-        'id' => $webinar->id,
-        'title' => $webinar->title,
-        'description' => $webinar->description,
-        'thumbnail' => $webinar->thumbnail_image ? asset('storage/' . $webinar->thumbnail_image) : null,
-        'main_image' => $webinar->main_image ? asset('storage/' . $webinar->main_image) : null,
-        'start_at' => $webinar->started_at,
-        'end_at' => $webinar->ended_at,
-        'register_end_at' => $webinar->registration_end_at,
-        'status' => $webinar->status,
-        'is_registered' => $isRegistered,
-        'has_joined' => $hasJoined,
-        'stream_provider' => $webinar->streamProvider?->only(['id', 'name', 'slug', 'type']),
-      ];
+        return [
+            'id' => $webinar->id,
+            'title' => $webinar->title,
+            'description' => $webinar->description,
+            'thumbnail' => $webinar->thumbnail_image ? asset('storage/' . $webinar->thumbnail_image) : null,
+            'main_image' => $webinar->main_image ? asset('storage/' . $webinar->main_image) : null,
+            'start_at' => $webinar->started_at,
+            'end_at' => $webinar->ended_at,
+            'register_end_at' => $webinar->registration_end_at,
+            'status' => $webinar->status,
+            'is_registered' => $isRegistered,
+            'has_joined' => $hasJoined,
+            'can_join' => $isRegistered && $webinar->started_at && now()->between($webinar->started_at, $webinar->ended_at),
+            'stream_provider' => $webinar->streamProvider?->only(['id', 'name', 'slug', 'type']),
+            'host' => $webinar->host?->only(['id', 'name', 'email']),
+            'registrations_count' => $webinar->registrations->count(),
+            'registrations' => $webinar->registrations->map(fn($r) => [
+                'id' => $r->id,
+                'name' => $r->name,
+                'email' => $r->email,
+                'phone' => $r->phone,
+                'checked_in' => $r->checked_in,
+                'attended_status' => $r->attended_status,
+                'user' => $r->user?->only(['id', 'name', 'acc_type']),
+            ]),
+        ];
     });
 
     return response()->json([
-      'status' => true,
-      'data' => $data,
-    ],200);
-  }
+        'status' => true,
+        'stats' => [
+            'total_participants' => $totalParticipants,
+            'total_teachers' => $totalTeachers,
+            'total_students' => $totalStudents,
+            'total_guests' => $totalGuests,
+        ],
+        'data' => $data,
+    ], 200);
+}
+
 
   // Show single webinar details
   public function show(Request $request, $id)

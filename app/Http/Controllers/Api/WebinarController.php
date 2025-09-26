@@ -27,12 +27,29 @@ class WebinarController extends Controller
     Log::info('user: ', $user);
     Log::info('accType: ', $accType);
     Log::info('************************');
-    $query = Webinar::with(['streamProvider', 'host', 'registrations.user'])
-      ->when($accType, function ($q) use ($accType) {
-        $q->whereHas('registrations.user', function ($subQ) use ($accType) {
-          $subQ->where('acc_type', $accType);
-        });
-      });
+
+    //  'registrations.user'
+
+
+    $query = Webinar::with(['streamProvider', 'host']);
+    // ->when($accType, function ($q) use ($accType) {
+    //   $q->whereHas('registrations.user', function ($subQ) use ($accType) {
+    //     $subQ->where('acc_type', $accType);
+    //   });
+    // });
+
+    if ($accType == 'teacher') {
+      $query = $query->where('is_teacher_allowed', 1);
+    } elseif ($accType == 'student') {
+      $query = $query->where('is_student_allowed', 1);
+    } elseif ($accType == 'guest') {
+      $query = $query->where('is_guest_allowed', 1);
+    } else {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'account type not matched'
+      ], 404);
+    }
 
 
     $webinars = $query->latest()->get();
@@ -65,12 +82,10 @@ class WebinarController extends Controller
       ];
     });
 
-
-
     return response()->json([
       'status' => true,
       'data' => $data,
-    ]);
+    ],200);
   }
 
   // Show single webinar details

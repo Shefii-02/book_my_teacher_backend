@@ -17,4 +17,9 @@ class WebinarRegistration extends Model
     {
         return $this->belongsTo(Webinar::class);
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }

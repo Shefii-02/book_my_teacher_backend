@@ -26,8 +26,8 @@
     const roomID = getUrlParams().get("roomID") || "room_" + Math.floor(Math.random() * 1000);
     const userID = Math.floor(Math.random() * 10000) + "";
     const userName = "user_" + userID;
-    const appID = {{ $app_id }};
-    const serverSecret = {{ $secret_id }};
+    const appID = `{{ $app_id }}`;
+    const serverSecret = `{{ $secret_id }}`;
 
     // role=host OR role=audience
     const role = getUrlParams().get("role") || "audience";

@@ -186,11 +186,12 @@ class WebinarController extends Controller
 
   public function destroy(Webinar $webinar)
   {
-    DB::transaction();
+    DB::beginTransaction();
     try {
       if ($webinar->thumbnail_image) Storage::disk('public')->delete($webinar->thumbnail_image);
       if ($webinar->main_image) Storage::disk('public')->delete($webinar->main_image);
       $webinar->delete();
+      DB::commit();
       return redirect()->route('admin.webinars.index')->with('success', 'Webinar deleted successfully.');
     } catch (Exception $e) {
       DB::rollBack();

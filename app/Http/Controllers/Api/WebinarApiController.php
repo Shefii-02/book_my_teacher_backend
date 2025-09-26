@@ -13,36 +13,36 @@ class WebinarApiController extends Controller
 {
 
   // List webinars
-public function index(Request $request)
-{
+  public function index(Request $request)
+  {
     $user = $request->user(); // current logged-in user
     $accType = $user->acc_type ?? null; // teacher/student/guest
 
     // Base query with relationships and count
     $query = Webinar::with(['provider', 'host', 'registrations.user'])
-        ->withCount('registrations');
+      ->withCount('registrations');
 
     // Filter by account type permissions
     if ($accType === 'teacher') {
-        $query->where('is_teacher_allowed', 1);
+      $query->where('is_teacher_allowed', 1);
     } elseif ($accType === 'student') {
-        $query->where('is_student_allowed', 1);
+      $query->where('is_student_allowed', 1);
     } elseif ($accType === 'guest') {
-        $query->where('is_guest_allowed', 1);
+      $query->where('is_guest_allowed', 1);
     } else {
-        return response()->json([
-            'status' => false,
-            'message' => 'Account type not matched'
-        ], 404);
+      return response()->json([
+        'status' => false,
+        'message' => 'Account type not matched'
+      ], 404);
     }
 
     // Filter out drafts and order by status priority + start time
     $webinars = $query
-        ->where('status', '!=', 'draft')
-        ->orderByRaw("FIELD(status, 'live', 'scheduled', 'ended')")
-        ->orderBy('started_at', 'asc')
-        ->latest()
-        ->get();
+      ->where('status', '!=', 'draft')
+      ->orderByRaw("FIELD(status, 'live', 'scheduled', 'ended')")
+      ->orderBy('started_at', 'asc')
+      ->latest()
+      ->get();
 
 
     // Prepare stats for dashboard
@@ -52,50 +52,50 @@ public function index(Request $request)
     // $totalGuests =
 
     $data = $webinars->map(function ($webinar) use ($user) {
-        $isRegistered = $user
-            ? $webinar->registrations()->where('user_id', $user->id)->exists()
-            : false;
+      $isRegistered = $user
+        ? $webinar->registrations()->where('user_id', $user->id)->exists()
+        : false;
 
-        $hasJoined = $user
-            ? $webinar->registrations()
-                ->where('user_id', $user->id)
-                ->where('attended_status', true)
-                ->exists()
-            : false;
+      $hasJoined = $user
+        ? $webinar->registrations()
+        ->where('user_id', $user->id)
+        ->where('attended_status', true)
+        ->exists()
+        : false;
 
-        return [
-            'id' => $webinar->id,
-            'title' => $webinar->title,
-            'description' => $webinar->description,
-            'thumbnail_url' => $webinar->thumbnail_image ? asset('storage/' . $webinar->thumbnail_image) : null,
-            'main_image_url' => $webinar->main_image ? asset('storage/' . $webinar->main_image) : null,
-            'start_at' => $webinar->started_at,
-            'end_at' => $webinar->ended_at,
-            'register_end_at' => $webinar->registration_end_at,
-            'status' => $webinar->status,
-            'is_registered' => $isRegistered,
-            'has_joined' => $hasJoined,
-            'can_join' => $isRegistered && $webinar->started_at && now()->between($webinar->started_at, $webinar->ended_at),
-            'stream_provider' => $webinar->streamProvider?->only(['id', 'name', 'slug', 'type']),
-            'host' => $webinar->host?->only(['id', 'name', 'email']),
-            'registrations_count' => $webinar->registrations_count,
-            'registrations' => $webinar->registrations->map(fn($r) => [
-                'id' => $r->id,
-                'name' => $r->name,
-                'email' => $r->email,
-                'phone' => $r->phone,
-                'checked_in' => $r->checked_in,
-                'attended_status' => $r->attended_status,
-                'user' => $r->user?->only(['id', 'name', 'acc_type']),
-            ]),
-        ];
+      return [
+        'id' => $webinar->id,
+        'title' => $webinar->title,
+        'description' => $webinar->description,
+        'thumbnail_url' => $webinar->thumbnail_image ? asset('storage/' . $webinar->thumbnail_image) : null,
+        'main_image_url' => $webinar->main_image ? asset('storage/' . $webinar->main_image) : null,
+        'start_at' => $webinar->started_at,
+        'end_at' => $webinar->ended_at,
+        'register_end_at' => $webinar->registration_end_at,
+        'status' => $webinar->status,
+        'is_registered' => $isRegistered,
+        'has_joined' => $hasJoined,
+        'can_join' => $isRegistered && $webinar->started_at && now()->between($webinar->started_at, $webinar->ended_at),
+        'stream_provider' => $webinar->streamProvider?->only(['id', 'name', 'slug', 'type']),
+        'host' => $webinar->host?->only(['id', 'name', 'email']),
+        'registrations_count' => $webinar->registrations_count,
+        'registrations' => $webinar->registrations->map(fn($r) => [
+          'id' => $r->id,
+          'name' => $r->name,
+          'email' => $r->email,
+          'phone' => $r->phone,
+          'checked_in' => $r->checked_in,
+          'attended_status' => $r->attended_status,
+          'user' => $r->user?->only(['id', 'name', 'acc_type']),
+        ]),
+      ];
     });
 
     return response()->json([
-        'status' => true,
-        'data' => $data,
+      'status' => true,
+      'data' => $data,
     ], 200);
-}
+  }
 
 
 
@@ -252,9 +252,13 @@ public function index(Request $request)
       'meeting_url' => $webinar->meeting_url,
       'recording_url' => $webinar->recording_url,
       'credentials' => [
-        'app_id' => $webinar->providerCredential->app_id ?? null,
-        'server_secret' => $webinar->providerCredential->server_secret ?? null,
-        'app_sign' => $webinar->providerCredential->app_sign ?? null,
+        // 'app_id' => $webinar->providerCredential->app_id ?? null,
+        // 'server_secret' => $webinar->providerCredential->server_secret ?? null,
+        // 'app_sign' => $webinar->providerCredential->app_sign ?? null,
+        'app_id' => "1367678059",
+        'server_secret' => "01bcdaad780e092317bd65195c9243ad",
+        'app_sign' => "0969ef1b75b7dac8b7d0d7a563a42419b377dc74cef7ba9625785b577da66edd",
+
       ],
       'meta' => $webinar->meta,
     ];

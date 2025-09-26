@@ -234,6 +234,9 @@
                                             Subject</th>
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Grade</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Mode</th>
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
@@ -251,6 +254,7 @@
                                         @php
                                             $teacherMedia = $teacher->mediaFiles->where('file_type', 'avatar')->first();
                                             $teacherSubjects = $teacher->subjects->pluck('subject')->toArray();
+                                            $teacherGrades = $teacher->teacherGrades->pluck('grade')->toArray();
                                         @endphp
 
                                         <tr>
@@ -276,7 +280,8 @@
                                                                 class="__cf_email__">{{ $teacher->mobile }}</a>
                                                         </p>
                                                         <div class="flex gap-3">
-                                                            <a target="_blank" href="https://web.whatsapp.com/send/?text=&type=custom_url&app_absent=0&utm_campaign=wa_api_send_v1&phone{{ $teacher->mobile }}"
+                                                            <a target="_blank"
+                                                                href="https://web.whatsapp.com/send/?text=&type=custom_url&app_absent=0&utm_campaign=wa_api_send_v1&phone{{ $teacher->mobile }}"
                                                                 class="mb-0 text-sm text-neutral-900 dark:text-white">
                                                                 <i class="bi bi-whatsapp text-green-400"></i></a>
                                                             <a target="_blank" href="tel://{{ $teacher->mobile }}"
@@ -300,6 +305,13 @@
                                                 <p
                                                     class="mb-0 capitalize text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                     {{ implode(',', $teacherSubjects) }}
+                                                </p>
+                                            </td>
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                <p
+                                                    class="mb-0 capitalize text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                    {{ implode(',', $teacherGrades) }}
                                                 </p>
                                             </td>
                                             <td
@@ -374,9 +386,9 @@
                                                                 action="{{ route('admin.teachers.destroy', $teacher->id) }}"
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
-                                                                <a role="button" href="javascript:;"
-                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
-                                                                    onclick="confirmDelete({{ $teacher->id }})">Delete</a>
+                                                            <a role="button" href="javascript:;"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                onclick="confirmDelete({{ $teacher->id }})">Delete</a>
 
                                                         </li>
                                                     </ul>

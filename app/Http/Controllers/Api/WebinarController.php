@@ -15,7 +15,7 @@ class WebinarController extends Controller
   // List webinars
   public function index(Request $request)
   {
-    return true;
+
     Log::info('************************');
     Log::info('//Webinar Requests');
     Log::info('Headers: ', $request->header());

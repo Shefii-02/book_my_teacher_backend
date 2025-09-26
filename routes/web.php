@@ -65,7 +65,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::resource('webinars', WebinarController::class);
   Route::get('webinars/start', 'dashboard\UserController@otp')->name('webinars.start');
   Route::get('webinars/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
-    ->name('admin.webinars.registrations.download-csv');
+    ->name('webinars.registrations.download-csv');
 
   Route::get('/log-file', function () {
     $logPath = storage_path('logs/laravel.log');

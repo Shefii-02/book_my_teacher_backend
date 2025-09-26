@@ -68,7 +68,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
     ->name('admin.webinars.registrations.download-csv');
 
   Route::get('/log-file', function () {
-    $logPath = storage_path('logs/laravel.log'); // Adjust if your log file name is different
+    $logPath = storage_path('logs/laravel.log');
 
     if (!File::exists($logPath)) {
       return Response::make('Log file not found.', 404);
@@ -76,9 +76,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
 
     $logContent = File::get($logPath);
 
-    return Response::make($logContent, 200, [
-      'Content-Type' => 'text/plain',
-    ]);
+    // Button to clear the log
+    $clearButton = '<a href="/clear-log" style="position: fixed; top: 10px; right: 10px; padding: 10px; background: red; color: white; text-decoration: none; border-radius: 5px;">Clear Log File</a>';
+
+    // Combine button and log content
+    $responseContent = $clearButton . '<pre>' . e($logContent) . '</pre>';
+
+    return Response::make($responseContent, 200);
+  });
+
+  Route::get('/clear-log', function () {
+    $logPath = storage_path('logs/laravel.log');
+    File::put($logPath, ''); // Overwrites the file with empty content
+    return redirect('/log-file')->with('status', 'Log file cleared!');
   });
 });
 

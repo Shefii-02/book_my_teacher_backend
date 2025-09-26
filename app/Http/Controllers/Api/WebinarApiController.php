@@ -255,7 +255,7 @@ class WebinarApiController extends Controller
         // 'app_id' => $webinar->providerCredential->app_id ?? null,
         // 'server_secret' => $webinar->providerCredential->server_secret ?? null,
         // 'app_sign' => $webinar->providerCredential->app_sign ?? null,
-        'app_id' => "1367678059",
+        'app_id' => 1367678059,
         'server_secret' => "01bcdaad780e092317bd65195c9243ad",
         'app_sign' => "0969ef1b75b7dac8b7d0d7a563a42419b377dc74cef7ba9625785b577da66edd",
 

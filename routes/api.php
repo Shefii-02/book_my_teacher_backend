@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\WebinarController;
 use App\Http\Controllers\Api\WebinarRegistrationController;
 use App\Http\Controllers\Api\ZegoTokenController;
+use App\Models\Webinar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -79,10 +80,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // Route::middleware('auth:sanctum')->group(function () {
   Route::any('webinars-list', function (Request $request) {
 
+    $data = Webinar::get();
 
     return response()->json([
       'status' => true,
-      'data' => 'data',
+      'data' => Webinar::collection($data),
     ]);
 
   })->middleware('auth:sanctum');

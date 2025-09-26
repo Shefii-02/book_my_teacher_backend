@@ -220,7 +220,7 @@ public function index(Request $request)
   public function join(Request $request, $id)
   {
     $user = $request->user();
-    $webinar = Webinar::with(['streamProvider', 'providerCredential'])->findOrFail($id);
+    $webinar = Webinar::with(['provider', 'providerApp'])->findOrFail($id);
 
     // 1. Ensure user registered
     $registration = $webinar->registrations()->where('user_id', $user->id)->first();
@@ -248,7 +248,7 @@ public function index(Request $request)
 
     // 4. Build stream data payload
     $streamData = [
-      'provider' => $webinar->streamProvider->name ?? null,
+      'provider' => $webinar->provider->name ?? null,
       'meeting_url' => $webinar->meeting_url,
       'recording_url' => $webinar->recording_url,
       'credentials' => [

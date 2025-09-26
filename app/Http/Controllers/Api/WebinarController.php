@@ -7,8 +7,7 @@ use App\Http\Resources\WebinarResource;
 use App\Models\Webinar;
 use Illuminate\Http\Request;
 use App\Services\ZegoTokenService;
-
-
+use Illuminate\Support\Facades\Log;
 
 class WebinarController extends Controller
 {
@@ -16,6 +15,12 @@ class WebinarController extends Controller
   // List webinars
   public function index(Request $request)
   {
+    Log::info('************************');
+    Log::info('//Webinar Requests');
+    Log::info($request->header());
+    Log::info($request->all());
+    Log::info('************************');
+
     $user = $request->user(); // current logged in user
     $accType = $request->input('acc_type'); // teacher/student/guest filter
 

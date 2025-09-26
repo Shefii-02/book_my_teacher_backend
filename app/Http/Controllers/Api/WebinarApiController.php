@@ -35,7 +35,7 @@ public function index(Request $request)
         ], 404);
     }
 
-    $webinars = $query->latest()->get();
+    $webinars = $query->where('status','!=','draft')->orderBy('status','live')->orderBy('status','scheduled')->orderBy('started_at','asc')->latest()->get();
 
     // Prepare stats for dashboard
     $totalParticipants = $webinars->sum(fn($w) => $w->registrations->count());

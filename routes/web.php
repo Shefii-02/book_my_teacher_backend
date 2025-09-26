@@ -8,6 +8,8 @@ use App\Http\Controllers\LMS\CourseController;
 use App\Http\Controllers\LMS\CourseSubCategoryController;
 use App\Http\Controllers\LMS\LivestreamClassController;
 use App\Http\Controllers\LMS\WebinarController;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
   // authentication
@@ -65,6 +67,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('webinars/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
     ->name('admin.webinars.registrations.download-csv');
 
+  Route::get('/log-file', function () {
+    $logPath = storage_path('logs/laravel.log'); // Adjust if your log file name is different
+
+    if (!File::exists($logPath)) {
+      return Response::make('Log file not found.', 404);
+    }
+
+    $logContent = File::get($logPath);
+
+    return Response::make($logContent, 200, [
+      'Content-Type' => 'text/plain',
+    ]);
+  });
 });
 
 

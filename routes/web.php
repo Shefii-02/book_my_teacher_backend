@@ -102,6 +102,6 @@ Route::get('/get-error', function () {
 Route::get('admin/webinar', function () {
   $app_id          = env('ZEGO_APP_ID');
   $secret_id       = env('ZEGO_SERVER_SECRET');
-  dd($app_id,$secret_id);
+
   return view('company.webinar.index', compact('app_id', 'secret_id'));
 });

@@ -77,7 +77,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/webinars', [WebinarController::class, 'index']);
+
+    Route::post('/webinars-list', [WebinarController::class, 'index']);
     Route::post('/webinars/{id}', [WebinarController::class, 'show']);
     Route::post('/webinars/{id}/live', [WebinarController::class, 'liveDetails']);
     Route::post('/webinars/{id}/register', [WebinarController::class, 'register']);

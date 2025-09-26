@@ -77,7 +77,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
     $logContent = File::get($logPath);
 
     // Button to clear the log
-    $clearButton = '<a href="/clear-log" style="position: fixed; top: 10px; right: 10px; padding: 10px; background: red; color: white; text-decoration: none; border-radius: 5px;">Clear Log File</a>';
+    $clearButton = '<a href="/admin/clear-log" style="position: fixed; top: 10px; right: 10px; padding: 10px; background: red; color: white; text-decoration: none; border-radius: 5px;">Clear Log File</a>';
 
     // Combine button and log content
     $responseContent = $clearButton . '<pre>' . e($logContent) . '</pre>';
@@ -88,7 +88,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('/clear-log', function () {
     $logPath = storage_path('logs/laravel.log');
     File::put($logPath, ''); // Overwrites the file with empty content
-    return redirect('/log-file')->with('status', 'Log file cleared!');
+    return redirect('/admin/log-file')->with('status', 'Log file cleared!');
   });
 });
 

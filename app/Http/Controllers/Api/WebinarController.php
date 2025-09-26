@@ -17,13 +17,16 @@ class WebinarController extends Controller
   {
     Log::info('************************');
     Log::info('//Webinar Requests');
-    Log::info($request->header());
-    Log::info($request->all());
+    Log::info('Headers: ', $request->header());
+    Log::info('JSON Payload: ', $request->json()->all());
     Log::info('************************');
 
     $user = $request->user(); // current logged in user
     $accType = $request->input('acc_type'); // teacher/student/guest filter
-
+    Log::info('************************');
+    Log::info('user: ', $user);
+    Log::info('accType: ', $accType);
+    Log::info('************************');
     $query = Webinar::with(['streamProvider', 'host', 'registrations.user'])
       ->when($accType, function ($q) use ($accType) {
         $q->whereHas('registrations.user', function ($subQ) use ($accType) {

@@ -7,7 +7,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('webinars', function (Blueprint $table) {
-            $table->foreignId('provider_app_id')->nullable()->after('stream_provider_id')->constrained('credentials')->nullOnDelete();
+            $table->foreignId('provider_app_id')->nullable()->after('stream_provider_id')->constrained('provider_credentials')->nullOnDelete();
         });
 
         Schema::table('webinar_registrations', function (Blueprint $table) {

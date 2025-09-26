@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d4d1f4ebf0c874ffdbfc7225dee6450",
+    "content-hash": "97932f212e1615514e8fda16d59393b8",
     "packages": [
         {
             "name": "brick/math",
@@ -5740,6 +5740,53 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "zegoim/server_assistant",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zegoim/zego_server_assistant_php.git",
+                "reference": "1ed3631d3cb93103b974671fb3daffda9bc5e183"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zegoim/zego_server_assistant_php/zipball/1ed3631d3cb93103b974671fb3daffda9bc5e183",
+                "reference": "1ed3631d3cb93103b974671fb3daffda9bc5e183",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ZEGO\\": "src/ZEGO"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Klein Xu",
+                    "email": "kleinxu@zego.im",
+                    "homepage": "https://www.zego.im",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Zego Server Assistant",
+            "homepage": "https://www.zego.im",
+            "keywords": [
+                "Server Assistant",
+                "zego"
+            ],
+            "support": {
+                "issues": "https://github.com/zegoim/zego_server_assistant_php/issues",
+                "source": "https://github.com/zegoim/zego_server_assistant_php/tree/v1.0.0"
+            },
+            "time": "2024-12-17T09:19:09+00:00"
         }
     ],
     "packages-dev": [

@@ -9,7 +9,7 @@ use App\Http\Resources\WebinarResource;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-class WebinarController extends Controller
+class WebinarControllerCp extends Controller
 {
     // List (with optional filters)
     public function index(Request $req)

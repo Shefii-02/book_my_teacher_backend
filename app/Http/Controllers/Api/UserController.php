@@ -63,8 +63,8 @@ class UserController extends Controller
   public function getUserDetails(Request $request)
   {
 
-    Log::info($request->header());
-        Log::info($request->all());
+    // Log::info($request->header());
+    //     Log::info($request->all());
     // $token = $request->input('token');
 
     // if (!$token) {
@@ -76,7 +76,7 @@ class UserController extends Controller
 
     $user = $request->user();
 
-      Log::info($user);
+      // Log::info($user);
 
     if (!$user) {
       return response()->json([

@@ -317,8 +317,8 @@ class RegisterController extends Controller
 
   public function guestSignup(Request $request)
   {
-    Log::info($request->header());
-    Log::info($request->all());
+    // Log::info($request->header());
+    // Log::info($request->all());
 
     DB::beginTransaction();
     $company_id = 1;

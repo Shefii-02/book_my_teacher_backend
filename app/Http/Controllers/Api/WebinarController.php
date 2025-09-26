@@ -34,6 +34,7 @@ class WebinarController extends Controller
         });
       });
 
+
     $webinars = $query->latest()->get();
 
     $data = $webinars->map(function ($webinar) use ($user) {

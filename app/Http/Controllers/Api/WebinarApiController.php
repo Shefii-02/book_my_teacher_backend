@@ -16,34 +16,41 @@ class WebinarApiController extends Controller
 public function index(Request $request)
 {
     $user = $request->user(); // current logged-in user
-    $accType = $user->acc_type; // teacher/student/guest
+    $accType = $user->acc_type ?? null; // teacher/student/guest
 
-    // Base query with relationships
-    $query = Webinar::with(['provider', 'host', 'registrations.user']);
+    // Base query with relationships and count
+    $query = Webinar::with(['provider', 'host', 'registrations.user'])
+        ->withCount('registrations');
 
     // Filter by account type permissions
-    if ($accType == 'teacher') {
+    if ($accType === 'teacher') {
         $query->where('is_teacher_allowed', 1);
-    } elseif ($accType == 'student') {
+    } elseif ($accType === 'student') {
         $query->where('is_student_allowed', 1);
-    } elseif ($accType == 'guest') {
+    } elseif ($accType === 'guest') {
         $query->where('is_guest_allowed', 1);
     } else {
         return response()->json([
-            'status' => 'error',
+            'status' => false,
             'message' => 'Account type not matched'
         ], 404);
     }
 
-    $webinars = $query->where('status','!=','draft')->orderBy('status','live')->orderBy('status','scheduled')->orderBy('started_at','asc')->latest()->get();
+    // Filter out drafts and order by status priority + start time
+    $webinars = $query
+        ->where('status', '!=', 'draft')
+        ->orderByRaw("FIELD(status, 'live', 'scheduled', 'ended')")
+        ->orderBy('started_at', 'asc')
+        ->latest()
+        ->get();
+
 
     // Prepare stats for dashboard
-    $totalParticipants = $webinars->sum(fn($w) => $w->registrations->count());
-    $totalTeachers = $webinars->sum(fn($w) => $w->registrations->where('user.acc_type', 'teacher')->count());
-    $totalStudents = $webinars->sum(fn($w) => $w->registrations->where('user.acc_type', 'student')->count());
-    $totalGuests = $webinars->sum(fn($w) => $w->registrations->where('user.acc_type', 'guest')->count());
+    // $totalParticipants = $webinars->sum(fn($w) => $w->registrations->count());
+    // $totalTeachers = $webinars->sum(fn($w) => $w->registrations->where('user.acc_type', 'teacher')->count());
+    // $totalStudents = $webinars->sum(fn($w) => $w->registrations->where('user.acc_type', 'student')->count());
+    // $totalGuests =
 
-    // Map webinars for API response
     $data = $webinars->map(function ($webinar) use ($user) {
         $isRegistered = $user
             ? $webinar->registrations()->where('user_id', $user->id)->exists()
@@ -71,7 +78,7 @@ public function index(Request $request)
             'can_join' => $isRegistered && $webinar->started_at && now()->between($webinar->started_at, $webinar->ended_at),
             'stream_provider' => $webinar->streamProvider?->only(['id', 'name', 'slug', 'type']),
             'host' => $webinar->host?->only(['id', 'name', 'email']),
-            'registrations_count' => $webinar->registrations->count(),
+            'registrations_count' => $webinar->registrations_count,
             'registrations' => $webinar->registrations->map(fn($r) => [
                 'id' => $r->id,
                 'name' => $r->name,
@@ -86,15 +93,10 @@ public function index(Request $request)
 
     return response()->json([
         'status' => true,
-        'stats' => [
-            'total_participants' => $totalParticipants,
-            'total_teachers' => $totalTeachers,
-            'total_students' => $totalStudents,
-            'total_guests' => $totalGuests,
-        ],
         'data' => $data,
     ], 200);
 }
+
 
 
   // Show single webinar details

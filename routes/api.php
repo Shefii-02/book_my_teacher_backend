@@ -76,14 +76,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   });
 
 
-  Route::middleware('auth:sanctum')->group(function () {
+  // Route::middleware('auth:sanctum')->group(function () {
 
-    Route::post('/webinars-list', [WebinarController::class, 'index']);
-    Route::post('/webinars/{id}', [WebinarController::class, 'show']);
-    Route::post('/webinars/{id}/live', [WebinarController::class, 'liveDetails']);
-    Route::post('/webinars/{id}/register', [WebinarController::class, 'register']);
-    Route::post('/webinars/{id}/join', [WebinarController::class, 'join']);
-  });
+    Route::post('/webinars-list', 'WebinarController@index')->middleware('auth:sanctum');
+    Route::post('/webinars/{id}', 'WebinarController@show');
+    Route::post('/webinars/{id}/live', 'WebinarController@liveDetails');
+    Route::post('/webinars/{id}/register', 'WebinarController@register');
+    Route::post('/webinars/{id}/join', 'WebinarController@join');
+  // });
 
 
   // Public webinar listing and detail

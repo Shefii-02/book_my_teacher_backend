@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Services\ZegoTokenService;
 use Illuminate\Support\Facades\Log;
 
-class WebinarController extends Controller
+class WebinarApiController extends Controller
 {
 
   // List webinars

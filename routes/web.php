@@ -8,6 +8,8 @@ use App\Http\Controllers\LMS\CourseController;
 use App\Http\Controllers\LMS\CourseSubCategoryController;
 use App\Http\Controllers\LMS\LivestreamClassController;
 use App\Http\Controllers\LMS\WebinarController;
+use App\Http\Controllers\LMS\GuestController;
+use App\Http\Controllers\LMS\GuestTeacherController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 
@@ -66,6 +68,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('webinars/start', 'dashboard\UserController@otp')->name('webinars.start');
   Route::get('webinars/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
     ->name('webinars.registrations.download-csv');
+
+  Route::resource('guest', GuestController::class);
+
+  Route::resource('guest-teacher', GuestTeacherController::class);
+
+  Route::get('guest/{id}/overview', [GuestController::class, 'overview'])
+    ->name('guest.overview');
+  Route::get('guest-teacher/{id}/overview', [GuestTeacherController::class, 'overview'])
+    ->name('guest-teacher.overview');
 
   Route::get('/log-file', function () {
     $logPath = storage_path('logs/laravel.log');

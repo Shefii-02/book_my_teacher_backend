@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-
+use Carbon\Carbon;
 
 class TeacherController extends Controller
 {
@@ -144,6 +144,123 @@ class TeacherController extends Controller
       ->latest('id')
       ->first();
 
+    // $stageList = [
+    //   "personal information" => [
+    //     "title" => "Personal Info",
+    //     "route" => "/personal-info",
+    //   ],
+    //   "teaching information" => [
+    //     "title" => "Teaching Details",
+    //     "route" => "/teaching-details",
+    //   ],
+    //   "cv upload" => [
+    //     "title" => "CV Upload",
+    //     "route" => "/cv-upload",
+    //   ],
+    //   "verification process" => [
+    //     "title" => "Verification Process",
+    //     "route" => "/verification",
+    //   ],
+    //   "schedule interview" => [
+    //     "title" => "Schedule Interview",
+    //     "route" => "/schedule-interview",
+    //   ],
+    //   "upload demo class" => [
+    //     "title" => "Upload Demo Class",
+    //     "route" => "/upload-demo",
+    //   ],
+    // ];
+
+    // $currentStage  = strtolower($teacher->current_account_stage ?? 'personal information');
+    // $currentStatus = strtolower($teacher->account_status ?? 'in progress');
+    // $accountMsg    = $teacher->account_msg;
+
+    // // normalize status
+    // if (strpos($currentStatus, 'scheduled') !== false) {
+    //   $statusKey = 'scheduled';
+    // } elseif (strpos($currentStatus, 'completed') !== false) {
+    //   $statusKey = 'completed';
+    // } elseif (strpos($currentStatus, 'reject') !== false) {
+    //   $statusKey = 'rejected';
+    // } else {
+    //   $statusKey = 'in progress';
+    // }
+
+    // // default message
+    // if (empty(trim($accountMsg))) {
+    //   switch ($statusKey) {
+    //     case 'rejected':
+    //       $accountMsg = 'Your application was rejected. Please review feedback and resubmit.';
+    //       break;
+    //     case 'scheduled':
+    //       $accountMsg = 'Your interview scheduled for 01/10/2025 10 AM please join on the time.if you not availabe please contact our team and reschedule.';
+    //       break;
+    //     default:
+    //       $accountMsg = 'Your application is in progress. We will notify you of the next step.';
+    //       break;
+    //   }
+    // }
+
+    // // build stepper array
+    // $steps = [];
+    // $foundCurrent = false;
+
+    // foreach ($stageList as $stageKey => $meta) {
+    //   $stepStatus = "completed";
+    //   $subtitle   = "Completed";
+    //   $allow      = false;
+
+    //   if (!$foundCurrent) {
+    //     if ($stageKey === $currentStage) {
+    //       $foundCurrent = true;
+
+    //       // current stage logic
+    //       switch ($statusKey) {
+    //         case 'in progress':
+    //           $stepStatus = "inProgress";
+    //           if ($currentStage == 'schedule interview') {
+    //             $subtitle   = "our team will you can please choose available time";
+    //           } else {
+    //             $subtitle   =  $accountMsg;
+    //           }
+    //           break;
+    //         case 'rejected':
+    //           $stepStatus = "rejected";
+    //           if ($currentStage == 'schedule interview') {
+    //             $subtitle   = "Your are rejected for interview our not statisfied your performance. Please stay on our community increase your career growth quality.";
+    //           } elseif ($currentStage == 'verification process') {
+    //             $subtitle = 'Your application was rejected. Common reasons: profile picture not professional or CV issues. Please update the requested fields and contact the team with screenshots for help.';
+    //           } else {
+    //             $subtitle   = $accountMsg;
+    //           }
+    //           $allow      = false;
+    //           break;
+    //         case 'scheduled':
+    //           $stepStatus = "scheduled";
+    //           $subtitle   = $accountMsg;
+    //           break;
+    //         case 'completed':
+    //           $stepStatus = "completed";
+    //           $subtitle   = "Completed";
+    //           break;
+    //       }
+    //     }
+    //   } else {
+    //     // stages after current one → pending
+    //     $stepStatus = "pending";
+    //     $subtitle   = "Pending";
+    //   }
+
+    //   $steps[] = [
+    //     'title'    => $meta['title'],
+    //     'route'    => $meta['route'],
+    //     'status'   => $stepStatus,
+    //     'subtitle' => $subtitle,
+    //     'allow'    => $allow,
+    //   ];
+    // }
+
+
     $stageList = [
       "personal information" => [
         "title" => "Personal Info",
@@ -171,6 +288,7 @@ class TeacherController extends Controller
       ],
     ];
 
+    // pull teacher status
     $currentStage  = strtolower($teacher->current_account_stage ?? 'personal information');
     $currentStatus = strtolower($teacher->account_status ?? 'in progress');
     $accountMsg    = $teacher->account_msg;
@@ -186,17 +304,28 @@ class TeacherController extends Controller
       $statusKey = 'in progress';
     }
 
-    // default message
+    // interview datetime (from DB column interview_at)
+    $interviewDateTime = $teacher->interview_at ?? null;
+    $formattedDateTime = $interviewDateTime
+      ? Carbon::parse($interviewDateTime)->format('d M Y, h:i A')
+      : null;
+
+    // default message if none stored
     if (empty(trim($accountMsg))) {
       switch ($statusKey) {
         case 'rejected':
-          $accountMsg = 'Your application was rejected. Please review feedback and resubmit.';
+          $accountMsg = 'Your application has been rejected. Please review the feedback carefully and update your details before resubmitting.';
           break;
         case 'scheduled':
-          $accountMsg = 'Your interview scheduled for 01/10/2025 10 AM please join on the time.if you not availabe please contact our team and reschedule.';
+          $accountMsg = $formattedDateTime
+            ? "Your interview is scheduled for {$formattedDateTime}. Please join on time. If you are unavailable, kindly contact our team to reschedule."
+            : "Your interview has been scheduled. Please check your dashboard for details.";
+          break;
+        case 'completed':
+          $accountMsg = '';
           break;
         default:
-          $accountMsg = 'Your application is in progress. We will notify you of the next step.';
+          $accountMsg = 'Your application is in progress. We will notify you once the next step is available.';
           break;
       }
     }
@@ -218,26 +347,31 @@ class TeacherController extends Controller
           switch ($statusKey) {
             case 'in progress':
               $stepStatus = "inProgress";
-              $subtitle   =  $accountMsg;
+              $subtitle   = $accountMsg;
               break;
+
             case 'rejected':
               $stepStatus = "rejected";
+              // $subtitle   = $accountMsg;
+              $stepStatus = "rejected";
+
               if ($currentStage == 'schedule interview') {
-                $subtitle   = "Your are rejected for interview our not statisfied your performance. Please stay on our community increase your career growth quality.";
+                $subtitle = "Unfortunately, you were not selected after the interview. We encourage you to stay active in our community and continue improving your skills for future opportunities.";
+              } elseif ($currentStage == 'verification process') {
+                $subtitle = "Your application was rejected during verification. Common reasons include a non-professional profile picture or CV formatting issues. Please update the required details and contact our team for guidance.";
+              } elseif ($currentStage == 'upload demo class') {
+                $subtitle = "Your demo class submission did not meet the required standards. Please review the feedback provided and upload an improved version.";
+              } else {
+                $subtitle = $accountMsg ?: "Your application was rejected. Please check the feedback and update your details before resubmitting.";
               }
-              elseif($currentStage == 'verification process')
-              {
-                $subtitle = 'Your application was rejected. Common reasons: profile picture not professional or CV issues. Please update the requested fields and contact the team with screenshots for help.';
-              }
-              else {
-                $subtitle   = $accountMsg;
-              }
-              $allow      = false;
+              // $allow      = false;
               break;
+
             case 'scheduled':
               $stepStatus = "scheduled";
               $subtitle   = $accountMsg;
               break;
+
             case 'completed':
               $stepStatus = "completed";
               $subtitle   = "Completed";
@@ -258,7 +392,6 @@ class TeacherController extends Controller
         'allow'    => $allow,
       ];
     }
-
 
 
     // Verification step

@@ -14,6 +14,7 @@ return new class extends Migration
     Schema::table('users', function (Blueprint $table) {
       //
       $table->string('current_account_stage')->default('verification process')->after('account_status');
+      $table->timestamp('interview_at')->nullable()->after('current_account_stage');
     });
   }
 
@@ -25,6 +26,7 @@ return new class extends Migration
     Schema::table('users', function (Blueprint $table) {
       //
       $table->dropColumn('current_account_stage');
+      $table->dropColumn('interview_at');
     });
   }
 };

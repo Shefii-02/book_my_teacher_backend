@@ -372,7 +372,7 @@
                         <strong
                             class="capitalize text-blue-800 text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
                         <br>
-                        @if ($current_account_stage == 'account verified')
+                        @if ($user->current_account_stage == 'account verified')
                         @else
                             <label class="mt-3">
                                 <input type="radio" name="account_status" value="in progress" required

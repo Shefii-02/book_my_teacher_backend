@@ -514,6 +514,8 @@
                     <div class="d-flex justify-content-center m-4">
                         {!! $teachers->links() !!}
                     </div>
+                        <p class="p-3">Showing {{ $teachers->firstItem() }} to {{ $teachers->lastItem() }} of {{ $teachers->total() }} users.</p>
+
                 </div>
             </div>
         </div>

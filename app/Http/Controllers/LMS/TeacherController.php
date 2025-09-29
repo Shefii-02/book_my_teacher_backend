@@ -18,55 +18,190 @@ use Illuminate\Support\Facades\Log;
 
 class TeacherController extends Controller
 {
-
-  public function index()
+  public function index(Request $request)
   {
-    $teachers = User::with('professionalInfo')
+    // ----- Summary Data -----
+    $allTeachers = User::with('professionalInfo')
       ->where('company_id', 1)
       ->where('acc_type', 'teacher')
       ->get();
 
-    // Group by status
-    $verifiedTeachers    = $teachers->where('account_status', 'verified');
-    $unverifiedTeachers  = $teachers->where('account_status', 'in progress');
-    $rejectedTeachers    = $teachers->where('account_status', 'rejected');
-
-    // Helper to count by teaching mode
-    $countByMode = function ($collection, $mode) {
-      return $collection->filter(fn($t) => $t->professionalInfo?->teaching_mode === $mode)->count();
-    };
+    $countByMode = fn($collection, $mode) =>
+    $collection->filter(fn($t) => $t->professionalInfo?->teaching_mode === $mode)->count();
 
     $data = [
       'total' => [
-        'teachers'        => $teachers->count(),
-        'online_teachers' => $countByMode($teachers, 'online'),
-        'offline_teachers' => $countByMode($teachers, 'offline'),
-        'both_teachers'   => $countByMode($teachers, 'both'),
+        'teachers'        => $allTeachers->count(),
+        'online_teachers' => $countByMode($allTeachers, 'online'),
+        'offline_teachers' => $countByMode($allTeachers, 'offline'),
+        'both_teachers'   => $countByMode($allTeachers, 'both'),
       ],
       'verified' => [
-        'teachers'        => $verifiedTeachers->count(),
-        'online_teachers' => $countByMode($verifiedTeachers, 'online'),
-        'offline_teachers' => $countByMode($verifiedTeachers, 'offline'),
-        'both_teachers'   => $countByMode($verifiedTeachers, 'both'),
+        'teachers'        => $allTeachers->where('account_status', 'verified')->count(),
+        'online_teachers' => $countByMode($allTeachers->where('account_status', 'verified'), 'online'),
+        'offline_teachers' => $countByMode($allTeachers->where('account_status', 'verified'), 'offline'),
+        'both_teachers'   => $countByMode($allTeachers->where('account_status', 'verified'), 'both'),
       ],
       'unverified' => [
-        'teachers'        => $unverifiedTeachers->count(),
-        'online_teachers' => $countByMode($unverifiedTeachers, 'online'),
-        'offline_teachers' => $countByMode($unverifiedTeachers, 'offline'),
-        'both_teachers'   => $countByMode($unverifiedTeachers, 'both'),
+        'teachers'        => $allTeachers->where('account_status', 'in progress')->count(),
+        'online_teachers' => $countByMode($allTeachers->where('account_status', 'in progress'), 'online'),
+        'offline_teachers' => $countByMode($allTeachers->where('account_status', 'in progress'), 'offline'),
+        'both_teachers'   => $countByMode($allTeachers->where('account_status', 'in progress'), 'both'),
       ],
       'rejected' => [
-        'teachers'        => $rejectedTeachers->count(),
-        'online_teachers' => $countByMode($rejectedTeachers, 'online'),
-        'offline_teachers' => $countByMode($rejectedTeachers, 'offline'),
-        'both_teachers'   => $countByMode($rejectedTeachers, 'both'),
+        'teachers'        => $allTeachers->where('account_status', 'rejected')->count(),
+        'online_teachers' => $countByMode($allTeachers->where('account_status', 'rejected'), 'online'),
+        'offline_teachers' => $countByMode($allTeachers->where('account_status', 'rejected'), 'offline'),
+        'both_teachers'   => $countByMode($allTeachers->where('account_status', 'rejected'), 'both'),
       ],
     ];
 
-    $teachers = User::where('acc_type', 'teacher')->where('company_id', 1)->paginate('10');
+    // ----- Listing Query -----
+    $query = User::with('professionalInfo')
+      ->where('company_id', 1)
+      ->where('acc_type', 'teacher');
 
-    return view('company.teachers.index', compact('data', 'teachers'));
+    // 🔍 Global search
+    if ($request->filled('search')) {
+      $search = $request->search;
+      $query->where(function ($q) use ($search) {
+        $q->where('name', 'like', "%$search%")
+          ->orWhere('email', 'like', "%$search%")
+          ->orWhere('mobile', 'like', "%$search%");
+      });
+    }
+
+    // 🎛 Dropdown filters
+    if ($request->filled('teaching_mode')) {
+      $query->whereHas('professionalInfo', function ($q) use ($request) {
+        $q->where('teaching_mode', $request->teaching_mode);
+      });
+    }
+
+    if ($request->filled('account_status')) {
+      $query->where('account_status', $request->account_status);
+    }
+
+    if ($request->filled('current_account_stage')) {
+      $query->where('current_account_stage', $request->current_account_stage);
+    }
+
+    $teachers = $query->paginate(10)->appends($request->query());
+
+    return view('company.teachers.index', compact('teachers', 'data'));
   }
+
+  public function exportTeachers(Request $request)
+  {
+    // ----- Build Same Query As Listing -----
+    $query = User::with('professionalInfo')
+      ->where('company_id', 1)
+      ->where('acc_type', 'teacher');
+
+    if ($request->filled('search')) {
+      $search = $request->search;
+      $query->where(function ($q) use ($search) {
+        $q->where('name', 'like', "%$search%")
+          ->orWhere('email', 'like', "%$search%")
+          ->orWhere('mobile', 'like', "%$search%");
+      });
+    }
+
+    if ($request->filled('teaching_mode')) {
+      $query->whereHas('professionalInfo', function ($q) use ($request) {
+        $q->where('teaching_mode', $request->teaching_mode);
+      });
+    }
+
+    if ($request->filled('account_status')) {
+      $query->where('account_status', $request->account_status);
+    }
+
+    if ($request->filled('current_account_stage')) {
+      $query->where('current_account_stage', $request->current_account_stage);
+    }
+
+    $teachers = $query->get();
+
+
+    // ----- Excel Export (tab-delimited) -----
+    $fileName = "teachers_export_" . now()->format('Ymd_His') . ".xls";
+
+    header("Content-Type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=\"$fileName\"");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
+    // Output headers
+    echo "ID\tName\tEmail\tMobile\tTeaching Mode\tAccount Status\tAccount Stage\tCreated At\n";
+
+    foreach ($teachers as $t) {
+      echo $t->id . "\t" .
+        $t->name . "\t" .
+        $t->email . "\t" .
+        $t->mobile . "\t" .
+        ($t->professionalInfo->teaching_mode ?? '-') . "\t" .
+        $t->account_status . "\t" .
+        $t->current_account_stage . "\t" .
+        $t->created_at . "\n";
+    }
+
+    exit;
+  }
+
+
+
+
+
+
+  // public function index()
+  // {
+  //   $teachers = User::with('professionalInfo')
+  //     ->where('company_id', 1)
+  //     ->where('acc_type', 'teacher')
+  //     ->get();
+
+  //   // Group by status
+  //   $verifiedTeachers    = $teachers->where('account_status', 'verified');
+  //   $unverifiedTeachers  = $teachers->where('account_status', 'in progress');
+  //   $rejectedTeachers    = $teachers->where('account_status', 'rejected');
+
+  //   // Helper to count by teaching mode
+  //   $countByMode = function ($collection, $mode) {
+  //     return $collection->filter(fn($t) => $t->professionalInfo?->teaching_mode === $mode)->count();
+  //   };
+
+  //   $data = [
+  //     'total' => [
+  //       'teachers'        => $teachers->count(),
+  //       'online_teachers' => $countByMode($teachers, 'online'),
+  //       'offline_teachers' => $countByMode($teachers, 'offline'),
+  //       'both_teachers'   => $countByMode($teachers, 'both'),
+  //     ],
+  //     'verified' => [
+  //       'teachers'        => $verifiedTeachers->count(),
+  //       'online_teachers' => $countByMode($verifiedTeachers, 'online'),
+  //       'offline_teachers' => $countByMode($verifiedTeachers, 'offline'),
+  //       'both_teachers'   => $countByMode($verifiedTeachers, 'both'),
+  //     ],
+  //     'unverified' => [
+  //       'teachers'        => $unverifiedTeachers->count(),
+  //       'online_teachers' => $countByMode($unverifiedTeachers, 'online'),
+  //       'offline_teachers' => $countByMode($unverifiedTeachers, 'offline'),
+  //       'both_teachers'   => $countByMode($unverifiedTeachers, 'both'),
+  //     ],
+  //     'rejected' => [
+  //       'teachers'        => $rejectedTeachers->count(),
+  //       'online_teachers' => $countByMode($rejectedTeachers, 'online'),
+  //       'offline_teachers' => $countByMode($rejectedTeachers, 'offline'),
+  //       'both_teachers'   => $countByMode($rejectedTeachers, 'both'),
+  //     ],
+  //   ];
+
+  //   $teachers = User::where('acc_type', 'teacher')->where('company_id', 1)->paginate('10');
+
+  //   return view('company.teachers.index', compact('data', 'teachers'));
+  // }
 
   public function overview($id)
   {

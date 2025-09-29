@@ -202,21 +202,123 @@
                 <div
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex">
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                        <div class="flex1">
+                            <div class="w-full max-w-full ">
                                 <h6 class="dark:text-white">Teachers List</h6>
                             </div>
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                            <div class="w-full max-w-full ">
+                                <form method="GET" action="{{ route('admin.teachers') }}"
+                                    class="mb-4 flex flex-wrap gap-3 items-end">
 
-                            </div>
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                                    <!-- 🔍 Search (name, email, mobile) -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Search</label>
+                                        <input type="text" name="search" value="{{ request('search') }}"
+                                            placeholder="Search name, email, mobile"
+                                            class="border rounded px-3 py-2 w-64">
+                                    </div>
 
-                            </div>
-                            <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                                    <!-- 🎛 Teaching Mode -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Teaching Mode</label>
+                                        <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
+                                            <option value="">All</option>
+                                            <option value="online"
+                                                {{ request('teaching_mode') == 'online' ? 'selected' : '' }}>Online
+                                            </option>
+                                            <option value="offline"
+                                                {{ request('teaching_mode') == 'offline' ? 'selected' : '' }}>Offline
+                                            </option>
+                                            <option value="both"
+                                                {{ request('teaching_mode') == 'both' ? 'selected' : '' }}>Both</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- 📌 Account Status -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Account Status</label>
+                                        <select name="account_status" class="border rounded px-3 py-2 w-32">
+                                            <option value="">All</option>
+                                            <option value="in progress"
+                                                {{ request('account_status') == 'in progress' ? 'selected' : '' }}>In
+                                                Progress</option>
+                                            <option value="completed"
+                                                {{ request('account_status') == 'completed' ? 'selected' : '' }}>Completed
+                                            </option>
+                                            <option value="rejected"
+                                                {{ request('account_status') == 'rejected' ? 'selected' : '' }}>Rejected
+                                            </option>
+                                            <option value="scheduled"
+                                                {{ request('account_status') == 'scheduled' ? 'selected' : '' }}>Scheduled
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <!-- 📍 Current Account Stage -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Current Stage</label>
+                                        <select name="current_account_stage" class="border rounded px-3 py-2 w-32">
+                                            <option value="">All</option>
+                                            {{-- <option value="personal information"
+                                                {{ request('current_account_stage') == 'personal information' ? 'selected' : '' }}>
+                                                Personal Information</option>
+                                            <option value="teaching information"
+                                                {{ request('current_account_stage') == 'teaching information' ? 'selected' : '' }}>
+                                                Teaching Information</option>
+                                            <option value="cv upload"
+                                                {{ request('current_account_stage') == 'cv upload' ? 'selected' : '' }}>CV --}}
+                                            {{-- Upload</option> --}}
+                                            <option value="verification process"
+                                                {{ request('current_account_stage') == 'verification process' ? 'selected' : '' }}>
+                                                Verification Process</option>
+                                            <option value="schedule interview"
+                                                {{ request('current_account_stage') == 'schedule interview' ? 'selected' : '' }}>
+                                                Schedule Interview</option>
+                                            <option value="upload demo class"
+                                                {{ request('current_account_stage') == 'upload demo class' ? 'selected' : '' }}>
+                                                Upload Demo Class</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Submit + Reset -->
+                                    <div class="flex gap-2">
+                                        <button type="submit"
+                                            class="px-4 py-2 bg-blue-600 text-white rounded">Apply</button>
+                                        <a href="{{ route('admin.teachers') }}"
+                                            class="px-4 py-2 bg-gray-300 rounded">Reset</a>
+                                        <a href="{{ route('admin.teachers.export', request()->query()) }}"
+                                            class="px-4 py-2 bg-black text-white rounded">
+                                            Export Excel
+                                        </a>
+
+                                    </div>
+                                </form>
 
                             </div>
                         </div>
                     </div>
+                    @php
+                        $activeFilters = collect(
+                            request()->only(['search', 'teaching_mode', 'account_status', 'current_account_stage']),
+                        )->filter(fn($value) => filled($value)); // remove null/empty
+                    @endphp
+
+                    @if ($activeFilters->isNotEmpty())
+                        <div class="mb-4 pl-9 flex flex-wrap gap-2">
+                            @foreach ($activeFilters as $key => $value)
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
+                                    <span class="mr-2 capitalize">{{ str_replace('_', ' ', $key) }}:
+                                        {{ $value }}</span>
+                                    <a href="{{ request()->fullUrlWithQuery([$key => null]) }}"
+                                        class="text-red-500 hover:text-red-700 font-bold">×</a>
+                                </div>
+                            @endforeach
+                            <a href="{{ route('admin.teachers') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                                All</a>
+                        </div>
+                    @endif
+
+
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
                             <table
@@ -334,7 +436,8 @@
                                             </td>
                                             <td
                                                 class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent capitalize">
-                                                <span class="text-sm mb-1">{{ $teacher->current_account_stage }}</span><br>
+                                                <span
+                                                    class="text-sm mb-1">{{ $teacher->current_account_stage }}</span><br>
                                                 @if ($teacher->account_status == 'in progress')
                                                     <span
                                                         class="bg-gradient-to-tl capitalize from-lime-200 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">In
@@ -346,7 +449,6 @@
                                                 @elseif($teacher->account_status == 'scheduled')
                                                     <span
                                                         class="bg-gradient-to-tl capitalize from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">Scheduled</span>
-
                                                 @elseif($teacher->account_status == 'completed')
                                                     <span
                                                         class="bg-gradient-to-tl capitalize from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">Completed</span>

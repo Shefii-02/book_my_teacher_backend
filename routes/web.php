@@ -35,12 +35,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('/teachers', 'LMS\TeacherController@index')->name('teachers');
   Route::get('/teachers/create', 'LMS\TeacherController@create')->name('teachers.create');
   Route::post('/teachers/store', 'LMS\TeacherController@store')->name('teachers.store');
+    Route::get('teachers/export', 'LMS\TeacherController@exportTeachers')->name('teachers.export');
   Route::get('teachers/{id}', 'LMS\TeacherController@overview')->name('teachers.overview');   // Overview
   Route::get('teachers/{id}/edit', 'LMS\TeacherController@edit')->name('teachers.edit');
   Route::put('teachers/{id}/edit', 'LMS\TeacherController@update')->name('teachers.update');  // Edit
   Route::delete('teachers/{id}', 'LMS\TeacherController@delete')->name('teachers.destroy');  // Delete
   Route::get('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurity')->name('teachers.login-security');
   Route::post('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurityChange')->name('teachers.login-security.change');
+
+
 
   Route::get('/students', 'LMS\StudentController@index')->name('students');
   Route::get('/students/create', 'LMS\StudentController@create')->name('students.create');

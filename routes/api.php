@@ -124,7 +124,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     return response()->json([
       'status' => true,
       'data' => [
-        ['id' => 1,  'name' => 'Pre-Primary / Kindergarten', 'value' => 'Pre-Primary / Kindergarten'],
+        ['id' => 1, 'name' => 'Pre-Primary / Kindergarten', 'value' => 'Pre-Primary / Kindergarten'],
         ['id' => 2, 'name' => 'Lower Primary', 'value' => 'Lower Primary'],
         ['id' => 3, 'name' => 'Up to 10th', 'value' => 'Up to 10th'],
         ['id' => 4, 'name' => 'Higher Secondary', 'value' => 'Higher Secondary'],

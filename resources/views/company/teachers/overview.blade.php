@@ -45,7 +45,27 @@
     <div class="w-full px-6 py-4 mx-auto">
         <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
             <h2 class="text-xl font-bold mb-4 dark:text-white">👤 Personal Information</h2>
-            <img src="{{ $teacher->avatar_url }}" class="w-20 rounded-lg mb-5">
+            <div class=" mb-5">
+
+                <img src="{{ $teacher->avatar_url }}" class="w-20 rounded-lg mb-5">
+                <strong class="capitalize text-blue-800 text-lg fw-bold mb-5"> Current Account Stage : </strong>
+
+                <span
+                    class="bg-gradient-to-tl from-slate-600 to-slate-300  mb-3 capitalize px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">
+                    {{ $teacher->current_account_stage }}
+                </span>
+                <br>
+                @if ($teacher->current_account_stage == 'schedule interview')
+                    @if ($teacher->interview_at == null)
+                        Please Schedule Interview Date and Time
+                    @else
+                        Scheduled Date and Time : {{ $teacher->interview_at }}
+                    @endif
+                @endif
+
+            </div>
+
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 <p><span class="font-semibold">Full Name:</span> <span
@@ -60,7 +80,8 @@
                         class="capitalize font-bold">{{ $teacher->postal_code }}</span></p>
                 <p><span class="font-semibold">District:</span> <span
                         class="capitalize font-bold">{{ $teacher->district }}</span></p>
-                <p><span class="font-semibold">State:</span> <span class="capitalize font-bold">{{ $teacher->state }}</span>
+                <p><span class="font-semibold">State:</span> <span
+                        class="capitalize font-bold">{{ $teacher->state }}</span>
                 </p>
                 <p><span class="font-semibold">Country:</span> <span
                         class="capitalize font-bold">{{ $teacher->country }}</span></p>
@@ -99,6 +120,11 @@
             @else
                 <p>No CV uploaded.</p>
             @endif
+        </div>
+
+        <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4 dark:text-white">ℹ️ Account Note (follow up notes)</h2>
+            {{ $teacher->notes }}
         </div>
 
         <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6">

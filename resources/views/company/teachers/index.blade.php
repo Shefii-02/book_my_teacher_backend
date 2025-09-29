@@ -333,7 +333,8 @@
                                                     class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $teacher->created_at }}</span>
                                             </td>
                                             <td
-                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent capitalize">
+                                                <span class="text-sm mb-1">{{ $teacher->current_account_stage }}</span><br>
                                                 @if ($teacher->account_status == 'in progress')
                                                     <span
                                                         class="bg-gradient-to-tl capitalize from-lime-200 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">In
@@ -342,9 +343,13 @@
                                                     <span
                                                         class="bg-gradient-to-tl capitalize from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">Ready
                                                         for interview</span>
-                                                @elseif($teacher->account_status == 'verified')
+                                                @elseif($teacher->account_status == 'scheduled')
                                                     <span
-                                                        class="bg-gradient-to-tl capitalize from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">Verified</span>
+                                                        class="bg-gradient-to-tl capitalize from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">Scheduled</span>
+
+                                                @elseif($teacher->account_status == 'completed')
+                                                    <span
+                                                        class="bg-gradient-to-tl capitalize from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">Completed</span>
                                                 @elseif($teacher->account_status == 'rejected')
                                                     <span
                                                         class="bg-gradient-to-tl capitalize bg-red-900 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold  leading-none text-white">Rejected</span>

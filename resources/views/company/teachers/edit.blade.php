@@ -77,11 +77,12 @@
 
 @section('content')
     <div class="container">
-         <div class="card bg-white rounded-3 my-3">
+        <div class="card bg-white rounded-3 my-3">
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
                     <h5 class="font-bold">Edit a Teacher</h5>
-                    <a href="{{ route('admin.teachers') }}" class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2">Back</a>
+                    <a href="{{ route('admin.teachers') }}"
+                        class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2">Back</a>
                 </div>
 
             </div>
@@ -341,24 +342,85 @@
                     @error('cv_file')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
-                    <!-- Account Status -->
+                    {{-- <!-- Account Status -->
                     <div class="mb-4 mt-4">
                         <p class="mb-2 text-sm font-medium">Account Status</p>
+                        <strong class="capitalize text-blue-800 text-lg fw-bold">{{ $user->current_account_stage  }}</strong>
+                        <br>
                         @php $account_status = old('account_status', $user->account_status ?? '') @endphp
                         <label><input type="radio" name="account_status" value="in progress" required
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
                                 {{ $account_status == 'in progress' ? 'checked' : '' }}> In Progress</label>
                         <label class="ml-4"><input type="radio" name="account_status" required
-                                value="ready for interview"
+                                value="completed"
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $account_status == 'ready for interview' ? 'checked' : '' }}>Ready for Interview</label>
-                        <label class="ml-4"><input type="radio" name="account_status" required value="verified"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $account_status == 'verified' ? 'checked' : '' }}>Verified</label>
+                                {{ $account_status == 'completed' ? 'checked' : '' }}>Completed</label>
+
                         <label class="ml-4"><input type="radio" name="account_status" required value="rejected"
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
                                 {{ $account_status == 'rejected' ? 'checked' : '' }}>Rejected</label>
+
+                        <label class="ml-4"><input type="radio" name="account_status" required value="scheduled"
+                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
+                                {{ $account_status == 'scheduled' ? 'checked' : '' }}>Scheduled</label>
+                    </div> --}}
+                    <!-- Account Status -->
+                                            @php $account_status = old('account_status', $user->account_status ?? '') @endphp
+
+                    <div class="mb-4 mt-4" x-data="{ status: '{{ $account_status }}' }">
+                        <p class="mb-2 text-sm font-medium">Account Status</p>
+                        <strong
+                            class="capitalize text-blue-800 text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
+                        <br>
+
+                        @php $account_status = old('account_status', $user->account_status ?? '') @endphp
+
+                        <label class="mt-3">
+                            <input type="radio" name="account_status" value="in progress" required x-model="status"
+                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                                {{ $account_status == 'in progress' ? 'checked' : '' }}> In Progress
+                        </label>
+
+                        <label class="ml-4">
+                            <input type="radio" name="account_status" value="completed" required x-model="status"
+                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                                {{ $account_status == 'completed' ? 'checked' : '' }}> Completed
+                        </label>
+
+                        <label class="ml-4">
+                            <input type="radio" name="account_status" value="rejected" required x-model="status"
+                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                                {{ $account_status == 'rejected' ? 'checked' : '' }}> Rejected
+                        </label>
+                        @if($user->current_account_stage == 'schedule interview')
+                        <label class="ml-4">
+                            <input type="radio" name="account_status" value="scheduled" required x-model="status"
+                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                                {{ $account_status == 'scheduled' ? 'checked' : '' }}> Scheduled
+                        </label>
+                        @endif
+
+                        <!-- Extra fields for Scheduled -->
+                        <div class="mt-4 space-y-3" x-show="status === 'scheduled'" x-cloak>
+                            <!-- Interview DateTime -->
+                            <label class="block">
+                                <span class="text-sm font-medium">Interview Date & Time</span>
+                                <input type="datetime-local" name="interview_at"
+                                    value="{{ old('interview_at', $user->interview_at ?? '') }}"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            </label>
+
+
+                        </div>
                     </div>
+
+                    <!-- Notes -->
+                    <label class="block mt-3">
+                        <span class="text-sm font-medium">Account Notes (Followup Information)</span>
+                        <textarea name="acccount_notes" rows="3" placeholder="Please note rejection reason or followup information..."
+                            class="mt-4 block w-full  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('acccount_notes', $user->notes ?? '') }}</textarea>
+                    </label>
+
                     <!-- Buttons -->
                     <div class="button-group mt-4 flex justify-center">
                         <button type="submit"

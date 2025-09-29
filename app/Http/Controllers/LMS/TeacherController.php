@@ -80,7 +80,7 @@ class TeacherController extends Controller
     ])->where('id', $id)->where('acc_type', 'teacher')->first();
 
     if (!$teacher) {
-      return redirect()->back()->with('error','Teacher not found');
+      return redirect()->back()->with('error', 'Teacher not found');
     }
 
     return view('company.teachers.overview', compact('teacher'));
@@ -259,7 +259,7 @@ class TeacherController extends Controller
     ])->where('id', $id)->where('acc_type', 'teacher')->first();
 
     if (!$user) {
-      return redirect()->back()->with('error','Teacher not found');
+      return redirect()->back()->with('error', 'Teacher not found');
     }
 
     return view('company.teachers.edit', compact('user'));
@@ -267,11 +267,19 @@ class TeacherController extends Controller
 
   public function update(Request $request, $id)
   {
+
+
     $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
 
     if (!$teacher) {
-      return redirect()->back()->with('error','Teacher not found');
+      return redirect()->back()->with('error', 'Teacher not found');
     }
+
+    $request->validate([
+      'account_status' => 'required|in:scheduled,completed,in progress,pending,rejected',
+      'interview_at' => 'nullable|date',
+      'acccount_notes' => 'nullable|string|max:1000',
+    ]);
 
     DB::beginTransaction();
     $company_id = 1;
@@ -294,6 +302,7 @@ class TeacherController extends Controller
     }
 
 
+
     Log::info($request->all());
 
 
@@ -310,8 +319,52 @@ class TeacherController extends Controller
         'district'    => $request->district ?? $teacher->district,
         'state'       => $request->state ?? $teacher->state,
         'country'     => $request->country ?? $teacher->country,
-        'account_status' =>  $request->account_status ?? $teacher->account_status,
+        // 'account_status' =>  $request->account_status ?? $teacher->account_status,
       ]);
+
+
+
+      $currentStage = $teacher->current_account_stage;
+      $newStatus = $request->account_status;
+
+      $teacher->account_status = $newStatus;
+
+      // === RULE 1: Verification Process Completed ===
+      if ($currentStage === 'verification process' && $newStatus === 'completed') {
+        $teacher->current_account_stage = 'schedule interview';
+        $teacher->account_status = 'in progress';
+      }
+
+      // === RULE 2: Schedule Interview Completed ===
+      elseif ($currentStage === 'schedule interview' && $newStatus === 'completed') {
+        $teacher->current_account_stage = 'upload demo class';
+        $teacher->account_status = 'in progress';
+      }
+
+      // === RULE 3: Schedule Interview Scheduled ===
+      elseif ($currentStage === 'schedule interview' && $newStatus === 'scheduled') {
+        // Stay in same stage
+        $teacher->account_status = 'scheduled';
+
+        if ($request->filled('interview_at')) {
+          $teacher->interview_at = $request->interview_at;
+        }
+      }
+
+       if ($currentStage === 'upload demo class' && $newStatus === 'completed') {
+        $teacher->current_account_stage = 'account verified';
+        $teacher->account_status = 'completed';
+      }
+
+      // if ($request->filled('acccount_notes')) {
+        $teacher->notes = $request->acccount_notes;
+      // }
+
+      // RULE 4: Other statuses (pending/rejected/in progress) → only update account_status
+      // No stage change
+
+      $teacher->save();
+
 
 
       // 2️⃣ Professional Info (updateOrCreate to avoid duplicates)

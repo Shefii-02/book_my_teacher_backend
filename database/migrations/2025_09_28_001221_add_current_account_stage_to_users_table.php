@@ -15,6 +15,7 @@ return new class extends Migration
       //
       $table->string('current_account_stage')->default('verification process')->after('account_status');
       $table->timestamp('interview_at')->nullable()->after('current_account_stage');
+      $table->mediumText('notes')->nullable()->after('interview_at');
     });
   }
 
@@ -27,6 +28,7 @@ return new class extends Migration
       //
       $table->dropColumn('current_account_stage');
       $table->dropColumn('interview_at');
+      $table->dropColumn('notes');
     });
   }
 };

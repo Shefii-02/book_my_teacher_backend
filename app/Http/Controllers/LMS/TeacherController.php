@@ -349,15 +349,13 @@ class TeacherController extends Controller
         if ($request->filled('interview_at')) {
           $teacher->interview_at = $request->interview_at;
         }
-      }
-
-       if ($currentStage === 'upload demo class' && $newStatus === 'completed') {
+      } elseif ($currentStage === 'upload demo class' && $newStatus === 'completed') {
         $teacher->current_account_stage = 'account verified';
         $teacher->account_status = 'completed';
       }
 
       // if ($request->filled('acccount_notes')) {
-        $teacher->notes = $request->acccount_notes;
+      $teacher->notes = $request->acccount_notes;
       // }
 
       // RULE 4: Other statuses (pending/rejected/in progress) → only update account_status

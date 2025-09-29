@@ -365,41 +365,42 @@
                                 {{ $account_status == 'scheduled' ? 'checked' : '' }}>Scheduled</label>
                     </div> --}}
                     <!-- Account Status -->
-                                            @php $account_status = old('account_status', $user->account_status ?? '') @endphp
+                    @php $account_status = old('account_status', $user->account_status ?? '') @endphp
 
                     <div class="mb-4 mt-4" x-data="{ status: '{{ $account_status }}' }">
                         <p class="mb-2 text-sm font-medium">Account Status</p>
                         <strong
                             class="capitalize text-blue-800 text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
                         <br>
+                        @if ($current_account_stage == 'account verified')
+                        @else
+                            <label class="mt-3">
+                                <input type="radio" name="account_status" value="in progress" required
+                                    x-model="status"
+                                    class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                                    {{ $account_status == 'in progress' ? 'checked' : '' }}> In Progress
+                            </label>
 
-                        @php $account_status = old('account_status', $user->account_status ?? '') @endphp
+                            <label class="ml-4">
+                                <input type="radio" name="account_status" value="completed" required x-model="status"
+                                    class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                                    {{ $account_status == 'completed' ? 'checked' : '' }}> Completed
+                            </label>
 
-                        <label class="mt-3">
-                            <input type="radio" name="account_status" value="in progress" required x-model="status"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                                {{ $account_status == 'in progress' ? 'checked' : '' }}> In Progress
-                        </label>
-
-                        <label class="ml-4">
-                            <input type="radio" name="account_status" value="completed" required x-model="status"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                                {{ $account_status == 'completed' ? 'checked' : '' }}> Completed
-                        </label>
-
-                        <label class="ml-4">
-                            <input type="radio" name="account_status" value="rejected" required x-model="status"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                                {{ $account_status == 'rejected' ? 'checked' : '' }}> Rejected
-                        </label>
-                        @if($user->current_account_stage == 'schedule interview')
-                        <label class="ml-4">
-                            <input type="radio" name="account_status" value="scheduled" required x-model="status"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                                {{ $account_status == 'scheduled' ? 'checked' : '' }}> Scheduled
-                        </label>
+                            <label class="ml-4">
+                                <input type="radio" name="account_status" value="rejected" required x-model="status"
+                                    class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                                    {{ $account_status == 'rejected' ? 'checked' : '' }}> Rejected
+                            </label>
+                            @if ($user->current_account_stage == 'schedule interview')
+                                <label class="ml-4">
+                                    <input type="radio" name="account_status" value="scheduled" required
+                                        x-model="status"
+                                        class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                                        {{ $account_status == 'scheduled' ? 'checked' : '' }}> Scheduled
+                                </label>
+                            @endif
                         @endif
-
                         <!-- Extra fields for Scheduled -->
                         <div class="mt-4 space-y-3" x-show="status === 'scheduled'" x-cloak>
                             <!-- Interview DateTime -->

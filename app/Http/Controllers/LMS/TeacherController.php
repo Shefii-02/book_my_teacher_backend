@@ -293,7 +293,7 @@ class TeacherController extends Controller
         foreach ($request->working_days as $day) {
           TeacherWorkingDay::create([
             'teacher_id' => $user->id,
-            'day'        => trim(strtolower($day)),
+            'day'        => trim($day),
           ]);
         }
       }
@@ -315,7 +315,7 @@ class TeacherController extends Controller
         foreach ($request->teaching_grades as $grade) {
           TeacherGrade::create([
             'teacher_id' => $user->id,
-            'grade'      => trim(strtolower($grade)),
+            'grade'      => trim($grade),
           ]);
         }
       }
@@ -326,7 +326,7 @@ class TeacherController extends Controller
         foreach ($allSubjects as $subject) {
           TeachingSubject::create([
             'teacher_id' => $user->id,
-            'subject'    => trim(strtolower($subject)),
+            'subject'    => trim($subject),
           ]);
         }
       }

@@ -52,19 +52,19 @@
                                 <thead class="align-bottom">
                                     <tr>
                                         <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             Name</th>
                                         <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             Mobile</th>
                                         <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             Email</th>
                                         <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             Created At</th>
                                         <th
-                                            class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none dark:border-white/40 dark:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none dark:border-white/40 dark:text-white tracking-none  text-slate-400 opacity-70">
                                         </th>
                                     </tr>
                                 </thead>
@@ -72,7 +72,7 @@
                                     @foreach ($guestTeachers ?? [] as $key => $teacher)
                                         <tr>
                                             <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                                 <div class="flex px-2 py-1">
                                                     <div>
                                                         <img src="{{ asset('storage/' . $teacher ? $teacher->avatar_url : '') }}"
@@ -86,7 +86,7 @@
                                                 </div>
                                             </td>
                                             <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                                 <p
                                                     class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                     <a href="#" class="__cf_email__">{{ $teacher->mobile }}</a>
@@ -102,19 +102,19 @@
                                                 </div>
                                             </td>
                                             <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                                 <p
                                                     class="my-1 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                     <a href="#" class="__cf_email__">{{ $teacher->email }}</a>
                                                 </p>
                                             </td>
                                             <td
-                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                                 <span
                                                     class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $teacher->created_at }}</span>
                                             </td>
                                             <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                                 <button id="dropdownBottomButton"
                                                     data-dropdown-toggle="dropdownBottom_{{ $key }}"
                                                     data-dropdown-placement="bottom" class="" type="button">

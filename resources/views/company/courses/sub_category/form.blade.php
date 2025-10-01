@@ -20,19 +20,19 @@
 
 @section('content')
     <div class="container">
-        <div class="card bg-white rounded-3 mb-3">
-            <div class="flex justify-content-around">
-                <div class="card-title p-2 m-2">
+        <div class="card bg-white rounded-3 my-3">
+            <div class="card-title p-3 my-3">
+                <div class="flex justify-between">
                     <h5 class="font-bold">{{ isset($category) ? 'Edit' : 'Create' }} a Sub Category</h5>
+                    <a href="{{ route('admin.courses.subcategories.index') }}"
+                        class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Back</a>
                 </div>
-                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                    <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                        <a href="{{ route('admin.courses.subcategories.index') }}"
-                            class="bg-emerald-500/30 p-1.2 text-sm font-bold text-black dark:text-white rounded py-5 px-2.5">
-                            Back</a>
-                    </div>
-                </div>
+
             </div>
+        </div>
+
+        <div class="card bg-white rounded-3 mb-3">
+
 
             <div class="form-container">
                 <form

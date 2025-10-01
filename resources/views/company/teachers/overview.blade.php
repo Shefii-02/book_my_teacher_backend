@@ -113,6 +113,33 @@
             </div>
         </div>
 
+        <!-- Additional Information -->
+        <div class="bg-white shadow-md rounded-lg p-6 mt-6">
+            <h2 class="text-xl font-semibold mb-4">Additional Information</h2>
+
+            @if ($teacher->additionalInfo->count())
+                <table class="table-auto w-full border">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border px-4 py-2 text-left">Key</th>
+                            <th class="border px-4 py-2 text-left">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($teacher->additionalInfo as $info)
+                            <tr>
+                                <td class="border px-4 py-2">{{ $info->key_title }}</td>
+                                <td class="border px-4 py-2">{{ $info->key_value }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p class="text-gray-500">No additional information added.</p>
+            @endif
+        </div>
+
+
         <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
             <h2 class="text-xl font-bold mb-4 dark:text-white">📄 CV</h2>
             @if ($teacher->cv)

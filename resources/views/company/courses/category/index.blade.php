@@ -36,12 +36,9 @@
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4">
 
                                 <a href="{{ route('admin.courses.subcategories.index') }}"
-                                    class="bg-emerald-500/30 p-1.2 text-sm font-bold dark:text-white text-black rounded py-5 px-2.5 mr-3">Sub
-                                    Category
-                                    List</a>
+                                    class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Sub Category List</a>
                                 <a href="{{ route('admin.courses.categories.create') }}"
-                                    class="bg-emerald-500/30 p-1.2 text-sm font-bold dark:text-white text-black rounded py-5 px-2.5">Create
-                                    Category</a>
+                                    class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Create Category</a>
                             </div>
                         </div>
                     </div>
@@ -128,10 +125,12 @@
                                                         <li>
                                                             <form
                                                                 action="{{ route('admin.courses.categories.destroy', $category->id) }}"
-                                                                method="POST" class="d-inline-block  w-full">
+                                                                id="form_{{ $category->id }}" method="POST"
+                                                                class="d-inline-block  w-full">
                                                                 @csrf @method('DELETE')
-                                                                <button onclick="return confirm('Are you sure?')"
-                                                                    class="block px-4 py-2 hover:bg-gray-100 hover:text-black dark:hover:bg-white dark:hover:text-white">Delete</button>
+                                                                <a role="button" href="javascript:;"
+                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                    onclick="confirmDelete({{ $category->id }})">Delete</a>
                                                             </form>
 
                                                         </li>

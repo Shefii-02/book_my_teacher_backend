@@ -26,14 +26,14 @@
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="flex">
                             <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                                <h6 class="dark:text-white"></h6>
+                                <h6 class="dark:text-white">Course List</h6>
                             </div>
                             <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
-                                <a href="{{ route('admin.courses.categories.index') }}" class="bg-emerald-500/30 p-1.2 text-sm font-bold dark:text-white text-black rounded py-5 px-2.5 mr-3">Categories List</a>
-                                <a href="{{ route('admin.courses.create') }}" class="bg-emerald-500/30 p-1.2 text-sm font-bold dark:text-white text-black rounded py-5 px-2.5">Create Course</a>
+                                <a href="{{ route('admin.courses.categories.index') }}" class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Category List</a>
+                                <a href="{{ route('admin.courses.create') }}" class="bg-emerald-500/30 px-4 py-2 rounded-full text-white ">Create Course</a>
                             </div>
                         </div>
                     </div>
@@ -91,11 +91,12 @@
                                             <td class="border px-2 py-1">
                                                 <a href="{{ route('company.courses.edit', $course->id) }}"
                                                     class="btn btn-sm btn-warning">Edit</a>
-                                                <form action="{{ route('company.courses.destroy', $course->id) }}"
+                                                <form action="{{ route('company.courses.destroy', $course->id) }}" id="form_{{ $course->id }}"
                                                     method="POST" class="inline-block">
                                                     @csrf @method('DELETE')
-                                                    <button class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Delete this?')">Delete</button>
+                                                     <a role="button" href="javascript:;"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                onclick="confirmDelete({{ $course->id }})">Delete</a>
                                                 </form>
                                             </td>
                                         </tr>

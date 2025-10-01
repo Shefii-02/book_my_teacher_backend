@@ -283,11 +283,11 @@
                                     <!-- Submit + Reset -->
                                     <div class="flex gap-2">
                                         <button type="submit"
-                                            class="px-4 py-2 bg-blue-600 text-white rounded">Apply</button>
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i class="bi bi-search"></i> Apply</button>
                                         <a href="{{ route('admin.teachers') }}"
-                                            class="px-4 py-2 bg-gray-300 rounded">Reset</a>
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded-full text-white text-sm"><i class="bi bi-arrow-clockwise"></i> Reset  </a>
                                         <a href="{{ route('admin.teachers.export', request()->query()) }}"
-                                            class="px-4 py-2 bg-black text-white rounded">
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"> <i class="bi bi-file-earmark-spreadsheet"></i>
                                             Export Excel
                                         </a>
 

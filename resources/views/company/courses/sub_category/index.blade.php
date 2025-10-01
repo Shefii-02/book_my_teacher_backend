@@ -34,46 +34,61 @@
 
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4">
-
-
                                 <a href="{{ route('admin.courses.subcategories.create') }}"
-                                    class="bg-emerald-500/30 p-1.2 text-sm font-bold text-black dark:text-white rounded py-5 px-2.5">
+                                    class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">
                                     Create Sub Category</a>
+                                <a href="{{ route('admin.courses.categories.index') }}"
+                                    class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Back</a>
                             </div>
                         </div>
                     </div>
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
-                            @if (session('success'))
-                                <div class="alert alert-success">{{ session('success') }}</div>
-                            @endif
 
-                            <table class="table-auto w-full">
+                            <table class="table-auto w-full p-3">
                                 <thead>
                                     <tr>
-                                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">#</th>
-                                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Title</th>
-                                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Category</th>
-                                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Description</th>
-                                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
+                                        <th
+                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            #</th>
+                                        <th
+                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Title</th>
+                                        <th
+                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Category</th>
+                                        <th
+                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Description</th>
+                                        <th
+                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse($subCategories as $key => $sub)
                                         <tr>
-                                            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">{{ $loop->iteration }}</td>
-                                            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                {{ $loop->iteration }}</td>
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 @if ($sub->thumbnail)
                                                     <img src="{{ asset('storage/' . $sub->thumbnail) }}" class="h-12">
                                                 @endif
                                                 {{ $sub->title }}
                                             </td>
-                                            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">{{ $sub->category?->title }}</td>
-                                            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">{{ Str::limit($sub->description, 50) }}</td>
-                                            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                {{ $sub->category?->title }}</td>
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                {{ Str::limit($sub->description, 50) }}</td>
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
 
                                             </td>
-                                             <td
+                                            <td
                                                 class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 <button id="dropdownBottomButton"
                                                     data-dropdown-toggle="dropdownBottom_{{ $key }}"
@@ -100,8 +115,9 @@
                                                                 action="{{ route('admin.courses.subcategories.destroy', $sub->id) }}"
                                                                 method="POST" class="d-inline-block  w-full">
                                                                 @csrf @method('DELETE')
-                                                                <button onclick="return confirm('Are you sure?')"
-                                                                    class="block px-4 py-2 hover:bg-gray-100 hover:text-black dark:hover:bg-white dark:hover:text-white">Delete</button>
+                                                                <a role="button" href="javascript:;"
+                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                    onclick="confirmDelete({{ $sub->id }})">Delete</a>
                                                             </form>
 
                                                         </li>

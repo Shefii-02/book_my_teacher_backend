@@ -60,21 +60,6 @@
     </nav>
 @endsection
 
-
-@section('nav-options')
-    <nav>
-        <!-- breadcrumb -->
-        <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
-            <li class="leading-normal text-sm">
-                <a class="text-white opacity-50" href="javascript:;">Home</a>
-            </li>
-            <li class="text-sm pl-2 capitalize leading-normal text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Dashboard</li>
-        </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Dashboard</h6>
-    </nav>
-@endsection
-
 @section('content')
     <div class="container">
         <div class="card bg-white rounded-3 my-3">
@@ -342,28 +327,7 @@
                     @error('cv_file')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
-                    {{-- <!-- Account Status -->
-                    <div class="mb-4 mt-4">
-                        <p class="mb-2 text-sm font-medium">Account Status</p>
-                        <strong class="capitalize text-blue-800 text-lg fw-bold">{{ $user->current_account_stage  }}</strong>
-                        <br>
-                        @php $account_status = old('account_status', $user->account_status ?? '') @endphp
-                        <label><input type="radio" name="account_status" value="in progress" required
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $account_status == 'in progress' ? 'checked' : '' }}> In Progress</label>
-                        <label class="ml-4"><input type="radio" name="account_status" required
-                                value="completed"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $account_status == 'completed' ? 'checked' : '' }}>Completed</label>
 
-                        <label class="ml-4"><input type="radio" name="account_status" required value="rejected"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $account_status == 'rejected' ? 'checked' : '' }}>Rejected</label>
-
-                        <label class="ml-4"><input type="radio" name="account_status" required value="scheduled"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $account_status == 'scheduled' ? 'checked' : '' }}>Scheduled</label>
-                    </div> --}}
                     <!-- Account Status -->
                     @php $account_status = old('account_status', $user->account_status ?? '') @endphp
 
@@ -421,16 +385,49 @@
                         <textarea name="acccount_notes" rows="3" placeholder="Please note rejection reason or followup information..."
                             class="mt-4 block w-full  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('acccount_notes', $user->notes ?? '') }}</textarea>
                     </label>
+                    <!-- Additional Information -->
+                    <div class="form-step mt-3">
+                        <h2 class="text-lg font-bold mb-4">Additional Information</h2>
 
-                    <!-- Buttons -->
-                    <div class="button-group mt-4 flex justify-center">
-                        <button type="submit"
-                            class="px-5 py-2.5 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-lg">
-                            {{ isset($user) ? 'Update' : 'Submit' }}
-                        </button>
+                        <div id="additional-fields" class="space-y-3">
+                            @if (isset($user) && $user->additionalInfo->count())
+                                @foreach ($user->additionalInfo as $info)
+                                    <div class="flex gap-2 items-center">
+                                        <input type="text" name="additional[{{ $loop->index }}][key_title]"
+                                            value="{{ old("additional.$loop->index.key_title", $info->key_title) }}"
+                                            placeholder="Key Title" class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4 w-1/3">
+
+                                        <input type="text" name="additional[{{ $loop->index }}][key_value]"
+                                            value="{{ old("additional.$loop->index.key_value", $info->key_value) }}"
+                                            placeholder="Key Value" class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4 w-2/3">
+
+                                        <button type="button" class="remove-field text-red-500">✕</button>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="flex gap-2 items-center">
+                                    <input type="text" name="additional[0][key_title]" placeholder="Key Title"
+                                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4 w-1/3">
+                                    <input type="text" name="additional[0][key_value]" placeholder="Key Value"
+                                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4 w-2/3">
+                                    <button type="button" class="remove-field text-red-500">✕</button>
+                                </div>
+                            @endif
+                        </div>
+
+                        <button type="button" id="add-field" class="mt-4 px-3 py-1 bg-blue-500 btn-sm text-white rounded">+ Add
+                            Field</button>
                     </div>
-                </div>
 
+
+                </div>
+                <!-- Buttons -->
+                <div class="button-group mt-4 flex justify-center">
+                    <button type="submit"
+                        class="px-5 py-2.5 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-lg">
+                        {{ isset($user) ? 'Update' : 'Submit' }}
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -447,6 +444,29 @@
                     }
                     reader.readAsDataURL(this.files[0]);
                 }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            let index = $("#additional-fields .flex").length;
+
+            $("#add-field").click(function() {
+                let newField = `
+        <div class="flex gap-2 items-center">
+            <input type="text" name="additional[${index}][key_title]" placeholder="Key Title"
+                   class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4  w-1/3">
+            <input type="text" name="additional[${index}][key_value]" placeholder="Key Value"
+                   class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4 w-2/3">
+            <button type="button" class="remove-field text-red-500">✕</button>
+        </div>`;
+                $("#additional-fields").append(newField);
+                index++;
+            });
+
+            $(document).on("click", ".remove-field", function() {
+                $(this).parent().remove();
             });
         });
     </script>

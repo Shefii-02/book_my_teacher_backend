@@ -16,6 +16,7 @@ return new class extends Migration
       $table->unsignedBigInteger('student_id');
       $table->string('day'); // e.g., Sun, Mon, etc.
       $table->timestamps();
+      $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
     });
   }
 

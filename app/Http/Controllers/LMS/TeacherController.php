@@ -11,6 +11,7 @@ use App\Models\TeacherWorkingDay;
 use App\Models\TeacherWorkingHour;
 use App\Models\TeachingSubject;
 use App\Models\User;
+use App\Models\UserAdditionalInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -36,17 +37,17 @@ class TeacherController extends Controller
         'offline_teachers' => $countByMode($allTeachers, 'offline'),
         'both_teachers'   => $countByMode($allTeachers, 'both'),
       ],
-      'verified' => [
-        'teachers'        => $allTeachers->where('account_status', 'verified')->count(),
-        'online_teachers' => $countByMode($allTeachers->where('account_status', 'verified'), 'online'),
-        'offline_teachers' => $countByMode($allTeachers->where('account_status', 'verified'), 'offline'),
-        'both_teachers'   => $countByMode($allTeachers->where('account_status', 'verified'), 'both'),
-      ],
       'unverified' => [
-        'teachers'        => $allTeachers->where('account_status', 'in progress')->count(),
-        'online_teachers' => $countByMode($allTeachers->where('account_status', 'in progress'), 'online'),
-        'offline_teachers' => $countByMode($allTeachers->where('account_status', 'in progress'), 'offline'),
-        'both_teachers'   => $countByMode($allTeachers->where('account_status', 'in progress'), 'both'),
+        'teachers'        => $allTeachers->where('current_account_status', '!=', 'account verified')->count(),
+        'online_teachers' => $countByMode($allTeachers->where('current_account_status', '!=', 'account verified'), 'online'),
+        'offline_teachers' => $countByMode($allTeachers->where('current_account_status', '!=', 'account verified'), 'offline'),
+        'both_teachers'   => $countByMode($allTeachers->where('current_account_status', '!=', 'account verified'), 'both'),
+      ],
+      'verified' => [
+        'teachers'        => $allTeachers->where('current_account_status', 'account verified')->count(),
+        'online_teachers' => $countByMode($allTeachers->where('current_account_stage', 'account verified'), 'online'),
+        'offline_teachers' => $countByMode($allTeachers->where('current_account_stage', 'account verified'), 'offline'),
+        'both_teachers'   => $countByMode($allTeachers->where('current_account_stage', 'account verified'), 'both'),
       ],
       'rejected' => [
         'teachers'        => $allTeachers->where('account_status', 'rejected')->count(),
@@ -368,6 +369,20 @@ class TeacherController extends Controller
         ]);
       }
 
+      UserAdditionalInfo::where('company_id', 1)->where('user_id', $user->id)->delete();
+      if ($request->has('additional')) {
+        foreach ($request->additional as $field) {
+          if (!empty($field['key_title'])) {
+            UserAdditionalInfo::create([
+              'user_id' => $user->id,
+              'key_title' => $field['key_title'],
+              'key_value' => $field['key_value'] ?? '',
+              'company_id' => 1,
+            ]);
+          }
+        }
+      }
+
       // 8️⃣ Mark profile as filled
       $user->profile_fill = 1;
       $user->save();
@@ -599,6 +614,20 @@ class TeacherController extends Controller
           'name'       => $file->getClientOriginalName(),
           'mime_type'  => $file->getMimeType(),
         ]);
+      }
+
+      UserAdditionalInfo::where('company_id', 1)->where('user_id', $teacher->id)->delete();
+      if ($request->has('additional')) {
+        foreach ($request->additional as $field) {
+          if (!empty($field['key_title'])) {
+            UserAdditionalInfo::create([
+              'user_id' => $teacher->id,
+              'key_title' => $field['key_title'],
+              'key_value' => $field['key_value'] ?? '',
+              'company_id' => 1,
+            ]);
+          }
+        }
       }
 
       // 8️⃣ Mark profile as filled

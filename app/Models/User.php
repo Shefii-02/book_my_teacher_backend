@@ -111,6 +111,12 @@ class User extends Authenticatable
     return $this->cv ? asset('storage/' . $this->cv->file_path) : asset('default-avatar.png');
   }
 
+  public function additionalInfo()
+{
+    return $this->hasMany(UserAdditionalInfo::class);
+}
+
+
 
   public function recommendedSubjects()
   {

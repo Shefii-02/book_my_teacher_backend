@@ -12,7 +12,7 @@
                 <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Teacher {{ isset($category) ? 'Edit' : 'Create' }}</li>
+                aria-current="page">Category {{ isset($category) ? 'Edit' : 'Create' }}</li>
         </ol>
         <h6 class="mb-0 font-bold text-white capitalize">Teacher {{ isset($category) ? 'Edit' : 'Create' }}</h6>
     </nav>
@@ -20,9 +20,14 @@
 
 @section('content')
     <div class="container">
-        <div class="card bg-white rounded-3 mb-3">
-            <div class="card-title p-2 m-2">
-                <h5 class="font-bold">{{ isset($category) ? 'Edit' : 'Create' }} a Teacher</h5>
+        <div class="card bg-white rounded-3 my-3">
+            <div class="card-title p-3 my-3">
+                <div class="flex justify-between">
+                    <h5 class="font-bold">{{ isset($category) ? 'Edit' : 'Create' }} a Category</h5>
+                    <a href="{{ route('admin.courses.categories.index') }}"
+                        class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Back</a>
+                </div>
+
             </div>
         </div>
 

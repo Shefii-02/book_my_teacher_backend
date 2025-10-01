@@ -343,7 +343,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="flex items-center pl-4 xl:hidden">
+                        {{-- <li class="flex items-center pl-4 xl:hidden">
                             <a href="javascript:;" class="block p-0 text-white transition-all ease-nav-brand text-sm"
                                 sidenav-trigger>
                                 <div class="w-4.5 overflow-hidden">
@@ -354,17 +354,17 @@
                                     <i class="ease relative block h-0.5 rounded-sm bg-white transition-all"></i>
                                 </div>
                             </a>
-                        </li>
-                        <li class="flex items-center px-4">
+                        </li> --}}
+                        {{-- <li class="flex items-center px-4">
                             <a href="javascript:;" class="p-0 text-white transition-all text-sm ease-nav-brand">
                                 <i fixed-plugin-button-nav class="cursor-pointer fa fa-cog"></i>
                                 <!-- fixed-plugin-button-nav  -->
                             </a>
-                        </li>
+                        </li> --}}
 
                         <!-- notifications -->
 
-                        <li class="relative flex items-center pr-2">
+                        {{-- <li class="relative flex items-center pr-2">
                             <p class="hidden transform-dropdown-show"></p>
                             <a href="javascript:;" class="block p-0 text-white transition-all text-sm ease-nav-brand"
                                 dropdown-trigger aria-expanded="false">
@@ -461,7 +461,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </div>
@@ -477,7 +477,7 @@
                                 document.write(new Date().getFullYear() + ",");
                             </script>
                             made with <i class="fa fa-heart"></i> by
-                            BOOKMYTEACHER EDUTECH PRIVATE LIMITED
+                           Pachavellam Innovations Technologies
                         </div>
                     </div>
                 </div>

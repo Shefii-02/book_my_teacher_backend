@@ -241,9 +241,9 @@
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             Created At</th>
-                                        <th
+                                        {{-- <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Account Status</th>
+                                            Account Status</th> --}}
                                         <th
                                             class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none dark:border-white/40 dark:text-white tracking-none  text-slate-400 opacity-70">
                                         </th>
@@ -327,7 +327,7 @@
                                                 <span
                                                     class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $student->created_at }}</span>
                                             </td>
-                                            <td
+                                            {{-- <td
                                                 class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                                 @if ($student->account_status == 'in progress')
                                                     <span
@@ -337,7 +337,7 @@
                                                     <span
                                                         class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold uppercase leading-none text-white">Verified</span>
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td
                                                 class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                                 <button id="dropdownBottomButton"

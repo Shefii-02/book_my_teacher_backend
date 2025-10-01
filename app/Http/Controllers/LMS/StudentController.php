@@ -97,7 +97,7 @@ class StudentController extends Controller
   public function create()
   {
 
-    return view('company.students.create');
+    return view('company.students.form');
   }
 
   public function store(Request $request)
@@ -272,7 +272,7 @@ class StudentController extends Controller
       return response()->json(['message' => 'student not found'], 404);
     }
 
-    return view('company.students.edit', compact('user'));
+    return view('company.students.form', compact('user'));
   }
 
   public function update(Request $request, $id)

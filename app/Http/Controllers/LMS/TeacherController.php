@@ -134,13 +134,19 @@ class TeacherController extends Controller
     header("Expires: 0");
 
     // Output headers
-    echo "ID\tName\tEmail\tMobile\tTeaching Mode\tAccount Status\tAccount Stage\tCreated At\n";
+    echo "ID\tName\tEmail\tMobile\tAddress\tCity\tDistrict\tState\tCountry\tTeaching Mode\tAccount Status\tAccount Stage\tCreated At\n";
 
     foreach ($teachers as $t) {
       echo $t->id . "\t" .
         $t->name . "\t" .
         $t->email . "\t" .
         $t->mobile . "\t" .
+        $t->address . "\t" .
+        $t->city . "\t" .
+        $t->postal_code . "\t" .
+        $t->district . "\t" .
+        $t->state . "\t" .
+        $t->country . "\t" .
         ($t->professionalInfo->teaching_mode ?? '-') . "\t" .
         $t->account_status . "\t" .
         $t->current_account_stage . "\t" .

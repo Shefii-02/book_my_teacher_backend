@@ -134,6 +134,21 @@ class UserController extends Controller
     $allMobiles = Otp::pluck('mobile');
     $duplicates = $allMobiles->duplicates()->toArray();
 
-    return view('company.dashboard.otps', compact('otps', 'data','duplicates'));
+    return view('company.dashboard.otps', compact('otps', 'data', 'duplicates'));
+  }
+
+  public function editOtp($id)
+  {
+    $otp = Otp::findOrFail($id);
+    return view('company.dashboard.otp-form', compact('otp'));
+  }
+
+
+  public function updateOtp(Request $request, $id)
+  {
+    $otp = Otp::findOrFail($id);
+    $otp->update($request->only('mobile', 'otp', 'verified','expires_at'));
+
+    return back()->with('success', 'OTP updated successfully');
   }
 }

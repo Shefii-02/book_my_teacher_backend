@@ -35,13 +35,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('/teachers', 'LMS\TeacherController@index')->name('teachers');
   Route::get('/teachers/create', 'LMS\TeacherController@create')->name('teachers.create');
   Route::post('/teachers/store', 'LMS\TeacherController@store')->name('teachers.store');
-    Route::get('teachers/export', 'LMS\TeacherController@exportTeachers')->name('teachers.export');
+  Route::get('teachers/export', 'LMS\TeacherController@exportTeachers')->name('teachers.export');
   Route::get('teachers/{id}', 'LMS\TeacherController@overview')->name('teachers.overview');   // Overview
   Route::get('teachers/{id}/edit', 'LMS\TeacherController@edit')->name('teachers.edit');
   Route::put('teachers/{id}/edit', 'LMS\TeacherController@update')->name('teachers.update');  // Edit
   Route::delete('teachers/{id}', 'LMS\TeacherController@delete')->name('teachers.destroy');  // Delete
   Route::get('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurity')->name('teachers.login-security');
   Route::post('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurityChange')->name('teachers.login-security.change');
+
 
 
 
@@ -58,6 +59,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('/staffs', 'LMS\StaffController@index')->name('staffs');
 
   Route::get('/otp', 'dashboard\UserController@otp')->name('otp-list');
+  Route::get('/otp/{id}/edit', 'dashboard\UserController@editOtp')->name('otp.edit');
+  Route::put('/otp/{id}', 'dashboard\UserController@updateOtp')->name('otp.update');
 
   Route::resource('categories', CourseCategoryController::class)->names('courses.categories');
   Route::resource('subcategories', CourseSubCategoryController::class)->names('courses.subcategories');

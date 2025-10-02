@@ -14,11 +14,11 @@
 
 @php
     if (isset($user)) {
-        $profInfo = $user->professionalInfo;
-        $grades = $user->teacherGrades->pluck('grade')->toArray();
-        $subjects = $user->subjects->pluck('subject')->toArray();
-        $working_days = $user->workingDays->pluck('day')->toArray();
-        $working_hours = $user->workingHours->pluck('time_slot')->toArray();
+        $profInfo = $user->studentPersonalInfo;
+        $grades = $user->studentGrades->pluck('grade')->toArray();
+        $subjects = $user->recommendedSubjects->pluck('subject')->toArray();
+        $preferred_days = $user->preferredDays->pluck('day')->toArray();
+        $preferred_hours = $user->preferredHours->pluck('time_slot')->toArray();
     }
 
     $timeSlot = [
@@ -54,24 +54,9 @@
                 <a class="text-white" href="javascript:;">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Teachers Edit</li>
+                aria-current="page">Student {{ isset($user) ? 'Edit' : 'Create' }}</li>
         </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Teacher Edit</h6>
-    </nav>
-@endsection
-
-
-@section('nav-options')
-    <nav>
-        <!-- breadcrumb -->
-        <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
-            <li class="leading-normal text-sm">
-                <a class="text-white opacity-50" href="javascript:;">Home</a>
-            </li>
-            <li class="text-sm pl-2 capitalize leading-normal text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Dashboard</li>
-        </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Dashboard</h6>
+        <h6 class="mb-0 font-bold text-white capitalize">Student {{ isset($user) ? 'Edit' : 'Create' }}</h6>
     </nav>
 @endsection
 
@@ -80,13 +65,13 @@
         <div class="card bg-white rounded-3 mb-3">
             <div class="card-title p-2 m-2">
                 <h5 class="font-bold">
-                    Edit a Teacher</h5>
+                    {{ isset($user) ? 'Edit' : 'Create' }} a Student</h5>
             </div>
         </div>
         <div class="form-container">
 
             <!-- ✅ Form -->
-            <form action="{{ isset($user) ? route('admin.teachers.update', $user->id) : route('admin.teachers.store') }}"
+            <form action="{{ isset($user) ? route('admin.students.update', $user->id) : route('admin.students.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if (isset($user))
@@ -101,7 +86,6 @@
                     <div class="grid gap-6 mb-6 md:grid-cols-2">
                         <!-- Avatar -->
                         <div class="flex justify-center flex-col">
-
                             <p>
                                 <img id="imgPreview" src="{{ old('avatar', $user->avatar_url ?? '') }}"
                                     class="rounded-circle w-16 h-16 ms-5">
@@ -118,10 +102,21 @@
                         <!-- Full Name -->
                         <div>
                             <label class="block mb-2 text-sm font-medium">Full Name</label>
-                            <input type="text" name="name" placeholder="John Doe" required
+                            <input type="text" name="name" placeholder="" required
                                 value="{{ old('name', $user->name ?? '') }}"
                                 class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
                             @error('name')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Parent Name -->
+                        <div>
+                            <label class="block mb-2 text-sm font-medium">Parent Name</label>
+                            <input type="text" name="parent_name" placeholder="" required
+                                value="{{ old('parent_name', $user->studentPersonalInfo ? $user->studentPersonalInfo->parent_name : '' ?? '') }}"
+                                class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
+                            @error('parent_name')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
@@ -197,14 +192,23 @@
                     </div>
                 </div>
 
+
+                @php
+                    $dataGrade = \App\Models\Grade::all();
+                    $dataSubject = \App\Models\Subject::all();
+
+                    $grades = old('leaning_grades', $grades ?? []);
+                    $subjects = old('leaning_subjects', $subjects ?? []);
+                @endphp
+
                 <!-- Step 2: Professional Information -->
                 <div class="form-step">
-                    <h2 class="text-lg font-bold mb-4">Professional Information</h2>
+                    <h2 class="text-lg font-bold mb-4">Study Details</h2>
 
                     <!-- Mode of Interest -->
                     <div class="mb-4">
-                        <p class="mb-2 text-sm font-medium">Mode of Interest</p>
-                        @php $mode = old('mode', $profInfo->teaching_mode ?? 'online') @endphp
+                        <p class="mb-2 text-sm font-medium">Mode of Learning Interest</p>
+                        @php $mode = old('mode', $profInfo->study_mode ?? 'online') @endphp
                         <label><input type="radio" name="mode" value="online" required
                                 class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
                                 {{ $mode == 'online' ? 'checked' : '' }}> Online</label>
@@ -216,150 +220,95 @@
                                 {{ $mode == 'both' ? 'checked' : '' }}> Both</label>
                     </div>
 
-                    <!-- Teaching Grades -->
+                    <!-- Learning Grades -->
                     <div class="mb-4">
-                        <p class="mb-2 text-sm font-medium">Teaching Grades</p>
-                        @php $grades = old('teaching_grades', $grades ?? []) @endphp
-
-                        <label><input type="checkbox" name="teaching_grades[]" value="Lower Primary"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('Lower Primary', $grades) ? 'checked' : '' }}> Lower Primary</label>
-                        <label class="ml-4"><input type="checkbox" name="teaching_grades[]" value="Upto 10th"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('Upto 10th', $grades) ? 'checked' : '' }}> Upto 10th</label>
-                        <label class="ml-4"><input type="checkbox" name="teaching_grades[]" value="Higher Secondary"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('Higher Secondary', $grades) ? 'checked' : '' }}> Higher Secondary</label>
-                    </div>
-
-                    <!-- Teaching Subjects -->
-                    <div class="mb-4">
-                        <p class="mb-2 text-sm font-medium">Teaching Subjects</p>
-                        @php $subjects = old('teaching_subjects', $subjects ?? []) @endphp
-                        <label><input type="checkbox" name="teaching_subjects[]" value="All Subjects"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('All Subjects', $subjects) ? 'checked' : '' }}> All Subjects</label>
-                        <label class="ml-4"><input type="checkbox" name="teaching_subjects[]" value="Mathematics"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('Mathematics', $subjects) ? 'checked' : '' }}> Mathematics</label>
-                        <label class="ml-4"><input type="checkbox" name="teaching_subjects[]" value="Science"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('Science', $subjects) ? 'checked' : '' }}> Science</label>
-                        <input type="text" name="other_subject" placeholder="Other subject..."
-                            value="{{ old('other_subject', $profInfo->other_subject ?? '') }}"
-                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4">
-                    </div>
-
-                    <!-- Experience -->
-                    <div class="grid gap-6 mb-6 md:grid-cols-3">
-                        <div>
-                            <label class="block mb-2 text-sm font-medium">Years of Exp. (Offline)</label>
-                            <input type="number" name="offline_exp"
-                                value="{{ old('offline_exp', $profInfo->offline_exp ?? '0') }}" required
-                                class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
-                        </div>
-                        <div>
-                            <label class="block mb-2 text-sm font-medium">Years of Exp. (Online)</label>
-                            <input type="number" name="online_exp"
-                                value="{{ old('online_exp', $profInfo->online_exp ?? '0') }}" required
-                                class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
-                        </div>
-                        <div>
-                            <label class="block mb-2 text-sm font-medium">Years of Exp. (Home Tuition)</label>
-                            <input type="number" name="home_exp"
-                                value="{{ old('home_exp', $profInfo->home_exp ?? '0') }}" required
-                                class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
+                        <p class="mb-2 text-sm font-medium">Preferable Learning Grades</p>
+                        <div class="flex gap-2 flex-wrap">
+                            @foreach ($dataGrade ?? [] as $gradeItem)
+                                <label class="block mb-1">
+                                    <input type="checkbox" name="preferable_grades[]" value="{{ $gradeItem['value'] }}"
+                                        class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
+                                        {{ in_array($gradeItem['value'], $grades) ? 'checked' : '' }}>
+                                    {{ $gradeItem['name'] }}
+                                </label>
+                            @endforeach
                         </div>
                     </div>
 
-                    <!-- Profession -->
-                    <div class="mb-4">
-                        <p class="mb-2 text-sm font-medium">Currently Working As</p>
-                        @php $profession = old('profession', $profInfo->profession ?? '') @endphp
-                        <label><input type="radio" name="profession" value="teacher" required
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $profession == 'teacher' ? 'checked' : '' }}> Teacher</label>
-                        <label class="ml-4"><input type="radio" name="profession" required value="student"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $profession == 'student' ? 'checked' : '' }}> Student</label>
-                        <label class="ml-4"><input type="radio" name="profession" required value="jobseeker"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $profession == 'jobseeker' ? 'checked' : '' }}> Seeking Job</label>
-                    </div>
 
-                    <!-- Ready to Work -->
-                    <div class="mb-4">
-                        <p class="mb-2 text-sm font-medium">Ready to Work</p>
-                        @php $ready = old('ready_to_work', $profInfo->ready_to_work ?? '') @endphp
-                        <label><input type="radio" name="ready_to_work" value="Yes" required
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $ready == 'Yes' ? 'checked' : '' }}> Yes</label>
-                        <label class="ml-4"><input type="radio" name="ready_to_work" required value="No"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $ready == 'No' ? 'checked' : '' }}> No</label>
+
+                    <!-- Learning Subjects -->
+                    <div class="mb-4" x-data="{ otherSubject: '{{ old('other_subject', $profInfo->other_subject ?? '') }}' }">
+                        <p class="mb-2 text-sm font-medium">Preferable Learning Subjects</p>
+                        <div class="flex gap-2 flex-wrap">
+                            @foreach ($dataSubject ?? [] as $subjectItem)
+                                <label class="block mb-1">
+                                    <input type="checkbox" name="preferable_subjects[]"
+                                        value="{{ $subjectItem['value'] }}"
+                                        class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
+                                        {{ in_array($subjectItem['value'], $subjects) ? 'checked' : '' }}>
+                                    {{ $subjectItem['name'] }}
+                                </label>
+                            @endforeach
+                        </div>
+                        @php
+                            if (isset($user)) {
+                                $allSubjects = $dataSubject->pluck('value')->toArray(); // DB list
+                                $selectedSubjects = $subjects; // user selected (from form)
+                                $otherSubjects = implode(',',array_diff($selectedSubjects, $allSubjects) ?? []);
+
+                            }
+                            else{
+                              $otherSubjects = '';
+                            }
+                        @endphp
+
+
+                        <div class="mt-3">
+                            <label class="block mb-2 text-sm font-medium">Other Subject</label>
+
+                            <input type="text" name="other_subject"
+                                placeholder="Other subject..."
+                                class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
+                                value="{{ old('other_subject', $otherSubjects ?? '') }}">
+                        </div>
                     </div>
 
                     <!-- Working Days -->
                     <div class="mb-4">
                         <p class="mb-2 text-sm font-medium">Preferred Working Days</p>
-                        @php $working_days = old('working_days', $working_days ?? []) @endphp
+                        @php $working_days = old('preferred_days', $preferred_days ?? []) @endphp
                         @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day)
                             <label class="ml-4">
-                                <input type="checkbox" name="working_days[]" value="{{ $day }}"
+                                <input type="checkbox" name="preferred_days[]" value="{{ $day }}"
                                     class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                    {{ in_array($day, $working_days) ? 'checked' : '' }}> {{ substr($day, 0, 3) }}
+                                    {{ in_array($day, $preferred_days) ? 'checked' : '' }}> {{ substr($day, 0, 3) }}
                             </label>
                         @endforeach
                     </div>
-
                     <!-- Working Hours -->
                     <div class="mb-4">
                         <p class="mb-2 text-sm font-medium">Preferred Working Hours</p>
-                        @php $working_hours = old('working_hours', $working_hours ?? []) @endphp
+                        @php $preferred_hours = old('preferred_hours', $preferred_hours ?? []) @endphp
+
+
+
                         @foreach ($timeSlot as $slot)
                             <label class="ml-4">
-                                <input type="checkbox" name="working_hours[]" value="{{ $slot }}"
+                                <input type="checkbox" name="preferred_hours[]" value="{{ $slot }}"
                                     class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                    {{ in_array($slot, $working_hours) ? 'checked' : '' }}> {{ $slot }}
+                                    {{ in_array($slot, $preferred_hours) ? 'checked' : '' }}> {{ $slot }}
                             </label>
                         @endforeach
                     </div>
                 </div>
 
-                <!-- Step 3: CV Upload -->
-                <div class="form-step">
-                    <h2 class="text-lg font-bold mb-4">Upload CV</h2>
-                    <a class="text-red-500 mb-2 text-sm" target="_blank"
-                        href="{{ old('avatar', $user->cv_url ?? '') }}">
-                        <p>Existing CV</p>
-                    </a>
-                    <input type="file" name="cv_file" {{ isset($user) ? '' : 'required' }}
-                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
-                    @error('cv_file')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                    <!-- Account Status -->
-                    <div class="mb-4 mt-4">
-                        <p class="mb-2 text-sm font-medium">Account Status</p>
-                        @php $account_status = old('account_status', $user->account_status ?? '') @endphp
-                        <label><input type="radio" name="account_status" value="in progress" required
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $account_status == 'in progress' ? 'checked' : '' }}> In Progress</label>
-                        <label class="ml-4"><input type="radio" name="account_status" required
-                                value="ready for interview"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $account_status == 'ready for interview' ? 'checked' : '' }}>Ready for Interview</label>
-                        <label class="ml-4"><input type="radio" name="account_status" required value="verified"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ $account_status == 'verified' ? 'checked' : '' }}>Verified</label>
-                    </div>
-                    <!-- Buttons -->
-                    <div class="button-group mt-4 flex justify-center">
-                        <button type="submit"
-                            class="px-5 py-2.5 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-lg">
-                            {{ isset($user) ? 'Update' : 'Submit' }}
-                        </button>
-                    </div>
+                <!-- Buttons -->
+                <div class="button-group mt-4 flex justify-center">
+                    <button type="submit"
+                        class="px-5 py-2.5 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-lg">
+                        {{ isset($user) ? 'Update' : 'Submit' }}
+                    </button>
                 </div>
 
             </form>

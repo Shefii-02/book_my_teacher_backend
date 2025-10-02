@@ -9,11 +9,7 @@ use App\Models\StudentAvailableDay;
 use App\Models\StudentAvailableHour;
 use App\Models\StudentGrade;
 use App\Models\StudentPersonalInfo;
-use App\Models\studentProfessionalInfo;
 use App\Models\StudentRecommendedSubject;
-use App\Models\studentWorkingDay;
-use App\Models\studentWorkingHour;
-use App\Models\TeachingSubject;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -103,10 +99,10 @@ class StudentController extends Controller
   public function store(Request $request)
   {
 
-    DB::beginTransaction();
     $company_id = 1;
+    DB::beginTransaction();
 
-    $teachingSubjects = $request->input('teaching_subjects', []); // array
+    $teachingSubjects = $request->input('preferable_subjects', []); // array
     $otherSubject = $request->input('other_subject'); // string
 
     // Merge into one array
@@ -118,76 +114,65 @@ class StudentController extends Controller
       }
 
       $allSubjects = array_filter(array_merge(
-        $request->input('teaching_subjects', []),
+        $request->input('preferable_subjects', []),
         [$request->input('other_subject')]
       ));
     }
 
-
-    Log::info($request->all());
-
-
     try {
-      // 1️⃣ Create or Update User
-      $user = User::create(
-        [
-          'name'        => $request->name,
-          'email'       => $request->email,
-          'mobile'      => $request->phone,
-          'address'     => $request->address,
-          'acc_type'    => 'student',
-          'city'        => $request->city,
-          'postal_code' => $request->postal_code,
-          'district'    => $request->district,
-          'state'       => $request->state,
-          'country'     => $request->country,
-          'company_id'  => $company_id,
-        ]
-      );
-
+      // 1️⃣  create User
+      $student = User::create([
+        'name'        => $request->name,
+        'email'       => $request->email,
+        'mobile'      => $request->phone,
+        'acc_type'    => 'student',
+        'address'     => $request->address,
+        'city'        => $request->city,
+        'postal_code' => $request->postal_code,
+        'district'    => $request->district,
+        'state'       => $request->state,
+        'country'     => $request->country,
+        'company_id'  => $company_id,
+      ]);
 
       // 2️⃣ Professional Info (updateOrCreate to avoid duplicates)
-      $profInfo = StudentPersonalInfo::updateOrCreate(
-        ['student_id' => $user->id],
+      $profInfo = studentPersonalInfo::updateOrCreate(
+        ['student_id' => $student->id],
         [
-          'profession'    => $request->profession,
-          'ready_to_work' => $request->ready_to_work,
-          'teaching_mode' => $request->mode,
-          'offline_exp'   => $request->offline_exp,
-          'online_exp'    => $request->online_exp,
-          'home_exp'      => $request->home_exp,
+          'parent_name' => $request->parent_name,
+          'study_mode' => $request->mode
         ]
       );
 
 
       // 3️⃣ Sync Working Days
-      if ($request->filled('working_days')) {
-        StudentAvailableDay::where('student_id', $user->id)->delete();
-        foreach ($request->working_days as $day) {
+      if ($request->filled('preferred_days')) {
+        StudentAvailableDay::where('student_id', $student->id)->delete();
+        foreach ($request->preferred_days as $day) {
           StudentAvailableDay::create([
-            'student_id' => $user->id,
+            'student_id' => $student->id,
             'day'        => trim($day),
           ]);
         }
       }
 
       // 4️⃣ Sync Working Hours
-      if ($request->filled('working_hours')) {
-        StudentAvailableHour::where('student_id', $user->id)->delete();
-        foreach ($request->working_hours as $hour) {
+      if ($request->filled('preferred_hours')) {
+        StudentAvailableHour::where('student_id', $student->id)->delete();
+        foreach ($request->preferred_hours as $hour) {
           StudentAvailableHour::create([
-            'student_id' => $user->id,
+            'student_id' => $student->id,
             'time_slot'  => trim($hour),
           ]);
         }
       }
 
       // 5️⃣ Sync Grades
-      if ($request->filled('teaching_grades')) {
-        StudentGrade::where('student_id', $user->id)->delete();
-        foreach ($request->teaching_grades as $grade) {
+      if ($request->filled('preferable_grades')) {
+        StudentGrade::where('student_id', $student->id)->delete();
+        foreach ($request->preferable_grades as $grade) {
           StudentGrade::create([
-            'student_id' => $user->id,
+            'student_id' => $student->id,
             'grade'      => trim($grade),
           ]);
         }
@@ -195,10 +180,10 @@ class StudentController extends Controller
 
       // 6️⃣ Sync Subjects
       if ($allSubjects) {
-        TeachingSubject::where('student_id', $user->id)->delete();
+        StudentRecommendedSubject::where('student_id', $student->id)->delete();
         foreach ($allSubjects as $subject) {
-          TeachingSubject::create([
-            'student_id' => $user->id,
+          StudentRecommendedSubject::create([
+            'student_id' => $student->id,
             'subject'    => trim($subject),
           ]);
         }
@@ -214,7 +199,7 @@ class StudentController extends Controller
         );
 
         MediaFile::create([
-          'user_id' => $user->id,
+          'user_id' => $student->id,
           'company_id' => $company_id,
           'file_type'  => 'avatar',
           'file_path'  => $path,
@@ -223,29 +208,11 @@ class StudentController extends Controller
         ]);
       }
 
-      if ($request->hasFile('cv_file')) {
-        $file = $request->file('cv_file');
-        $cvPath = $file->storeAs(
-          'uploads/cv_files',
-          time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
-          'public'
-        );
-
-        MediaFile::create([
-          'user_id' => $user->id,
-          'company_id' => $company_id,
-          'file_type'  => 'cv', // ✅ FIXED
-          'file_path'  => $cvPath, // ✅ FIXED
-          'name'       => $file->getClientOriginalName(),
-          'mime_type'  => $file->getMimeType(),
-        ]);
-      }
-
       // 8️⃣ Mark profile as filled
-      $user->profile_fill = 1;
-      $user->save();
+      $student->profile_fill = 1;
+      $student->save();
 
-      Log::info($user);
+      Log::info($student);
 
       DB::commit();
 
@@ -258,11 +225,10 @@ class StudentController extends Controller
   public function edit($id)
   {
 
-
     $user = User::with([
       'professionalInfo',
-      'workingDays',
-      'workingHours',
+      'preferredDays',
+      'preferredHours',
       'StudentGrades',
       'subjects',
       'mediaFiles'
@@ -284,12 +250,10 @@ class StudentController extends Controller
       return response()->json(['message' => 'student not found'], 404);
     }
 
-
-
     DB::beginTransaction();
     $company_id = 1;
 
-    $teachingSubjects = $request->input('teaching_subjects', []); // array
+    $teachingSubjects = $request->input('preferable_subjects', []); // array
     $otherSubject = $request->input('other_subject'); // string
 
     // Merge into one array
@@ -301,14 +265,10 @@ class StudentController extends Controller
       }
 
       $allSubjects = array_filter(array_merge(
-        $request->input('teaching_subjects', []),
+        $request->input('preferable_subjects', []),
         [$request->input('other_subject')]
       ));
     }
-
-
-    Log::info($request->all());
-
 
     try {
       // 1️⃣  Update User
@@ -323,28 +283,22 @@ class StudentController extends Controller
         'district'    => $request->district ?? $student->district,
         'state'       => $request->state ?? $student->state,
         'country'     => $request->country ?? $student->country,
-        'account_status' =>  $request->account_status ?? $student->account_status,
       ]);
-
 
       // 2️⃣ Professional Info (updateOrCreate to avoid duplicates)
       $profInfo = studentPersonalInfo::updateOrCreate(
         ['student_id' => $student->id],
         [
-          'profession'    => $request->profession,
-          'ready_to_work' => $request->ready_to_work,
-          'teaching_mode' => $request->mode,
-          'offline_exp'   => $request->offline_exp,
-          'online_exp'    => $request->online_exp,
-          'home_exp'      => $request->home_exp,
+          'parent_name' => $request->parent_name,
+          'study_mode' => $request->mode
         ]
       );
 
 
       // 3️⃣ Sync Working Days
-      if ($request->filled('working_days')) {
+      if ($request->filled('preferred_days')) {
         StudentAvailableDay::where('student_id', $student->id)->delete();
-        foreach ($request->working_days as $day) {
+        foreach ($request->preferred_days as $day) {
           StudentAvailableDay::create([
             'student_id' => $student->id,
             'day'        => trim($day),
@@ -353,10 +307,9 @@ class StudentController extends Controller
       }
 
       // 4️⃣ Sync Working Hours
-      if ($request->filled('working_hours')) {
-
+      if ($request->filled('preferred_hours')) {
         StudentAvailableHour::where('student_id', $student->id)->delete();
-        foreach ($request->working_hours as $hour) {
+        foreach ($request->preferred_hours as $hour) {
           StudentAvailableHour::create([
             'student_id' => $student->id,
             'time_slot'  => trim($hour),
@@ -365,9 +318,9 @@ class StudentController extends Controller
       }
 
       // 5️⃣ Sync Grades
-      if ($request->filled('teaching_grades')) {
+      if ($request->filled('preferable_grades')) {
         StudentGrade::where('student_id', $student->id)->delete();
-        foreach ($request->teaching_grades as $grade) {
+        foreach ($request->preferable_grades as $grade) {
           StudentGrade::create([
             'student_id' => $student->id,
             'grade'      => trim($grade),
@@ -377,9 +330,9 @@ class StudentController extends Controller
 
       // 6️⃣ Sync Subjects
       if ($allSubjects) {
-        TeachingSubject::where('student_id', $student->id)->delete();
+        StudentRecommendedSubject::where('student_id', $student->id)->delete();
         foreach ($allSubjects as $subject) {
-          TeachingSubject::create([
+          StudentRecommendedSubject::create([
             'student_id' => $student->id,
             'subject'    => trim($subject),
           ]);
@@ -405,24 +358,6 @@ class StudentController extends Controller
         ]);
       }
 
-      if ($request->hasFile('cv_file')) {
-        $file = $request->file('cv_file');
-        $cvPath = $file->storeAs(
-          'uploads/cv_files',
-          time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
-          'public'
-        );
-
-        MediaFile::create([
-          'user_id' => $student->id,
-          'company_id' => $company_id,
-          'file_type'  => 'cv', // ✅ FIXED
-          'file_path'  => $cvPath, // ✅ FIXED
-          'name'       => $file->getClientOriginalName(),
-          'mime_type'  => $file->getMimeType(),
-        ]);
-      }
-
       // 8️⃣ Mark profile as filled
       $student->profile_fill = 1;
       $student->save();
@@ -431,10 +366,10 @@ class StudentController extends Controller
 
       DB::commit();
 
-      return redirect()->back()->with('success', 'student created successfully!');
+      return redirect()->back()->with('success', 'student updated successfully!');
     } catch (\Exception $e) {
       DB::rollBack();
-      return redirect()->back()->with('error', 'student creation failed! ' . $e->getMessage());
+      return redirect()->back()->with('error', 'student updation failed! ' . $e->getMessage());
     }
   }
 

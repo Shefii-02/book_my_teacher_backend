@@ -131,7 +131,15 @@ class User extends Authenticatable
         return $this->hasMany(StudentGrade::class, 'student_id');
   }
 
+  public function preferredDays()
+  {
+    return $this->hasMany(StudentAvailableDay::class, 'student_id');
+  }
 
+  public function preferredHours()
+  {
+    return $this->hasMany(StudentAvailableHour::class, 'student_id');
+  }
 
 
 }

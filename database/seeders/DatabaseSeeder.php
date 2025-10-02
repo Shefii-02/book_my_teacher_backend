@@ -28,10 +28,10 @@ class DatabaseSeeder extends Seeder
 
 
     $this->call([
-        StreamProvidersTableSeeder::class,
-        ProviderCredentialsTableSeeder::class,
-        WebinarSeeder::class,
+      StreamProvidersTableSeeder::class,
+      ProviderCredentialsTableSeeder::class,
+      WebinarSeeder::class,
+      GradesSubjectsSeeder::class,
     ]);
-
   }
 }

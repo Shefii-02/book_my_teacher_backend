@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\WebinarController;
 use App\Http\Controllers\Api\WebinarRegistrationController;
 use App\Http\Controllers\Api\ZegoTokenController;
 use App\Http\Resources\WebinarResource;
+use App\Models\Grade;
+use App\Models\Subject;
 use App\Models\Webinar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -123,58 +125,72 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/fetch-grades', function () {
     return response()->json([
       'status' => true,
-      'data' => [
-        ['id' => 1, 'name' => 'Pre-Primary / Kindergarten', 'value' => 'Pre-Primary / Kindergarten'],
-        ['id' => 2, 'name' => 'Lower Primary', 'value' => 'Lower Primary'],
-        ['id' => 3, 'name' => 'Up to 10th', 'value' => 'Up to 10th'],
-        ['id' => 4, 'name' => 'Higher Secondary', 'value' => 'Higher Secondary'],
-        ['id' => 5, 'name' => 'Under/Post Graduate Level', 'value' => 'Under/Post Graduate Level'],
-        ['id' => 6, 'name' => 'Competitive Exams', 'value' => 'Competitive Exams'],
-        ['id' => 7, 'name' => 'Skill Development', 'value' => 'Skill Development'],
-      ]
+      'data' => Grade::all()
     ]);
   });
-
-
-
 
   Route::get('/fetch-subjects', function () {
     return response()->json([
       'status' => true,
-      'data' => [
-        // Common subjects
-        ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
-        ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
-        ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
-        ['id' => 4, 'name' => 'English', 'value' => 'English'],
-        ['id' => 5, 'name' => 'Social Studies', 'value' => 'Social Studies'],
-        ['id' => 6, 'name' => 'Computer Science', 'value' => 'Computer Science'],
-
-        // Higher Secondary
-        ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
-        ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
-        ['id' => 9, 'name' => 'Biology', 'value' => 'Biology'],
-
-        // UG/PG
-        ['id' => 10, 'name' => 'Commerce', 'value' => 'Commerce'],
-        ['id' => 11, 'name' => 'Economics', 'value' => 'Economics'],
-        ['id' => 12, 'name' => 'Engineering Subjects', 'value' => 'Engineering Subjects'],
-        ['id' => 13, 'name' => 'Medical Subjects', 'value' => 'Medical Subjects'],
-
-        // Competitive Exams
-        ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
-        ['id' => 15, 'name' => 'Quantitative Aptitude', 'value' => 'Quantitative Aptitude'],
-        ['id' => 16, 'name' => 'Reasoning', 'value' => 'Reasoning'],
-        ['id' => 17, 'name' => 'Current Affairs', 'value' => 'Current Affairs'],
-
-        // Skills
-        ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
-        ['id' => 19, 'name' => 'Programming', 'value' => 'Programming'],
-        ['id' => 20, 'name' => 'Digital Marketing', 'value' => 'Digital Marketing'],
-        ['id' => 21, 'name' => 'Designing', 'value' => 'Designing'],
-      ]
+      'data' => Subject::all()
     ]);
   });
+
+  // Route::get('/fetch-grades', function () {
+  //   return response()->json([
+  //     'status' => true,
+  //     'data' => [
+  //       ['id' => 1, 'name' => 'Pre-Primary / Kindergarten', 'value' => 'Pre-Primary / Kindergarten'],
+  //       ['id' => 2, 'name' => 'Lower Primary', 'value' => 'Lower Primary'],
+  //       ['id' => 3, 'name' => 'Up to 10th', 'value' => 'Up to 10th'],
+  //       ['id' => 4, 'name' => 'Higher Secondary', 'value' => 'Higher Secondary'],
+  //       ['id' => 5, 'name' => 'Under/Post Graduate Level', 'value' => 'Under/Post Graduate Level'],
+  //       ['id' => 6, 'name' => 'Competitive Exams', 'value' => 'Competitive Exams'],
+  //       ['id' => 7, 'name' => 'Skill Development', 'value' => 'Skill Development'],
+  //     ]
+  //   ]);
+  // });
+
+
+
+
+  // Route::get('/fetch-subjects', function () {
+  //   return response()->json([
+  //     'status' => true,
+  //     'data' => [
+  //       // Common subjects
+  //       ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
+  //       ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
+  //       ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
+  //       ['id' => 4, 'name' => 'English', 'value' => 'English'],
+  //       ['id' => 5, 'name' => 'Social Studies', 'value' => 'Social Studies'],
+  //       ['id' => 6, 'name' => 'Computer Science', 'value' => 'Computer Science'],
+
+  //       // Higher Secondary
+  //       ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
+  //       ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
+  //       ['id' => 9, 'name' => 'Biology', 'value' => 'Biology'],
+
+  //       // UG/PG
+  //       ['id' => 10, 'name' => 'Commerce', 'value' => 'Commerce'],
+  //       ['id' => 11, 'name' => 'Economics', 'value' => 'Economics'],
+  //       ['id' => 12, 'name' => 'Engineering Subjects', 'value' => 'Engineering Subjects'],
+  //       ['id' => 13, 'name' => 'Medical Subjects', 'value' => 'Medical Subjects'],
+
+  //       // Competitive Exams
+  //       ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
+  //       ['id' => 15, 'name' => 'Quantitative Aptitude', 'value' => 'Quantitative Aptitude'],
+  //       ['id' => 16, 'name' => 'Reasoning', 'value' => 'Reasoning'],
+  //       ['id' => 17, 'name' => 'Current Affairs', 'value' => 'Current Affairs'],
+
+  //       // Skills
+  //       ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
+  //       ['id' => 19, 'name' => 'Programming', 'value' => 'Programming'],
+  //       ['id' => 20, 'name' => 'Digital Marketing', 'value' => 'Digital Marketing'],
+  //       ['id' => 21, 'name' => 'Designing', 'value' => 'Designing'],
+  //     ]
+  //   ]);
+  // });
 
 
 

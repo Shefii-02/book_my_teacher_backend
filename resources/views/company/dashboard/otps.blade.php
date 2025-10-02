@@ -256,7 +256,7 @@
                                                 <button type="button" data-drawer-target="drawer-right-example"
                                                     data-drawer-show="drawer-right-example" data-drawer-placement="right"
                                                     aria-controls="drawer-right-example"
-                                                    class="editOtpBtn px-3 py-1 text-xs font-bold text-white bg-blue-500 rounded-full hover:bg-blue-600"
+                                                    class="editOtpBtn px-3 py-1 text-xs font-bold text-white bg-orange-300 rounded-full hover:bg-blue-600"
                                                     data-id="{{ $otp->id }}">
                                                     <i class="bi bi-pencil" </button>
                                             </td>

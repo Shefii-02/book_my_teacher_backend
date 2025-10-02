@@ -31,6 +31,46 @@
 @endsection
 
 @section('content')
+    <ol class="flex items-center w-full mb-6 text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+        <li
+            class="flex items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 sm:after:inline-block after:mx-6">
+            <span class="flex items-center">1. Course Details</span>
+        </li>
+        <li
+            class="flex items-center sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 sm:after:inline-block after:mx-6">
+            <span class="flex items-center">2. Payments</span>
+        </li>
+        <li
+            class="flex items-center sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 sm:after:inline-block after:mx-6">
+            <span class="flex items-center">3. Advanced</span>
+        </li>
+        <li class="flex items-center">
+            <span class="flex items-center">4. Overview</span>
+        </li>
+    </ol>
+
+    <!-- Stepper Form -->
+    <form id="courseStepperForm">
+        <div id="step1" class="step">
+            @include('company.courses.steps.basic')
+        </div>
+        <div id="step2" class="hidden step">
+            @include('company.courses.steps.payments')
+        </div>
+        <div id="step3" class="hidden step">
+            @include('company.courses.steps.advanced')
+        </div>
+        <div id="step4" class="hidden step">
+            @include('company.courses.steps.overview')
+        </div>
+
+        <div class="flex justify-between mt-4">
+            <button type="button" id="prevStep" class="px-4 py-2 bg-gray-500 text-white rounded">Previous</button>
+            <button type="button" id="nextStep" class="px-4 py-2 bg-blue-600 text-white rounded">Next</button>
+            <button type="submit" id="submitStep" class="hidden px-4 py-2 bg-green-600 text-white rounded">Submit</button>
+        </div>
+    </form>
+
     <div class="container">
         <div class="card bg-white rounded-3 mb-3">
             <div class="card-title p-2 m-2">
@@ -113,5 +153,36 @@
             </form>
         </div>
     </div>
-
 @endsection
+
+@push('scripts')
+    <script>
+        let currentStep = {{ session('step', 1) }}; // get from backend validation redirect
+        const totalSteps = 4;
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach((s) => s.classList.add('hidden'));
+            document.getElementById('step' + step).classList.remove('hidden');
+
+            document.getElementById('prevStep').style.display = step === 1 ? 'none' : 'inline-block';
+            document.getElementById('nextStep').style.display = step === totalSteps ? 'none' : 'inline-block';
+            document.getElementById('submitStep').style.display = step === totalSteps ? 'inline-block' : 'none';
+        }
+
+        document.getElementById('prevStep').addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+        document.getElementById('nextStep').addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
+
+        // On load
+        showStep(currentStep);
+    </script>
+@endpush

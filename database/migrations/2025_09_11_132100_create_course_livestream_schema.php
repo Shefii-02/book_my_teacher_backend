@@ -41,25 +41,60 @@ return new class extends Migration
     // 3. Courses
     Schema::create('courses', function (Blueprint $table) {
       $table->id();
+      $table->unsignedBigInteger('thumbnail_id')->nullable();
+      $table->unsignedBigInteger('mainimage_id')->nullable();
       $table->string('title');
-      $table->mediumText('description')->nullable();
-      $table->string('thumbnail')->nullable();
-      $table->unsignedBigInteger('category_id');
-      $table->unsignedBigInteger('sub_category_id')->nullable();
+      $table->longText('description')->nullable();
       $table->string('duration_type')->default('days'); // days, weeks, months
       $table->integer('duration')->nullable(); // e.g. 30
-      $table->timestamp('started_at')->nullable();
-      $table->timestamp('ended_at')->nullable();
+      $table->integer('total_hours')->nullable();
+      $table->date('started_at')->nullable();
+      $table->date('ended_at')->nullable();
+      $table->decimal('actual_price', 10, 2)->default(0);
+      $table->decimal('discount_price', 10, 2)->nullable();
+      $table->enum('discount_type', ['percentage', 'fixed'])->nullable();
+      $table->decimal('discount_amount', 10, 2)->nullable();
+      $table->boolean('coupon_available')->default(false);
+      $table->decimal('net_price', 10, 2)->nullable();
+      $table->decimal('gross_price', 10, 2)->nullable();
+      $table->enum('is_tax', ['included', 'excluded'])->default('excluded');
+      $table->enum('video_type', ['youtube', 'vimeo', 'mp4'])->nullable();
+      $table->boolean('has_material')->default(false);
+      $table->boolean('has_material_download')->default(false);
+      $table->enum('streaming_type', ['live', 'recorded'])->nullable();
+      $table->boolean('has_exam')->default(false);
+      $table->boolean('is_counselling')->default(false);
+      $table->boolean('is_career_guidance')->default(false);
       $table->unsignedBigInteger('company_id')->nullable();
       $table->unsignedBigInteger('created_by')->nullable();
+
       $table->enum('type', ['offline', 'online', 'recorded'])->default('online');
       $table->timestamps();
 
-      $table->foreign('category_id')->references('id')->on('course_categories')->onDelete('cascade');
-      $table->foreign('sub_category_id')->references('id')->on('course_sub_categories')->onDelete('set null');
       $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
       $table->foreign('company_id')->references('id')->on('users')->onDelete('set null');
     });
+
+
+    Schema::create('course_materials', function (Blueprint $table) {
+        $table->id();
+        $table->unsignedBigInteger('course_id');
+        $table->string('title');
+        $table->string('file_path')->nullable();
+        $table->timestamps();
+
+        $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+    });
+
+    Schema::create('course_accessibilities', function (Blueprint $table) {
+        $table->id();
+        $table->unsignedBigInteger('course_id');
+        $table->string('role'); // e.g. 'student', 'teacher', 'guest'
+        $table->timestamps();
+
+        $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+    });
+
 
     // 4. Course Classes
     Schema::create('course_classes', function (Blueprint $table) {
@@ -98,6 +133,19 @@ return new class extends Migration
       $table->foreign('livestream_id')->references('id')->on('livestream_classes')->onDelete('cascade');
       $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
     });
+
+    Schema::create('course_class_permissions', function (Blueprint $table) {
+      $table->id();
+      $table->unsignedBigInteger('class_id');
+      $table->enum('mode', ['one_to_one', 'group'])->default('group');
+      $table->boolean('allow_voice')->default(true);
+      $table->boolean('allow_video')->default(false);
+      $table->boolean('allow_chat')->default(true);
+      $table->boolean('allow_screen_share')->default(false);
+      $table->timestamps();
+
+      $table->foreign('class_id')->references('id')->on('course_classes')->onDelete('cascade');
+    });
   }
 
   public function down()
@@ -106,7 +154,10 @@ return new class extends Migration
     Schema::dropIfExists('livestream_classes');
     Schema::dropIfExists('course_classes');
     Schema::dropIfExists('courses');
+    Schema::dropIfExists('course_materials');
+    Schema::dropIfExists('course_accessibilities');
     Schema::dropIfExists('course_sub_categories');
     Schema::dropIfExists('course_categories');
+    Schema::dropIfExists('course_class_permissions');
   }
 };

@@ -205,39 +205,64 @@
                                 {{ $mode == 'both' ? 'checked' : '' }}> Both</label>
                     </div>
 
+                    @php
+                        $dataGrade = \App\Models\Grade::all();
+
+                        $dataSubject = \App\Models\Subject::all();
+
+                        $grades = old('teaching_grades', $grades ?? []);
+                        $subjects = old('teaching_subjects', $subjects ?? []);
+                    @endphp
+
                     <!-- Teaching Grades -->
                     <div class="mb-4">
                         <p class="mb-2 text-sm font-medium">Teaching Grades</p>
-                        @php $grades = old('teaching_grades', $grades ?? []) @endphp
-
-                        <label><input type="checkbox" name="teaching_grades[]" value="Lower Primary"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('Lower Primary', $grades) ? 'checked' : '' }}> Lower Primary</label>
-                        <label class="ml-4"><input type="checkbox" name="teaching_grades[]" value="Upto 10th"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('Upto 10th', $grades) ? 'checked' : '' }}> Upto 10th</label>
-                        <label class="ml-4"><input type="checkbox" name="teaching_grades[]" value="Higher Secondary"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('Higher Secondary', $grades) ? 'checked' : '' }}> Higher Secondary</label>
+                        <div class="flex gap-2 flex-wrap">
+                            @foreach ($dataGrade as $gradeItem)
+                                <label class="block mb-1">
+                                    <input type="checkbox" name="teaching_grades[]" value="{{ $gradeItem['value'] }}"
+                                        class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
+                                        {{ in_array($gradeItem['value'], $grades) ? 'checked' : '' }}>
+                                    {{ $gradeItem['name'] }}
+                                </label>
+                            @endforeach
+                        </div>
                     </div>
+                    @php
+                        if (isset($user)) {
+                            $allSubjects = $dataSubject->pluck('value')->toArray(); // DB list
 
+                            $selectedSubjects = $subjects; // user selected (from form)
+                            $otherSubjects = implode(',', array_diff($selectedSubjects, $allSubjects) ?? []);
+                        } else {
+                            $otherSubjects = '';
+                        }
+                    @endphp
                     <!-- Teaching Subjects -->
-                    <div class="mb-4">
+                    <div class="mb-4" x-data="{ otherSubject: '{{ old('other_subject', $profInfo->other_subject ?? '') }}' }">
                         <p class="mb-2 text-sm font-medium">Teaching Subjects</p>
-                        @php $subjects = old('teaching_subjects', $subjects ?? []) @endphp
-                        <label><input type="checkbox" name="teaching_subjects[]" value="All Subjects"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('all subjects', $subjects) ? 'checked' : '' }}> All Subjects</label>
-                        <label class="ml-4"><input type="checkbox" name="teaching_subjects[]" value="Mathematics"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('mathematics', $subjects) ? 'checked' : '' }}> Mathematics</label>
-                        <label class="ml-4"><input type="checkbox" name="teaching_subjects[]" value="Science"
-                                class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
-                                {{ in_array('science', $subjects) ? 'checked' : '' }}> Science</label>
-                        <input type="text" name="other_subject" placeholder="Other subject..."
-                            value="{{ old('other_subject', $profInfo->other_subject ?? '') }}"
-                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4">
+                        <div class="flex gap-2 flex-wrap">
+                            @foreach ($dataSubject as $subjectItem)
+                                <label class="block mb-1">
+                                    <input type="checkbox" name="teaching_subjects[]"
+                                        value="{{ $subjectItem['value'] }}"
+                                        class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600"
+                                        {{ in_array($subjectItem['value'], $subjects) ? 'checked' : '' }}>
+                                    {{ $subjectItem['name'] }}
+                                </label>
+                            @endforeach
+                        </div>
+                        <div class="mt-3">
+                            <label class="block mb-2 text-sm font-medium">Other Subject</label>
+
+                            <input type="text" name="other_subject"
+                                placeholder="Other subject..."
+                                class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
+                                value="{{ old('other_subject', $otherSubjects ?? '') }}">
+                        </div>
+
                     </div>
+
 
                     <!-- Experience -->
                     <div class="grid gap-6 mb-6 md:grid-cols-3">
@@ -395,11 +420,13 @@
                                     <div class="flex gap-2 items-center">
                                         <input type="text" name="additional[{{ $loop->index }}][key_title]"
                                             value="{{ old("additional.$loop->index.key_title", $info->key_title) }}"
-                                            placeholder="Key Title" class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4 w-1/3">
+                                            placeholder="Key Title"
+                                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4 w-1/3">
 
                                         <input type="text" name="additional[{{ $loop->index }}][key_value]"
                                             value="{{ old("additional.$loop->index.key_value", $info->key_value) }}"
-                                            placeholder="Key Value" class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4 w-2/3">
+                                            placeholder="Key Value"
+                                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-4 w-2/3">
 
                                         <button type="button" class="remove-field text-red-500">✕</button>
                                     </div>
@@ -415,7 +442,8 @@
                             @endif
                         </div>
 
-                        <button type="button" id="add-field" class="mt-4 px-3 py-1 bg-blue-500 btn-sm text-white rounded">+ Add
+                        <button type="button" id="add-field"
+                            class="mt-4 px-3 py-1 bg-blue-500 btn-sm text-white rounded">+ Add
                             Field</button>
                     </div>
 

@@ -343,7 +343,7 @@
                                 </div>
                             </div>
                         </li>
-                        {{-- <li class="flex items-center pl-4 xl:hidden">
+                        <li class="flex items-center pl-4 xl:hidden">
                             <a href="javascript:;" class="block p-0 text-white transition-all ease-nav-brand text-sm"
                                 sidenav-trigger>
                                 <div class="w-4.5 overflow-hidden">
@@ -354,7 +354,7 @@
                                     <i class="ease relative block h-0.5 rounded-sm bg-white transition-all"></i>
                                 </div>
                             </a>
-                        </li> --}}
+                        </li>
                         {{-- <li class="flex items-center px-4">
                             <a href="javascript:;" class="p-0 text-white transition-all text-sm ease-nav-brand">
                                 <i fixed-plugin-button-nav class="cursor-pointer fa fa-cog"></i>
@@ -486,6 +486,8 @@
     </main>
 
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <!-- plugin for charts  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.min.js" async></script>
 <!-- plugin for scrollbar  -->
@@ -494,9 +496,8 @@
 <!-- main script file  -->
 
 {{-- <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script> --}}
+<script src="{{ asset('assets/js/main.js') }}" async></script>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

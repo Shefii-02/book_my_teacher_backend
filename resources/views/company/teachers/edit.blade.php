@@ -62,17 +62,17 @@
 
 @section('content')
     <div class="container">
-        <div class="card bg-white rounded-3 my-3">
+        <div class="card bg-white rounded-3 my-3 dark:bg-slate-850 dark:shadow-dark-xl">
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
-                    <h5 class="font-bold">Edit a Teacher</h5>
+                    <h5 class="font-bold dark:text-white">Edit a Teacher</h5>
                     <a href="{{ route('admin.teachers') }}"
                         class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2">Back</a>
                 </div>
 
             </div>
         </div>
-        <div class="form-container">
+        <div class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
 
             <!-- ✅ Form -->
             <form action="{{ isset($user) ? route('admin.teachers.update', $user->id) : route('admin.teachers.store') }}"
@@ -95,7 +95,7 @@
                                 <img id="imgPreview" src="{{ old('avatar', $user->avatar_url ?? '') }}"
                                     class="rounded-circle w-16 h-16 ms-5">
                             </p>
-                            <label for="imgSelect" class="mb-2">Select an Avatar</label>
+                            <label for="imgSelect" class="mb-2 dark:text-white">Select an Avatar</label>
                             <input type="file" id="imgSelect" name="avatar" accept="image/*"
                                 {{ isset($user) ? '' : 'required' }} ?>
                             @error('avatar')

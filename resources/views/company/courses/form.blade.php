@@ -31,46 +31,6 @@
 @endsection
 
 @section('content')
-    <ol class="flex items-center w-full mb-6 text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
-        <li
-            class="flex items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 sm:after:inline-block after:mx-6">
-            <span class="flex items-center">1. Course Details</span>
-        </li>
-        <li
-            class="flex items-center sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 sm:after:inline-block after:mx-6">
-            <span class="flex items-center">2. Payments</span>
-        </li>
-        <li
-            class="flex items-center sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 sm:after:inline-block after:mx-6">
-            <span class="flex items-center">3. Advanced</span>
-        </li>
-        <li class="flex items-center">
-            <span class="flex items-center">4. Overview</span>
-        </li>
-    </ol>
-
-    <!-- Stepper Form -->
-    <form id="courseStepperForm">
-        <div id="step1" class="step">
-            @include('company.courses.steps.basic')
-        </div>
-        <div id="step2" class="hidden step">
-            @include('company.courses.steps.payments')
-        </div>
-        <div id="step3" class="hidden step">
-            @include('company.courses.steps.advanced')
-        </div>
-        <div id="step4" class="hidden step">
-            @include('company.courses.steps.overview')
-        </div>
-
-        <div class="flex justify-between mt-4">
-            <button type="button" id="prevStep" class="px-4 py-2 bg-gray-500 text-white rounded">Previous</button>
-            <button type="button" id="nextStep" class="px-4 py-2 bg-blue-600 text-white rounded">Next</button>
-            <button type="submit" id="submitStep" class="hidden px-4 py-2 bg-green-600 text-white rounded">Submit</button>
-        </div>
-    </form>
-
     <div class="container">
         <div class="card bg-white rounded-3 mb-3">
             <div class="card-title p-2 m-2">
@@ -78,79 +38,90 @@
             </div>
         </div>
 
-        <div class="form-container">
-            <form method="POST" enctype="multipart/form-data"
-                action="{{ isset($course) ? route('admin.courses.update', $course->id) : route('admin.courses.store') }}">
-                @csrf
-                @if (isset($course))
-                    @method('PUT')
-                @endif
+        <div
+            class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
 
-                <div class="mb-3">
-                    <label class="form-label">Category</label>
-                    <select name="category_id" class="form-control" required>
-                        <option value="">-- Select Category --</option>
-                        @foreach ($categories as $cat)
-                            <option value="{{ $cat->id }}"
-                                {{ isset($course) && $course->category_id == $cat->id ? 'selected' : '' }}>
-                                {{ $cat->title }}
-                            </option>
-                        @endforeach
-                    </select>
+
+            <ol
+                class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+                <li
+                    class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                    <span
+                        class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                        </svg>
+                        Personal <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+                    </span>
+                </li>
+                <li
+                    class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                    <span
+                        class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                        <span class="me-2">2</span>
+                        Account <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+                    </span>
+                </li>
+                 <li
+                    class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                    <span
+                        class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                        <span class="me-2">2</span>
+                        Account <span class="hidden sm:inline-flex sm:ms-2">Info2</span>
+                    </span>
+                </li>
+                <li class="flex items-center">
+                    <span class="me-2">3</span>
+                    Confirmation
+                </li>
+            </ol>
+
+
+            <ol
+                class="flex items-center w-full mb-6 text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+                <li
+                    class="flex items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 sm:after:inline-block after:mx-6">
+                    <span class="flex items-center">1. Course Details</span>
+                </li>
+                <li
+                    class="flex items-center sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 sm:after:inline-block after:mx-6">
+                    <span class="flex items-center">2. Payments</span>
+                </li>
+                <li
+                    class="flex items-center sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 sm:after:inline-block after:mx-6">
+                    <span class="flex items-center">3. Advanced</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="flex items-center">4. Overview</span>
+                </li>
+            </ol>
+
+            <!-- Stepper Form -->
+            <form id="courseStepperForm">
+                <div id="step1" class="step">
+                    @include('company.courses.steps.basic')
+                </div>
+                <div id="step2" class="hidden step">
+                    @include('company.courses.steps.payments')
+                </div>
+                <div id="step3" class="hidden step">
+                    @include('company.courses.steps.advanced')
+                </div>
+                <div id="step4" class="hidden step">
+                    @include('company.courses.steps.overview')
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Title</label>
-                    <input type="text" name="title" value="{{ old('title', $course->title ?? '') }}"
-                        class="form-control" required>
+                <div class="flex justify-between mt-4">
+                    <button type="button" id="prevStep" class="px-4 py-2 bg-gray-500 text-white rounded">Previous</button>
+                    <button type="button" id="nextStep" class="px-4 py-2 bg-blue-600 text-white rounded">Next</button>
+                    <button type="submit" id="submitStep"
+                        class="hidden px-4 py-2 bg-green-600 text-white rounded">Submit</button>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Description</label>
-                    <textarea name="description" class="form-control" rows="3">{{ old('description', $course->description ?? '') }}</textarea>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Duration</label>
-                    <div class="flex space-x-2">
-                        <input type="number" name="duration" value="{{ old('duration', $course->duration ?? '') }}"
-                            class="form-control" style="width: 100px;">
-                        <select name="duration_type" class="form-control">
-                            <option value="minutes"
-                                {{ isset($course) && $course->duration_type == 'minutes' ? 'selected' : '' }}>Minutes
-                            </option>
-                            <option value="hours"
-                                {{ isset($course) && $course->duration_type == 'hours' ? 'selected' : '' }}>Hours</option>
-                            <option value="days"
-                                {{ isset($course) && $course->duration_type == 'days' ? 'selected' : '' }}>Days</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Start Date</label>
-                    <input type="datetime-local" name="stated_at" value="{{ old('stated_at', $course->stated_at ?? '') }}"
-                        class="form-control">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">End Date</label>
-                    <input type="datetime-local" name="ended_at" value="{{ old('ended_at', $course->ended_at ?? '') }}"
-                        class="form-control">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Thumbnail</label>
-                    <input type="file" name="thumbnail" class="form-control">
-                    @if (isset($course) && $course->thumbnail)
-                        <img src="{{ asset('storage/' . $course->thumbnail) }}" class="h-16 mt-2">
-                    @endif
-                </div>
-
-                <button type="submit" class="btn btn-success">
-                    {{ isset($course) ? 'Update' : 'Create' }}
-                </button>
             </form>
+
+
         </div>
     </div>
 @endsection

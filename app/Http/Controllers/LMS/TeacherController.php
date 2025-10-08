@@ -92,38 +92,101 @@ class TeacherController extends Controller
     return view('company.teachers.index', compact('teachers', 'data'));
   }
 
-  public function exportTeachers(Request $request)
-  {
+  // public function exportTeachers(Request $request)
+  // {
+  //   // ----- Build Same Query As Listing -----
+  //   $query = User::with('professionalInfo')
+  //     ->where('company_id', 1)
+  //     ->where('acc_type', 'teacher');
+
+  //   if ($request->filled('search')) {
+  //     $search = $request->search;
+  //     $query->where(function ($q) use ($search) {
+  //       $q->where('name', 'like', "%$search%")
+  //         ->orWhere('email', 'like', "%$search%")
+  //         ->orWhere('mobile', 'like', "%$search%");
+  //     });
+  //   }
+
+  //   if ($request->filled('teaching_mode')) {
+  //     $query->whereHas('professionalInfo', function ($q) use ($request) {
+  //       $q->where('teaching_mode', $request->teaching_mode);
+  //     });
+  //   }
+
+  //   if ($request->filled('account_status')) {
+  //     $query->where('account_status', $request->account_status);
+  //   }
+
+  //   if ($request->filled('current_account_stage')) {
+  //     $query->where('current_account_stage', $request->current_account_stage);
+  //   }
+
+  //   $teachers = $query->get();
+
+
+  //   // ----- Excel Export (tab-delimited) -----
+  //   $fileName = "teachers_export_" . now()->format('Ymd_His') . ".xls";
+
+  //   header("Content-Type: application/vnd.ms-excel");
+  //   header("Content-Disposition: attachment; filename=\"$fileName\"");
+  //   header("Pragma: no-cache");
+  //   header("Expires: 0");
+
+  //   // Output headers
+  //   echo "ID\tName\tEmail\tMobile\tAddress\tCity\tDistrict\tState\tCountry\tTeaching Mode\tAccount Status\tAccount Stage\tCreated At\n";
+
+  //   foreach ($teachers as $t) {
+  //     echo $t->id . "\t" .
+  //       $t->name . "\t" .
+  //       $t->email . "\t" .
+  //       $t->mobile . "\t" .
+  //       $t->address . "\t" .
+  //       $t->city . "\t" .
+  //       $t->postal_code . "\t" .
+  //       $t->district . "\t" .
+  //       $t->state . "\t" .
+  //       $t->country . "\t" .
+  //       ($t->professionalInfo->teaching_mode ?? '-') . "\t" .
+  //       $t->account_status . "\t" .
+  //       $t->current_account_stage . "\t" .
+  //       $t->created_at . "\n";
+  //   }
+
+  //   exit;
+  // }
+
+public function exportTeachers(Request $request)
+{
     // ----- Build Same Query As Listing -----
-    $query = User::with('professionalInfo')
-      ->where('company_id', 1)
-      ->where('acc_type', 'teacher');
+    $query = User::with(['professionalInfo', 'subjects'])
+        ->where('company_id', 1)
+        ->where('acc_type', 'teacher');
 
     if ($request->filled('search')) {
-      $search = $request->search;
-      $query->where(function ($q) use ($search) {
-        $q->where('name', 'like', "%$search%")
-          ->orWhere('email', 'like', "%$search%")
-          ->orWhere('mobile', 'like', "%$search%");
-      });
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%$search%")
+              ->orWhere('email', 'like', "%$search%")
+              ->orWhere('mobile', 'like', "%$search%");
+        });
     }
 
     if ($request->filled('teaching_mode')) {
-      $query->whereHas('professionalInfo', function ($q) use ($request) {
-        $q->where('teaching_mode', $request->teaching_mode);
-      });
+        $query->whereHas('professionalInfo', function ($q) use ($request) {
+            $q->where('teaching_mode', $request->teaching_mode);
+        });
     }
 
     if ($request->filled('account_status')) {
-      $query->where('account_status', $request->account_status);
+        $query->where('account_status', $request->account_status);
     }
 
     if ($request->filled('current_account_stage')) {
-      $query->where('current_account_stage', $request->current_account_stage);
+        $query->where('current_account_stage', $request->current_account_stage);
     }
 
     $teachers = $query->get();
-
 
     // ----- Excel Export (tab-delimited) -----
     $fileName = "teachers_export_" . now()->format('Ymd_His') . ".xls";
@@ -134,28 +197,32 @@ class TeacherController extends Controller
     header("Expires: 0");
 
     // Output headers
-    echo "ID\tName\tEmail\tMobile\tAddress\tCity\tDistrict\tState\tCountry\tTeaching Mode\tAccount Status\tAccount Stage\tCreated At\n";
+    echo "ID\tName\tEmail\tMobile\tAddress\tCity\tDistrict\tState\tCountry\tSubjects\tTeaching Mode\tAccount Status\tAccount Stage\tCreated At\n";
 
     foreach ($teachers as $t) {
-      echo $t->id . "\t" .
-        $t->name . "\t" .
-        $t->email . "\t" .
-        $t->mobile . "\t" .
-        $t->address . "\t" .
-        $t->city . "\t" .
-        $t->postal_code . "\t" .
-        $t->district . "\t" .
-        $t->state . "\t" .
-        $t->country . "\t" .
-        ($t->professionalInfo->teaching_mode ?? '-') . "\t" .
-        $t->account_status . "\t" .
-        $t->current_account_stage . "\t" .
-        $t->created_at . "\n";
+        // Get subjects list (comma separated)
+        $subjects = $t->subjects
+            ? $t->subjects->pluck('subject_name')->implode(', ')
+            : '-';
+
+        echo $t->id . "\t" .
+            $t->name . "\t" .
+            $t->email . "\t" .
+            $t->mobile . "\t" .
+            ($t->address ?? '-') . "\t" .
+            ($t->city ?? '-') . "\t" .
+            ($t->district ?? '-') . "\t" .
+            ($t->state ?? '-') . "\t" .
+            ($t->country ?? '-') . "\t" .
+            $subjects . "\t" .
+            ($t->professionalInfo->teaching_mode ?? '-') . "\t" .
+            ($t->account_status ?? '-') . "\t" .
+            ($t->current_account_stage ?? '-') . "\t" .
+            $t->created_at . "\n";
     }
 
     exit;
-  }
-
+}
 
 
 

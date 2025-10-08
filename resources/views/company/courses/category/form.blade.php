@@ -20,10 +20,10 @@
 
 @section('content')
     <div class="container">
-        <div class="card bg-white rounded-3 my-3">
+        <div class="card bg-white dark:bg-slate-850 dark:shadow-dark-xl rounded-3 my-3">
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
-                    <h5 class="font-bold">{{ isset($category) ? 'Edit' : 'Create' }} a Category</h5>
+                    <h5 class="font-bold dark:text-white">{{ isset($category) ? 'Edit' : 'Create' }} a Category</h5>
                     <a href="{{ route('admin.courses.categories.index') }}"
                         class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Back</a>
                 </div>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="form-container">
+        <div class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
             <form
                 action="{{ isset($category) ? route('admin.courses.categories.update', $category->id) : route('admin.courses.categories.store') }}"
                 method="POST" enctype="multipart/form-data">

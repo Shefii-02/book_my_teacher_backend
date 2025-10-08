@@ -12,18 +12,18 @@
                 <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Sub Category {{ isset($category) ? 'Edit' : 'Create' }}</li>
+                aria-current="page">Sub Category {{ isset($subCategory) ? 'Edit' : 'Create' }}</li>
         </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Sub Category {{ isset($category) ? 'Edit' : 'Create' }}</h6>
+        <h6 class="mb-0 font-bold text-white capitalize">Sub Category {{ isset($subCategory) ? 'Edit' : 'Create' }}</h6>
     </nav>
 @endsection
 
 @section('content')
     <div class="container">
-        <div class="card bg-white rounded-3 my-3">
+        <div class="card bg-white dark:bg-slate-850 dark:shadow-dark-xl  rounded-3 my-3">
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
-                    <h5 class="font-bold">{{ isset($category) ? 'Edit' : 'Create' }} a Sub Category</h5>
+                    <h5 class="font-bold dark:text-white">{{ isset($subCategory) ? 'Edit' : 'Create' }} a Sub Category</h5>
                     <a href="{{ route('admin.courses.subcategories.index') }}"
                         class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Back</a>
                 </div>
@@ -31,15 +31,14 @@
             </div>
         </div>
 
-        <div class="card bg-white rounded-3 mb-3">
-
-
-            <div class="form-container">
+        <div class="card  rounded-3 mb-3">
+            <div
+                class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                 <form
                     action="{{ isset($subCategory) ? route('admin.courses.subcategories.update', $subCategory->id) : route('admin.courses.subcategories.store') }}"
                     method="POST" enctype="multipart/form-data">
                     @csrf
-                    @if (isset($category))
+                    @if (isset($subCategory))
                         @method('PUT')
                     @else
                         @method('POST')
@@ -49,12 +48,12 @@
                         <div class="flex justify-center flex-col">
                             <p>
                                 <img id="imgPreview" width="100"
-                                    src="{{ old('avatar', isset($category) ? asset('storage/' . $category->thumbnail) : '' ?? '') }}"
+                                    src="{{ old('avatar', isset($subCategory) ? asset('storage/' . $subCategory->thumbnail) : '' ?? '') }}"
                                     class="rounded w-16 h-16 ms-5">
                             </p>
                             <label for="imgSelect" class="mb-2">Select an Thumbnail</label>
                             <input type="file" id="imgSelect" name="thumbnail" accept="image/*"
-                                {{ isset($category) ? '' : 'required' }} ?>
+                                {{ isset($subCategory) ? '' : 'required' }} ?>
                             @error('thumbnail')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -87,18 +86,18 @@
                         <label class="form-label">Title</label>
                         <input type="text" name="title"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
-                            value="{{ old('title', $category->title ?? '') }}" required>
+                            value="{{ old('title', $subCategory->title ?? '') }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Description</label>
                         <textarea name="description" rows="4"
-                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">{{ old('description', $category->description ?? '') }}</textarea>
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">{{ old('description', $subCategory->description ?? '') }}</textarea>
                     </div>
 
                     <div class="flex justify-center">
                         <button
-                            class="px-5 py-2.5 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-lg">{{ isset($category) ? 'Update' : 'Create' }}</button>
+                            class="px-5 py-2.5 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-lg">{{ isset($subCategory) ? 'Update' : 'Create' }}</button>
                     </div>
                 </form>
             </div>
@@ -121,8 +120,3 @@
         </script>
     @endpush
 
-
-
-    <div class="form-container">
-
-    </div>

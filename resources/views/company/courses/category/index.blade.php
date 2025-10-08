@@ -39,6 +39,8 @@
                                     class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Sub Category List</a>
                                 <a href="{{ route('admin.courses.categories.create') }}"
                                     class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Create Category</a>
+                                <a href="{{ route('admin.courses.index') }}"
+                                    class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Back</a>
                             </div>
                         </div>
                     </div>

@@ -58,8 +58,9 @@ class CourseSubCategoryController extends Controller
     return view('company.courses.sub_category.form', compact('subCategory', 'categories'));
   }
 
-  public function update(Request $request, CourseSubCategory $course_sub_category)
+  public function update(Request $request, $course_sub_category)
   {
+    $course_sub_category = CourseSubCategory::where('id', $course_sub_category)->where('company_id', 1)->first() ?? abort(404);
     $request->validate([
       'category_id' => 'required|exists:course_categories,id',
       'title'       => 'required|string|max:255',
@@ -81,6 +82,8 @@ class CourseSubCategoryController extends Controller
       'description' => $request->description,
       'thumbnail'   => $thumbnailPath,
     ]);
+
+
 
     return redirect()->route('admin.courses.subcategories.index')->with('success', 'Sub Category updated successfully.');
   }

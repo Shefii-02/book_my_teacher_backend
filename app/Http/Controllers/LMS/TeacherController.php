@@ -202,7 +202,7 @@ public function exportTeachers(Request $request)
     foreach ($teachers as $t) {
         // Get subjects list (comma separated)
         $subjects = $t->subjects
-            ? $t->subjects->pluck('subject_name')->implode(', ')
+            ? $t->subjects->pluck('subject')->implode(', ')
             : '-';
 
         echo $t->id . "\t" .

@@ -57,11 +57,11 @@ return new class extends Migration
       $table->boolean('coupon_available')->default(false);
       $table->decimal('net_price', 10, 2)->nullable();
       $table->decimal('gross_price', 10, 2)->nullable();
-      $table->enum('is_tax', ['included', 'excluded'])->default('excluded');
-      $table->enum('video_type', ['youtube', 'vimeo', 'mp4'])->nullable();
+      $table->enum('is_tax', ['included', 'excluded'])->default('included');
+      $table->enum('video_type', ['live', 'recorded'])->nullable();
       $table->boolean('has_material')->default(false);
       $table->boolean('has_material_download')->default(false);
-      $table->enum('streaming_type', ['live', 'recorded'])->nullable();
+      $table->enum('streaming_type', ['zego_cloud','agora','zoom','youtube','custom'])->nullable();
       $table->boolean('has_exam')->default(false);
       $table->boolean('is_counselling')->default(false);
       $table->boolean('is_career_guidance')->default(false);

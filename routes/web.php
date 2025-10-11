@@ -46,6 +46,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
 
 
 
+
   Route::get('/students', 'LMS\StudentController@index')->name('students');
   Route::get('/students/create', 'LMS\StudentController@create')->name('students.create');
   Route::post('/students/store', 'LMS\StudentController@store')->name('students.store');
@@ -64,6 +65,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
 
   Route::resource('categories', CourseCategoryController::class)->names('courses.categories');
   Route::resource('subcategories', CourseSubCategoryController::class)->names('courses.subcategories');
+  Route::get('/categories/{id}/subcategories', [CourseController::class, 'getSubcategories']);
+
+  // /admin/courses/load-step-form/${step}?course_id=${courseId}
+  Route::get('courses/load-step-form/{step}', [CourseController::class,'loadStepForm'])->name('courses.load-step-form');
   Route::resource('courses', CourseController::class)->names('courses');
   Route::resource('classes', CourseClassController::class)->names('classes');
   Route::resource('livestreams', LivestreamClassController::class)->names('livestreams');

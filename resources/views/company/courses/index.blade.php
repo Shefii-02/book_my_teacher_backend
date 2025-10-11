@@ -89,9 +89,9 @@
                                                 @endif
                                             </td>
                                             <td class="border px-2 py-1">
-                                                <a href="{{ route('company.courses.edit', $course->id) }}"
+                                                <a href="{{ route('admin.courses.edit', $course->id) }}"
                                                     class="btn btn-sm btn-warning">Edit</a>
-                                                <form action="{{ route('company.courses.destroy', $course->id) }}" id="form_{{ $course->id }}"
+                                                <form action="{{ route('admin.courses.destroy', $course->id) }}" id="form_{{ $course->id }}"
                                                     method="POST" class="inline-block">
                                                     @csrf @method('DELETE')
                                                      <a role="button" href="javascript:;"

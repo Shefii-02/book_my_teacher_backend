@@ -36,11 +36,11 @@
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4">
 
                                 <a href="{{ route('admin.courses.subcategories.index') }}"
-                                    class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Sub Category List</a>
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Sub Category List</a>
                                 <a href="{{ route('admin.courses.categories.create') }}"
-                                    class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Create Category</a>
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Create Category</a>
                                 <a href="{{ route('admin.courses.index') }}"
-                                    class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Back</a>
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
                             </div>
                         </div>
                     </div>

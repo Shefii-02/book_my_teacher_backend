@@ -27,7 +27,7 @@
             <div class="flex justify-between">
                 <h5 class="font-bold">{{ $isEdit ? 'Edit Webinar' : 'Create Webinar' }}</h5>
                 <a href="{{ route('admin.webinars.index') }}"
-                    class="bg-emerald-500/50 rounded-1.8 text-white px-2 py-2">Back</a>
+                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
             </div>
         </div>
 

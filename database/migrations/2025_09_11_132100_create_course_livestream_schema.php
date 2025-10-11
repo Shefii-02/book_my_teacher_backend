@@ -58,7 +58,7 @@ return new class extends Migration
       $table->decimal('net_price', 10, 2)->nullable();
       $table->decimal('gross_price', 10, 2)->nullable();
       $table->enum('is_tax', ['included', 'excluded'])->default('included');
-      $table->enum('video_type', ['live', 'recorded'])->nullable();
+      $table->enum('video_type', ['one-on-one','livestream','pre-recorded','hybrid'])->nullable();
       $table->boolean('has_material')->default(false);
       $table->boolean('has_material_download')->default(false);
       $table->enum('streaming_type', ['zego_cloud','agora','zoom','youtube','custom'])->nullable();

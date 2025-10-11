@@ -35,9 +35,12 @@ class Course extends Model
     'company_id',
     'created_by',
     'type',
+    'tax_percentage',
+    'discount_validity',
+    'discount_validity_end',
+    'course_identity',
+    'status',
     'step_completed',
-
-    // 'title','description','thumbnail','category_id','sub_category_id','duration','duration_type','started_at','ended_at','company_id','created_by'
   ];
 
   public function category()
@@ -71,7 +74,6 @@ class Course extends Model
 
   public function getThumbnailUrlAttribute()
   {
-
     return $this->thumbnailMedia ? asset('storage/' . $this->thumbnailMedia->file_path) : null;
   }
 

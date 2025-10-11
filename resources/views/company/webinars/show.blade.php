@@ -29,13 +29,13 @@
 
                 <div class="space-x-2">
                     <a href="{{ route('admin.webinars.edit', $webinar->id) }}"
-                        class="bg-yellow-800 rounded-1.8 text-white px-3 py-2">Edit</a>
+                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Edit</a>
                     {{-- {{ route('admin.webinars.registrations.csv', $webinar->id) }} --}}
                     @if (!$webinar->registrations->isEmpty())
-                        <a href="{{ route('admin.webinars.registrations.download-csv', $webinar->id) }}" class="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700">Download
+                        <a href="{{ route('admin.webinars.registrations.download-csv', $webinar->id) }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Download
                             Registered Users CSV</a>
                     @endif
-                    <a href="{{ route('admin.webinars.index') }}" class="bg-black rounded-1.8 text-white px-3 py-2">Back</a>
+                    <a href="{{ route('admin.webinars.index') }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
 
                 </div>
             </div>

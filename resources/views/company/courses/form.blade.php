@@ -34,7 +34,7 @@
     <div class="container">
         <div class="card bg-white rounded-3 mb-3">
             <div class="card-title p-2 m-2">
-                <h5 class="font-bold">{{ isset($course) ? 'Edit' : 'Create' }} a Course</h5>
+                <h5 class="font-bold">{{isset($course_draft) ? 'Course Title : '.$course_draft->title : 'Create' }} a Course</h5>
             </div>
         </div>
 
@@ -50,7 +50,7 @@
                                 <h3 class="font-medium text-sm">1. Basic info</h3>
                                 @if ($course_draft && $course_draft->step_completed >= 0)
                                     <span class="flex gap-1">
-                                        <svg class="w-7 h-7 me-2 text-green-500 dark:text-green-400 shrink-0"
+                                        <svg class="w-7 h-7 me-2  shrink-0"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path
@@ -85,7 +85,7 @@
                                 </a>
                             @elseif(!$course_draft)
                                 <a href="#" class="open-step" data-step="1">
-                                    <svg class="rtl:rotate-180 w-7 h-7 text-indigo-400" aria-hidden="true"
+                                    <svg class="rtl:rotate-180 w-4.5 h-4.5 text-indigo-400" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" width="24" height="24"
                                         viewBox="0 0 14 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -105,7 +105,7 @@
                                 <h3 class="font-medium  text-sm">2. Payment Settings</h3>
                                 @if ($course_draft && $course_draft->step_completed >= 2)
                                     <span class="flex gap-1">
-                                        <svg class="w-7 h-7 me-2 text-green-500 dark:text-green-400 shrink-0"
+                                        <svg class="w-7 h-7 me-2  shrink-0"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path
@@ -139,9 +139,9 @@
                                             d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z" />
                                     </svg>
                                 </a>
-                            @else
+                            @elseif($course_draft && $course_draft->step_completed == 1)
                                 <a href="#" class="open-step" data-step="2">
-                                    <svg class="rtl:rotate-180 w-7 h-7 text-red me-2 text-indigo-400" aria-hidden="true"
+                                    <svg class="rtl:rotate-180 w-4.5 h-4.5 text-red me-2 text-indigo-400" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" width="24" height="24"
                                         viewBox="0 0 14 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -161,7 +161,7 @@
                                 <h3 class="font-medium text-sm">3. Advance Settings</h3>
                                 @if ($course_draft && $course_draft->step_completed >= 3)
                                     <span class="flex gap-1">
-                                        <svg class="w-7 h-7 me-2 text-green-500 dark:text-green-400 shrink-0"
+                                        <svg class="w-7 h-7 me-2  shrink-0"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path
@@ -197,7 +197,7 @@
                                 </a>
                             @elseif($course_draft && $course_draft->step_completed == 2)
                                 <a href="#" class="open-step" data-step="3">
-                                    <svg class="rtl:rotate-180 w-7 h-7 text-red me-2 text-indigo-400" aria-hidden="true"
+                                    <svg class="rtl:rotate-180 w-4.5 h-4.5 text-red me-2 text-indigo-400" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" width="24" height="24"
                                         viewBox="0 0 14 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -219,7 +219,7 @@
                                 <h3 class="font-medium  text-sm">4. Confirmation</h3>
                                 @if ($course_draft && $course_draft->step_completed >= 4)
                                     <span class="flex gap-1">
-                                        <svg class="w-7 h-7 me-2 text-green-500 dark:text-green-400 shrink-0"
+                                        <svg class="w-7 h-7 me-2  shrink-0"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                             viewBox="0 0 20 20">
                                             <path
@@ -254,7 +254,7 @@
                                 </a>
                             @elseif($course_draft && $course_draft->step_completed == 3)
                                 <a href="#" class="open-step" data-step="4">
-                                    <svg class="rtl:rotate-180 w-7 h-7 text-red me-2 text-indigo-400" aria-hidden="true"
+                                    <svg class="rtl:rotate-180 w-4.5 h-4.5 text-red me-2 text-indigo-400" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" width="24" height="24"
                                         viewBox="0 0 14 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -314,6 +314,30 @@
                     $('#drawerContent').html(
                         '<div class="text-center text-red-500 p-5">Failed to load step.</div>');
                 });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $("#imgSelect").change(function() {
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imgPreview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+
+             $("#thumbImgSelect").change(function() {
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#thumbImgPreview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
             });
         });
     </script>

@@ -60,7 +60,7 @@
                     <div class="p-6 pb-0 mb-3 border-b border-b-transparent flex justify-between items-center">
                         <h6 class="leading-tight dark:text-white dark:opacity-80 text-slate-400">Webinars List</h6>
                         <a href="{{ route('admin.webinars.create') }}"
-                            class="bg-emerald-500/50 mb-3 text-white px-4 py-2 rounded hover:bg-blue-700">Create Webinar</a>
+                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 mb-4 to-teal-400  text-white rounded-full text-sm">Create Webinar</a>
                     </div>
 
                     <div class="flex-auto px-0 pt-0 pb-2">

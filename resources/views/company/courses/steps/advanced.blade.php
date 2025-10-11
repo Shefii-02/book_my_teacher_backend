@@ -18,14 +18,15 @@
             {{-- Streaming Type (only if video_type = live or hybrid) --}}
             <div id="streaming_type_wrapper" >
                 <label for="streaming_type" class="block text-sm font-medium text-gray-700">Streaming Type</label>
+
                 <select name="streaming_type" id="streaming_type"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option value="">-- Select Streaming Type --</option>
-                    <option value="zego_cloud">Zego Cloud</option>
-                    <option value="agora">Agora</option>
-                    <option value="zoom">Zoom</option>
-                    <option value="youtube">YouTube</option>
-                    <option value="custom">Custom Player</option>
+                    <option {{ $course && $course->streaming_type == 'zego_cloud' ? 'selected' : '' }} value="zego_cloud">Zego Cloud</option>
+                    <option {{ $course && $course->streaming_type == 'agora' ? 'selected' : '' }} value="agora">Agora</option>
+                    <option {{ $course && $course->streaming_type == 'zoom' ? 'selected' : '' }} value="zoom">Zoom</option>
+                    <option {{ $course && $course->streaming_type == 'youtube' ? 'selected' : '' }} value="youtube">YouTube</option>
+                    <option {{ $course && $course->streaming_type == 'custom' ? 'selected' : '' }} value="custom">Custom Player</option>
                 </select>
             </div>
 
@@ -35,9 +36,10 @@
                 <select name="video_type" id="video_type"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option value="">-- Select Video Type --</option>
-                    <option value="live">Live</option>
-                    <option value="recorded">Recorded</option>
-                    <option value="hybrid">Hybrid</option>
+                    <option {{ $course && $course->video_type == 'one-on-one' ? 'selected' : '' }}  value="one-on-one">One-on-One</option>
+                    <option {{ $course && $course->video_type == 'livestream' ? 'selected' : '' }}  value="livestream">Livestream</option>
+                    <option {{ $course && $course->video_type == 'pre-recorded' ? 'selected' : '' }}  value="pre-recorded">Pre-recorded</option>
+                    <option {{ $course && $course->video_type == 'hybrid' ? 'selected' : '' }}  value="hybrid">Hybrid</option>
                 </select>
             </div>
 
@@ -46,8 +48,8 @@
                 <label class="block text-sm font-medium text-gray-700">Has Material?</label>
                 <select name="has_material" id="has_material"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                    <option {{ $course && $course->has_material == 0 ? 'selected' : '' }} value="0">No</option>
+                    <option {{ $course && $course->has_material == 1 ? 'selected' : '' }} value="1">Yes</option>
                 </select>
             </div>
 
@@ -56,8 +58,8 @@
                 <label class="block text-sm font-medium text-gray-700">Allow Material Download?</label>
                 <select name="has_material_download" id="has_material_download"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                    <option {{ $course && $course->has_material_download == 0 ? 'selected' : '' }} value="0">No</option>
+                    <option {{ $course && $course->has_material_download == 1 ? 'selected' : '' }} value="1">Yes</option>
                 </select>
             </div>
 
@@ -66,8 +68,8 @@
                 <label class="block text-sm font-medium text-gray-700">Has Exam?</label>
                 <select name="has_exam" id="has_exam"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                    <option  {{ $course && $course->has_exam == 0 ? 'selected' : '' }} value="0">No</option>
+                    <option  {{ $course && $course->has_exam == 1 ? 'selected' : '' }} value="1">Yes</option>
                 </select>
             </div>
 
@@ -76,8 +78,8 @@
                 <label class="block text-sm font-medium text-gray-700">Counselling Session Available?</label>
                 <select name="is_counselling" id="is_counselling"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                    <option {{ $course && $course->is_counselling == 0 ? 'selected' : '' }} value="0">No</option>
+                    <option {{ $course && $course->is_counselling == 1 ? 'selected' : '' }} value="1">Yes</option>
                 </select>
             </div>
 
@@ -86,8 +88,8 @@
                 <label class="block text-sm font-medium text-gray-700">Career Guidance Included?</label>
                 <select name="is_career_guidance" id="is_career_guidance"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                    <option {{ $course && $course->is_career_guidance == 0 ? 'selected' : '' }} value="0">No</option>
+                    <option {{ $course && $course->is_career_guidance == 1 ? 'selected' : '' }} value="1">Yes</option>
                 </select>
             </div>
             {{-- Course Type --}}
@@ -96,10 +98,10 @@
                 <select name="type" id="type"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option value="">-- Select Type --</option>
-                    <option value="offline">Offline</option>
-                    <option value="online">Online</option>
-                    <option value="recorded">Recorded</option>
-                    <option value="hybrid">Hybrid</option>
+                    <option {{ $course && $course->type == 'offline' ? 'selected' : '' }} value="offline">Offline</option>
+                    <option {{ $course && $course->type == 'online' ? 'selected' : '' }} value="online">Online</option>
+                    <option {{ $course && $course->type == 'recorded' ? 'selected' : '' }} value="recorded">Recorded</option>
+                    <option {{ $course && $course->type == 'hybrid' ? 'selected' : '' }} value="hybrid">Hybrid</option>
                 </select>
             </div>
         </div>
@@ -108,8 +110,7 @@
         <div class="my-2 text-center md:col-span-2">
             <input type="submit"
                 class="px-5 py-2.5 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-lg"
-                name="advanced_form" value="{{ $course ? 'Update' : 'Create' }}">
+                name="advanced_form" value="{{ $course->step_completed >= 4 ? 'Update' : 'Create' }}">
         </div>
     </div>
-
 </form>

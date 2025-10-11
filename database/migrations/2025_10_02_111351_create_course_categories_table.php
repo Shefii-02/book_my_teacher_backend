@@ -19,8 +19,8 @@ return new class extends Migration
       $table->timestamps();
 
 
-      $table->foreign('course_id')->references('id')->on('courses')->onDelete('set null');
-      $table->foreign('category_id')->references('id')->on('course_categories')->onDelete('set null');
+      $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+      $table->foreign('category_id')->references('id')->on('course_categories')->onDelete('cascade');
     });
   }
 

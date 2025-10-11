@@ -25,9 +25,8 @@
                 <div class="flex justify-between">
                     <h5 class="font-bold dark:text-white">{{ isset($subCategory) ? 'Edit' : 'Create' }} a Sub Category</h5>
                     <a href="{{ route('admin.courses.subcategories.index') }}"
-                        class="bg-emerald-500/30  px-4 py-2 rounded-full text-white mr-3">Back</a>
+                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
                 </div>
-
             </div>
         </div>
 

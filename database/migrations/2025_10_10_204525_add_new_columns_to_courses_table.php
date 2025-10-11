@@ -13,6 +13,8 @@ return new class extends Migration {
       $table->string('discount_validity')->nullable();
       $table->date('discount_validity_end')->nullable();
       $table->string('course_identity')->nullable();
+      $table->string('status')->default('draft');
+
     });
   }
 

@@ -342,10 +342,6 @@
                                         {{ auth()->user()->name }}</div>
                                     <div class="text-sm text-black dark:text-white">{{ auth()->user()->acc_type }}
                                     </div>
-                                    <!-- Internet Speed Indicator -->
-                                    <div id="speedIndicator" class="font-semibold text-sm top-0 z-10 hidden">
-                                        Checking speed...
-                                    </div>
                                 </div>
 
                             </div>
@@ -638,59 +634,5 @@
     });
 </script>
 @stack('scripts')
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const indicator = document.getElementById("speedIndicator");
-
-        async function testSpeed() {
-            const startTime = performance.now();
-
-            // Small test image (use your own small static file if needed)
-            const testImage = "https://www.google.com/images/phd/px.gif?cache=" + Math.random();
-
-            try {
-                await fetch(testImage, {
-                    cache: "no-store"
-                });
-                const endTime = performance.now();
-
-                const duration = endTime - startTime;
-                const speedMbps = (100 / duration) * 8; // pseudo-speed calculation
-
-                indicator.classList.remove("hidden");
-
-                // Speed categories
-                if (speedMbps < 1.5) {
-                    indicator.textContent = "🌐 Slow Internet";
-                    indicator.className =
-                        "font-semibold text-sm top-0 z-10";
-                } else if (speedMbps < 3.5) {
-                    indicator.textContent = "⚡ Normal Internet";
-                    indicator.className =
-                        "font-semibold text-sm top-0 z-10";
-                } else {
-                    indicator.textContent = "🚀 Fast Internet";
-                    indicator.className =
-                        "font-semibold text-sm top-0 z-10";
-                }
-
-                // Hide after few seconds
-                setTimeout(() => {
-                    indicator.classList.add("opacity-0");
-                    setTimeout(() => indicator.remove(), 500);
-                }, 4000);
-            } catch (err) {
-                indicator.classList.remove("hidden");
-                indicator.textContent = "❌ Connection Error";
-                indicator.className =
-                    "font-semibold text-sm top-0 z-10";
-            }
-        }
-
-        testSpeed();
-    });
-</script>
 
 </html>

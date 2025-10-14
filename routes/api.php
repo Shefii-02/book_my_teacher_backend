@@ -192,6 +192,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   //   ]);
   // });
 
+Route::post('/user-activity', [App\Http\Controllers\Api\UserActivityController::class, 'store']);
 
 
   Route::post('/check-user', function (\Illuminate\Http\Request $request) {

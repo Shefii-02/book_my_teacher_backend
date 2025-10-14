@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\HRMS\RoleController;
+use App\Http\Controllers\HRMS\TeamController;
+use App\Http\Controllers\LMS\AnalyticController;
+use App\Http\Controllers\LMS\CouponController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LMS\CourseCategoryController;
 use App\Http\Controllers\LMS\CourseClassController;
@@ -25,7 +29,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], 'namespace' => 'App\Http\Controllers'], function () {
   // Main Page Route
-  Route::get('/', 'dashboard\Analytics@index');
+  Route::get('/', 'dashboard\Analytics@index')->name('dashboard.index');
   Route::get('/dashboard', 'dashboard\Analytics@index')->name('dashboard');
   Route::get('/profile', 'dashboard\UserController@profile')->name('profile');
 
@@ -42,9 +46,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::delete('teachers/{id}', 'LMS\TeacherController@delete')->name('teachers.destroy');  // Delete
   Route::get('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurity')->name('teachers.login-security');
   Route::post('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurityChange')->name('teachers.login-security.change');
-
-
-
 
 
   Route::get('/students', 'LMS\StudentController@index')->name('students');
@@ -68,7 +69,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('/categories/{id}/subcategories', [CourseController::class, 'getSubcategories']);
 
   // /admin/courses/load-step-form/${step}?course_id=${courseId}
-  Route::get('courses/load-step-form/{step}', [CourseController::class,'loadStepForm'])->name('courses.load-step-form');
+  Route::get('courses/load-step-form/{step}', [CourseController::class, 'loadStepForm'])->name('courses.load-step-form');
   Route::resource('courses', CourseController::class)->names('courses');
   Route::resource('classes', CourseClassController::class)->names('classes');
   Route::resource('livestreams', LivestreamClassController::class)->names('livestreams');
@@ -79,6 +80,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('webinars/start', 'dashboard\UserController@otp')->name('webinars.start');
   Route::get('webinars/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
     ->name('webinars.registrations.download-csv');
+
+  Route::get('coupons/trashed', [CouponController::class, 'trashed'])->name('coupons.trashed');
+  Route::post('coupons/{id}/restore', [CouponController::class, 'restore'])->name('coupons.restore');
+
+
+  Route::resource('coupons', CouponController::class);
+  Route::resource('analytics', AnalyticController::class);
+
+
 
   Route::resource('guest', GuestController::class);
 
@@ -111,6 +121,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
     $logPath = storage_path('logs/laravel.log');
     File::put($logPath, ''); // Overwrites the file with empty content
     return redirect('/admin/log-file')->with('status', 'Log file cleared!');
+  });
+
+
+  Route::group(['prefix' => 'hrms', 'as' => 'hrms.', 'middleware' => ['auth'], 'namespace' => 'HRMS'], function () {
+    Route::get('/', 'DashboardController@index')->name('dashboard.index');
+    Route::resource('roles', RoleController::class)->names('roles');
+    Route::resource('teams', TeamController::class)->names('teams');
   });
 });
 

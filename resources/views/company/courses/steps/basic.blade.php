@@ -109,38 +109,10 @@
                       @endif
                   </div>
                   <div class="grid gap-6 mb-6 md:grid-cols-1 mt-5">
-                      {{-- @dump($course->categories) --}}
-                      {{-- <div id="category-container">
-                          <div class="category-group mb-4 border p-3 rounded-md">
-                              <div class="grid md:grid-cols-2 gap-4">
-
-                                  <!-- Category -->
-                                  <div>
-                                      <label class="block mb-2 text-sm font-medium">Category</label>
-                                      <select name="categories[0][category_id]"
-                                          class="category-select  border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                          required>
-                                          <option value="">-- Select Category --</option>
-                                          @foreach ($categories as $cat)
-                                              <option value="{{ $cat->id }}">{{ $cat->title }}</option>
-                                          @endforeach
-                                      </select>
-                                  </div>
-
-                                  <!-- Sub Category (checkboxes will load here dynamically) -->
-                                  <div>
-                                      <label class="block mb-2 text-sm font-medium">Sub Categories</label>
-                                      <div class="subcategory-container text-sm text-gray-700">
-                                          <p class="text-gray-500">Select a category to load subcategories</p>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div> --}}
 
 
                       <div id="category-container">
-                          @if ($course->categories && $course->categories->count() > 0)
+                          @if (isset($course) && $course->categories && $course->categories->count() > 0)
                               @foreach ($course->categories as $index => $selectedCategory)
                                   <div class="category-group mb-4 border p-3 rounded-md">
                                       <div class="grid md:grid-cols-2 gap-4">

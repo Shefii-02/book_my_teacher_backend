@@ -14,7 +14,7 @@ class MediaHelper
     /**
      * Upload file into company folder and record in DB
      */
-    public static function uploadCompanyFile(int $companyId, string $folderName, UploadedFile $file, string $file_type): ?int
+    public static function uploadCompanyFile(int $companyId, string $folderName, UploadedFile $file, string $file_type, string $userID = null): ?int
     {
         // Ensure company base path
         $basePath = "companies/{$companyId}";
@@ -44,7 +44,7 @@ class MediaHelper
         // Store in DB
         $mediaFile = MediaFile::create([
             'folder_id' => $folder->id,
-            'user_id'   => Auth::id(),
+            'user_id'   => $userID ? $userID : Auth::id(),
             'company_id' => $companyId,
             'name' => $fileName,
             'file_path' => $filePath,

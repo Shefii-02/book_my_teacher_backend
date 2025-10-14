@@ -4,13 +4,17 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles; // <-- ADD THIS
+
 
 class User extends Authenticatable
 {
-  use HasFactory, Notifiable, HasApiTokens;
+  use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasRoles;
 
   /**
    * The attributes that are mass assignable.
@@ -35,7 +39,7 @@ class User extends Authenticatable
     'registration_source',
     'last_login_source',
     'profile_fill',
-
+    ''
   ];
 
   /**
@@ -112,9 +116,9 @@ class User extends Authenticatable
   }
 
   public function additionalInfo()
-{
+  {
     return $this->hasMany(UserAdditionalInfo::class);
-}
+  }
 
 
 
@@ -123,12 +127,14 @@ class User extends Authenticatable
     return $this->hasMany(StudentRecommendedSubject::class, 'student_id');
   }
 
-  public function studentPersonalInfo(){
+  public function studentPersonalInfo()
+  {
     return $this->hasOne(StudentPersonalInfo::class, 'student_id');
   }
 
-  public function studentGrades(){
-        return $this->hasMany(StudentGrade::class, 'student_id');
+  public function studentGrades()
+  {
+    return $this->hasMany(StudentGrade::class, 'student_id');
   }
 
   public function preferredDays()
@@ -141,5 +147,20 @@ class User extends Authenticatable
     return $this->hasMany(StudentAvailableHour::class, 'student_id');
   }
 
+  public function activityLogs()
+  {
+    return $this->hasMany(ActivityLog::class, 'id', 'user_id');
+  }
 
+  public function getRoleNameAttribute()
+  {
+    $rolename = $this->getRoleNames()->first() ? preg_replace('/[-\d~]/', '',  $this->getRoleNames()->first()) : null;
+    return $rolename;
+  }
+
+
+  public function payroll()
+  {
+    return $this->hasOne(PayrollDetail::class, 'user_id','id');
+  }
 }

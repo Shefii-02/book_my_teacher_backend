@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BookMyTeacher-Dashboard</title>
+    <title>BookMyTeacher-HRMS-Dashboard</title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Font Awesome Icons -->
@@ -88,16 +88,18 @@
                         <a href="{{ route('admin.dashboard.index') }}" title="LMS">
                             <div
                                 class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                <img src="{{ asset('assets/images/logo/lms1.png') }}" class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
+                                <img src="{{ asset('assets/images/logo/lms1.png') }}"
+                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
                                 <span class="text-xxs my-2 text-teal-600 dark:text-white">LMS</span>
                             </div>
                         </a>
                     </li>
                     <li class="my-3">
                         <a href="{{ route('admin.dashboard') }}" title="CRMS">
-                           <div
+                            <div
                                 class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                <img src="{{ asset('assets/images/logo/crms.png') }}" class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
+                                <img src="{{ asset('assets/images/logo/crms.png') }}"
+                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
                                 <span class="text-xxs my-2 text-teal-600 dark:text-white">CRMS</span>
                             </div>
                         </a>
@@ -106,20 +108,22 @@
                         <a href="{{ route('admin.hrms.dashboard.index') }}" title="HRMS">
                             <div
                                 class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                <img src="{{ asset('assets/images/logo/hr.png') }}" class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
-                                <span class="text-xxs my-2 text-teal-600 dark:text-white">HRMS</span>
+                                <img src="{{ asset('assets/images/logo/hr.png') }}"
+                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
+                                <span class="text-xxs my-2 text-teal-600 font-bold dark:text-black">HRMS</span>
                             </div>
                         </a>
                     </li>
-                    <li class="my-3">
+                    {{-- <li class="my-3">
                         <a href="" title="ACCOUNTS">
-                             <div
+                            <div
                                 class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                <img src="{{ asset('assets/images/logo/lms.png') }}" class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
+                                <img src="{{ asset('assets/images/logo/lms.png') }}"
+                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
                                 <span class="text-xxs my-2 text-teal-600 dark:text-white">ACCOUNTS</span>
                             </div>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
             <div class="w-full">
@@ -136,107 +140,124 @@
                             </a>
                         </li>
                         <li class="mt-0.5 w-full">
-                            <a class="{{ Request::routeIs('admin.teachers') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.teachers') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-lg  bi bi-person-video3"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Teachers</span>
-                            </a>
-                        </li>
-
-                        <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.students') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.students') }}">
+                            <a class=" dark:text-white {{ Request::routeIs('admin.staffs.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('admin.hrms.dashboard.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-check-fill"></i>
+                                    <i class="relative top-0 leading-normal text-red-600 text-sm ni ni-world-2"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Students</span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">To-do</span>
                             </a>
                         </li>
-                        <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.guest.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-check-fill"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guest
-                                    Account</span>
-                            </a>
-                        </li>
-
-
-                        <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.guest-teacher') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.guest-teacher.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-check-fill"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guest
-                                    Teacher</span>
-                            </a>
-                        </li>
-
 
                         <li class="mt-0.5 w-full">
                             <a class=" dark:text-white {{ Request::routeIs('admin.otp-list') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.otp-list') }}">
+                                href="{{ route('admin.hrms.dashboard.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i
                                         class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-unlock-fill"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">OTP List</span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Time and
+                                    Attendance</span>
                             </a>
                         </li>
-
                         <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.courses.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.courses.index') }}">
+                            <a class="{{ Request::routeIs('admin.teachers') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('admin.hrms.dashboard.index') }}">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
+                                    <i
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg  bi bi-person-video3"></i>
+                                </div>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Meetings</span>
+                            </a>
+                        </li>
+                        <li class="mt-0.5 w-full">
+                            <a class=" dark:text-white {{ Request::routeIs('admin.staffs.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('admin.hrms.dashboard.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i class="relative top-0 leading-normal text-red-600 text-sm ni ni-world-2"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Courses</span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Leaves</span>
+                            </a>
+                        </li>
+                        <li class="mt-0.5 w-full">
+                            <a class=" dark:text-white {{ Request::routeIs('admin.courses.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('admin.hrms.dashboard.index') }}">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                    <i class="relative top-0 leading-normal text-red-600 text-sm ni ni-world-2"></i>
+                                </div>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Payroll</span>
+                            </a>
+                        </li>
+                        <li class="mt-0.5 w-full">
+                            <a class="{{ Request::routeIs('admin.teachers') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('admin.hrms.dashboard.index') }}">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
+                                    <i
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg  bi bi-person-video3"></i>
+                                </div>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Resources</span>
+                            </a>
+                        </li>
+
+                        <li class="mt-0.5 w-full">
+                            <a class="{{ Request::routeIs('admin.hrms.teams') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('admin.hrms.teams.index') }}">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
+                                    <i
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg  bi bi-person-video3"></i>
+                                </div>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">My Teams</span>
+                            </a>
+                        </li>
+
+                        <li class="mt-0.5 w-full">
+                            <a class="{{ Request::routeIs('admin.hrms.roles') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('admin.hrms.roles.index') }}">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
+                                    <i
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg  bi bi-person-video3"></i>
+                                </div>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Role and
+                                    Designation</span>
                             </a>
                         </li>
 
                         <li class="mt-0.5 w-full">
                             <a class=" dark:text-white {{ Request::routeIs('admin.webinars.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.webinars.index') }}">
+                                href="{{ route('admin.hrms.dashboard.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i
                                         class="relative top-0 leading-normal text-orange-500 ni ni-calendar-grid-58 text-sm"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Webinar's</span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Performance</span>
                             </a>
                         </li>
 
 
                         <li class="mt-0.5 w-full">
                             <a class=" dark:text-white {{ Request::routeIs('admin.coupons.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.coupons.index') }}">
+                                href="{{ route('admin.hrms.dashboard.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i
                                         class="relative top-0 leading-normal text-slate-700 text-sm ni ni-single-02"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Coupons</span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Recruitment</span>
                             </a>
                         </li>
 
                         <li class="mt-0.5 w-full">
                             <a class=" dark:text-white {{ Request::routeIs('admin.analytics.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.analytics.index') }}">
+                                href="{{ route('admin.hrms.dashboard.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i
@@ -247,25 +268,27 @@
                         </li>
                         <li class="mt-0.5 w-full">
                             <a class=" dark:text-white {{ Request::routeIs('admin.staffs.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.staffs') }}">
+                                href="{{ route('admin.hrms.dashboard.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i class="relative top-0 leading-normal text-red-600 text-sm ni ni-world-2"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Staffs</span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Departments</span>
                             </a>
                         </li>
                         <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.coupons.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.profile') }}">
+                            <a class=" dark:text-white {{ Request::routeIs('admin.staffs.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('admin.hrms.dashboard.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-cyan-500 text-sm ni ni-collection"></i>
+                                    <i class="relative top-0 leading-normal text-red-600 text-sm ni ni-world-2"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Profile</span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Help &
+                                    Support</span>
                             </a>
                         </li>
+
+
                     </ul>
 
                 </div>

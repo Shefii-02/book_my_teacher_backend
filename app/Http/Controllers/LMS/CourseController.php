@@ -26,6 +26,8 @@ class CourseController extends Controller
   {
     $course_identity            = $request->draft;
     $categories       = CourseCategory::all();
+    $course_draft = null;
+
     if ($course_identity != null) {
       $course_draft     = Course::where('course_identity', $course_identity)->first();
     }

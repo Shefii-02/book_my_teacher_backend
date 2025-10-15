@@ -204,7 +204,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     return response()->json(['exists' => $exists]);
   });
 
-  Route::post('/check-user', function (\Illuminate\Http\Request $request) {
+  Route::post('/api/google-login-check', function (\Illuminate\Http\Request $request) {
     $idToken = $request->input('idToken');
 
     $client = new GoogleClient(['client_id' => env('GOOGLE_CLIENT_ID')]);

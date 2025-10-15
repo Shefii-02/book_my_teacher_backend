@@ -21,10 +21,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/guest-signup', 'RegisterController@guestSignup');
-    Route::post('/google-login-check', 'LoginController@googleLogin');
+    Route::post('/google-login-check', 'LoginController@googleLoginCheck');
   });
 
-    Route::post('user-login-email', 'LoginController@googleLogin');
+    Route::post('/user-login-email', 'LoginController@googleLoginCheck');
 
 
   Route::post('/teacher-signup', 'RegisterController@teacherSignup');

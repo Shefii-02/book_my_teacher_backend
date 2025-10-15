@@ -204,37 +204,77 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     return response()->json(['exists' => $exists]);
   });
 
-  Route::post('/google-login-check', function (\Illuminate\Http\Request $request) {
+  // Route::post('/google-login-check', function (\Illuminate\Http\Request $request) {
 
-    $idToken = $request->idToken;
+  //   $idToken = $request->idToken;
 
 
-    Log::info($idToken);
+  //   Log::info($idToken);
 
-    $client = new GoogleClient(['client_id' => env('GOOGLE_CLIENT_ID')]);
-    $payload = $client->verifyIdToken($idToken);
+  //   $client = new GoogleClient(['client_id' => env('GOOGLE_CLIENT_ID')]);
+  //   $payload = $client->verifyIdToken($idToken);
 
-    if (!$payload) {
-      Log::info($payload);
-      return response()->json(['status' => 'error', 'message' => 'Invalid ID token'], 401);
+  //   if (!$payload) {
+  //     Log::info($payload);
+  //     return response()->json(['status' => 'error', 'message' => 'Invalid ID token'], 401);
+  //   }
+
+  //   Log::info('payload' . $payload);
+  //   $email = $payload['email'];
+  //   $user = User::where('email', $email)->first();
+
+  //   if (!$user) {
+  //     Log::info('status error' . $email);
+  //     return response()->json(['status' => 'error', 'message' => 'User not found'], 404);
+  //   }
+
+  //   // Optionally create your own JWT / sanctum token
+  //   // $token = $user->createToken('google_login')->plainTextToken;
+  //   // Log::info('token' . $token);
+  //   return response()->json([
+  //     'status' => 'success',
+  //     // 'token'  => $token,
+  //     'user'   => $user,
+  //   ]);
+  // });
+  Route::post('/google-login-check', function (Request $request) {
+    try {
+      $idToken = $request->input('idToken');
+
+      if (!$idToken) {
+        return response()->json(['status' => 'error', 'message' => 'Missing idToken']);
+      }
+
+      // ✅ Verify token using Google API client
+      $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
+      $payload = $client->verifyIdToken($idToken);
+
+      if (!$payload) {
+        return response()->json(['status' => 'error', 'message' => 'Invalid Google token']);
+      }
+
+      $email = $payload['email'] ?? null;
+
+      if (!$email) {
+        return response()->json(['status' => 'error', 'message' => 'Email not found in token']);
+      }
+
+      // ✅ Check if email exists in your users table
+      $user = \App\Models\User::where('email', $email)->first();
+
+      if ($user) {
+        return response()->json(['status' => 'success', 'user' => $user]);
+      } else {
+        return response()->json([
+          'status' => 'error',
+          'message' => 'Account not found. Please sign up normally.',
+        ]);
+      }
+    } catch (Exception $e) {
+      return response()->json([
+        'status' => 'error',
+        'message' => $e->getMessage(),
+      ]);
     }
-
-    Log::info('payload' . $payload);
-    $email = $payload['email'];
-    $user = User::where('email', $email)->first();
-
-    if (!$user) {
-      Log::info('status error' . $email);
-      return response()->json(['status' => 'error', 'message' => 'User not found'], 404);
-    }
-
-    // Optionally create your own JWT / sanctum token
-    // $token = $user->createToken('google_login')->plainTextToken;
-    // Log::info('token' . $token);
-    return response()->json([
-      'status' => 'success',
-      // 'token'  => $token,
-      'user'   => $user,
-    ]);
   });
 });

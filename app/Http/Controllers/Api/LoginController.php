@@ -33,9 +33,9 @@ class LoginController extends Controller
   public function googleLoginCheck(Request $request)
   {
     try {
-      $req = $request->input('idToken');
-      Log::info('idToken :' . $req);
-      $idToken = json_decode($req);
+      $idToken = $request->input('idToken');
+      Log::info('idToken :' . $idToken);
+
 
 
       if (!$idToken) {

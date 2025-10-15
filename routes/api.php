@@ -240,7 +240,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/google-login-check', function (Request $request) {
     try {
       $idToken = $request->input('idToken');
-
+      Log::info('idToken :' . $idToken);
       if (!$idToken) {
         return response()->json(['status' => 'error', 'message' => 'Missing idToken']);
       }
@@ -253,14 +253,19 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         return response()->json(['status' => 'error', 'message' => 'Invalid Google token']);
       }
 
+      Log::info('payload:' . $payload);
+
       $email = $payload['email'] ?? null;
 
       if (!$email) {
         return response()->json(['status' => 'error', 'message' => 'Email not found in token']);
       }
 
+      Log::info($email);
+
       // ✅ Check if email exists in your users table
       $user = \App\Models\User::where('email', $email)->first();
+      Log::info('user' . $user);
 
       if ($user) {
         return response()->json(['status' => 'success', 'user' => $user]);

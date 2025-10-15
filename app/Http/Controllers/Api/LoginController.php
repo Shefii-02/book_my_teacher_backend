@@ -34,47 +34,57 @@ class LoginController extends Controller
   {
     try {
       $idToken = $request->input('idToken');
-      Log::info('idToken :' . $idToken);
-
-
+      Log::info('idToken: ' . substr($idToken, 0, 50) . '...'); // log partial token for safety
 
       if (!$idToken) {
-        Log::info(1);
-        return response()->json(['status' => 'error', 'message' => 'Missing idToken']);
+        return response()->json([
+          'status' => 'error',
+          'message' => 'Missing idToken'
+        ]);
       }
-      Log::info('--------------');
+
       // ✅ Verify token using Google API client
-      $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
+      $client = new \Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
       $payload = $client->verifyIdToken($idToken);
 
       if (!$payload) {
-        return response()->json(['status' => 'error', 'message' => 'Invalid Google token']);
+        return response()->json([
+          'status' => 'error',
+          'message' => 'Invalid Google token'
+        ]);
       }
 
-      Log::info('payload:' . $payload);
+      Log::info('Google payload: ' . json_encode($payload, JSON_PRETTY_PRINT));
 
       $email = $payload['email'] ?? null;
 
       if (!$email) {
-        return response()->json(['status' => 'error', 'message' => 'Email not found in token']);
+        return response()->json([
+          'status' => 'error',
+          'message' => 'Email not found in token'
+        ]);
       }
 
-      Log::info($email);
+      Log::info("Checking user with email: {$email}");
 
       // ✅ Check if email exists in your users table
       $user = \App\Models\User::where('email', $email)->first();
-      Log::info('user' . $user);
 
       if ($user) {
-        return response()->json(['status' => 'success', 'user' => $user]);
+        Log::info("User found: {$user->id}");
+        return response()->json([
+          'status' => 'success',
+          'user' => $user
+        ]);
       } else {
+        Log::info("User not found for email: {$email}");
         return response()->json([
           'status' => 'error',
           'message' => 'Account not found. Please sign up normally.',
         ]);
       }
-    } catch (Exception $e) {
-      Log::info($e);
+    } catch (\Exception $e) {
+      Log::error('Google login check failed: ' . $e->getMessage());
       return response()->json([
         'status' => 'error',
         'message' => $e->getMessage(),

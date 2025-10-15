@@ -276,6 +276,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ]);
       }
     } catch (Exception $e) {
+      Log::info($e);
       return response()->json([
         'status' => 'error',
         'message' => $e->getMessage(),

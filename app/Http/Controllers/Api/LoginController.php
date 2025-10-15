@@ -68,7 +68,7 @@ class LoginController extends Controller
       Log::info("Checking user with email: {$email}");
 
       // ✅ Check if email exists in your users table
-      $user = \App\Models\User::where('email', $email)->first();
+      $user = \App\Models\User::where('email', $email)->where('company_id',1)->first();
 
       if ($user) {
         Log::info("User found: {$user->id}");

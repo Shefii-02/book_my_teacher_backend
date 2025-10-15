@@ -39,6 +39,7 @@ class LoginController extends Controller
 
 
       if (!$idToken) {
+        Log::info(1);
         return response()->json(['status' => 'error', 'message' => 'Missing idToken']);
       }
       Log::info('--------------');

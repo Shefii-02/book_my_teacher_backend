@@ -206,7 +206,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-    Route::post('/google-login-check', 'LoginController@googleLoginCheck');
+  Route::post('/google-login-check', 'LoginController@googleLoginCheck');
 
 
 

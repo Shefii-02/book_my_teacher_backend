@@ -24,6 +24,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
   });
 
+    Route::post('user-login-email', 'LoginController@googleLoginCheck');
+
 
   Route::post('/teacher-signup', 'RegisterController@teacherSignup');
   Route::post('/student-signup', 'RegisterController@studentSignup');

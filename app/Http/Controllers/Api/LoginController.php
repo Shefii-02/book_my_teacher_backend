@@ -74,7 +74,7 @@ class LoginController extends Controller
 
       // ✅ Check if email exists in your users table
       $userEx = User::where('email', $email)->where('company_id', 1)->first();
-
+      Log::info($userEx);
       if ($user) {
         Log::info("User found: {$user->id}");
         $user->email = $email;
@@ -84,7 +84,7 @@ class LoginController extends Controller
           'status' => 'success',
           'user' => $user
         ]);
-      } elseif ($userEx) {
+      } else if ($userEx) {
         //login user
 
         // Revoke all existing tokens
@@ -99,7 +99,6 @@ class LoginController extends Controller
           'user'    => $userEx,
           'token'   => $token,
         ], 200);
-
       } else {
         Log::info("User not found for email: {$email}");
         return response()->json([

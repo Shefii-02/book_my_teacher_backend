@@ -205,7 +205,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   });
 
   Route::post('/api/google-login-check', function (\Illuminate\Http\Request $request) {
+
     $idToken = $request->input('idToken');
+    Log::info($idToken);
 
     $client = new GoogleClient(['client_id' => env('GOOGLE_CLIENT_ID')]);
     $payload = $client->verifyIdToken($idToken);

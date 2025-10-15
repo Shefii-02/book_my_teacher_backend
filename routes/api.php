@@ -21,6 +21,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/guest-signup', 'RegisterController@guestSignup');
+    Route::post('/google-login-check', 'LoginController@googleLoginCheck');
   });
 
 
@@ -45,8 +46,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/verify-email-otp', 'OtpController@verifyEmailOtp');
 
   Route::post('/re-send-otp', 'OtpController@reSendOtp');
-
-
 
 
   Route::post('/user-details', 'UserController@index');
@@ -203,10 +202,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     $exists = \App\Models\User::where('id', $request->user_id)->where('acc_type', $request->acc_type)->exists();
     return response()->json(['exists' => $exists]);
   });
-
-
-
-  Route::post('/google-login-check', 'LoginController@googleLoginCheck');
 
 
 

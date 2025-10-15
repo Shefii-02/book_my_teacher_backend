@@ -33,6 +33,11 @@ class LoginController extends Controller
   public function googleLoginCheck(Request $request)
   {
     try {
+
+      $user = $request->user();
+      Log::info('user: ' . $user);
+
+
       $idToken = $request->input('idToken');
       Log::info('idToken: ' . substr($idToken, 0, 50) . '...'); // log partial token for safety
 
@@ -68,16 +73,33 @@ class LoginController extends Controller
       Log::info("Checking user with email: {$email}");
 
       // ✅ Check if email exists in your users table
-      $user = \App\Models\User::where('email', $email)->where('company_id',1)->first();
+      $userEx = User::where('email', $email)->where('company_id', 1)->first();
 
       if ($user) {
         Log::info("User found: {$user->id}");
+        $user->email = $email;
         $user->email_verified_at = now();
         $user->save();
         return response()->json([
           'status' => 'success',
           'user' => $user
         ]);
+      } elseif ($userEx) {
+        //login user
+
+        // Revoke all existing tokens
+        $userEx->tokens()->delete();
+
+        // Generate token if using Sanctum
+        $token = $userEx->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+          'success' => true,
+          'message' => 'Login successfully',
+          'user'    => $userEx,
+          'token'   => $token,
+        ], 200);
+
       } else {
         Log::info("User not found for email: {$email}");
         return response()->json([

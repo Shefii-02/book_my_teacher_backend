@@ -6,10 +6,13 @@ use App\Http\Controllers\Api\ZegoTokenController;
 use App\Http\Resources\WebinarResource;
 use App\Models\Grade;
 use App\Models\Subject;
+use App\Models\User;
 use App\Models\Webinar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+
+use Google\Client as GoogleClient;
 
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
@@ -154,6 +157,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
+
   // Route::get('/fetch-subjects', function () {
   //   return response()->json([
   //     'status' => true,
@@ -192,11 +196,40 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   //   ]);
   // });
 
-Route::post('/user-activity', [App\Http\Controllers\Api\UserActivityController::class, 'store']);
+  Route::post('/user-activity', [App\Http\Controllers\Api\UserActivityController::class, 'store']);
 
 
   Route::post('/check-user', function (\Illuminate\Http\Request $request) {
     $exists = \App\Models\User::where('id', $request->user_id)->where('acc_type', $request->acc_type)->exists();
     return response()->json(['exists' => $exists]);
+  });
+
+  Route::post('/check-user', function (\Illuminate\Http\Request $request) {
+    $idToken = $request->input('idToken');
+
+    $client = new GoogleClient(['client_id' => env('GOOGLE_CLIENT_ID')]);
+    $payload = $client->verifyIdToken($idToken);
+
+    if (!$payload) {
+      Log::info($payload);
+      return response()->json(['status' => 'error', 'message' => 'Invalid ID token'], 401);
+    }
+    Log::info('payload' . $payload);
+    $email = $payload['email'];
+    $user = User::where('email', $email)->first();
+
+    if (!$user) {
+      Log::info('status error' . $email);
+      return response()->json(['status' => 'error', 'message' => 'User not found'], 404);
+    }
+
+    // Optionally create your own JWT / sanctum token
+    // $token = $user->createToken('google_login')->plainTextToken;
+    // Log::info('token' . $token);
+    return response()->json([
+      'status' => 'success',
+      // 'token'  => $token,
+      'user'   => $user,
+    ]);
   });
 });

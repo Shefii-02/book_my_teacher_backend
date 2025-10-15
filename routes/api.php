@@ -214,6 +214,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       Log::info($payload);
       return response()->json(['status' => 'error', 'message' => 'Invalid ID token'], 401);
     }
+
     Log::info('payload' . $payload);
     $email = $payload['email'];
     $user = User::where('email', $email)->first();

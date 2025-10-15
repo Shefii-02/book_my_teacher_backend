@@ -72,6 +72,8 @@ class LoginController extends Controller
 
       if ($user) {
         Log::info("User found: {$user->id}");
+        $user->email_verified_at = now();
+        $user->save();
         return response()->json([
           'status' => 'success',
           'user' => $user

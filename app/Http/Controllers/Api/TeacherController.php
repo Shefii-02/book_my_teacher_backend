@@ -337,7 +337,7 @@ class TeacherController extends Controller
     foreach ($stageList as $stageKey => $meta) {
       $stepStatus = "completed";
       $subtitle   = "Completed";
-      $allow      = false;
+      $allow      = true;
 
       if (!$foundCurrent) {
         if ($stageKey === $currentStage) {

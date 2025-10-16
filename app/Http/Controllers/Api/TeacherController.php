@@ -348,6 +348,7 @@ class TeacherController extends Controller
             case 'in progress':
               $stepStatus = "inProgress";
               $subtitle   = $accountMsg;
+              $allow      = true;
               break;
 
             case 'rejected':

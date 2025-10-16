@@ -382,6 +382,7 @@ class TeacherController extends Controller
         // stages after current one → pending
         $stepStatus = "pending";
         $subtitle   = "Pending";
+        $allow      = false;
       }
 
       $steps[] = [

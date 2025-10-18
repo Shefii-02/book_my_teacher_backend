@@ -241,4 +241,16 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   //   ]);
   // });
 
+
+    Route::get('/top-banners', 'StudnetController@topBanners');
+    Route::get('/teachers', 'StudnetController@teachersListing');
+    Route::get('/grades-subjects', 'StudnetController@gradesSubjects');
+    Route::get('/board-syllabus', 'StudnetController@boardSyllabus');
+    Route::get('/my-wallet', 'StudnetController@myWallet');
+    Route::get('/referral', 'StudnetController@Referral');
+    Route::get('/provide-subjects', 'StudnetController@provideSubjects');
+    Route::get('/provide-courses', 'StudnetController@provideCourses');
+
+
+
 });

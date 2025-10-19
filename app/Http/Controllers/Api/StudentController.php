@@ -79,8 +79,8 @@ class StudentController extends Controller
       return [
         'id' => $i,
         'title' => "Top Banner $i",
-        'main_image' => "https://cdn.app/banner_$i.jpg",
-        'thumb' => "https://cdn.app/banner_{$i}_thumb.jpg",
+        'main_image' => asset("assets/test/tb-{$i}.png"),
+        'thumb' => asset("assets/test/tb-{$i}.png"),
         'description' => "This is banner $i description.",
         'priority_order' => $i,
         'banner_type' => $i % 2 ? 'image' : 'video',

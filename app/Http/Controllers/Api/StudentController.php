@@ -75,7 +75,7 @@ class StudentController extends Controller
 
   public function topBanners(): JsonResponse
   {
-    $banners = collect(range(1, 13))->map(function ($i) {
+    $banners = collect(range(1, 3))->map(function ($i) {
       return [
         'id' => $i,
         'title' => "Top Banner $i",

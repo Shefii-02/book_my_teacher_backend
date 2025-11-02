@@ -129,6 +129,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
     Route::resource('roles', RoleController::class)->names('roles');
     Route::resource('teams', TeamController::class)->names('teams');
   });
+
+
+
+
 });
 
 

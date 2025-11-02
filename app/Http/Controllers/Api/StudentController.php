@@ -70,22 +70,19 @@ class StudentController extends Controller
     ]);
   }
 
-
-
-
   public function topBanners(): JsonResponse
   {
     $banners = collect(range(1, 3))->map(function ($i) {
       return [
         'id' => $i,
         'title' => "Top Banner $i",
-        'main_image' => asset("assets/test/tb-{$i}.png"),
-        'thumb' => asset("assets/test/tb-{$i}.png"),
+        'main_image' => asset("assets/mobile-app/banners/tb-{$i}.png"),
+        'thumb' => asset("assets/mobile-app/banners/tb-{$i}.png"),
         'description' => "This is banner $i description.",
         'priority_order' => $i,
         'banner_type' => $i % 2 ? 'image' : 'video',
         'cta_label' => 'Join Now',
-        'cta_action' => '/register',
+        'cta_action' => '',
         'is_booked' => $i % 3 === 0,
         'last_booked_at' => $i % 3 === 0 ? now()->subDays($i)->toDateTimeString() : null,
       ];

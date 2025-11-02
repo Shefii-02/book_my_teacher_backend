@@ -18,13 +18,37 @@ use Google\Client as GoogleClient;
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
 
 
-
   Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/guest-signup', 'RegisterController@guestSignup');
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
+    Route::post('top-banner/submit', function (Request $request) {
+        Log::info('📢 Top Banner Request:', $request->all());
+      return response()->json([
+        'status' => true,
+        'data' => "Your request has been submitted successfully!",
+      ]);
+    });
+
+    Route::post('request-teacher-class/submit', function (Request $request) {
+              Log::info('👨‍🏫 Teacher Class Request:', $request->all());
+
+      return response()->json([
+        'status' => true,
+        'data' => "Your request has been submitted successfully!",
+      ]);
+    });
+
+    Route::post('request-form/submit', function (Request $request) {
+              Log::info('📝 Request Form Submitted:', $request->all());
+
+      return response()->json([
+        'status' => true,
+        'data' => "Your request has been submitted successfully!",
+      ]);
+    });
   });
 
-    Route::post('/user-login-email', 'LoginController@googleLoginCheck');
+  Route::post('/user-login-email', 'LoginController@googleLoginCheck');
 
 
   Route::post('/teacher-signup', 'RegisterController@teacherSignup');
@@ -244,44 +268,43 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-    Route::get('/top-banners', 'StudentController@topBanners');
-    Route::get('/teachers', 'StudentController@teachersListing');
-    Route::get('/grades-subjects', 'StudentController@gradesSubjects');
-    Route::get('/board-syllabus', 'StudentController@boardSyllabus');
-    Route::get('/my-wallet', 'StudentController@myWallet');
-    Route::get('/referral', 'StudentController@Referral');
-    Route::get('/provide-subjects', 'StudentController@provideSubjects');
-    Route::get('/provide-courses', 'StudentController@provideCourses');
+  Route::get('/top-banners', 'StudentController@topBanners');
+  Route::get('/teachers', 'StudentController@teachersListing');
+  Route::get('/grades-subjects', 'StudentController@gradesSubjects');
+  Route::get('/board-syllabus', 'StudentController@boardSyllabus');
+  Route::get('/my-wallet', 'StudentController@myWallet');
+  Route::get('/referral', 'StudentController@Referral');
+  Route::get('/provide-subjects', 'StudentController@provideSubjects');
+  Route::get('/provide-courses', 'StudentController@provideCourses');
 
 
   Route::get('/social-links', function () {
     $socials = [
-            [
-                'name' => 'Facebook',
-                'icon' => asset('assets/mobile-app/icons/facebook.png'),
-                'link' => 'https://facebook.com/BookMyTeacher',
-            ],
-            [
-                'name' => 'Instagram',
-                'icon' => asset('assets/mobile-app/icons/instagram.png'),
-                'link' => 'https://instagram.com/BookMyTeacher',
-            ],
-            [
-                'name' => 'YouTube',
-                'icon' => asset('assets/mobile-app/icons/youtube.png'),
-                'link' => 'https://youtube.com/@BookMyTeacher',
-            ],
-            [
-                'name' => 'LinkedIn',
-                'icon' => asset('assets/mobile-app/icons/linkedin.png'),
-                'link' => 'https://linkedin.com/company/BookMyTeacher',
-            ],
-        ];
+      [
+        'name' => 'Facebook',
+        'icon' => asset('assets/mobile-app/icons/facebook.png'),
+        'link' => 'https://facebook.com/BookMyTeacher',
+      ],
+      [
+        'name' => 'Instagram',
+        'icon' => asset('assets/mobile-app/icons/instagram.png'),
+        'link' => 'https://instagram.com/BookMyTeacher',
+      ],
+      [
+        'name' => 'YouTube',
+        'icon' => asset('assets/mobile-app/icons/youtube.png'),
+        'link' => 'https://youtube.com/@BookMyTeacher',
+      ],
+      [
+        'name' => 'LinkedIn',
+        'icon' => asset('assets/mobile-app/icons/linkedin.png'),
+        'link' => 'https://linkedin.com/company/BookMyTeacher',
+      ],
+    ];
 
-        return response()->json([
-            'status' => true,
-            'data' => $socials,
-        ]);
+    return response()->json([
+      'status' => true,
+      'data' => $socials,
+    ]);
   });
-
 });

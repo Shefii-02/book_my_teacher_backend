@@ -83,7 +83,8 @@ class StudentController extends Controller
         'banner_type' => $i % 2 ? 'image' : 'video',
         'cta_label' => 'Join Now',
         'cta_action' => '',
-        'is_booked' => $i % 3 === 0,
+        // 'is_booked' => $i % 3 === 0,
+        'is_booked' => true,
         'last_booked_at' => $i % 3 === 0 ? now()->subDays($i)->toDateTimeString() : null,
       ];
     });

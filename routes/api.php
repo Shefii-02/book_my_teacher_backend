@@ -151,7 +151,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 // 🔹 Get Grades List
     Route::get('/grades', function () {
-        $grades = Grade::select('id', 'name')->get();
+        $grades = Grade::all()->pluck('name');
 
         return response()->json([
             'status' => true,
@@ -161,7 +161,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     // 🔹 Get Subjects List
     Route::get('/subjects', function () {
-        $subjects = Subject::select('id', 'name')->get();
+        $subjects = Subject::all()->pluck('name');
 
         return response()->json([
             'status' => true,
@@ -170,7 +170,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     });
 
      Route::get('/boards', function () {
-        $grades = Grade::select('id', 'name')->get();
+        $grades = Grade::all()->pluck('name');
 
         return response()->json([
             'status' => true,

@@ -149,20 +149,34 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // // token generation for joining ZEGOCLOUD
   // Route::post('webinars/{webinar}/token', [ZegoTokenController::class, 'generate']);
 
+// 🔹 Get Grades List
+    Route::get('/grades', function () {
+        $grades = Grade::select('id', 'name')->get();
 
-  Route::get('/fetch-grades', function () {
-    return response()->json([
-      'status' => true,
-      'data' => Grade::all()
-    ]);
-  });
+        return response()->json([
+            'status' => true,
+            'data' => $grades,
+        ]);
+    });
 
-  Route::get('/fetch-subjects', function () {
-    return response()->json([
-      'status' => true,
-      'data' => Subject::all()
-    ]);
-  });
+    // 🔹 Get Subjects List
+    Route::get('/subjects', function () {
+        $subjects = Subject::select('id', 'name')->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $subjects,
+        ]);
+    });
+
+     Route::get('/boards', function () {
+        $grades = Grade::select('id', 'name')->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $grades,
+        ]);
+    });
 
   // Route::get('/fetch-grades', function () {
   //   return response()->json([

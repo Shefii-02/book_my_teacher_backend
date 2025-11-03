@@ -242,23 +242,23 @@ Route::get('/skills/{category_id}', function ($category_id) {
     // });
 
     // 🔹 Get Subjects List
-    // Route::get('/subjects', function () {
-    //     $subjects = Subject::all()->pluck('name');
+    Route::get('/subjects', function () {
+        $subjects = Subject::all()->pluck('name');
 
-    //     return response()->json([
-    //         'status' => true,
-    //         'data' => $subjects,
-    //     ]);
-    // });
+        return response()->json([
+            'status' => true,
+            'data' => $subjects,
+        ]);
+    });
 
-    //  Route::get('/boards', function () {
-    //     $grades = Grade::all()->pluck('name');
+     Route::get('/boards', function () {
+        $grades = Grade::all()->pluck('name');
 
-    //     return response()->json([
-    //         'status' => true,
-    //         'data' => $grades,
-    //     ]);
-    // });
+        return response()->json([
+            'status' => true,
+            'data' => $grades,
+        ]);
+    });
 
   // Route::get('/fetch-grades', function () {
   //   return response()->json([

@@ -22,6 +22,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/guest-signup', 'RegisterController@guestSignup');
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
     Route::post('/my-wallet', 'StudentController@myWallet');
+    Route::post('/wallet/convert-to-rupees', 'StudentController@convertToRupees');
+    Route::post('/wallet/transfer-to-bank', 'StudentController@transferToBank');
     Route::post('top-banner/submit', function (Request $request) {
       Log::info('📢 Top Banner Request:', $request->all());
       return response()->json([

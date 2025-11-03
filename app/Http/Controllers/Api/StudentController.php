@@ -198,6 +198,27 @@ class StudentController extends Controller
     ]);
   }
 
+  public function convertToRupees(Request $request)
+    {
+        // Dummy logic — you can replace this with real DB update
+        return response()->json([
+            'success' => true,
+            'message' => 'Conversion request submitted successfully!',
+            'request_id' => rand(1000, 9999),
+            'status' => 'pending',
+        ]);
+    }
+
+    public function transferToBank(Request $request)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'Transfer request submitted successfully!',
+            'transaction_id' => rand(10000, 99999),
+            'status' => 'pending',
+        ]);
+    }
+
   public function Referral(): JsonResponse
   {
     return response()->json([

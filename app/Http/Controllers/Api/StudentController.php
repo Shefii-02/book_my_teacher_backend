@@ -178,38 +178,24 @@ class StudentController extends Controller
   }
   public function myWallet(): JsonResponse
   {
-    $data = [
-      'green_coin' => 1200,
-      'balance' => 5600,
-      'target' => 10000,
-      'history' => [
-        [
-          'id' => 1,
-          'title' => 'Referral Bonus',
-          'amount' => 500,
-          'type' => 'credit',
+   return response()->json([
+        'green' => [
+            'balance' => 780,
+            'target' => 1000,
+            'history' => [
+                ['title' => 'Completed Demo Class', 'type' => 'credit', 'amount' => 50, 'date' => '2025-11-01', 'status' => 'Approved'],
+                ['title' => 'Redeemed to Rupees', 'type' => 'debit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Processed'],
+            ],
         ],
-        [
-          'id' => 2,
-          'title' => 'Course Purchase',
-          'amount' => -200,
-          'type' => 'debit',
+        'rupee' => [
+            'balance' => 5400,
+            'target' => 5000,
+            'history' => [
+                ['title' => 'Converted from Coins', 'type' => 'credit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Completed'],
+                ['title' => 'Transferred to Bank', 'type' => 'debit', 'amount' => 5000, 'date' => '2025-09-25', 'status' => 'Pending'],
+            ],
         ],
-        [
-          'id' => 3,
-          'title' => 'Cash Withdraw',
-          'amount' => -1000,
-          'type' => 'withdraw',
-        ],
-        [
-          'id' => 4,
-          'title' => 'Weekly Reward',
-          'amount' => 700,
-          'type' => 'credit',
-        ],
-      ],
-    ];
-    return response()->json($data);
+    ]);
   }
 
   public function Referral(): JsonResponse

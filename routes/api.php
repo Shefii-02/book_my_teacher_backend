@@ -22,7 +22,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/guest-signup', 'RegisterController@guestSignup');
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
     Route::post('top-banner/submit', function (Request $request) {
-        Log::info('📢 Top Banner Request:', $request->all());
+      Log::info('📢 Top Banner Request:', $request->all());
       return response()->json([
         'status' => true,
         'data' => "Your request has been submitted successfully!",
@@ -30,7 +30,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     });
 
     Route::post('request-teacher-class/submit', function (Request $request) {
-              Log::info('👨‍🏫 Teacher Class Request:', $request->all());
+      Log::info('👨‍🏫 Teacher Class Request:', $request->all());
 
       return response()->json([
         'status' => true,
@@ -39,7 +39,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     });
 
     Route::post('request-form/submit', function (Request $request) {
-              Log::info('📝 Request Form Submitted:', $request->all());
+      Log::info('📝 Request Form Submitted:', $request->all());
 
       return response()->json([
         'status' => true,
@@ -49,54 +49,93 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('requested-classes', function (Request $request) {
 
       return response()->json([
-                          'success' => true,
-                          'data' => [
-                                        [
-                                            'id' => 1,
-                                            'title' => 'Math - Algebra Basics',
-                                            'grade' => '8th Grade',
-                                            'board' => 'CBSE',
-                                            'subject' => 'Mathematics',
-                                            'note' => 'Need special focus on equations.',
-                                            'status' => 'Pending',
-                                            'created_at' => '2025-10-31',
-                                        ],
-                                        [
-                                            'id' => 2,
-                                            'title' => 'Math - Algebra Basics-2',
-                                            'grade' => '8th Grade',
-                                            'board' => 'CBSE',
-                                            'subject' => 'Mathematics',
-                                            'note' => 'Need special focus on equations.',
-                                            'status' => 'Pending',
-                                            'created_at' => '2025-10-31',
-                                        ],
-                                        [
-                                            'id' => 3,
-                                            'title' => 'Math - Algebra Basics-3',
-                                            'grade' => '8th Grade',
-                                            'board' => 'CBSE',
-                                            'subject' => 'Mathematics',
-                                            'note' => 'Need special focus on equations.',
-                                            'status' => 'Pending',
-                                            'created_at' => '2025-10-31',
-                                        ],
-                                        [
-                                            'id' => 4,
-                                            'title' => 'Math - Algebra Basics-4',
-                                            'grade' => '8th Grade',
-                                            'board' => 'CBSE',
-                                            'subject' => 'Mathematics',
-                                            'note' => 'Need special focus on equations.',
-                                            'status' => 'Pending',
-                                            'created_at' => '2025-10-31',
-                                        ],
-                                        // More items...
-                                    ]
-                          ]);
-
+        'success' => true,
+        'data' => [
+          [
+            'id' => 1,
+            'title' => 'Math - Algebra Basics',
+            'grade' => '8th Grade',
+            'board' => 'CBSE',
+            'subject' => 'Mathematics',
+            'note' => 'Need special focus on equations.',
+            'status' => 'Pending',
+            'created_at' => '2025-10-31',
+          ],
+          [
+            'id' => 2,
+            'title' => 'Math - Algebra Basics-2',
+            'grade' => '8th Grade',
+            'board' => 'CBSE',
+            'subject' => 'Mathematics',
+            'note' => 'Need special focus on equations.',
+            'status' => 'Pending',
+            'created_at' => '2025-10-31',
+          ],
+          [
+            'id' => 3,
+            'title' => 'Math - Algebra Basics-3',
+            'grade' => '8th Grade',
+            'board' => 'CBSE',
+            'subject' => 'Mathematics',
+            'note' => 'Need special focus on equations.',
+            'status' => 'Pending',
+            'created_at' => '2025-10-31',
+          ],
+          [
+            'id' => 4,
+            'title' => 'Math - Algebra Basics-4',
+            'grade' => '8th Grade',
+            'board' => 'CBSE',
+            'subject' => 'Mathematics',
+            'note' => 'Need special focus on equations.',
+            'status' => 'Pending',
+            'created_at' => '2025-10-31',
+          ],
+           [
+            'id' => 5,
+            'title' => 'Math - Algebra Basics',
+            'grade' => '8th Grade',
+            'board' => 'CBSE',
+            'subject' => 'Mathematics',
+            'note' => 'Need special focus on equations.',
+            'status' => 'Pending',
+            'created_at' => '2025-10-31',
+          ],
+          [
+            'id' => 6,
+            'title' => 'Math - Algebra Basics-2',
+            'grade' => '8th Grade',
+            'board' => 'CBSE',
+            'subject' => 'Mathematics',
+            'note' => 'Need special focus on equations.',
+            'status' => 'Pending',
+            'created_at' => '2025-10-31',
+          ],
+          [
+            'id' => 7,
+            'title' => 'Math - Algebra Basics-3',
+            'grade' => '8th Grade',
+            'board' => 'CBSE',
+            'subject' => 'Mathematics',
+            'note' => 'Need special focus on equations.',
+            'status' => 'Pending',
+            'created_at' => '2025-10-31',
+          ],
+          [
+            'id' => 8,
+            'title' => 'Math - Algebra Basics-4',
+            'grade' => '8th Grade',
+            'board' => 'CBSE',
+            'subject' => 'Mathematics',
+            'note' => 'Need special focus on equations.',
+            'status' => 'Pending',
+            'created_at' => '2025-10-31',
+          ],
+          // More items...
+        ]
+      ]);
+    });
   });
- });
 
   Route::post('/user-login-email', 'LoginController@googleLoginCheck');
 
@@ -200,284 +239,284 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // Route::post('webinars/{webinar}/token', [ZegoTokenController::class, 'generate']);
 
 
-//   Route::get('/grades', function () {
-//     return response()->json([
-//         'status' => true,
-//         'data' => [
-//             ['id' => 1, 'name' => 'Higher Secondary', 'code' => 'hs'],
-//             ['id' => 2, 'name' => 'Under Graduate', 'code' => 'ug'],
-//             ['id' => 3, 'name' => 'Competitive Exam', 'code' => 'ce'],
-//             ['id' => 4, 'name' => 'Skill Development', 'code' => 'sd'],
-//             ['id' => 5, 'name' => 'Other', 'code' => 'other'],
-//         ]
-//     ]);
-// });
-Route::get('/options/{grade_code}', function ($grade_code) {
+  //   Route::get('/grades', function () {
+  //     return response()->json([
+  //         'status' => true,
+  //         'data' => [
+  //             ['id' => 1, 'name' => 'Higher Secondary', 'code' => 'hs'],
+  //             ['id' => 2, 'name' => 'Under Graduate', 'code' => 'ug'],
+  //             ['id' => 3, 'name' => 'Competitive Exam', 'code' => 'ce'],
+  //             ['id' => 4, 'name' => 'Skill Development', 'code' => 'sd'],
+  //             ['id' => 5, 'name' => 'Other', 'code' => 'other'],
+  //         ]
+  //     ]);
+  // });
+  Route::get('/options/{grade_code}', function ($grade_code) {
     $response = [];
 
     switch ($grade_code) {
-        case 'hs':
-            $response = [
-                'type' => 'boards',
-                'list' => [
-                    ['id' => 1, 'name' => 'CBSE'],
-                    ['id' => 2, 'name' => 'State Board'],
-                ],
-            ];
-            break;
-        case 'ug':
-            $response = [
-                'type' => 'universities',
-                'list' => [
-                    ['id' => 1, 'name' => 'Kerala University'],
-                    ['id' => 2, 'name' => 'MG University'],
-                ],
-            ];
-            break;
-        case 'ce':
-            $response = [
-                'type' => 'exam_categories',
-                'list' => [
-                    ['id' => 1, 'name' => 'UPSC'],
-                    ['id' => 2, 'name' => 'SSC'],
-                ],
-            ];
-            break;
-        case 'sd':
-            $response = [
-                'type' => 'skill_categories',
-                'list' => [
-                    ['id' => 1, 'name' => 'Programming'],
-                    ['id' => 2, 'name' => 'Designing'],
-                ],
-            ];
-            break;
-        case 'other':
-            $response = [
-                'type' => 'manual_input',
-                'fields' => ['course_name', 'subject_name']
-            ];
-            break;
+      case 'hs':
+        $response = [
+          'type' => 'boards',
+          'list' => [
+            ['id' => 1, 'name' => 'CBSE'],
+            ['id' => 2, 'name' => 'State Board'],
+          ],
+        ];
+        break;
+      case 'ug':
+        $response = [
+          'type' => 'universities',
+          'list' => [
+            ['id' => 1, 'name' => 'Kerala University'],
+            ['id' => 2, 'name' => 'MG University'],
+          ],
+        ];
+        break;
+      case 'ce':
+        $response = [
+          'type' => 'exam_categories',
+          'list' => [
+            ['id' => 1, 'name' => 'UPSC'],
+            ['id' => 2, 'name' => 'SSC'],
+          ],
+        ];
+        break;
+      case 'sd':
+        $response = [
+          'type' => 'skill_categories',
+          'list' => [
+            ['id' => 1, 'name' => 'Programming'],
+            ['id' => 2, 'name' => 'Designing'],
+          ],
+        ];
+        break;
+      case 'other':
+        $response = [
+          'type' => 'manual_input',
+          'fields' => ['course_name', 'subject_name']
+        ];
+        break;
     }
 
     return response()->json(['status' => true, 'data' => $response]);
-});
+  });
 
-Route::get('/subjects/{board_id}', function ($board_id) {
+  Route::get('/subjects/{board_id}', function ($board_id) {
     $data = [
-        1 => ['Maths', 'Physics', 'Chemistry'],
-        2 => ['Biology', 'History', 'Civics'],
+      1 => ['Maths', 'Physics', 'Chemistry'],
+      2 => ['Biology', 'History', 'Civics'],
     ];
     return response()->json(['status' => true, 'data' => $data[$board_id] ?? []]);
-});
+  });
 
-Route::get('/skills/{category_id}', function ($category_id) {
+  Route::get('/skills/{category_id}', function ($category_id) {
     $skills = [
-        1 => ['Flutter', 'Laravel', 'React'],
-        2 => ['Photoshop', 'Figma'],
+      1 => ['Flutter', 'Laravel', 'React'],
+      2 => ['Photoshop', 'Figma'],
     ];
     return response()->json(['status' => true, 'data' => $skills[$category_id] ?? []]);
-});
+  });
 
 
 
-// 🔹 Get Grades List
-    // Route::get('/grades', function () {
-    //     $grades = Grade::all()->pluck('name');
+  // 🔹 Get Grades List
+  // Route::get('/grades', function () {
+  //     $grades = Grade::all()->pluck('name');
 
-    //     return response()->json([
-    //         'status' => true,
-    //         'data' => $grades,
-    //     ]);
-    // });
-    Route::get('/grades', function () {
+  //     return response()->json([
+  //         'status' => true,
+  //         'data' => $grades,
+  //     ]);
+  // });
+  Route::get('/grades', function () {
     $data = [
-        [
+      [
+        'id' => 1,
+        'name' => 'Pre-Primary / Kindergarten',
+        'value' => 'Pre-Primary / Kindergarten',
+        'boards' => [
+          [
             'id' => 1,
-            'name' => 'Pre-Primary / Kindergarten',
-            'value' => 'Pre-Primary / Kindergarten',
-            'boards' => [
-                [
-                    'id' => 1,
-                    'name' => 'Kerala State Board',
-                    'value' => 'Kerala State Board',
-                    'subjects' => [
-                        ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
-                        ['id' => 4, 'name' => 'English', 'value' => 'English'],
-                        ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
-                    ],
-                ],
-                [
-                    'id' => 2,
-                    'name' => 'CBSE',
-                    'value' => 'CBSE',
-                    'subjects' => [
-                        ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
-                        ['id' => 4, 'name' => 'English', 'value' => 'English'],
-                        ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
-                    ],
-                ],
+            'name' => 'Kerala State Board',
+            'value' => 'Kerala State Board',
+            'subjects' => [
+              ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
+              ['id' => 4, 'name' => 'English', 'value' => 'English'],
+              ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
             ],
-        ],
-        [
+          ],
+          [
             'id' => 2,
-            'name' => 'Lower Primary',
-            'value' => 'Lower Primary',
-            'boards' => [
-                [
-                    'id' => 3,
-                    'name' => 'Kerala State Board',
-                    'value' => 'Kerala State Board',
-                    'subjects' => [
-                        ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
-                        ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
-                        ['id' => 4, 'name' => 'English', 'value' => 'English'],
-                    ],
-                ],
-                [
-                    'id' => 4,
-                    'name' => 'ICSE',
-                    'value' => 'ICSE',
-                    'subjects' => [
-                        ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
-                        ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
-                        ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
-                    ],
-                ],
+            'name' => 'CBSE',
+            'value' => 'CBSE',
+            'subjects' => [
+              ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
+              ['id' => 4, 'name' => 'English', 'value' => 'English'],
+              ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
             ],
+          ],
         ],
-        [
+      ],
+      [
+        'id' => 2,
+        'name' => 'Lower Primary',
+        'value' => 'Lower Primary',
+        'boards' => [
+          [
             'id' => 3,
-            'name' => 'Up to 10th',
-            'value' => 'Up to 10th',
-            'boards' => [
-                [
-                    'id' => 5,
-                    'name' => 'CBSE',
-                    'value' => 'CBSE',
-                    'subjects' => [
-                        ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
-                        ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
-                        ['id' => 5, 'name' => 'Social Studies', 'value' => 'Social Studies'],
-                    ],
-                ],
-                [
-                    'id' => 6,
-                    'name' => 'Kerala State Board',
-                    'value' => 'Kerala State Board',
-                    'subjects' => [
-                        ['id' => 4, 'name' => 'English', 'value' => 'English'],
-                        ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
-                        ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
-                    ],
-                ],
+            'name' => 'Kerala State Board',
+            'value' => 'Kerala State Board',
+            'subjects' => [
+              ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
+              ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
+              ['id' => 4, 'name' => 'English', 'value' => 'English'],
             ],
-        ],
-        [
+          ],
+          [
             'id' => 4,
-            'name' => 'Higher Secondary',
-            'value' => 'Higher Secondary',
-            'boards' => [
-                [
-                    'id' => 7,
-                    'name' => 'State Board',
-                    'value' => 'State Board',
-                    'subjects' => [
-                        ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
-                        ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
-                        ['id' => 9, 'name' => 'Biology', 'value' => 'Biology'],
-                    ],
-                ],
-                [
-                    'id' => 8,
-                    'name' => 'CBSE',
-                    'value' => 'CBSE',
-                    'subjects' => [
-                        ['id' => 10, 'name' => 'Commerce', 'value' => 'Commerce'],
-                        ['id' => 11, 'name' => 'Economics', 'value' => 'Economics'],
-                        ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
-                    ],
-                ],
+            'name' => 'ICSE',
+            'value' => 'ICSE',
+            'subjects' => [
+              ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
+              ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
+              ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
             ],
+          ],
         ],
-        [
+      ],
+      [
+        'id' => 3,
+        'name' => 'Up to 10th',
+        'value' => 'Up to 10th',
+        'boards' => [
+          [
             'id' => 5,
-            'name' => 'Under/Post Graduate Level',
-            'value' => 'Under/Post Graduate Level',
-            'boards' => [
-                [
-                    'id' => 9,
-                    'name' => 'University',
-                    'value' => 'University',
-                    'subjects' => [
-                        ['id' => 12, 'name' => 'Engineering Subjects', 'value' => 'Engineering Subjects'],
-                        ['id' => 13, 'name' => 'Medical Subjects', 'value' => 'Medical Subjects'],
-                        ['id' => 19, 'name' => 'Programming', 'value' => 'Programming'],
-                    ],
-                ],
+            'name' => 'CBSE',
+            'value' => 'CBSE',
+            'subjects' => [
+              ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
+              ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
+              ['id' => 5, 'name' => 'Social Studies', 'value' => 'Social Studies'],
             ],
-        ],
-        [
+          ],
+          [
             'id' => 6,
-            'name' => 'Competitive Exams',
-            'value' => 'Competitive Exams',
-            'boards' => [
-                [
-                    'id' => 10,
-                    'name' => 'National Level',
-                    'value' => 'National Level',
-                    'subjects' => [
-                        ['id' => 15, 'name' => 'Quantitative Aptitude', 'value' => 'Quantitative Aptitude'],
-                        ['id' => 16, 'name' => 'Reasoning', 'value' => 'Reasoning'],
-                        ['id' => 17, 'name' => 'Current Affairs', 'value' => 'Current Affairs'],
-                    ],
-                ],
+            'name' => 'Kerala State Board',
+            'value' => 'Kerala State Board',
+            'subjects' => [
+              ['id' => 4, 'name' => 'English', 'value' => 'English'],
+              ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
+              ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
             ],
+          ],
         ],
-        [
+      ],
+      [
+        'id' => 4,
+        'name' => 'Higher Secondary',
+        'value' => 'Higher Secondary',
+        'boards' => [
+          [
             'id' => 7,
-            'name' => 'Skill Development',
-            'value' => 'Skill Development',
-            'boards' => [
-                [
-                    'id' => 11,
-                    'name' => 'Vocational Training',
-                    'value' => 'Vocational Training',
-                    'subjects' => [
-                        ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
-                        ['id' => 20, 'name' => 'Digital Marketing', 'value' => 'Digital Marketing'],
-                        ['id' => 21, 'name' => 'Designing', 'value' => 'Designing'],
-                    ],
-                ],
+            'name' => 'State Board',
+            'value' => 'State Board',
+            'subjects' => [
+              ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
+              ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
+              ['id' => 9, 'name' => 'Biology', 'value' => 'Biology'],
             ],
+          ],
+          [
+            'id' => 8,
+            'name' => 'CBSE',
+            'value' => 'CBSE',
+            'subjects' => [
+              ['id' => 10, 'name' => 'Commerce', 'value' => 'Commerce'],
+              ['id' => 11, 'name' => 'Economics', 'value' => 'Economics'],
+              ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
+            ],
+          ],
         ],
+      ],
+      [
+        'id' => 5,
+        'name' => 'Under/Post Graduate Level',
+        'value' => 'Under/Post Graduate Level',
+        'boards' => [
+          [
+            'id' => 9,
+            'name' => 'University',
+            'value' => 'University',
+            'subjects' => [
+              ['id' => 12, 'name' => 'Engineering Subjects', 'value' => 'Engineering Subjects'],
+              ['id' => 13, 'name' => 'Medical Subjects', 'value' => 'Medical Subjects'],
+              ['id' => 19, 'name' => 'Programming', 'value' => 'Programming'],
+            ],
+          ],
+        ],
+      ],
+      [
+        'id' => 6,
+        'name' => 'Competitive Exams',
+        'value' => 'Competitive Exams',
+        'boards' => [
+          [
+            'id' => 10,
+            'name' => 'National Level',
+            'value' => 'National Level',
+            'subjects' => [
+              ['id' => 15, 'name' => 'Quantitative Aptitude', 'value' => 'Quantitative Aptitude'],
+              ['id' => 16, 'name' => 'Reasoning', 'value' => 'Reasoning'],
+              ['id' => 17, 'name' => 'Current Affairs', 'value' => 'Current Affairs'],
+            ],
+          ],
+        ],
+      ],
+      [
+        'id' => 7,
+        'name' => 'Skill Development',
+        'value' => 'Skill Development',
+        'boards' => [
+          [
+            'id' => 11,
+            'name' => 'Vocational Training',
+            'value' => 'Vocational Training',
+            'subjects' => [
+              ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
+              ['id' => 20, 'name' => 'Digital Marketing', 'value' => 'Digital Marketing'],
+              ['id' => 21, 'name' => 'Designing', 'value' => 'Designing'],
+            ],
+          ],
+        ],
+      ],
     ];
 
     return response()->json([
-        'status' => true,
-        'message' => 'Grades with boards and subjects fetched successfully.',
-        'grades' => $data,
+      'status' => true,
+      'message' => 'Grades with boards and subjects fetched successfully.',
+      'grades' => $data,
     ]);
   });
 
-    // 🔹 Get Subjects List
-    Route::get('/subjects', function () {
-        $subjects = Subject::all()->pluck('name');
+  // 🔹 Get Subjects List
+  Route::get('/subjects', function () {
+    $subjects = Subject::all()->pluck('name');
 
-        return response()->json([
-            'status' => true,
-            'data' => $subjects,
-        ]);
-    });
+    return response()->json([
+      'status' => true,
+      'data' => $subjects,
+    ]);
+  });
 
-     Route::get('/boards', function () {
-        $grades = Grade::all()->pluck('name');
+  Route::get('/boards', function () {
+    $grades = Grade::all()->pluck('name');
 
-        return response()->json([
-            'status' => true,
-            'data' => $grades,
-        ]);
-    });
+    return response()->json([
+      'status' => true,
+      'data' => $grades,
+    ]);
+  });
 
   // Route::get('/fetch-grades', function () {
   //   return response()->json([

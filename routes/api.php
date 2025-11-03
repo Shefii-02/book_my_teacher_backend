@@ -150,18 +150,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // Route::post('webinars/{webinar}/token', [ZegoTokenController::class, 'generate']);
 
 
-  Route::get('/grades', function () {
-    return response()->json([
-        'status' => true,
-        'data' => [
-            ['id' => 1, 'name' => 'Higher Secondary', 'code' => 'hs'],
-            ['id' => 2, 'name' => 'Under Graduate', 'code' => 'ug'],
-            ['id' => 3, 'name' => 'Competitive Exam', 'code' => 'ce'],
-            ['id' => 4, 'name' => 'Skill Development', 'code' => 'sd'],
-            ['id' => 5, 'name' => 'Other', 'code' => 'other'],
-        ]
-    ]);
-});
+//   Route::get('/grades', function () {
+//     return response()->json([
+//         'status' => true,
+//         'data' => [
+//             ['id' => 1, 'name' => 'Higher Secondary', 'code' => 'hs'],
+//             ['id' => 2, 'name' => 'Under Graduate', 'code' => 'ug'],
+//             ['id' => 3, 'name' => 'Competitive Exam', 'code' => 'ce'],
+//             ['id' => 4, 'name' => 'Skill Development', 'code' => 'sd'],
+//             ['id' => 5, 'name' => 'Other', 'code' => 'other'],
+//         ]
+//     ]);
+// });
 Route::get('/options/{grade_code}', function ($grade_code) {
     $response = [];
 
@@ -232,14 +232,14 @@ Route::get('/skills/{category_id}', function ($category_id) {
 
 
 // 🔹 Get Grades List
-    // Route::get('/grades', function () {
-    //     $grades = Grade::all()->pluck('name');
+    Route::get('/grades', function () {
+        $grades = Grade::all()->pluck('name');
 
-    //     return response()->json([
-    //         'status' => true,
-    //         'data' => $grades,
-    //     ]);
-    // });
+        return response()->json([
+            'status' => true,
+            'data' => $grades,
+        ]);
+    });
 
     // 🔹 Get Subjects List
     Route::get('/subjects', function () {

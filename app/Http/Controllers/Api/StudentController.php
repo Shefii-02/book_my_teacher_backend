@@ -128,118 +128,137 @@ class StudentController extends Controller
       'data' => $teachers
     ]);
   }
-  public function gradesSubjects(): JsonResponse {
-    $grades = collect(range(1,5))->map(function($i){
-            return [
-                'title' => "Grade $i",
-                'value' => "grade_$i",
-                'icon' => "https://cdn.app/icons/grade_$i.png",
-                'color_code' => '#FFD700',
-                'difficulty_level' => 'medium',
-                'syllabus_reference' => "CBSE Grade $i Syllabus",
-                'position' => $i,
-                'subjects' => collect(range(1,3))->map(function($j){
-                    return [
-                        'title' => "Subject $j",
-                        'value' => "subject_$j",
-                        'icon' => "https://cdn.app/icons/sub$j.png",
-                        'color_code' => '#00ADEF',
-                        'difficulty_level' => 'medium',
-                        'syllabus_reference' => 'CBSE',
-                        'position' => $j
-                    ];
-                })
-            ];
-        });
-        return response()->json(['status'=>true,'data'=>$grades]);
+  public function gradesSubjects(): JsonResponse
+  {
+    $grades = collect(range(1, 5))->map(function ($i) {
+      return [
+        'title' => "Grade $i",
+        'value' => "grade_$i",
+        'icon' => "https://cdn.app/icons/grade_$i.png",
+        'color_code' => '#FFD700',
+        'difficulty_level' => 'medium',
+        'syllabus_reference' => "CBSE Grade $i Syllabus",
+        'position' => $i,
+        'subjects' => collect(range(1, 3))->map(function ($j) {
+          return [
+            'title' => "Subject $j",
+            'value' => "subject_$j",
+            'icon' => "https://cdn.app/icons/sub$j.png",
+            'color_code' => '#00ADEF',
+            'difficulty_level' => 'medium',
+            'syllabus_reference' => 'CBSE',
+            'position' => $j
+          ];
+        })
+      ];
+    });
+    return response()->json(['status' => true, 'data' => $grades]);
   }
-  public function boardSyllabus(): JsonResponse {
+  public function boardSyllabus(): JsonResponse
+  {
     $boards = [
-            [
-                'name' => 'CBSE',
-                'grades_covered' => ['Grade 1–12'],
-                'subject_covered' => ['Maths','Science','English'],
-                'logo' => 'https://cdn.app/cbse_logo.png',
-                'curriculum_type' => 'National',
-                'language_options' => ['English','Hindi']
-            ],
-            [
-                'name' => 'ICSE',
-                'grades_covered' => ['Grade 1–12'],
-                'subject_covered' => ['Maths','Physics','Chemistry'],
-                'logo' => 'https://cdn.app/icse_logo.png',
-                'curriculum_type' => 'Private',
-                'language_options' => ['English']
-            ]
-        ];
-        return response()->json(['status'=>true,'data'=>$boards]);
+      [
+        'name' => 'CBSE',
+        'grades_covered' => ['Grade 1–12'],
+        'subject_covered' => ['Maths', 'Science', 'English'],
+        'logo' => 'https://cdn.app/cbse_logo.png',
+        'curriculum_type' => 'National',
+        'language_options' => ['English', 'Hindi']
+      ],
+      [
+        'name' => 'ICSE',
+        'grades_covered' => ['Grade 1–12'],
+        'subject_covered' => ['Maths', 'Physics', 'Chemistry'],
+        'logo' => 'https://cdn.app/icse_logo.png',
+        'curriculum_type' => 'Private',
+        'language_options' => ['English']
+      ]
+    ];
+    return response()->json(['status' => true, 'data' => $boards]);
   }
-  public function myWallet(): JsonResponse {
+  public function myWallet(): JsonResponse
+  {
+    $data = [
+      'green_coin' => 1200,
+      'balance' => 5600,
+      'target' => 10000,
+      'history' => [
+        [
+          'id' => 1,
+          'title' => 'Referral Bonus',
+          'amount' => 500,
+          'type' => 'credit',
+        ],
+        [
+          'id' => 2,
+          'title' => 'Course Purchase',
+          'amount' => -200,
+          'type' => 'debit',
+        ],
+        [
+          'id' => 3,
+          'title' => 'Cash Withdraw',
+          'amount' => -1000,
+          'type' => 'withdraw',
+        ],
+        [
+          'id' => 4,
+          'title' => 'Weekly Reward',
+          'amount' => 700,
+          'type' => 'credit',
+        ],
+      ],
+    ];
+    return response()->json($data);
+  }
+
+  public function Referral(): JsonResponse
+  {
     return response()->json([
-            'green_coins' => 120,
-            'rupees' => 450,
-            'coin_redeem_min' => 50,
-            'rupee_redeem_min' => 100,
-            'wallet_type' => 'premium',
-            'auto_redeem_status' => true,
-            'rewards_level' => 'Gold',
-            'transactions' => [
-                [
-                    'transaction_id' => 'TXN2025-001',
-                    'category' => 'redeem',
-                    'cash' => 100,
-                    'date' => now()->subDays(1)->toDateString()
-                ]
-            ],
-            'green_coin_history' => [
-                ['category'=>'referral','points'=>10,'date'=>now()->subDays(3)->toDateString()]
-            ]
-        ]);
+      'referral_link' => 'https://bookmyteacher.com/ref/ABC123',
+      'qr_code_url' => 'https://cdn.app/qr/ABC123.png',
+      'bonus_threshold' => 5,
+      'expiry_date' => now()->addMonths(2)->toDateString(),
+      'my_referral_list' => [
+        ['name' => 'Ankit', 'joined_at' => '2025-09-12'],
+        ['name' => 'Riya', 'joined_at' => '2025-09-18']
+      ],
+      'referral_terms_points' => [
+        ['category' => 'signup', 'points' => 10],
+        ['category' => 'review', 'points' => 5]
+      ],
+      'reward_per_referral' => 20
+    ]);
   }
-  public function Referral(): JsonResponse {
-    return response()->json([
-            'referral_link' => 'https://bookmyteacher.com/ref/ABC123',
-            'qr_code_url' => 'https://cdn.app/qr/ABC123.png',
-            'bonus_threshold' => 5,
-            'expiry_date' => now()->addMonths(2)->toDateString(),
-            'my_referral_list' => [
-                ['name'=>'Ankit','joined_at'=>'2025-09-12'],
-                ['name'=>'Riya','joined_at'=>'2025-09-18']
-            ],
-            'referral_terms_points' => [
-                ['category'=>'signup','points'=>10],
-                ['category'=>'review','points'=>5]
-            ],
-            'reward_per_referral' => 20
-        ]);
+  public function provideSubjects(): JsonResponse
+  {
+    $subjects = collect(range(1, 15))->map(function ($i) {
+      return [
+        'title' => "Subject $i",
+        'value' => "subject_$i",
+        'description' => "Description for subject $i",
+        'booked_status' => $i % 2 === 0,
+        'date' => now()->toDateString(),
+        'icon' => "https://cdn.app/icons/sub_$i.png"
+      ];
+    });
+    return response()->json(['status' => true, 'data' => $subjects]);
   }
-  public function provideSubjects(): JsonResponse {
-     $subjects = collect(range(1,15))->map(function($i){
-            return [
-                'title' => "Subject $i",
-                'value' => "subject_$i",
-                'description' => "Description for subject $i",
-                'booked_status' => $i % 2 === 0,
-                'date' => now()->toDateString(),
-                'icon' => "https://cdn.app/icons/sub_$i.png"
-            ];
-        });
-        return response()->json(['status'=>true,'data'=>$subjects]);
-  }
-  public function provideCourses(): JsonResponse {
-    $courses = collect(range(1,15))->map(function($i){
-            return [
-                'title' => "Course $i",
-                'value' => "course_$i",
-                'description' => "Learn subject in depth $i",
-                'booked_status' => $i % 3 === 0,
-                'date' => now()->toDateString(),
-                'total_enrollments' => rand(50,300),
-                'teacher_details' => [
-                    ['name'=>'Teacher A','rating'=>4.8,'experience'=>8]
-                ]
-            ];
-        });
-        return response()->json(['status'=>true,'data'=>$courses]);
+  public function provideCourses(): JsonResponse
+  {
+    $courses = collect(range(1, 15))->map(function ($i) {
+      return [
+        'title' => "Course $i",
+        'value' => "course_$i",
+        'description' => "Learn subject in depth $i",
+        'booked_status' => $i % 3 === 0,
+        'date' => now()->toDateString(),
+        'total_enrollments' => rand(50, 300),
+        'teacher_details' => [
+          ['name' => 'Teacher A', 'rating' => 4.8, 'experience' => 8]
+        ]
+      ];
+    });
+    return response()->json(['status' => true, 'data' => $courses]);
   }
 }

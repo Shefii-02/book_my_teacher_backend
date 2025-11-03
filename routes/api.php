@@ -21,6 +21,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/guest-signup', 'RegisterController@guestSignup');
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
+    Route::post('/my-wallet', 'StudentController@myWallet');
     Route::post('top-banner/submit', function (Request $request) {
       Log::info('📢 Top Banner Request:', $request->all());
       return response()->json([
@@ -91,7 +92,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'status' => 'Pending',
             'created_at' => '2025-10-31',
           ],
-           [
+          [
             'id' => 5,
             'title' => 'Math - Algebra Basics',
             'grade' => '8th Grade',
@@ -626,7 +627,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/teachers', 'StudentController@teachersListing');
   Route::get('/grades-subjects', 'StudentController@gradesSubjects');
   Route::get('/board-syllabus', 'StudentController@boardSyllabus');
-  Route::get('/my-wallet', 'StudentController@myWallet');
+
   Route::get('/referral', 'StudentController@Referral');
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
   Route::get('/provide-courses', 'StudentController@provideCourses');

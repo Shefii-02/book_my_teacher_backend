@@ -408,6 +408,7 @@ Route::get('/skills/{category_id}', function ($category_id) {
         'message' => 'Grades with boards and subjects fetched successfully.',
         'grades' => $data,
     ]);
+  });
 
     // 🔹 Get Subjects List
     Route::get('/subjects', function () {

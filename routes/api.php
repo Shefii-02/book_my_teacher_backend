@@ -149,34 +149,116 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // // token generation for joining ZEGOCLOUD
   // Route::post('webinars/{webinar}/token', [ZegoTokenController::class, 'generate']);
 
-// 🔹 Get Grades List
-    Route::get('/grades', function () {
-        $grades = Grade::all()->pluck('name');
 
-        return response()->json([
-            'status' => true,
-            'data' => $grades,
-        ]);
-    });
+  Route::get('/grades', function () {
+    return response()->json([
+        'status' => true,
+        'data' => [
+            ['id' => 1, 'name' => 'Higher Secondary', 'code' => 'hs'],
+            ['id' => 2, 'name' => 'Under Graduate', 'code' => 'ug'],
+            ['id' => 3, 'name' => 'Competitive Exam', 'code' => 'ce'],
+            ['id' => 4, 'name' => 'Skill Development', 'code' => 'sd'],
+            ['id' => 5, 'name' => 'Other', 'code' => 'other'],
+        ]
+    ]);
+});
+Route::get('/options/{grade_code}', function ($grade_code) {
+    $response = [];
+
+    switch ($grade_code) {
+        case 'hs':
+            $response = [
+                'type' => 'boards',
+                'list' => [
+                    ['id' => 1, 'name' => 'CBSE'],
+                    ['id' => 2, 'name' => 'State Board'],
+                ],
+            ];
+            break;
+        case 'ug':
+            $response = [
+                'type' => 'universities',
+                'list' => [
+                    ['id' => 1, 'name' => 'Kerala University'],
+                    ['id' => 2, 'name' => 'MG University'],
+                ],
+            ];
+            break;
+        case 'ce':
+            $response = [
+                'type' => 'exam_categories',
+                'list' => [
+                    ['id' => 1, 'name' => 'UPSC'],
+                    ['id' => 2, 'name' => 'SSC'],
+                ],
+            ];
+            break;
+        case 'sd':
+            $response = [
+                'type' => 'skill_categories',
+                'list' => [
+                    ['id' => 1, 'name' => 'Programming'],
+                    ['id' => 2, 'name' => 'Designing'],
+                ],
+            ];
+            break;
+        case 'other':
+            $response = [
+                'type' => 'manual_input',
+                'fields' => ['course_name', 'subject_name']
+            ];
+            break;
+    }
+
+    return response()->json(['status' => true, 'data' => $response]);
+});
+
+Route::get('/subjects/{board_id}', function ($board_id) {
+    $data = [
+        1 => ['Maths', 'Physics', 'Chemistry'],
+        2 => ['Biology', 'History', 'Civics'],
+    ];
+    return response()->json(['status' => true, 'data' => $data[$board_id] ?? []]);
+});
+
+Route::get('/skills/{category_id}', function ($category_id) {
+    $skills = [
+        1 => ['Flutter', 'Laravel', 'React'],
+        2 => ['Photoshop', 'Figma'],
+    ];
+    return response()->json(['status' => true, 'data' => $skills[$category_id] ?? []]);
+});
+
+
+
+// 🔹 Get Grades List
+    // Route::get('/grades', function () {
+    //     $grades = Grade::all()->pluck('name');
+
+    //     return response()->json([
+    //         'status' => true,
+    //         'data' => $grades,
+    //     ]);
+    // });
 
     // 🔹 Get Subjects List
-    Route::get('/subjects', function () {
-        $subjects = Subject::all()->pluck('name');
+    // Route::get('/subjects', function () {
+    //     $subjects = Subject::all()->pluck('name');
 
-        return response()->json([
-            'status' => true,
-            'data' => $subjects,
-        ]);
-    });
+    //     return response()->json([
+    //         'status' => true,
+    //         'data' => $subjects,
+    //     ]);
+    // });
 
-     Route::get('/boards', function () {
-        $grades = Grade::all()->pluck('name');
+    //  Route::get('/boards', function () {
+    //     $grades = Grade::all()->pluck('name');
 
-        return response()->json([
-            'status' => true,
-            'data' => $grades,
-        ]);
-    });
+    //     return response()->json([
+    //         'status' => true,
+    //         'data' => $grades,
+    //     ]);
+    // });
 
   // Route::get('/fetch-grades', function () {
   //   return response()->json([

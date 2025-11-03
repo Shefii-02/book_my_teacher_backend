@@ -46,7 +46,57 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'data' => "Your request has been submitted successfully!",
       ]);
     });
+    Route::post('requested-classes', function (Request $request) {
+
+      return response()->json([
+                          'success' => true,
+                          'data' => [
+                                        [
+                                            'id' => 1,
+                                            'title' => 'Math - Algebra Basics',
+                                            'grade' => '8th Grade',
+                                            'board' => 'CBSE',
+                                            'subject' => 'Mathematics',
+                                            'note' => 'Need special focus on equations.',
+                                            'status' => 'Pending',
+                                            'created_at' => '2025-10-31',
+                                        ],
+                                        [
+                                            'id' => 2,
+                                            'title' => 'Math - Algebra Basics-2',
+                                            'grade' => '8th Grade',
+                                            'board' => 'CBSE',
+                                            'subject' => 'Mathematics',
+                                            'note' => 'Need special focus on equations.',
+                                            'status' => 'Pending',
+                                            'created_at' => '2025-10-31',
+                                        ],
+                                        [
+                                            'id' => 3,
+                                            'title' => 'Math - Algebra Basics-3',
+                                            'grade' => '8th Grade',
+                                            'board' => 'CBSE',
+                                            'subject' => 'Mathematics',
+                                            'note' => 'Need special focus on equations.',
+                                            'status' => 'Pending',
+                                            'created_at' => '2025-10-31',
+                                        ],
+                                        [
+                                            'id' => 4,
+                                            'title' => 'Math - Algebra Basics-4',
+                                            'grade' => '8th Grade',
+                                            'board' => 'CBSE',
+                                            'subject' => 'Mathematics',
+                                            'note' => 'Need special focus on equations.',
+                                            'status' => 'Pending',
+                                            'created_at' => '2025-10-31',
+                                        ],
+                                        // More items...
+                                    ]
+                          ]);
+
   });
+ });
 
   Route::post('/user-login-email', 'LoginController@googleLoginCheck');
 

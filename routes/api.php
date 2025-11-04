@@ -262,6 +262,21 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'ranking' => 1,
         'rating' => 4.8,
         'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+        'description' => 'Highly experienced computer science teacher with passion for modern learning.',
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ]
       ],
       [
         'id' => 2,
@@ -271,6 +286,21 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'ranking' => 2,
         'rating' => 4.5,
         'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+        'description' => 'Highly experienced computer science teacher with passion for modern learning.',
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ]
       ],
       [
         'id' => 3,
@@ -280,6 +310,21 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'ranking' => 3,
         'rating' => 4.7,
         'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+        'description' => 'Highly experienced computer science teacher with passion for modern learning.',
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ]
       ],
       [
         'id' => 4,
@@ -289,6 +334,21 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'ranking' => 4,
         'rating' => 4.9,
         'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+        'description' => 'Highly experienced computer science teacher with passion for modern learning.',
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ]
       ]
     ];
     return response()->json([

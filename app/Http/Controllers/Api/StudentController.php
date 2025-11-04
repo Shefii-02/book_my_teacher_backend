@@ -211,6 +211,8 @@ class StudentController extends Controller
 
     public function transferToBank(Request $request)
     {
+      Log::info('👨‍🏫 Transfer to Bank Account:', $request->all());
+
         return response()->json([
             'success' => true,
             'message' => 'Transfer request submitted successfully!',

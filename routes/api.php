@@ -387,6 +387,272 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   });
 
 
+  Route::get('/teachers', function () {
+    $subjects = [
+      [
+        'name' => 'English',
+        'description' => 'Improve grammar, vocabulary, and communication skills.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/english.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          ['name' => 'Alice Johnson', 'experience' => '5 Years'],
+          ['name' => 'Robert White', 'experience' => '3 Years'],
+        ],
+      ],
+      [
+        'name' => 'Math',
+        'description' => 'Learn arithmetic, algebra, geometry, and more.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/math.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          ['name' => 'David Miller', 'experience' => '7 Years'],
+          ['name' => 'Sophia Taylor', 'experience' => '4 Years'],
+        ],
+      ],
+      [
+        'name' => 'Science',
+        'description' => 'Explore physics, chemistry, and biology through fun learning.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/science.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          ['name' => 'Daniel Brown', 'experience' => '6 Years'],
+          ['name' => 'Emma Davis', 'experience' => '4 Years'],
+        ],
+      ],
+      [
+        'name' => 'History',
+        'description' => 'Understand world history and important civilizations.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/history.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          ['name' => 'Michael Scott', 'experience' => '8 Years'],
+          ['name' => 'Laura Green', 'experience' => '5 Years'],
+        ],
+      ],
+      [
+        'name' => 'Geography',
+        'description' => 'Learn about Earth, maps, and global environments.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/geography.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          ['name' => 'James Wilson', 'experience' => '6 Years'],
+        ],
+      ],
+      [
+        'name' => 'Art',
+        'description' => 'Explore creativity through painting, drawing, and design.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/art.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          [
+            'name' => 'Anna Lee',
+            'qualification' => 'PhD, M.Ed',
+            'subjects' => 'History, Civics',
+            'ranking' => 4,
+            'rating' => 4.9,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+          ],
+        ],
+      ],
+      [
+        'name' => 'Physics',
+        'description' => 'Understand motion, energy, and the laws of the universe.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/physics.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          [
+            'name' => 'William Clark',
+            'qualification' => 'PhD, M.Ed',
+            'subjects' => 'History, Civics',
+            'ranking' => 4,
+            'rating' => 4.9,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+          [
+            'name' => 'Olivia Evans',
+            'qualification' => 'PhD, M.Ed',
+            'subjects' => 'History, Civics',
+            'ranking' => 4,
+            'rating' => 4.9,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+        ],
+      ],
+      [
+        'name' => 'Chemistry',
+        'description' => 'Learn about elements, compounds, and reactions.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/chemistry.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          [
+            'name' => 'Henry Adams',
+            'qualification' => 'PhD, M.Ed',
+            'subjects' => 'History, Civics',
+            'ranking' => 4,
+            'rating' => 4.9,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+        ],
+      ],
+      [
+        'name' => 'Biology',
+        'description' => 'Study living organisms, genetics, and ecosystems.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/biology.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          [
+            'name' => 'Sarah Thompson',
+            'qualification' => 'PhD, M.Ed',
+            'subjects' => 'History, Civics',
+            'ranking' => 4,
+            'rating' => 4.9,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+          [
+            'name' => 'Mark Anderson',
+            'qualification' => 'PhD, M.Ed',
+            'subjects' => 'History, Civics',
+            'ranking' => 4,
+            'rating' => 4.9,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+        ],
+      ],
+    ];
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Subjects fetched successfully',
+      'data' => $subjects,
+    ]);
+  });
+
   // Route::post('/teacher-profile', 'TeacherController@home');
 
   // Route::post('/teacher-mycourses', 'TeacherController@home');

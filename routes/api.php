@@ -387,7 +387,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   });
 
 
-  Route::get('/teachers', function () {
+  Route::get('/subjects', function () {
     $subjects = [
       [
         'name' => 'English',

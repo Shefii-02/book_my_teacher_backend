@@ -186,9 +186,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'reward_per_join' => $reward_per_join,
         'bonus_on_first_class' => $bonus_on_first_class,
         'how_it_works' => 'How it works',
-        'how_it_works_description'=>'For each friend who joins using your link/code, you earn Green Coins. Coins can be converted to rewards or wallet credits.',
+        'how_it_works_description' => 'For each friend who joins using your link/code, you earn Green Coins. Coins can be converted to rewards or wallet credits.',
         'badge_title' => '💰 Earn Green Coins',
-        'badge_description' =>"• $reward_per_join coins when your friend joins\n• $bonus_on_first_class extra coins when they join first class\n• Track your invites in Rewards → Invited List",
+        'badge_description' => "• $reward_per_join coins when your friend joins\n• $bonus_on_first_class extra coins when they join first class\n• Track your invites in Rewards → Invited List",
         'friends_list' => [
           [
             'name' => 'Rahul Mehta',
@@ -249,6 +249,83 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/teacher-home', 'TeacherController@home');
   Route::post('/student-home', 'StudentController@home');
   Route::post('/guest-home', 'GuestController@home');
+
+
+  Route::get('/teachers', function () {
+
+
+    $data = [
+      [
+        'id' => 1,
+        'name' => 'Asif T',
+        'qualification' => 'MCA, NET',
+        'subjects' => 'Computer Science, English',
+        'ranking' => 1,
+        'rating' => 4.8,
+        'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+      ],
+      [
+        'id' => 2,
+        'name' => 'James M',
+        'qualification' => 'B.Ed, M.Sc',
+        'subjects' => 'Maths, Physics',
+        'ranking' => 2,
+        'rating' => 4.5,
+        'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+      ],
+      [
+        'id' => 3,
+        'name' => 'Sana K',
+        'qualification' => 'B.Tech, M.Tech',
+        'subjects' => 'Chemistry, Biology',
+        'ranking' => 3,
+        'rating' => 4.7,
+        'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+      ],
+      [
+        'id' => 4,
+        'name' => 'Mohammed S',
+        'qualification' => 'PhD, M.Ed',
+        'subjects' => 'History, Civics',
+        'ranking' => 4,
+        'rating' => 4.9,
+        'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+      ]
+    ];
+    return response()->json([
+      'message' => 'Teachers Fetached successfully',
+      'data' => $data,
+      'status' => true
+    ]);
+  });
+
+  Route::get('/teacher/{id}', function ($id) {
+    // simple dummy single teacher detail
+    return response()->json([
+      'id' => $id,
+      'name' => 'Asif T',
+      'qualification' => 'MCA, NET',
+      'subjects' => 'Computer Science, English',
+      'ranking' => 1,
+      'rating' => 4.8,
+      'image' => asset('assets/mobile-app/asit-t.png'),
+      'description' => 'Highly experienced computer science teacher with passion for modern learning.',
+      'reviews' => [
+        [
+          'name' => 'Student 1',
+          'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+          'comment' => 'Very helpful sessions!',
+          'rating' => 5
+        ],
+        [
+          'name' => 'Student 2',
+          'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+          'comment' => 'Explains concepts clearly.',
+          'rating' => 4
+        ],
+      ]
+    ]);
+  });
 
 
   // Route::post('/teacher-profile', 'TeacherController@home');

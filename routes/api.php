@@ -177,11 +177,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     });
 
     Route::post('referral/stats', function (Request $request) {
+      $reward_per_join = 100;
+      $bonus_on_first_class = 50;
+
       return response()->json([
         'earned_coins' => 1850,
         'friends_joined' => 4,
-        'reward_per_join' => 100,
-        'bonus_on_first_class' => 50,
+        'reward_per_join' => $reward_per_join,
+        'bonus_on_first_class' => $bonus_on_first_class,
+        'how_it_works' => 'How it works',
+        'how_it_works_description'=>'For each friend who joins using your link/code, you earn Green Coins. Coins can be converted to rewards or wallet credits.',
+        'badge_title' => '💰 Earn Green Coins',
+        'badge_description' =>"• $reward_per_join coins when your friend joins\n• $bonus_on_first_class extra coins when they join first class\n• Track your invites in Rewards → Invited List",
         'friends_list' => [
           [
             'name' => 'Rahul Mehta',

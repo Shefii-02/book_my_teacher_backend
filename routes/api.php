@@ -86,7 +86,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-    Route::post('/referral/stats', function (Request $request) {
+    Route::post('requested-classes', function (Request $request) {
 
       return response()->json([
         'success' => true,
@@ -176,7 +176,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       ]);
     });
 
-    Route::post('reward-datas', function (Request $request) {
+    Route::post('referral/stats', function (Request $request) {
       return response()->json([
         'earned_coins' => 1850,
         'friends_joined' => 4,

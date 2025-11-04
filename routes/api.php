@@ -984,14 +984,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   });
 
   // 🔹 Get Subjects List
-  Route::get('/subjects', function () {
-    $subjects = Subject::all()->pluck('name');
+  // Route::get('/subjects', function () {
+  //   $subjects = Subject::all()->pluck('name');
 
-    return response()->json([
-      'status' => true,
-      'data' => $subjects,
-    ]);
-  });
+  //   return response()->json([
+  //     'status' => true,
+  //     'data' => $subjects,
+  //   ]);
+  // });
 
   Route::get('/boards', function () {
     $grades = Grade::all()->pluck('name');

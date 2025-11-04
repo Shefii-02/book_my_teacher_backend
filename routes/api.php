@@ -21,6 +21,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/guest-signup', 'RegisterController@guestSignup');
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
+    Route::post('/user-data-retrieve', 'LoginController@userDataRetrieve');
+
+
     Route::post('/my-wallet', 'StudentController@myWallet');
     Route::post('/wallet/convert-to-rupees', 'StudentController@convertToRupees');
     Route::post('/wallet/transfer-to-bank', 'StudentController@transferToBank');
@@ -49,6 +52,40 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'data' => "Your request has been submitted successfully!",
       ]);
     });
+
+
+
+    Route::post('/referral/share', function (Request $r) {
+      // log share event for analytics
+      Log::info('Referral share', ['code' => $r->code, 'method' => $r->method, 'user_id' => $r->user_id ?? null, 'ip' => $r->ip()]);
+      return response()->json(['status' => true, 'message' => 'Share recorded']);
+    });
+
+    Route::post('/referral/click', function (Request $r) {
+      // when user clicks link (open webview or app), record
+      $code = $r->input('code');
+      Log::info('Referral click', ['code' => $code, 'ip' => $r->ip(), 'ua' => $r->userAgent()]);
+      return response()->json(['status' => true, 'message' => 'Click recorded']);
+    });
+
+    Route::post('/referral/send-invites', function (Request $r) {
+      $payload = $r->input('contacts'); // array of contacts
+      // validate and queue SMS/emails via gateway (not implemented)
+      Log::info('Send invites', ['payload' => $payload, 'by' => $r->user()]);
+      return response()->json(['status' => true, 'message' => 'Invites received. Will be sent (simulated).']);
+    });
+
+    // called when new user registers with ?ref=CODE or code in payload
+    Route::post('/referral/register', function (Request $r) {
+      $code = $r->input('referral_code');
+      $newUserId = rand(1000, 9999); // simulate
+      // store referral record
+      Log::info('Referral register', ['code' => $code, 'new_user' => $newUserId, 'ip' => $r->ip()]);
+      return response()->json(['status' => true, 'message' => 'Referral recorded', 'awarded' => 100]);
+    });
+
+
+
     Route::post('requested-classes', function (Request $request) {
 
       return response()->json([

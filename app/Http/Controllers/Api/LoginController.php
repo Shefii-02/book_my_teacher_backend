@@ -114,4 +114,19 @@ class LoginController extends Controller
       ]);
     }
   }
+
+  public function  userDataRetrieve(Request $request){
+    try{
+         $user = $request->user();
+         return response()->json([
+          'success' => true,
+          'message' => 'User data fetched successfully',
+          'user'    => $user,
+          'referral_code' => 'BMT-9834',
+        ], 200);
+    }
+    catch(Exception $e){
+
+    }
+  }
 }

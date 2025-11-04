@@ -86,7 +86,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-    Route::post('requested-classes', function (Request $request) {
+    Route::post('/referral/stats', function (Request $request) {
 
       return response()->json([
         'success' => true,
@@ -173,6 +173,41 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           ],
           // More items...
         ]
+      ]);
+    });
+
+    Route::post('reward-datas', function (Request $request) {
+      return response()->json([
+        'earned_coins' => 1850,
+        'friends_joined' => 4,
+        'reward_per_join' => 100,
+        'bonus_on_first_class' => 50,
+        'friends_list' => [
+          [
+            'name' => 'Rahul Mehta',
+            'joined_at' => '2025-10-30',
+            'earned_coins' => 150,
+            'status' => 'completed',
+          ],
+          [
+            'name' => 'Anjali Singh',
+            'joined_at' => '2025-10-27',
+            'earned_coins' => 100,
+            'status' => 'joined',
+          ],
+          [
+            'name' => 'Vikas Kumar',
+            'joined_at' => '2025-10-25',
+            'earned_coins' => 0,
+            'status' => 'pending',
+          ],
+          [
+            'name' => 'Priya Sharma',
+            'joined_at' => '2025-10-21',
+            'earned_coins' => 50,
+            'status' => 'joined',
+          ],
+        ],
       ]);
     });
   });

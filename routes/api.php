@@ -409,8 +409,22 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           ],
         ],
         'available_teachers' => [
-          ['name' => 'Alice Johnson', 'experience' => '5 Years'],
-          ['name' => 'Robert White', 'experience' => '3 Years'],
+          [
+            'name' => 'Alice Johnson',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+          [
+            'name' => 'Robert White',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
         ],
       ],
       [
@@ -433,8 +447,22 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           ],
         ],
         'available_teachers' => [
-          ['name' => 'David Miller', 'experience' => '7 Years'],
-          ['name' => 'Sophia Taylor', 'experience' => '4 Years'],
+          [
+            'name' => 'David Miller',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+          [
+            'name' => 'Sophia Taylor',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
         ],
       ],
       [
@@ -457,8 +485,22 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           ],
         ],
         'available_teachers' => [
-          ['name' => 'Daniel Brown', 'experience' => '6 Years'],
-          ['name' => 'Emma Davis', 'experience' => '4 Years'],
+          [
+            'name' => 'Daniel Brown',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+          [
+            'name' => 'Emma Davis',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
         ],
       ],
       [
@@ -481,8 +523,22 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           ],
         ],
         'available_teachers' => [
-          ['name' => 'Michael Scott', 'experience' => '8 Years'],
-          ['name' => 'Laura Green', 'experience' => '5 Years'],
+          [
+            'name' => 'Michael Scott',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+          [
+            'name' => 'Laura Green',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
         ],
       ],
       [
@@ -505,7 +561,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           ],
         ],
         'available_teachers' => [
-          ['name' => 'James Wilson', 'experience' => '6 Years'],
+          [
+            'name' => 'James Wilson',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
         ],
       ],
       [

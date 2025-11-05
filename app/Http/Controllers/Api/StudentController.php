@@ -95,6 +95,33 @@ class StudentController extends Controller
       'data' => $banners
     ]);
   }
+
+   public function courseBanners(): JsonResponse
+  {
+    $banners = collect(range(1, 3))->map(function ($i) {
+      return [
+        'id' => $i,
+        'title' => "Top Banner $i",
+        'main_image' => asset("assets/mobile-app/banners/course-banner-{$i}.png"),
+        'thumb' => asset("assets/mobile-app/banners/course-banner-{$i}.png"),
+        'description' => "This is banner $i description.",
+        'priority_order' => $i,
+        'banner_type' => $i % 2 ? 'image' : 'video',
+        'cta_label' => 'Join Now',
+        'cta_action' => '',
+        // 'is_booked' => $i % 3 === 0,
+        'is_booked' => true,
+        'last_booked_at' => $i % 3 === 0 ? now()->subDays($i)->toDateTimeString() : null,
+      ];
+    });
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Top banners fetched successfully',
+      'data' => $banners
+    ]);
+  }
+
   public function teachersListing(): JsonResponse
   {
     $teachers = collect(range(1, 15))->map(function ($i) {

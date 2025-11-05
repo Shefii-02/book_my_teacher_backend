@@ -97,7 +97,7 @@ class StudentController extends Controller
     ]);
   }
 
-   public function courseBanners(): JsonResponse
+  public function courseBanners(): JsonResponse
   {
     $banners = collect(range(1, 3))->map(function ($i) {
       return [
@@ -206,48 +206,48 @@ class StudentController extends Controller
   }
   public function myWallet(): JsonResponse
   {
-   return response()->json([
-        'green' => [
-            'balance' => 780,
-            'target' => 1000,
-            'history' => [
-                ['title' => 'Completed Demo Class', 'type' => 'credit', 'amount' => 50, 'date' => '2025-11-01', 'status' => 'Approved'],
-                ['title' => 'Redeemed to Rupees', 'type' => 'debit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Processed'],
-            ],
+    return response()->json([
+      'green' => [
+        'balance' => 780,
+        'target' => 1000,
+        'history' => [
+          ['title' => 'Completed Demo Class', 'type' => 'credit', 'amount' => 50, 'date' => '2025-11-01', 'status' => 'Approved'],
+          ['title' => 'Redeemed to Rupees', 'type' => 'debit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Processed'],
         ],
-        'rupee' => [
-            'balance' => 5400,
-            'target' => 5000,
-            'history' => [
-                ['title' => 'Converted from Coins', 'type' => 'credit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Completed'],
-                ['title' => 'Transferred to Bank', 'type' => 'debit', 'amount' => 5000, 'date' => '2025-09-25', 'status' => 'Pending'],
-            ],
+      ],
+      'rupee' => [
+        'balance' => 5400,
+        'target' => 5000,
+        'history' => [
+          ['title' => 'Converted from Coins', 'type' => 'credit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Completed'],
+          ['title' => 'Transferred to Bank', 'type' => 'debit', 'amount' => 5000, 'date' => '2025-09-25', 'status' => 'Pending'],
         ],
+      ],
     ]);
   }
 
   public function convertToRupees(Request $request)
-    {
-        // Dummy logic — you can replace this with real DB update
-        return response()->json([
-            'success' => true,
-            'message' => 'Conversion request submitted successfully!',
-            'request_id' => rand(1000, 9999),
-            'status' => 'pending',
-        ]);
-    }
+  {
+    // Dummy logic — you can replace this with real DB update
+    return response()->json([
+      'success' => true,
+      'message' => 'Conversion request submitted successfully!',
+      'request_id' => rand(1000, 9999),
+      'status' => 'pending',
+    ]);
+  }
 
-    public function transferToBank(Request $request)
-    {
-      Log::info('👨‍🏫 Transfer to Bank Account:', $request->all());
+  public function transferToBank(Request $request)
+  {
+    Log::info('👨‍🏫 Transfer to Bank Account:', $request->all());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Transfer request submitted successfully!',
-            'transaction_id' => rand(10000, 99999),
-            'status' => 'pending',
-        ]);
-    }
+    return response()->json([
+      'success' => true,
+      'message' => 'Transfer request submitted successfully!',
+      'transaction_id' => rand(10000, 99999),
+      'status' => 'pending',
+    ]);
+  }
 
   public function Referral(): JsonResponse
   {
@@ -283,19 +283,87 @@ class StudentController extends Controller
   }
   public function provideCourses(): JsonResponse
   {
-    $courses = collect(range(1, 15))->map(function ($i) {
+    // $courses = collect(range(1, 15))->map(function ($i) {
+    //   return [
+    //     'title' => "Course $i",
+    //     'value' => "course_$i",
+    //     'description' => "Learn subject in depth $i",
+    //     'booked_status' => $i % 3 === 0,
+    //     'date' => now()->toDateString(),
+    //     'total_enrollments' => rand(50, 300),
+    //     'teacher_details' => [
+    //       ['name' => 'Teacher A', 'rating' => 4.8, 'experience' => 8]
+    //     ]
+    //   ];
+    // });
+    // return response()->json(['status' => true, 'data' => $courses]);
+
+
+    $courses = collect([
+      [
+        'id' => 1,
+        'title' => 'Mathematics Basics',
+        'description' => 'Learn core concepts of algebra, geometry, and arithmetic.',
+        'category' => 'Course',
+        'image' => asset('assets/mobile-app/courses/math.png'),
+        'duration' => '3 Months',
+        'level' => 'Beginner',
+        'is_enrolled' => false,
+      ],
+      [
+        'id' => 2,
+        'title' => 'Science Fundamentals',
+        'description' => 'Explore physics, chemistry, and biology principles.',
+        'category' => 'Course',
+        'image' => asset('assets/mobile-app/courses/science.png'),
+        'duration' => '4 Months',
+        'level' => 'Intermediate',
+        'is_enrolled' => true,
+      ],
+      [
+        'id' => 3,
+        'title' => 'AI for Beginners',
+        'description' => 'Introduction to artificial intelligence and ML basics.',
+        'category' => 'Workshop',
+        'image' => asset('assets/mobile-app/workshops/ai.png'),
+        'duration' => '2 Days',
+        'level' => 'Skill Booster',
+        'is_enrolled' => false,
+      ],
+      [
+        'id' => 4,
+        'title' => 'Web Development Bootcamp',
+        'description' => 'Full-stack web development using Laravel & React.',
+        'category' => 'Workshop',
+        'image' => asset('assets/mobile-app/workshops/web.png'),
+        'duration' => '5 Days',
+        'level' => 'Advanced',
+        'is_enrolled' => false,
+      ],
+      [
+        'id' => 5,
+        'title' => 'Effective Communication Webinar',
+        'description' => 'Boost your communication skills with real-time interaction.',
+        'category' => 'Webinar',
+        'image' => asset('assets/mobile-app/webinars/communication.png'),
+        'duration' => '1 Hour',
+        'level' => 'Open for All',
+        'is_enrolled' => false,
+        'schedule' => now()->addDays(3)->toDateTimeString(),
+      ],
+    ]);
+
+    $grouped = $courses->groupBy('category')->map(function ($items, $category) {
       return [
-        'title' => "Course $i",
-        'value' => "course_$i",
-        'description' => "Learn subject in depth $i",
-        'booked_status' => $i % 3 === 0,
-        'date' => now()->toDateString(),
-        'total_enrollments' => rand(50, 300),
-        'teacher_details' => [
-          ['name' => 'Teacher A', 'rating' => 4.8, 'experience' => 8]
-        ]
+        'category' => $category,
+        'items' => $items->values(),
       ];
-    });
-    return response()->json(['status' => true, 'data' => $courses]);
+    })->values();
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Courses categorized successfully',
+      'data' => $grouped,
+    ]);
   }
 }

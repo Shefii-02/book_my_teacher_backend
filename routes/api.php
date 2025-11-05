@@ -53,6 +53,16 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       ]);
     });
 
+     Route::post('request-subject-class/submit', function (Request $request) {
+      Log::info('📝 Request Form Submitted:', $request->all());
+
+      return response()->json([
+        'status' => true,
+        'data' => "Your request has been submitted successfully!",
+      ]);
+    });
+
+
 
 
     Route::post('/referral/share', function (Request $r) {

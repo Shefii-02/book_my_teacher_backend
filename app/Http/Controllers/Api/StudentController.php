@@ -19,7 +19,8 @@ class StudentController extends Controller
   public function home(Request $request)
   {
 
-    $studentId = $request->input('student_id'); // frontend should send teacher_id
+    $student = $request->user(); // frontend should send teacher_id
+    $studentId = $student->id;
 
     $student = User::where('id', $studentId)
       ->where('acc_type', 'student')

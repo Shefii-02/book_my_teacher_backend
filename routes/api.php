@@ -53,7 +53,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       ]);
     });
 
-     Route::post('request-subject-class/submit', function (Request $request) {
+    Route::post('request-subject-class/submit', function (Request $request) {
       Log::info('📝 Request Form Submitted:', $request->all());
 
       return response()->json([
@@ -70,9 +70,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'data' => "Your request has been submitted successfully!",
       ]);
     });
-
-
-
 
 
     Route::post('/referral/share', function (Request $r) {
@@ -237,6 +234,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ]);
     });
+
+    Route::post('/student-home', 'StudentController@home');
   });
 
   Route::post('/user-login-email', 'LoginController@googleLoginCheck');
@@ -267,7 +266,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::post('/user-details', 'UserController@index');
   Route::post('/teacher-home', 'TeacherController@home');
-  Route::post('/student-home', 'StudentController@home');
+
   Route::post('/guest-home', 'GuestController@home');
 
 

@@ -366,4 +366,106 @@ class StudentController extends Controller
       'data' => $grouped,
     ]);
   }
+
+
+
+  public function myClasses(): JsonResponse
+{
+    $data = [
+        'categories' => [
+            [
+                'category' => 'Courses',
+                'sections' => [
+                    [
+                        'status' => 'Pending Approval',
+                        'items' => [
+                            [
+                                'id' => 1,
+                                'title' => 'Advanced Laravel Bootcamp',
+                                'description' => 'Master Laravel 11 with projects.',
+                                'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
+                                'duration' => '6 weeks',
+                                'level' => 'Intermediate',
+                                'join_link' => null,
+                            ],
+                        ],
+                    ],
+                    [
+                        'status' => 'Ongoing',
+                        'items' => [
+                            [
+                                'id' => 2,
+                                'title' => 'Flutter App Development',
+                                'description' => 'Learn Flutter with hands-on examples.',
+                                'image' => asset('assets/mobile-app/banners/course-banner-2.png'),
+                                'duration' => '4 weeks',
+                                'level' => 'Beginner',
+                                'join_link' => 'https://meet.google.com/abc-defg-hij',
+                            ],
+                        ],
+                    ],
+                    [
+                        'status' => 'Completed',
+                        'items' => [
+                            [
+                                'id' => 3,
+                                'title' => 'AWS Cloud Fundamentals',
+                                'description' => 'Understand cloud basics and deployment.',
+                                'image' => asset('assets/mobile-app/banners/course-banner-3.png'),
+                                'duration' => '3 weeks',
+                                'level' => 'Advanced',
+                                'join_link' => null,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'category' => 'Webinars',
+                'sections' => [
+                    [
+                        'status' => 'Ongoing',
+                        'items' => [
+                            [
+                                'id' => 4,
+                                'title' => 'AI in Education Webinar',
+                                'description' => 'Explore how AI impacts modern teaching.',
+                                'image' => asset('assets/mobile-app/banners/webinar-banner-1.png'),
+                                'duration' => '1 day',
+                                'level' => 'All',
+                                'join_link' => 'https://zoom.us/j/123456789',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'category' => 'Workshops',
+                'sections' => [
+                    [
+                        'status' => 'Completed',
+                        'items' => [
+                            [
+                                'id' => 5,
+                                'title' => 'Skill Booster: JavaScript Mastery',
+                                'description' => 'Hands-on coding sessions and challenges.',
+                                'image' => asset('assets/mobile-app/banners/workshop-banner-1.png'),
+                                'duration' => '2 days',
+                                'level' => 'Intermediate',
+                                'join_link' => null,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ];
+
+    return response()->json([
+        'status' => true,
+        'message' => 'My classes fetched successfully',
+        'data' => $data
+    ]);
+}
+
 }

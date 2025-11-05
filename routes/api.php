@@ -191,6 +191,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           // More items...
         ]
       ]);
+
+
     });
 
     Route::post('referral/stats', function (Request $request) {
@@ -236,6 +238,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     });
 
     Route::post('/student-home', 'StudentController@home');
+
+
+    Route::post('/my-classes', 'StudentController@myClasses');
+
+
   });
 
   Route::post('/user-login-email', 'LoginController@googleLoginCheck');

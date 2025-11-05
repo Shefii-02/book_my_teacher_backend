@@ -419,7 +419,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
-            'id'  => 1,
+            'id'  => 2,
             'name' => 'Robert White',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -459,7 +459,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
-            'id'  => 1,
+            'id'  => 2,
             'name' => 'Sophia Taylor',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -499,7 +499,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
-            'id'  => 1,
+            'id'  => 2,
             'name' => 'Emma Davis',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -539,7 +539,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
-            'id'  => 1,
+            'id'  => 2,
             'name' => 'Laura Green',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -641,7 +641,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
-            'id'  => 1,
+            'id'  => 2,
             'name' => 'Olivia Evans',
             'qualification' => 'PhD, M.Ed',
             'subjects' => 'History, Civics',
@@ -713,7 +713,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
-            'id'  => 1,
+            'id'  => 2,
             'name' => 'Mark Anderson',
             'qualification' => 'PhD, M.Ed',
             'subjects' => 'History, Civics',

@@ -410,6 +410,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
         'available_teachers' => [
           [
+            'id'  => 1,
             'name' => 'Alice Johnson',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -418,6 +419,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
+            'id'  => 1,
             'name' => 'Robert White',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -448,6 +450,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
         'available_teachers' => [
           [
+            'id'  => 1,
             'name' => 'David Miller',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -456,6 +459,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
+            'id'  => 1,
             'name' => 'Sophia Taylor',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -486,6 +490,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
         'available_teachers' => [
           [
+            'id'  => 1,
             'name' => 'Daniel Brown',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -494,6 +499,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
+            'id'  => 1,
             'name' => 'Emma Davis',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -524,6 +530,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
         'available_teachers' => [
           [
+            'id'  => 1,
             'name' => 'Michael Scott',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -532,6 +539,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
+            'id'  => 1,
             'name' => 'Laura Green',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -562,6 +570,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
         'available_teachers' => [
           [
+            'id'  => 1,
             'name' => 'James Wilson',
             'qualification' => 'B.Tech, M.Tech',
             'subjects' => 'Chemistry, Biology',
@@ -592,6 +601,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
         'available_teachers' => [
           [
+            'id'  => 1,
             'name' => 'Anna Lee',
             'qualification' => 'PhD, M.Ed',
             'subjects' => 'History, Civics',
@@ -622,6 +632,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
         'available_teachers' => [
           [
+            'id'  => 1,
             'name' => 'William Clark',
             'qualification' => 'PhD, M.Ed',
             'subjects' => 'History, Civics',
@@ -630,6 +641,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
+            'id'  => 1,
             'name' => 'Olivia Evans',
             'qualification' => 'PhD, M.Ed',
             'subjects' => 'History, Civics',
@@ -660,6 +672,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
         'available_teachers' => [
           [
+            'id'  => 1,
             'name' => 'Henry Adams',
             'qualification' => 'PhD, M.Ed',
             'subjects' => 'History, Civics',
@@ -670,6 +683,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
+        'id'  => 1,
         'name' => 'Biology',
         'description' => 'Study living organisms, genetics, and ecosystems.',
         'main_image' => asset("/assets/mobile-app/images/subjects/biology.jpg"),
@@ -690,6 +704,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
         'available_teachers' => [
           [
+            'id'  => 1,
             'name' => 'Sarah Thompson',
             'qualification' => 'PhD, M.Ed',
             'subjects' => 'History, Civics',
@@ -698,6 +713,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
             'imageUrl' => asset('assets/mobile-app/asit-t.png')
           ],
           [
+            'id'  => 1,
             'name' => 'Mark Anderson',
             'qualification' => 'PhD, M.Ed',
             'subjects' => 'History, Civics',

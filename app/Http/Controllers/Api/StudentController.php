@@ -469,8 +469,10 @@ class StudentController extends Controller
 }
 
 
-public function fetchClassDetail($id): JsonResponse
+public function fetchClassDetail(Request $request): JsonResponse
 {
+  $id = $request->courseId;
+
     $classDetail = [
         'id' => $id,
         'title' => 'Flutter App Development Masterclass',

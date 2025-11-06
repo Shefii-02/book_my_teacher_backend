@@ -243,7 +243,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/my-classes', 'StudentController@myClasses');
 
 
-    Route::post('class-detail/{id}','StudentController@fetchClassDetail');
+    Route::post('class-detail','StudentController@fetchClassDetail');
 
 
   });

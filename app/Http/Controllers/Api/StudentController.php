@@ -473,71 +473,107 @@ public function fetchClassDetail(Request $request): JsonResponse
 {
   $id = $request->courseId;
 
+    // $classDetail = [
+    //     'id' => $id,
+    //     'title' => 'Flutter App Development Masterclass',
+    //     'description' => 'Learn Flutter from scratch to advanced level with real-world projects and quizzes.',
+    //     'image' => asset('assets/mobile-app/banners/course-banner-2.png'),
+    //     'duration' => '4 weeks',
+    //     'level' => 'Beginner',
+    //     'category' => 'Courses',
+    //     'join_type' => 'internal', // internal (Agora/Zego) or external (Google Meet, Zoom)
+    //     'join_link' => 'https://meet.google.com/abc-defg-hij',
+    // ];
+
+    // $materials = [
+    //     [
+    //         'id' => 1,
+    //         'title' => 'Introduction to Flutter',
+    //         'file_name' => 'flutter_intro.pdf',
+    //         'file_url' => asset('assets/materials/flutter_intro.pdf'),
+    //         'type' => 'pdf',
+    //     ],
+    //     [
+    //         'id' => 2,
+    //         'title' => 'Widgets Deep Dive',
+    //         'file_name' => 'widgets_deep_dive.pdf',
+    //         'file_url' => asset('assets/materials/widgets_deep_dive.pdf'),
+    //         'type' => 'pdf',
+    //     ],
+    //     [
+    //         'id' => 3,
+    //         'title' => 'Practical Demo Video',
+    //         'file_name' => 'demo_video.mp4',
+    //         'file_url' => asset('assets/materials/demo_video.mp4'),
+    //         'type' => 'video',
+    //     ],
+    // ];
+
+    // $classList = [
+    //     [
+    //         'id' => 101,
+    //         'title' => 'Live Class 1: Flutter Basics',
+    //         'status' => 'completed',
+    //         'scheduled_at' => now()->subDays(3)->toDateTimeString(),
+    //         'recording_url' => asset('assets/videos/flutter_basics_recorded.mp4'),
+    //         'join_link' => null,
+    //         'join_type' => null,
+    //     ],
+    //     [
+    //         'id' => 102,
+    //         'title' => 'Live Class 2: State Management',
+    //         'status' => 'ongoing',
+    //         'scheduled_at' => now()->subHour()->toDateTimeString(),
+    //         'recording_url' => null,
+    //         'join_link' => 'https://meet.google.com/abc-defg-hij',
+    //         'join_type' => 'external',
+    //     ],
+    //     [
+    //         'id' => 103,
+    //         'title' => 'Live Class 3: Flutter Animations',
+    //         'status' => 'upcoming',
+    //         'scheduled_at' => now()->addDays(2)->toDateTimeString(),
+    //         'recording_url' => null,
+    //         'join_link' => null,
+    //         'join_type' => null,
+    //     ],
+    // ];
+
+
+    // Dummy class data
     $classDetail = [
         'id' => $id,
-        'title' => 'Flutter App Development Masterclass',
-        'description' => 'Learn Flutter from scratch to advanced level with real-world projects and quizzes.',
-        'image' => asset('assets/mobile-app/banners/course-banner-2.png'),
-        'duration' => '4 weeks',
-        'level' => 'Beginner',
-        'category' => 'Courses',
-        'join_type' => 'internal', // internal (Agora/Zego) or external (Google Meet, Zoom)
-        'join_link' => 'https://meet.google.com/abc-defg-hij',
+        'title' => 'Flutter Beginner Class',
+        'description' => 'Learn Flutter from scratch — covering widgets, layouts, navigation, and API integration.',
+        'teacher_name' => 'John Doe',
+        'category' => 'Mobile Development',
+        'price' => 499,
+        'duration' => '8 weeks',
+        'thumbnail' => asset('images/flutter_class.jpg'),
     ];
 
+    // Dummy class materials
     $materials = [
-        [
-            'id' => 1,
-            'title' => 'Introduction to Flutter',
-            'file_name' => 'flutter_intro.pdf',
-            'file_url' => asset('assets/materials/flutter_intro.pdf'),
-            'type' => 'pdf',
-        ],
-        [
-            'id' => 2,
-            'title' => 'Widgets Deep Dive',
-            'file_name' => 'widgets_deep_dive.pdf',
-            'file_url' => asset('assets/materials/widgets_deep_dive.pdf'),
-            'type' => 'pdf',
-        ],
-        [
-            'id' => 3,
-            'title' => 'Practical Demo Video',
-            'file_name' => 'demo_video.mp4',
-            'file_url' => asset('assets/materials/demo_video.mp4'),
-            'type' => 'video',
-        ],
+        ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
+        ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
     ];
 
+    // Dummy related classes
     $classList = [
-        [
-            'id' => 101,
-            'title' => 'Live Class 1: Flutter Basics',
-            'status' => 'completed',
-            'scheduled_at' => now()->subDays(3)->toDateTimeString(),
-            'recording_url' => asset('assets/videos/flutter_basics_recorded.mp4'),
-            'join_link' => null,
-            'join_type' => null,
-        ],
-        [
-            'id' => 102,
-            'title' => 'Live Class 2: State Management',
-            'status' => 'ongoing',
-            'scheduled_at' => now()->subHour()->toDateTimeString(),
-            'recording_url' => null,
-            'join_link' => 'https://meet.google.com/abc-defg-hij',
-            'join_type' => 'external',
-        ],
-        [
-            'id' => 103,
-            'title' => 'Live Class 3: Flutter Animations',
-            'status' => 'upcoming',
-            'scheduled_at' => now()->addDays(2)->toDateTimeString(),
-            'recording_url' => null,
-            'join_link' => null,
-            'join_type' => null,
-        ],
+        ['id' => 101, 'title' => 'Flutter Intermediate', 'teacher' => 'Jane Smith'],
+        ['id' => 102, 'title' => 'Dart Advanced Concepts', 'teacher' => 'Mark Allen'],
     ];
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Class details fetched successfully',
+        'data' => [
+            'class_detail' => $classDetail,
+            'materials' => $materials,
+            'classes' => $classList,
+        ],
+    ]);
+
 
     return response()->json([
         'status' => true,

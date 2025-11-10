@@ -136,10 +136,10 @@ class TeacherController extends Controller
     $subjects     = \App\Models\TeachingSubject::where('teacher_id', $teacherId)->pluck('subject');
 
     // Avatar & CV from MediaFile
-    $avatar = \App\Models\MediaFile::where('user_id', $teacherId)
-      ->where('file_type', 'avatar')
-      ->latest('id')
-      ->first();
+    // $avatar = \App\Models\MediaFile::where('user_id', $teacherId)
+    //   ->where('file_type', 'avatar')
+    //   ->latest('id')
+    //   ->first();
 
     $cvFile = \App\Models\MediaFile::where('user_id', $teacherId)
       ->where('file_type', 'cv')
@@ -311,11 +311,6 @@ class TeacherController extends Controller
     $formattedDateTime = $interviewDateTime
       ? Carbon::parse($interviewDateTime)->format('d M Y, h:i A')
       : null;
-
-
-
-
-
 
 
     // default message if none stored
@@ -525,9 +520,9 @@ class TeacherController extends Controller
       'working_hours'     => $workingHours,
       'grades'            => $grades,
       'subjects'          => $subjects,
-      'avatar'            => $avatar ? asset('storage/' . $avatar->file_path) : null,
-      'cv_file'           => $cvFile ? asset('storage/' . $cvFile->file_path) : null,
-      // 'account_status'    => $teacher->account_status ?? $rawStatus,
+      'avatar'            => $teacher->avatar ? asset('storage/' . $teacher->avatar->file_path) : null,
+      'cv_file'           => $teacher ? asset('storage/' . $teacher->cv->file_path) : null,
+      'account_status'    => $teacher->account_status,
       'account_msg'       => $accountMsg,
       'steps'             => $steps,
     ]);

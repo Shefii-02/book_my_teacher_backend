@@ -594,11 +594,13 @@ class TeacherController extends Controller
         Log::info($user);
 
         return response()->json([
+          'status'            => true,
           'message'           => 'Teacher updated successfully'
         ], 201);
       } else {
         DB::rollBack();
         return response()->json([
+          'status'            => false,
           'message' => 'Teacher updation failed',
           'error'   => "User not found",
         ], 500);
@@ -606,6 +608,7 @@ class TeacherController extends Controller
     } catch (\Exception $e) {
       DB::rollBack();
       return response()->json([
+        'status'            => false,
         'message' => 'Teacher updation failed',
         'error'   => $e->getMessage(),
       ], 500);
@@ -679,11 +682,13 @@ class TeacherController extends Controller
       Log::info($user);
 
       return response()->json([
+        'status'            => true,
         'message'           => 'Teacher updated successfully'
       ], 201);
     } catch (\Exception $e) {
       DB::rollBack();
       return response()->json([
+        'status'            => false,
         'message' => 'Teacher updation failed',
         'error'   => $e->getMessage(),
       ], 500);
@@ -726,11 +731,13 @@ class TeacherController extends Controller
       Log::info($user);
 
       return response()->json([
+        'status'            => true,
         'message'           => 'Teacher updated successfully'
       ], 201);
     } catch (\Exception $e) {
       DB::rollBack();
       return response()->json([
+        'status'            => false,
         'message' => 'Teacher updation failed',
         'error'   => $e->getMessage(),
       ], 500);

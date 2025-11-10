@@ -699,30 +699,46 @@ class TeacherController extends Controller
   {
     $user = $request->user();
     $company_id = 1;
-    if ($request->hasFile('cv_file')) {
-      // Delete physical file
-      $userCvPath = $user->cv ? $user->cv->file_path : null;
+    try {
+      if ($request->hasFile('cv_file')) {
+        // Delete physical file
+        $userCvPath = $user->cv ? $user->cv->file_path : null;
 
-      if ($userCvPath && Storage::disk('public')->exists($userCvPath)) {
-        Storage::disk('public')->delete($userCvPath);
+        if ($userCvPath && Storage::disk('public')->exists($userCvPath)) {
+          Storage::disk('public')->delete($userCvPath);
+        }
+
+        MediaFile::where('company_id', $company_id)->where('user_id', $user->id)->where('file_type', 'cv')->delete();
+        $file = $request->file('cv_file');
+        $cvPath = $file->storeAs(
+          'uploads/cv_files',
+          time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
+          'public'
+        );
+
+        MediaFile::create([
+          'user_id' => $user->id,
+          'company_id' => $company_id,
+          'file_type'  => 'cv', // ✅ FIXED
+          'file_path'  => $cvPath, // ✅ FIXED
+          'name'       => $file->getClientOriginalName(),
+          'mime_type'  => $file->getMimeType(),
+        ]);
       }
+      $user->save();
+      DB::commit();
+      $user->refresh();
+      Log::info($user);
 
-      MediaFile::where('company_id', $company_id)->where('user_id', $user->id)->where('file_type', 'cv')->delete();
-      $file = $request->file('cv_file');
-      $cvPath = $file->storeAs(
-        'uploads/cv_files',
-        time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
-        'public'
-      );
-
-      MediaFile::create([
-        'user_id' => $user->id,
-        'company_id' => $company_id,
-        'file_type'  => 'cv', // ✅ FIXED
-        'file_path'  => $cvPath, // ✅ FIXED
-        'name'       => $file->getClientOriginalName(),
-        'mime_type'  => $file->getMimeType(),
-      ]);
+      return response()->json([
+        'message'           => 'Teacher updated successfully'
+      ], 201);
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return response()->json([
+        'message' => 'Teacher updation failed',
+        'error'   => $e->getMessage(),
+      ], 500);
     }
   }
 }

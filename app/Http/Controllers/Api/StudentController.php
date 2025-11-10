@@ -370,108 +370,108 @@ class StudentController extends Controller
 
 
   public function myClasses(): JsonResponse
-{
+  {
     $data = [
-        'categories' => [
+      'categories' => [
+        [
+          'category' => 'Courses',
+          'sections' => [
             [
-                'category' => 'Courses',
-                'sections' => [
-                    [
-                        'status' => 'Pending Approval',
-                        'items' => [
-                            [
-                                'id' => 1,
-                                'title' => 'Advanced Laravel Bootcamp',
-                                'description' => 'Master Laravel 11 with projects.',
-                                'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
-                                'duration' => '6 weeks',
-                                'level' => 'Intermediate',
-                                'join_link' => null,
-                            ],
-                        ],
-                    ],
-                    [
-                        'status' => 'Ongoing',
-                        'items' => [
-                            [
-                                'id' => 2,
-                                'title' => 'Flutter App Development',
-                                'description' => 'Learn Flutter with hands-on examples.',
-                                'image' => asset('assets/mobile-app/banners/course-banner-2.png'),
-                                'duration' => '4 weeks',
-                                'level' => 'Beginner',
-                                'join_link' => 'https://meet.google.com/abc-defg-hij',
-                            ],
-                        ],
-                    ],
-                    [
-                        'status' => 'Completed',
-                        'items' => [
-                            [
-                                'id' => 3,
-                                'title' => 'AWS Cloud Fundamentals',
-                                'description' => 'Understand cloud basics and deployment.',
-                                'image' => asset('assets/mobile-app/banners/course-banner-3.png'),
-                                'duration' => '3 weeks',
-                                'level' => 'Advanced',
-                                'join_link' => null,
-                            ],
-                        ],
-                    ],
+              'status' => 'Pending Approval',
+              'items' => [
+                [
+                  'id' => 1,
+                  'title' => 'Advanced Laravel Bootcamp',
+                  'description' => 'Master Laravel 11 with projects.',
+                  'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
+                  'duration' => '6 weeks',
+                  'level' => 'Intermediate',
+                  'join_link' => null,
                 ],
+              ],
             ],
             [
-                'category' => 'Webinars',
-                'sections' => [
-                    [
-                        'status' => 'Ongoing',
-                        'items' => [
-                            [
-                                'id' => 4,
-                                'title' => 'AI in Education Webinar',
-                                'description' => 'Explore how AI impacts modern teaching.',
-                                'image' => asset('assets/mobile-app/banners/webinar-banner-1.png'),
-                                'duration' => '1 day',
-                                'level' => 'All',
-                                'join_link' => 'https://zoom.us/j/123456789',
-                            ],
-                        ],
-                    ],
+              'status' => 'Ongoing',
+              'items' => [
+                [
+                  'id' => 2,
+                  'title' => 'Flutter App Development',
+                  'description' => 'Learn Flutter with hands-on examples.',
+                  'image' => asset('assets/mobile-app/banners/course-banner-2.png'),
+                  'duration' => '4 weeks',
+                  'level' => 'Beginner',
+                  'join_link' => 'https://meet.google.com/abc-defg-hij',
                 ],
+              ],
             ],
             [
-                'category' => 'Workshops',
-                'sections' => [
-                    [
-                        'status' => 'Completed',
-                        'items' => [
-                            [
-                                'id' => 5,
-                                'title' => 'Skill Booster: JavaScript Mastery',
-                                'description' => 'Hands-on coding sessions and challenges.',
-                                'image' => asset('assets/mobile-app/banners/workshop-banner-1.png'),
-                                'duration' => '2 days',
-                                'level' => 'Intermediate',
-                                'join_link' => null,
-                            ],
-                        ],
-                    ],
+              'status' => 'Completed',
+              'items' => [
+                [
+                  'id' => 3,
+                  'title' => 'AWS Cloud Fundamentals',
+                  'description' => 'Understand cloud basics and deployment.',
+                  'image' => asset('assets/mobile-app/banners/course-banner-3.png'),
+                  'duration' => '3 weeks',
+                  'level' => 'Advanced',
+                  'join_link' => null,
                 ],
+              ],
             ],
+          ],
         ],
+        [
+          'category' => 'Webinars',
+          'sections' => [
+            [
+              'status' => 'Ongoing',
+              'items' => [
+                [
+                  'id' => 4,
+                  'title' => 'AI in Education Webinar',
+                  'description' => 'Explore how AI impacts modern teaching.',
+                  'image' => asset('assets/mobile-app/banners/webinar-banner-1.png'),
+                  'duration' => '1 day',
+                  'level' => 'All',
+                  'join_link' => 'https://zoom.us/j/123456789',
+                ],
+              ],
+            ],
+          ],
+        ],
+        [
+          'category' => 'Workshops',
+          'sections' => [
+            [
+              'status' => 'Completed',
+              'items' => [
+                [
+                  'id' => 5,
+                  'title' => 'Skill Booster: JavaScript Mastery',
+                  'description' => 'Hands-on coding sessions and challenges.',
+                  'image' => asset('assets/mobile-app/banners/workshop-banner-1.png'),
+                  'duration' => '2 days',
+                  'level' => 'Intermediate',
+                  'join_link' => null,
+                ],
+              ],
+            ],
+          ],
+        ],
+      ],
     ];
 
     return response()->json([
-        'status' => true,
-        'message' => 'My classes fetched successfully',
-        'data' => $data
+      'status' => true,
+      'message' => 'My classes fetched successfully',
+      'data' => $data
     ]);
-}
+  }
 
 
-public function fetchClassDetail(Request $request): JsonResponse
-{
-  $id = $request->courseId;
+  public function fetchClassDetail(Request $request): JsonResponse
+  {
+    $id = $request->courseId;
 
     // $classDetail = [
     //     'id' => $id,
@@ -542,51 +542,47 @@ public function fetchClassDetail(Request $request): JsonResponse
 
     // Dummy class data
     $classDetail = [
-        'id' => $id,
-        'title' => 'Flutter Beginner Class',
-        'description' => 'Learn Flutter from scratch — covering widgets, layouts, navigation, and API integration.',
-        'teacher_name' => 'John Doe',
-        'category' => 'Mobile Development',
-        'price' => 499,
-        'duration' => '8 weeks',
-        'thumbnail' => asset('images/flutter_class.jpg'),
+      'id' => $id,
+      'title' => 'Flutter Beginner Class',
+      'description' => 'Learn Flutter from scratch — covering widgets, layouts, navigation, and API integration.',
+      'teacher_name' => 'John Doe',
+      'category' => 'Mobile Development',
+      'price' => 499,
+      'duration' => '8 weeks',
+      'thumbnail' => asset('images/flutter_class.jpg'),
     ];
 
     // Dummy class materials
     $materials = [
-        ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
-        ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
+      ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
+      ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
     ];
 
     // Dummy related classes
     $classList = [
-        ['id' => 101, 'title' => 'Flutter Intermediate', 'teacher' => 'Jane Smith'],
-        ['id' => 102, 'title' => 'Dart Advanced Concepts', 'teacher' => 'Mark Allen'],
+      ['id' => 101, 'title' => 'Flutter Intermediate', 'teacher' => 'Jane Smith'],
+      ['id' => 102, 'title' => 'Dart Advanced Concepts', 'teacher' => 'Mark Allen'],
     ];
 
     return response()->json([
-        'status' => true,
-        'message' => 'Class details fetched successfully',
-        'data' => [
-            'class_detail' => $classDetail,
-            'materials' => $materials,
-            'classes' => $classList,
-        ],
+      'status' => true,
+      'message' => 'Class details fetched successfully',
+      'data' => [
+        'class_detail' => $classDetail,
+        'materials' => $materials,
+        'classes' => $classList,
+      ],
     ]);
 
 
     return response()->json([
-        'status' => true,
-        'message' => 'Class details fetched successfully',
-        'data' => [
-            'class_detail' => $classDetail,
-            'materials' => $materials,
-            'classes' => $classList,
-        ],
+      'status' => true,
+      'message' => 'Class details fetched successfully',
+      'data' => [
+        'class_detail' => $classDetail,
+        'materials' => $materials,
+        'classes' => $classList,
+      ],
     ]);
-}
-
-
-
-
+  }
 }

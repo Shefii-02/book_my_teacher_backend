@@ -191,8 +191,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           // More items...
         ]
       ]);
-
-
     });
 
     Route::post('referral/stats', function (Request $request) {
@@ -243,9 +241,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/my-classes', 'StudentController@myClasses');
 
 
-    Route::post('class-detail','StudentController@fetchClassDetail');
+    Route::post('class-detail', 'StudentController@fetchClassDetail');
 
     Route::post('/teacher-home', 'TeacherController@home');
+
+
+    Route::post('/teacher-update-personal', 'TeacherController@teacherUpdatePersonal');
+    Route::post('/teacher-update-teaching-detail', 'TeacherController@teacherUpdateTeachingDetail');
+    Route::post('/teacher-update-cv', 'TeacherController@teacherUpdateCv');
 
   });
 

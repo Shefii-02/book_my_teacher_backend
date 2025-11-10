@@ -115,7 +115,7 @@ class TeacherController extends Controller
   {
     $teacherId = $request->user; // frontend should send teacher_id
 
-    $teacher = User::where('id', $teacherId)
+    $teacher = User::where('id', $teacherId->id)
       ->where('acc_type', 'teacher')
       ->where('company_id', 1)
       ->first();

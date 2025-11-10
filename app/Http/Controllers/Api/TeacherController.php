@@ -113,7 +113,7 @@ class TeacherController extends Controller
 
   public function home(Request $request)
   {
-    $teacherId = $request->input('teacher_id'); // frontend should send teacher_id
+    $teacherId = $request->user; // frontend should send teacher_id
 
     $teacher = User::where('id', $teacherId)
       ->where('acc_type', 'teacher')
@@ -310,11 +310,11 @@ class TeacherController extends Controller
       ? Carbon::parse($interviewDateTime)->format('d M Y, h:i A')
       : null;
 
-     
 
 
 
-      
+
+
 
     // default message if none stored
     if (empty(trim($accountMsg))) {

@@ -114,7 +114,7 @@ class TeacherController extends Controller
   public function home(Request $request)
   {
     $teacherId = $request->user; // frontend should send teacher_id
-
+    Log::info($teacherId);
     $teacher = User::where('id', $teacherId->id)
       ->where('acc_type', 'teacher')
       ->where('company_id', 1)

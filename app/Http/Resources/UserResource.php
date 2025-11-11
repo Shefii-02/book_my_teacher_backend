@@ -47,8 +47,10 @@ class UserResource extends JsonResource
             'working_hours' => TeacherWorkingHourResource::collection($this->whenLoaded('workingHours')),
 
             // ✅ Derived data
-            'account_msg' => $accountStatusResponse['accountMsg'] ?? null,
-            'steps' => $accountStatusResponse['steps'] ?? [],
+            // 'account_msg' => $accountStatusResponse['accountMsg'] ?? null,
+            // 'steps' => $accountStatusResponse['steps'] ?? [],
+            'account_msg' => null,
+            'steps' => null,
         ];
     }
 }

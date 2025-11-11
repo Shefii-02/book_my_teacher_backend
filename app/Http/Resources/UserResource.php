@@ -47,7 +47,7 @@ class UserResource extends JsonResource
       'cv_url' => $this->cv_url,
 
       // 🔗 Linked teacher data
-      'personal' => new TeacherPersonalResource($this->whenLoaded('personal')),
+      'personal' => [],
       'subjects' => TeacherSubjectResource::collection($this->whenLoaded('subjects')),
       'grades' => TeacherGradeResource::collection($this->whenLoaded('grades')),
       'working_days' => TeacherWorkingDayResource::collection($this->whenLoaded('workingDays')),

@@ -272,7 +272,9 @@ class TeacherController extends Controller
     //   ];
     // }
 
-
+    Log::info([
+      'user'              => new UserResource($teacher)
+    ]);
 
     return response()->json([
       'user'              => new UserResource($teacher),

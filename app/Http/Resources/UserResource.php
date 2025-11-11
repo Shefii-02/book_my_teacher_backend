@@ -47,11 +47,11 @@ class UserResource extends JsonResource
       'cv_url' => $this->cv_url,
 
       // 🔗 Linked teacher data
-      'personal' => [],
-      'subjects' => TeacherSubjectResource::collection($this->whenLoaded('subjects')) ?? [],
-      'grades' => TeacherGradeResource::collection($this->whenLoaded('grades')) ?? [],
-      'working_days' => TeacherWorkingDayResource::collection($this->whenLoaded('workingDays')) ?? [],
-      'working_hours' => TeacherWorkingHourResource::collection($this->whenLoaded('workingHours')) ?? [],
+      // 'personal' => [],
+      // 'subjects' => TeacherSubjectResource::collection($this->whenLoaded('subjects')) ?? [],
+      // 'grades' => TeacherGradeResource::collection($this->whenLoaded('grades')) ?? [],
+      // 'working_days' => TeacherWorkingDayResource::collection($this->whenLoaded('workingDays')) ?? [],
+      // 'working_hours' => TeacherWorkingHourResource::collection($this->whenLoaded('workingHours')) ?? [],
       'referral_code' => 'BMT-9834',
       'account_status'    => $this->account_status,
       'account_msg' => $this->accountMsg ?? '',

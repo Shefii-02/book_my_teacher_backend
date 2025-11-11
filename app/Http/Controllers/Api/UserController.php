@@ -167,10 +167,7 @@ class UserController extends Controller
       return response()->json([
         'success' => true,
         'message' => 'User data fetched successfully',
-        'user'    => new UserResource($user),
-        // 'referral_code' => 'BMT-9834',
-        'account_msg'       => $accountStatusResponse['accountMsg'],
-        'steps'             => $accountStatusResponse['steps'],
+        'user' => new UserResource($user, $accountStatusResponse),
       ], 200);
     } catch (Exception $e) {
       Log::error('User data getting  failed: ' . $e->getMessage());

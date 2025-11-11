@@ -279,9 +279,9 @@ class TeacherController extends Controller
       $accountStatusResponse = accountStatus($teacher);
 
     return response()->json([
-      'user'              => new UserResource($teacher),
-      'account_msg'       => $accountStatusResponse['accountMsg'],
-      'steps'             => $accountStatusResponse['steps'],
+      'user'              => new UserResource($teacher,$accountStatusResponse),
+      // 'account_msg'       => $accountStatusResponse['accountMsg'],
+      // 'steps'             => $accountStatusResponse['steps'],
       // 'professional_info' => $profInfo,
       // 'working_days'      => $workingDays,
       // 'working_hours'     => $workingHours,

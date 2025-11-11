@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\CompanyTeacher;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
@@ -164,7 +165,7 @@ class UserController extends Controller
       return response()->json([
         'success' => true,
         'message' => 'User data fetched successfully',
-        'user'    => $user,
+        'user'    => new UserResource($user),
         'referral_code' => 'BMT-9834',
       ], 200);
     } catch (Exception $e) {

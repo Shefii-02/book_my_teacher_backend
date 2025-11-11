@@ -8,7 +8,7 @@ class UserResource extends JsonResource
 {
     public function toArray($request)
     {
-        $accountStatusResponse = accountStatus($this);
+        // $accountStatusResponse = accountStatus($this);
 
         return [
             'id' => $this->id,
@@ -45,8 +45,11 @@ class UserResource extends JsonResource
             'working_hours' => TeacherWorkingHourResource::collection($this->whenLoaded('workingHours')),
             'referral_code' => 'BMT-9834',
             'account_status'    => $this->account_status,
-            'account_msg'       => $accountStatusResponse['accountMsg'],
-            'steps'             => $accountStatusResponse['steps'],
+            // 'account_msg'       => $accountStatusResponse['accountMsg'],
+            // 'steps'             => $accountStatusResponse['steps'],
+             'account_msg'   => [],
+             'steps'         => [],
+
         ];
     }
 }

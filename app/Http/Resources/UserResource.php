@@ -47,7 +47,7 @@ class UserResource extends JsonResource
             'account_status'    => $this->account_status,
             // 'account_msg'       => $accountStatusResponse['accountMsg'],
             // 'steps'             => $accountStatusResponse['steps'],
-             'account_msg'   => [],
+             'account_msg'   => '',
              'steps'         => [],
         ];
     }

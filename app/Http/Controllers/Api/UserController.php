@@ -169,7 +169,6 @@ class UserController extends Controller
         'user' => (new UserResource($user, $accountMsg, $steps))->toArray(request()),
       ]);
 
-
       return response()->json([
         'success' => true,
         'message' => 'User data fetched successfully',

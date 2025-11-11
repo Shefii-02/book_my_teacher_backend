@@ -272,7 +272,19 @@ class TeacherController extends Controller
       ];
     }
 
-
+Log::info([
+      'user'              => new UserResource($teacher),
+      // 'professional_info' => $profInfo,
+      // 'working_days'      => $workingDays,
+      // 'working_hours'     => $workingHours,
+      // 'grades'            => $grades,
+      // 'subjects'          => $subjects,
+      'avatar'            => $teacher->avatar ? asset('storage/' . $teacher->avatar->file_path) : null,
+      'cv_file'           => $teacher ? asset('storage/' . $teacher->cv->file_path) : null,
+      'account_status'    => $teacher->account_status,
+      'account_msg'       => $accountMsg,
+      'steps'             => $steps,
+]);
     return response()->json([
       'user'              => new UserResource($teacher),
       // 'professional_info' => $profInfo,

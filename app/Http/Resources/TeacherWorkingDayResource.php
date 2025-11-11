@@ -9,7 +9,7 @@ class TeacherWorkingDayResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'day' => $this->day,
+            'day' => $this->day ?? '',
         ];
     }
 }

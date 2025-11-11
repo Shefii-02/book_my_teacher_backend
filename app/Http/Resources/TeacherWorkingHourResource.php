@@ -9,7 +9,7 @@ class TeacherWorkingHourResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'time_slot' => $this->time_slot,
+            'time_slot' => $this->time_slot ?? '',
         ];
     }
 }

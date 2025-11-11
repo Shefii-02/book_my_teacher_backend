@@ -9,7 +9,7 @@ class TeacherSubjectResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'subject' => $this->subject,
+            'subject' => $this->subject ?? '',
         ];
     }
 }

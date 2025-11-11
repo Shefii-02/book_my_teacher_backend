@@ -9,7 +9,7 @@ class TeacherGradeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'grade' => $this->grade,
+            'grade' => $this->grade ?? '',
         ];
     }
 }

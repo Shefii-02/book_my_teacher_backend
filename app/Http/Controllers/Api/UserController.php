@@ -160,11 +160,10 @@ class UserController extends Controller
 
   public function  userDataRetrieve(Request $request)
   {
-    Log::alert('userDataRetrieve');
-    Log::info($request->user());
+
     try {
       $user = $request->user();
-      $accountStatusResponse = accountStatus($user);
+      // $accountStatusResponse = accountStatus($user);
 Log::alert([
         'success' => true,
         'message' => 'User data fetched successfully',

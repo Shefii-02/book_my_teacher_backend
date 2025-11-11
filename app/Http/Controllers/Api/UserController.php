@@ -164,6 +164,10 @@ class UserController extends Controller
       $user = $request->user();
       $accountStatusResponse = accountStatus($user);
 
+      Log::info([
+        'user'              => new UserResource($user, $accountStatusResponse)
+      ]);
+
       return response()->json([
         'success' => true,
         'message' => 'User data fetched successfully',

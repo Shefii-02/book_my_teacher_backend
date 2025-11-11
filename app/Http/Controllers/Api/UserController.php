@@ -160,21 +160,18 @@ class UserController extends Controller
 
   public function  userDataRetrieve(Request $request)
   {
-
     try {
       $user = $request->user();
-      // $accountStatusResponse = accountStatus($user);
+      $accountStatusResponse = accountStatus($user);
 
       return response()->json([
         'success' => true,
         'message' => 'User data fetched successfully',
         'user'    => new UserResource($user),
-        // 'user' => $user,
         // 'referral_code' => 'BMT-9834',
-        // 'account_msg'       => $accountStatusResponse['accountMsg'],
-        // 'steps'             => $accountStatusResponse['steps'],
+        'account_msg'       => $accountStatusResponse['accountMsg'],
+        'steps'             => $accountStatusResponse['steps'],
       ], 200);
-
     } catch (Exception $e) {
       Log::error('User data getting  failed: ' . $e->getMessage());
       return response()->json([

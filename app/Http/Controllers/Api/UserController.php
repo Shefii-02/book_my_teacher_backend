@@ -163,15 +163,16 @@ class UserController extends Controller
     try {
       $user = $request->user();
       $accountStatusResponse = accountStatus($user);
-
-       Log::info([
-      'user'              => new UserResource($user, $accountStatusResponse)
-    ]);
+      $accountMsg = $accountStatusResponse['accountMsg'];
+      $steps = $accountStatusResponse['steps'];
+      Log::info([
+        'user'              => new UserResource($user, $accountMsg, $steps),
+      ]);
 
       return response()->json([
         'success' => true,
         'message' => 'User data fetched successfully',
-        'user' => new UserResource($user, $accountStatusResponse),
+        'user'              => new UserResource($user, $accountMsg, $steps),
       ], 200);
     } catch (Exception $e) {
       Log::error('User data getting  failed: ' . $e->getMessage());

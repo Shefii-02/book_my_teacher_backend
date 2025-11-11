@@ -271,16 +271,18 @@ class TeacherController extends Controller
     //     'allow'    => $allow,
     //   ];
     // }
-      $accountStatusResponse = accountStatus($teacher);
+    $accountStatusResponse = accountStatus($teacher);
+    $accountMsg = $accountStatusResponse['accountMsg'];
+    $steps = $accountStatusResponse['steps'];
 
     Log::info([
-      'user'              => new UserResource($teacher,$accountStatusResponse)
+      'user'              => new UserResource($teacher, $accountMsg, $steps),
     ]);
 
 
 
     return response()->json([
-      'user'              => new UserResource($teacher,$accountStatusResponse),
+      'user'              => new UserResource($teacher, $accountMsg, $steps),
       // 'account_msg'       => $accountStatusResponse['accountMsg'],
       // 'steps'             => $accountStatusResponse['steps'],
       // 'professional_info' => $profInfo,

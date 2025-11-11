@@ -8,7 +8,7 @@ class UserResource extends JsonResource
 {
     public function toArray($request)
     {
-        $accountStatusResponse = $this->accountStatusResponse;
+
 
         return [
             'id' => $this->id,
@@ -47,8 +47,8 @@ class UserResource extends JsonResource
             'account_status'    => $this->account_status,
             // 'account_msg'       => $accountStatusResponse['accountMsg'],
             // 'steps'             => $accountStatusResponse['steps'],
-              'account_msg' => $accountStatusResponse['accountMsg'] ?? null,
-            'steps' => $accountStatusResponse['steps'] ?? [],
+              'account_msg' => $this->accountMsg ?? '',
+            'steps' => $this->steps ?? [],
         ];
     }
 }

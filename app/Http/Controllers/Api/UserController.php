@@ -160,6 +160,7 @@ class UserController extends Controller
 
   public function  userDataRetrieve(Request $request)
   {
+    Log::info($request->user());
     try {
       $user = $request->user();
       return response()->json([

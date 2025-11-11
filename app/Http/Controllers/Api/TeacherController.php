@@ -272,7 +272,7 @@ class TeacherController extends Controller
     //   ];
     // }
 
-    $accountStatusResponse = accountStatus($teacher);
+
 
     return response()->json([
       'user'              => new UserResource($teacher),
@@ -281,11 +281,9 @@ class TeacherController extends Controller
       // 'working_hours'     => $workingHours,
       // 'grades'            => $grades,
       // 'subjects'          => $subjects,
-      'avatar'            => $teacher->avatar ? asset('storage/' . $teacher->avatar->file_path) : null,
-      'cv_file'           => $teacher ? asset('storage/' . $teacher->cv->file_path) : null,
-      'account_status'    => $teacher->account_status,
-      'account_msg'       => $accountStatusResponse['accountMsg'],
-      'steps'             => $accountStatusResponse['steps'],
+      // 'avatar'            => $teacher->avatar ? asset('storage/' . $teacher->avatar->file_path) : null,
+      // 'cv_file'           => $teacher ? asset('storage/' . $teacher->cv->file_path) : null,
+
     ]);
   }
 

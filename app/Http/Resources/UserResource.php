@@ -8,8 +8,7 @@ class UserResource extends JsonResource
 {
     public function toArray($request)
     {
-        // ✅ Pass the actual Eloquent model, not the resource
-        $accountStatusResponse = accountStatus($this->resource);
+        $accountStatusResponse = accountStatus($this);
 
         return [
             'id' => $this->id,
@@ -19,8 +18,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
             'acc_type' => $this->acc_type,
-            'last_login' => $this->last_login,
-            'last_activation' => $this->last_activation,
+            'last_login'=> $this->last_login,
+            'last_activation'=> $this->last_activation,
             'address' => $this->address,
             'city' => $this->city,
             'postal_code' => $this->postal_code,
@@ -37,20 +36,17 @@ class UserResource extends JsonResource
             'notes' => $this->notes,
             'avatar_url' => $this->avatar_url,
             'cv_url' => $this->cv_url,
-            'referral_code' => 'BMT-9834',
 
-            // 🔗 Linked teacher data (relationships)
+            // 🔗 Linked teacher data
             'personal' => new TeacherPersonalResource($this->whenLoaded('personal')),
             'subjects' => TeacherSubjectResource::collection($this->whenLoaded('subjects')),
             'grades' => TeacherGradeResource::collection($this->whenLoaded('grades')),
             'working_days' => TeacherWorkingDayResource::collection($this->whenLoaded('workingDays')),
             'working_hours' => TeacherWorkingHourResource::collection($this->whenLoaded('workingHours')),
-
-            // ✅ Derived data
-            // 'account_msg' => $accountStatusResponse['accountMsg'] ?? null,
-            // 'steps' => $accountStatusResponse['steps'] ?? [],
-            'account_msg' => null,
-            'steps' => null,
+            'referral_code' => 'BMT-9834',
+            'account_status'    => $this->account_status,
+            'account_msg'       => $accountStatusResponse['accountMsg'],
+            'steps'             => $accountStatusResponse['steps'],
         ];
     }
 }

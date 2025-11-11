@@ -8,7 +8,8 @@ class UserResource extends JsonResource
 {
     public function toArray($request)
     {
-        $accountStatusResponse = accountStatus($this);
+        // ✅ Pass the actual Eloquent model, not the resource
+        $accountStatusResponse = accountStatus($this->resource);
 
         return [
             'id' => $this->id,

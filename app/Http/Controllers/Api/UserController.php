@@ -176,7 +176,8 @@ Log::alert([
       return response()->json([
         'success' => true,
         'message' => 'User data fetched successfully',
-        'user'    => new UserResource($user),
+        // 'user'    => new UserResource($user),
+        'user' => $user,
         // 'referral_code' => 'BMT-9834',
         // 'account_msg'       => $accountStatusResponse['accountMsg'],
         // 'steps'             => $accountStatusResponse['steps'],

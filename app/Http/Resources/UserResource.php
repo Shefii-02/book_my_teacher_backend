@@ -49,7 +49,6 @@ class UserResource extends JsonResource
             // 'steps'             => $accountStatusResponse['steps'],
              'account_msg'   => [],
              'steps'         => [],
-
         ];
     }
 }

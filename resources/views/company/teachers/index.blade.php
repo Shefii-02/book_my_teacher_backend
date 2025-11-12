@@ -399,7 +399,7 @@
                                                 <p
                                                     class="mb-0 text-xs font-semibold capitalize leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                     {{-- {{ $teacher->address . ', ' . $teacher->city . ', ' . $teacher->postal_code . ', ' . $teacher->district . ', ' . $teacher->state . ', ' . $teacher->country }} --}}
-                                                    {{ $teacher->professionalInfo->profession }}
+                                                    {{ $teacher->professionalInfo ? $teacher->professionalInfo->profession }}
                                                 </p>
                                             </td>
                                             <td

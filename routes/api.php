@@ -197,6 +197,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       $bonus_on_first_class = 50;
 
       return response()->json([
+        'referral_code' => 'BMT-9834',
         'earned_coins' => 1850,
         'friends_joined' => 4,
         'reward_per_join' => $reward_per_join,

@@ -278,7 +278,7 @@ class OtpController extends Controller
     }
 
     // Mark OTP as verified (skip for test number)
-    if (($mobile == env('TEST_MOBILE') && $request->otp == env('TEST_OTP')) || ( $mobile == "8075261300" && $request->otp == '7878')) {
+    if (($mobile == env('TEST_MOBILE') && $request->otp == env('TEST_OTP')) || ( $mobile == "918075261300" && $request->otp == '7878')) {
       $otpRecord->update(['verified' => 0]); // keep unverified for testing
     } else {
       $otpRecord->update(['verified' => 1]);

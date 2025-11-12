@@ -1138,43 +1138,43 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-  // Route::get('/fetch-subjects', function () {
-  //   return response()->json([
-  //     'status' => true,
-  //     'data' => [
-  //       // Common subjects
-  //       ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
-  //       ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
-  //       ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
-  //       ['id' => 4, 'name' => 'English', 'value' => 'English'],
-  //       ['id' => 5, 'name' => 'Social Studies', 'value' => 'Social Studies'],
-  //       ['id' => 6, 'name' => 'Computer Science', 'value' => 'Computer Science'],
+  Route::get('/fetch-subjects', function () {
+    return response()->json([
+      'status' => true,
+      'data' => [
+        // Common subjects
+        ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
+        ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
+        ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
+        ['id' => 4, 'name' => 'English', 'value' => 'English'],
+        ['id' => 5, 'name' => 'Social Studies', 'value' => 'Social Studies'],
+        ['id' => 6, 'name' => 'Computer Science', 'value' => 'Computer Science'],
 
-  //       // Higher Secondary
-  //       ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
-  //       ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
-  //       ['id' => 9, 'name' => 'Biology', 'value' => 'Biology'],
+        // Higher Secondary
+        ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
+        ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
+        ['id' => 9, 'name' => 'Biology', 'value' => 'Biology'],
 
-  //       // UG/PG
-  //       ['id' => 10, 'name' => 'Commerce', 'value' => 'Commerce'],
-  //       ['id' => 11, 'name' => 'Economics', 'value' => 'Economics'],
-  //       ['id' => 12, 'name' => 'Engineering Subjects', 'value' => 'Engineering Subjects'],
-  //       ['id' => 13, 'name' => 'Medical Subjects', 'value' => 'Medical Subjects'],
+        // UG/PG
+        ['id' => 10, 'name' => 'Commerce', 'value' => 'Commerce'],
+        ['id' => 11, 'name' => 'Economics', 'value' => 'Economics'],
+        ['id' => 12, 'name' => 'Engineering Subjects', 'value' => 'Engineering Subjects'],
+        ['id' => 13, 'name' => 'Medical Subjects', 'value' => 'Medical Subjects'],
 
-  //       // Competitive Exams
-  //       ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
-  //       ['id' => 15, 'name' => 'Quantitative Aptitude', 'value' => 'Quantitative Aptitude'],
-  //       ['id' => 16, 'name' => 'Reasoning', 'value' => 'Reasoning'],
-  //       ['id' => 17, 'name' => 'Current Affairs', 'value' => 'Current Affairs'],
+        // Competitive Exams
+        ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
+        ['id' => 15, 'name' => 'Quantitative Aptitude', 'value' => 'Quantitative Aptitude'],
+        ['id' => 16, 'name' => 'Reasoning', 'value' => 'Reasoning'],
+        ['id' => 17, 'name' => 'Current Affairs', 'value' => 'Current Affairs'],
 
-  //       // Skills
-  //       ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
-  //       ['id' => 19, 'name' => 'Programming', 'value' => 'Programming'],
-  //       ['id' => 20, 'name' => 'Digital Marketing', 'value' => 'Digital Marketing'],
-  //       ['id' => 21, 'name' => 'Designing', 'value' => 'Designing'],
-  //     ]
-  //   ]);
-  // });
+        // Skills
+        ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
+        ['id' => 19, 'name' => 'Programming', 'value' => 'Programming'],
+        ['id' => 20, 'name' => 'Digital Marketing', 'value' => 'Digital Marketing'],
+        ['id' => 21, 'name' => 'Designing', 'value' => 'Designing'],
+      ]
+    ]);
+  });
 
   Route::post('/user-activity', [App\Http\Controllers\Api\UserActivityController::class, 'store']);
 

@@ -283,11 +283,14 @@
                                     <!-- Submit + Reset -->
                                     <div class="flex gap-2">
                                         <button type="submit"
-                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i class="bi bi-search"></i> Apply</button>
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i
+                                                class="bi bi-search"></i> Apply</button>
                                         <a href="{{ route('admin.teachers') }}"
-                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded-full text-white text-sm"><i class="bi bi-arrow-clockwise"></i> Reset  </a>
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded-full text-white text-sm"><i
+                                                class="bi bi-arrow-clockwise"></i> Reset </a>
                                         <a href="{{ route('admin.teachers.export', request()->query()) }}"
-                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"> <i class="bi bi-file-earmark-spreadsheet"></i>
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
+                                            <i class="bi bi-file-earmark-spreadsheet"></i>
                                             Export Excel
                                         </a>
 
@@ -399,7 +402,7 @@
                                                 <p
                                                     class="mb-0 text-xs font-semibold capitalize leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                     {{-- {{ $teacher->address . ', ' . $teacher->city . ', ' . $teacher->postal_code . ', ' . $teacher->district . ', ' . $teacher->state . ', ' . $teacher->country }} --}}
-                                                    {{ $teacher->professionalInfo ? $teacher->professionalInfo->profession }}
+                                                    {{ $teacher->professionalInfo ? $teacher->professionalInfo->profession : '' }}
                                                 </p>
                                             </td>
                                             <td
@@ -418,15 +421,17 @@
                                             </td>
                                             <td
                                                 class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                @if ($teacher->professionalInfo->teaching_mode == 'online')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold capitalize leading-none text-white">Online</span>
-                                                @elseif($teacher->professionalInfo->teaching_mode == 'offline')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold capitalize leading-none text-white">Offline</span>
-                                                @elseif($teacher->professionalInfo->teaching_mode == 'both')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-blue-700 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold capitalize leading-none text-white">Both</span>
+                                                @if ($teacher->professionalInfo)
+                                                    @if ($teacher->professionalInfo->teaching_mode == 'online')
+                                                        <span
+                                                            class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold capitalize leading-none text-white">Online</span>
+                                                    @elseif($teacher->professionalInfo->teaching_mode == 'offline')
+                                                        <span
+                                                            class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold capitalize leading-none text-white">Offline</span>
+                                                    @elseif($teacher->professionalInfo->teaching_mode == 'both')
+                                                        <span
+                                                            class="bg-gradient-to-tl from-blue-700 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold capitalize leading-none text-white">Both</span>
+                                                    @endif
                                                 @endif
                                             </td>
                                             <td
@@ -514,7 +519,8 @@
                     <div class="d-flex justify-content-center m-4">
                         {!! $teachers->links() !!}
                     </div>
-                        <p class="p-3">Showing {{ $teachers->firstItem() }} to {{ $teachers->lastItem() }} of {{ $teachers->total() }} users.</p>
+                    <p class="p-3">Showing {{ $teachers->firstItem() }} to {{ $teachers->lastItem() }} of
+                        {{ $teachers->total() }} users.</p>
 
                 </div>
             </div>

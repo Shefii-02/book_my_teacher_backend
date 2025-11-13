@@ -23,7 +23,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
     Route::post('/user-verify-email', 'LoginController@userVerifyEmail');
 
-
     Route::post('/user-data-retrieve', 'UserController@userDataRetrieve');
 
     Route::post('/my-wallet', 'StudentController@myWallet');

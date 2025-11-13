@@ -145,9 +145,45 @@ class LoginController extends Controller
           'message' => 'Email already verified.',
         ], 200);
       }
-      $user->email_verified_at = now();
-      $user->save();
 
+      $idToken = $request->input('idToken');
+      Log::info('idToken: ' . substr($idToken, 0, 50) . '...'); // log partial token for safety
+
+      if (!$idToken) {
+        return response()->json([
+          'status' => 'error',
+          'message' => 'Missing idToken'
+        ]);
+      }
+
+      // ✅ Verify token using Google API client
+      $client = new \Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
+      $payload = $client->verifyIdToken($idToken);
+
+      if (!$payload) {
+        return response()->json([
+          'status' => 'error',
+          'message' => 'Invalid Google token'
+        ]);
+      }
+
+      Log::info('Google payload: ' . json_encode($payload, JSON_PRETTY_PRINT));
+
+      $email = $payload['email'] ?? null;
+
+      if (!$email) {
+        return response()->json([
+          'status' => 'error',
+          'message' => 'Email not found in token'
+        ]);
+      }
+
+
+      $user->email = $email;
+      $user->email_verified_at = now();
+
+      $user->save();
+      Log::error('User email verification successfully: ' . $user->email);
       return response()->json([
         'success' => true,
         'message' => 'User Email Verification successfully',

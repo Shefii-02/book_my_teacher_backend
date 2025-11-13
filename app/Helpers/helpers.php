@@ -140,7 +140,7 @@ function accountStatus($teacher)
             } else {
               $subtitle = $accountMsg ?: "Your application was rejected. Please check the feedback and update your details before resubmitting.";
             }
-            $allow      = true;
+            // $allow      = true;
             break;
 
           case 'scheduled':

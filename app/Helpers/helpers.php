@@ -113,6 +113,8 @@ function accountStatus($teacher)
       $allow      = false;
     }
 
+    Log::alert($stageKey);
+
 
     if (!$foundCurrent) {
       if ($stageKey === $currentStage) {

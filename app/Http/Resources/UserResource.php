@@ -6,18 +6,18 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
-    protected $accountMsg;
-    protected $steps;
+  protected $accountMsg;
+  protected $steps;
 
-    public function __construct($resource, $accountMsg = null, $steps = [])
-    {
-        parent::__construct($resource);
-        $this->accountMsg = $accountMsg;
-        $this->steps = $steps;
-    }
+  public function __construct($resource, $accountMsg = null, $steps = [])
+  {
+    parent::__construct($resource);
+    $this->accountMsg = $accountMsg;
+    $this->steps = $steps;
+  }
 
-    public function toArray($request)
-    {
+  public function toArray($request)
+  {
 
     return [
       'id' => $this->id,
@@ -47,7 +47,7 @@ class UserResource extends JsonResource
       'cv_url' => $this->cv_url,
 
       // 🔗 Linked teacher data
-      'professional' => TeacherProfessionalResource::collection($this->professionalInfo) ?? [],
+      'professional' => new TeacherProfessionalResource($this->professionalInfo) ?? [],
       // 'subjects' => TeacherSubjectResource::collection($this->whenLoaded('subjects')) ?? [],
       // 'grades' => TeacherGradeResource::collection($this->whenLoaded('grades')) ?? [],
       // 'working_days' => TeacherWorkingDayResource::collection($this->whenLoaded('workingDays')) ?? [],

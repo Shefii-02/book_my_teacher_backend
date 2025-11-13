@@ -67,8 +67,9 @@ class User extends Authenticatable
 
   public function professionalInfo()
   {
-    return $this->hasOne(TeacherProfessionalInfo::class, 'teacher_id');
+    return $this->hasOne(TeacherProfessionalInfo::class);
   }
+
 
   public function teacherGrades()
   {
@@ -161,6 +162,6 @@ class User extends Authenticatable
 
   public function payroll()
   {
-    return $this->hasOne(PayrollDetail::class, 'user_id','id');
+    return $this->hasOne(PayrollDetail::class, 'user_id', 'id');
   }
 }

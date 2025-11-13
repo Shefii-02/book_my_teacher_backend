@@ -48,10 +48,10 @@ class UserResource extends JsonResource
 
       // 🔗 Linked teacher data
       'professional' => new TeacherProfessionalResource($this->professionalInfo) ?? [],
-      'subjects' => TeacherSubjectResource::collection($this->whenLoaded('subjects')) ?? [],
-      'grades' => TeacherGradeResource::collection($this->whenLoaded('teacherGrades')) ?? [],
-      'working_days' => TeacherWorkingDayResource::collection($this->whenLoaded('workingDays')) ?? [],
-      'working_hours' => TeacherWorkingHourResource::collection($this->whenLoaded('workingHours')) ?? [],
+      'subjects' => TeacherSubjectResource::collection($this->subjects) ?? [],
+      'grades' => TeacherGradeResource::collection($this->teacherGrades) ?? [],
+      'working_days' => TeacherWorkingDayResource::collection($this->workingDays) ?? [],
+      'working_hours' => TeacherWorkingHourResource::collection($this->workingHours) ?? [],
       'referral_code' => 'BMT-9834',
       'account_status'    => $this->account_status,
       'account_msg' => $this->accountMsg ?? '',

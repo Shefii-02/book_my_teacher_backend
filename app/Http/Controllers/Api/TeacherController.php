@@ -256,6 +256,7 @@ class TeacherController extends Controller
           time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
           'public'
         );
+        Log::info($cvPath);
 
         MediaFile::create([
           'user_id' => $user->id,
@@ -266,6 +267,7 @@ class TeacherController extends Controller
           'mime_type'  => $file->getMimeType(),
         ]);
 
+        Log::info($cvPath);
         $user->save();
         DB::commit();
       }

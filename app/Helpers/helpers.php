@@ -123,7 +123,7 @@ function accountStatus($teacher)
           case 'in progress':
             $stepStatus = "inProgress";
             $subtitle   = $accountMsg;
-            $allow      = true;
+            // $allow      = true;
             break;
 
           case 'rejected':

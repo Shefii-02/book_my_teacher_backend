@@ -109,7 +109,7 @@ function accountStatus($teacher)
     $subtitle   = "Completed";
     $allow      = true;
 
-    if ($stageKey == 'Verification Process' || $stageKey == 'Schedule Interview') {
+    if ($stageKey == 'verification process' || $stageKey == 'schedule interview') {
       $allow      = false;
     }
 

@@ -275,9 +275,9 @@ class TeacherController extends Controller
     $accountMsg = $accountStatusResponse['accountMsg'];
     $steps = $accountStatusResponse['steps'];
 
-  Log::info('User data retrieved', [
-    'user' => (new UserResource($teacher, $accountMsg, $steps))->toArray(request()),
-]);
+    Log::info('User data retrieved', [
+      'user' => (new UserResource($teacher, $accountMsg, $steps))->toArray(request()),
+    ]);
 
 
 

@@ -113,8 +113,6 @@ function accountStatus($teacher)
       $allow      = false;
     }
 
-    Log::alert($stageKey);
-
 
     if (!$foundCurrent) {
       if ($stageKey === $currentStage) {
@@ -171,7 +169,7 @@ function accountStatus($teacher)
       'allow'    => $allow,
     ];
   }
-  Log::info($steps);
+
   return [
     'accountMsg' => $accountMsg,
     'steps' => $steps,

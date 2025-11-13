@@ -238,6 +238,7 @@ class TeacherController extends Controller
 
   public function teacherUpdateCv(Request $request)
   {
+    Log::info("CV Updating");
     $user = $request->user();
     $company_id = 1;
     Log::info($request->all());

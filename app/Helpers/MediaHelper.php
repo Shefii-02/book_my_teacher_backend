@@ -80,5 +80,38 @@ class MediaHelper
         return true;
     }
 
+// $this->updateMedia($user, $company_id, 'avatar', 'avatar', 'avatars');
+// $this->updateMedia($user, $company_id, 'cv_file', 'cv', 'cv_files');
+
+//     private function updateMedia($user, $company_id, $requestFile, $fileType, $folder)
+// {
+//     if ($request->hasFile($requestFile)) {
+//         $oldFile = $user->$fileType ? $user->$fileType->file_path : null;
+//         if ($oldFile && Storage::disk('public')->exists($oldFile)) {
+//             Storage::disk('public')->delete($oldFile);
+//         }
+//         MediaFile::where('company_id', $company_id)
+//             ->where('user_id', $user->id)
+//             ->where('file_type', $fileType)
+//             ->delete();
+
+//         $file = $request->file($requestFile);
+//         $path = $file->storeAs(
+//             "uploads/{$folder}",
+//             time().'_'.uniqid().'.'.$file->getClientOriginalExtension(),
+//             'public'
+//         );
+
+//         MediaFile::create([
+//             'user_id'    => $user->id,
+//             'company_id' => $company_id,
+//             'file_type'  => $fileType,
+//             'file_path'  => $path,
+//             'name'       => $file->getClientOriginalName(),
+//             'mime_type'  => $file->getMimeType(),
+//         ]);
+//     }
+// }
+
 
 }

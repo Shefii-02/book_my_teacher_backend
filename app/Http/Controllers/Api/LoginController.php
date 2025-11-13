@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use App\Traits\JsonResponseTrait;
 use Exception;
+use Google\Service\CloudSourceRepositories\Repo;
 use Google_Client;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -127,6 +128,33 @@ class LoginController extends Controller
       ], 200);
     } catch (Exception $e) {
       Log::error('User data getting  failed: ' . $e->getMessage());
+      return response()->json([
+        'status' => false,
+        'message' => $e->getMessage(),
+      ]);
+    }
+  }
+
+  public function userVerifyEmail(Request $request)
+  {
+    try {
+      $user = $request->user();
+      if ($user->email_verified_at) {
+        return response()->json([
+          'success' => true,
+          'message' => 'Email already verified.',
+        ], 200);
+      }
+      $user->email_verified_at = now();
+      $user->save();
+
+      return response()->json([
+        'success' => true,
+        'message' => 'User Email Verification successfully',
+      ], 200);
+    } catch (Exception $e) {
+      Log::error('User email verification failed: ' . $e->getMessage());
+
       return response()->json([
         'status' => false,
         'message' => $e->getMessage(),

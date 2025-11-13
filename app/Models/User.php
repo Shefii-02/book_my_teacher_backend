@@ -67,7 +67,7 @@ class User extends Authenticatable
 
   public function professionalInfo()
   {
-    return $this->hasOne(TeacherProfessionalInfo::class);
+    return $this->hasOne(TeacherProfessionalInfo::class, 'teacher_id');
   }
 
 

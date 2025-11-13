@@ -3,6 +3,7 @@
 use App\Models\Department;
 use App\Models\Service;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 // if (!function_exists('getDepartments')) {
 //     function getDepartments()
@@ -108,8 +109,8 @@ function accountStatus($teacher)
     $subtitle   = "Completed";
     $allow      = true;
 
-    if($stageKey == 'verification process' || $stageKey == 'schedule interview'){
-       $allow      = false;
+    if ($stageKey == 'Verification Process' || $stageKey == 'Schedule Interview') {
+      $allow      = false;
     }
 
 
@@ -168,7 +169,7 @@ function accountStatus($teacher)
       'allow'    => $allow,
     ];
   }
-
+  Log::info($steps);
   return [
     'accountMsg' => $accountMsg,
     'steps' => $steps,

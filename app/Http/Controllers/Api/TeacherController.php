@@ -240,6 +240,7 @@ class TeacherController extends Controller
   {
     $user = $request->user();
     $company_id = 1;
+    Log::info($request->all());
     try {
       if ($request->hasFile('cv_file')) {
 

@@ -214,7 +214,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   });
 
 
-    Route::post('schedule', 'TeacherController@schedule');
+    Route::get('schedule', 'TeacherController@schedule');
 
   ///////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////

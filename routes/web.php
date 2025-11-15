@@ -159,5 +159,4 @@ Route::get('admin/webinar', function () {
 //////////////////////////////////////////////////////////////////////////
 
 Route::get('/invite', [ReferralController::class, 'trackReferral']);
-Route::post('/teacher/apply-referral', [ReferralController::class, 'applyReferral'])
-      ->middleware('auth:sanctum');
+

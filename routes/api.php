@@ -254,6 +254,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher-update-cv', 'TeacherController@teacherUpdateCv');
 
     Route::post('/get-user-details', 'UserController@getUserDetails');
+
+    Route::post('/apply-referral', 'ReferralController@applyReferral');
+
   });
 
 

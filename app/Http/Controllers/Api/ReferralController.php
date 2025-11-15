@@ -49,11 +49,6 @@ class ReferralController extends Controller
       ]);
     }
 
-    Log::info($ref);
-    Log::info($request->all());
-    Log::info($request->header('User-Agent', 'unknown'));
-    Log::info($request->ip());
-
     // Detect device type for redirect
     if (strpos($ua, 'android') !== false) {
       return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code={$code}");
@@ -70,6 +65,8 @@ class ReferralController extends Controller
   public function applyReferral(Request $request)
   {
     $user = $request->user();
+    Log::info($user);
+    Log::info($request->all());
     $request->validate([
       'referral_code' => 'required|string',
     ]);
@@ -79,7 +76,7 @@ class ReferralController extends Controller
 
     // Create a unique device fingerprint
     $deviceHash = hash('sha256', $ip . $ua);
-
+ Log::info($deviceHash);
     $user_id = $user->id;
     $code = $request->referral_code;
 
@@ -88,6 +85,8 @@ class ReferralController extends Controller
       ->where('applied', false)
       ->orderBy('first_visit', 'desc')
       ->first();
+
+       Log::info($ref);
 
     if (!$ref) {
       return response()->json([
@@ -103,6 +102,8 @@ class ReferralController extends Controller
       'ref_user_id' => User::where('referral_code', $code)->value('id'),
       'last_visit' => now(),
     ]);
+
+    Log::info($ref);
 
     // TODO: Give rewards to both users here
 

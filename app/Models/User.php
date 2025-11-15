@@ -122,6 +122,36 @@ class User extends Authenticatable
   }
 
 
+  protected static function boot()
+  {
+    parent::boot();
+
+    static::creating(function ($user) {
+      $user->referral_code = self::generateUniqueReferralCode();
+    });
+  }
+
+  // public static function generateUniqueReferralCode()
+  // {
+  //   do {
+  //     $code = 'BMT-' . rand(100000, 999999);
+  //   } while (self::where('referral_code', $code)->exists());
+
+  //   return $code;
+  // }
+
+  public static function generateUniqueReferralCode()
+  {
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+    do {
+      $random = substr(str_shuffle($characters), 0, 6);
+      $code = 'BMT-' . $random;
+    } while (self::where('referral_code', $code)->exists());
+
+    return $code;
+  }
+
 
   public function recommendedSubjects()
   {

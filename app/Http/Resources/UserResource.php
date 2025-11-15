@@ -52,7 +52,7 @@ class UserResource extends JsonResource
       'grades' => TeacherGradeResource::collection($this->teacherGrades) ?? [],
       'working_days' => TeacherWorkingDayResource::collection($this->workingDays) ?? [],
       'working_hours' => TeacherWorkingHourResource::collection($this->workingHours) ?? [],
-      'referral_code' => 'BMT-9834',
+      'referral_code' => $this->referral_code ?? '',
       'account_status'    => $this->account_status,
       'account_msg' => $this->accountMsg ?? '',
       'steps' => $this->steps ?? [],

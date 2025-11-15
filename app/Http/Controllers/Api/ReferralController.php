@@ -62,6 +62,31 @@ class ReferralController extends Controller
     return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code={$code}");
   }
 
+
+  public function takeReferral(Request $request)
+  {
+    $ip = $request->ip();
+    $ua = strtolower($request->header('User-Agent', 'unknown'));
+
+    // Unique device fingerprint
+    $deviceHash = hash('sha256', $ip . $ua);
+
+    // Check if this device visited before
+    $existing = AppReferral::where('device_hash', $deviceHash)->first();
+
+    if ($existing) {
+      $referral_code = $existing->referral_code;
+    } else {
+      $referral_code = '';
+    }
+
+    return response()->json([
+      'success' => true,
+      'code'    => $referral_code
+    ], 200);
+  }
+
+
   public function applyReferral(Request $request)
   {
     $user = $request->user();
@@ -76,7 +101,7 @@ class ReferralController extends Controller
 
     // Create a unique device fingerprint
     $deviceHash = hash('sha256', $ip . $ua);
- Log::info($deviceHash);
+    Log::info($deviceHash);
     $user_id = $user->id;
     $code = $request->referral_code;
 
@@ -86,7 +111,7 @@ class ReferralController extends Controller
       ->orderBy('first_visit', 'desc')
       ->first();
 
-       Log::info($ref);
+    Log::info($ref);
 
     if (!$ref) {
       return response()->json([

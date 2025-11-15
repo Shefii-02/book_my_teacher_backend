@@ -255,7 +255,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/get-user-details', 'UserController@getUserDetails');
 
+
+    Route::post('/take-referral', 'ReferralController@takeReferral');
     Route::post('/apply-referral', 'ReferralController@applyReferral');
+
 
   });
 

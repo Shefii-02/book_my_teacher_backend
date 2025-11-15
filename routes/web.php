@@ -158,5 +158,5 @@ Route::get('admin/webinar', function () {
 //////////////////////////////////////////////////////////////////////////
 
 
-Route::post('/teacher/apply-referral', 'ReferralController@applyReferral')->middleware('auth:sanctum');
-Route::get('/invite', 'ReferralController@trackReferral');
+Route::post('/teacher/apply-referral', 'Api/ReferralController@applyReferral')->middleware('auth:sanctum');
+Route::get('/invite', 'Api/ReferralController@trackReferral');

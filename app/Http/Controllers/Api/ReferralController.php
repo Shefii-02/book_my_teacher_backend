@@ -106,7 +106,7 @@ class ReferralController extends Controller
 
     // Find last matching referral visit
     $ref = AppReferral::where('referral_code', $code)->where('ip', $ip)
-      ->where('applied', false)
+      // ->where('applied', false)
       ->orderBy('first_visit', 'desc')
       ->first();
 

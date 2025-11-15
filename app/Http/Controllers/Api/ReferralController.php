@@ -7,6 +7,7 @@ use App\Models\AppReferral;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 
 class ReferralController extends Controller
 {

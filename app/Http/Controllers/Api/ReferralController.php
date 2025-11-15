@@ -8,58 +8,63 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class ReferralController extends Controller
 {
   public function trackReferral(Request $request)
-    {
-        $ip = $request->ip();
-        $ua = strtolower($request->header('User-Agent', 'unknown'));
+  {
+    $ip = $request->ip();
+    $ua = strtolower($request->header('User-Agent', 'unknown'));
 
-        // Unique device fingerprint
-        $deviceHash = hash('sha256', $ip . $ua);
+    // Unique device fingerprint
+    $deviceHash = hash('sha256', $ip . $ua);
 
-        $code = $request->ref; // referral code from URL
+    $code = $request->ref; // referral code from URL
 
-        // Check if this device visited before
-        $existing = AppReferral::where('device_hash', $deviceHash)->first();
+    // Check if this device visited before
+    $existing = AppReferral::where('device_hash', $deviceHash)->first();
 
-        if ($existing) {
-            // Update only last_visit and referral code (if changed)
-            $existing->update([
-                'referral_code' => $code,
-                'last_visit'    => Carbon::now(),
-                'ip'            => $ip,
-                'ua'            => $ua,
-            ]);
+    if ($existing) {
+      // Update only last_visit and referral code (if changed)
+      $existing->update([
+        'referral_code' => $code,
+        'last_visit'    => Carbon::now(),
+        'ip'            => $ip,
+        'ua'            => $ua,
+      ]);
 
-            $ref = $existing;
-        } else {
-            // Create new record
-            $ref = AppReferral::create([
-                'referral_code' => $code,
-                'device_hash'   => $deviceHash,
-                'ip'            => $ip,
-                'ua'            => $ua,
-                'first_visit'   => Carbon::now(),
-                'last_visit'    => Carbon::now(),
-                'applied'       => false,
-                'status'        => 'active',
-            ]);
-        }
-
-        // Detect device type for redirect
-        if (strpos($ua, 'android') !== false) {
-            return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code={$code}");
-        }
-
-        if (strpos($ua, 'iphone') !== false || strpos($ua, 'ipad') !== false) {
-            return redirect("https://apps.apple.com/app/id1234567890?ref_code={$code}");
-        }
-
-        // Desktop or unknown → redirect to website / Play Store
-        return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code={$code}");
+      $ref = $existing;
+    } else {
+      // Create new record
+      $ref = AppReferral::create([
+        'referral_code' => $code,
+        'device_hash'   => $deviceHash,
+        'ip'            => $ip,
+        'ua'            => $ua,
+        'first_visit'   => Carbon::now(),
+        'last_visit'    => Carbon::now(),
+        'applied'       => false,
+        'status'        => 'active',
+      ]);
     }
+    Log::info($ref);
+    Log::info($request->all());
+    Log::info($request->header('User-Agent', 'unknown'));
+    Log::info($request->ip());
+
+    // Detect device type for redirect
+    if (strpos($ua, 'android') !== false) {
+      return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code={$code}");
+    }
+
+    if (strpos($ua, 'iphone') !== false || strpos($ua, 'ipad') !== false) {
+      return redirect("https://apps.apple.com/app/id1234567890?ref_code={$code}");
+    }
+
+    // Desktop or unknown → redirect to website / Play Store
+    return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code={$code}");
+  }
 
   public function applyReferral(Request $request)
   {
@@ -68,7 +73,7 @@ class ReferralController extends Controller
       'referral_code' => 'required|string',
     ]);
 
-     $ip = $request->ip();
+    $ip = $request->ip();
     $ua = strtolower($request->header('User-Agent'));
 
     // Create a unique device fingerprint
@@ -78,7 +83,7 @@ class ReferralController extends Controller
     $code = $request->referral_code;
 
     // Find last matching referral visit
-    $ref = AppReferral::where('referral_code', $code)->where('device_hash',$deviceHash)
+    $ref = AppReferral::where('referral_code', $code)->where('device_hash', $deviceHash)
       ->where('applied', false)
       ->orderBy('first_visit', 'desc')
       ->first();

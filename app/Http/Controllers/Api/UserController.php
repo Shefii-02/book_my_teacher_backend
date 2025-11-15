@@ -247,21 +247,26 @@ class UserController extends Controller
   }
 
 
-  public function referralStats(): JsonResponse
+  public function referralStats(Request $request): JsonResponse
   {
     $reward_per_join = 100;
-    $bonus_on_first_class = 50;
+    $bonus_on_first_class = 250;
+    $earned_coins = 1850;
+    $friends_joined = 5;
+
+    $user = $request->user();
 
     return response()->json([
-      'referral_code' => 'BMT-9834',
-      'earned_coins' => 1850,
-      'friends_joined' => 4,
+      'referral_code' => $user->referral_code,
+      'earned_coins' => $earned_coins,
+      'friends_joined' => $friends_joined,
       'reward_per_join' => $reward_per_join,
       'bonus_on_first_class' => $bonus_on_first_class,
       'how_it_works' => 'How it works',
       'how_it_works_description' => 'For each friend who joins using your link/code, you earn Green Coins. Coins can be converted to rewards or wallet credits.',
       'badge_title' => '💰 Earn Green Coins',
       'badge_description' => "• $reward_per_join coins when your friend joins\n• $bonus_on_first_class extra coins when they join first class\n• Track your invites in Rewards → Invited List",
+      'share_link_description' => 'Join me on BookMyTeacher! Use my referral code BMT-9834 to sign up and earn rewards.https://stage.bookmyteacher.cloud/invite?ref=BMT-9834',
       'friends_list' => [
         [
           'name' => 'Rahul Mehta',
@@ -286,6 +291,12 @@ class UserController extends Controller
           'joined_at' => '2025-10-21',
           'earned_coins' => 50,
           'status' => 'joined',
+        ],
+        [
+          'name' => 'Vikas Kumar',
+          'joined_at' => '2025-10-25',
+          'earned_coins' => 0,
+          'status' => 'pending',
         ],
       ],
     ]);

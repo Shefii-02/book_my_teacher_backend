@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ReferralController;
 use App\Http\Controllers\HRMS\RoleController;
 use App\Http\Controllers\HRMS\TeamController;
 use App\Http\Controllers\LMS\AnalyticController;
@@ -157,6 +158,6 @@ Route::get('admin/webinar', function () {
 
 //////////////////////////////////////////////////////////////////////////
 
-
-Route::post('/teacher/apply-referral', 'Api\ReferralController@applyReferral')->middleware('auth:sanctum');
-Route::get('/invite', 'Api\ReferralController@trackReferral');
+Route::get('/invite/{code}', [ReferralController::class, 'trackReferral']);
+Route::post('/teacher/apply-referral', [ReferralController::class, 'applyReferral'])
+      ->middleware('auth:sanctum');

@@ -156,8 +156,6 @@ class UserController extends Controller
     }
   }
 
-
-
   public function  userDataRetrieve(Request $request)
   {
     try {
@@ -182,4 +180,70 @@ class UserController extends Controller
       ]);
     }
   }
+
+
+  public function myWallet(): JsonResponse
+  {
+    return response()->json([
+      'green' => [
+        'balance' => 780,
+        'target' => 1000,
+        'history' => [
+          ['title' => 'Completed Demo Class', 'type' => 'credit', 'amount' => 50, 'date' => '2025-11-01', 'status' => 'Approved'],
+          ['title' => 'Redeemed to Rupees', 'type' => 'debit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Processed'],
+        ],
+      ],
+      'rupee' => [
+        'balance' => 5400,
+        'target' => 5000,
+        'history' => [
+          ['title' => 'Converted from Coins', 'type' => 'credit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Completed'],
+          ['title' => 'Transferred to Bank', 'type' => 'debit', 'amount' => 5000, 'date' => '2025-09-25', 'status' => 'Pending'],
+        ],
+      ],
+    ]);
+  }
+
+  public function convertToRupees(Request $request)
+  {
+    // Dummy logic — you can replace this with real DB update
+    return response()->json([
+      'success' => true,
+      'message' => 'Conversion request submitted successfully!',
+      'request_id' => rand(1000, 9999),
+      'status' => 'pending',
+    ]);
+  }
+
+  public function transferToBank(Request $request)
+  {
+    Log::info('👨‍🏫 Transfer to Bank Account:', $request->all());
+
+    return response()->json([
+      'success' => true,
+      'message' => 'Transfer request submitted successfully!',
+      'transaction_id' => rand(10000, 99999),
+      'status' => 'pending',
+    ]);
+  }
+
+  public function Referral(): JsonResponse
+  {
+    return response()->json([
+      'referral_link' => 'https://bookmyteacher.com/ref/ABC123',
+      'qr_code_url' => 'https://cdn.app/qr/ABC123.png',
+      'bonus_threshold' => 5,
+      'expiry_date' => now()->addMonths(2)->toDateString(),
+      'my_referral_list' => [
+        ['name' => 'Ankit', 'joined_at' => '2025-09-12'],
+        ['name' => 'Riya', 'joined_at' => '2025-09-18']
+      ],
+      'referral_terms_points' => [
+        ['category' => 'signup', 'points' => 10],
+        ['category' => 'review', 'points' => 5]
+      ],
+      'reward_per_referral' => 20
+    ]);
+  }
+
 }

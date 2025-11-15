@@ -26,9 +26,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/user-data-retrieve', 'UserController@userDataRetrieve');
 
-    Route::post('/my-wallet', 'StudentController@myWallet');
-    Route::post('/wallet/convert-to-rupees', 'StudentController@convertToRupees');
-    Route::post('/wallet/transfer-to-bank', 'StudentController@transferToBank');
+    Route::get('/referral', 'UserController@Referral');
+    Route::post('/my-wallet', 'UserController@myWallet');
+    Route::post('/wallet/convert-to-rupees', 'UserController@convertToRupees');
+    Route::post('/wallet/transfer-to-bank', 'UserController@transferToBank');
+
+
+
+
     Route::post('top-banner/submit', function (Request $request) {
       Log::info('📢 Top Banner Request:', $request->all());
       return response()->json([
@@ -1270,6 +1275,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
+
   Route::get('/top-banners', 'StudentController@topBanners');
   Route::get('/course-banners', 'StudentController@courseBanners');
 
@@ -1277,7 +1283,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/grades-subjects', 'StudentController@gradesSubjects');
   Route::get('/board-syllabus', 'StudentController@boardSyllabus');
 
-  Route::get('/referral', 'StudentController@Referral');
+
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
   Route::get('/provide-courses', 'StudentController@provideCourses');
 

@@ -83,7 +83,6 @@ class ReferralController extends Controller
     return response()->json([
       'success' => true,
       'code'    => $referral_code,
-      'code' => 'BMT-03223'
     ], 200);
   }
 

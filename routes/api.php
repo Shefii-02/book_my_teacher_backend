@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 use Google\Client as GoogleClient;
-
+use Illuminate\Support\Facades\DB;
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
 
@@ -252,12 +252,53 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher-update-teaching-detail', 'TeacherController@teacherUpdateTeachingDetail');
     Route::post('/teacher-update-cv', 'TeacherController@teacherUpdateCv');
 
+      Route::post('/get-user-details', 'UserController@getUserDetails');
+
+      Route::post('/teacher/apply-referral', 'ReferralController@applyReferral');
   });
 
 
   ///////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
+Route::get('/invite', 'ReferralController@trackReferral');
+
+
+// Route::get('/ref/{code}', function(Request $req, $code) {
+
+//     $ip = $req->ip();
+//     $ua = $req->header('User-Agent');
+
+//     // Build a simple fingerprint using IP + UA + Day
+//     $deviceHash = hash('sha256', $ip . $ua . date('Y-m-d'));
+
+//     // Save first visit details
+//     DB::table('app_referrals')->updateOrInsert(
+//         [
+//             'device_hash' => $deviceHash,
+//             'referral_code' => $code,
+//         ],
+//         [
+//             'ip' => $ip,
+//             'user_agent' => $ua,
+//             'first_visit' => now(),
+//         ]
+//     );
+
+//     // Detect device
+//     $agent = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
+
+//     if (strpos($agent, 'android') !== false) {
+//         return redirect("https://play.google.com/store/apps/details?id=com.yourpackage.app&referrer=utm_source%3Dweb%26utm_medium%3Dreferral%26ref_code%3D$code");
+//     }
+
+//     if (strpos($agent, 'iphone') !== false || strpos($agent, 'ipad') !== false) {
+//         return redirect("https://apps.apple.com/us/app/id1234567890?ref_code=$refCode");
+//     }
+
+//     return die('invalide attempt');
+// });
+
 
   Route::post('/user-login-email', 'LoginController@googleLoginCheck');
 
@@ -269,7 +310,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('user-exist-not', 'LoginController@userExistNot')->name('user-exist-no');
 
 
-  Route::post('/get-user-details', 'UserController@getUserDetails')->middleware('auth:sanctum');
+
   Route::post('/set-user-token', 'UserController@setUserToken');
 
 

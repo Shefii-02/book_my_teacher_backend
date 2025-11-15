@@ -165,9 +165,9 @@ class UserController extends Controller
       $accountStatusResponse = accountStatus($user);
       $accountMsg = $accountStatusResponse['accountMsg'];
       $steps = $accountStatusResponse['steps'];
-      Log::info('User data retrieved', [
-        'user' => (new UserResource($user, $accountMsg, $steps))->toArray(request()),
-      ]);
+      // Log::info('User data retrieved', [
+      //   'user' => (new UserResource($user, $accountMsg, $steps))->toArray(request()),
+      // ]);
 
       return response()->json([
         'success' => true,

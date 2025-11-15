@@ -106,11 +106,9 @@ class ReferralController extends Controller
 
     // Find last matching referral visit
     $ref = AppReferral::where('referral_code', $code)->where('ip', $ip)
-      // ->where('applied', false)
+      ->where('applied', false)
       ->orderBy('first_visit', 'desc')
       ->first();
-
-    Log::info($ref);
 
     if (!$ref) {
       return response()->json([
@@ -123,12 +121,9 @@ class ReferralController extends Controller
     $ref->update([
       'applied' => true,
       'applied_user_id' => $user_id,
-      // 'ref_user_id' => User::where('referral_code', $code)->value('id'),
-      'ref_user_id' => 1,
+      'ref_user_id' => User::where('referral_code', $code)->value('id') ?? null,
       'last_visit' => now(),
     ]);
-
-    Log::info($ref);
 
     // TODO: Give rewards to both users here
 

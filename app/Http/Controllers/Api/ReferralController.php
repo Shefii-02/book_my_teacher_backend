@@ -70,10 +70,10 @@ class ReferralController extends Controller
 
     // Unique device fingerprint
     $deviceHash = hash('sha256', $ip . $ua);
-
+    Log::info($deviceHash);
     // Check if this device visited before
     $existing = AppReferral::where('device_hash', $deviceHash)->first();
-
+    Log::info($existing);
     if ($existing) {
       $referral_code = $existing->referral_code;
     } else {

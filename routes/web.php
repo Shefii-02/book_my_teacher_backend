@@ -148,3 +148,15 @@ Route::get('admin/webinar', function () {
 
   return view('company.webinar.index', compact('app_id', 'secret_id'));
 });
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+Route::post('/teacher/apply-referral', 'ReferralController@applyReferral')->middleware('auth:sanctum');
+Route::get('/invite', 'ReferralController@trackReferral');

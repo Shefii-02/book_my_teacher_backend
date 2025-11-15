@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Route;
 use Google\Client as GoogleClient;
 use Illuminate\Support\Facades\DB;
 
-Route::post('/teacher/apply-referral', 'ReferralController@applyReferral')->middleware('auth:sanctum');
-Route::get('/invite', 'ReferralController@trackReferral');
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
 

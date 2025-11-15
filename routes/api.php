@@ -23,13 +23,15 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/guest-signup', 'RegisterController@guestSignup');
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
     Route::post('/user-verify-email', 'LoginController@userVerifyEmail');
-
     Route::post('/user-data-retrieve', 'UserController@userDataRetrieve');
+    Route::post('/get-user-details', 'UserController@getUserDetails');
 
     Route::get('/referral', 'UserController@Referral');
     Route::post('/my-wallet', 'UserController@myWallet');
     Route::post('/wallet/convert-to-rupees', 'UserController@convertToRupees');
     Route::post('/wallet/transfer-to-bank', 'UserController@transferToBank');
+
+    Route::post('referral/stats', 'UserController@referralStats');
 
 
     Route::post('top-banner/submit', function (Request $request) {
@@ -39,7 +41,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'data' => "Your request has been submitted successfully!",
       ]);
     });
-
     Route::post('request-teacher-class/submit', function (Request $request) {
       Log::info('👨‍🏫 Teacher Class Request:', $request->all());
 
@@ -48,7 +49,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'data' => "Your request has been submitted successfully!",
       ]);
     });
-
     Route::post('request-form/submit', function (Request $request) {
       Log::info('📝 Request Form Submitted:', $request->all());
 
@@ -57,7 +57,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'data' => "Your request has been submitted successfully!",
       ]);
     });
-
     Route::post('request-subject-class/submit', function (Request $request) {
       Log::info('📝 Request Form Submitted:', $request->all());
 
@@ -66,7 +65,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'data' => "Your request has been submitted successfully!",
       ]);
     });
-
     Route::post('request-course/submit', function (Request $request) {
       Log::info('📝 Request Form Submitted:', $request->all());
 
@@ -75,39 +73,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'data' => "Your request has been submitted successfully!",
       ]);
     });
-
-
-    Route::post('/referral/share', function (Request $r) {
-      // log share event for analytics
-      Log::info('Referral share', ['code' => $r->code, 'method' => $r->method, 'user_id' => $r->user_id ?? null, 'ip' => $r->ip()]);
-      return response()->json(['status' => true, 'message' => 'Share recorded']);
-    });
-
-    Route::post('/referral/click', function (Request $r) {
-      // when user clicks link (open webview or app), record
-      $code = $r->input('code');
-      Log::info('Referral click', ['code' => $code, 'ip' => $r->ip(), 'ua' => $r->userAgent()]);
-      return response()->json(['status' => true, 'message' => 'Click recorded']);
-    });
-
-    Route::post('/referral/send-invites', function (Request $r) {
-      $payload = $r->input('contacts'); // array of contacts
-      // validate and queue SMS/emails via gateway (not implemented)
-      Log::info('Send invites', ['payload' => $payload, 'by' => $r->user()]);
-      return response()->json(['status' => true, 'message' => 'Invites received. Will be sent (simulated).']);
-    });
-
-    // called when new user registers with ?ref=CODE or code in payload
-    Route::post('/referral/register', function (Request $r) {
-      $code = $r->input('referral_code');
-      $newUserId = rand(1000, 9999); // simulate
-      // store referral record
-      Log::info('Referral register', ['code' => $code, 'new_user' => $newUserId, 'ip' => $r->ip()]);
-      return response()->json(['status' => true, 'message' => 'Referral recorded', 'awarded' => 100]);
-    });
-
-
-
     Route::post('requested-classes', function (Request $request) {
 
       return response()->json([
@@ -198,69 +163,50 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       ]);
     });
 
-    Route::post('referral/stats', function (Request $request) {
-      $reward_per_join = 100;
-      $bonus_on_first_class = 50;
 
-      return response()->json([
-        'referral_code' => 'BMT-9834',
-        'earned_coins' => 1850,
-        'friends_joined' => 4,
-        'reward_per_join' => $reward_per_join,
-        'bonus_on_first_class' => $bonus_on_first_class,
-        'how_it_works' => 'How it works',
-        'how_it_works_description' => 'For each friend who joins using your link/code, you earn Green Coins. Coins can be converted to rewards or wallet credits.',
-        'badge_title' => '💰 Earn Green Coins',
-        'badge_description' => "• $reward_per_join coins when your friend joins\n• $bonus_on_first_class extra coins when they join first class\n• Track your invites in Rewards → Invited List",
-        'friends_list' => [
-          [
-            'name' => 'Rahul Mehta',
-            'joined_at' => '2025-10-30',
-            'earned_coins' => 150,
-            'status' => 'completed',
-          ],
-          [
-            'name' => 'Anjali Singh',
-            'joined_at' => '2025-10-27',
-            'earned_coins' => 100,
-            'status' => 'joined',
-          ],
-          [
-            'name' => 'Vikas Kumar',
-            'joined_at' => '2025-10-25',
-            'earned_coins' => 0,
-            'status' => 'pending',
-          ],
-          [
-            'name' => 'Priya Sharma',
-            'joined_at' => '2025-10-21',
-            'earned_coins' => 50,
-            'status' => 'joined',
-          ],
-        ],
-      ]);
-    });
+
+
+    // Route::post('/referral/share', function (Request $r) {
+    //   // log share event for analytics
+    //   Log::info('Referral share', ['code' => $r->code, 'method' => $r->method, 'user_id' => $r->user_id ?? null, 'ip' => $r->ip()]);
+    //   return response()->json(['status' => true, 'message' => 'Share recorded']);
+    // });
+
+    // Route::post('/referral/click', function (Request $r) {
+    //   // when user clicks link (open webview or app), record
+    //   $code = $r->input('code');
+    //   Log::info('Referral click', ['code' => $code, 'ip' => $r->ip(), 'ua' => $r->userAgent()]);
+    //   return response()->json(['status' => true, 'message' => 'Click recorded']);
+    // });
+
+    // Route::post('/referral/send-invites', function (Request $r) {
+    //   $payload = $r->input('contacts'); // array of contacts
+    //   // validate and queue SMS/emails via gateway (not implemented)
+    //   Log::info('Send invites', ['payload' => $payload, 'by' => $r->user()]);
+    //   return response()->json(['status' => true, 'message' => 'Invites received. Will be sent (simulated).']);
+    // });
+
+    // // called when new user registers with ?ref=CODE or code in payload
+    // Route::post('/referral/register', function (Request $r) {
+    //   $code = $r->input('referral_code');
+    //   $newUserId = rand(1000, 9999); // simulate
+    //   // store referral record
+    //   Log::info('Referral register', ['code' => $code, 'new_user' => $newUserId, 'ip' => $r->ip()]);
+    //   return response()->json(['status' => true, 'message' => 'Referral recorded', 'awarded' => 100]);
+    // });
 
     Route::post('/student-home', 'StudentController@home');
-
-
     Route::post('/my-classes', 'StudentController@myClasses');
-
-
     Route::post('class-detail', 'StudentController@fetchClassDetail');
 
     Route::post('/teacher-home', 'TeacherController@home');
-
-
     Route::post('/teacher-update-personal', 'TeacherController@teacherUpdatePersonal');
     Route::post('/teacher-update-teaching-detail', 'TeacherController@teacherUpdateTeachingDetail');
     Route::post('/teacher-update-cv', 'TeacherController@teacherUpdateCv');
 
-    Route::post('/get-user-details', 'UserController@getUserDetails');
-
-
     Route::post('/take-referral', 'ReferralController@takeReferral');
     Route::post('/apply-referral', 'ReferralController@applyReferral');
+
   });
 
 
@@ -308,36 +254,29 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   Route::post('/user-login-email', 'LoginController@googleLoginCheck');
-
-
   Route::post('/teacher-signup', 'RegisterController@teacherSignup');
   Route::post('/student-signup', 'RegisterController@studentSignup');
-
-  Route::get('/check-server', 'UserController@checkServer');
   Route::post('user-exist-not', 'LoginController@userExistNot')->name('user-exist-no');
 
 
-
+  Route::get('/check-server', 'UserController@checkServer');
   Route::post('/set-user-token', 'UserController@setUserToken');
 
 
   Route::post('/send-otp-signIn', 'OtpController@sendOtpSignIn');
   Route::post('/verify-otp-signIn', 'OtpController@verifyOtpSignIn');
-
   Route::post('/send-otp-signUp', 'OtpController@sendOtpSignUp');
   Route::post('/verify-otp-signUp', 'OtpController@verifyOtpSignUp');
-
   Route::post('/send-email-otp', 'OtpController@sendEmailOtp');
   Route::post('/verify-email-otp', 'OtpController@verifyEmailOtp');
-
   Route::post('/re-send-otp', 'OtpController@reSendOtp');
+
 
 
   Route::post('/user-details', 'UserController@index');
 
 
   Route::post('/guest-home', 'GuestController@home');
-
 
   Route::get('/teachers', function () {
 
@@ -445,7 +384,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       'status' => true
     ]);
   });
-
   Route::get('/teacher/{id}', function ($id) {
     // simple dummy single teacher detail
     return response()->json([
@@ -820,6 +758,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     ]);
   });
 
+
   // Route::post('/teacher-profile', 'TeacherController@home');
 
   // Route::post('/teacher-mycourses', 'TeacherController@home');
@@ -1160,6 +1099,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   //   ]);
   // });
 
+
   Route::get('/boards', function () {
     $grades = Grade::all()->pluck('name');
 
@@ -1183,10 +1123,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       ]
     ]);
   });
-
-
-
-
 
   Route::get('/fetch-subjects', function () {
     return response()->json([
@@ -1285,7 +1221,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
   Route::get('/provide-courses', 'StudentController@provideCourses');
 
-
   Route::get('/social-links', function () {
     $socials = [
       [
@@ -1315,4 +1250,5 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       'data' => $socials,
     ]);
   });
+
 });

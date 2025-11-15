@@ -12,39 +12,54 @@ use App\Http\Controllers\Controller;
 class ReferralController extends Controller
 {
   public function trackReferral(Request $request)
-  {
-    $ip = $request->ip();
-    $ua = strtolower($request->header('User-Agent'));
+    {
+        $ip = $request->ip();
+        $ua = strtolower($request->header('User-Agent', 'unknown'));
 
-    // Create a unique device fingerprint
-    $deviceHash = hash('sha256', $ip . $ua);
+        // Unique device fingerprint
+        $deviceHash = hash('sha256', $ip . $ua);
 
-    $code = $request->ref;
+        $code = $request->ref; // referral code from URL
 
-    // Save tracking info
-    $ref = AppReferral::create([
-      'referral_code' => $code,
-      'device_hash'   => $deviceHash,
-      'ip'            => $ip,
-      'ua'            => $ua,
-      'first_visit'   => Carbon::now(),
-      'last_visit'    => Carbon::now(),
-      'applied'       => false,
-      'status'        => 'active',
-    ]);
+        // Check if this device visited before
+        $existing = AppReferral::where('device_hash', $deviceHash)->first();
 
-    // Redirect logic
-    if (strpos($ua, 'android') !== false) {
-      return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code=$code");
+        if ($existing) {
+            // Update only last_visit and referral code (if changed)
+            $existing->update([
+                'referral_code' => $code,
+                'last_visit'    => Carbon::now(),
+                'ip'            => $ip,
+                'ua'            => $ua,
+            ]);
+
+            $ref = $existing;
+        } else {
+            // Create new record
+            $ref = AppReferral::create([
+                'referral_code' => $code,
+                'device_hash'   => $deviceHash,
+                'ip'            => $ip,
+                'ua'            => $ua,
+                'first_visit'   => Carbon::now(),
+                'last_visit'    => Carbon::now(),
+                'applied'       => false,
+                'status'        => 'active',
+            ]);
+        }
+
+        // Detect device type for redirect
+        if (strpos($ua, 'android') !== false) {
+            return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code={$code}");
+        }
+
+        if (strpos($ua, 'iphone') !== false || strpos($ua, 'ipad') !== false) {
+            return redirect("https://apps.apple.com/app/id1234567890?ref_code={$code}");
+        }
+
+        // Desktop or unknown → redirect to website / Play Store
+        return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code={$code}");
     }
-
-    if (strpos($ua, 'iphone') !== false || strpos($ua, 'ipad') !== false) {
-      return redirect("https://apps.apple.com/app/id1234567890?ref_code=$code");
-    }
-
-    // Desktop → Open website
-    return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code=$code");
-  }
 
   public function applyReferral(Request $request)
   {

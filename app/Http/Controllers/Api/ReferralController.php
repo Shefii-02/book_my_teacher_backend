@@ -72,7 +72,7 @@ class ReferralController extends Controller
     $deviceHash = hash('sha256', $ip . $ua);
     Log::info($deviceHash);
     // Check if this device visited before
-    $existing = AppReferral::where('device_hash', $deviceHash)->first();
+    $existing = AppReferral::where('ip', $ip)->first();
     Log::info($existing);
     if ($existing) {
       $referral_code = $existing->referral_code;
@@ -82,7 +82,7 @@ class ReferralController extends Controller
 
     return response()->json([
       'success' => true,
-      // 'code'    => $referral_code
+      'code'    => $referral_code
       'code' => 'BMT-03223'
     ], 200);
   }

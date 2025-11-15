@@ -90,8 +90,7 @@ class ReferralController extends Controller
   public function applyReferral(Request $request)
   {
     $user = $request->user();
-    Log::info($user);
-    Log::info($request->all());
+
     $request->validate([
       'referral_code' => 'required|string',
     ]);
@@ -101,12 +100,12 @@ class ReferralController extends Controller
 
     // Create a unique device fingerprint
     $deviceHash = hash('sha256', $ip . $ua);
-    Log::info($deviceHash);
+
     $user_id = $user->id;
     $code = $request->referral_code;
 
     // Find last matching referral visit
-    $ref = AppReferral::where('referral_code', $code)->where('device_hash', $deviceHash)
+    $ref = AppReferral::where('referral_code', $code)->where('ip', $ip)
       ->where('applied', false)
       ->orderBy('first_visit', 'desc')
       ->first();

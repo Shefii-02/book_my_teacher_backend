@@ -151,11 +151,6 @@ Route::get('admin/webinar', function () {
 });
 
 
-
-
-
-
-
 //////////////////////////////////////////////////////////////////////////
 
 Route::get('/invite', [ReferralController::class, 'trackReferral']);

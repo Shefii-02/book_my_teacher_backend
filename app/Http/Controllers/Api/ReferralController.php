@@ -48,6 +48,7 @@ class ReferralController extends Controller
         'status'        => 'active',
       ]);
     }
+
     Log::info($ref);
     Log::info($request->all());
     Log::info($request->header('User-Agent', 'unknown'));

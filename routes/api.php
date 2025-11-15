@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 use Google\Client as GoogleClient;
 use Illuminate\Support\Facades\DB;
 
+Route::post('/teacher/apply-referral', 'ReferralController@applyReferral')->middleware('auth:sanctum');
+Route::get('/invite', 'ReferralController@trackReferral');
+
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
 
 
@@ -252,52 +255,50 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher-update-teaching-detail', 'TeacherController@teacherUpdateTeachingDetail');
     Route::post('/teacher-update-cv', 'TeacherController@teacherUpdateCv');
 
-      Route::post('/get-user-details', 'UserController@getUserDetails');
-
-      Route::post('/teacher/apply-referral', 'ReferralController@applyReferral');
+    Route::post('/get-user-details', 'UserController@getUserDetails');
   });
 
 
   ///////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
-Route::get('/invite', 'ReferralController@trackReferral');
 
 
-// Route::get('/ref/{code}', function(Request $req, $code) {
 
-//     $ip = $req->ip();
-//     $ua = $req->header('User-Agent');
+  // Route::get('/ref/{code}', function(Request $req, $code) {
 
-//     // Build a simple fingerprint using IP + UA + Day
-//     $deviceHash = hash('sha256', $ip . $ua . date('Y-m-d'));
+  //     $ip = $req->ip();
+  //     $ua = $req->header('User-Agent');
 
-//     // Save first visit details
-//     DB::table('app_referrals')->updateOrInsert(
-//         [
-//             'device_hash' => $deviceHash,
-//             'referral_code' => $code,
-//         ],
-//         [
-//             'ip' => $ip,
-//             'user_agent' => $ua,
-//             'first_visit' => now(),
-//         ]
-//     );
+  //     // Build a simple fingerprint using IP + UA + Day
+  //     $deviceHash = hash('sha256', $ip . $ua . date('Y-m-d'));
 
-//     // Detect device
-//     $agent = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
+  //     // Save first visit details
+  //     DB::table('app_referrals')->updateOrInsert(
+  //         [
+  //             'device_hash' => $deviceHash,
+  //             'referral_code' => $code,
+  //         ],
+  //         [
+  //             'ip' => $ip,
+  //             'user_agent' => $ua,
+  //             'first_visit' => now(),
+  //         ]
+  //     );
 
-//     if (strpos($agent, 'android') !== false) {
-//         return redirect("https://play.google.com/store/apps/details?id=com.yourpackage.app&referrer=utm_source%3Dweb%26utm_medium%3Dreferral%26ref_code%3D$code");
-//     }
+  //     // Detect device
+  //     $agent = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
 
-//     if (strpos($agent, 'iphone') !== false || strpos($agent, 'ipad') !== false) {
-//         return redirect("https://apps.apple.com/us/app/id1234567890?ref_code=$refCode");
-//     }
+  //     if (strpos($agent, 'android') !== false) {
+  //         return redirect("https://play.google.com/store/apps/details?id=com.yourpackage.app&referrer=utm_source%3Dweb%26utm_medium%3Dreferral%26ref_code%3D$code");
+  //     }
 
-//     return die('invalide attempt');
-// });
+  //     if (strpos($agent, 'iphone') !== false || strpos($agent, 'ipad') !== false) {
+  //         return redirect("https://apps.apple.com/us/app/id1234567890?ref_code=$refCode");
+  //     }
+
+  //     return die('invalide attempt');
+  // });
 
 
   Route::post('/user-login-email', 'LoginController@googleLoginCheck');

@@ -35,7 +35,7 @@ class ReferralController extends Controller
 
     // Redirect logic
     if (strpos($ua, 'android') !== false) {
-      return redirect("https://play.google.com/store/apps/details?id=com.bookmyteacher.app&ref_code=$code");
+      return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code=$code");
     }
 
     if (strpos($ua, 'iphone') !== false || strpos($ua, 'ipad') !== false) {
@@ -43,7 +43,7 @@ class ReferralController extends Controller
     }
 
     // Desktop → Open website
-    return redirect("https://bookmyteacher.com?ref_code=$code");
+    return redirect("https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&ref_code=$code");
   }
 
   public function applyReferral(Request $request)

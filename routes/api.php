@@ -32,8 +32,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/wallet/transfer-to-bank', 'UserController@transferToBank');
 
 
-
-
     Route::post('top-banner/submit', function (Request $request) {
       Log::info('📢 Top Banner Request:', $request->all());
       return response()->json([

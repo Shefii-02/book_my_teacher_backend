@@ -194,7 +194,7 @@ class UserController extends Controller
         ],
       ],
       'rupee' => [
-        'balance' => 5400,
+        'balance' => 4400,
         'target' => 5000,
         'history' => [
           ['title' => 'Converted from Coins', 'type' => 'credit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Completed'],

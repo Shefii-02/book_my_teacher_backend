@@ -34,6 +34,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('referral/stats', 'UserController@referralStats');
 
 
+    Route::post('schedule', 'TeacherController@schedule');
+
+
+
+
     Route::post('top-banner/submit', function (Request $request) {
       Log::info('📢 Top Banner Request:', $request->all());
       return response()->json([

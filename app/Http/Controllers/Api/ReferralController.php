@@ -123,7 +123,8 @@ class ReferralController extends Controller
     $ref->update([
       'applied' => true,
       'applied_user_id' => $user_id,
-      'ref_user_id' => User::where('referral_code', $code)->value('id'),
+      // 'ref_user_id' => User::where('referral_code', $code)->value('id'),
+      'ref_user_id' => 1,
       'last_visit' => now(),
     ]);
 

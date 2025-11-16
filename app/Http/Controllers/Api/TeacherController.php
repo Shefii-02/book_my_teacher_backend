@@ -291,7 +291,7 @@ class TeacherController extends Controller
 
   public function schedule(Request $request)
   {
-    Log::inf0(1);
+
     $month = now()->format('Y-m');
 
     $start = Carbon::parse($month)->startOfMonth();

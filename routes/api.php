@@ -38,10 +38,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
     Route::post('/teacher/courses', 'TeacherController@courses');
-    Route::post('/teacher/course_details', 'TeacherController@courseDetails');
-
-
-
+    Route::post('/teacher/course-details', 'TeacherController@courseDetails');
 
 
     Route::post('top-banner/submit', function (Request $request) {

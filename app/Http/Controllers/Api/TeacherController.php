@@ -291,7 +291,7 @@ class TeacherController extends Controller
 
   public function schedule(Request $request)
   {
-    $month = $request->month ?? now()->format('Y-m');
+    $month = now()->format('Y-m');
 
     $start = Carbon::parse($month)->startOfMonth();
     $end = Carbon::parse($month)->endOfMonth();
@@ -387,6 +387,15 @@ class TeacherController extends Controller
         ]
       ],
     ];
+
+   Log::info("scheduleData", [
+    "month" => $month,
+    "first_day" => $start->format('Y-m-d'),
+    "last_day" => $end->format('Y-m-d'),
+    "events_count" => count($dummyEvents),
+    "events" => $dummyEvents,
+]);
+
 
     return response()->json([
       "month" => $month,

@@ -405,6 +405,7 @@ class TeacherController extends Controller
 
   public function courses(Request $request)
   {
+    Log::info($request->all());
     // Dummy data: replace with DB queries
     $upcoming = [
       [

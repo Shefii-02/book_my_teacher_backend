@@ -317,6 +317,7 @@ class TeacherController extends Controller
           "subject_name" => "Mathematics",
           "thumbnail_url" => "https://example.com/thumb1.jpg",
           "class_type" => "online",
+          "source" => "zoom",
           "location" => "Online",
           "students" => 10
         ],
@@ -338,6 +339,7 @@ class TeacherController extends Controller
           "thumbnail_url" => "https://example.com/thumb2.jpg",
           "class_type" => "offline",
           "location" => "Classroom A",
+          "source" => "gmeet",
           "students" => 18
         ]
       ],
@@ -360,6 +362,7 @@ class TeacherController extends Controller
           "subject_name" => "General Guidance",
           "thumbnail_url" => "https://example.com/webinar.jpg",
           "class_type" => "online",
+          "source" => "gmeet",
           "location" => "Online",
           "students" => 55
         ]
@@ -383,19 +386,12 @@ class TeacherController extends Controller
           "subject_name" => "Robotics",
           "thumbnail_url" => "https://example.com/robotics.jpg",
           "class_type" => "hybrid",
+          "source" => "",
           "location" => "Hall 2",
           "students" => 22
         ]
       ],
     ];
-
-   Log::info("scheduleData", [
-    "month" => $month,
-    "first_day" => $start->format('Y-m-d'),
-    "last_day" => $end->format('Y-m-d'),
-    "events_count" => count($dummyEvents),
-    "events" => $dummyEvents,
-]);
 
 
     return response()->json([

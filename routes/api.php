@@ -37,6 +37,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher/schedule', 'TeacherController@schedule');
 
 
+    Route::post('/teacher/courses', 'TeacherController@courses');
+    Route::post('/teacher/course_details', 'TeacherController@courseDetails');
+
+
+
+
+
     Route::post('top-banner/submit', function (Request $request) {
       Log::info('📢 Top Banner Request:', $request->all());
       return response()->json([
@@ -209,7 +216,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/take-referral', 'ReferralController@takeReferral');
     Route::post('/apply-referral', 'ReferralController@applyReferral');
-
   });
 
 
@@ -1253,5 +1259,4 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       'data' => $socials,
     ]);
   });
-
 });

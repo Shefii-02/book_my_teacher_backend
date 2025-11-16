@@ -401,4 +401,118 @@ class TeacherController extends Controller
       "events" => $dummyEvents,
     ]);
   }
+
+
+  public function courses(Request $request)
+  {
+    // Dummy data: replace with DB queries
+    $upcoming = [
+      [
+        "id" => 11,
+        "title" => "Flutter Basics",
+        "thumbnail_url" => "https://via.placeholder.com/150x100.png?text=Flutter",
+        "start_date" => "2025-11-20",
+        "start_time" => "10:00 AM",
+        "duration" => 60,
+        "total_classes" => 20,
+        "completed_classes" => 5
+      ],
+    ];
+
+    $ongoing = [
+      [
+        "id" => 12,
+        "title" => "React Native Live",
+        "thumbnail_url" => "https://via.placeholder.com/150x100.png?text=React",
+        "start_date" => "2025-11-13",
+        "start_time" => "01:00 PM",
+        "duration" => 120,
+        "total_classes" => 10,
+        "completed_classes" => 3
+      ],
+    ];
+
+    $completed = [
+      [
+        "id" => 13,
+        "title" => "Python for Beginners",
+        "thumbnail_url" => "https://via.placeholder.com/150x100.png?text=Python",
+        "start_date" => "2025-11-10",
+        "start_time" => "03:00 PM",
+        "duration" => 90,
+        "total_classes" => 12,
+        "completed_classes" => 12
+      ],
+    ];
+
+    return response()->json([
+      'upcoming' => $upcoming,
+      'ongoing' => $ongoing,
+      'completed' => $completed,
+    ]);
+  }
+
+  public function courseDetails(Request $request)
+  {
+    // Example dummy details per course id
+    $course = [
+      "id" => (int)$request->id,
+      "title" => "React Native Live",
+      "thumbnail_url" => "https://via.placeholder.com/800x300.png?text=Course+Banner",
+      "description" => "Learn cross-platform development with React Native. Build real apps.",
+      "duration" => "2 Months",
+      "level" => "Intermediate",
+      "language" => "English",
+      "category" => "Mobile Development",
+      "total_classes" => 20,
+      "completed_classes" => 5
+    ];
+
+    $classes = [
+      "upcoming" => [
+        [
+          "id" => 101,
+          "title" => "Introduction to React Native",
+          "date" => Carbon::parse('2025-11-16')->toDateString(),
+          "time_start" => "10:00 AM",
+          "time_end" => "11:00 AM",
+          "class_status" => "upcoming"
+        ],
+      ],
+      "ongoing" => [
+        // none in dummy
+      ],
+      "completed" => [
+        [
+          "id" => 90,
+          "title" => "JS Basics",
+          "date" => Carbon::parse('2025-11-10')->toDateString(),
+          "time_start" => "03:00 PM",
+          "time_end" => "04:00 PM",
+          "class_status" => "completed"
+        ],
+      ],
+    ];
+
+    $materials = [
+      [
+        "id" => 201,
+        "title" => "Chapter 1 Notes",
+        "file_url" => "https://example.com/files/ch1.pdf",
+        "file_type" => "pdf"
+      ],
+      [
+        "id" => 202,
+        "title" => "UI Design Video",
+        "file_url" => "https://example.com/files/ui.mp4",
+        "file_type" => "video"
+      ],
+    ];
+
+    return response()->json([
+      "course" => $course,
+      "classes" => $classes,
+      "materials" => $materials,
+    ]);
+  }
 }

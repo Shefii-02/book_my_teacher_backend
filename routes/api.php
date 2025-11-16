@@ -37,8 +37,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher/schedule', 'TeacherController@schedule');
 
 
-    Route::post('/teacher/courses', 'TeacherController@courses');
-    Route::post('/teacher/course-details', 'TeacherController@courseDetails');
 
 
     Route::post('top-banner/submit', function (Request $request) {
@@ -213,11 +211,27 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/take-referral', 'ReferralController@takeReferral');
     Route::post('/apply-referral', 'ReferralController@applyReferral');
+
+
+
+    Route::get('/teacher/courses', 'TeacherController@courses');
+    Route::get('/teacher/course-details', 'TeacherController@courseDetails');
+
+    Route::get('/teacher/reviews', 'TeacherController@reviews');
+
+    Route::get('/teacher/statistics', 'TeacherController@getStatistics');
+
+    Route::get('/teacher/statistics', 'TeacherController@getStatistics');
+    Route::get('/teacher/achievements', 'TeacherController@achievements');
+
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+
+
   });
 
 
-
-  ///////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
 

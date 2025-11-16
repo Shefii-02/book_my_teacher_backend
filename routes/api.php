@@ -34,7 +34,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('referral/stats', 'UserController@referralStats');
 
 
-    Route::post('schedule', 'TeacherController@schedule');
+    Route::post('/teacher/schedule', 'TeacherController@schedule');
 
 
     Route::post('top-banner/submit', function (Request $request) {

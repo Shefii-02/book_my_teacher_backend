@@ -519,191 +519,188 @@ class TeacherController extends Controller
 
 
   public function getStatistics(Request $request)
-    {
-        // Selected range (client can send ?range=Last 7 Days)
-        $range = $request->get('range', 'Last 7 Days');
+  {
+    // Selected range (client can send ?range=Last 7 Days)
+    $range = $request->get('range', 'Last 7 Days');
 
-        $dummyData = $this->getDummyStatistics();
+    $dummyData = $this->getDummyStatistics();
 
-        return response()->json([
-            "range"       => $range,
-            "spend_time"  => $dummyData['spend'],
-            "watch_time"  => $dummyData['watch'],
-            "summary"     => [
-                "total_spend" => "12 hrs",
-                "total_watch" => "34 hrs"
+    return response()->json([
+      "range"       => $range,
+      "spend_time"  => $dummyData['spend'],
+      "watch_time"  => $dummyData['watch'],
+      "summary"     => [
+        "total_spend" => "15 hrs",
+        "total_watch" => "35 hrs"
+      ],
+    ]);
+  }
+
+
+  private function getDummyStatistics()
+  {
+    return [
+      "spend" => [
+        "Last Day" => [
+          "Individual"   => [5],
+          "Own Courses"  => [3],
+          "YouTube"      => [7],
+          "Workshops"    => [2],
+          "Webinar"      => [4],
+        ],
+        "Last 7 Days" => [
+          "Individual"   => [3, 6, 8, 7, 10, 9, 12],
+          "Own Courses"  => [2, 4, 5, 6, 7, 8, 9],
+          "YouTube"      => [5, 7, 8, 10, 9, 11, 13],
+          "Workshops"    => [1, 3, 2, 4, 3, 5, 4],
+          "Webinar"      => [2, 3, 4, 5, 6, 7, 8],
+        ],
+        "Current Month" => [
+          "Individual"   => $this->generateSeries(14, 3, 1.2),
+          "Own Courses"  => $this->generateSeries(14, 2, 1.0),
+          "YouTube"      => $this->generateSeries(14, 3, 1.5),
+          "Workshops"    => $this->generateSeries(14, 1, 0.9),
+          "Webinar"      => $this->generateSeries(14, 2, 1.3),
+        ],
+        "Last Month" => [
+          "Individual"   => $this->generateSeries(30, 3, 0.9),
+          "Own Courses"  => $this->generateSeries(30, 2, 0.8),
+          "YouTube"      => $this->generateSeries(30, 3, 1.4),
+          "Workshops"    => $this->generateSeries(30, 1, 0.7),
+          "Webinar"      => $this->generateSeries(30, 2, 1.0),
+        ],
+      ],
+
+      "watch" => [
+        "Last Day" => [
+          "Individual"   => [2],
+          "Own Courses"  => [4],
+          "YouTube"      => [9],
+          "Workshops"    => [3],
+          "Webinar"      => [5],
+        ],
+        "Last 7 Days" => [
+          "Individual"   => [4, 5, 6, 8, 7, 6, 9],
+          "Own Courses"  => [3, 4, 5, 7, 6, 8, 10],
+          "YouTube"      => [6, 9, 10, 12, 11, 13, 15],
+          "Workshops"    => [2, 3, 4, 5, 6, 5, 7],
+          "Webinar"      => [3, 5, 6, 8, 9, 10, 12],
+        ],
+        "Current Month" => [
+          "Individual"   => $this->generateSeries(14, 2, 1.1),
+          "Own Courses"  => $this->generateSeries(14, 2, 1.3),
+          "YouTube"      => $this->generateSeries(14, 3, 1.8),
+          "Workshops"    => $this->generateSeries(14, 1, 1.0),
+          "Webinar"      => $this->generateSeries(14, 2, 1.4),
+        ],
+        "Last Month" => [
+          "Individual"   => $this->generateSeries(30, 3, 1.1),
+          "Own Courses"  => $this->generateSeries(30, 2, 1.2),
+          "YouTube"      => $this->generateSeries(30, 3, 1.6),
+          "Workshops"    => $this->generateSeries(30, 1, 0.9),
+          "Webinar"      => $this->generateSeries(30, 2, 1.3),
+        ],
+      ],
+    ];
+  }
+
+
+  private function generateSeries($count, $base, $multiplier)
+  {
+    $list = [];
+    for ($i = 0; $i < $count; $i++) {
+      $list[] = ($i + $base) * $multiplier;
+    }
+    return $list;
+  }
+
+
+  public function reviews(Request $request)
+  {
+
+    return response()->json([
+      "courses" => [
+        [
+          "course_id" => 1,
+          "course_name" => "Flutter Basics",
+          "average_rating" => 4.5,
+          "total_reviews" => 2,
+          "reviews" => [
+            [
+              "student" => "Alice",
+              "rating" => 5.0,
+              "comment" => "Excellent!",
+              "date" => "2025-11-10",
             ],
-        ]);
-    }
-
-
-    private function getDummyStatistics()
-    {
-        return [
-            "spend" => [
-                "Last Day" => [
-                    "Individual"   => [5],
-                    "Own Courses"  => [3],
-                    "YouTube"      => [7],
-                    "Workshops"    => [2],
-                    "Webinar"      => [4],
-                ],
-                "Last 7 Days" => [
-                    "Individual"   => [3, 6, 8, 7, 10, 9, 12],
-                    "Own Courses"  => [2, 4, 5, 6, 7, 8, 9],
-                    "YouTube"      => [5, 7, 8, 10, 9, 11, 13],
-                    "Workshops"    => [1, 3, 2, 4, 3, 5, 4],
-                    "Webinar"      => [2, 3, 4, 5, 6, 7, 8],
-                ],
-                "Current Month" => [
-                    "Individual"   => $this->generateSeries(14, 3, 1.2),
-                    "Own Courses"  => $this->generateSeries(14, 2, 1.0),
-                    "YouTube"      => $this->generateSeries(14, 3, 1.5),
-                    "Workshops"    => $this->generateSeries(14, 1, 0.9),
-                    "Webinar"      => $this->generateSeries(14, 2, 1.3),
-                ],
-                "Last Month" => [
-                    "Individual"   => $this->generateSeries(30, 3, 0.9),
-                    "Own Courses"  => $this->generateSeries(30, 2, 0.8),
-                    "YouTube"      => $this->generateSeries(30, 3, 1.4),
-                    "Workshops"    => $this->generateSeries(30, 1, 0.7),
-                    "Webinar"      => $this->generateSeries(30, 2, 1.0),
-                ],
+            [
+              "student" => "Bob",
+              "rating" => 4.0,
+              "comment" => "Very helpful",
+              "date" => "2025-11-11",
             ],
-
-            "watch" => [
-                "Last Day" => [
-                    "Individual"   => [2],
-                    "Own Courses"  => [4],
-                    "YouTube"      => [9],
-                    "Workshops"    => [3],
-                    "Webinar"      => [5],
-                ],
-                "Last 7 Days" => [
-                    "Individual"   => [4, 5, 6, 8, 7, 6, 9],
-                    "Own Courses"  => [3, 4, 5, 7, 6, 8, 10],
-                    "YouTube"      => [6, 9, 10, 12, 11, 13, 15],
-                    "Workshops"    => [2, 3, 4, 5, 6, 5, 7],
-                    "Webinar"      => [3, 5, 6, 8, 9, 10, 12],
-                ],
-                "Current Month" => [
-                    "Individual"   => $this->generateSeries(14, 2, 1.1),
-                    "Own Courses"  => $this->generateSeries(14, 2, 1.3),
-                    "YouTube"      => $this->generateSeries(14, 3, 1.8),
-                    "Workshops"    => $this->generateSeries(14, 1, 1.0),
-                    "Webinar"      => $this->generateSeries(14, 2, 1.4),
-                ],
-                "Last Month" => [
-                    "Individual"   => $this->generateSeries(30, 3, 1.1),
-                    "Own Courses"  => $this->generateSeries(30, 2, 1.2),
-                    "YouTube"      => $this->generateSeries(30, 3, 1.6),
-                    "Workshops"    => $this->generateSeries(30, 1, 0.9),
-                    "Webinar"      => $this->generateSeries(30, 2, 1.3),
-                ],
+          ]
+        ],
+        [
+          "course_id" => 2,
+          "course_name" => "Laravel Advanced",
+          "average_rating" => 4.2,
+          "total_reviews" => 2,
+          "reviews" => [
+            [
+              "student" => "Charlie",
+              "rating" => 4.5,
+              "comment" => "Good explanations",
+              "date" => "2025-11-12",
             ],
-        ];
-    }
+            [
+              "student" => "David",
+              "rating" => 4.0,
+              "comment" => "Learned a lot",
+              "date" => "2025-11-13",
+            ],
+          ]
+        ]
+      ]
+    ]);
+  }
 
-
-    private function generateSeries($count, $base, $multiplier)
-    {
-        $list = [];
-        for ($i = 0; $i < $count; $i++) {
-            $list[] = ($i + $base) * $multiplier;
-        }
-        return $list;
-    }
-
-
-    public function reviews(Request $request)
-    {
-
-        return response()->json([
-            "courses" => [
-                [
-                    "course_id" => 1,
-                    "course_name" => "Flutter Basics",
-                    "average_rating" => 4.5,
-                    "total_reviews" => 2,
-                    "reviews" => [
-                        [
-                            "student" => "Alice",
-                            "rating" => 5.0,
-                            "comment" => "Excellent!",
-                            "date" => "2025-11-10",
-                        ],
-                        [
-                            "student" => "Bob",
-                            "rating" => 4.0,
-                            "comment" => "Very helpful",
-                            "date" => "2025-11-11",
-                        ],
-                    ]
-                ],
-                [
-                    "course_id" => 2,
-                    "course_name" => "Laravel Advanced",
-                    "average_rating" => 4.2,
-                    "total_reviews" => 2,
-                    "reviews" => [
-                        [
-                            "student" => "Charlie",
-                            "rating" => 4.5,
-                            "comment" => "Good explanations",
-                            "date" => "2025-11-12",
-                        ],
-                        [
-                            "student" => "David",
-                            "rating" => 4.0,
-                            "comment" => "Learned a lot",
-                            "date" => "2025-11-13",
-                        ],
-                    ]
-                ]
-            ]
-        ]);
-    }
-
-    public function achievements()
-    {
-        return response()->json([
-            "levels" => [
-                [
-                    "level" => 1,
-                    "is_unlocked" => true,
-                    "progress" => 1.0,
-                    "points_remaining" => 0,
-                    "tasks" => [
-                        ["title" => "Complete Profile", "status" => "completed"],
-                        ["title" => "Upload ID Proof", "status" => "completed"],
-                        ["title" => "Add 1 Course", "status" => "completed"],
-                    ]
-                ],
-                [
-                    "level" => 2,
-                    "is_unlocked" => true,
-                    "progress" => 0.7,
-                    "points_remaining" => 500,
-                    "tasks" => [
-                        ["title" => "Finish 10 Classes", "status" => "completed"],
-                        ["title" => "Get 5 Reviews", "status" => "ongoing"],
-                        ["title" => "Maintain 4.0 Rating", "status" => "pending"],
-                    ]
-                ],
-                [
-                    "level" => 3,
-                    "is_unlocked" => false,
-                    "progress" => 0.0,
-                    "points_remaining" => 1500,
-                    "tasks" => [
-                        ["title" => "Earn 2000 Coins", "status" => "pending"],
-                        ["title" => "Host a Webinar", "status" => "pending"],
-                    ]
-                ],
-            ]
-        ]);
-    }
-
-
-
+  public function achievements()
+  {
+    return response()->json([
+      "levels" => [
+        [
+          "level" => 1,
+          "is_unlocked" => true,
+          "progress" => 1.0,
+          "points_remaining" => 0,
+          "tasks" => [
+            ["title" => "Complete Profile", "status" => "completed"],
+            ["title" => "Upload ID Proof", "status" => "completed"],
+            ["title" => "Add 1 Course", "status" => "completed"],
+          ]
+        ],
+        [
+          "level" => 2,
+          "is_unlocked" => true,
+          "progress" => 0.7,
+          "points_remaining" => 500,
+          "tasks" => [
+            ["title" => "Finish 10 Classes", "status" => "completed"],
+            ["title" => "Get 5 Reviews", "status" => "ongoing"],
+            ["title" => "Maintain 4.0 Rating", "status" => "pending"],
+          ]
+        ],
+        [
+          "level" => 3,
+          "is_unlocked" => false,
+          "progress" => 0.0,
+          "points_remaining" => 1500,
+          "tasks" => [
+            ["title" => "Earn 2000 Coins", "status" => "pending"],
+            ["title" => "Host a Webinar", "status" => "pending"],
+          ]
+        ],
+      ]
+    ]);
+  }
 }

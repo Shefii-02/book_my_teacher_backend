@@ -229,11 +229,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   });
 
-    // Route::any('/teacher/statistics', 'TeacherController@getStatistics');
   ///////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
 
-
+    Route::any('/teacher/reviews', 'TeacherController@reviews');
 
   // Route::get('/ref/{code}', function(Request $req, $code) {
 

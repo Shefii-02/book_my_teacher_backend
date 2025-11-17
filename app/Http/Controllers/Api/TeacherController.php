@@ -659,6 +659,74 @@ class TeacherController extends Controller
               "date" => "2025-11-13",
             ],
           ]
+        ],
+        [
+          "course_id" => 3,
+          "course_name" => "MEAN STACK",
+          "average_rating" => 4.8,
+          "total_reviews" => 10,
+          "reviews" => [
+            [
+              "student" => "Charlie",
+              "rating" => 4.5,
+              "comment" => "Good explanations",
+              "date" => "2025-11-12",
+            ],
+            [
+              "student" => "David",
+              "rating" => 4.0,
+              "comment" => "Learned a lot",
+              "date" => "2025-11-13",
+            ],
+            [
+              "student" => "Charlie",
+              "rating" => 4.5,
+              "comment" => "Good explanations",
+              "date" => "2025-11-12",
+            ],
+            [
+              "student" => "David",
+              "rating" => 4.0,
+              "comment" => "Learned a lot",
+              "date" => "2025-11-13",
+            ],
+            [
+              "student" => "Charlie",
+              "rating" => 4.5,
+              "comment" => "Good explanations",
+              "date" => "2025-11-12",
+            ],
+            [
+              "student" => "David",
+              "rating" => 4.0,
+              "comment" => "Learned a lot",
+              "date" => "2025-11-13",
+            ],
+            [
+              "student" => "Charlie",
+              "rating" => 4.5,
+              "comment" => "Good explanations",
+              "date" => "2025-11-12",
+            ],
+            [
+              "student" => "David",
+              "rating" => 4.0,
+              "comment" => "Learned a lot",
+              "date" => "2025-11-13",
+            ],
+            [
+              "student" => "Charlie",
+              "rating" => 4.5,
+              "comment" => "Good explanations",
+              "date" => "2025-11-12",
+            ],
+            [
+              "student" => "David",
+              "rating" => 4.0,
+              "comment" => "Learned a lot",
+              "date" => "2025-11-13",
+            ],
+          ]
         ]
       ]
     ]);

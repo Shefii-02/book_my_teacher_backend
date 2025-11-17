@@ -776,17 +776,17 @@ class TeacherController extends Controller
         "data" => [
             [
                 "title" => "Individual Class’s",
-                "icon"  => asset('icons/chart-1.png'),
+                "icon"  => "assets/images/icons/chart-1.png",
                 "time"  => "30.4 hr"
             ],
             [
                 "title" => "Own Course Class’s",
-                "icon"  => asset('icons/chart-2.png'),
+                "icon"  => "assets/images/icons/chart-2.png",
                 "time"  => "22.8 hr"
             ],
             [
                 "title" => "Youtube Class’s",
-                "icon"  => asset('icons/chart-3.png'),
+                "icon"  => "assets/images/icons/chart-3.png",
                 "time"  => "15.1 hr"
             ],
         ]

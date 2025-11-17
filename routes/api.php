@@ -214,15 +214,15 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-    Route::get('/teacher/courses', 'TeacherController@courses');
-    Route::get('/teacher/course-details', 'TeacherController@courseDetails');
+    Route::post('/teacher/courses', 'TeacherController@courses');
+    Route::post('/teacher/course-details', 'TeacherController@courseDetails');
 
-    Route::get('/teacher/reviews', 'TeacherController@reviews');
+    Route::post('/teacher/reviews', 'TeacherController@reviews');
 
-    Route::get('/teacher/statistics', 'TeacherController@getStatistics');
+    Route::post('/teacher/statistics', 'TeacherController@getStatistics');
 
-    Route::get('/teacher/statistics', 'TeacherController@getStatistics');
-    Route::get('/teacher/achievements', 'TeacherController@achievements');
+    Route::post('/teacher/statistics', 'TeacherController@getStatistics');
+    Route::post('/teacher/achievements', 'TeacherController@achievements');
 
 
     ///////////////////////////////////////////////////////////////////////

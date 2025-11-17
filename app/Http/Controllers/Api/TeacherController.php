@@ -411,7 +411,7 @@ class TeacherController extends Controller
       [
         "id" => 11,
         "title" => "Flutter Basics",
-        "thumbnail_url" => "https://via.placeholder.com/150x100.png?text=Flutter",
+        "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
         "start_date" => "2025-11-20",
         "start_time" => "10:00 AM",
         "duration" => 60,
@@ -424,7 +424,7 @@ class TeacherController extends Controller
       [
         "id" => 12,
         "title" => "React Native Live",
-        "thumbnail_url" => "https://via.placeholder.com/150x100.png?text=React",
+        "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-2.png"),
         "start_date" => "2025-11-13",
         "start_time" => "01:00 PM",
         "duration" => 120,
@@ -437,7 +437,7 @@ class TeacherController extends Controller
       [
         "id" => 13,
         "title" => "Python for Beginners",
-        "thumbnail_url" => "https://via.placeholder.com/150x100.png?text=Python",
+        "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-3.png"),
         "start_date" => "2025-11-10",
         "start_time" => "03:00 PM",
         "duration" => 90,
@@ -459,7 +459,7 @@ class TeacherController extends Controller
     $course = [
       "id" => (int)$request->id,
       "title" => "React Native Live",
-      "thumbnail_url" => "https://via.placeholder.com/800x300.png?text=Course+Banner",
+      "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
       "description" => "Learn cross-platform development with React Native. Build real apps.",
       "duration" => "2 Months",
       "level" => "Intermediate",

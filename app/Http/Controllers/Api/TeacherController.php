@@ -735,62 +735,84 @@ class TeacherController extends Controller
   public function achievements()
   {
     return response()->json([
-        "levels" => [
-            [
-                "level" => 1,
-                "is_unlocked" => true,
-                "progress" => 1.0,
-                "points_remaining" => 0,
-                "tasks" => [
-                    ["title" => "Complete 5 classes", "status" => "completed"],
-                    ["title" => "Earn 20 reward points", "status" => "completed"],
-                ]
-            ],
-            [
-                "level" => 2,
-                "is_unlocked" => true,
-                "progress" => 0.65,
-                "points_remaining" => 400,
-                "tasks" => [
-                    ["title" => "Teach 10 students", "status" => "ongoing"],
-                    ["title" => "Maintain 4.5 rating", "status" => "ongoing"],
-                ]
-            ],
-            [
-                "level" => 3,
-                "is_unlocked" => false,
-                "progress" => 0.0,
-                "points_remaining" => 1200,
-                "tasks" => [
-                    ["title" => "Complete 50 classes", "status" => "pending"],
-                    ["title" => "Get 100 reviews", "status" => "pending"],
-                ]
-            ]
+      "levels" => [
+        [
+          "level" => 1,
+          "is_unlocked" => true,
+          "progress" => 1.0,
+          "points_remaining" => 0,
+          "tasks" => [
+            ["title" => "Complete 5 classes", "status" => "completed"],
+            ["title" => "Earn 20 reward points", "status" => "completed"],
+          ]
+        ],
+        [
+          "level" => 2,
+          "is_unlocked" => true,
+          "progress" => 0.65,
+          "points_remaining" => 400,
+          "tasks" => [
+            ["title" => "Teach 10 students", "status" => "ongoing"],
+            ["title" => "Maintain 4.5 rating", "status" => "ongoing"],
+          ]
+        ],
+        [
+          "level" => 3,
+          "is_unlocked" => false,
+          "progress" => 0.0,
+          "points_remaining" => 1200,
+          "tasks" => [
+            ["title" => "Complete 50 classes", "status" => "pending"],
+            ["title" => "Get 100 reviews", "status" => "pending"],
+          ]
         ]
+      ]
     ]);
   }
 
   public function spendTime()
-{
+  {
     return response()->json([
-        "data" => [
-            [
-                "title" => "Individual Class’s",
-                "icon"  => "assets/images/icons/chart-1.png",
-                "time"  => "30.4 hr"
-            ],
-            [
-                "title" => "Own Course Class’s",
-                "icon"  => "assets/images/icons/chart-2.png",
-                "time"  => "22.8 hr"
-            ],
-            [
-                "title" => "Youtube Class’s",
-                "icon"  => "assets/images/icons/chart-3.png",
-                "time"  => "15.1 hr"
-            ],
-        ]
+      "data" => [
+        [
+          "title" => "Individual Class’s",
+          "icon"  => "assets/images/icons/chart-1.png",
+          "time"  => "31.4 hr"
+        ],
+        [
+          "title" => "Own Course Class’s",
+          "icon"  => "assets/images/icons/chart-2.png",
+          "time"  => "22.8 hr"
+        ],
+        [
+          "title" => "Youtube Class’s",
+          "icon"  => "assets/images/icons/chart-3.png",
+          "time"  => "15.1 hr"
+        ],
+      ]
     ]);
-}
+  }
 
+  public function watchTime()
+  {
+    return response()->json([
+      "data" => [
+        [
+          "title" => "Individual Class’s",
+          "icon"  => "assets/images/icons/chart-1.png",
+          "time"  => "31.4 hr"
+        ],
+        [
+          "title" => "Own Course Class’s",
+          "icon"  => "assets/images/icons/chart-2.png",
+          "time"  => "22.8 hr"
+        ],
+        [
+          "title" => "Youtube Class’s",
+          "icon"  => "assets/images/icons/chart-3.png",
+          "time"  => "15.1 hr"
+        ],
+      ]
+    ]);
+  }
 }

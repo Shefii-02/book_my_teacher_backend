@@ -224,6 +224,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/teacher/statistics', 'TeacherController@getStatistics');
 
+
+    Route::post('/teacher/spend-time', 'TeacherController@spendTime');
+
+
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 

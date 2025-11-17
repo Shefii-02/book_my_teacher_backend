@@ -222,6 +222,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/teacher/achievements', 'TeacherController@achievements');
 
+    Route::post('/teacher/statistics', 'TeacherController@getStatistics');
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -229,7 +230,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   });
 
 
-    Route::any('/teacher/statistics', 'TeacherController@getStatistics');
   ///////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
 

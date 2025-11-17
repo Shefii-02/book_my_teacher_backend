@@ -735,40 +735,38 @@ class TeacherController extends Controller
   public function achievements()
   {
     return response()->json([
-      "levels" => [
-        [
-          "level" => 1,
-          "is_unlocked" => true,
-          "progress" => 1.0,
-          "points_remaining" => 0,
-          "tasks" => [
-            ["title" => "Complete Profile", "status" => "completed"],
-            ["title" => "Upload ID Proof", "status" => "completed"],
-            ["title" => "Add 1 Course", "status" => "completed"],
-          ]
-        ],
-        [
-          "level" => 2,
-          "is_unlocked" => true,
-          "progress" => 0.7,
-          "points_remaining" => 500,
-          "tasks" => [
-            ["title" => "Finish 10 Classes", "status" => "completed"],
-            ["title" => "Get 5 Reviews", "status" => "ongoing"],
-            ["title" => "Maintain 4.0 Rating", "status" => "pending"],
-          ]
-        ],
-        [
-          "level" => 3,
-          "is_unlocked" => false,
-          "progress" => 0.0,
-          "points_remaining" => 1500,
-          "tasks" => [
-            ["title" => "Earn 2000 Coins", "status" => "pending"],
-            ["title" => "Host a Webinar", "status" => "pending"],
-          ]
-        ],
-      ]
+        "levels" => [
+            [
+                "level" => 1,
+                "is_unlocked" => true,
+                "progress" => 1.0,
+                "points_remaining" => 0,
+                "tasks" => [
+                    ["title" => "Complete 5 classes", "status" => "completed"],
+                    ["title" => "Earn 20 reward points", "status" => "completed"],
+                ]
+            ],
+            [
+                "level" => 2,
+                "is_unlocked" => true,
+                "progress" => 0.65,
+                "points_remaining" => 400,
+                "tasks" => [
+                    ["title" => "Teach 10 students", "status" => "ongoing"],
+                    ["title" => "Maintain 4.5 rating", "status" => "ongoing"],
+                ]
+            ],
+            [
+                "level" => 3,
+                "is_unlocked" => false,
+                "progress" => 0.0,
+                "points_remaining" => 1200,
+                "tasks" => [
+                    ["title" => "Complete 50 classes", "status" => "pending"],
+                    ["title" => "Get 100 reviews", "status" => "pending"],
+                ]
+            ]
+        ]
     ]);
   }
 }

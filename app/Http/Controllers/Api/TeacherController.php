@@ -920,4 +920,76 @@ class TeacherController extends Controller
       ]
     ]);
   }
+
+
+  public function ownCourses()
+  {
+
+    $courses = collect([
+      [
+        'id' => 1,
+        'title' => 'Mathematics Basics',
+        'description' => 'Learn core concepts of algebra, geometry, and arithmetic.',
+        'category' => 'Course',
+        'image' => asset('assets/mobile-app/courses/math.png'),
+        'duration' => '3 Months',
+        'level' => 'Beginner',
+        'is_enrolled' => false,
+      ],
+      [
+        'id' => 2,
+        'title' => 'Science Fundamentals',
+        'description' => 'Explore physics, chemistry, and biology principles.',
+        'category' => 'Course',
+        'image' => asset('assets/mobile-app/courses/science.png'),
+        'duration' => '4 Months',
+        'level' => 'Intermediate',
+        'is_enrolled' => true,
+      ],
+      [
+        'id' => 3,
+        'title' => 'AI for Beginners',
+        'description' => 'Introduction to artificial intelligence and ML basics.',
+        'category' => 'Workshop',
+        'image' => asset('assets/mobile-app/workshops/ai.png'),
+        'duration' => '2 Days',
+        'level' => 'Skill Booster',
+        'is_enrolled' => false,
+      ],
+      [
+        'id' => 4,
+        'title' => 'Web Development Bootcamp',
+        'description' => 'Full-stack web development using Laravel & React.',
+        'category' => 'Workshop',
+        'image' => asset('assets/mobile-app/workshops/web.png'),
+        'duration' => '5 Days',
+        'level' => 'Advanced',
+        'is_enrolled' => false,
+      ],
+      [
+        'id' => 5,
+        'title' => 'Effective Communication Webinar',
+        'description' => 'Boost your communication skills with real-time interaction.',
+        'category' => 'Webinar',
+        'image' => asset('assets/mobile-app/webinars/communication.png'),
+        'duration' => '1 Hour',
+        'level' => 'Open for All',
+        'is_enrolled' => false,
+        'schedule' => now()->addDays(3)->toDateTimeString(),
+      ],
+    ]);
+
+    $grouped = $courses->groupBy('category')->map(function ($items, $category) {
+      return [
+        'category' => $category,
+        'items' => $items->values(),
+      ];
+    })->values();
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Courses categorized successfully',
+      'data' => $grouped,
+    ]);
+  }
 }

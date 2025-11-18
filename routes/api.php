@@ -230,6 +230,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
+    Route::post('/teacher/spend-time-stats', 'TeacherController@spendTimeStats');
+    Route::post('/teacher/watch-time-stats', 'TeacherController@watchTimeStats');
+
+
+
+
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 

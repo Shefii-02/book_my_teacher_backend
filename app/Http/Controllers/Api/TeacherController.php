@@ -793,26 +793,70 @@ class TeacherController extends Controller
     ]);
   }
 
-  public function watchTime()
+  public function spendTimeStats()
+  {
+    $data = [
+      "Last Day" => [
+        "Individual" => [5.4],
+        "Own Courses" => [3, 5],
+        "YouTube" => [7, 2],
+        "Workshops" => [2, 5],
+        "Webinar" => [4, 6]
+      ],
+      "Last 7 Days" => [
+        "Individual" => [3, 6, 8, 7, 10, 9, 12],
+        "Own Courses" => [2, 4, 5, 6, 7, 8, 9],
+        "YouTube" => [5, 7, 8, 10, 9, 11, 13],
+        "Workshops" => [1, 3, 2, 4, 3, 5, 4],
+        "Webinar" => [2, 3, 4, 5, 6, 7, 8]
+      ]
+    ];
+
+    return response()->json($data);
+  }
+
+ public function watchTime()
   {
     return response()->json([
       "data" => [
         [
           "title" => "Individual Class’s",
-          "icon"  => "assets/images/icons/chart-1.png",
+          "icon"  => "assets/images/icons/chart-4.png",
           "time"  => "31.4 hr"
         ],
         [
           "title" => "Own Course Class’s",
-          "icon"  => "assets/images/icons/chart-2.png",
+          "icon"  => "assets/images/icons/chart-5.png",
           "time"  => "22.8 hr"
         ],
         [
           "title" => "Youtube Class’s",
-          "icon"  => "assets/images/icons/chart-3.png",
+          "icon"  => "assets/images/icons/chart-6.png",
           "time"  => "15.1 hr"
         ],
       ]
     ]);
   }
+  public function watchTimeStats()
+  {
+    $data = [
+      "Last Day" => [
+        "Individual" => [5.4],
+        "Own Courses" => [3, 5],
+        "YouTube" => [7, 2],
+        "Workshops" => [2, 5],
+        "Webinar" => [4, 6]
+      ],
+      "Last 7 Days" => [
+        "Individual" => [3, 6, 8, 7, 10, 9, 12],
+        "Own Courses" => [2, 4, 5, 6, 7, 8, 9],
+        "YouTube" => [5, 7, 8, 10, 9, 11, 13],
+        "Workshops" => [1, 3, 2, 4, 3, 5, 4],
+        "Webinar" => [2, 3, 4, 5, 6, 7, 8]
+      ]
+    ];
+
+    return response()->json($data);
+  }
+
 }

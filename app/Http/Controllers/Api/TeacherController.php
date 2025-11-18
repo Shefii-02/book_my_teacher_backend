@@ -900,4 +900,24 @@ class TeacherController extends Controller
 
     return response()->json($data);
   }
+
+
+  public function achievementLevel()
+  {
+    return response()->json([
+      'status' => true,
+      'message' => 'Achievement level fetched',
+      'data' => [
+        'current_level' => 2,
+        'current_points' => 5200,
+        'next_level' => 3,
+        'points_to_reach_next' => 6000,
+        'points_needed_for_next' => 800, // 6000 - 5200
+        'tasks' => [
+          ['title' => 'Complete Daily Practice', 'completed' => true],
+          ['title' => 'Attend Live Class', 'completed' => false],
+        ]
+      ]
+    ]);
+  }
 }

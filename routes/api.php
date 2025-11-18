@@ -234,6 +234,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher/watch-time-stats', 'TeacherController@watchTimeStats');
 
 
+    Route::post('/teacher/achievement-level', 'TeacherController@achievementLevel');
 
 
 
@@ -246,7 +247,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   //////////////////////////////////////////////////////////////////////
 
 
-    Route::any('/teacher/achievements', 'TeacherController@achievements');
+  Route::any('/teacher/achievements', 'TeacherController@achievements');
 
   // Route::get('/ref/{code}', function(Request $req, $code) {
 

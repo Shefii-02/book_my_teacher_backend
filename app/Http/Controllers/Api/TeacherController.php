@@ -737,7 +737,7 @@ class TeacherController extends Controller
     $reviews = [
       [
         "name" => "Aisha Patel",
-        "review" => "Great teacher! Explained concepts very clearly.",
+        "review" => "Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.",
         "image" => "https://i.pravatar.cc/150?img=5",
         "rating" => 4.5,
       ],

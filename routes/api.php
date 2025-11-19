@@ -240,6 +240,17 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::get('/teacher/performance', 'TeacherController@performance');
 
+
+
+    Route::get('/logout', 'UserController@userLogout');
+
+    Route::get('/account/delete-request', 'UserController@deleteAccountRequest');
+
+
+
+
+
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 

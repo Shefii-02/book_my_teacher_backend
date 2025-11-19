@@ -156,11 +156,31 @@ class UserController extends Controller
     }
   }
 
+  public function userLogout(Request $request)
+  {
+    $user = $request->user();
+    Log::info($user);
+    Log::info("Logouted");
+    return response()->json([
+      'success' => true,
+      'message' => 'Logout successfully'
+    ], 200);
+  }
+  public function deleteAccountRequest(Request $request) {
+    $user = $request->user();
+    Log::info($user);
+    Log::info("Delete Account Request Received");
+    return response()->json([
+      'success' => true,
+      'message' => 'Account Deletion Request Received'
+    ], 200);
+  }
+
   public function  userDataRetrieve(Request $request)
   {
     try {
       $user = $request->user();
-      if(!$user){
+      if (!$user) {
         Log::info("user founded");
       }
       $accountStatusResponse = accountStatus($user);

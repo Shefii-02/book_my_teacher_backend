@@ -36,7 +36,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/teacher/schedule', 'TeacherController@schedule');
 
-
+    Route::get('/notifications/unread-count', 'NotificationController@unreadCount');
+    Route::get('/notifications', 'NotificationController@list');
+    Route::post('/notifications/mark-read/{id}', 'NotificationController@markRead');
 
 
     Route::post('top-banner/submit', function (Request $request) {

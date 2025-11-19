@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class NotificationController extends Controller
 {
@@ -56,6 +57,8 @@ class NotificationController extends Controller
     // 🔹 POST /notifications/mark-read/{id}
     public function markRead($id)
     {
+      Log::alert('readed notification:');
+      Log::info($id);
         // No DB → fake success
         return response()->json([
             'status' => 200,

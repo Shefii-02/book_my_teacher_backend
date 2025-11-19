@@ -242,9 +242,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-    Route::get('/logout', 'UserController@userLogout');
+    Route::post('/logout', 'UserController@userLogout');
 
-    Route::get('/account/delete-request', 'UserController@deleteAccountRequest');
+    Route::post('/account/delete-request', 'UserController@deleteAccountRequest');
 
 
 

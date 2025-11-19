@@ -33,7 +33,7 @@ class NotificationController extends Controller
     ];
 
     // 🔹 GET /notifications/unread-count
-    public function unreadCount()
+    public function notifications()
     {
         $count = collect($this->dummyNotifications)
             ->where('is_read', false)
@@ -41,15 +41,7 @@ class NotificationController extends Controller
 
         return response()->json([
             'status' => 200,
-            'count' => $count
-        ]);
-    }
-
-    // 🔹 GET /notifications
-    public function list()
-    {
-        return response()->json([
-            'status' => 200,
+            'count' => $count,
             'notifications' => $this->dummyNotifications
         ]);
     }

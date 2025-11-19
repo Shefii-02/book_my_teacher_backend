@@ -248,8 +248,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   ///////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
 
-    Route::get('/notifications/unread-count', 'NotificationController@unreadCount');
-    Route::get('/notifications', 'NotificationController@list');
+    Route::get('/notifications', 'NotificationController@notifications');
     Route::post('/notifications/mark-read/{id}', 'NotificationController@markRead');
 
 

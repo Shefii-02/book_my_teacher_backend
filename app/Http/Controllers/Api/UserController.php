@@ -160,6 +160,9 @@ class UserController extends Controller
   {
     try {
       $user = $request->user();
+      if(!$user){
+        Log::info("user founded");
+      }
       $accountStatusResponse = accountStatus($user);
       $accountMsg = $accountStatusResponse['accountMsg'];
       $steps = $accountStatusResponse['steps'];

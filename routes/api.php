@@ -239,6 +239,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher/own-courses', 'TeacherController@ownCourses');
 
 
+    Route::get('/teacher/performance', 'TeacherController@performance');
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 

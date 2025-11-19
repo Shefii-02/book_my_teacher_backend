@@ -992,4 +992,60 @@ class TeacherController extends Controller
       'data' => $grouped,
     ]);
   }
+
+
+  public function  performance(Request $request)
+  {
+    $teacher = $request->user(); // Authenticated teacher
+    $filter  = $request->query('filter', 'daily'); // daily, weekly, monthly
+
+    // DUMMY DATA (replace with DB queries)
+    $dummyData = [
+      'daily' => [
+        'watch_time'     => '2.5 hrs',
+        'students'       => 12,
+        'avg_rating'     => 4.6,
+        'growth'         => '+3%',
+        'sessions'       => 4,
+        'chart'          => [20, 35, 40, 50, 45, 30, 25],
+        'labels'         => ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      ],
+
+      'weekly' => [
+        'watch_time'     => '17 hrs',
+        'students'       => 58,
+        'avg_rating'     => 4.7,
+        'growth'         => '+9%',
+        'sessions'       => 18,
+        'chart'          => [95, 120, 110, 140],
+        'labels'         => ["Week 1", "Week 2", "Week 3", "Week 4"],
+      ],
+
+      'monthly' => [
+        'watch_time'     => '72 hrs',
+        'students'       => 240,
+        'avg_rating'     => 4.8,
+        'growth'         => '+14%',
+        'sessions'       => 76,
+        'chart'          => [280, 320, 300],
+        'labels'         => ["Jan", "Feb", "Mar"],
+      ],
+    ];
+
+    return response()->json([
+      'status' => true,
+      'filter' => $filter,
+      'summary' => [
+        'watch_time' => $dummyData[$filter]['watch_time'],
+        'students'   => $dummyData[$filter]['students'],
+        'avg_rating' => $dummyData[$filter]['avg_rating'],
+        'growth'     => $dummyData[$filter]['growth'],
+        'sessions'   => $dummyData[$filter]['sessions'],
+      ],
+      'chart' => [
+        'labels' => $dummyData[$filter]['labels'],
+        'values' => $dummyData[$filter]['chart'],
+      ]
+    ]);
+  }
 }

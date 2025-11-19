@@ -1254,7 +1254,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
   Route::get('/provide-courses', 'StudentController@provideCourses');
 
-  Route::get('/social-links', function () {
+  Route::get('/bottom-social-links', function () {
     $socials = [
       [
         'name' => 'Facebook',
@@ -1286,40 +1286,39 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/social-links', function () {
     $socials = [
-        [
-            'name' => 'Facebook',
-            'icon' => asset('assets/mobile-app/icons/facebook.png'),
-            'link' => 'https://facebook.com/BookMyTeacher',
-        ],
-        [
-            'name' => 'Instagram',
-            'icon' => asset('assets/mobile-app/icons/instagram.png'),
-            'link' => 'https://instagram.com/BookMyTeacher',
-        ],
-        [
-            'name' => 'YouTube',
-            'icon' => asset('assets/mobile-app/icons/youtube.png'),
-            'link' => 'https://youtube.com/@BookMyTeacher',
-        ],
-        [
-            'name' => 'LinkedIn',
-            'icon' => asset('assets/mobile-app/icons/linkedin.png'),
-            'link' => 'https://linkedin.com/company/BookMyTeacher',
-        ],
+      [
+        'name' => 'Facebook',
+        'icon' => asset('assets/mobile-app/icons/facebook.png'),
+        'link' => 'https://facebook.com/BookMyTeacher',
+      ],
+      [
+        'name' => 'Instagram',
+        'icon' => asset('assets/mobile-app/icons/instagram.png'),
+        'link' => 'https://instagram.com/BookMyTeacher',
+      ],
+      [
+        'name' => 'YouTube',
+        'icon' => asset('assets/mobile-app/icons/youtube.png'),
+        'link' => 'https://youtube.com/@BookMyTeacher',
+      ],
+      [
+        'name' => 'LinkedIn',
+        'icon' => asset('assets/mobile-app/icons/linkedin.png'),
+        'link' => 'https://linkedin.com/company/BookMyTeacher',
+      ],
     ];
 
     $contact = [
-        "email" => "support@bookmyteacher.com",
-        "phone" => "+91 98765 43210",
-        "website" => "https://bookmyteacher.com",
-        "address" => "Trivandrum, Kerala, India"
+      "email" => "support@bookmyteacher.com",
+      "phone" => "+91 98765 43210",
+      "website" => "https://bookmyteacher.com",
+      "address" => "Trivandrum, Kerala, India"
     ];
 
     return response()->json([
-        'status' => true,
-        'socials' => $socials,
-        'contact' => $contact,
+      'status' => true,
+      'socials' => $socials,
+      'contact' => $contact,
     ]);
-});
-
+  });
 });

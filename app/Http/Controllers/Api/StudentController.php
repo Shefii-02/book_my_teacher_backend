@@ -524,4 +524,24 @@ class StudentController extends Controller
     ]);
   }
 
+  public function performance()
+{
+    return response()->json([
+        "summary" => [
+            "total_classes" => 120,
+            "attended_classes" => 110,
+            "missed_classes" => 10,
+            "avg_score" => 87.5,
+            "attendance_percentage" => 91.6,
+            "completed_exams" => 8,
+        ],
+
+        "chart" => [
+            "labels" => ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+            "values" => [78, 85, 90, 88, 92, 95],
+        ]
+    ]);
+}
+
+
 }

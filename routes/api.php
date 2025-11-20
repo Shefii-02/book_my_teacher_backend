@@ -256,8 +256,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   ///////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
 
-    Route::get('/notifications', 'NotificationController@notifications');
-    Route::post('/notifications/mark-read/{id}', 'NotificationController@markRead');
+  Route::get('/notifications', 'NotificationController@notifications');
+  Route::post('/notifications/mark-read/{id}', 'NotificationController@markRead');
 
 
 
@@ -332,6 +332,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'name' => 'Asif T',
         'qualification' => 'MCA, NET',
         'subjects' => 'Computer Science, English',
+        'courses' => 'Spoken English, Jim',
         'ranking' => 1,
         'rating' => 4.8,
         'imageUrl' => asset('assets/mobile-app/asit-t.png'),
@@ -356,6 +357,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'name' => 'James M',
         'qualification' => 'B.Ed, M.Sc',
         'subjects' => 'Maths, Physics',
+        'courses' => 'Spoken English, Jim',
         'ranking' => 2,
         'rating' => 4.5,
         'imageUrl' => asset('assets/mobile-app/asit-t.png'),
@@ -380,6 +382,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'name' => 'Sana K',
         'qualification' => 'B.Tech, M.Tech',
         'subjects' => 'Chemistry, Biology',
+        'courses' => 'Spoken English, Jim',
         'ranking' => 3,
         'rating' => 4.7,
         'imageUrl' => asset('assets/mobile-app/asit-t.png'),
@@ -404,6 +407,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'name' => 'Mohammed S',
         'qualification' => 'PhD, M.Ed',
         'subjects' => 'History, Civics',
+        'courses' => 'Spoken English, Jim',
         'ranking' => 4,
         'rating' => 4.9,
         'imageUrl' => asset('assets/mobile-app/asit-t.png'),
@@ -437,6 +441,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       'name' => 'Asif T',
       'qualification' => 'MCA, NET',
       'subjects' => 'Computer Science, English',
+      'courses' => 'Spoken English, Jim',
       'ranking' => 1,
       'rating' => 4.8,
       'image' => asset('assets/mobile-app/asit-t.png'),

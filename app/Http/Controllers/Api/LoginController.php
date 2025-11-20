@@ -38,7 +38,6 @@ class LoginController extends Controller
       $user = $request->user();
       Log::info('user: ' . $user);
 
-
       $idToken = $request->input('idToken');
       Log::info('idToken: ' . substr($idToken, 0, 50) . '...'); // log partial token for safety
 
@@ -93,7 +92,9 @@ class LoginController extends Controller
 
         // Generate token if using Sanctum
         $token = $userEx->createToken('auth_token')->plainTextToken;
-
+        $userEx->email_verified_at = now();
+        $userEx->save();
+        $userEx->refresh();
         return response()->json([
           'success' => true,
           'message' => 'Login successfully',

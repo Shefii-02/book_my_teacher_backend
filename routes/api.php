@@ -211,8 +211,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/take-referral', 'ReferralController@takeReferral');
     Route::post('/apply-referral', 'ReferralController@applyReferral');
 
-
-
     Route::post('/teacher/courses', 'TeacherController@courses');
     Route::post('/teacher/course-details', 'TeacherController@courseDetails');
 

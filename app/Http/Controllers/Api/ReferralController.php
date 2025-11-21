@@ -104,6 +104,17 @@ class ReferralController extends Controller
     $user_id = $user->id;
     $code = $request->referral_code;
 
+    $refCode = User::where('referral_code', $code)->first();
+
+    if (!$refCode) {
+      return response()->json([
+        'status' => false,
+        'message' => 'Invalid referral code'
+      ], 400);
+    }
+
+
+
     // Find last matching referral visit
     $ref = AppReferral::where('referral_code', $code)->where('ip', $ip)
       ->where('applied', false)

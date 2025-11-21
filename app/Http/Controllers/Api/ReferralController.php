@@ -115,6 +115,17 @@ class ReferralController extends Controller
         'status' => false,
         'message' => 'Invalid or already used referral code'
       ], 400);
+    } else {
+      $ref = AppReferral::create([
+        'referral_code' => $code,
+        'device_hash'   => $deviceHash,
+        'ip'            => $ip,
+        'ua'            => $ua,
+        'first_visit'   => Carbon::now(),
+        'last_visit'    => Carbon::now(),
+        'applied'       => false,
+        'status'        => 'active',
+      ]);
     }
 
     // Mark applied

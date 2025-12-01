@@ -59,7 +59,7 @@ class Course extends Model
   }
   public function classes()
   {
-    return $this->hasMany(CourseClass::class, 'course_id');
+    return $this->hasMany(CourseClass::class, 'course_id')->orderBy('scheduled_at');
   }
 
   public function thumbnailMedia()

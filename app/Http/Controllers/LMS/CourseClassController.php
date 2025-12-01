@@ -10,58 +10,91 @@ use Illuminate\Http\Request;
 
 class CourseClassController extends Controller
 {
-  public function index()
+  public function index($identity)
   {
-    $classes = CourseClass::with(['course', 'teacher'])->latest()->paginate(10);
-    return view('course_classes.index', compact('classes'));
+    $course = Course::with('classes')->where('course_identity', $identity)->first() ?? abort(404);
+    return view('company.courses.classes.index', compact('course'));
   }
 
-  public function create()
+  public function create($identity)
   {
-    $courses = Course::all();
-    $teachers = User::where('type', 'teacher')->get(); // filter teachers
-    return view('course_classes.create', compact('courses', 'teachers'));
+    $course = Course::where('course_identity', $identity)->first() ?? abort(404);
+    $teachers = User::where('acc_type', 'teacher')->get(); // filter teachers
+    return view('company.courses.classes.form', compact('course', 'teachers'));
   }
 
-  public function store(Request $request)
+  public function store(Request $request, $identity)
   {
-    $request->validate([
-      'course_id'  => 'required|exists:courses,id',
-      'teacher_id' => 'required|exists:users,id',
+
+    $course = Course::where('course_identity', $identity)->first() ?? abort(404);
+    // dd($identity, $request->all());
+    $validated = $request->validate([
+      'type'             => 'required|in:online,offline,recorded',
+      'title'            => 'required|string|max:255',
+      'description'      => 'nullable|string',
+      'start_time'       => 'required',
+      'end_time'       => 'required',
+      'priority' => 'required',
+      'status' => 'required',
+
+      // dynamic fields
+      'class_mode'       => 'nullable|required_if:type,online',
+      'meeting_link'     => 'nullable|required_if:type,online',
+
+      'class_address'    => 'nullable|required_if:type,offline',
+
+      'recording_url'    => 'nullable|required_if:type,recorded',
     ]);
 
-    CourseClass::create($request->only('course_id', 'teacher_id'));
+    $data = $validated;
+    $data['course_id'] = $course->id;
 
-    return redirect()->route('course_classes.index')->with('success', 'Course class created successfully.');
+    CourseClass::create($data);
+
+    return redirect()->route('admin.courses.schedule-class.index',$course->course_identity)->with('success', 'Course class created successfully.');
   }
 
-  public function edit(CourseClass $course_class)
+  public function edit($identity, $course_class)
   {
-    $courses = Course::all();
-    $teachers = User::where('type', 'teacher')->get();
 
-    return view('course_classes.edit', [
-      'class' => $course_class,
-      'courses' => $courses,
+    $course = Course::where('course_identity', $identity)->first() ?? abort(404);
+    $class = CourseClass::where('course_id',$course->id)->where('id',$course_class)->first() ?? abort(404);
+    $teachers = User::where('acc_type', 'teacher')->get();
+
+    return view('company.courses.classes.form', [
+      'class' => $class,
+      'course' => $course,
       'teachers' => $teachers
     ]);
   }
 
   public function update(Request $request, CourseClass $course_class)
   {
-    $request->validate([
-      'course_id'  => 'required|exists:courses,id',
-      'teacher_id' => 'required|exists:users,id',
+    $validated = $request->validate([
+      'course_id'        => 'required|exists:courses,id',
+      'type'             => 'required|in:online,offline,recorded',
+      'title'            => 'required|string|max:255',
+      'description'      => 'nullable|string',
+      'start_time'       => 'required',
+      'end_time'       => 'required',
+      'priority' => 'required',
+      'status' => 'required',
+      'class_mode'       => 'nullable|required_if:type,online',
+      'meeting_link'     => 'nullable|required_if:type,online',
+
+      'class_address'    => 'nullable|required_if:type,offline',
+
+      'recording_url'    => 'nullable|required_if:type,recorded',
     ]);
 
-    $course_class->update($request->only('course_id', 'teacher_id'));
+    $course_class->update($validated);
 
-    return redirect()->route('course_classes.index')->with('success', 'Course class updated successfully.');
+    return redirect()->route('admin.courses.schedule-class.index')->with('success', 'Course class updated successfully.');
   }
 
   public function destroy(CourseClass $course_class)
   {
     $course_class->delete();
-    return redirect()->route('course_classes.index')->with('success', 'Course class deleted successfully.');
+    return redirect()->route('admin.courses.schedule-class.index')->with('success', 'Course class deleted successfully.');
   }
 }

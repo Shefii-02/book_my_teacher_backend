@@ -37,20 +37,29 @@
             <div class="flex-none w-full max-w-full px-3">
                 <div
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="p-3  border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex">
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                                <h6 class="dark:text-white">Course Overview</h6>
-                            </div>
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-
-                            </div>
-                            <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4">
-                                <a href="{{ route('admin.courses.edit',$course->course_identity) }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
+                    <div class="p-3 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                        <div class="flex justify-between items-center">
+                            <div
+                                class="w-full max-w-full px-3  item-center flex gap-3 items-center">
+                                <h6 class="dark:text-white">Course Overview : {{ $course->title ?? '—' }}</h6>
+                                <a href="{{ route('admin.courses.edit', $course->course_identity) }}"
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-xxs">
+                                    <i class="bi bi-pencil me-2"></i>
                                     Edit</a>
+                            </div>
+
+                            <div class="w-full text-right max-w-full px-3  ">
+                                <a href="{{ route('admin.courses.schedule-class.index', $course->course_identity) }}"
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
+                                    <i class="bi bi-calendar-date-fill me-2"></i> Scheduled Class's</a>
+                                <a href="{{ route('admin.courses.schedule-class.index', $course->course_identity) }}"
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
+                                    <i class="bi bi-files me-2"></i> Materials</a>
+
                                 <a href="{{ route('admin.courses.index') }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
+                                    <i class="bi bi-arrow-left me-2"></i>
+                                    Back</a>
                             </div>
                         </div>
                     </div>

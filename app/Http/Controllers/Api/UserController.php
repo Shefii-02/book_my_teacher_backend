@@ -166,7 +166,8 @@ class UserController extends Controller
       'message' => 'Logout successfully'
     ], 200);
   }
-  public function deleteAccountRequest(Request $request) {
+  public function deleteAccountRequest(Request $request)
+  {
     $user = $request->user();
     Log::info($user);
     Log::info("Delete Account Request Received");

@@ -1,44 +1,190 @@
 @extends('layouts.layout')
-
+@section('nav-options')
+    <nav>
+        <!-- breadcrumb -->
+        <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+            <li class="text-neutral-900 text-sm">
+                <a class="text-white " href="javascript:;">Home</a>
+            </li>
+            <li
+                class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
+                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+            </li>
+            <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
+                aria-current="page">Course Listing</li>
+        </ol>
+        <h6 class="mb-0 font-bold text-white capitalize">Course Listing</h6>
+    </nav>
+@endsection
 @section('content')
-<div class="container">
-    <div class="card bg-white rounded-3 mb-3">
-        <div class="card-title p-2 m-2 flex justify-between items-center">
-            <h5 class="font-bold">Course Classes</h5>
-            <a href="{{ route('company.courses.classes.create') }}" class="btn btn-primary">+ Add Class</a>
+    <!-- cards -->
+    <div class="w-full px-6 py-6 mx-auto">
+        <div class="flex flex-wrap -mx-3 mt-4">
+            <div class="flex-none w-full max-w-full px-3">
+                <div
+                    class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                    <div class="p-4 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                        <div class="flex">
+                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                                <h6 class="dark:text-white">Course : {{ $course->title }}</h6>
+                            </div>
+                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+
+                            </div>
+                            <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
+
+                                <a href="{{ route('admin.courses.schedule-class.create', $course->course_identity) }}"
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
+                                    <i class=" bi bi-plus me-1"></i>
+                                    Create
+                                    Class</a>
+                                <a href="{{ route('admin.courses.create') }}"
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i
+                                        class="bi bi-arrow-left me-2"></i>Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- table 1 -->
+
+                <div class="flex flex-wrap -mx-3 mt-4">
+                    <div class="flex-none w-full max-w-full px-3">
+                        <div
+                            class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                            <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                                <div class="flex1">
+                                    <div class="w-full max-w-full ">
+                                    </div>
+                                    <div class="w-full max-w-full ">
+                                        {{-- <form method="GET" action="{{ route('admin.teachers') }}"
+                                            class="mb-4 flex flex-wrap gap-3 items-end">
+
+                                            <!-- 🔍 Search (name, email, mobile) -->
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">Search</label>
+                                                <input type="text" name="search" value="{{ request('search') }}"
+                                                    placeholder="Search name, email, mobile"
+                                                    class="border rounded px-3 py-2 w-64">
+                                            </div>
+
+                                            <!-- 🎛 Teaching Mode -->
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">Video Mode</label>
+                                                <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
+                                                    <option value="">All</option>
+                                                    <option value="online"
+                                                        {{ request('teaching_mode') == 'online' ? 'selected' : '' }}>
+                                                        Online
+                                                    </option>
+                                                    <option value="offline"
+                                                        {{ request('teaching_mode') == 'offline' ? 'selected' : '' }}>
+                                                        Offline
+                                                    </option>
+                                                    <option value="both"
+                                                        {{ request('teaching_mode') == 'both' ? 'selected' : '' }}>Both
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <!-- 📌 Account Status -->
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">Status</label>
+                                                <select name="account_status" class="border rounded px-3 py-2 w-32">
+                                                    <option value="">All</option>
+                                                    <option value="draft"
+                                                        {{ request('status') == 'draft' ? 'selected' : '' }}>
+                                                        Draft</option>
+                                                    <option value="unpublished"
+                                                        {{ request('status') == 'unpublished' ? 'selected' : '' }}>
+                                                        Unpublished
+                                                    </option>
+                                                    <option value="published"
+                                                        {{ request('status') == 'published' ? 'selected' : '' }}>
+                                                        Published
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Submit + Reset -->
+                                            <div class="flex gap-2">
+                                                <button type="submit"
+                                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i
+                                                        class="bi bi-search"></i> Apply</button>
+                                                <a href="{{ route('admin.teachers') }}"
+                                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded-full text-white text-sm"><i
+                                                        class="bi bi-arrow-clockwise"></i> Reset </a>
+
+
+                                            </div>
+                                        </form> --}}
+
+                                    </div>
+                                </div>
+                            </div>
+                            <table
+                                class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
+                                <thead class="align-bottom">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            Course</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            Teacher</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            Created</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($course->classes as $class)
+                                        <tr>
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                {{ $class->course?->title }}</td>
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                {{ $class->teacher?->name }}</td>
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                {{ $class->created_at->format('d M Y') }}</td>
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                <a href="{{ route('admin.courses.schedule-class.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
+                                                    class="px-3 py-1 bg-yellow-500 text-white rounded text-xs">
+                                                    Edit
+                                                </a>
+
+                                                <form
+                                                    action="{{ route('admin.courses.schedule-class.destroy', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
+                                                    method="POST" class="inline-block"
+                                                    onsubmit="return confirm('Are you sure?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="px-3 py-1 bg-red-500 text-white rounded text-xs">
+                                                        Delete
+                                                    </button>
+                                                </form>
+
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center p-5">No course classes found</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="card p-3">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Course</th>
-                    <th>Teacher</th>
-                    <th>Created</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($classes as $class)
-                    <tr>
-                        <td>{{ $class->course?->title }}</td>
-                        <td>{{ $class->teacher?->name }}</td>
-                        <td>{{ $class->created_at->format('d M Y') }}</td>
-                        <td>
-                            <a href="{{ route('company.courses.classes.edit', $class->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                            <form action="{{ route('company.courses.classes.destroy', $class->id) }}" method="POST" class="inline-block"
-                                  onsubmit="return confirm('Are you sure?')">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr><td colspan="4" class="text-center">No course classes found</td></tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-</div>
 @endsection

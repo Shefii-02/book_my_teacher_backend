@@ -194,4 +194,15 @@ class User extends Authenticatable
   {
     return $this->hasOne(PayrollDetail::class, 'user_id', 'id');
   }
+
+  public function wallet()
+{
+    return $this->hasOne(\App\Models\Wallet::class);
+}
+
+public function walletHistories()
+{
+    return $this->hasMany(\App\Models\WalletHistory::class);
+}
+
 }

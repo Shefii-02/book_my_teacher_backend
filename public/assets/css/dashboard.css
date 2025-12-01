@@ -2881,8 +2881,8 @@ h6 {
   content: var(--tw-content) !important;
 }
 
-.before\:content-\[\'\\f0d8\'\]::before {
-  --tw-content: '\f0d8' !important;
+.before\:content-\[\'\\f189\'\]::before {
+  --tw-content: '\f189' !important;
   content: var(--tw-content) !important;
 }
 

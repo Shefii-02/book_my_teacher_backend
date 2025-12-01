@@ -18,9 +18,13 @@ use Illuminate\Support\Facades\DB;
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
 
-
   Route::group(['middleware' => ['auth:sanctum']], function () {
+
     Route::post('/guest-signup', 'RegisterController@guestSignup');
+    Route::post('/teacher-signup', 'RegisterController@teacherSignup');
+    Route::post('/student-signup', 'RegisterController@studentSignup');
+
+
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
     Route::post('/user-verify-email', 'LoginController@userVerifyEmail');
     Route::post('/user-data-retrieve', 'UserController@userDataRetrieve');
@@ -303,8 +307,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   Route::post('/user-login-email', 'LoginController@googleLoginCheck');
-  Route::post('/teacher-signup', 'RegisterController@teacherSignup');
-  Route::post('/student-signup', 'RegisterController@studentSignup');
   Route::post('user-exist-not', 'LoginController@userExistNot')->name('user-exist-no');
 
 
@@ -437,6 +439,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       'status' => true
     ]);
   });
+
   Route::get('/teacher/{id}', function ($id) {
     // simple dummy single teacher detail
     return response()->json([

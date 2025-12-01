@@ -29,6 +29,60 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], 'namespace' => 'App\Http\Controllers'], function () {
+
+  Route::get('/ajax/users/search', 'UserController@searchUsers')->name('search-users');
+  Route::group(['prefix' => 'app', 'as' => 'app.', 'namespace' => 'MobileApp'], function () {
+    Route::get('/', 'DashboardController@index')->name('index');
+
+    Route::resource('top-banners', 'BannerController')->names('top-banners');
+    Route::resource('course-banners', 'CourseBannerController')->names('course-banners');
+    Route::resource('top-teachers', 'TopTeacherController')->names('top-teachers');
+    Route::resource('teachers', 'TeacherController')->names('teachers');
+
+    Route::resource('grades', 'Academic\GradeController')->names('grades');
+    Route::get('subjects/setup', 'Academic\SubjectController@setup')->name('providing.setup');
+    Route::post('subjects/reorder', 'Academic\SubjectController@reorder')->name('providing.reorder');
+    Route::post('subjects/toggle', 'Academic\SubjectController@toggle')->name('providing.toggle');
+    Route::resource('subjects', 'Academic\SubjectController')->names('subjects');
+
+    Route::resource('boards', 'Academic\BoardController')->names('boards');
+    Route::get('wallets/adjust', 'WalletController@adjustForm')->name('wallets.adjust');
+    Route::get('wallets/transations', 'WalletController@transationsIndex')->name('wallets.transations');
+    Route::post('wallet/{history}/approve', 'WalletController@transationApprove')->name('wallets.approve');
+    Route::post('wallet/{history}/rollback', 'WalletController@TransationRollback')->name('wallets.rollback');
+    Route::post('wallets/adjust', 'WalletController@adjustStore')->name('wallets.adjust.store');
+    Route::resource('wallets', 'WalletController')->names('wallets');
+    Route::post('referral/{ref_id}/credited', 'ReferralController@pointApprove')->name('referral.credit');
+    Route::resource('referral', 'ReferralController')->names('referral');
+    Route::resource('reviews', 'ReviewController')->names('reviews');
+    Route::resource('community-links', 'CommunityLinkController')->names('community-links');
+    // Route::resource('achivements', 'AchivementsController')->names('achivements');
+
+    Route::prefix('achievements')->name('achievements.')->group(function () {
+      Route::get('/', 'AchievementLevelController@index')->name('index');
+      Route::get('/create', 'AchievementLevelController@create')->name('create');
+      Route::post('/', 'AchievementLevelController@store')->name('store');
+      Route::get('/{achievementLevel}/edit', 'AchievementLevelController@edit')->name('edit');
+      Route::put('/{achievementLevel}', 'AchievementLevelController@update')->name('update');
+      Route::delete('/{achievementLevel}', 'AchievementLevelController@destroy')->name('destroy');
+
+      // tasks
+      Route::post('/{achievementLevel}/tasks', 'AchievementLevelController@storeTask')->name('tasks.store');
+      Route::put('/tasks/{task}', 'AchievementLevelController@updateTask')->name('tasks.update');
+      Route::delete('/tasks/{task}', 'AchievementLevelController@destroyTask')->name('tasks.destroy');
+    });
+
+
+    Route::resource('delete-accounts', 'AchivementsController')->names('delete-accounts');
+    Route::resource('statistics-watch', 'StatisticsWatchController')->names('statistics-watch');
+    Route::resource('statistics-spend', 'StatisticsSpendController')->names('statistics-spend');
+
+    Route::post('/top-teachers/toggle', 'TopTeacherController@toggle');
+    Route::post('/top-teachers/reorder', 'TopTeacherController@reorder');
+  });
+
+
+
   // Main Page Route
   Route::get('/', 'dashboard\Analytics@index')->name('dashboard.index');
   Route::get('/dashboard', 'dashboard\Analytics@index')->name('dashboard');
@@ -49,6 +103,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::post('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurityChange')->name('teachers.login-security.change');
 
 
+
   Route::get('/students', 'LMS\StudentController@index')->name('students');
   Route::get('/students/create', 'LMS\StudentController@create')->name('students.create');
   Route::post('/students/store', 'LMS\StudentController@store')->name('students.store');
@@ -58,6 +113,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::delete('students/{id}', 'LMS\StudentController@delete')->name('students.destroy');  // Delete
   Route::get('students/{id}/login-security', 'LMS\StudentController@loginSecurity')->name('students.login-security');
   Route::post('students/{id}/login-security', 'LMS\StudentController@loginSecurityChange')->name('students.login-security.change');
+
+
+  Route::resource('guest', GuestController::class)->names('guest');
+
+  Route::resource('guest-teacher', GuestTeacherController::class);
+
+  Route::get('guest/{id}/overview', [GuestController::class, 'overview'])
+    ->name('guest.overview');
+  Route::get('guest-teacher/{id}/overview', [GuestTeacherController::class, 'overview'])
+    ->name('guest-teacher.overview');
 
   Route::get('/staffs', 'LMS\StaffController@index')->name('staffs');
 
@@ -71,8 +136,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
 
   // /admin/courses/load-step-form/${step}?course_id=${courseId}
   Route::get('courses/load-step-form/{step}', [CourseController::class, 'loadStepForm'])->name('courses.load-step-form');
+  Route::prefix('courses/{identity}')->group(function () {
+    Route::resource('schedule-class', CourseClassController::class)
+      ->names('courses.schedule-class');
+  });
+
   Route::resource('courses', CourseController::class)->names('courses');
-  Route::resource('classes', CourseClassController::class)->names('classes');
+
+
+  // Route::resource('schedule-class/{identity}', CourseClassController::class)->names('courses.schedule-class');
   Route::resource('livestreams', LivestreamClassController::class)->names('livestreams');
   Route::resource('class-permissions', CourseClassPermissionController::class);
 
@@ -90,15 +162,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::resource('analytics', AnalyticController::class);
 
 
-
-  Route::resource('guest', GuestController::class);
-
-  Route::resource('guest-teacher', GuestTeacherController::class);
-
-  Route::get('guest/{id}/overview', [GuestController::class, 'overview'])
-    ->name('guest.overview');
-  Route::get('guest-teacher/{id}/overview', [GuestTeacherController::class, 'overview'])
-    ->name('guest-teacher.overview');
 
   Route::get('/log-file', function () {
     $logPath = storage_path('logs/laravel.log');
@@ -130,10 +193,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
     Route::resource('roles', RoleController::class)->names('roles');
     Route::resource('teams', TeamController::class)->names('teams');
   });
-
-
-
-
 });
 
 
@@ -154,4 +213,3 @@ Route::get('admin/webinar', function () {
 //////////////////////////////////////////////////////////////////////////
 
 Route::get('/invite', [ReferralController::class, 'trackReferral']);
-

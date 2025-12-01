@@ -284,6 +284,7 @@
                                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                                     </li>
                                                                 @endif
+
                                                                 <li>
                                                                     <a href="{{ route('admin.courses.create', ['draft' => $course->course_identity]) }}"
                                                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
@@ -296,7 +297,6 @@
                                                                     <a role="button" href="javascript:;"
                                                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
                                                                         onclick="confirmDelete({{ $course->id }})">Delete</a>
-
                                                                 </li>
                                                             </ul>
                                                         </div>

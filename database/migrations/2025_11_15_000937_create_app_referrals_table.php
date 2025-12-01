@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('applied')->default(false);
             $table->unsignedBigInteger('applied_user_id')->nullable(); // student/teacher who applied
             $table->unsignedBigInteger('ref_user_id')->nullable(); // original referrer user
-            $table->enum('status', ['active', 'blocked'])->default('active');
+            $table->enum('status', ['active','blocked','credited','pending'])->default('pending');
             $table->timestamps();
         });
     }

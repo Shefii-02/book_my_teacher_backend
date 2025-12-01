@@ -1,0 +1,126 @@
+<?php
+
+namespace App\Http\Controllers\MobileApp\Academic;
+
+use App\Helpers\MediaHelper;
+use App\Http\Controllers\Controller;
+use App\Models\Grade;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
+class GradeController extends Controller
+{
+  public function index()
+  {
+    $grades = Grade::orderBy('position')->get();
+    return view('company.mobile-app.academic.grades.index', compact('grades'));
+  }
+
+  public function create()
+  {
+    return view('company.mobile-app.academic.grades.form');
+  }
+
+  public function store(Request $request)
+  {
+    $company_id = 1;
+    $request->validate([
+      'thumb' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+      'name' => 'required|string|max:255',
+      'description' => 'nullable|string',
+      'position' => 'required|integer|min:0',
+      'published' => 'nullable|boolean',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+
+      $data = $request->except('thumb');
+
+      $data['company_id'] = $company_id;
+      $data['value'] = $data['name'];
+
+      // Upload Thumbnail
+      $thumbnailPath = null;
+      if ($request->hasFile('thumb')) {
+        $thumbnailPath = MediaHelper::uploadCompanyFile(
+          $company_id,
+          'academic/grades',
+          $request->file('thumb'),
+          'grade_thumb'
+        );
+        $data['thumb'] = $thumbnailPath;
+      }
+
+
+      Grade::create($data);
+      DB::commit();
+      return redirect()
+        ->route('admin.app.grades.index')
+        ->with('success', 'Grade created successfully');
+    } catch (Exception $e) {
+      DB::rollBack();
+      return redirect()
+        ->route('admin.app.grades.index')
+        ->with('error', $e->getMessage());
+    }
+  }
+
+  public function edit(Grade $grade)
+  {
+    return view('company.mobile-app.academic.grades.form', compact('grade'));
+  }
+
+  public function update(Request $request, Grade $grade)
+  {
+    $request->validate([
+      'thumb' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+      'name' => 'required|string|max:255',
+      'description' => 'nullable|string',
+      'position' => 'required|integer|min:0',
+      'published' => 'nullable|boolean',
+    ]);
+
+    $company_id = 1;
+    $data = $request->except('thumb');
+
+    if ($request->hasFile('thumb')) {
+      if ($grade->thumb) {
+        MediaHelper::removeCompanyFile($grade->thumb);
+
+      }
+        $thumbnailPath = null;
+
+          $thumbnailPath = MediaHelper::uploadCompanyFile(
+            $company_id,
+            'academic/grades',
+            $request->file('thumb'),
+            'grade_thumb'
+          );
+          $data['thumb'] = $thumbnailPath;
+    }
+    $data['value'] = $data['name'];
+
+    $grade->update($data);
+
+    return redirect()
+      ->route('admin.app.grades.index')
+      ->with('success', 'Grade updated successfully');
+  }
+
+  public function destroy(Grade $grade)
+  {
+    if ($grade->thumb) {
+      MediaHelper::removeCompanyFile($grade->thumb);
+    }
+
+    $grade->delete();
+
+    return redirect()
+      ->route('admin.app.grades.index')
+      ->with('success', 'Grade removed successfully');
+  }
+}

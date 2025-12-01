@@ -7,11 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class CourseClass extends Model
 {
-  protected $fillable = ['course_id', 'title', 'description', 'type', 'scheduled_at', 'teacher_id'];
+  protected $fillable = [
+    'course_id', 'title', 'description', 'type', 'scheduled_at', 'teacher_id',
+    'start_time','end_time','class_mode','meeting_link',
+    'meeting_id','meeting_password','is_recording_available',
+    'recording_url','priority','status'
+  ];
 
-  public function course()
+  public function course_data()
   {
-    return $this->belongsTo(Course::class);
+    return $this->hasOne(Course::class,'id','course_id');
   }
   public function teacher()
   {

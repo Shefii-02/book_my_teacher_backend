@@ -25,4 +25,13 @@ class AppReferral extends Model
         'last_visit' => 'datetime',
         'applied' => 'boolean',
     ];
+
+
+
+   public function appliedUser()
+  {
+    return $this->hasOne(User::class,'id','applied_user_id');
+  }
+
+
 }

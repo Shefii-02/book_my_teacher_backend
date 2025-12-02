@@ -677,38 +677,38 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           ],
         ],
       ],
-      // [
-      //    'id'  => '6',
-      //   'name' => 'Art',
-      //   'description' => 'Explore creativity through painting, drawing, and design.',
-      //   'main_image' => asset("/assets/mobile-app/images/subjects/art.jpg"),
-      //   'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-      //   'reviews' => [
-      //     [
-      //       'name' => 'Student 1',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-      //       'comment' => 'Very helpful sessions!',
-      //       'rating' => 5
-      //     ],
-      //     [
-      //       'name' => 'Student 2',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-      //       'comment' => 'Explains concepts clearly.',
-      //       'rating' => 4
-      //     ],
-      //   ],
-      //   'available_teachers' => [
-      //     [
-      //       'id'  => 1,
-      //       'name' => 'Anna Lee',
-      //       'qualification' => 'PhD, M.Ed',
-      //       'subjects' => 'History, Civics',
-      //       'ranking' => 4,
-      //       'rating' => 4.9,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png'),
-      //     ],
-      //   ],
-      // ],
+      [
+         'id'  => '6',
+        'name' => 'Art',
+        'description' => 'Explore creativity through painting, drawing, and design.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/art.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          [
+            'id'  => 1,
+            'name' => 'Anna Lee',
+            'qualification' => 'PhD, M.Ed',
+            'subjects' => 'History, Civics',
+            'ranking' => 4,
+            'rating' => 4.9,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+          ],
+        ],
+      ],
       // [
       //    'id'  => '7',
       //   'name' => 'Physics',

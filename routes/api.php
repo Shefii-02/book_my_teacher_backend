@@ -645,38 +645,38 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           ],
         ],
       ],
-      // [
-      //    'id'  => '5',
-      //   'name' => 'Geography',
-      //   'description' => 'Learn about Earth, maps, and global environments.',
-      //   'main_image' => asset("/assets/mobile-app/images/subjects/geography.jpg"),
-      //   'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-      //   'reviews' => [
-      //     [
-      //       'name' => 'Student 1',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-      //       'comment' => 'Very helpful sessions!',
-      //       'rating' => 5
-      //     ],
-      //     [
-      //       'name' => 'Student 2',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-      //       'comment' => 'Explains concepts clearly.',
-      //       'rating' => 4
-      //     ],
-      //   ],
-      //   'available_teachers' => [
-      //     [
-      //       'id'  => 1,
-      //       'name' => 'James Wilson',
-      //       'qualification' => 'B.Tech, M.Tech',
-      //       'subjects' => 'Chemistry, Biology',
-      //       'ranking' => 3,
-      //       'rating' => 4.7,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
-      //     ],
-      //   ],
-      // ],
+      [
+         'id'  => '5',
+        'name' => 'Geography',
+        'description' => 'Learn about Earth, maps, and global environments.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/geography.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          [
+            'id'  => 1,
+            'name' => 'James Wilson',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+        ],
+      ],
       // [
       //    'id'  => '6',
       //   'name' => 'Art',

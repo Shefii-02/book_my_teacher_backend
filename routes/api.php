@@ -977,173 +977,190 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   //     ]);
   // });
   Route::get('/grades', function () {
-    $data = [
-      [
-        'id' => 1,
-        'name' => 'Pre-Primary / Kindergarten',
-        'value' => 'Pre-Primary / Kindergarten',
-        'boards' => [
-          [
-            'id' => 1,
-            'name' => 'Kerala State Board',
-            'value' => 'Kerala State Board',
-            'subjects' => [
-              ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
-              ['id' => 4, 'name' => 'English', 'value' => 'English'],
-              ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
-            ],
-          ],
-          [
-            'id' => 2,
-            'name' => 'CBSE',
-            'value' => 'CBSE',
-            'subjects' => [
-              ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
-              ['id' => 4, 'name' => 'English', 'value' => 'English'],
-              ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
-            ],
-          ],
-        ],
-      ],
-      [
-        'id' => 2,
-        'name' => 'Lower Primary',
-        'value' => 'Lower Primary',
-        'boards' => [
-          [
-            'id' => 3,
-            'name' => 'Kerala State Board',
-            'value' => 'Kerala State Board',
-            'subjects' => [
-              ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
-              ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
-              ['id' => 4, 'name' => 'English', 'value' => 'English'],
-            ],
-          ],
-          [
-            'id' => 4,
-            'name' => 'ICSE',
-            'value' => 'ICSE',
-            'subjects' => [
-              ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
-              ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
-              ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
-            ],
-          ],
-        ],
-      ],
-      [
-        'id' => 3,
-        'name' => 'Up to 10th',
-        'value' => 'Up to 10th',
-        'boards' => [
-          [
-            'id' => 5,
-            'name' => 'CBSE',
-            'value' => 'CBSE',
-            'subjects' => [
-              ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
-              ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
-              ['id' => 5, 'name' => 'Social Studies', 'value' => 'Social Studies'],
-            ],
-          ],
-          [
-            'id' => 6,
-            'name' => 'Kerala State Board',
-            'value' => 'Kerala State Board',
-            'subjects' => [
-              ['id' => 4, 'name' => 'English', 'value' => 'English'],
-              ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
-              ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
-            ],
-          ],
-        ],
-      ],
-      [
-        'id' => 4,
-        'name' => 'Higher Secondary',
-        'value' => 'Higher Secondary',
-        'boards' => [
-          [
-            'id' => 7,
-            'name' => 'State Board',
-            'value' => 'State Board',
-            'subjects' => [
-              ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
-              ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
-              ['id' => 9, 'name' => 'Biology', 'value' => 'Biology'],
-            ],
-          ],
-          [
-            'id' => 8,
-            'name' => 'CBSE',
-            'value' => 'CBSE',
-            'subjects' => [
-              ['id' => 10, 'name' => 'Commerce', 'value' => 'Commerce'],
-              ['id' => 11, 'name' => 'Economics', 'value' => 'Economics'],
-              ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
-            ],
-          ],
-        ],
-      ],
-      [
-        'id' => 5,
-        'name' => 'Under/Post Graduate Level',
-        'value' => 'Under/Post Graduate Level',
-        'boards' => [
-          [
-            'id' => 9,
-            'name' => 'University',
-            'value' => 'University',
-            'subjects' => [
-              ['id' => 12, 'name' => 'Engineering Subjects', 'value' => 'Engineering Subjects'],
-              ['id' => 13, 'name' => 'Medical Subjects', 'value' => 'Medical Subjects'],
-              ['id' => 19, 'name' => 'Programming', 'value' => 'Programming'],
-            ],
-          ],
-        ],
-      ],
-      [
-        'id' => 6,
-        'name' => 'Competitive Exams',
-        'value' => 'Competitive Exams',
-        'boards' => [
-          [
-            'id' => 10,
-            'name' => 'National Level',
-            'value' => 'National Level',
-            'subjects' => [
-              ['id' => 15, 'name' => 'Quantitative Aptitude', 'value' => 'Quantitative Aptitude'],
-              ['id' => 16, 'name' => 'Reasoning', 'value' => 'Reasoning'],
-              ['id' => 17, 'name' => 'Current Affairs', 'value' => 'Current Affairs'],
-            ],
-          ],
-        ],
-      ],
-      [
-        'id' => 7,
-        'name' => 'Skill Development',
-        'value' => 'Skill Development',
-        'boards' => [
-          [
-            'id' => 11,
-            'name' => 'Vocational Training',
-            'value' => 'Vocational Training',
-            'subjects' => [
-              ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
-              ['id' => 20, 'name' => 'Digital Marketing', 'value' => 'Digital Marketing'],
-              ['id' => 21, 'name' => 'Designing', 'value' => 'Designing'],
-            ],
-          ],
-        ],
-      ],
-    ];
+    $grades = Grade::with([
+      'boards' => function ($q) {
+        $q->where('published', 1);
+      },
+      'boards.subjects' => function ($q) {
+        $q->where('published', 1);
+      }
+    ])
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
 
     return response()->json([
       'status' => true,
       'message' => 'Grades with boards and subjects fetched successfully.',
-      'grades' => $data,
+      'grades' => $grades
     ]);
+    // $data = [
+    //   [
+    //     'id' => 1,
+    //     'name' => 'Pre-Primary / Kindergarten',
+    //     'value' => 'Pre-Primary / Kindergarten',
+    //     'boards' => [
+    //       [
+    //         'id' => 1,
+    //         'name' => 'Kerala State Board',
+    //         'value' => 'Kerala State Board',
+    //         'subjects' => [
+    //           ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
+    //           ['id' => 4, 'name' => 'English', 'value' => 'English'],
+    //           ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
+    //         ],
+    //       ],
+    //       [
+    //         'id' => 2,
+    //         'name' => 'CBSE',
+    //         'value' => 'CBSE',
+    //         'subjects' => [
+    //           ['id' => 1, 'name' => 'All Subjects', 'value' => 'All Subjects'],
+    //           ['id' => 4, 'name' => 'English', 'value' => 'English'],
+    //           ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
+    //         ],
+    //       ],
+    //     ],
+    //   ],
+    //   [
+    //     'id' => 2,
+    //     'name' => 'Lower Primary',
+    //     'value' => 'Lower Primary',
+    //     'boards' => [
+    //       [
+    //         'id' => 3,
+    //         'name' => 'Kerala State Board',
+    //         'value' => 'Kerala State Board',
+    //         'subjects' => [
+    //           ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
+    //           ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
+    //           ['id' => 4, 'name' => 'English', 'value' => 'English'],
+    //         ],
+    //       ],
+    //       [
+    //         'id' => 4,
+    //         'name' => 'ICSE',
+    //         'value' => 'ICSE',
+    //         'subjects' => [
+    //           ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
+    //           ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
+    //           ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
+    //         ],
+    //       ],
+    //     ],
+    //   ],
+    //   [
+    //     'id' => 3,
+    //     'name' => 'Up to 10th',
+    //     'value' => 'Up to 10th',
+    //     'boards' => [
+    //       [
+    //         'id' => 5,
+    //         'name' => 'CBSE',
+    //         'value' => 'CBSE',
+    //         'subjects' => [
+    //           ['id' => 2, 'name' => 'Mathematics', 'value' => 'Mathematics'],
+    //           ['id' => 3, 'name' => 'Science', 'value' => 'Science'],
+    //           ['id' => 5, 'name' => 'Social Studies', 'value' => 'Social Studies'],
+    //         ],
+    //       ],
+    //       [
+    //         'id' => 6,
+    //         'name' => 'Kerala State Board',
+    //         'value' => 'Kerala State Board',
+    //         'subjects' => [
+    //           ['id' => 4, 'name' => 'English', 'value' => 'English'],
+    //           ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
+    //           ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
+    //         ],
+    //       ],
+    //     ],
+    //   ],
+    //   [
+    //     'id' => 4,
+    //     'name' => 'Higher Secondary',
+    //     'value' => 'Higher Secondary',
+    //     'boards' => [
+    //       [
+    //         'id' => 7,
+    //         'name' => 'State Board',
+    //         'value' => 'State Board',
+    //         'subjects' => [
+    //           ['id' => 7, 'name' => 'Physics', 'value' => 'Physics'],
+    //           ['id' => 8, 'name' => 'Chemistry', 'value' => 'Chemistry'],
+    //           ['id' => 9, 'name' => 'Biology', 'value' => 'Biology'],
+    //         ],
+    //       ],
+    //       [
+    //         'id' => 8,
+    //         'name' => 'CBSE',
+    //         'value' => 'CBSE',
+    //         'subjects' => [
+    //           ['id' => 10, 'name' => 'Commerce', 'value' => 'Commerce'],
+    //           ['id' => 11, 'name' => 'Economics', 'value' => 'Economics'],
+    //           ['id' => 14, 'name' => 'General Knowledge', 'value' => 'General Knowledge'],
+    //         ],
+    //       ],
+    //     ],
+    //   ],
+    //   [
+    //     'id' => 5,
+    //     'name' => 'Under/Post Graduate Level',
+    //     'value' => 'Under/Post Graduate Level',
+    //     'boards' => [
+    //       [
+    //         'id' => 9,
+    //         'name' => 'University',
+    //         'value' => 'University',
+    //         'subjects' => [
+    //           ['id' => 12, 'name' => 'Engineering Subjects', 'value' => 'Engineering Subjects'],
+    //           ['id' => 13, 'name' => 'Medical Subjects', 'value' => 'Medical Subjects'],
+    //           ['id' => 19, 'name' => 'Programming', 'value' => 'Programming'],
+    //         ],
+    //       ],
+    //     ],
+    //   ],
+    //   [
+    //     'id' => 6,
+    //     'name' => 'Competitive Exams',
+    //     'value' => 'Competitive Exams',
+    //     'boards' => [
+    //       [
+    //         'id' => 10,
+    //         'name' => 'National Level',
+    //         'value' => 'National Level',
+    //         'subjects' => [
+    //           ['id' => 15, 'name' => 'Quantitative Aptitude', 'value' => 'Quantitative Aptitude'],
+    //           ['id' => 16, 'name' => 'Reasoning', 'value' => 'Reasoning'],
+    //           ['id' => 17, 'name' => 'Current Affairs', 'value' => 'Current Affairs'],
+    //         ],
+    //       ],
+    //     ],
+    //   ],
+    //   [
+    //     'id' => 7,
+    //     'name' => 'Skill Development',
+    //     'value' => 'Skill Development',
+    //     'boards' => [
+    //       [
+    //         'id' => 11,
+    //         'name' => 'Vocational Training',
+    //         'value' => 'Vocational Training',
+    //         'subjects' => [
+    //           ['id' => 18, 'name' => 'Spoken English', 'value' => 'Spoken English'],
+    //           ['id' => 20, 'name' => 'Digital Marketing', 'value' => 'Digital Marketing'],
+    //           ['id' => 21, 'name' => 'Designing', 'value' => 'Designing'],
+    //         ],
+    //       ],
+    //     ],
+    //   ],
+    // ];
+
+    // return response()->json([
+    //   'status' => true,
+    //   'message' => 'Grades with boards and subjects fetched successfully.',
+    //   'grades' => $data,
+    // ]);
   });
 
   // 🔹 Get Subjects List

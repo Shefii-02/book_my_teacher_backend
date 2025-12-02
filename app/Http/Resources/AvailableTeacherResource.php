@@ -13,9 +13,9 @@ class AvailableTeacherResource extends JsonResource
             'name' => $this->name,
             'qualification' => $this->qualifications ?? '',
             'subjects' => is_array($this->subjects) ? implode(',',$this->subjects) : '',
-            'ranking' => $this->ranking ?? '1',
-            'rating' => $this->rating ?? '5.0',
-            'imageUrl' => asset($this->image_url),
+            'ranking' => intval($this->ranking ?? '1'),
+            'rating' => floatval($this->rating ?? '4.5'),
+            'imageUrl' => asset($this->thumbnail_url),
         ];
     }
 }

@@ -77,7 +77,7 @@ class RequestController extends Controller
   public function getGeneralRequests(Request $request)
   {
     $user = $request->user();
-    $items = GeneralRequest::where('user_id', $user->id)->latest()->get()->map(function ($req) {
+    $items = GeneralRequest::where('user_id', 5)->latest()->get()->map(function ($req) {
       return [
         'id'         => $req->id,
         'title'      => $req->subject . ' - ' . ($req->grade ?? ''),

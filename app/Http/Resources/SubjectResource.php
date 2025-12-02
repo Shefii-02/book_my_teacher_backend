@@ -11,7 +11,7 @@ class SubjectResource extends JsonResource
     return [
       'id' => (string) $this->id,
       'name' => $this->name,
-      'description' => $this->description,
+      'description' => $this->description ?? '',
       'main_image' => asset("/assets/mobile-app/bg/full-bg.jpg") ?? asset($this->main_image),
       'image' => asset($this->icon_url),
       // Nested Reviews

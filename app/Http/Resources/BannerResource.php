@@ -20,8 +20,8 @@ class BannerResource extends JsonResource
             'description' => $this->description,
 
             // images
-            'main_image' => $this->main_id ? asset('storage/'.$this->main_id) : null,
-            'thumb'      => $this->thumb_id ? asset('storage/'.$this->thumb_id) : null,
+            'main_image' => $this->main_id ? asset('storage/'.$this->main_image_url) : null,
+            'thumb'      => $this->thumb_id ? asset('storage/'.$this->thumbnail_url) : null,
 
             // priority & type
             'priority_order' => (int) $this->priority,

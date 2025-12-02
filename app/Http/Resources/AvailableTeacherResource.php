@@ -11,7 +11,7 @@ class AvailableTeacherResource extends JsonResource
         return [
             'id' => (int) $this->id,
             'name' => $this->name,
-            'qualification' => $this->qualification,
+            'qualification' => $this->qualifications ?? '',
             'subjects' => $this->subjects,
             'ranking' => $this->ranking ?? '1',
             'rating' => $this->rating ?? '5.0',

@@ -107,29 +107,19 @@ class StudentController extends Controller
     ]);
   }
 
-  public function courseBanners(): JsonResponse
+  public function courseBanners(Request $request): JsonResponse
   {
-    $banners = collect(range(1, 3))->map(function ($i) {
-      return [
-        'id' => $i,
-        'title' => "Top Banner $i",
-        'main_image' => asset("assets/mobile-app/banners/course-banner-{$i}.png"),
-        'thumb' => asset("assets/mobile-app/banners/course-banner-{$i}.png"),
-        'description' => "This is banner $i description.",
-        'priority_order' => $i,
-        'banner_type' => $i % 2 ? 'image' : 'video',
-        'cta_label' => 'Join Now',
-        'cta_action' => '',
-        // 'is_booked' => $i % 3 === 0,
-        'is_booked' => true,
-        'last_booked_at' => $i % 3 === 0 ? now()->subDays($i)->toDateTimeString() : null,
-      ];
-    });
+    $user = $request->user();
+    $banners = TopBanner::with(['requestBanner' => function ($q) use ($user) {
+      $q->where('user_id', $user->id);
+    }])->where('banner_type', 'course-banner')->get();
 
     return response()->json([
       'status' => true,
-      'message' => 'Top banners fetched successfully',
-      'data' => $banners
+      'message' => 'Course banners fetched successfully',
+      'data' => BannerResource::collection($banners)->additional([
+        'user_id' => $user->id
+      ])
     ]);
   }
 

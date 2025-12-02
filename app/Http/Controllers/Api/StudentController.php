@@ -73,21 +73,6 @@ class StudentController extends Controller
     ]);
   }
 
-  public function topBanners2(Request $request): JsonResponse
-  {
-    $user = $request->user();
-    $banners = TopBanner::with(['requestBanner' => function ($q) use ($user) {
-      $q->where('user_id', 69);
-    }])->where('banner_type', 'top-banner')->get();
-    return response()->json([
-      'status' => true,
-      'message' => 'Top banners fetched successfully',
-      // 'data' =>  BannerResource::collection($banners),
-      'data' => BannerResource::collection($banners)->additional([
-        'user_id' => 69
-      ])
-    ]);
-  }
   public function topBanners(Request $request): JsonResponse
   {
     $user = $request->user();

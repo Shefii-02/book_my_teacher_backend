@@ -1327,9 +1327,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // });
 
 
-    Route::get('/top-banners2', 'StudentController@topBanners2');
-
-
 
   // Route::get('/teachers', 'StudentController@teachersListing');
   Route::get('/grades-subjects', 'StudentController@gradesSubjects');

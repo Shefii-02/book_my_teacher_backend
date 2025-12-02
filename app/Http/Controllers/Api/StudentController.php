@@ -79,6 +79,7 @@ class StudentController extends Controller
     $banners = TopBanner::with(['requestBanner' => function ($q) use ($user) {
       $q->where('user_id', 69);
     }])->where('banner_type', 'top-banner')->get();
+    dd($banners);
     return response()->json([
       'status' => true,
       'message' => 'Top banners fetched successfully',

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\WebinarController;
 use App\Http\Controllers\Api\WebinarRegistrationController;
 use App\Http\Controllers\Api\ZegoTokenController;
+use App\Http\Resources\SubjectResource;
 use App\Http\Resources\WebinarResource;
 use App\Models\Grade;
 use App\Models\Subject;
@@ -493,7 +494,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     return response()->json([
       'status' => true,
       'message' => 'Subjects fetched successfully',
-      'data' => $subjects
+      'data' => SubjectResource::collection($subjects),
     ]);
 
     $subjects = [

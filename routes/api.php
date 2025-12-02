@@ -482,12 +482,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/subjects', function () {
 
-    $subjects = Subject::with([
+    $subjects = Subject::
+    with([
       'reviews:user_id,subject_id,comments,rating',
       'courses:id,subject_id,title,main_image',
-      'providingTeachers.teacher:id,name,qualification'
-    ])
-      ->orderBy('position')
+      'providingTeachers.teacher'
+    ])->orderBy('position')
       ->where('published', 1)
       ->get();
 

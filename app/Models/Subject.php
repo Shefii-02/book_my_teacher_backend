@@ -57,6 +57,6 @@ class Subject extends Model
 
   public function providingTeachers()
   {
-    return $this->hasMany(ProvidingSubject::class);
+    return $this->hasMany(TeacherSubjectRate::class);
   }
 }

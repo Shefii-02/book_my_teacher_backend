@@ -13,8 +13,8 @@ class AvailableTeacherResource extends JsonResource
             'name' => $this->name,
             'qualification' => $this->qualification,
             'subjects' => $this->subjects,
-            'ranking' => $this->ranking,
-            'rating' => $this->rating,
+            'ranking' => $this->ranking ?? '1',
+            'rating' => $this->rating ?? '5.0',
             'imageUrl' => asset($this->image_url),
         ];
     }

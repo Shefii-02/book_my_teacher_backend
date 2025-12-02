@@ -12,7 +12,7 @@ class AvailableTeacherResource extends JsonResource
             'id' => (int) $this->id,
             'name' => $this->name,
             'qualification' => $this->qualifications ?? '',
-            'subjects' => $this->subjects,
+            'subjects' => is_array($this->subjects) ? implode(',',$this->subjects) : '',
             'ranking' => $this->ranking ?? '1',
             'rating' => $this->rating ?? '5.0',
             'imageUrl' => asset($this->image_url),

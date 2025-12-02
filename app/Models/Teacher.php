@@ -41,6 +41,7 @@ class Teacher extends Model
     return $this->hasMany(TeacherSubjectRate::class);
   }
 
+
   public function teacherCertificates()
   {
     return $this->hasMany(\App\Models\TeacherCertificate::class,'teacher_id','id');

@@ -12,7 +12,7 @@ class BannerResource extends JsonResource
         $user_id = $request->user_id;
 
         // check booking
-        $userBooking = $this->requestBanner?->where('user_id', $user_id)->first();
+        $userBooking = $this->whenLoaded('requestBanner');
 
         return [
             'id' => (int) $this->id,
@@ -35,7 +35,7 @@ class BannerResource extends JsonResource
             'is_booked' => $userBooking ? true : false,
 
             // last booked datetime
-            'last_booked_at' => $userBooking->booked_at ?? null,
+            'last_booked_at' => $userBooking->created_at ?? null,
         ];
     }
 }

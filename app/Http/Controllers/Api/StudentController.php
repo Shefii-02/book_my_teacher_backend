@@ -258,26 +258,26 @@ class StudentController extends Controller
         'level' => 'Intermediate',
         'is_enrolled' => true,
       ],
-      [
-        'id' => 3,
-        'title' => 'AI for Beginners',
-        'description' => 'Introduction to artificial intelligence and ML basics.',
-        'category' => 'Workshop',
-        'image' => asset('assets/mobile-app/workshops/ai.png'),
-        'duration' => '2 Days',
-        'level' => 'Skill Booster',
-        'is_enrolled' => false,
-      ],
-      [
-        'id' => 4,
-        'title' => 'Web Development Bootcamp',
-        'description' => 'Full-stack web development using Laravel & React.',
-        'category' => 'Workshop',
-        'image' => asset('assets/mobile-app/workshops/web.png'),
-        'duration' => '5 Days',
-        'level' => 'Advanced',
-        'is_enrolled' => false,
-      ],
+      // [
+      //   'id' => 3,
+      //   'title' => 'AI for Beginners',
+      //   'description' => 'Introduction to artificial intelligence and ML basics.',
+      //   'category' => 'Workshop',
+      //   'image' => asset('assets/mobile-app/workshops/ai.png'),
+      //   'duration' => '2 Days',
+      //   'level' => 'Skill Booster',
+      //   'is_enrolled' => false,
+      // ],
+      // [
+      //   'id' => 4,
+      //   'title' => 'Web Development Bootcamp',
+      //   'description' => 'Full-stack web development using Laravel & React.',
+      //   'category' => 'Workshop',
+      //   'image' => asset('assets/mobile-app/workshops/web.png'),
+      //   'duration' => '5 Days',
+      //   'level' => 'Advanced',
+      //   'is_enrolled' => false,
+      // ],
       [
         'id' => 5,
         'title' => 'Effective Communication Webinar',
@@ -377,25 +377,25 @@ class StudentController extends Controller
             ],
           ],
         ],
-        [
-          'category' => 'Workshops',
-          'sections' => [
-            [
-              'status' => 'Completed',
-              'items' => [
-                [
-                  'id' => 5,
-                  'title' => 'Skill Booster: JavaScript Mastery',
-                  'description' => 'Hands-on coding sessions and challenges.',
-                  'image' => asset('assets/mobile-app/banners/workshop-banner-1.png'),
-                  'duration' => '2 days',
-                  'level' => 'Intermediate',
-                  'join_link' => null,
-                ],
-              ],
-            ],
-          ],
-        ],
+        // [
+        //   'category' => 'Workshops',
+        //   'sections' => [
+        //     [
+        //       'status' => 'Completed',
+        //       'items' => [
+        //         [
+        //           'id' => 5,
+        //           'title' => 'Skill Booster: JavaScript Mastery',
+        //           'description' => 'Hands-on coding sessions and challenges.',
+        //           'image' => asset('assets/mobile-app/banners/workshop-banner-1.png'),
+        //           'duration' => '2 days',
+        //           'level' => 'Intermediate',
+        //           'join_link' => null,
+        //         ],
+        //       ],
+        //     ],
+        //   ],
+        // ],
       ],
     ];
 

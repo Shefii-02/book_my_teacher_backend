@@ -104,6 +104,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::post('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurityChange')->name('teachers.login-security.change');
 
 
+  Route::get('/company-settings/{company_id}', 'LMS\CompanySettingController@index');
+  Route::post('/company-settings/social', 'LMS\CompanySettingController@storeSocial');
+  Route::post('/company-settings/contact', 'LMS\CompanySettingController@updateContact');
 
   Route::get('/students', 'LMS\StudentController@index')->name('students');
   Route::get('/students/create', 'LMS\StudentController@create')->name('students.create');

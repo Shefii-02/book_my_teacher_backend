@@ -19,6 +19,7 @@ return new class extends Migration
       $table->string('icon')->nullable(); // store image path
       $table->string('link');
       $table->string('type')->nullable();
+      $table->foreign('company_id')->references('id')->on('users')->onDelete('cascade');
       $table->timestamps();
     });
   }

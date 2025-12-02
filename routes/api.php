@@ -40,31 +40,38 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/teacher/schedule', 'TeacherController@schedule');
 
+    Route::post('top-banner/submit', 'RequestController@banner');
+    Route::post('request-form/submit', 'RequestController@general');
+    Route::post('request-teacher-class/submit', 'RequestController@teacher');
+
+    Route::post('request-subject-class/submit', 'RequestController@teacher');
+    Route::post('request-course/submit', 'RequestController@teacher');
 
 
-    Route::post('top-banner/submit', function (Request $request) {
-      Log::info('📢 Top Banner Request:', $request->all());
-      return response()->json([
-        'status' => true,
-        'data' => "Your request has been submitted successfully!",
-      ]);
-    });
-    Route::post('request-teacher-class/submit', function (Request $request) {
-      Log::info('👨‍🏫 Teacher Class Request:', $request->all());
+    // Route::post('top-banner/submit', function (Request $request) {
+    //   Log::info('📢 Top Banner Request:', $request->all());
+    //   return response()->json([
+    //     'status' => true,
+    //     'data' => "Your request has been submitted successfully!",
+    //   ]);
+    // });
+    // Route::post('request-teacher-class/submit', function (Request $request) {
+    //   Log::info('👨‍🏫 Teacher Class Request:', $request->all());
 
-      return response()->json([
-        'status' => true,
-        'data' => "Your request has been submitted successfully!",
-      ]);
-    });
-    Route::post('request-form/submit', function (Request $request) {
-      Log::info('📝 Request Form Submitted:', $request->all());
+    //   return response()->json([
+    //     'status' => true,
+    //     'data' => "Your request has been submitted successfully!",
+    //   ]);
+    // });
+    // Route::post('request-form/submit', function (Request $request) {
+    //   Log::info('📝 Request Form Submitted:', $request->all());
 
-      return response()->json([
-        'status' => true,
-        'data' => "Your request has been submitted successfully!",
-      ]);
-    });
+    //   return response()->json([
+    //     'status' => true,
+    //     'data' => "Your request has been submitted successfully!",
+    //   ]);
+    // });
+
     Route::post('request-subject-class/submit', function (Request $request) {
       Log::info('📝 Request Form Submitted:', $request->all());
 
@@ -81,6 +88,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         'data' => "Your request has been submitted successfully!",
       ]);
     });
+
     Route::post('requested-classes', function (Request $request) {
 
       return response()->json([

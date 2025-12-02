@@ -76,8 +76,7 @@
         <div class="h-19">
             <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-white text-slate-400 xl:hidden"
                 sidenav-close></i>
-            <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700"
-                href="/admin" >
+            <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700" href="/admin">
                 <img src="/assets/images/logo/BookMyTeacher-black.png"
                     class="inline h-full max-w-full transition-all duration-200 dark:hidden ease-nav-brand max-h-8"
                     alt="main_logo" />
@@ -257,7 +256,7 @@
                             </ul>
                         </li>
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.courses.*')  ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.courses.*') || Request::routeIs('admin.webinars.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -271,7 +270,8 @@
                                 <span class="bi bi-caret-down ml-auto mr-4"></span>
                             </a>
 
-                            <ul class="submenu pl-6 {{ Request::routeIs('admin.courses.*') ? '' : 'hidden' }}">
+                            <ul
+                                class="submenu pl-6 {{ Request::routeIs('admin.courses.*') || Request::routeIs('admin.webinars.*') ? '' : 'hidden' }}">
 
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('admin.courses.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
@@ -287,8 +287,8 @@
                                 </li>
 
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.webinars') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('admin.webinars.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('admin.webinars.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -299,7 +299,7 @@
                                     </a>
                                 </li>
 
-                                <li class="mt-0.5 w-full">
+                                {{-- <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('admin.workshop') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('admin.guest.index') }}">
                                         <div
@@ -310,7 +310,7 @@
                                         <span
                                             class="ml-1 duration-300 opacity-100 pointer-events-none ease">Workshops</span>
                                     </a>
-                                </li>
+                                </li> --}}
 
                             </ul>
                         </li>
@@ -395,7 +395,79 @@
 
                             </ul>
                         </li>
+                        <li class="mt-0.5 w-full">
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.requests.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                                href="#">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
+                                    <i
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-person-video3"></i>
+                                </div>
 
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">
+                                    Requestes</span>
+
+                                <!-- Right aligned caret -->
+                                <span class="bi bi-caret-down ml-auto mr-4"></span>
+                            </a>
+
+                            <ul
+                                class="submenu pl-6 {{ Request::routeIs('admin.requests.*') ? '' : 'hidden' }}">
+
+                                             <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('admin.requests.form-class') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('admin.requests.form-class') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
+                                        </div>
+                                        <span
+                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Request Form </span>
+                                    </a>
+                                </li>
+
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('admin.requests.top-banner') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('admin.requests.top-banner') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
+                                        </div>
+                                        <span
+                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Top Banner </span>
+                                    </a>
+                                </li>
+
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('admin.requests.course-banner') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('admin.requests.course-banner') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
+                                        </div>
+                                        <span
+                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Course Banner </span>
+                                    </a>
+                                </li>
+
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('admin.requests.teacher-class') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('admin.requests.teacher-class') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-pip"></i>
+                                        </div>
+                                        <span
+                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Teacher Class </span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
                         {{-- <li class="mt-0.5 w-full">
                             <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                 href="{{ route('admin.guest.index') }}">
@@ -950,6 +1022,18 @@
             arrow.classList.toggle('rotate-180');
         });
     });
+
+    function copyPageLink(content) {
+
+        navigator.clipboard.writeText(content)
+            .then(() => {
+                toastr.success("copied to clipboard successfully!", "Success");
+
+            })
+            .catch(err => {
+                toastr.error("Failed to copy link." + err, "Error");
+            });
+    }
 </script>
 
 </html>

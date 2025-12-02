@@ -11,9 +11,9 @@
                 <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Course Listing</li>
+                aria-current="page">Course Class's Listing</li>
         </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Course Listing</h6>
+        <h6 class="mb-0 font-bold text-white capitalize">Course Class's Listing</h6>
     </nav>
 @endsection
 @section('content')
@@ -36,9 +36,8 @@
                                 <a href="{{ route('admin.courses.schedule-class.create', $course->course_identity) }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
                                     <i class=" bi bi-plus me-1"></i>
-                                    Create
-                                    Class</a>
-                                <a href="{{ route('admin.courses.create') }}"
+                                    Create Class</a>
+                                <a href="{{ route('admin.courses.index') }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i
                                         class="bi bi-arrow-left me-2"></i>Back</a>
                             </div>
@@ -129,35 +128,96 @@
                                     <tr>
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Course</th>
+                                            #</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            Title</th>
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             Teacher</th>
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Created</th>
+                                            Scheduled at</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            Type/Mode</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            Class Link/Record Link</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            Status</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            Position</th>
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            Created At</th>
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($course->classes as $class)
+                                    @forelse($course->classes ?? [] as $key => $class)
+                                        @php
+                                            $classLink =
+                                                $class->recording_url == ''
+                                                    ? $class->meeting_link
+                                                    : $class->recording_url;
+                                        @endphp
                                         <tr>
                                             <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                {{ $class->course?->title }}</td>
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                                {{ $key + 1 }}</td>
                                             <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                                <span title="{{ $class->title }}">
+                                                    {{ Str::limit($class->title, 20) }}</span>
+                                            </td>
+                                            <td
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                                 {{ $class->teacher?->name }}</td>
                                             <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                                {{ date('d-M-Y', strtotime($class->scheduled_at)) }}<br>{{ $class->start_time }}/{{ $class->end_time }}
+                                            </td>
+
+                                            <td
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                                {{ $class->type }}/{{ $class->class_mode }}</td>
+                                            <td
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                                <a href="{{ $classLink }}" target="_blank"
+                                                    title="{{ $classLink }}">{{ Str::limit($classLink, 20) }}</a> <i
+                                                    class="bi bi-copy mx-2"
+                                                    onclick="copyPageLink(`{{ $classLink }}`)"></i>
+                                            </td>
+                                            <td
+                                                class="px-6 py-3 font-bold text-center capitalize align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                                @if ($class->status)
+                                                    <span
+                                                        class="bg-emerald-500/50 text-white px-3 py-1 text-xxs rounded-full">
+                                                        Published
+                                                    </span>
+                                                @else
+                                                    <span class="bg-red-500 text-white px-3 py-1 text-xxs rounded-full">
+                                                        Unpublished
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                                {{ $class->priority }}
+                                            </td>
+                                            <td
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                                 {{ $class->created_at->format('d M Y') }}</td>
                                             <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                class="px-6 flex  gap-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                                 <a href="{{ route('admin.courses.schedule-class.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
-                                                    class="px-3 py-1 bg-yellow-500 text-white rounded text-xs">
-                                                    Edit
+                                                    class="px-3 py-1 text-blue rounded text-xs">
+                                                    <i class="bi bi-pencil"></i>
                                                 </a>
 
                                                 <form
@@ -166,9 +226,8 @@
                                                     onsubmit="return confirm('Are you sure?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit"
-                                                        class="px-3 py-1 bg-red-500 text-white rounded text-xs">
-                                                        Delete
+                                                    <button type="submit" class="px-3 py-1  text-red rounded text-xs">
+                                                        <i class="bi bi-trash"></i>
                                                     </button>
                                                 </form>
 

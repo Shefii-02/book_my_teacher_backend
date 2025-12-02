@@ -53,6 +53,12 @@ class Course extends Model
     return $this->belongsToMany(CourseCategory::class, 'course_category')->withPivot('subcategories');
   }
 
+  public function materials()
+{
+    return $this->hasMany(CourseMaterial::class)->orderBy('position');
+}
+
+
   public function subCategory()
   {
     return $this->belongsTo(CourseSubCategory::class);

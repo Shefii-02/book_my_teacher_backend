@@ -10,6 +10,7 @@ use App\Http\Controllers\LMS\CourseCategoryController;
 use App\Http\Controllers\LMS\CourseClassController;
 use App\Http\Controllers\LMS\CourseClassPermissionController;
 use App\Http\Controllers\LMS\CourseController;
+use App\Http\Controllers\LMS\CourseMaterialController;
 use App\Http\Controllers\LMS\CourseSubCategoryController;
 use App\Http\Controllers\LMS\LivestreamClassController;
 use App\Http\Controllers\LMS\WebinarController;
@@ -139,7 +140,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::prefix('courses/{identity}')->group(function () {
     Route::resource('schedule-class', CourseClassController::class)
       ->names('courses.schedule-class');
+    Route::resource('materials', CourseMaterialController::class)
+      ->names('courses.materials');
   });
+
+  Route::prefix('requests')->name('requests.')->group(function () {
+    Route::get('form-class', 'RequestController@formClass')->name('form-class');
+    Route::get('top-banner', 'RequestController@topBanner')->name('top-banner');
+    Route::get('course-banner', 'RequestController@courseBanner')->name('course-banner');
+    Route::get('teacher-class', 'RequestController@teacherClass')->name('teacher-class');
+  });
+
 
   Route::resource('courses', CourseController::class)->names('courses');
 

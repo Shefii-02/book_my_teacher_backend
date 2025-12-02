@@ -46,8 +46,10 @@
             <form method="POST" enctype="multipart/form-data"
                 action="{{ $isEdit ? route('admin.app.boards.update', $board->id) : route('admin.app.boards.store') }}"
                 class="space-y-6">
-
                 @csrf
+                @if ($isEdit)
+                    @method('PUT')
+                @endif
 
                 {{-- ICON PREVIEW + FILE INPUT --}}
                 <div>

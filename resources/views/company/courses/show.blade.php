@@ -52,7 +52,7 @@
                                 <a href="{{ route('admin.courses.schedule-class.index', $course->course_identity) }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
                                     <i class="bi bi-calendar-date-fill me-2"></i> Scheduled Class's</a>
-                                <a href="{{ route('admin.courses.schedule-class.index', $course->course_identity) }}"
+                                <a href="{{ route('admin.courses.materials.index', $course->course_identity) }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
                                     <i class="bi bi-files me-2"></i> Materials</a>
 

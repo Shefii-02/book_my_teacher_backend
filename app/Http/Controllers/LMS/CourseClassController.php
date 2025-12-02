@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CourseClassController extends Controller
 {
@@ -29,9 +31,12 @@ class CourseClassController extends Controller
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);
     // dd($identity, $request->all());
     $validated = $request->validate([
+      'teacher_id'       => 'required',
+      'scheduled_at'     => 'required',
       'type'             => 'required|in:online,offline,recorded',
       'title'            => 'required|string|max:255',
       'description'      => 'nullable|string',
+
       'start_time'       => 'required',
       'end_time'       => 'required',
       'priority' => 'required',
@@ -46,19 +51,25 @@ class CourseClassController extends Controller
       'recording_url'    => 'nullable|required_if:type,recorded',
     ]);
 
-    $data = $validated;
-    $data['course_id'] = $course->id;
+    try {
+      DB::beginTransaction();
+      $data = $validated;
+      $data['course_id'] = $course->id;
 
-    CourseClass::create($data);
-
-    return redirect()->route('admin.courses.schedule-class.index',$course->course_identity)->with('success', 'Course class created successfully.');
+      CourseClass::create($data);
+      DB::commit();
+      return redirect()->route('admin.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class created successfully.');
+    } catch (Exception $e) {
+      DB::rollBack();
+      return redirect()->back()->with('errro', $e->getMessage());
+    }
   }
 
   public function edit($identity, $course_class)
   {
 
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);
-    $class = CourseClass::where('course_id',$course->id)->where('id',$course_class)->first() ?? abort(404);
+    $class = CourseClass::where('course_id', $course->id)->where('id', $course_class)->first() ?? abort(404);
     $teachers = User::where('acc_type', 'teacher')->get();
 
     return view('company.courses.classes.form', [
@@ -68,17 +79,23 @@ class CourseClassController extends Controller
     ]);
   }
 
-  public function update(Request $request, CourseClass $course_class)
+  public function update($identity, Request $request, $course_class)
   {
+
+    $course = Course::where('course_identity', $identity)->first() ?? abort(404);
+    $class = CourseClass::where('course_id', $course->id)->where('id', $course_class)->first() ?? abort(404);
     $validated = $request->validate([
-      'course_id'        => 'required|exists:courses,id',
+      'teacher_id'       => 'required',
+      'scheduled_at'     => 'required',
       'type'             => 'required|in:online,offline,recorded',
       'title'            => 'required|string|max:255',
       'description'      => 'nullable|string',
+
       'start_time'       => 'required',
-      'end_time'       => 'required',
-      'priority' => 'required',
-      'status' => 'required',
+      'end_time'         => 'required',
+      'priority'         => 'required',
+      'status'           => 'required',
+
       'class_mode'       => 'nullable|required_if:type,online',
       'meeting_link'     => 'nullable|required_if:type,online',
 
@@ -87,9 +104,16 @@ class CourseClassController extends Controller
       'recording_url'    => 'nullable|required_if:type,recorded',
     ]);
 
-    $course_class->update($validated);
-
-    return redirect()->route('admin.courses.schedule-class.index')->with('success', 'Course class updated successfully.');
+    $course = Course::where('course_identity', $identity)->first() ?? abort(404);
+    try {
+      DB::beginTransaction();
+      $class->update($validated);
+      DB::commit();
+      return redirect()->route('admin.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
+    } catch (Exception $e) {
+      DB::rollBack();
+      return redirect()->back()->with('errro', $e->getMessage());
+    }
   }
 
   public function destroy(CourseClass $course_class)

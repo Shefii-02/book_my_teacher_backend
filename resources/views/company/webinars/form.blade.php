@@ -210,6 +210,30 @@
                         @enderror
                     </div>
 
+                     <!-- Tags -->
+                    <div class="md:col-span-2">
+                        <label class="block mb-1 font-semibold">Meeting url</label>
+                        <input type="text" name="meeting_url" value="{{ old('meeting_url', $isEdit ? $webinar->meeting_url : '') }}"
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('tags') border-red-500 @enderror">
+                        @error('meeting_url')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+
+
+                     <!-- Tags -->
+                    <div class="md:col-span-2">
+                        <label class="block mb-1 font-semibold">Recording url</label>
+                        <input type="text" name="recording_url" value="{{ old('recording_url', $isEdit ? $webinar->recording_url : '') }}"
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('tags') border-red-500 @enderror">
+                        @error('recording_url')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+
+
                     <!-- Tags -->
                     <div class="md:col-span-2">
                         <label class="block mb-1 font-semibold">Tags (comma separated)</label>

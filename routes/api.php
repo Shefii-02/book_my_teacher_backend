@@ -563,88 +563,88 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
           ],
         ],
       ],
-      // [
-      //    'id'  => '3',
-      //   'name' => 'Science',
-      //   'description' => 'Explore physics, chemistry, and biology through fun learning.',
-      //   'main_image' => asset("/assets/mobile-app/images/subjects/science.jpg"),
-      //   'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-      //   'reviews' => [
-      //     [
-      //       'name' => 'Student 1',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-      //       'comment' => 'Very helpful sessions!',
-      //       'rating' => 5
-      //     ],
-      //     [
-      //       'name' => 'Student 2',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-      //       'comment' => 'Explains concepts clearly.',
-      //       'rating' => 4
-      //     ],
-      //   ],
-      //   'available_teachers' => [
-      //     [
-      //       'id'  => 1,
-      //       'name' => 'Daniel Brown',
-      //       'qualification' => 'B.Tech, M.Tech',
-      //       'subjects' => 'Chemistry, Biology',
-      //       'ranking' => 3,
-      //       'rating' => 4.7,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
-      //     ],
-      //     [
-      //       'id'  => 2,
-      //       'name' => 'Emma Davis',
-      //       'qualification' => 'B.Tech, M.Tech',
-      //       'subjects' => 'Chemistry, Biology',
-      //       'ranking' => 3,
-      //       'rating' => 4.7,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
-      //     ],
-      //   ],
-      // ],
-      // [
-      //    'id'  => '4',
-      //   'name' => 'History',
-      //   'description' => 'Understand world history and important civilizations.',
-      //   'main_image' => asset("/assets/mobile-app/images/subjects/history.jpg"),
-      //   'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-      //   'reviews' => [
-      //     [
-      //       'name' => 'Student 1',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-      //       'comment' => 'Very helpful sessions!',
-      //       'rating' => 5
-      //     ],
-      //     [
-      //       'name' => 'Student 2',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-      //       'comment' => 'Explains concepts clearly.',
-      //       'rating' => 4
-      //     ],
-      //   ],
-      //   'available_teachers' => [
-      //     [
-      //       'id'  => 1,
-      //       'name' => 'Michael Scott',
-      //       'qualification' => 'B.Tech, M.Tech',
-      //       'subjects' => 'Chemistry, Biology',
-      //       'ranking' => 3,
-      //       'rating' => 4.7,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
-      //     ],
-      //     [
-      //       'id'  => 2,
-      //       'name' => 'Laura Green',
-      //       'qualification' => 'B.Tech, M.Tech',
-      //       'subjects' => 'Chemistry, Biology',
-      //       'ranking' => 3,
-      //       'rating' => 4.7,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
-      //     ],
-      //   ],
-      // ],
+      [
+         'id'  => '3',
+        'name' => 'Science',
+        'description' => 'Explore physics, chemistry, and biology through fun learning.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/science.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          [
+            'id'  => 1,
+            'name' => 'Daniel Brown',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+          [
+            'id'  => 2,
+            'name' => 'Emma Davis',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+        ],
+      ],
+      [
+         'id'  => '4',
+        'name' => 'History',
+        'description' => 'Understand world history and important civilizations.',
+        'main_image' => asset("/assets/mobile-app/images/subjects/history.jpg"),
+        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+        'reviews' => [
+          [
+            'name' => 'Student 1',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+            'comment' => 'Very helpful sessions!',
+            'rating' => 5
+          ],
+          [
+            'name' => 'Student 2',
+            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+            'comment' => 'Explains concepts clearly.',
+            'rating' => 4
+          ],
+        ],
+        'available_teachers' => [
+          [
+            'id'  => 1,
+            'name' => 'Michael Scott',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+          [
+            'id'  => 2,
+            'name' => 'Laura Green',
+            'qualification' => 'B.Tech, M.Tech',
+            'subjects' => 'Chemistry, Biology',
+            'ranking' => 3,
+            'rating' => 4.7,
+            'imageUrl' => asset('assets/mobile-app/asit-t.png')
+          ],
+        ],
+      ],
       // [
       //    'id'  => '5',
       //   'name' => 'Geography',

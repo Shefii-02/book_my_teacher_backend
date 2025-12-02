@@ -9,10 +9,10 @@ class BannerResource extends JsonResource
     public function toArray($request)
     {
         // user id from controller
-        $user = $request->user;
+        $user_id = $request->user_id;
 
         // check booking
-        $userBooking = $this->requestBanner?->where('user_id', $user->id)->first();
+        $userBooking = $this->requestBanner?->where('user_id', $user_id)->first();
 
         return [
             'id' => (int) $this->id,

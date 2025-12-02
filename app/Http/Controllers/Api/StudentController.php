@@ -100,7 +100,10 @@ class StudentController extends Controller
     return response()->json([
       'status' => true,
       'message' => 'Top banners fetched successfully',
-      'data' =>  BannerResource::collection($banners),
+      // 'data' =>  BannerResource::collection($banners),
+       'data' => BannerResource::collection($banners)->additional([
+        'user_id' => $user->id
+    ])
     ]);
   }
 

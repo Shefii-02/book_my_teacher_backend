@@ -50,6 +50,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('requested-classes', 'RequestController@getGeneralRequests');
 
+
+
+
+
+    Route::get('/top-banners', 'StudentController@topBanners');
+    Route::get('/course-banners', 'StudentController@courseBanners');
+
+
+
+
+
+
     // Route::post('top-banner/submit', function (Request $request) {
     //   Log::info('📢 Top Banner Request:', $request->all());
     //   return response()->json([
@@ -483,10 +495,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/subjects', function () {
 
     $subjects = Subject::with([
-        'reviews:user_id,subject_id,comments,rating',
-        'courses:id,subject_id,title,main_image',
-        'providingTeachers.teacher'
-      ])->whereHas('providingTeachers')
+      'reviews:user_id,subject_id,comments,rating',
+      'courses:id,subject_id,title,main_image',
+      'providingTeachers.teacher'
+    ])->whereHas('providingTeachers')
       ->orderBy('position')
       ->where('published', 1)
       ->get();
@@ -1318,8 +1330,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-  Route::get('/top-banners', 'StudentController@topBanners');
-  Route::get('/course-banners', 'StudentController@courseBanners');
 
   // Route::get('/teachers', 'StudentController@teachersListing');
   Route::get('/grades-subjects', 'StudentController@gradesSubjects');

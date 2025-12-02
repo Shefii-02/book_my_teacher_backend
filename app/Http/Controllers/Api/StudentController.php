@@ -77,7 +77,7 @@ class StudentController extends Controller
   {
     $user = $request->user();
     $banners = TopBanner::with(['requestBanner' => function ($q) use ($user) {
-      $q->where('user_id', 1);
+      $q->where('user_id', $user->id);
     }])->where('banner_type', 'top-banner')->get();
 
     // $banners = collect(range(1, 3))->map(function ($i) {

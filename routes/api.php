@@ -482,6 +482,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/subjects', function () {
     $subjects = [
       [
+        'id'  => '1',
         'name' => 'English',
         'description' => 'Improve grammar, vocabulary, and communication skills.',
         'main_image' => asset("/assets/mobile-app/images/subjects/english.jpg"),
@@ -522,6 +523,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
+         'id'  => '2',
         'name' => 'Math',
         'description' => 'Learn arithmetic, algebra, geometry, and more.',
         'main_image' => asset("/assets/mobile-app/images/subjects/math.jpg"),
@@ -562,6 +564,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
+         'id'  => '3',
         'name' => 'Science',
         'description' => 'Explore physics, chemistry, and biology through fun learning.',
         'main_image' => asset("/assets/mobile-app/images/subjects/science.jpg"),
@@ -602,6 +605,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
+         'id'  => '4',
         'name' => 'History',
         'description' => 'Understand world history and important civilizations.',
         'main_image' => asset("/assets/mobile-app/images/subjects/history.jpg"),
@@ -642,6 +646,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
+         'id'  => '5',
         'name' => 'Geography',
         'description' => 'Learn about Earth, maps, and global environments.',
         'main_image' => asset("/assets/mobile-app/images/subjects/geography.jpg"),
@@ -673,6 +678,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
+         'id'  => '6',
         'name' => 'Art',
         'description' => 'Explore creativity through painting, drawing, and design.',
         'main_image' => asset("/assets/mobile-app/images/subjects/art.jpg"),
@@ -704,6 +710,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
+         'id'  => '7',
         'name' => 'Physics',
         'description' => 'Understand motion, energy, and the laws of the universe.',
         'main_image' => asset("/assets/mobile-app/images/subjects/physics.jpg"),
@@ -744,6 +751,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
+         'id'  => '8',
         'name' => 'Chemistry',
         'description' => 'Learn about elements, compounds, and reactions.',
         'main_image' => asset("/assets/mobile-app/images/subjects/chemistry.jpg"),
@@ -775,7 +783,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
-        'id'  => 1,
+        'id'  => 9,
         'name' => 'Biology',
         'description' => 'Study living organisms, genetics, and ecosystems.',
         'main_image' => asset("/assets/mobile-app/images/subjects/biology.jpg"),

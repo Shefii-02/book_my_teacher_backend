@@ -16,4 +16,10 @@ class ProvidingSubject extends Model
     {
         return $this->belongsTo(Subject::class);
     }
+
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
 }

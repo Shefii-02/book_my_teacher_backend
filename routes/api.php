@@ -480,6 +480,22 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   Route::get('/subjects', function () {
+
+    $subjects = Subject::with([
+      'reviews:user_id,subject_id,comments,rating',
+      'courses:id,subject_id,title,main_image',
+      'providingTeachers.teacher:id,name,qualification'
+    ])
+      ->orderBy('position')
+      ->where('published', 1)
+      ->get();
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Subjects fetched successfully',
+      'data' => $subjects
+    ]);
+
     $subjects = [
       [
         'id'  => '1',
@@ -523,7 +539,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
-         'id'  => '2',
+        'id'  => '2',
         'name' => 'Math',
         'description' => 'Learn arithmetic, algebra, geometry, and more.',
         'main_image' => asset("/assets/mobile-app/images/subjects/math.jpg"),
@@ -564,7 +580,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
-         'id'  => '3',
+        'id'  => '3',
         'name' => 'Science',
         'description' => 'Explore physics, chemistry, and biology through fun learning.',
         'main_image' => asset("/assets/mobile-app/images/subjects/science.jpg"),
@@ -605,7 +621,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
-         'id'  => '4',
+        'id'  => '4',
         'name' => 'History',
         'description' => 'Understand world history and important civilizations.',
         'main_image' => asset("/assets/mobile-app/images/subjects/history.jpg"),
@@ -646,7 +662,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
-         'id'  => '5',
+        'id'  => '5',
         'name' => 'Geography',
         'description' => 'Learn about Earth, maps, and global environments.',
         'main_image' => asset("/assets/mobile-app/images/subjects/geography.jpg"),
@@ -678,7 +694,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         ],
       ],
       [
-         'id'  => '6',
+        'id'  => '6',
         'name' => 'Art',
         'description' => 'Explore creativity through painting, drawing, and design.',
         'main_image' => asset("/assets/mobile-app/images/subjects/art.jpg"),

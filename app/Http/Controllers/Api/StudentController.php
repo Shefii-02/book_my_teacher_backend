@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BannerResource;
 use App\Models\CompanyTeacher;
 use App\Models\MediaFile;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use App\Models\TopBanner;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
@@ -71,29 +73,34 @@ class StudentController extends Controller
     ]);
   }
 
-  public function topBanners(): JsonResponse
+  public function topBanners(Request $request): JsonResponse
   {
-    $banners = collect(range(1, 3))->map(function ($i) {
-      return [
-        'id' => $i,
-        'title' => "Top Banner $i",
-        'main_image' => asset("assets/mobile-app/banners/tb-{$i}.png"),
-        'thumb' => asset("assets/mobile-app/banners/tb-{$i}.png"),
-        'description' => "This is banner $i description.",
-        'priority_order' => $i,
-        'banner_type' => $i % 2 ? 'image' : 'video',
-        'cta_label' => 'Join Now',
-        'cta_action' => '',
-        'is_booked' => $i % 3 === 0,
-        // 'is_booked' => true,
-        'last_booked_at' => $i % 3 === 0 ? now()->subDays($i)->toDateTimeString() : null,
-      ];
-    });
+    $user = $request->user();
+    $banners = TopBanner::with(['requestBanner' => function ($q) use ($user) {
+      $q->where('user_id', 1);
+    }])->where('banner_type', 'top-banner')->get();
+
+    // $banners = collect(range(1, 3))->map(function ($i) {
+    //   return [
+    //     'id' => $i,
+    //     'title' => "Top Banner $i",
+    //     'main_image' => asset("assets/mobile-app/banners/tb-{$i}.png"),
+    //     'thumb' => asset("assets/mobile-app/banners/tb-{$i}.png"),
+    //     'description' => "This is banner $i description.",
+    //     'priority_order' => $i,
+    //     'banner_type' => $i % 2 ? 'image' : 'video',
+    //     'cta_label' => 'Join Now',
+    //     'cta_action' => '',
+    //     'is_booked' => $i % 3 === 0,
+    //     // 'is_booked' => true,
+    //     'last_booked_at' => $i % 3 === 0 ? now()->subDays($i)->toDateTimeString() : null,
+    //   ];
+    // });
 
     return response()->json([
       'status' => true,
       'message' => 'Top banners fetched successfully',
-      'data' => $banners
+      'data' =>  BannerResource::collection($banners),
     ]);
   }
 

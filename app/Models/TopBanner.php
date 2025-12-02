@@ -41,4 +41,11 @@ class TopBanner extends Model
     return $this->mainImageMedia ? asset('storage/' . $this->mainImageMedia->file_path) : null;
   }
 
+
+  public function requestBanner()
+  {
+    return $this->hasOne(BannerRequest::class, 'banner_id','id');
+  }
+
+
 }

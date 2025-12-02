@@ -47,6 +47,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('request-subject-class/submit', 'RequestController@teacher');
     Route::post('request-course/submit', 'RequestController@banner');
 
+    Route::post('requested-classes', 'RequestController@getGeneralRequests');
 
     // Route::post('top-banner/submit', function (Request $request) {
     //   Log::info('📢 Top Banner Request:', $request->all());
@@ -89,95 +90,95 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     //   ]);
     // });
 
-    Route::post('requested-classes', function (Request $request) {
+    // Route::post('requested-classes', function (Request $request) {
 
-      return response()->json([
-        'success' => true,
-        'data' => [
-          [
-            'id' => 1,
-            'title' => 'Math - Algebra Basics',
-            'grade' => '8th Grade',
-            'board' => 'CBSE',
-            'subject' => 'Mathematics',
-            'note' => 'Need special focus on equations.',
-            'status' => 'Pending',
-            'created_at' => '2025-10-31',
-          ],
-          [
-            'id' => 2,
-            'title' => 'Math - Algebra Basics-2',
-            'grade' => '8th Grade',
-            'board' => 'CBSE',
-            'subject' => 'Mathematics',
-            'note' => 'Need special focus on equations.',
-            'status' => 'Pending',
-            'created_at' => '2025-10-31',
-          ],
-          [
-            'id' => 3,
-            'title' => 'Math - Algebra Basics-3',
-            'grade' => '8th Grade',
-            'board' => 'CBSE',
-            'subject' => 'Mathematics',
-            'note' => 'Need special focus on equations.',
-            'status' => 'Pending',
-            'created_at' => '2025-10-31',
-          ],
-          [
-            'id' => 4,
-            'title' => 'Math - Algebra Basics-4',
-            'grade' => '8th Grade',
-            'board' => 'CBSE',
-            'subject' => 'Mathematics',
-            'note' => 'Need special focus on equations.',
-            'status' => 'Pending',
-            'created_at' => '2025-10-31',
-          ],
-          [
-            'id' => 5,
-            'title' => 'Math - Algebra Basics',
-            'grade' => '8th Grade',
-            'board' => 'CBSE',
-            'subject' => 'Mathematics',
-            'note' => 'Need special focus on equations.',
-            'status' => 'Pending',
-            'created_at' => '2025-10-31',
-          ],
-          [
-            'id' => 6,
-            'title' => 'Math - Algebra Basics-2',
-            'grade' => '8th Grade',
-            'board' => 'CBSE',
-            'subject' => 'Mathematics',
-            'note' => 'Need special focus on equations.',
-            'status' => 'Pending',
-            'created_at' => '2025-10-31',
-          ],
-          [
-            'id' => 7,
-            'title' => 'Math - Algebra Basics-3',
-            'grade' => '8th Grade',
-            'board' => 'CBSE',
-            'subject' => 'Mathematics',
-            'note' => 'Need special focus on equations.',
-            'status' => 'Pending',
-            'created_at' => '2025-10-31',
-          ],
-          [
-            'id' => 8,
-            'title' => 'Math - Algebra Basics-4',
-            'grade' => '8th Grade',
-            'board' => 'CBSE',
-            'subject' => 'Mathematics',
-            'note' => 'Need special focus on equations.',
-            'status' => 'Pending',
-            'created_at' => '2025-10-31',
-          ],
-          // More items...
-        ]
-      ]);
-    });
+    //   return response()->json([
+    //     'success' => true,
+    //     'data' => [
+    //       [
+    //         'id' => 1,
+    //         'title' => 'Math - Algebra Basics',
+    //         'grade' => '8th Grade',
+    //         'board' => 'CBSE',
+    //         'subject' => 'Mathematics',
+    //         'note' => 'Need special focus on equations.',
+    //         'status' => 'Pending',
+    //         'created_at' => '2025-10-31',
+    //       ],
+    //       [
+    //         'id' => 2,
+    //         'title' => 'Math - Algebra Basics-2',
+    //         'grade' => '8th Grade',
+    //         'board' => 'CBSE',
+    //         'subject' => 'Mathematics',
+    //         'note' => 'Need special focus on equations.',
+    //         'status' => 'Pending',
+    //         'created_at' => '2025-10-31',
+    //       ],
+    //       [
+    //         'id' => 3,
+    //         'title' => 'Math - Algebra Basics-3',
+    //         'grade' => '8th Grade',
+    //         'board' => 'CBSE',
+    //         'subject' => 'Mathematics',
+    //         'note' => 'Need special focus on equations.',
+    //         'status' => 'Pending',
+    //         'created_at' => '2025-10-31',
+    //       ],
+    //       [
+    //         'id' => 4,
+    //         'title' => 'Math - Algebra Basics-4',
+    //         'grade' => '8th Grade',
+    //         'board' => 'CBSE',
+    //         'subject' => 'Mathematics',
+    //         'note' => 'Need special focus on equations.',
+    //         'status' => 'Pending',
+    //         'created_at' => '2025-10-31',
+    //       ],
+    //       [
+    //         'id' => 5,
+    //         'title' => 'Math - Algebra Basics',
+    //         'grade' => '8th Grade',
+    //         'board' => 'CBSE',
+    //         'subject' => 'Mathematics',
+    //         'note' => 'Need special focus on equations.',
+    //         'status' => 'Pending',
+    //         'created_at' => '2025-10-31',
+    //       ],
+    //       [
+    //         'id' => 6,
+    //         'title' => 'Math - Algebra Basics-2',
+    //         'grade' => '8th Grade',
+    //         'board' => 'CBSE',
+    //         'subject' => 'Mathematics',
+    //         'note' => 'Need special focus on equations.',
+    //         'status' => 'Pending',
+    //         'created_at' => '2025-10-31',
+    //       ],
+    //       [
+    //         'id' => 7,
+    //         'title' => 'Math - Algebra Basics-3',
+    //         'grade' => '8th Grade',
+    //         'board' => 'CBSE',
+    //         'subject' => 'Mathematics',
+    //         'note' => 'Need special focus on equations.',
+    //         'status' => 'Pending',
+    //         'created_at' => '2025-10-31',
+    //       ],
+    //       [
+    //         'id' => 8,
+    //         'title' => 'Math - Algebra Basics-4',
+    //         'grade' => '8th Grade',
+    //         'board' => 'CBSE',
+    //         'subject' => 'Mathematics',
+    //         'note' => 'Need special focus on equations.',
+    //         'status' => 'Pending',
+    //         'created_at' => '2025-10-31',
+    //       ],
+    //       // More items...
+    //     ]
+    //   ]);
+    // });
 
 
 

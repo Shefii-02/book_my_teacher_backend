@@ -74,23 +74,25 @@ class RequestController extends Controller
   }
 
 
-  public function subject(Request $request)
+  public function getGeneralRequests(Request $request)
   {
-    $company_id = 1;
-    Log::info("👨‍🏫 Subject Class Request:", $request->all());
-    $subject = Subject::where('id', 'subject_id')->first();
     $user = $request->user();
-    TeacherClassRequest::create([
-      'teacher_id'     => $request->teacher_id,
-      'type'           => 'subject',
-      'selected_items' => $subject->name,
-      'class_type'     => $request->class_type,
-      'days_needed'    => $request->days_needed,
-      'notes'          => $request->notes,
-      'user_id'        => $user->id,
-      'company_id' => $company_id,
-    ]);
+    $items = GeneralRequest::where('user_id', $user->id)->latest()->get()->map(function ($req) {
+      return [
+        'id'         => $req->id,
+        'title'      => $req->subject . ' - ' . ($req->grade ?? ''),
+        'grade'      => $req->grade,
+        'board'      => $req->board,
+        'subject'    => $req->subject,
+        'note'       => $req->note,
+        'status'     => $req->status,
+        'created_at' => $req->created_at->format('Y-m-d'),
+      ];
+    });
 
-    return response()->json(['status' => true, 'data' => 'Teacher class request stored.']);
+    return response()->json([
+      'success' => true,
+      'data' => $items,
+    ]);
   }
 }

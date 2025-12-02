@@ -35,6 +35,7 @@ return new class extends Migration
       $table->unsignedBigInteger('company_id');
       $table->foreign('company_id')->references('id')->on('users')->onDelete('cascade');
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+      $table->string('status')->default('pending');
       $table->timestamps();
     });
 
@@ -49,6 +50,7 @@ return new class extends Migration
       $table->text('notes')->nullable();
       $table->unsignedBigInteger('user_id')->nullable();
       $table->unsignedBigInteger('company_id');
+      $table->string('status')->default('pending');
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
       $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
       $table->foreign('company_id')->references('id')->on('users')->onDelete('cascade');

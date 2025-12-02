@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 class GeneralRequest extends Model
 {
     protected $fillable = [
-        'from_location','grade','board','subject','note','user_id','company_id'
+        'from_location','grade','board','subject','note','user_id','company_id','status'
     ];
 }

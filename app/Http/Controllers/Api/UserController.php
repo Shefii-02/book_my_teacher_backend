@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\WalletResource;
 use App\Models\CompanyTeacher;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Models\Wallet;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
@@ -206,26 +208,36 @@ class UserController extends Controller
   }
 
 
-  public function myWallet(): JsonResponse
+  public function myWallet(Request $request): JsonResponse
   {
+    $user = $request->user();
+    $wallet =  Wallet::where('user_id', $user->id)->first();
+
     return response()->json([
-      'green' => [
-        'balance' => 780,
-        'target' => 1000,
-        'history' => [
-          ['title' => 'Completed Demo Class', 'type' => 'credit', 'amount' => 50, 'date' => '2025-11-01', 'status' => 'Approved'],
-          ['title' => 'Redeemed to Rupees', 'type' => 'debit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Processed'],
-        ],
-      ],
-      'rupee' => [
-        'balance' => 4400,
-        'target' => 5000,
-        'history' => [
-          ['title' => 'Converted from Coins', 'type' => 'credit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Completed'],
-          ['title' => 'Transferred to Bank', 'type' => 'debit', 'amount' => 5000, 'date' => '2025-09-25', 'status' => 'Pending'],
-        ],
-      ],
-    ]);
+      'success' => true,
+      'message' => 'User data fetched successfully',
+      'user'              => WalletResource::collection($wallet),
+    ], 200);
+
+
+    // return response()->json([
+    //   'green' => [
+    //     'balance' => 780,
+    //     'target' => 1000,
+    //     'history' => [
+    //       ['title' => 'Completed Demo Class', 'type' => 'credit', 'amount' => 50, 'date' => '2025-11-01', 'status' => 'Approved'],
+    //       ['title' => 'Redeemed to Rupees', 'type' => 'debit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Processed'],
+    //     ],
+    //   ],
+    //   'rupee' => [
+    //     'balance' => 4400,
+    //     'target' => 5000,
+    //     'history' => [
+    //       ['title' => 'Converted from Coins', 'type' => 'credit', 'amount' => 100, 'date' => '2025-10-20', 'status' => 'Completed'],
+    //       ['title' => 'Transferred to Bank', 'type' => 'debit', 'amount' => 5000, 'date' => '2025-09-25', 'status' => 'Pending'],
+    //     ],
+    //   ],
+    // ]);
   }
 
   public function convertToRupees(Request $request)

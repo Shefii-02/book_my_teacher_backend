@@ -12,7 +12,7 @@ class ReviewResource extends JsonResource
             'name' => $this->user->name ?? 'Student',
             'avatar' => $this->user->avatar_url ?? 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
             'comment' => $this->comments ?? '',
-            'rating' => $this->rating ?? '3.0',
+            'rating' => floatval($this->rating ?? '3.0'),
         ];
     }
 }

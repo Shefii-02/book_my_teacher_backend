@@ -44,14 +44,23 @@ class Teacher extends Model
 
   public function teacherCertificates()
   {
-    return $this->hasMany(\App\Models\TeacherCertificate::class,'teacher_id','id');
+    return $this->hasMany(\App\Models\TeacherCertificate::class, 'teacher_id', 'id');
   }
 
   public function topTeacher()
-{
+  {
     return $this->hasOne(TopTeacher::class);
-}
+  }
 
+  public function reviews()
+  {
+    return $this->hasMany(SubjectReview::class,'teacher_id','id');
+  }
+
+  public function courses()
+  {
+    return $this->hasMany(TeacherCourse::class,'teacher_id','id');
+  }
 
   public function thumbnailMedia()
   {

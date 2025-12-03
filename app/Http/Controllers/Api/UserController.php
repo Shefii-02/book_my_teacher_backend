@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Models\WalletHistory;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
@@ -208,16 +209,22 @@ class UserController extends Controller
   }
 
 
+
+  public function myWallet2(Request $request): JsonResponse
+  {
+    // $user = $request->user();
+    $wallet =  Wallet::where('user_id', 1)->first();
+    $wallet_histories = WalletHistory::where('user_id', 1)->get();
+    return response()->json(new WalletResource($wallet,$wallet_histories));
+  }
+
   public function myWallet(Request $request): JsonResponse
   {
     $user = $request->user();
-    $wallet =  Wallet::where('user_id', $user->id)->first();
+    $wallet =  Wallet::with('transactions')->where('user_id', $user->id)->first();
 
-    return response()->json([
-      'success' => true,
-      'message' => 'User data fetched successfully',
-      'user'              => WalletResource::collection($wallet),
-    ], 200);
+    return response()->json(new WalletResource($wallet));
+
 
 
     // return response()->json([

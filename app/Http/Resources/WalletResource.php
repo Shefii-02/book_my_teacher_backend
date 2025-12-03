@@ -6,19 +6,34 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class WalletResource extends JsonResource
 {
+    protected $wallet_histories;
+    protected $wallet;
+
+    public function __construct($wallet = null, $wallet_histories = [])
+    {
+        parent::__construct($wallet);
+        $this->wallet = $wallet;
+        $this->wallet_histories = $wallet_histories;
+    }
+
     public function toArray($request)
     {
         return [
-            'teacher_id'        => $this->id,
-            'name'              => $this->name,
-            'email'             => $this->email,
-
-            'wallet' => [
-                'green_balance' => $this->wallet->green_balance ?? 0,
-                'rupee_balance' => $this->wallet->rupee_balance ?? 0,
+            'green' => [
+                'balance' => $this->green_balance,
+                'target' => 4000, // optional
+                'history' => WalletHistoryResource::collection(
+                    $this->wallet_histories->where('wallet_type', 'green')
+                ),
             ],
 
-            'wallet_histories'  => WalletHistoryResource::collection($this->walletHistories),
+            'rupee' => [
+                'balance' => $this->rupee_balance,
+                'target' => 5000, // optional
+                'history' => WalletHistoryResource::collection(
+                    $this->wallet_histories->where('wallet_type', 'rupee')
+                ),
+            ],
         ];
     }
 }

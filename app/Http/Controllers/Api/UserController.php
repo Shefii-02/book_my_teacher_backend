@@ -221,9 +221,9 @@ class UserController extends Controller
   public function myWallet(Request $request): JsonResponse
   {
     $user = $request->user();
-    $wallet =  Wallet::with('transactions')->where('user_id', $user->id)->first();
-
-    return response()->json(new WalletResource($wallet));
+    $wallet =  Wallet::where('user_id', $user->id)->first();
+    $wallet_histories = WalletHistory::where('user_id', $user->id)->get();
+    return response()->json(new WalletResource($wallet,$wallet_histories));
 
 
 

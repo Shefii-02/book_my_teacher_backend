@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\DB;
 
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
-    Route::get('/my-wallet2', 'UserController@myWallet2');
+
   Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/guest-signup', 'RegisterController@guestSignup');

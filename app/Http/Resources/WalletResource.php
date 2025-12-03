@@ -20,7 +20,7 @@ class WalletResource extends JsonResource
     {
         return [
             'green' => [
-                'balance' => $this->green_balance,
+                'balance' => $this->green_balance ?? 0,
                 'target' => 4000, // optional
                 'history' => WalletHistoryResource::collection(
                     $this->wallet_histories->where('wallet_type', 'green')
@@ -28,7 +28,7 @@ class WalletResource extends JsonResource
             ],
 
             'rupee' => [
-                'balance' => $this->rupee_balance,
+                'balance' => $this->rupee_balance ?? 0,
                 'target' => 5000, // optional
                 'history' => WalletHistoryResource::collection(
                     $this->wallet_histories->where('wallet_type', 'rupee')

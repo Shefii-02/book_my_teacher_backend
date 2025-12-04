@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ReferralFriendResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
+use App\Models\AppReferral;
 use App\Models\CompanyTeacher;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
@@ -215,7 +217,7 @@ class UserController extends Controller
     // $user = $request->user();
     $wallet =  Wallet::where('user_id', 1)->first();
     $wallet_histories = WalletHistory::where('user_id', 1)->get();
-    return response()->json(new WalletResource($wallet,$wallet_histories));
+    return response()->json(new WalletResource($wallet, $wallet_histories));
   }
 
   public function myWallet(Request $request): JsonResponse
@@ -223,7 +225,7 @@ class UserController extends Controller
     $user = $request->user();
     $wallet =  Wallet::where('user_id', $user->id)->first();
     $wallet_histories = WalletHistory::where('user_id', $user->id)->get();
-    return response()->json(new WalletResource($wallet,$wallet_histories));
+    return response()->json(new WalletResource($wallet, $wallet_histories));
 
 
 
@@ -292,12 +294,29 @@ class UserController extends Controller
 
   public function referralStats(Request $request): JsonResponse
   {
+    $user = $request->user();
+    $walletHistory =  WalletHistory::where('user_id', $user->id)->get();
     $reward_per_join = 100;
     $bonus_on_first_class = 250;
-    $earned_coins = 1850;
-    $friends_joined = 5;
+    $earned_coins = $walletHistory->where('wallet_type', 'green')->where('type', 'credit')->sum('amount');
+    $joinedUsers = AppReferral::with('appliedUser')->where('ref_user_id', $user->id)->get();
+    $friends_joined = $joinedUsers->where('status', 'active')->count();
 
     $user = $request->user();
+
+    // Calculate Earned Coins
+    $earned_coins = $walletHistory
+      ->where('wallet_type', 'green')
+      ->where('type', 'credit')
+      ->sum('amount');
+
+    // All Joined Users via referral
+    $joinedUsers = AppReferral::with('appliedUser')
+      ->where('ref_user_id', $user->id)
+      ->get();
+
+    // Only Completed/Active Joins
+    $friends_joined = $joinedUsers->where('status', 'active')->count();
 
     return response()->json([
       'referral_code' => $user->referral_code,
@@ -305,43 +324,70 @@ class UserController extends Controller
       'friends_joined' => $friends_joined,
       'reward_per_join' => $reward_per_join,
       'bonus_on_first_class' => $bonus_on_first_class,
+
       'how_it_works' => 'How it works',
-      'how_it_works_description' => 'For each friend who joins using your link/code, you earn Green Coins. Coins can be converted to rewards or wallet credits.',
+      'how_it_works_description' =>
+      'For each friend who joins using your link/code, you earn Green Coins. Coins can be converted to rewards or wallet credits.',
+
       'badge_title' => '💰 Earn Green Coins',
-      'badge_description' => "• $reward_per_join coins when your friend joins\n• $bonus_on_first_class extra coins when they join first class\n• Track your invites in Rewards → Invited List",
-      'share_link_description' => 'Join me on BookMyTeacher! Use my referral code BMT-9834 to sign up and earn rewards.https://stage.bookmyteacher.cloud/invite?ref=BMT-9834',
-      'friends_list' => [
-        [
-          'name' => 'Rahul Mehta',
-          'joined_at' => '2025-10-30',
-          'earned_coins' => 150,
-          'status' => 'completed',
-        ],
-        [
-          'name' => 'Anjali Singh',
-          'joined_at' => '2025-10-27',
-          'earned_coins' => 100,
-          'status' => 'joined',
-        ],
-        [
-          'name' => 'Vikas Kumar',
-          'joined_at' => '2025-10-25',
-          'earned_coins' => 0,
-          'status' => 'pending',
-        ],
-        [
-          'name' => 'Priya Sharma',
-          'joined_at' => '2025-10-21',
-          'earned_coins' => 50,
-          'status' => 'joined',
-        ],
-        [
-          'name' => 'Vikas Kumar',
-          'joined_at' => '2025-10-25',
-          'earned_coins' => 0,
-          'status' => 'pending',
-        ],
-      ],
+      'badge_description' =>
+      "• $reward_per_join coins when your friend joins\n" .
+        "• $bonus_on_first_class extra coins when they join first class\n" .
+        "• Track your invites in Rewards → Invited List",
+
+      'share_link_description' =>
+      "Join me on BookMyTeacher! Use my referral code {$user->referral_code} to sign up and earn rewards. " .
+        "https://bookmyteacher.cloud/invite?ref={$user->referral_code}",
+
+      // RESOURCE BASED FRIEND LIST
+      'friends_list' => ReferralFriendResource::collection($joinedUsers),
     ]);
+
+
+    // return response()->json([
+    //   'referral_code' => $user->referral_code,
+    //   'earned_coins' => $earned_coins,
+    //   'friends_joined' => $friends_joined,
+    //   'reward_per_join' => $reward_per_join,
+    //   'bonus_on_first_class' => $bonus_on_first_class,
+    //   'how_it_works' => 'How it works',
+    //   'how_it_works_description' => 'For each friend who joins using your link/code, you earn Green Coins. Coins can be converted to rewards or wallet credits.',
+    //   'badge_title' => '💰 Earn Green Coins',
+    //   'badge_description' => "• $reward_per_join coins when your friend joins\n• $bonus_on_first_class extra coins when they join first class\n• Track your invites in Rewards → Invited List",
+    //   'share_link_description' => 'Join me on BookMyTeacher! Use my referral code BMT-9834 to sign up and earn rewards.https://bookmyteacher.cloud/invite?ref=BMT-9834',
+    //   'friends_list' => [
+    //     //resource connect(joinedUsers)
+    //     [
+    //       'name' => 'Rahul Mehta',
+    //       'joined_at' => '2025-10-30',
+    //       'earned_coins' => 150,
+    //       'status' => 'completed',
+    //     ],
+    //     [
+    //       'name' => 'Anjali Singh',
+    //       'joined_at' => '2025-10-27',
+    //       'earned_coins' => 100,
+    //       'status' => 'joined',
+    //     ],
+    //     [
+    //       'name' => 'Vikas Kumar',
+    //       'joined_at' => '2025-10-25',
+    //       'earned_coins' => 0,
+    //       'status' => 'pending',
+    //     ],
+    //     [
+    //       'name' => 'Priya Sharma',
+    //       'joined_at' => '2025-10-21',
+    //       'earned_coins' => 50,
+    //       'status' => 'joined',
+    //     ],
+    //     [
+    //       'name' => 'Vikas Kumar',
+    //       'joined_at' => '2025-10-25',
+    //       'earned_coins' => 0,
+    //       'status' => 'pending',
+    //     ],
+    //   ],
+    // ]);
   }
 }

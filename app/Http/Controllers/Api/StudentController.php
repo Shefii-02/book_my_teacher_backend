@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BannerResource;
+use App\Http\Resources\TeacherResource;
 use App\Models\CompanyTeacher;
 use App\Models\MediaFile;
 use Illuminate\Http\Request;
@@ -125,36 +126,145 @@ class StudentController extends Controller
 
   public function teachersListing(): JsonResponse
   {
-    $teachers = collect(range(1, 15))->map(function ($i) {
-      return [
-        'id' => $i,
-        'thumb' => "https://cdn.app/teachers/{$i}_thumb.jpg",
-        'main' => "https://cdn.app/teachers/{$i}_main.jpg",
-        'name' => "Teacher $i",
-        'grade_qualification' => 'M.Sc. Mathematics',
-        'subjects' => ['Maths', 'Science'],
-        'rating' => rand(40, 50) / 10,
-        'ranking' => $i,
-        'bio' => "Experienced teacher number $i.",
-        'reviews_count' => rand(100, 500),
-        'total_students' => rand(1000, 3000),
-        'languages' => ['English', 'Hindi'],
-        'price_per_hour' => rand(400, 800),
-        'experience_years' => rand(3, 10),
-        'certifications' => ['CBSE Certified'],
-        'time_slots' => [
-          'monday' => ['10:00-11:00', '15:00-16:00'],
-          'tuesday' => ['09:00-10:00']
-        ],
-        'demo_class_link' => 'https://meet.app/demo' . $i,
-      ];
-    });
-
+     $teachers = Teacher::whereHas('topTeacher')->with(['reviews','courses','subjectRates.subject'])->get();
+dd($teachers);
+    // $data = [
+    //   [
+    //     'id' => 1,
+    //     'name' => 'Asif T',
+    //     'qualification' => 'MCA, NET',
+    //     'subjects' => 'Computer Science, English',
+    //     'courses' => 'Spoken English, Jim',
+    //     'ranking' => 1,
+    //     'rating' => 4.8,
+    //     'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+    //     'description' => 'Highly experienced computer science teacher with passion for modern learning.',
+    //     'reviews' => [
+    //       [
+    //         'name' => 'Student 1',
+    //         'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+    //         'comment' => 'Very helpful sessions!',
+    //         'rating' => 5
+    //       ],
+    //       [
+    //         'name' => 'Student 2',
+    //         'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+    //         'comment' => 'Explains concepts clearly.',
+    //         'rating' => 4
+    //       ],
+    //     ]
+    //   ],
+    //   [
+    //     'id' => 2,
+    //     'name' => 'James M',
+    //     'qualification' => 'B.Ed, M.Sc',
+    //     'subjects' => 'Maths, Physics',
+    //     'courses' => 'Spoken English, Jim',
+    //     'ranking' => 2,
+    //     'rating' => 4.5,
+    //     'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+    //     'description' => 'Highly experienced computer science teacher with passion for modern learning.',
+    //     'reviews' => [
+    //       [
+    //         'name' => 'Student 1',
+    //         'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+    //         'comment' => 'Very helpful sessions!',
+    //         'rating' => 5
+    //       ],
+    //       [
+    //         'name' => 'Student 2',
+    //         'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+    //         'comment' => 'Explains concepts clearly.',
+    //         'rating' => 4
+    //       ],
+    //     ]
+    //   ],
+    //   [
+    //     'id' => 3,
+    //     'name' => 'Sana K',
+    //     'qualification' => 'B.Tech, M.Tech',
+    //     'subjects' => 'Chemistry, Biology',
+    //     'courses' => 'Spoken English, Jim',
+    //     'ranking' => 3,
+    //     'rating' => 4.7,
+    //     'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+    //     'description' => 'Highly experienced computer science teacher with passion for modern learning.',
+    //     'reviews' => [
+    //       [
+    //         'name' => 'Student 1',
+    //         'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+    //         'comment' => 'Very helpful sessions!',
+    //         'rating' => 5
+    //       ],
+    //       [
+    //         'name' => 'Student 2',
+    //         'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+    //         'comment' => 'Explains concepts clearly.',
+    //         'rating' => 4
+    //       ],
+    //     ]
+    //   ],
+    //   [
+    //     'id' => 4,
+    //     'name' => 'Mohammed S',
+    //     'qualification' => 'PhD, M.Ed',
+    //     'subjects' => 'History, Civics',
+    //     'courses' => 'Spoken English, Jim',
+    //     'ranking' => 4,
+    //     'rating' => 4.9,
+    //     'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+    //     'description' => 'Highly experienced computer science teacher with passion for modern learning.',
+    //     'reviews' => [
+    //       [
+    //         'name' => 'Student 1',
+    //         'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+    //         'comment' => 'Very helpful sessions!',
+    //         'rating' => 5
+    //       ],
+    //       [
+    //         'name' => 'Student 2',
+    //         'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+    //         'comment' => 'Explains concepts clearly.',
+    //         'rating' => 4
+    //       ],
+    //     ]
+    //   ]
+    // ];
     return response()->json([
-      'status' => true,
-      'message' => 'Teachers list fetched successfully',
-      'data' => $teachers
+      'message' => 'Teachers Fetached successfully',
+      'data' => TeacherResource::collection($teachers),
+      'status' => true
     ]);
+    // $teachers = collect(range(1, 15))->map(function ($i) {
+    //   return [
+    //     'id' => $i,
+    //     'thumb' => "https://cdn.app/teachers/{$i}_thumb.jpg",
+    //     'main' => "https://cdn.app/teachers/{$i}_main.jpg",
+    //     'name' => "Teacher $i",
+    //     'grade_qualification' => 'M.Sc. Mathematics',
+    //     'subjects' => ['Maths', 'Science'],
+    //     'rating' => rand(40, 50) / 10,
+    //     'ranking' => $i,
+    //     'bio' => "Experienced teacher number $i.",
+    //     'reviews_count' => rand(100, 500),
+    //     'total_students' => rand(1000, 3000),
+    //     'languages' => ['English', 'Hindi'],
+    //     'price_per_hour' => rand(400, 800),
+    //     'experience_years' => rand(3, 10),
+    //     'certifications' => ['CBSE Certified'],
+    //     'time_slots' => [
+    //       'monday' => ['10:00-11:00', '15:00-16:00'],
+    //       'tuesday' => ['09:00-10:00']
+    //     ],
+    //     'demo_class_link' => 'https://meet.app/demo' . $i,
+    //   ];
+    // });
+
+    // return response()->json([
+    //   'status' => true,
+    //   'message' => 'Teachers list fetched successfully',
+    //   'data' => $teachers
+    // ]);
   }
   public function gradesSubjects(): JsonResponse
   {

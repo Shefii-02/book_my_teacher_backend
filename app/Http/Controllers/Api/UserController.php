@@ -376,7 +376,14 @@ class UserController extends Controller
       // 'contact' => $contact,
     ]);
   }
-  public function communityLinks(Request $request) {}
+  public function communityLinks(Request $request)
+  {
+    $socials = SocialLink::where('company_id', 1)->get();
+    return response()->json([
+      'status' => true,
+      'data' =>  SocialLinkResource::collection($socials),
+    ]);
+  }
 
   public function Referral(): JsonResponse
   {

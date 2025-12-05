@@ -124,37 +124,37 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // });
 
 
-  Route::get('/community-links', function () {
-    return response()->json([
-      'status' => true,
-      'data' => [
-        [
-          'name' => 'Telegram Group',
-          'icon' => asset('assets/mobile-app/icons/telegram.png'),
-          'link' => 'https://t.me/BookMyTeacherCommunity',
-          'type' => 'telegram',
-        ],
-        [
-          'name' => 'Discord Server',
-          'icon' => asset('assets/mobile-app/icons/discord.png'),
-          'link' => 'https://discord.gg/BookMyTeacher',
-          'type' => 'discord',
-        ],
-        [
-          'name' => 'Reddit Community',
-          'icon' => asset('assets/mobile-app/icons/reddit.png'),
-          'link' => 'https://reddit.com/r/BookMyTeacher',
-          'type' => 'reddit',
-        ],
-        [
-          'name' => 'Facebook Group',
-          'icon' => asset('assets/mobile-app/icons/facebook.png'),
-          'link' => 'https://facebook.com/groups/BookMyTeacher',
-          'type' => 'facebook',
-        ],
-      ]
-    ]);
-  });
+  // Route::get('/community-links', function () {
+  //   return response()->json([
+  //     'status' => true,
+  //     'data' => [
+  //       [
+  //         'name' => 'Telegram Group',
+  //         'icon' => asset('assets/mobile-app/icons/telegram.png'),
+  //         'link' => 'https://t.me/BookMyTeacherCommunity',
+  //         'type' => 'telegram',
+  //       ],
+  //       [
+  //         'name' => 'Discord Server',
+  //         'icon' => asset('assets/mobile-app/icons/discord.png'),
+  //         'link' => 'https://discord.gg/BookMyTeacher',
+  //         'type' => 'discord',
+  //       ],
+  //       [
+  //         'name' => 'Reddit Community',
+  //         'icon' => asset('assets/mobile-app/icons/reddit.png'),
+  //         'link' => 'https://reddit.com/r/BookMyTeacher',
+  //         'type' => 'reddit',
+  //       ],
+  //       [
+  //         'name' => 'Facebook Group',
+  //         'icon' => asset('assets/mobile-app/icons/facebook.png'),
+  //         'link' => 'https://facebook.com/groups/BookMyTeacher',
+  //         'type' => 'facebook',
+  //       ],
+  //     ]
+  //   ]);
+  // });
 
 
 

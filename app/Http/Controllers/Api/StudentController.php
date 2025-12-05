@@ -275,7 +275,8 @@ class StudentController extends Controller
     $subjects = Subject::with([
       'reviews:user_id,subject_id,comments,rating',
       'courses:id,subject_id,title,main_image',
-      'providingTeachers.teacher','providingTeachers.teacher.selectedSubjects'
+      'providingTeachers.teacher',
+      'providingTeachers.teacher.selectedSubjects'
 
     ])->whereHas('providingTeachers')
       ->orderBy('position')
@@ -461,6 +462,10 @@ class StudentController extends Controller
                   'join_link' => null,
                 ],
               ],
+            ],
+            [
+              'status' => 'Pending Started Courses',
+              'items' => []
             ],
             [
               'status' => 'Ongoing',

@@ -48,6 +48,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/bottom-social-links', 'UserController@bottomSocialLinks');
 
+   Route::get('/provide-courses', 'StudentController@provideCourses');
+
   // Route::get('/bottom-social-links', function () {
   //   $socials = [
   //     [
@@ -1356,5 +1358,5 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
-  Route::get('/provide-courses', 'StudentController@provideCourses');
+
 });

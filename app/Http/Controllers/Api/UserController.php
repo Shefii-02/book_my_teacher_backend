@@ -251,33 +251,58 @@ class UserController extends Controller
 
   public function convertToRupees(Request $request)
   {
+    DB::beginTransaction();
     $user = $request->user();
     $wallet = Wallet::where('user_id', $user->id)->first();
     $greenCoinValue = 0.01;
+    try {
+      if ($wallet->green_balance > 4000) {
+        $history                = new WalletHistory();
+        $history->user_id       = $user->id;
+        $history->wallet_type   = 'green';
+        $history->title         = "Converted to Rupees";
+        $history->type          = "debit";
+        $history->amount        = $request->amount;
+        $history->status        = "Processed";
+        $history->date          = now();
+        $history->notes         = "Converted green coins to rupees";
+        $history->save();
 
-    if ($wallet->green_balance > 4000) {
-      $history                = new WalletHistory();
-      $history->user_id       = $user->id;
-      $history->wallet_type   = 'green';
-      $history->title         = "Converted to Rupees";
-      $history->type          = "debit";
-      $history->amount        = $request->amount;
-      $history->status        = "Processed";
-      $history->date          = now();
-      $history->notes         = "Converted green coins to rupees";
-      $history->save();
+        $wallet->green_balance = $wallet->green_balance - $request->amount;
+        $wallet->rupee_balance = $wallet->rupee_balance + ($greenCoinValue * $request->amount);
+        $wallet->save();
 
-      $wallet->green_balance = $wallet->green_balance - $request->amount;
-      $wallet->rupee_balance = $wallet->rupee_balance + ($greenCoinValue * $request->amount);
-      $wallet->save();
+        $history                = new WalletHistory();
+        $history->user_id       = $user->id;
+        $history->wallet_type   = 'rupee';
+        $history->title         = "Converted to Rupees";
+        $history->type          = "credit";
+        $history->amount        = $greenCoinValue * $request->amount;
+        $history->status        = "Processed";
+        $history->date          = now();
+        $history->notes         = "Converted green coins to rupees";
+        $history->save();
 
-      return response()->json([
-        'success' => true,
-        'message' => 'Conversion request submitted successfully!',
-        'request_id' => date('Ymd', strtotime($history->date)),
-        'status' => 'Processed',
-      ]);
-    } else {
+        DB::commit();
+
+        return response()->json([
+          'success' => true,
+          'message' => 'Conversion request submitted successfully!',
+          'request_id' => date('Ymd', strtotime($history->date)),
+          'status' => 'Processed',
+        ]);
+      } else {
+        DB::rollBack();
+        return response()->json([
+          'success' => false,
+          'message' => 'Conversion request submitted failed!',
+          'request_id' => date('Ymd', strtotime(now())),
+          'status' => 'Processed',
+        ]);
+      }
+    } catch (Exception $e) {
+      Log::info($e);
+      DB::rollBack();
       return response()->json([
         'success' => false,
         'message' => 'Conversion request submitted failed!',
@@ -285,8 +310,6 @@ class UserController extends Controller
         'status' => 'Processed',
       ]);
     }
-    // Dummy logic — you can replace this with real DB update
-
   }
 
   public function transferToBank(Request $request)

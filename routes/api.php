@@ -46,35 +46,37 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/social-links', 'UserController@socialLinks');
   Route::get('/community-links', 'UserController@communityLinks');
 
-  Route::get('/bottom-social-links', function () {
-    $socials = [
-      [
-        'name' => 'Facebook',
-        'icon' => asset('assets/mobile-app/icons/facebook.png'),
-        'link' => 'https://facebook.com/BookMyTeacher',
-      ],
-      [
-        'name' => 'Instagram',
-        'icon' => asset('assets/mobile-app/icons/instagram.png'),
-        'link' => 'https://instagram.com/BookMyTeacher',
-      ],
-      [
-        'name' => 'YouTube',
-        'icon' => asset('assets/mobile-app/icons/youtube.png'),
-        'link' => 'https://youtube.com/@BookMyTeacher',
-      ],
-      [
-        'name' => 'LinkedIn',
-        'icon' => asset('assets/mobile-app/icons/linkedin.png'),
-        'link' => 'https://linkedin.com/company/BookMyTeacher',
-      ],
-    ];
+  Route::get('/bottom-social-links', 'UserController@bottomSocialLinks');
 
-    return response()->json([
-      'status' => true,
-      'data' => $socials,
-    ]);
-  });
+  // Route::get('/bottom-social-links', function () {
+  //   $socials = [
+  //     [
+  //       'name' => 'Facebook',
+  //       'icon' => asset('assets/mobile-app/icons/facebook.png'),
+  //       'link' => 'https://facebook.com/BookMyTeacher',
+  //     ],
+  //     [
+  //       'name' => 'Instagram',
+  //       'icon' => asset('assets/mobile-app/icons/instagram.png'),
+  //       'link' => 'https://instagram.com/BookMyTeacher',
+  //     ],
+  //     [
+  //       'name' => 'YouTube',
+  //       'icon' => asset('assets/mobile-app/icons/youtube.png'),
+  //       'link' => 'https://youtube.com/@BookMyTeacher',
+  //     ],
+  //     [
+  //       'name' => 'LinkedIn',
+  //       'icon' => asset('assets/mobile-app/icons/linkedin.png'),
+  //       'link' => 'https://linkedin.com/company/BookMyTeacher',
+  //     ],
+  //   ];
+
+  //   return response()->json([
+  //     'status' => true,
+  //     'data' => $socials,
+  //   ]);
+  // });
 
   // Route::get('/social-links', function () {
 
@@ -409,16 +411,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::get('/teacher/performance', 'TeacherController@performance');
 
 
-
     Route::post('/logout', 'UserController@userLogout');
 
     Route::post('/account/delete-request', 'UserController@deleteAccountRequest');
 
 
-
     Route::post('/student/performance', 'StudentController@performance');
-
-
 
 
     ///////////////////////////////////////////////////////////////////////

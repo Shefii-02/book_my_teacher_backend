@@ -411,6 +411,18 @@ class UserController extends Controller
     ]);
   }
 
+  public function bottomSocialLinks(Request $request)
+  {
+    $socials = SocialLink::where('company_id', 1)->get();
+    return response()->json([
+      'status' => true,
+      'data' =>  SocialLinkResource::collection($socials),
+    ]);
+  }
+
+
+
+
   public function Referral(): JsonResponse
   {
     return response()->json([

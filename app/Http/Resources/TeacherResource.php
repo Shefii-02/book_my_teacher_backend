@@ -12,7 +12,7 @@ class TeacherResource extends JsonResource
             'id' => (int) $this->id,
             'name' => $this->name,
             'qualification' => $this->qualifications ?? '',
-            'subjects' => is_array($this->subjects) ? implode(',',$this->subjects) : '',
+            'subjects' => is_array($this->whenLoaded('subjects')->pluck('name') ? implode(',',$this->subjects) : ''),
             'courses' => [],
             'ranking' => intval($this->ranking ?? '1'),
             'rating' => floatval($this->rating ?? '4.5'),

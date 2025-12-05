@@ -361,13 +361,13 @@ class UserController extends Controller
     //   ],
     // ];
 
-    // $contact = [
-    //   "email" => "support@bookmyteacher.com",
-    //   "phone" => "+91 98765 43210",
-    //   "whatsapp" => "917510114455",
-    //   "website" => "https://bookmyteacher.co.in",
-    //   "address" => "Trivandrum, Kerala, India"
-    // ];
+    $contact = [
+      "email" => "support@bookmyteacher.com",
+      "phone" => "+91 98765 43210",
+      "whatsapp" => "917510114455",
+      "website" => "https://bookmyteacher.co.in",
+      "address" => "Trivandrum, Kerala, India"
+    ];
 
     return response()->json([
       'status' => true,

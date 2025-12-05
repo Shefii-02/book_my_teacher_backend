@@ -661,14 +661,14 @@ class StudentController extends Controller
   {
     // Dummy response (you can replace with DB values later)
     $data = [
-      "total_classes" => 50,
-      "attended" => 42,
-      "missed" => 8,
-      "performance_percentage" => 84,
+      "total_classes" => 0,
+      "attended" => 0,
+      "missed" => 0,
+      "performance_percentage" => 0,
       "month_wise" => [
-        ["month" => "Jan", "attended" => 15, "missed" => 2],
-        ["month" => "Feb", "attended" => 12, "missed" => 1],
-        ["month" => "Mar", "attended" => 15, "missed" => 5],
+        ["month" => "Jan", "attended" => 0, "missed" => 0],
+        ["month" => "Feb", "attended" => 0, "missed" => 0],
+        ["month" => "Mar", "attended" => 0, "missed" => 0],
       ]
     ];
 

@@ -48,7 +48,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/bottom-social-links', 'UserController@bottomSocialLinks');
 
-   Route::get('/provide-courses', 'StudentController@provideCourses');
+  Route::get('/provide-courses', 'StudentController@provideCourses');
 
   // Route::get('/bottom-social-links', function () {
   //   $socials = [
@@ -209,6 +209,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::get('/course-banners', 'StudentController@courseBanners');
 
 
+
+
+    Route::post('/notifications', 'NotificationController@notifications');
+    Route::post('/notifications/mark-read/{id}', 'NotificationController@markRead');
 
 
 
@@ -428,10 +432,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   ///////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
-
-  Route::get('/notifications', 'NotificationController@notifications');
-  Route::post('/notifications/mark-read/{id}', 'NotificationController@markRead');
-
 
 
   Route::any('/teacher/achievements', 'TeacherController@achievements');
@@ -1358,5 +1358,4 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
-
 });

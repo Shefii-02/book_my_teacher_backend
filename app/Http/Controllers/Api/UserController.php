@@ -332,7 +332,7 @@ class UserController extends Controller
   public function socialLinks(Request $request)
   {
     $socials = SocialLink::where('company_id', 1)->get();
-    $contact = CompanyContact::where('company_id', 1)->get();
+    $contact = CompanyContact::where('company_id', 1)->first();
 
     // $socials = [
     //   [
@@ -373,7 +373,6 @@ class UserController extends Controller
       'status' => true,
       'socials' =>  SocialLinkResource::collection($socials),
       'contact' => new CompanyContactResource($contact),
-      // 'contact' => $contact,
     ]);
   }
   public function communityLinks(Request $request)

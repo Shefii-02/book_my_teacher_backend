@@ -359,404 +359,405 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-  Route::get('/teacher/{id}', function ($id) {
-    // simple dummy single teacher detail
-    return response()->json([
-      'id' => $id,
-      'name' => 'Asif T',
-      'qualification' => 'MCA, NET',
-      'subjects' => 'Computer Science, English',
-      'courses' => 'Spoken English, Jim',
-      'ranking' => 1,
-      'rating' => 4.8,
-      'image' => asset('assets/mobile-app/asit-t.png'),
-      'description' => 'Highly experienced computer science teacher with passion for modern learning.',
-      'reviews' => [
-        [
-          'name' => 'Student 1',
-          'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-          'comment' => 'Very helpful sessions!',
-          'rating' => 5
-        ],
-        [
-          'name' => 'Student 2',
-          'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-          'comment' => 'Explains concepts clearly.',
-          'rating' => 4
-        ],
-      ]
-    ]);
-  });
+  // Route::get('/teacher/{id}', function ($id) {
+  //   // simple dummy single teacher detail
+  //   return response()->json([
+  //     'id' => $id,
+  //     'name' => 'Asif T',
+  //     'qualification' => 'MCA, NET',
+  //     'subjects' => 'Computer Science, English',
+  //     'courses' => 'Spoken English, Jim',
+  //     'ranking' => 1,
+  //     'rating' => 4.8,
+  //     'image' => asset('assets/mobile-app/asit-t.png'),
+  //     'description' => 'Highly experienced computer science teacher with passion for modern learning.',
+  //     'reviews' => [
+  //       [
+  //         'name' => 'Student 1',
+  //         'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+  //         'comment' => 'Very helpful sessions!',
+  //         'rating' => 5
+  //       ],
+  //       [
+  //         'name' => 'Student 2',
+  //         'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+  //         'comment' => 'Explains concepts clearly.',
+  //         'rating' => 4
+  //       ],
+  //     ]
+  //   ]);
+  // });
 
 
-  Route::get('/subjects', function () {
+    Route::get('/subjects', 'StudentController@subjectsListing');
+  // Route::get('/subjects', function () {
 
-    $subjects = Subject::with([
-      'reviews:user_id,subject_id,comments,rating',
-      'courses:id,subject_id,title,main_image',
-      'providingTeachers.teacher'
-    ])->whereHas('providingTeachers')
-      ->orderBy('position')
-      ->where('published', 1)
-      ->get();
+  //   $subjects = Subject::with([
+  //     'reviews:user_id,subject_id,comments,rating',
+  //     'courses:id,subject_id,title,main_image',
+  //     'providingTeachers.teacher'
+  //   ])->whereHas('providingTeachers')
+  //     ->orderBy('position')
+  //     ->where('published', 1)
+  //     ->get();
 
-    return response()->json([
-      'status' => true,
-      'message' => 'Subjects fetched successfully',
-      'data' => SubjectResource::collection($subjects),
-    ]);
+  //   return response()->json([
+  //     'status' => true,
+  //     'message' => 'Subjects fetched successfully',
+  //     'data' => SubjectResource::collection($subjects),
+  //   ]);
 
-    $subjects = [
-      [
-        'id'  => '1',
-        'name' => 'English',
-        'description' => 'Improve grammar, vocabulary, and communication skills.',
-        'main_image' => asset("/assets/mobile-app/images/subjects/english.jpg"),
-        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-        'reviews' => [
-          [
-            'name' => 'Student 1',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-            'comment' => 'Very helpful sessions!',
-            'rating' => 5
-          ],
-          [
-            'name' => 'Student 2',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-            'comment' => 'Explains concepts clearly.',
-            'rating' => 4
-          ],
-        ],
-        'available_teachers' => [
-          [
-            'id'  => 1,
-            'name' => 'Alice Johnson',
-            'qualification' => 'B.Tech, M.Tech',
-            'subjects' => 'Chemistry, Biology',
-            'ranking' => 3,
-            'rating' => 4.7,
-            'imageUrl' => asset('assets/mobile-app/asit-t.png')
-          ],
-          [
-            'id'  => 2,
-            'name' => 'Robert White',
-            'qualification' => 'B.Tech, M.Tech',
-            'subjects' => 'Chemistry, Biology',
-            'ranking' => 3,
-            'rating' => 4.7,
-            'imageUrl' => asset('assets/mobile-app/asit-t.png')
-          ],
-        ],
-      ],
-      [
-        'id'  => '2',
-        'name' => 'Math',
-        'description' => 'Learn arithmetic, algebra, geometry, and more.',
-        'main_image' => asset("/assets/mobile-app/images/subjects/math.jpg"),
-        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-        'reviews' => [
-          [
-            'name' => 'Student 1',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-            'comment' => 'Very helpful sessions!',
-            'rating' => 5
-          ],
-          [
-            'name' => 'Student 2',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-            'comment' => 'Explains concepts clearly.',
-            'rating' => 4
-          ],
-        ],
-        'available_teachers' => [
-          [
-            'id'  => 1,
-            'name' => 'David Miller',
-            'qualification' => 'B.Tech, M.Tech',
-            'subjects' => 'Chemistry, Biology',
-            'ranking' => 3,
-            'rating' => 4.7,
-            'imageUrl' => asset('assets/mobile-app/asit-t.png')
-          ],
-          [
-            'id'  => 2,
-            'name' => 'Sophia Taylor',
-            'qualification' => 'B.Tech, M.Tech',
-            'subjects' => 'Chemistry, Biology',
-            'ranking' => 3,
-            'rating' => 4.7,
-            'imageUrl' => asset('assets/mobile-app/asit-t.png')
-          ],
-        ],
-      ],
-      [
-        'id'  => '3',
-        'name' => 'Science',
-        'description' => 'Explore physics, chemistry, and biology through fun learning.',
-        'main_image' => asset("/assets/mobile-app/images/subjects/science.jpg"),
-        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-        'reviews' => [
-          [
-            'name' => 'Student 1',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-            'comment' => 'Very helpful sessions!',
-            'rating' => 5
-          ],
-          [
-            'name' => 'Student 2',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-            'comment' => 'Explains concepts clearly.',
-            'rating' => 4
-          ],
-        ],
-        'available_teachers' => [
-          [
-            'id'  => 1,
-            'name' => 'Daniel Brown',
-            'qualification' => 'B.Tech, M.Tech',
-            'subjects' => 'Chemistry, Biology',
-            'ranking' => 3,
-            'rating' => 4.7,
-            'imageUrl' => asset('assets/mobile-app/asit-t.png')
-          ],
-          [
-            'id'  => 2,
-            'name' => 'Emma Davis',
-            'qualification' => 'B.Tech, M.Tech',
-            'subjects' => 'Chemistry, Biology',
-            'ranking' => 3,
-            'rating' => 4.7,
-            'imageUrl' => asset('assets/mobile-app/asit-t.png')
-          ],
-        ],
-      ],
-      [
-        'id'  => '4',
-        'name' => 'History',
-        'description' => 'Understand world history and important civilizations.',
-        'main_image' => asset("/assets/mobile-app/images/subjects/history.jpg"),
-        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-        'reviews' => [
-          [
-            'name' => 'Student 1',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-            'comment' => 'Very helpful sessions!',
-            'rating' => 5
-          ],
-          [
-            'name' => 'Student 2',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-            'comment' => 'Explains concepts clearly.',
-            'rating' => 4
-          ],
-        ],
-        'available_teachers' => [
-          [
-            'id'  => 1,
-            'name' => 'Michael Scott',
-            'qualification' => 'B.Tech, M.Tech',
-            'subjects' => 'Chemistry, Biology',
-            'ranking' => 3,
-            'rating' => 4.7,
-            'imageUrl' => asset('assets/mobile-app/asit-t.png')
-          ],
-          [
-            'id'  => 2,
-            'name' => 'Laura Green',
-            'qualification' => 'B.Tech, M.Tech',
-            'subjects' => 'Chemistry, Biology',
-            'ranking' => 3,
-            'rating' => 4.7,
-            'imageUrl' => asset('assets/mobile-app/asit-t.png')
-          ],
-        ],
-      ],
-      [
-        'id'  => '5',
-        'name' => 'Geography',
-        'description' => 'Learn about Earth, maps, and global environments.',
-        'main_image' => asset("/assets/mobile-app/images/subjects/geography.jpg"),
-        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-        'reviews' => [
-          [
-            'name' => 'Student 1',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-            'comment' => 'Very helpful sessions!',
-            'rating' => 5
-          ],
-          [
-            'name' => 'Student 2',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-            'comment' => 'Explains concepts clearly.',
-            'rating' => 4
-          ],
-        ],
-        'available_teachers' => [
-          [
-            'id'  => 1,
-            'name' => 'James Wilson',
-            'qualification' => 'B.Tech, M.Tech',
-            'subjects' => 'Chemistry, Biology',
-            'ranking' => 3,
-            'rating' => 4.7,
-            'imageUrl' => asset('assets/mobile-app/asit-t.png')
-          ],
-        ],
-      ],
-      [
-        'id'  => '6',
-        'name' => 'Art',
-        'description' => 'Explore creativity through painting, drawing, and design.',
-        'main_image' => asset("/assets/mobile-app/images/subjects/art.jpg"),
-        'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-        'reviews' => [
-          [
-            'name' => 'Student 1',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-            'comment' => 'Very helpful sessions!',
-            'rating' => 5
-          ],
-          [
-            'name' => 'Student 2',
-            'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-            'comment' => 'Explains concepts clearly.',
-            'rating' => 4
-          ],
-        ],
-        'available_teachers' => [
-          [
-            'id'  => 1,
-            'name' => 'Anna Lee',
-            'qualification' => 'PhD, M.Ed',
-            'subjects' => 'History, Civics',
-            'ranking' => 4,
-            'rating' => 4.9,
-            'imageUrl' => asset('assets/mobile-app/asit-t.png'),
-          ],
-        ],
-      ],
-      // [
-      //    'id'  => '7',
-      //   'name' => 'Physics',
-      //   'description' => 'Understand motion, energy, and the laws of the universe.',
-      //   'main_image' => asset("/assets/mobile-app/images/subjects/physics.jpg"),
-      //   'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-      //   'reviews' => [
-      //     [
-      //       'name' => 'Student 1',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-      //       'comment' => 'Very helpful sessions!',
-      //       'rating' => 5
-      //     ],
-      //     [
-      //       'name' => 'Student 2',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-      //       'comment' => 'Explains concepts clearly.',
-      //       'rating' => 4
-      //     ],
-      //   ],
-      //   'available_teachers' => [
-      //     [
-      //       'id'  => 1,
-      //       'name' => 'William Clark',
-      //       'qualification' => 'PhD, M.Ed',
-      //       'subjects' => 'History, Civics',
-      //       'ranking' => 4,
-      //       'rating' => 4.9,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
-      //     ],
-      //     [
-      //       'id'  => 2,
-      //       'name' => 'Olivia Evans',
-      //       'qualification' => 'PhD, M.Ed',
-      //       'subjects' => 'History, Civics',
-      //       'ranking' => 4,
-      //       'rating' => 4.9,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
-      //     ],
-      //   ],
-      // ],
-      // [
-      //    'id'  => '8',
-      //   'name' => 'Chemistry',
-      //   'description' => 'Learn about elements, compounds, and reactions.',
-      //   'main_image' => asset("/assets/mobile-app/images/subjects/chemistry.jpg"),
-      //   'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-      //   'reviews' => [
-      //     [
-      //       'name' => 'Student 1',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-      //       'comment' => 'Very helpful sessions!',
-      //       'rating' => 5
-      //     ],
-      //     [
-      //       'name' => 'Student 2',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-      //       'comment' => 'Explains concepts clearly.',
-      //       'rating' => 4
-      //     ],
-      //   ],
-      //   'available_teachers' => [
-      //     [
-      //       'id'  => 1,
-      //       'name' => 'Henry Adams',
-      //       'qualification' => 'PhD, M.Ed',
-      //       'subjects' => 'History, Civics',
-      //       'ranking' => 4,
-      //       'rating' => 4.9,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
-      //     ],
-      //   ],
-      // ],
-      // [
-      //   'id'  => 9,
-      //   'name' => 'Biology',
-      //   'description' => 'Study living organisms, genetics, and ecosystems.',
-      //   'main_image' => asset("/assets/mobile-app/images/subjects/biology.jpg"),
-      //   'image' => asset("/assets/mobile-app/icons/book-icon.png"),
-      //   'reviews' => [
-      //     [
-      //       'name' => 'Student 1',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
-      //       'comment' => 'Very helpful sessions!',
-      //       'rating' => 5
-      //     ],
-      //     [
-      //       'name' => 'Student 2',
-      //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
-      //       'comment' => 'Explains concepts clearly.',
-      //       'rating' => 4
-      //     ],
-      //   ],
-      //   'available_teachers' => [
-      //     [
-      //       'id'  => 1,
-      //       'name' => 'Sarah Thompson',
-      //       'qualification' => 'PhD, M.Ed',
-      //       'subjects' => 'History, Civics',
-      //       'ranking' => 4,
-      //       'rating' => 4.9,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
-      //     ],
-      //     [
-      //       'id'  => 2,
-      //       'name' => 'Mark Anderson',
-      //       'qualification' => 'PhD, M.Ed',
-      //       'subjects' => 'History, Civics',
-      //       'ranking' => 4,
-      //       'rating' => 4.9,
-      //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
-      //     ],
-      //   ],
-      // ],
-    ];
+  //   $subjects = [
+  //     [
+  //       'id'  => '1',
+  //       'name' => 'English',
+  //       'description' => 'Improve grammar, vocabulary, and communication skills.',
+  //       'main_image' => asset("/assets/mobile-app/images/subjects/english.jpg"),
+  //       'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+  //       'reviews' => [
+  //         [
+  //           'name' => 'Student 1',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+  //           'comment' => 'Very helpful sessions!',
+  //           'rating' => 5
+  //         ],
+  //         [
+  //           'name' => 'Student 2',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+  //           'comment' => 'Explains concepts clearly.',
+  //           'rating' => 4
+  //         ],
+  //       ],
+  //       'available_teachers' => [
+  //         [
+  //           'id'  => 1,
+  //           'name' => 'Alice Johnson',
+  //           'qualification' => 'B.Tech, M.Tech',
+  //           'subjects' => 'Chemistry, Biology',
+  //           'ranking' => 3,
+  //           'rating' => 4.7,
+  //           'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //         ],
+  //         [
+  //           'id'  => 2,
+  //           'name' => 'Robert White',
+  //           'qualification' => 'B.Tech, M.Tech',
+  //           'subjects' => 'Chemistry, Biology',
+  //           'ranking' => 3,
+  //           'rating' => 4.7,
+  //           'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //         ],
+  //       ],
+  //     ],
+  //     [
+  //       'id'  => '2',
+  //       'name' => 'Math',
+  //       'description' => 'Learn arithmetic, algebra, geometry, and more.',
+  //       'main_image' => asset("/assets/mobile-app/images/subjects/math.jpg"),
+  //       'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+  //       'reviews' => [
+  //         [
+  //           'name' => 'Student 1',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+  //           'comment' => 'Very helpful sessions!',
+  //           'rating' => 5
+  //         ],
+  //         [
+  //           'name' => 'Student 2',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+  //           'comment' => 'Explains concepts clearly.',
+  //           'rating' => 4
+  //         ],
+  //       ],
+  //       'available_teachers' => [
+  //         [
+  //           'id'  => 1,
+  //           'name' => 'David Miller',
+  //           'qualification' => 'B.Tech, M.Tech',
+  //           'subjects' => 'Chemistry, Biology',
+  //           'ranking' => 3,
+  //           'rating' => 4.7,
+  //           'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //         ],
+  //         [
+  //           'id'  => 2,
+  //           'name' => 'Sophia Taylor',
+  //           'qualification' => 'B.Tech, M.Tech',
+  //           'subjects' => 'Chemistry, Biology',
+  //           'ranking' => 3,
+  //           'rating' => 4.7,
+  //           'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //         ],
+  //       ],
+  //     ],
+  //     [
+  //       'id'  => '3',
+  //       'name' => 'Science',
+  //       'description' => 'Explore physics, chemistry, and biology through fun learning.',
+  //       'main_image' => asset("/assets/mobile-app/images/subjects/science.jpg"),
+  //       'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+  //       'reviews' => [
+  //         [
+  //           'name' => 'Student 1',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+  //           'comment' => 'Very helpful sessions!',
+  //           'rating' => 5
+  //         ],
+  //         [
+  //           'name' => 'Student 2',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+  //           'comment' => 'Explains concepts clearly.',
+  //           'rating' => 4
+  //         ],
+  //       ],
+  //       'available_teachers' => [
+  //         [
+  //           'id'  => 1,
+  //           'name' => 'Daniel Brown',
+  //           'qualification' => 'B.Tech, M.Tech',
+  //           'subjects' => 'Chemistry, Biology',
+  //           'ranking' => 3,
+  //           'rating' => 4.7,
+  //           'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //         ],
+  //         [
+  //           'id'  => 2,
+  //           'name' => 'Emma Davis',
+  //           'qualification' => 'B.Tech, M.Tech',
+  //           'subjects' => 'Chemistry, Biology',
+  //           'ranking' => 3,
+  //           'rating' => 4.7,
+  //           'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //         ],
+  //       ],
+  //     ],
+  //     [
+  //       'id'  => '4',
+  //       'name' => 'History',
+  //       'description' => 'Understand world history and important civilizations.',
+  //       'main_image' => asset("/assets/mobile-app/images/subjects/history.jpg"),
+  //       'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+  //       'reviews' => [
+  //         [
+  //           'name' => 'Student 1',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+  //           'comment' => 'Very helpful sessions!',
+  //           'rating' => 5
+  //         ],
+  //         [
+  //           'name' => 'Student 2',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+  //           'comment' => 'Explains concepts clearly.',
+  //           'rating' => 4
+  //         ],
+  //       ],
+  //       'available_teachers' => [
+  //         [
+  //           'id'  => 1,
+  //           'name' => 'Michael Scott',
+  //           'qualification' => 'B.Tech, M.Tech',
+  //           'subjects' => 'Chemistry, Biology',
+  //           'ranking' => 3,
+  //           'rating' => 4.7,
+  //           'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //         ],
+  //         [
+  //           'id'  => 2,
+  //           'name' => 'Laura Green',
+  //           'qualification' => 'B.Tech, M.Tech',
+  //           'subjects' => 'Chemistry, Biology',
+  //           'ranking' => 3,
+  //           'rating' => 4.7,
+  //           'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //         ],
+  //       ],
+  //     ],
+  //     [
+  //       'id'  => '5',
+  //       'name' => 'Geography',
+  //       'description' => 'Learn about Earth, maps, and global environments.',
+  //       'main_image' => asset("/assets/mobile-app/images/subjects/geography.jpg"),
+  //       'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+  //       'reviews' => [
+  //         [
+  //           'name' => 'Student 1',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+  //           'comment' => 'Very helpful sessions!',
+  //           'rating' => 5
+  //         ],
+  //         [
+  //           'name' => 'Student 2',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+  //           'comment' => 'Explains concepts clearly.',
+  //           'rating' => 4
+  //         ],
+  //       ],
+  //       'available_teachers' => [
+  //         [
+  //           'id'  => 1,
+  //           'name' => 'James Wilson',
+  //           'qualification' => 'B.Tech, M.Tech',
+  //           'subjects' => 'Chemistry, Biology',
+  //           'ranking' => 3,
+  //           'rating' => 4.7,
+  //           'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //         ],
+  //       ],
+  //     ],
+  //     [
+  //       'id'  => '6',
+  //       'name' => 'Art',
+  //       'description' => 'Explore creativity through painting, drawing, and design.',
+  //       'main_image' => asset("/assets/mobile-app/images/subjects/art.jpg"),
+  //       'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+  //       'reviews' => [
+  //         [
+  //           'name' => 'Student 1',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+  //           'comment' => 'Very helpful sessions!',
+  //           'rating' => 5
+  //         ],
+  //         [
+  //           'name' => 'Student 2',
+  //           'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+  //           'comment' => 'Explains concepts clearly.',
+  //           'rating' => 4
+  //         ],
+  //       ],
+  //       'available_teachers' => [
+  //         [
+  //           'id'  => 1,
+  //           'name' => 'Anna Lee',
+  //           'qualification' => 'PhD, M.Ed',
+  //           'subjects' => 'History, Civics',
+  //           'ranking' => 4,
+  //           'rating' => 4.9,
+  //           'imageUrl' => asset('assets/mobile-app/asit-t.png'),
+  //         ],
+  //       ],
+  //     ],
+  //     // [
+  //     //    'id'  => '7',
+  //     //   'name' => 'Physics',
+  //     //   'description' => 'Understand motion, energy, and the laws of the universe.',
+  //     //   'main_image' => asset("/assets/mobile-app/images/subjects/physics.jpg"),
+  //     //   'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+  //     //   'reviews' => [
+  //     //     [
+  //     //       'name' => 'Student 1',
+  //     //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+  //     //       'comment' => 'Very helpful sessions!',
+  //     //       'rating' => 5
+  //     //     ],
+  //     //     [
+  //     //       'name' => 'Student 2',
+  //     //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+  //     //       'comment' => 'Explains concepts clearly.',
+  //     //       'rating' => 4
+  //     //     ],
+  //     //   ],
+  //     //   'available_teachers' => [
+  //     //     [
+  //     //       'id'  => 1,
+  //     //       'name' => 'William Clark',
+  //     //       'qualification' => 'PhD, M.Ed',
+  //     //       'subjects' => 'History, Civics',
+  //     //       'ranking' => 4,
+  //     //       'rating' => 4.9,
+  //     //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //     //     ],
+  //     //     [
+  //     //       'id'  => 2,
+  //     //       'name' => 'Olivia Evans',
+  //     //       'qualification' => 'PhD, M.Ed',
+  //     //       'subjects' => 'History, Civics',
+  //     //       'ranking' => 4,
+  //     //       'rating' => 4.9,
+  //     //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //     //     ],
+  //     //   ],
+  //     // ],
+  //     // [
+  //     //    'id'  => '8',
+  //     //   'name' => 'Chemistry',
+  //     //   'description' => 'Learn about elements, compounds, and reactions.',
+  //     //   'main_image' => asset("/assets/mobile-app/images/subjects/chemistry.jpg"),
+  //     //   'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+  //     //   'reviews' => [
+  //     //     [
+  //     //       'name' => 'Student 1',
+  //     //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+  //     //       'comment' => 'Very helpful sessions!',
+  //     //       'rating' => 5
+  //     //     ],
+  //     //     [
+  //     //       'name' => 'Student 2',
+  //     //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+  //     //       'comment' => 'Explains concepts clearly.',
+  //     //       'rating' => 4
+  //     //     ],
+  //     //   ],
+  //     //   'available_teachers' => [
+  //     //     [
+  //     //       'id'  => 1,
+  //     //       'name' => 'Henry Adams',
+  //     //       'qualification' => 'PhD, M.Ed',
+  //     //       'subjects' => 'History, Civics',
+  //     //       'ranking' => 4,
+  //     //       'rating' => 4.9,
+  //     //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //     //     ],
+  //     //   ],
+  //     // ],
+  //     // [
+  //     //   'id'  => 9,
+  //     //   'name' => 'Biology',
+  //     //   'description' => 'Study living organisms, genetics, and ecosystems.',
+  //     //   'main_image' => asset("/assets/mobile-app/images/subjects/biology.jpg"),
+  //     //   'image' => asset("/assets/mobile-app/icons/book-icon.png"),
+  //     //   'reviews' => [
+  //     //     [
+  //     //       'name' => 'Student 1',
+  //     //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png',
+  //     //       'comment' => 'Very helpful sessions!',
+  //     //       'rating' => 5
+  //     //     ],
+  //     //     [
+  //     //       'name' => 'Student 2',
+  //     //       'avatar' => 'https://cdn-icons-png.flaticon.com/512/2922/2922506.png',
+  //     //       'comment' => 'Explains concepts clearly.',
+  //     //       'rating' => 4
+  //     //     ],
+  //     //   ],
+  //     //   'available_teachers' => [
+  //     //     [
+  //     //       'id'  => 1,
+  //     //       'name' => 'Sarah Thompson',
+  //     //       'qualification' => 'PhD, M.Ed',
+  //     //       'subjects' => 'History, Civics',
+  //     //       'ranking' => 4,
+  //     //       'rating' => 4.9,
+  //     //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //     //     ],
+  //     //     [
+  //     //       'id'  => 2,
+  //     //       'name' => 'Mark Anderson',
+  //     //       'qualification' => 'PhD, M.Ed',
+  //     //       'subjects' => 'History, Civics',
+  //     //       'ranking' => 4,
+  //     //       'rating' => 4.9,
+  //     //       'imageUrl' => asset('assets/mobile-app/asit-t.png')
+  //     //     ],
+  //     //   ],
+  //     // ],
+  //   ];
 
-    return response()->json([
-      'status' => true,
-      'message' => 'Subjects fetched successfully',
-      'data' => $subjects,
-    ]);
-  });
+  //   return response()->json([
+  //     'status' => true,
+  //     'message' => 'Subjects fetched successfully',
+  //     'data' => $subjects,
+  //   ]);
+  // });
 
 
   // Route::post('/teacher-profile', 'TeacherController@home');

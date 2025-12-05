@@ -7,6 +7,7 @@ use App\Http\Resources\BannerResource;
 use App\Http\Resources\TeacherResource;
 use App\Models\CompanyTeacher;
 use App\Models\MediaFile;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\TopBanner;
@@ -126,7 +127,7 @@ class StudentController extends Controller
 
   public function teachersListing(): JsonResponse
   {
-     $teachers = Teacher::whereHas('topTeacher')->with(['reviews','courses','selectedSubjects'])->get();
+    $teachers = Teacher::whereHas('topTeacher')->with(['reviews', 'courses', 'selectedSubjects'])->get();
 
     // $data = [
     //   [
@@ -266,6 +267,27 @@ class StudentController extends Controller
     //   'data' => $teachers
     // ]);
   }
+
+
+  public function subjectsListing(): JsonResponse
+  {
+    $subjects = Subject::with([
+      'reviews:user_id,subject_id,comments,rating',
+      'courses:id,subject_id,title,main_image',
+      'providingTeachers.teacher'
+    ])->whereHas('providingTeachers')
+      ->orderBy('position')
+      ->where('published', 1)
+      ->get();
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Subjects fetched successfully',
+      'data' => SubjectResource::collection($subjects),
+    ]);
+  }
+
+
   public function gradesSubjects(): JsonResponse
   {
     $grades = collect(range(1, 5))->map(function ($i) {

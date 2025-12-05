@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\WebinarController;
 use App\Http\Controllers\Api\WebinarRegistrationController;
 use App\Http\Controllers\Api\ZegoTokenController;
+use App\Http\Resources\SocialLinkResource;
 use App\Http\Resources\SubjectResource;
 use App\Http\Resources\TeacherResource;
 use App\Http\Resources\WebinarResource;
@@ -42,7 +43,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/set-user-token', 'UserController@setUserToken');
 
 
-
+  Route::get('/social-links', 'UserController@socialLinks');
+  Route::get('/community-links', 'UserController@communityLinks');
 
   Route::get('/bottom-social-links', function () {
     $socials = [
@@ -76,8 +78,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/social-links', function () {
 
-    $socials = SocialLink::where('company_id',1)->get();
-    $contact = CompanyContact::where('company_id',1)->get();
+    $socials = SocialLink::where('company_id', 1)->get();
+    $contact = CompanyContact::where('company_id', 1)->get();
 
     // $socials = [
     //   [
@@ -116,7 +118,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     return response()->json([
       'status' => true,
-      'socials' => $socials,
+      'socials' =>  SocialLinkResource($socials),
       'contact' => $contact,
     ]);
   });
@@ -1357,5 +1359,4 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
   Route::get('/provide-courses', 'StudentController@provideCourses');
-
 });

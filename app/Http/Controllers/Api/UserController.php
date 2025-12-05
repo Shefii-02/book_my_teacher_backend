@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CompanyContactResource;
 use App\Http\Resources\ReferralFriendResource;
+use App\Http\Resources\SocialLinkResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
 use App\Models\AppReferral;
@@ -322,6 +324,56 @@ class UserController extends Controller
       'transaction_id' => rand(10000, 99999),
       'status' => 'pending',
     ]);
+  }
+
+
+  public function socialLinks(Request $request) {
+ $socials = SocialLink::where('company_id', 1)->get();
+    $contact = CompanyContact::where('company_id', 1)->get();
+
+    // $socials = [
+    //   [
+    //     'name' => 'Facebook',
+    //     'icon' => asset('assets/mobile-app/icons/facebook.png'),
+    //     'link' => 'https://facebook.com/BookMyTeacher',
+    //     'type' => 'facebook',
+    //   ],
+    //   [
+    //     'name' => 'Instagram',
+    //     'icon' => asset('assets/mobile-app/icons/instagram.png'),
+    //     'link' => 'https://instagram.com/BookMyTeacher',
+    //     'type' => 'instagram',
+    //   ],
+    //   [
+    //     'name' => 'YouTube',
+    //     'icon' => asset('assets/mobile-app/icons/youtube.png'),
+    //     'link' => 'https://youtube.com/@BookMyTeacher',
+    //     'type' => 'youtube',
+    //   ],
+    //   [
+    //     'name' => 'LinkedIn',
+    //     'icon' => asset('assets/mobile-app/icons/linkedin.png'),
+    //     'link' => 'https://linkedin.com/company/BookMyTeacher',
+    //     'type' => 'linkedIn',
+    //   ],
+    // ];
+
+    // $contact = [
+    //   "email" => "support@bookmyteacher.com",
+    //   "phone" => "+91 98765 43210",
+    //   "whatsapp" => "917510114455",
+    //   "website" => "https://bookmyteacher.co.in",
+    //   "address" => "Trivandrum, Kerala, India"
+    // ];
+
+    return response()->json([
+      'status' => true,
+      'socials' =>  SocialLinkResource::collection($socials),
+      'contact' => CompanyContactResource::collection($contact),
+    ]);
+  }
+  public function communityLinks(Request $request) {
+
   }
 
   public function Referral(): JsonResponse

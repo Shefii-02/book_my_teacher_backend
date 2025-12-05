@@ -251,9 +251,9 @@ class UserController extends Controller
 
   public function convertToRupees(Request $request)
   {
-
     $user = $request->user();
     $wallet = Wallet::where('user_id', $user->id)->first();
+    $greenCoinValue = 0.01;
 
     if ($wallet->green_balance > 4000) {
       $history                = new WalletHistory();
@@ -265,12 +265,19 @@ class UserController extends Controller
       $history->date          = now();
       $history->notes         = "Converted green coins to rupees";
       $history->save();
+
+      $wallet->green_balance = $wallet->green_balance - $request->amount;
+      $wallet->rupee_balance = $wallet->rupee_balance + ($greenCoinValue*$request->amount);
+      $wallet->save();
+
       return response()->json([
         'success' => true,
         'message' => 'Conversion request submitted successfully!',
         'request_id' => date('Ymd', strtotime($history->date)),
         'status' => 'Processed',
       ]);
+
+
     } else {
       return response()->json([
         'success' => false,

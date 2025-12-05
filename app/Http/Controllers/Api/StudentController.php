@@ -447,7 +447,7 @@ class StudentController extends Controller
     $data = [
       'categories' => [
         [
-          'category' => 'Courses',
+          // 'category' => 'Courses',
           'sections' => [
             [
               'status' => 'Pending Approval',
@@ -741,25 +741,25 @@ class StudentController extends Controller
             ],
           ],
         ],
-        [
-          'category' => 'Webinars',
-          'sections' => [
-            [
-              'status' => 'Ongoing',
-              'items' => [
-                [
-                  'id' => 4,
-                  'title' => 'AI in Education Webinar',
-                  'description' => 'Explore how AI impacts modern teaching.',
-                  'image' => asset('assets/mobile-app/banners/webinar-banner-1.png'),
-                  'duration' => '1 day',
-                  'level' => 'All',
-                  'join_link' => 'https://zoom.us/j/123456789',
-                ],
-              ],
-            ],
-          ],
-        ],
+        // [
+        //   'category' => 'Webinars',
+        //   'sections' => [
+        //     [
+        //       'status' => 'Ongoing',
+        //       'items' => [
+        //         [
+        //           'id' => 4,
+        //           'title' => 'AI in Education Webinar',
+        //           'description' => 'Explore how AI impacts modern teaching.',
+        //           'image' => asset('assets/mobile-app/banners/webinar-banner-1.png'),
+        //           'duration' => '1 day',
+        //           'level' => 'All',
+        //           'join_link' => 'https://zoom.us/j/123456789',
+        //         ],
+        //       ],
+        //     ],
+        //   ],
+        // ],
         // [
         //   'category' => 'Workshops',
         //   'sections' => [

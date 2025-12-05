@@ -27,6 +27,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher-signup', 'RegisterController@teacherSignup');
     Route::post('/student-signup', 'RegisterController@studentSignup');
 
+    Route::post('/take-referral', 'ReferralController@takeReferral');
+    Route::post('/apply-referral', 'ReferralController@applyReferral');
+
+
 
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
     Route::post('/user-verify-email', 'LoginController@userVerifyEmail');
@@ -235,9 +239,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher-update-personal', 'TeacherController@teacherUpdatePersonal');
     Route::post('/teacher-update-teaching-detail', 'TeacherController@teacherUpdateTeachingDetail');
     Route::post('/teacher-update-cv', 'TeacherController@teacherUpdateCv');
-
-    Route::post('/take-referral', 'ReferralController@takeReferral');
-    Route::post('/apply-referral', 'ReferralController@applyReferral');
 
     Route::post('/teacher/courses', 'TeacherController@courses');
     Route::post('/teacher/course-details', 'TeacherController@courseDetails');

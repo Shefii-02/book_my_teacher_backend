@@ -91,6 +91,7 @@ class ReferralController extends Controller
   {
     $user = $request->user();
 
+    Log::info($request->all());
     $request->validate([
       'referral_code' => 'required|string',
     ]);

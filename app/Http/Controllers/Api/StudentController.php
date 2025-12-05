@@ -459,6 +459,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -468,6 +469,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -477,6 +479,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -486,6 +489,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'webinar',
                   'join_link' => null,
                 ],
                 [
@@ -495,6 +499,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'webinar',
                   'join_link' => null,
                 ],
                 [
@@ -504,6 +509,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'webinar',
                   'join_link' => null,
                 ],
                 [
@@ -513,6 +519,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -522,6 +529,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -531,6 +539,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -540,6 +549,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'webinar',
                   'join_link' => null,
                 ],
                 [
@@ -549,6 +559,8 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -558,6 +570,8 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -567,6 +581,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'webinar',
                   'join_link' => null,
                 ],
                 [
@@ -576,6 +591,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -585,6 +601,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-1.png'),
                   'duration' => '6 weeks',
                   'level' => 'Intermediate',
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
               ],
@@ -603,6 +620,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-2.png'),
                   'duration' => '4 weeks',
                   'level' => 'Beginner',
+                  'type'  => 'webinar',
                   'join_link' => 'https://meet.google.com/abc-defg-hij',
                 ],
                 [
@@ -612,6 +630,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-2.png'),
                   'duration' => '4 weeks',
                   'level' => 'Beginner',
+                  'type'  => 'course',
                   'join_link' => 'https://meet.google.com/abc-defg-hij',
                 ],
                 [
@@ -621,6 +640,8 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-2.png'),
                   'duration' => '4 weeks',
                   'level' => 'Beginner',
+
+                  'type'  => 'course',
                   'join_link' => 'https://meet.google.com/abc-defg-hij',
                 ],
                 [
@@ -630,6 +651,9 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-2.png'),
                   'duration' => '4 weeks',
                   'level' => 'Beginner',
+                  'type'  => 'course',
+
+                  'type'  => 'course',
                   'join_link' => 'https://meet.google.com/abc-defg-hij',
                 ],
               ],
@@ -644,6 +668,7 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-3.png'),
                   'duration' => '3 weeks',
                   'level' => 'Advanced',
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -653,6 +678,8 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-3.png'),
                   'duration' => '3 weeks',
                   'level' => 'Advanced',
+
+                  'type'  => 'webinar',
                   'join_link' => null,
                 ],
                 [
@@ -662,6 +689,8 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-3.png'),
                   'duration' => '3 weeks',
                   'level' => 'Advanced',
+
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -671,6 +700,8 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-3.png'),
                   'duration' => '3 weeks',
                   'level' => 'Advanced',
+
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -680,6 +711,8 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-3.png'),
                   'duration' => '3 weeks',
                   'level' => 'Advanced',
+
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -689,6 +722,8 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-3.png'),
                   'duration' => '3 weeks',
                   'level' => 'Advanced',
+
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
                 [
@@ -698,6 +733,8 @@ class StudentController extends Controller
                   'image' => asset('assets/mobile-app/banners/course-banner-3.png'),
                   'duration' => '3 weeks',
                   'level' => 'Advanced',
+
+                  'type'  => 'course',
                   'join_link' => null,
                 ],
               ],

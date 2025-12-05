@@ -46,7 +46,7 @@ class Teacher extends Model
 
 
   // Direct access to Subjects through TeacherSubjectRate
-  public function subjects()
+  public function selectedSubjects()
   {
     return $this->hasManyThrough(
       Subject::class,

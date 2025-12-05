@@ -13,7 +13,7 @@ class TeacherResource extends JsonResource
       'id' => (int) $this->id,
       'name' => $this->name,
       'qualification' => $this->qualifications ?? '',
-      'subjects'      => $this->whenLoaded('subjects', function () {
+      'subjects'      => $this->whenLoaded('selectedSubjects', function () {
         return $this->subjects->pluck('name')->implode(',');
       }),
       'courses' => [],

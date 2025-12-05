@@ -371,7 +371,8 @@ class UserController extends Controller
 
     return response()->json([
       'status' => true,
-      'socials' =>  SocialLinkResource::collection($socials),
+      // 'socials' =>  SocialLinkResource::collection($socials),
+      'socials' => $socials,
       'contact' => CompanyContactResource::collection($contact),
     ]);
   }

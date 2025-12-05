@@ -257,6 +257,7 @@ class UserController extends Controller
 
     if ($wallet->green_balance > 4000) {
       $history                = new WalletHistory();
+      $history->user_id       = $user->id;
       $history->wallet_type   = 'green';
       $history->title         = "Converted to Rupees";
       $history->type          = "debit";
@@ -267,7 +268,7 @@ class UserController extends Controller
       $history->save();
 
       $wallet->green_balance = $wallet->green_balance - $request->amount;
-      $wallet->rupee_balance = $wallet->rupee_balance + ($greenCoinValue*$request->amount);
+      $wallet->rupee_balance = $wallet->rupee_balance + ($greenCoinValue * $request->amount);
       $wallet->save();
 
       return response()->json([
@@ -276,8 +277,6 @@ class UserController extends Controller
         'request_id' => date('Ymd', strtotime($history->date)),
         'status' => 'Processed',
       ]);
-
-
     } else {
       return response()->json([
         'success' => false,

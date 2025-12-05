@@ -6,7 +6,9 @@ use App\Http\Controllers\Api\ZegoTokenController;
 use App\Http\Resources\SubjectResource;
 use App\Http\Resources\TeacherResource;
 use App\Http\Resources\WebinarResource;
+use App\Models\CompanyContact;
 use App\Models\Grade;
+use App\Models\SocialLink;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\User;
@@ -20,6 +22,143 @@ use Illuminate\Support\Facades\DB;
 
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
+
+
+  Route::post('/send-otp-signIn', 'OtpController@sendOtpSignIn');
+  Route::post('/verify-otp-signIn', 'OtpController@verifyOtpSignIn');
+  Route::post('/send-otp-signUp', 'OtpController@sendOtpSignUp');
+  Route::post('/verify-otp-signUp', 'OtpController@verifyOtpSignUp');
+  Route::post('/send-email-otp', 'OtpController@sendEmailOtp');
+  Route::post('/verify-email-otp', 'OtpController@verifyEmailOtp');
+  Route::post('/re-send-otp', 'OtpController@reSendOtp');
+
+  Route::post('/user-details', 'UserController@index');
+
+  Route::post('/user-login-email', 'LoginController@googleLoginCheck');
+  Route::post('user-exist-not', 'LoginController@userExistNot')->name('user-exist-no');
+
+
+  Route::get('/check-server', 'UserController@checkServer');
+  Route::post('/set-user-token', 'UserController@setUserToken');
+
+
+
+
+  Route::get('/bottom-social-links', function () {
+    $socials = [
+      [
+        'name' => 'Facebook',
+        'icon' => asset('assets/mobile-app/icons/facebook.png'),
+        'link' => 'https://facebook.com/BookMyTeacher',
+      ],
+      [
+        'name' => 'Instagram',
+        'icon' => asset('assets/mobile-app/icons/instagram.png'),
+        'link' => 'https://instagram.com/BookMyTeacher',
+      ],
+      [
+        'name' => 'YouTube',
+        'icon' => asset('assets/mobile-app/icons/youtube.png'),
+        'link' => 'https://youtube.com/@BookMyTeacher',
+      ],
+      [
+        'name' => 'LinkedIn',
+        'icon' => asset('assets/mobile-app/icons/linkedin.png'),
+        'link' => 'https://linkedin.com/company/BookMyTeacher',
+      ],
+    ];
+
+    return response()->json([
+      'status' => true,
+      'data' => $socials,
+    ]);
+  });
+
+  Route::get('/social-links', function () {
+
+    $socials = SocialLink::where('company_id',1)->get();
+    $contact = CompanyContact::where('company_id',1)->get();
+
+    // $socials = [
+    //   [
+    //     'name' => 'Facebook',
+    //     'icon' => asset('assets/mobile-app/icons/facebook.png'),
+    //     'link' => 'https://facebook.com/BookMyTeacher',
+    //     'type' => 'facebook',
+    //   ],
+    //   [
+    //     'name' => 'Instagram',
+    //     'icon' => asset('assets/mobile-app/icons/instagram.png'),
+    //     'link' => 'https://instagram.com/BookMyTeacher',
+    //     'type' => 'instagram',
+    //   ],
+    //   [
+    //     'name' => 'YouTube',
+    //     'icon' => asset('assets/mobile-app/icons/youtube.png'),
+    //     'link' => 'https://youtube.com/@BookMyTeacher',
+    //     'type' => 'youtube',
+    //   ],
+    //   [
+    //     'name' => 'LinkedIn',
+    //     'icon' => asset('assets/mobile-app/icons/linkedin.png'),
+    //     'link' => 'https://linkedin.com/company/BookMyTeacher',
+    //     'type' => 'linkedIn',
+    //   ],
+    // ];
+
+    // $contact = [
+    //   "email" => "support@bookmyteacher.com",
+    //   "phone" => "+91 98765 43210",
+    //   "whatsapp" => "917510114455",
+    //   "website" => "https://bookmyteacher.co.in",
+    //   "address" => "Trivandrum, Kerala, India"
+    // ];
+
+    return response()->json([
+      'status' => true,
+      'socials' => $socials,
+      'contact' => $contact,
+    ]);
+  });
+
+
+  Route::get('/community-links', function () {
+    return response()->json([
+      'status' => true,
+      'data' => [
+        [
+          'name' => 'Telegram Group',
+          'icon' => asset('assets/mobile-app/icons/telegram.png'),
+          'link' => 'https://t.me/BookMyTeacherCommunity',
+          'type' => 'telegram',
+        ],
+        [
+          'name' => 'Discord Server',
+          'icon' => asset('assets/mobile-app/icons/discord.png'),
+          'link' => 'https://discord.gg/BookMyTeacher',
+          'type' => 'discord',
+        ],
+        [
+          'name' => 'Reddit Community',
+          'icon' => asset('assets/mobile-app/icons/reddit.png'),
+          'link' => 'https://reddit.com/r/BookMyTeacher',
+          'type' => 'reddit',
+        ],
+        [
+          'name' => 'Facebook Group',
+          'icon' => asset('assets/mobile-app/icons/facebook.png'),
+          'link' => 'https://facebook.com/groups/BookMyTeacher',
+          'type' => 'facebook',
+        ],
+      ]
+    ]);
+  });
+
+
+
+  Route::get('/teachers', 'StudentController@teachersListing');
+  Route::get('/subjects', 'StudentController@subjectsListing');
+
 
   Route::group(['middleware' => ['auth:sanctum']], function () {
 
@@ -331,31 +470,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // });
 
 
-  Route::post('/user-login-email', 'LoginController@googleLoginCheck');
-  Route::post('user-exist-not', 'LoginController@userExistNot')->name('user-exist-no');
 
 
-  Route::get('/check-server', 'UserController@checkServer');
-  Route::post('/set-user-token', 'UserController@setUserToken');
-
-
-  Route::post('/send-otp-signIn', 'OtpController@sendOtpSignIn');
-  Route::post('/verify-otp-signIn', 'OtpController@verifyOtpSignIn');
-  Route::post('/send-otp-signUp', 'OtpController@sendOtpSignUp');
-  Route::post('/verify-otp-signUp', 'OtpController@verifyOtpSignUp');
-  Route::post('/send-email-otp', 'OtpController@sendEmailOtp');
-  Route::post('/verify-email-otp', 'OtpController@verifyEmailOtp');
-  Route::post('/re-send-otp', 'OtpController@reSendOtp');
-
-
-
-  Route::post('/user-details', 'UserController@index');
 
 
   Route::post('/guest-home', 'GuestController@home');
 
 
-  Route::get('/teachers', 'StudentController@teachersListing');
 
 
 
@@ -389,7 +510,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // });
 
 
-    Route::get('/subjects', 'StudentController@subjectsListing');
+
+
   // Route::get('/subjects', function () {
 
   //   $subjects = Subject::with([
@@ -768,24 +890,26 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   // Route::post('/notifications', 'UserController@notifications');
 
-  Route::any('upload', function (Request $request) {
-    Log::info($request->all());
-    $source = $request->header('X-Request-Source', 'Unknown');
 
-    // if ($request->hasFile('avatar')) {
-    //     $avatarPath = $request->file('avatar')->store('avatars', 'public');
-    // }
 
-    // if ($request->hasFile('cv')) {
-    //     $cvPath = $request->file('cv')->store('cvs', 'public');
-    // }
-    return response()->json([
-      'message' => 'Files uploaded successfully',
-      'source' => $source,
-      'avatar' => "avatarPath" ?? null,
-      'cv' => "cvPath" ?? null,
-    ]);
-  });
+  // Route::any('upload', function (Request $request) {
+  //   Log::info($request->all());
+  //   $source = $request->header('X-Request-Source', 'Unknown');
+
+  //   // if ($request->hasFile('avatar')) {
+  //   //     $avatarPath = $request->file('avatar')->store('avatars', 'public');
+  //   // }
+
+  //   // if ($request->hasFile('cv')) {
+  //   //     $cvPath = $request->file('cv')->store('cvs', 'public');
+  //   // }
+  //   return response()->json([
+  //     'message' => 'Files uploaded successfully',
+  //     'source' => $source,
+  //     'avatar' => "avatarPath" ?? null,
+  //     'cv' => "cvPath" ?? null,
+  //   ]);
+  // });
 
 
   // Route::middleware('auth:sanctum')->group(function () {
@@ -1234,109 +1358,4 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
   Route::get('/provide-courses', 'StudentController@provideCourses');
 
-  Route::get('/bottom-social-links', function () {
-    $socials = [
-      [
-        'name' => 'Facebook',
-        'icon' => asset('assets/mobile-app/icons/facebook.png'),
-        'link' => 'https://facebook.com/BookMyTeacher',
-      ],
-      [
-        'name' => 'Instagram',
-        'icon' => asset('assets/mobile-app/icons/instagram.png'),
-        'link' => 'https://instagram.com/BookMyTeacher',
-      ],
-      [
-        'name' => 'YouTube',
-        'icon' => asset('assets/mobile-app/icons/youtube.png'),
-        'link' => 'https://youtube.com/@BookMyTeacher',
-      ],
-      [
-        'name' => 'LinkedIn',
-        'icon' => asset('assets/mobile-app/icons/linkedin.png'),
-        'link' => 'https://linkedin.com/company/BookMyTeacher',
-      ],
-    ];
-
-    return response()->json([
-      'status' => true,
-      'data' => $socials,
-    ]);
-  });
-
-  Route::get('/social-links', function () {
-    $socials = [
-      [
-        'name' => 'Facebook',
-        'icon' => asset('assets/mobile-app/icons/facebook.png'),
-        'link' => 'https://facebook.com/BookMyTeacher',
-        'type' => 'facebook',
-      ],
-      [
-        'name' => 'Instagram',
-        'icon' => asset('assets/mobile-app/icons/instagram.png'),
-        'link' => 'https://instagram.com/BookMyTeacher',
-        'type' => 'instagram',
-      ],
-      [
-        'name' => 'YouTube',
-        'icon' => asset('assets/mobile-app/icons/youtube.png'),
-        'link' => 'https://youtube.com/@BookMyTeacher',
-        'type' => 'youtube',
-      ],
-      [
-        'name' => 'LinkedIn',
-        'icon' => asset('assets/mobile-app/icons/linkedin.png'),
-        'link' => 'https://linkedin.com/company/BookMyTeacher',
-        'type' => 'linkedIn',
-      ],
-    ];
-
-    $contact = [
-      "email" => "support@bookmyteacher.com",
-      "phone" => "+91 98765 43210",
-      "whatsapp" => "917510114455",
-      "website" => "https://bookmyteacher.co.in",
-      "address" => "Trivandrum, Kerala, India"
-    ];
-
-    return response()->json([
-      'status' => true,
-      'socials' => $socials,
-      'contact' => $contact,
-    ]);
-  });
-
-
-  Route::get('/community-links', function () {
-    return response()->json([
-      'status' => true,
-      'data' => [
-        [
-          'name' => 'Telegram Group',
-          'icon' => asset('assets/mobile-app/icons/telegram.png'),
-          'link' => 'https://t.me/BookMyTeacherCommunity',
-          'type' => 'telegram',
-        ],
-        [
-          'name' => 'Discord Server',
-          'icon' => asset('assets/mobile-app/icons/discord.png'),
-          'link' => 'https://discord.gg/BookMyTeacher',
-          'type' => 'discord',
-        ],
-        [
-          'name' => 'Reddit Community',
-          'icon' => asset('assets/mobile-app/icons/reddit.png'),
-          'link' => 'https://reddit.com/r/BookMyTeacher',
-          'type' => 'reddit',
-        ],
-        [
-          'name' => 'Facebook Group',
-          'icon' => asset('assets/mobile-app/icons/facebook.png'),
-          'link' => 'https://facebook.com/groups/BookMyTeacher',
-          'type' => 'facebook',
-        ],
-      ]
-    ]);
-  });
 });

@@ -111,7 +111,7 @@ class ReferralController extends Controller
       return response()->json([
         'status' => false,
         'message' => 'Invalid referral code'
-      ], 400);
+      ], 200);
     }
 
     // Find last matching referral visit

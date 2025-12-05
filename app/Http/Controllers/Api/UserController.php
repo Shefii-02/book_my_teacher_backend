@@ -11,6 +11,7 @@ use App\Http\Resources\WalletResource;
 use App\Models\AppReferral;
 use App\Models\CompanyContact;
 use App\Models\CompanyTeacher;
+use App\Models\DeleteAccountRequest;
 use App\Models\SocialLink;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
@@ -178,12 +179,37 @@ class UserController extends Controller
   public function deleteAccountRequest(Request $request)
   {
     $user = $request->user();
-    Log::info($user);
-    Log::info("Delete Account Request Received");
+
+    // Check existing pending request
+    $existing = DeleteAccountRequest::where('user_id', $user->id)
+      ->where('status', 'pending')
+      ->first();
+
+    if ($existing) {
+      return response()->json([
+        'status' => false,
+        'message' => 'A delete account request is already pending.'
+      ], 400);
+    }
+
+    $deleteReq = DeleteAccountRequest::create([
+      'user_id' => $user->id,
+      'reason' => $request->reason,
+      'description' => $request->description,
+    ]);
+
     return response()->json([
-      'success' => true,
-      'message' => 'Account Deletion Request Received'
-    ], 200);
+      'status' => true,
+      'message' => 'Delete account request submitted successfully.',
+      'data' => $deleteReq
+    ]);
+
+    // Log::info($user);
+    // Log::info("Delete Account Request Received");
+    // return response()->json([
+    //   'success' => true,
+    //   'message' => 'Account Deletion Request Received'
+    // ], 200);
   }
 
   public function  userDataRetrieve(Request $request)

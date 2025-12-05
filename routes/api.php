@@ -76,52 +76,52 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     ]);
   });
 
-  Route::get('/social-links', function () {
+  // Route::get('/social-links', function () {
 
-    $socials = SocialLink::where('company_id', 1)->get();
-    $contact = CompanyContact::where('company_id', 1)->get();
+  //   $socials = SocialLink::where('company_id', 1)->get();
+  //   $contact = CompanyContact::where('company_id', 1)->get();
 
-    // $socials = [
-    //   [
-    //     'name' => 'Facebook',
-    //     'icon' => asset('assets/mobile-app/icons/facebook.png'),
-    //     'link' => 'https://facebook.com/BookMyTeacher',
-    //     'type' => 'facebook',
-    //   ],
-    //   [
-    //     'name' => 'Instagram',
-    //     'icon' => asset('assets/mobile-app/icons/instagram.png'),
-    //     'link' => 'https://instagram.com/BookMyTeacher',
-    //     'type' => 'instagram',
-    //   ],
-    //   [
-    //     'name' => 'YouTube',
-    //     'icon' => asset('assets/mobile-app/icons/youtube.png'),
-    //     'link' => 'https://youtube.com/@BookMyTeacher',
-    //     'type' => 'youtube',
-    //   ],
-    //   [
-    //     'name' => 'LinkedIn',
-    //     'icon' => asset('assets/mobile-app/icons/linkedin.png'),
-    //     'link' => 'https://linkedin.com/company/BookMyTeacher',
-    //     'type' => 'linkedIn',
-    //   ],
-    // ];
+  //   // $socials = [
+  //   //   [
+  //   //     'name' => 'Facebook',
+  //   //     'icon' => asset('assets/mobile-app/icons/facebook.png'),
+  //   //     'link' => 'https://facebook.com/BookMyTeacher',
+  //   //     'type' => 'facebook',
+  //   //   ],
+  //   //   [
+  //   //     'name' => 'Instagram',
+  //   //     'icon' => asset('assets/mobile-app/icons/instagram.png'),
+  //   //     'link' => 'https://instagram.com/BookMyTeacher',
+  //   //     'type' => 'instagram',
+  //   //   ],
+  //   //   [
+  //   //     'name' => 'YouTube',
+  //   //     'icon' => asset('assets/mobile-app/icons/youtube.png'),
+  //   //     'link' => 'https://youtube.com/@BookMyTeacher',
+  //   //     'type' => 'youtube',
+  //   //   ],
+  //   //   [
+  //   //     'name' => 'LinkedIn',
+  //   //     'icon' => asset('assets/mobile-app/icons/linkedin.png'),
+  //   //     'link' => 'https://linkedin.com/company/BookMyTeacher',
+  //   //     'type' => 'linkedIn',
+  //   //   ],
+  //   // ];
 
-    // $contact = [
-    //   "email" => "support@bookmyteacher.com",
-    //   "phone" => "+91 98765 43210",
-    //   "whatsapp" => "917510114455",
-    //   "website" => "https://bookmyteacher.co.in",
-    //   "address" => "Trivandrum, Kerala, India"
-    // ];
+  //   // $contact = [
+  //   //   "email" => "support@bookmyteacher.com",
+  //   //   "phone" => "+91 98765 43210",
+  //   //   "whatsapp" => "917510114455",
+  //   //   "website" => "https://bookmyteacher.co.in",
+  //   //   "address" => "Trivandrum, Kerala, India"
+  //   // ];
 
-    return response()->json([
-      'status' => true,
-      'socials' =>  SocialLinkResource($socials),
-      'contact' => $contact,
-    ]);
-  });
+  //   return response()->json([
+  //     'status' => true,
+  //     'socials' =>  SocialLinkResource($socials),
+  //     'contact' => $contact,
+  //   ]);
+  // });
 
 
   Route::get('/community-links', function () {

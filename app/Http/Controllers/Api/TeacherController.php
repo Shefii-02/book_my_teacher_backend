@@ -294,8 +294,12 @@ class TeacherController extends Controller
 
     $month = now()->format('Y-m');
 
-    $start = Carbon::parse($month)->startOfMonth();
-    $end = Carbon::parse($month)->endOfMonth();
+    // $start = Carbon::parse($month)->startOfMonth();
+    // $end = Carbon::parse($month)->endOfMonth();
+
+    $start = Carbon::parse($month)->subMonths(3)->startOfMonth();
+    $end   = Carbon::parse($month)->addMonth()->endOfMonth();
+
 
     // 🔥 Dummy data — Replace with DB query later
     $dummyEvents = [

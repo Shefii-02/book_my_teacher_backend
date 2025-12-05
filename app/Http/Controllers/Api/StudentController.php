@@ -657,8 +657,9 @@ class StudentController extends Controller
     ]);
   }
 
-  public function performance()
+  public function performance(Request $request)
   {
+    Log::info($request->user());
     // Dummy response (you can replace with DB values later)
     $data = [
       "total_classes" => 0,

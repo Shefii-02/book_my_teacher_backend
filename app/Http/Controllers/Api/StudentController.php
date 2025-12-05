@@ -275,7 +275,8 @@ class StudentController extends Controller
     $subjects = Subject::with([
       'reviews:user_id,subject_id,comments,rating',
       'courses:id,subject_id,title,main_image',
-      'providingTeachers.teacher'
+      'providingTeachers.teacher','providingTeachers.teacher.selectedSubjects'
+
     ])->whereHas('providingTeachers')
       ->orderBy('position')
       ->where('published', 1)

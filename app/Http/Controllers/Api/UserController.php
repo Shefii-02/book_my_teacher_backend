@@ -259,7 +259,7 @@ class UserController extends Controller
       $history                = new WalletHistory();
       $history->wallet_type   = 'green';
       $history->title         = "Converted to Rupees";
-      $history->debit         = "type";
+      $history->type          = "debit";
       $history->amount        = $request->amount;
       $history->status        = "Processed";
       $history->date          = now();

@@ -193,6 +193,7 @@ class UserController extends Controller
     }
 
     $deleteReq = DeleteAccountRequest::create([
+      'company_id' => 1,
       'user_id' => $user->id,
       'reason' => $request->reason,
       'description' => $request->description,

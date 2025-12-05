@@ -126,7 +126,7 @@ class StudentController extends Controller
 
   public function teachersListing(): JsonResponse
   {
-     $teachers = Teacher::whereHas('topTeacher')->with(['reviews','courses','subjectRates.subject'])->get();
+     $teachers = Teacher::whereHas('topTeacher')->with(['reviews','courses','subjects'])->get();
 
     // $data = [
     //   [

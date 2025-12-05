@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+
 class Teacher extends Model
 {
   protected $fillable = [
@@ -42,6 +45,21 @@ class Teacher extends Model
   }
 
 
+  // Direct access to Subjects through TeacherSubjectRate
+  public function subjects()
+  {
+    return $this->hasManyThrough(
+      Subject::class,
+      TeacherSubjectRate::class,
+      'teacher_id',   // FK on teacher_subject_rates
+      'id',           // FK on subjects table
+      'id',           // local key on teachers
+      'subject_id'    // local key on teacher_subject_rates
+    );
+  }
+
+
+
   public function teacherCertificates()
   {
     return $this->hasMany(\App\Models\TeacherCertificate::class, 'teacher_id', 'id');
@@ -54,12 +72,12 @@ class Teacher extends Model
 
   public function reviews()
   {
-    return $this->hasMany(SubjectReview::class,'teacher_id','id');
+    return $this->hasMany(SubjectReview::class, 'teacher_id', 'id');
   }
 
   public function courses()
   {
-    return $this->hasMany(TeacherCourse::class,'teacher_id','id');
+    return $this->hasMany(TeacherCourse::class, 'teacher_id', 'id');
   }
 
   public function thumbnailMedia()

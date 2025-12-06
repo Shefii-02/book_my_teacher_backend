@@ -631,13 +631,13 @@ class TeacherController extends Controller
           "total_reviews" => 2,
           "reviews" => [
             [
-              "student" => "Alice",
+              "name" => "Alice",
               "rating" => 5.0,
               "comment" => "Excellent!",
               "date" => "2025-11-10",
             ],
             [
-              "student" => "Bob",
+              "name" => "Bob",
               "rating" => 4.0,
               "comment" => "Very helpful",
               "date" => "2025-11-11",
@@ -651,13 +651,13 @@ class TeacherController extends Controller
           "total_reviews" => 2,
           "reviews" => [
             [
-              "student" => "Charlie",
+              "name" => "Charlie",
               "rating" => 4.5,
               "comment" => "Good explanations",
               "date" => "2025-11-12",
             ],
             [
-              "student" => "David",
+              "name" => "David",
               "rating" => 4.0,
               "comment" => "Learned a lot",
               "date" => "2025-11-13",
@@ -671,61 +671,61 @@ class TeacherController extends Controller
           "total_reviews" => 10,
           "reviews" => [
             [
-              "student" => "Charlie",
+              "name" => "Charlie",
               "rating" => 4.5,
               "comment" => "Good explanations",
               "date" => "2025-11-12",
             ],
             [
-              "student" => "David",
+              "name" => "David",
               "rating" => 4.0,
               "comment" => "Learned a lot",
               "date" => "2025-11-13",
             ],
             [
-              "student" => "Charlie",
+              "name" => "Charlie",
               "rating" => 4.5,
               "comment" => "Good explanations",
               "date" => "2025-11-12",
             ],
             [
-              "student" => "David",
+              "name" => "David",
               "rating" => 4.0,
               "comment" => "Learned a lot",
               "date" => "2025-11-13",
             ],
             [
-              "student" => "Charlie",
+              "name" => "Charlie",
               "rating" => 4.5,
               "comment" => "Good explanations",
               "date" => "2025-11-12",
             ],
             [
-              "student" => "David",
+              "name" => "David",
               "rating" => 4.0,
               "comment" => "Learned a lot",
               "date" => "2025-11-13",
             ],
             [
-              "student" => "Charlie",
+              "name" => "Charlie",
               "rating" => 4.5,
               "comment" => "Good explanations",
               "date" => "2025-11-12",
             ],
             [
-              "student" => "David",
+              "name" => "David",
               "rating" => 4.0,
               "comment" => "Learned a lot",
               "date" => "2025-11-13",
             ],
             [
-              "student" => "Charlie",
+              "name" => "Charlie",
               "rating" => 4.5,
               "comment" => "Good explanations",
               "date" => "2025-11-12",
             ],
             [
-              "student" => "David",
+              "name" => "David",
               "rating" => 4.0,
               "comment" => "Learned a lot",
               "date" => "2025-11-13",

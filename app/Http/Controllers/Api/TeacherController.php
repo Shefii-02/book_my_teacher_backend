@@ -534,8 +534,8 @@ class TeacherController extends Controller
       "spend_time"  => $dummyData['spend'],
       "watch_time"  => $dummyData['watch'],
       "summary"     => [
-        "total_spend" => "15 hrs",
-        "total_watch" => "35 hrs"
+        "total_spend" => "0 hrs",
+        "total_watch" => "0 hrs"
       ],
     ]);
   }
@@ -545,12 +545,12 @@ class TeacherController extends Controller
   {
     return [
       "spend" => [
-        "Last Day" => [
-          "Individual"   => [5],
-          "Own Courses"  => [3],
-          "YouTube"      => [7],
-          "Workshops"    => [2],
-          "Webinar"      => [4],
+        "Last 2 Days" => [
+          "Individual"   => [5,1],
+          "Own Courses"  => [3,2],
+          "YouTube"      => [7,3],
+          "Workshops"    => [2,5],
+          "Webinar"      => [4,7],
         ],
         "Last 7 Days" => [
           "Individual"   => [3, 6, 8, 7, 10, 9, 12],
@@ -576,12 +576,12 @@ class TeacherController extends Controller
       ],
 
       "watch" => [
-        "Last Day" => [
-          "Individual"   => [2],
-          "Own Courses"  => [4],
-          "YouTube"      => [9],
-          "Workshops"    => [3],
-          "Webinar"      => [5],
+        "Last 2 Days" => [
+          "Individual"   => [2,5],
+          "Own Courses"  => [4,6],
+          "YouTube"      => [9,1],
+          "Workshops"    => [3,9],
+          "Webinar"      => [5,3],
         ],
         "Last 7 Days" => [
           "Individual"   => [4, 5, 6, 8, 7, 6, 9],

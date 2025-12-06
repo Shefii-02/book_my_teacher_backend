@@ -623,6 +623,8 @@ class TeacherController extends Controller
   {
 
     return response()->json([
+      "courses" => []]);
+    return response()->json([
       "courses" => [
         [
           "course_id" => 1,

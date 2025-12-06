@@ -298,7 +298,7 @@ class TeacherController extends Controller
     // $end = Carbon::parse($month)->endOfMonth();
 
     $start = Carbon::parse($month)->subMonths(2)->startOfMonth();
-    $end   = Carbon::parse($month)->addMonth('2')->endOfMonth();
+    $end   = Carbon::parse($month)->addMonth(2)->endOfMonth();
 
 
     // 🔥 Dummy data — Replace with DB query later

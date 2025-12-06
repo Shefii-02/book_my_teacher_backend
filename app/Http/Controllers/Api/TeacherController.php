@@ -546,11 +546,11 @@ class TeacherController extends Controller
     return [
       "spend" => [
         "Last 2 Days" => [
-          "Individual"   => [5,1],
-          "Own Courses"  => [3,2],
-          "YouTube"      => [7,3],
-          "Workshops"    => [2,5],
-          "Webinar"      => [4,7],
+          "Individual"   => [5, 1],
+          "Own Courses"  => [3, 2],
+          "YouTube"      => [7, 3],
+          "Workshops"    => [2, 5],
+          "Webinar"      => [4, 7],
         ],
         "Last 7 Days" => [
           "Individual"   => [3, 6, 8, 7, 10, 9, 12],
@@ -577,11 +577,11 @@ class TeacherController extends Controller
 
       "watch" => [
         "Last 2 Days" => [
-          "Individual"   => [2,5],
-          "Own Courses"  => [4,6],
-          "YouTube"      => [9,1],
-          "Workshops"    => [3,9],
-          "Webinar"      => [5,3],
+          "Individual"   => [2, 5],
+          "Own Courses"  => [4, 6],
+          "YouTube"      => [9, 1],
+          "Workshops"    => [3, 9],
+          "Webinar"      => [5, 3],
         ],
         "Last 7 Days" => [
           "Individual"   => [4, 5, 6, 8, 7, 6, 9],
@@ -622,8 +622,7 @@ class TeacherController extends Controller
   public function reviews(Request $request)
   {
 
-    return response()->json([
-      "courses" => []]);
+
     return response()->json([
       "courses" => [
         [
@@ -645,6 +644,13 @@ class TeacherController extends Controller
               "date" => "2025-11-11",
             ],
           ]
+        ],
+        [
+          "course_id" => 10,
+          "course_name" => "Basics",
+          "average_rating" => 0,
+          "total_reviews" => 0,
+          "reviews" => []
         ],
         [
           "course_id" => 2,

@@ -831,17 +831,17 @@ class TeacherController extends Controller
         [
           "title" => "Individual Class’s",
           "icon"  => "assets/images/icons/chart-1.png",
-          "time"  => "31.4 hr"
+          "time"  => "0.0 hr"
         ],
         [
           "title" => "Own Course Class’s",
           "icon"  => "assets/images/icons/chart-2.png",
-          "time"  => "22.8 hr"
+          "time"  => "0.0 hr"
         ],
         [
           "title" => "Youtube Class’s",
           "icon"  => "assets/images/icons/chart-3.png",
-          "time"  => "15.1 hr"
+          "time"  => "0.0 hr"
         ],
       ]
     ]);
@@ -876,17 +876,17 @@ class TeacherController extends Controller
         [
           "title" => "Individual Class’s",
           "icon"  => "assets/images/icons/chart-4.png",
-          "time"  => "31.4 hr"
+          "time"  => "0.0 hr"
         ],
         [
           "title" => "Own Course Class’s",
           "icon"  => "assets/images/icons/chart-5.png",
-          "time"  => "22.8 hr"
+          "time"  => "0.0 hr"
         ],
         [
           "title" => "Youtube Class’s",
           "icon"  => "assets/images/icons/chart-6.png",
-          "time"  => "15.1 hr"
+          "time"  => "0.0 hr"
         ],
       ]
     ]);

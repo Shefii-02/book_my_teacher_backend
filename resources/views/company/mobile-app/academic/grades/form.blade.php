@@ -63,7 +63,8 @@
                     <textarea name="description" rows="4" class="w-full border rounded p-2" placeholder="Enter description">{{ $isEdit ? $grade->description : old('description') }}</textarea> @error('description')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
-                </div> <!-- POSITION -->
+                </div>
+                <!-- POSITION -->
                 <div> <label class="block font-semibold mb-1">Position</label> <input type="number" name="position"
                         value="{{ $isEdit ? $grade->position : old('position') }}" class="w-full border rounded p-2"
                         placeholder="Enter display position"> @error('position')

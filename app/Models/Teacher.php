@@ -80,6 +80,18 @@ class Teacher extends Model
     return $this->hasMany(TeacherCourse::class, 'teacher_id', 'id');
   }
 
+
+  public function classes()
+  {
+    return $this->belongsToMany(
+      CourseClass::class,
+      'teacher_classes',
+      'teacher_id',
+      'class_id'
+    );
+  }
+
+
   public function thumbnailMedia()
   {
     return $this->belongsTo(MediaFile::class, 'thumb');

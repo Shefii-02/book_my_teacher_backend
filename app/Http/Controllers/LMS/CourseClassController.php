@@ -5,6 +5,7 @@ namespace App\Http\Controllers\LMS;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseClass;
+use App\Models\TeacherClass;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class CourseClassController extends Controller
   {
 
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);
-    // dd($identity, $request->all());
+
     $validated = $request->validate([
       'teacher_id'       => 'required',
       'scheduled_at'     => 'required',
@@ -46,22 +47,30 @@ class CourseClassController extends Controller
       'class_mode'       => 'nullable|required_if:type,online',
       'meeting_link'     => 'nullable|required_if:type,online',
 
-      'class_address'    => 'nullable|required_if:type,offline',
+      // 'class_address'    => 'nullable|required_if:type,offline',
 
       'recording_url'    => 'nullable|required_if:type,recorded',
     ]);
 
     try {
+
       DB::beginTransaction();
       $data = $validated;
       $data['course_id'] = $course->id;
 
-      CourseClass::create($data);
+      $data['start_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] .' ' .$data['start_time']));
+      $data['end_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] .' ' .$data['end_time']));
+
+
+      $class = CourseClass::create($data);
+
+      TeacherClass::create(['teacher_id' => $request->teacher_id,'class_id' => $class->id]);
+
       DB::commit();
       return redirect()->route('admin.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class created successfully.');
     } catch (Exception $e) {
       DB::rollBack();
-      return redirect()->back()->with('errro', $e->getMessage());
+      return redirect()->back()->with('error', $e->getMessage());
     }
   }
 
@@ -69,7 +78,8 @@ class CourseClassController extends Controller
   {
 
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);
-    $class = CourseClass::where('course_id', $course->id)->where('id', $course_class)->first() ?? abort(404);
+    $class = CourseClass::with('teachers')->where('course_id', $course->id)->where('id', $course_class)->first() ?? abort(404);
+
     $teachers = User::where('acc_type', 'teacher')->get();
 
     return view('company.courses.classes.form', [

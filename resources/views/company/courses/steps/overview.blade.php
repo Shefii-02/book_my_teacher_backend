@@ -147,12 +147,12 @@
 
             <div class="grid md:grid-cols-2 gap-2 text-sm">
                 <div>
-                    <p class="text-gray-500">Video Type</p>
-                    <p class="font-medium text-gray-900">{{ ucfirst($course->video_type ?? '—') }}</p>
+                    <p class="text-gray-500">Course Type</p>
+                    <p class="font-medium text-gray-900">{{ ucfirst($course->course_type ?? '—') }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-500">Streaming Type</p>
-                    <p class="font-medium text-gray-900">{{ ucfirst($course->streaming_type ?? '—') }}</p>
+                    <p class="text-gray-500">Class Type</p>
+                    <p class="font-medium text-gray-900">{{ ucfirst($course->class_type ?? '—') }}</p>
                 </div>
                 <div>
                     <p class="text-gray-500">Has Material</p>
@@ -178,8 +178,13 @@
                     <p class="font-medium text-gray-900">{{ $course->is_counselling ? 'Yes' : 'No' }}</p>
                 </div>
                 <div>
-                    <p class="text-gray-500">Course Type</p>
-                    <p class="font-medium text-gray-900">{{ ucfirst($course->type ?? '—') }}</p>
+                    <p class="text-gray-500">Course Mode</p>
+                    <p class="font-medium text-gray-900">{{ ucfirst($course->class_mode ?? '—') }}</p>
+                </div>
+
+                <div>
+                    <p class="text-gray-500">Course Level</p>
+                    <p class="font-medium text-gray-900">{{ ucfirst($course->level ?? '—') }}</p>
                 </div>
             </div>
         </div>

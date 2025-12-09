@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\LMS;
 
+use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Categories\StoreSubCategoryRequest;
 use App\Models\CourseCategory;
 use App\Models\CourseSubCategory;
 use Illuminate\Http\Request;
@@ -24,7 +26,7 @@ class CourseSubCategoryController extends Controller
     return view('company.courses.sub_category.form', compact('categories'));
   }
 
-  public function store(Request $request)
+  public function store(StoreSubCategoryRequest $request)
   {
     $request->validate([
       'category_id' => 'required|exists:course_categories,id',
@@ -33,9 +35,20 @@ class CourseSubCategoryController extends Controller
       'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
     ]);
 
+    $company_id = 1;
+
     $thumbnailPath = null;
     if ($request->hasFile('thumbnail')) {
-      $thumbnailPath = $request->file('thumbnail')->store('course_sub_categories', 'public');
+      // $thumbnailPath = $request->file('thumbnail')->store('course_categories', 'public');
+      // Upload Thumbnail
+      if ($request->hasFile('thumbnail')) {
+        $thumbnailPath = MediaHelper::uploadCompanyFile(
+          $company_id,
+          'subcategories/thumbnails',
+          $request->file('thumbnail'),
+          'subcategories'
+        );
+      }
     }
 
     CourseSubCategory::create([
@@ -43,37 +56,43 @@ class CourseSubCategoryController extends Controller
       'title'       => $request->title,
       'description' => $request->description,
       'thumbnail'   => $thumbnailPath,
-      'company_id'  => 1 ?? null,
+      'company_id'  => $company_id ?? null,
+      'status'      => $request->status ? '1' : 0,
+      'position'    => $request->position,
       'created_by'  => Auth::id(),
     ]);
 
-    return redirect()->route('admin.courses.subcategories.index')->with('success', 'Sub Category created successfully.');
+    return redirect()->route('admin.subcategories.index')->with('success', 'Sub Category created successfully.');
   }
 
-  public function edit(Request $request,$course_sub_category)
+  public function edit(Request $request, $course_sub_category)
   {
-    $categories = CourseCategory::where('company_id',1)->get();
-    $subCategory = CourseSubCategory::where('id',$course_sub_category)->where('company_id',1)->first();
+    $categories = CourseCategory::where('company_id', 1)->get();
+    $subCategory = CourseSubCategory::where('id', $course_sub_category)->where('company_id', 1)->first();
 
     return view('company.courses.sub_category.form', compact('subCategory', 'categories'));
   }
 
-  public function update(Request $request, $course_sub_category)
+  public function update(StoreSubCategoryRequest $request, $course_sub_category)
   {
     $course_sub_category = CourseSubCategory::where('id', $course_sub_category)->where('company_id', 1)->first() ?? abort(404);
-    $request->validate([
-      'category_id' => 'required|exists:course_categories,id',
-      'title'       => 'required|string|max:255',
-      'description' => 'nullable|string',
-      'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-    ]);
+
+    $company_id = 1;
 
     $thumbnailPath = $course_sub_category->thumbnail;
     if ($request->hasFile('thumbnail')) {
-      if ($thumbnailPath && Storage::disk('public')->exists($thumbnailPath)) {
-        Storage::disk('public')->delete($thumbnailPath);
-      }
-      $thumbnailPath = $request->file('thumbnail')->store('course_sub_categories', 'public');
+      // delete old
+      // Upload Thumbnail
+      if ($course_sub_category->thumbnail && Storage::disk('public')->exists($course_sub_category->thumbnail_url))
+        MediaHelper::removeCompanyFile($course_sub_category->thumbnail);
+
+      $thumbnailPath = MediaHelper::uploadCompanyFile(
+        $company_id,
+        'subcategories/thumbnails',
+        $request->file('thumbnail'),
+        'subcategories'
+      );
+      $data['thumb_id'] = $thumbnailPath;
     }
 
     $course_sub_category->update([
@@ -81,21 +100,23 @@ class CourseSubCategoryController extends Controller
       'title'       => $request->title,
       'description' => $request->description,
       'thumbnail'   => $thumbnailPath,
+      'status'      => $request->status ? '1' : 0,
+      'position'    => $request->position,
     ]);
 
 
 
-    return redirect()->route('admin.courses.subcategories.index')->with('success', 'Sub Category updated successfully.');
+    return redirect()->route('admin.subcategories.index')->with('success', 'Sub Category updated successfully.');
   }
 
   public function destroy(CourseSubCategory $course_sub_category)
   {
-    if ($course_sub_category->thumbnail && Storage::disk('public')->exists($course_sub_category->thumbnail)) {
-      Storage::disk('public')->delete($course_sub_category->thumbnail);
+    if ($course_sub_category->thumbnail && Storage::disk('public')->exists($course_sub_category->thumbnail_url)) {
+      MediaHelper::removeCompanyFile($course_sub_category->thumbnail);
     }
 
     $course_sub_category->delete();
 
-    return redirect()->route('admin.courses.subcategories.index')->with('success', 'Sub Category deleted successfully.');
+    return redirect()->route('admin.subcategories.index')->with('success', 'Sub Category deleted successfully.');
   }
 }

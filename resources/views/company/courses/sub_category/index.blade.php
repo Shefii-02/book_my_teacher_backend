@@ -22,10 +22,10 @@
     <!-- cards -->
     <div class="w-full px-6 py-6 mx-auto">
         <div class="flex flex-wrap -mx-3 mt-4">
-            <div class="flex-none w-full max-w-full px-3">
+            <div class="flex-none w-full max-w-full ">
                 <div
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                    <div class="p-6 pb-2 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="flex">
                             <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
                                 <h6 class="dark:text-white">Sub Categories List</h6>
@@ -34,108 +34,129 @@
 
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4">
-                                <a href="{{ route('admin.courses.subcategories.create') }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
+                                <a data-url="{{ route('admin.subcategories.create') }}"
+                                    class="px-4 py-2 open-drawer bg-gradient-to-tl from-emerald-500 to-teal-400  text-white  text-sm">
                                     Create Sub Category</a>
-                                <a href="{{ route('admin.courses.categories.index') }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
                             </div>
                         </div>
                     </div>
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
+                </div>
+            </div>
+            <div
+                class="relative flex flex-col w-full max-w-full min-w-0 my-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                <div class="flex-auto px-4 py-4 min-h-75">
+                    <div class="p-0 overflow-x-auto">
 
-                            <table class="table-auto w-full p-3">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            #</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Title</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Category</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Description</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($subCategories as $key => $sub)
-                                        <tr>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                {{ $loop->iteration }}</td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                @if ($sub->thumbnail)
-                                                    <img src="{{ asset('storage/' . $sub->thumbnail) }}" class="h-12">
+                        <div class="grid grid-cols-3 gap-4 px-3">
+                            @forelse($subCategories as $sub)
+                                <div
+                                    class="flex justify-between gap-4 p-4 bg-white rounded-lg shadow-sm border border-gray-200 dark:bg-gray-800">
+                                    <div class="flex items-start ">
+
+                                        <div class=" flex flex-col ">
+                                            <!-- LEFT: THUMBNAIL -->
+                                            <img src="{{ $sub->thumbnail_url }}"
+                                                class="w-20 h-20 rounded-lg object-cover shadow-sm" alt="Thumbnail">
+
+                                            <!-- Position -->
+                                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                                                <span class="font-semibold">Position:</span>
+                                                {{ $sub->position }}
+                                            </div>
+
+                                            <!-- Published -->
+                                            <div>
+                                                @if ($sub->status)
+                                                    <span class="px-2 py-1 text-xxs rounded bg-green-100 text-green-700">
+                                                        Published
+                                                    </span>
+                                                @else
+                                                    <span class="px-2 py-1 text-xxs rounded bg-red-100 text-red-700">
+                                                        Unpublished
+                                                    </span>
                                                 @endif
+                                            </div>
+                                        </div>
+
+                                        <!-- RIGHT SECTION -->
+                                        <div class="flex flex-col ms-4">
+
+                                            <!-- Title -->
+                                            <h2 class="text-lg font-semibold text-gray-900 dark:text-white p-0 m-0 mb-1">
                                                 {{ $sub->title }}
-                                            </td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                {{ $sub->category?->title }}</td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                {{ Str::limit($sub->description, 50) }}</td>
+                                            </h2>
 
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                <button id="dropdownBottomButton"
-                                                    data-dropdown-toggle="dropdownBottom_{{ $key }}"
-                                                    data-dropdown-placement="bottom" class="" type="button">
-                                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        fill="none" viewBox="0 0 24 24">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                                                            d="M12 6h.01M12 12h.01M12 18h.01" />
-                                                    </svg>
-                                                </button>
+                                            <!-- Description -->
+                                            <p class="text-sm text-gray-600 dark:text-gray-300 p-0 m-0">
+                                                {{ Str::limit($sub->description, 50) }}
+                                            </p>
 
-                                                <!-- Dropdown menu -->
-                                                <div id="dropdownBottom_{{ $key }}"
-                                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
-                                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                        aria-labelledby="dropdownBottomButton">
-                                                        <li>
-                                                            <a href="{{ route('admin.courses.subcategories.edit', $sub->id) }}"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
-                                                        </li>
-                                                        <li>
-                                                            <form
-                                                                action="{{ route('admin.courses.subcategories.destroy', $sub->id) }}"
-                                                                method="POST" class="d-inline-block  w-full">
-                                                                @csrf @method('DELETE')
-                                                                <a role="button" href="javascript:;"
-                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
-                                                                    onclick="confirmDelete({{ $sub->id }})">Delete</a>
-                                                            </form>
+                                            <div class="flex flex-col gap-2 mt-1">
 
-                                                        </li>
-                                                    </ul>
+                                                <!-- Created At -->
+                                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                                    <span class="font-semibold">Created At:</span>
+                                                    {{ $sub->created_at->format('d M Y') }}
                                                 </div>
 
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center p-3">No Sub Categories</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                                                <!-- Created By -->
+                                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                                    <span class="font-semibold">Created By:</span>
+                                                    {{ $sub->creator->name ?? 'N/A' }}
+                                                </div>
 
-                            <div class="mt-3">{{ $subCategories->links() }}</div>
+
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="">
+                                        <!-- ACTIONS -->
+                                        <div class="relative">
+                                            <button data-dropdown-toggle="dropdown_{{ $sub->id }}">
+                                                <svg class="w-6 h-6 text-gray-700 dark:text-white" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                                        d="M12 6h.01M12 12h.01M12 18h.01" />
+                                                </svg>
+                                            </button>
+
+
+                                        </div>
+                                        <!-- Dropdown -->
+                                        <div id="dropdown_{{ $sub->id }}"
+                                            class="hidden absolute right-0 mt-0 w-20 bg-white rounded-lg shadow-md ">
+
+                                            <a href="#" class="open-drawer block px-4 py-2  text-xxs"
+                                                data-url="{{ route('admin.subcategories.edit', $sub->id) }}">
+                                                Edit
+                                            </a>
+
+                                            <form action="{{ route('admin.subcategories.destroy', $sub->id) }}" method="POST"
+                                                id="form_{{ $sub->id }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" onclick="confirmDelete({{ $sub->id }})"
+                                                    class="w-full text-left px-4 py-2 text-xxs">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="text-center text-gray-500 py-5">No Sub Categories</p>
+                            @endforelse
                         </div>
+
+                        <div class="mt-3">{{ $subCategories->links() }}</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 @endsection

@@ -33,12 +33,12 @@
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
 
-                                <a href="{{ route('admin.courses.schedule-class.create', $course->course_identity) }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
+                                <a href="#" data-url="{{ route('admin.courses.schedule-class.create', $course->course_identity) }}"
+                                    class="px-4 py-2 open-drawer bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class=" bi bi-plus me-1"></i>
                                     Create Class</a>
                                 <a href="{{ route('admin.courses.index') }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
                                         class="bi bi-arrow-left me-2"></i>Back</a>
                             </div>
                         </div>
@@ -215,8 +215,8 @@
                                                 {{ $class->created_at->format('d M Y') }}</td>
                                             <td
                                                 class="px-6 flex  gap-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                                <a href="{{ route('admin.courses.schedule-class.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
-                                                    class="px-3 py-1 text-blue rounded text-xs">
+                                                <a href="#" data-url="{{ route('admin.courses.schedule-class.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
+                                                    class="open-drawer px-3 py-1 text-blue rounded text-xs">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
 
@@ -235,7 +235,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4" class="text-center p-5">No course classes found</td>
+                                            <td colspan="10" class="text-center p-5">No course classes found</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -247,3 +247,32 @@
         </div>
     </div>
 @endsection
+
+
+@push('scripts')
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+<script>
+    new TomSelect("#select-tags", {
+        plugins: ['remove_button'],
+        create: true,
+        onItemAdd: function() {
+            this.setTextboxValue('');
+            this.refreshOptions();
+        },
+        render: {
+            option: function(data, escape) {
+                return `<div class="d-flex"><img src="` + escape(data.date) +
+                    `" class="ms-auto text-muted"><span>` + escape(data.name) +
+                    `</span></div>`;
+            },
+            item: function(data, escape) {
+                return '<div>' + escape(data.name) + '</div>';
+            }
+        }
+    });
+</script>
+
+
+@endpush

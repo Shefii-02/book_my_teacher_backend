@@ -1,3 +1,11 @@
+@php
+    $selectedTeachers = old(
+        'teachers',
+        isset($course) && $course->teachers ? $course->teachers?->pluck('id')->toArray() : [],
+    );
+@endphp
+
+
 <form action="{{ route('admin.courses.store') }}" method="POST" id="advancedSettingsForm" class="space-y-6">
     @csrf
     <div class="form-title">
@@ -15,31 +23,72 @@
         <div class="grid md:grid-cols-2 gap-6">
             <input type="hidden" class="d-none" value="{{ $course->course_identity }}" name="course_identity" />
 
-            {{-- Streaming Type (only if video_type = live or hybrid) --}}
-            <div id="streaming_type_wrapper" >
-                <label for="streaming_type" class="block text-sm font-medium text-gray-700">Streaming Type</label>
-
-                <select name="streaming_type" id="streaming_type"
+            {{-- Streaming Type (only if course_type = live or hybrid) --}}
+            <div id="course_type_wrapper">
+                <label for="course_type" class="block text-sm font-medium text-gray-700">Course Type</label>
+                <select name="course_type" id="course_type"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="">-- Select Streaming Type --</option>
-                    <option {{ $course && $course->streaming_type == 'zego_cloud' ? 'selected' : '' }} value="zego_cloud">Zego Cloud</option>
-                    <option {{ $course && $course->streaming_type == 'agora' ? 'selected' : '' }} value="agora">Agora</option>
-                    <option {{ $course && $course->streaming_type == 'zoom' ? 'selected' : '' }} value="zoom">Zoom</option>
-                    <option {{ $course && $course->streaming_type == 'youtube' ? 'selected' : '' }} value="youtube">YouTube</option>
-                    <option {{ $course && $course->streaming_type == 'custom' ? 'selected' : '' }} value="custom">Custom Player</option>
+                    <option value="">-- Select Course Type --</option>
+                    <option {{ $course && $course->course_type == 'individual' ? 'selected' : '' }} value="individual">
+                        Individual</option>
+                    <option {{ $course && $course->course_type == 'common' ? 'selected' : '' }} value="common">Common
+                    </option>
                 </select>
             </div>
 
-              {{-- Video Type (only if video_type = live or hybrid) --}}
-            <div id="video_type_wrapper" >
-                <label for="video_type" class="block text-sm font-medium text-gray-700">Video Type</label>
-                <select name="video_type" id="video_type"
+            {{-- Level --}}
+            <div id="course_type_wrapper">
+                <label for="course_level" class="block text-sm font-medium text-gray-700">Course Level</label>
+                <select name="course_level" id="course_level"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="">-- Select Video Type --</option>
-                    <option {{ $course && $course->video_type == 'one-on-one' ? 'selected' : '' }}  value="one-on-one">One-on-One</option>
-                    <option {{ $course && $course->video_type == 'livestream' ? 'selected' : '' }}  value="livestream">Livestream</option>
-                    <option {{ $course && $course->video_type == 'pre-recorded' ? 'selected' : '' }}  value="pre-recorded">Pre-recorded</option>
-                    <option {{ $course && $course->video_type == 'hybrid' ? 'selected' : '' }}  value="hybrid">Hybrid</option>
+                    <option value="">-- Select Course Level --</option>
+                    <option {{ $course && $course->level == 'newbie' ? 'selected' : '' }} value="newbie">Newbie</option>
+                    <option {{ $course && $course->level == 'beginner' ? 'selected' : '' }} value="beginner">Beginner
+                    </option>
+                    <option {{ $course && $course->level == 'intermediate' ? 'selected' : '' }} value="intermediate">
+                        Intermediate</option>
+                    <option {{ $course && $course->level == 'advanced' ? 'selected' : '' }} value="advanced"> Advanced
+                    </option>
+                    <option {{ $course && $course->level == 'beginner_to_advanced' ? 'selected' : '' }}
+                        value="beginner_to_advanced">Beginner to Advanced</option>
+                </select>
+            </div>
+
+            {{-- Video Type (only if class_mode = live or hybrid) --}}
+            <div id="class_mode_wrapper">
+                <label for="class_mode" class="block text-sm font-medium text-gray-700">Class Mode</label>
+                <select name="class_mode" id="class_mode"
+                    class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="">-- Select Class Mode --</option>
+                    <option {{ $course && $course->class_mode == 'online' ? 'selected' : '' }} value="online">
+                        Online</option>
+                    <option {{ $course && $course->class_mode == 'offline' ? 'selected' : '' }} value="offline">
+                        Offline</option>
+                    <option {{ $course && $course->class_mode == 'hybrid' ? 'selected' : '' }} value="hybrid">
+                        Hybrid</option>
+                </select>
+            </div>
+
+            {{-- Class Type (only if class_type = live or hybrid) --}}
+            <div id="class_type_wrapper">
+                <label for="class_type" class="block text-sm font-medium text-gray-700">Class Type</label>
+                <select name="class_type" id="class_type"
+                    class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="">-- Select Class Type --</option>
+                    <option {{ $course && $course->class_type == 'live classes' ? 'selected' : '' }}
+                        value="live classes">
+                        Live Classes</option>
+                    <option {{ $course && $course->class_type == 'recorded classes' ? 'selected' : '' }}
+                        value="recorded classes">
+                        Recorded Classes</option>
+                    <option {{ $course && $course->class_type == 'live and recorded classes' ? 'selected' : '' }}
+                        value="live and recorded classes">Live and Recorded Classes</option>
+                    <option {{ $course && $course->class_type == 'offline office' ? 'selected' : '' }}
+                        value="offline office">Offline Office</option>
+                    <option {{ $course && $course->class_type == 'offline home' ? 'selected' : '' }}
+                        value="offline home">
+                        Offline Home
+                    </option>
                 </select>
             </div>
 
@@ -58,8 +107,10 @@
                 <label class="block text-sm font-medium text-gray-700">Allow Material Download?</label>
                 <select name="has_material_download" id="has_material_download"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option {{ $course && $course->has_material_download == 0 ? 'selected' : '' }} value="0">No</option>
-                    <option {{ $course && $course->has_material_download == 1 ? 'selected' : '' }} value="1">Yes</option>
+                    <option {{ $course && $course->has_material_download == 0 ? 'selected' : '' }} value="0">No
+                    </option>
+                    <option {{ $course && $course->has_material_download == 1 ? 'selected' : '' }} value="1">Yes
+                    </option>
                 </select>
             </div>
 
@@ -68,8 +119,8 @@
                 <label class="block text-sm font-medium text-gray-700">Has Exam?</label>
                 <select name="has_exam" id="has_exam"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option  {{ $course && $course->has_exam == 0 ? 'selected' : '' }} value="0">No</option>
-                    <option  {{ $course && $course->has_exam == 1 ? 'selected' : '' }} value="1">Yes</option>
+                    <option {{ $course && $course->has_exam == 0 ? 'selected' : '' }} value="0">No</option>
+                    <option {{ $course && $course->has_exam == 1 ? 'selected' : '' }} value="1">Yes</option>
                 </select>
             </div>
 
@@ -88,23 +139,81 @@
                 <label class="block text-sm font-medium text-gray-700">Career Guidance Included?</label>
                 <select name="is_career_guidance" id="is_career_guidance"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option {{ $course && $course->is_career_guidance == 0 ? 'selected' : '' }} value="0">No</option>
-                    <option {{ $course && $course->is_career_guidance == 1 ? 'selected' : '' }} value="1">Yes</option>
+                    <option {{ $course && $course->is_career_guidance == 0 ? 'selected' : '' }} value="0">No
+                    </option>
+                    <option {{ $course && $course->is_career_guidance == 1 ? 'selected' : '' }} value="1">Yes
+                    </option>
                 </select>
             </div>
             {{-- Course Type --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Class Type</label>
-                <select name="type" id="type"
-                    class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option value="">-- Select Type --</option>
-                    <option {{ $course && $course->type == 'offline' ? 'selected' : '' }} value="offline">Offline</option>
-                    <option {{ $course && $course->type == 'online' ? 'selected' : '' }} value="online">Online</option>
-                    <option {{ $course && $course->type == 'recorded' ? 'selected' : '' }} value="recorded">Recorded</option>
-                    <option {{ $course && $course->type == 'hybrid' ? 'selected' : '' }} value="hybrid">Hybrid</option>
+        </div>
+
+        @php
+            $teacherIds = $course->teacherCourses->pluck('teacher_id')->toArray();
+        @endphp
+
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 my-2">Teachers <span
+                    class="text-red-500">*</span></label>
+            <div class="pb-1">
+
+                <select id="select-tags" name="teachers[]" multiple data-placeholder="" class="form-control border">
+                    @foreach ($teachers as $teacher)
+                        <option value="{{ $teacher->id }}" data-name="{{ $teacher->name }}" {{  in_array($teacher->id,$teacherIds) ? 'selected' : '' }}
+                            data-date="{{ $teacher->thumbnail_url }}">{{ $teacher->id }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-6 items-center">
+            <!-- Commission Based -->
+            <div class="mb-4">
+                <label class="flex items-center gap-1">
+                    <input type="checkbox" class="border" id="is_commission" name="is_commission"
+                        {{ old('is_commission', $course->commission_percentage ?? false) ? 'checked' : '' }}>
+                    <span class="text-sm">Commission Based</span>
+                </label>
+            </div>
+
+            <!-- Commission Percentage -->
+            <div id="commission_box" class="mb-4 hidden">
+                <label class="block mb-2 text-sm font-medium">Commission Percentage</label>
+                <input type="number" name="commission_percentage"
+                    value="{{ old('commission_percentage', $course->commission_percentage ?? '') }}"
+                    class="w-full border rounded-lg p-2 text-sm">
+            </div>
+
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 items-center">
+            <!-- Institute Based -->
+
+            <div class="mb-4">
+                <label class="flex items-center gap-1">
+                    <input type="checkbox" class="border" id="is_institute" name="is_institute"
+                        {{ old('is_institute', $course->institude_id ?? false) ? 'checked' : '' }}>
+                    <span class="text-sm">Institute Based</span>
+                </label>
+            </div>
+
+            <!-- Institute Dropdown -->
+            <div id="institute_box" class="mb-4 hidden">
+                <label class="block text-sm font-medium my-2">
+                    Institute
+                </label>
+                <select id="select2-teachers" name="institute_id" class="form-control border w-full">
+                    <option value="">Select one</option>
+                    @foreach ($teachers as $teacher)
+                        <option value="{{ $teacher->id }}" @selected(old('institute_id', $course->institude_id ?? '') == $teacher->id)>
+                            {{ $teacher->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
 
         <!-- Submit -->
         <div class="my-2 text-center md:col-span-2">
@@ -114,3 +223,113 @@
         </div>
     </div>
 </form>
+
+
+{{-- @push('scripts') --}}
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+<script>
+    new TomSelect("#select-tags", {
+        plugins: ['remove_button'],
+        create: true,
+        onItemAdd: function() {
+            this.setTextboxValue('');
+            this.refreshOptions();
+        },
+        render: {
+            option: function(data, escape) {
+                return `<div class="d-flex"><img src="` + escape(data.date) +
+                    `" class="ms-auto text-muted"><span>` + escape(data.name) +
+                    `</span></div>`;
+            },
+            item: function(data, escape) {
+                return '<div>' + escape(data.name) + '</div>';
+            }
+        }
+    });
+</script>
+{{-- @endpush --}}
+
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+
+        function formatTeacher(option) {
+            if (!option.id) return option.text;
+
+            let img = $(option.element).data('img');
+            return $(`
+            <div class="flex items-center gap-2">
+                <img src="${img}" class="teacher-img" />
+                <span>${option.text}</span>
+            </div>
+        `);
+        }
+
+        function formatSelected(option) {
+            let img = $(option.element).data('img');
+            return $(`
+            <span class="flex items-center gap-1">
+                <img src="${img}" class="teacher-img" />
+                ${option.text}
+            </span>
+        `);
+        }
+
+        $('#teachersSelect').select2({
+            placeholder: "",
+            allowClear: true,
+            templateResult: formatTeacher,
+            templateSelection: formatSelected,
+            closeOnSelect: false,
+            width: '100%'
+        });
+    });
+
+    $(document).ready(function() {
+
+        // INITIAL LOAD — Show/hide based on existing values
+        toggleCommission();
+        toggleInstitute();
+
+        // WHEN COMMISSION CHECKBOX CHANGES
+        $("#is_commission").on("change", function() {
+            toggleCommission();
+        });
+
+        // WHEN INSTITUTE CHECKBOX CHANGES
+        $("#is_institute").on("change", function() {
+            toggleInstitute();
+        });
+
+        function toggleCommission() {
+            if ($("#is_commission").is(":checked")) {
+                $("#commission_box").removeClass("hidden");
+            } else {
+                $("#commission_box").addClass("hidden");
+            }
+        }
+
+        function toggleInstitute() {
+            if ($("#is_institute").is(":checked")) {
+                $("#institute_box").removeClass("hidden");
+            } else {
+                $("#institute_box").addClass("hidden");
+            }
+        }
+
+        // SELECT2 INITIALIZE
+        $('#select2-teachers').select2({
+            placeholder: "Select institute teacher",
+            allowClear: true,
+            width: "100%"
+        });
+
+        $('.select2.select2-container').addClass('border p-1.5 rounded');
+
+
+    });
+</script>

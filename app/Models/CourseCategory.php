@@ -9,7 +9,7 @@ class CourseCategory extends Model
 {
   protected $table = "course_categories";
 
-  protected $fillable = ['title', 'description', 'thumbnail', 'company_id', 'created_by'];
+  protected $fillable = ['title', 'description', 'thumbnail', 'company_id', 'created_by', 'status', 'position'];
 
   public function subCategories()
   {
@@ -25,4 +25,17 @@ class CourseCategory extends Model
   {
     return $this->hasOne(User::class, 'id', 'created_by');
   }
+
+  public function thumbnailMedia()
+  {
+    return $this->belongsTo(MediaFile::class, 'thumbnail');
+  }
+
+
+  public function getThumbnailUrlAttribute()
+  {
+    return $this->thumbnailMedia ? asset('storage/' . $this->thumbnailMedia->file_path) : null;
+  }
+
+
 }

@@ -10,6 +10,17 @@
             padding: 24px;
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <style>
+        .teacher-img {
+            width: 28px;
+            height: 28px;
+            border-radius: 9999px;
+            object-fit: cover;
+        }
+    </style>
 @endpush
 
 @section('nav-options')
@@ -33,8 +44,13 @@
 @section('content')
     <div class="container">
         <div class="card bg-white rounded-3 mb-3">
-            <div class="card-title p-2 m-2">
-                <h5 class="font-bold">{{isset($course_draft) ? 'Course Title : '.$course_draft->title : 'Create' }} a Course</h5>
+            <div class="card-title p-2 m-2 flex justify-between">
+                <h5 class="font-bold">{{ isset($course_draft) ? 'Course Title : ' . $course_draft->title : 'Create' }} a
+                    Course</h5>
+                <a href="{{ route('admin.courses.index') }}"
+                    class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
+                    <i class="bi bi-arrow-left me-1 "></i>
+                    Back</a>
             </div>
         </div>
 
@@ -50,9 +66,8 @@
                                 <h3 class="font-medium text-sm">1. Basic info</h3>
                                 @if ($course_draft && $course_draft->step_completed >= 0)
                                     <span class="flex gap-1">
-                                        <svg class="w-7 h-7 me-2  shrink-0"
-                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                            viewBox="0 0 20 20">
+                                        <svg class="w-7 h-7 me-2  shrink-0" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path
                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                         </svg>
@@ -105,9 +120,8 @@
                                 <h3 class="font-medium  text-sm">2. Payment Settings</h3>
                                 @if ($course_draft && $course_draft->step_completed >= 2)
                                     <span class="flex gap-1">
-                                        <svg class="w-7 h-7 me-2  shrink-0"
-                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                            viewBox="0 0 20 20">
+                                        <svg class="w-7 h-7 me-2  shrink-0" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path
                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                         </svg>
@@ -141,9 +155,9 @@
                                 </a>
                             @elseif($course_draft && $course_draft->step_completed == 1)
                                 <a href="#" class="open-step" data-step="2">
-                                    <svg class="rtl:rotate-180 w-4.5 h-4.5 text-red me-2 text-indigo-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" width="24" height="24"
-                                        viewBox="0 0 14 10">
+                                    <svg class="rtl:rotate-180 w-4.5 h-4.5 text-red me-2 text-indigo-400"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        width="24" height="24" viewBox="0 0 14 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                             stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
                                     </svg>
@@ -161,9 +175,8 @@
                                 <h3 class="font-medium text-sm">3. Advance Settings</h3>
                                 @if ($course_draft && $course_draft->step_completed >= 3)
                                     <span class="flex gap-1">
-                                        <svg class="w-7 h-7 me-2  shrink-0"
-                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                            viewBox="0 0 20 20">
+                                        <svg class="w-7 h-7 me-2  shrink-0" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path
                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                         </svg>
@@ -197,9 +210,9 @@
                                 </a>
                             @elseif($course_draft && $course_draft->step_completed == 2)
                                 <a href="#" class="open-step" data-step="3">
-                                    <svg class="rtl:rotate-180 w-4.5 h-4.5 text-red me-2 text-indigo-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" width="24" height="24"
-                                        viewBox="0 0 14 10">
+                                    <svg class="rtl:rotate-180 w-4.5 h-4.5 text-red me-2 text-indigo-400"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        width="24" height="24" viewBox="0 0 14 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                             stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
                                     </svg>
@@ -219,9 +232,8 @@
                                 <h3 class="font-medium  text-sm">4. Confirmation</h3>
                                 @if ($course_draft && $course_draft->step_completed >= 4)
                                     <span class="flex gap-1">
-                                        <svg class="w-7 h-7 me-2  shrink-0"
-                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                            viewBox="0 0 20 20">
+                                        <svg class="w-7 h-7 me-2  shrink-0" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path
                                                 d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                         </svg>
@@ -254,9 +266,9 @@
                                 </a>
                             @elseif($course_draft && $course_draft->step_completed == 3)
                                 <a href="#" class="open-step" data-step="4">
-                                    <svg class="rtl:rotate-180 w-4.5 h-4.5 text-red me-2 text-indigo-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" width="24" height="24"
-                                        viewBox="0 0 14 10">
+                                    <svg class="rtl:rotate-180 w-4.5 h-4.5 text-red me-2 text-indigo-400"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        width="24" height="24" viewBox="0 0 14 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                             stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
                                     </svg>
@@ -270,37 +282,11 @@
         </div>
     </div>
 
-    <!-- drawer component -->
-    <div id="drawer-right-example"
-        class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto translate-x-full bg-white shadow-lg transition-transform w-1/2"
-        tabindex="-1">
-        <button type="button" role="button" id="closeDrawer"
-            class="absolute top-2 end-6 text-2xl text-gray-400 hover:text-gray-800">
-            ✕
-        </button>
-        <div id="drawerContent" class="mt-8">
-            <!-- Step form will load here -->
-            <div class="text-center text-gray-400">Loading...</div>
-        </div>
-    </div>
-@endsection
 
+@endsection
 @push('scripts')
     <script>
         $(document).ready(function() {
-
-            function openDrawer() {
-                $('#drawer-right-example').removeClass('translate-x-full');
-            }
-
-            function closeDrawer() {
-                $('#drawer-right-example').addClass('translate-x-full');
-            }
-
-            $(document).on('click', '#closeDrawer', function() {
-                closeDrawer();
-            });
-
             $(document).on('click', '.open-step', function(e) {
                 e.preventDefault();
                 let step = $(this).data('step');
@@ -315,11 +301,9 @@
                         '<div class="text-center text-red-500 p-5">Failed to load step.</div>');
                 });
             });
-        });
-    </script>
 
-    <script>
-        $(document).ready(function() {
+            $('.open-step').click();
+
             $("#imgSelect").change(function() {
                 if (this.files && this.files[0]) {
                     var reader = new FileReader();
@@ -330,7 +314,7 @@
                 }
             });
 
-             $("#thumbImgSelect").change(function() {
+            $("#thumbImgSelect").change(function() {
                 if (this.files && this.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function(e) {
@@ -341,4 +325,5 @@
             });
         });
     </script>
+
 @endpush

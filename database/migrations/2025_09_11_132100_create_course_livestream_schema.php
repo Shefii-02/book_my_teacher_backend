@@ -68,7 +68,7 @@ return new class extends Migration
       $table->unsignedBigInteger('company_id')->nullable();
       $table->unsignedBigInteger('created_by')->nullable();
 
-      $table->enum('type', ['offline', 'online', 'recorded'])->default('online');
+      $table->enum('class_mode', ['offline', 'online', 'recorded'])->default('online');
       $table->timestamps();
 
       $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');

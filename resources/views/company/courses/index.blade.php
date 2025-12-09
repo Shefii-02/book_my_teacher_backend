@@ -32,12 +32,10 @@
 
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
-                                <a href="{{ route('admin.courses.categories.index') }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Category
-                                    List</a>
+
                                 <a href="{{ route('admin.courses.create') }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Create
-                                    Course</a>
+                                    class="px-4 py-2 bg-gradient-to-tl  from-emerald-500 to-teal-400  text-white  text-sm">
+                                    <i class="bi bi-plus me-1"></i> Create Course</a>
                             </div>
                         </div>
                     </div>
@@ -53,9 +51,9 @@
                             <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                                 <div class="flex1">
                                     <div class="w-full max-w-full ">
-                                        <h6 class="dark:text-white">Course List</h6>
+                                        {{-- <h6 class="dark:text-white">Course List</h6> --}}
                                     </div>
-                                    <div class="w-full max-w-full ">
+                                    {{-- <div class="w-full max-w-full ">
                                         <form method="GET" action="{{ route('admin.teachers') }}"
                                             class="mb-4 flex flex-wrap gap-3 items-end">
 
@@ -118,7 +116,7 @@
                                             </div>
                                         </form>
 
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             @php
@@ -144,7 +142,7 @@
 
                             <div class="flex-auto px-0 pt-0 pb-2">
                                 <div class="p-0 overflow-x-auto">
-                                    <table
+                                    {{-- <table
                                         class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
                                         <thead class="align-bottom">
                                             <tr>
@@ -185,7 +183,6 @@
                                                 @php
                                                     $courseCategories = $course->categories->pluck('title')->toArray();
                                                 @endphp
-
                                                 <tr>
                                                     <td
                                                         class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
@@ -304,7 +301,63 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                    </table>
+                                    </table> --}}
+                                    <div class="min-h-screen  transition-colors">
+                                        <div class="p-6">
+
+                                            {{-- Header: title + dark mode toggle + search/filters --}}
+                                            {{-- <div class="flex items-center justify-between mb-6">
+                                                <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Courses</h1>
+
+                                                <div class="flex items-center gap-3">
+                                                    <!-- Search -->
+                                                    <input x-model="filters.search" @keydown.enter.prevent="reload()"
+                                                        type="text" placeholder="Search courses..."
+                                                        class="px-3 py-2 rounded-lg border bg-white dark:bg-slate-800 text-sm focus:ring focus:ring-indigo-200">
+
+                                                    <!-- Category filter (simple example) -->
+                                                    <select x-model="filters.category" @change="reload()"
+                                                        class="px-3 py-2 rounded-lg border bg-white dark:bg-slate-800 text-sm">
+                                                        <option value="">All Categories</option>
+                                                        @foreach ($allCategories as $cat)
+                                                            <option value="{{ $cat->id }}">{{ $cat->title }}</option>
+                                                        @endforeach
+                                                    </select>
+
+                                                    <!-- Dark / Light toggle -->
+                                                    <button @click="toggleDark()" :aria-pressed="darkMode.toString()"
+                                                        class="flex items-center gap-2 px-3 py-2 rounded-lg border bg-white dark:bg-slate-800">
+                                                        <template x-if="!darkMode">
+                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                                viewBox="0 0 24 24">
+                                                                <path stroke-width="2" stroke-linecap="round"
+                                                                    stroke-linejoin="round"
+                                                                    d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36 6.36-1.42-1.42M7.05 7.05 5.64 5.64m12.02 0-1.41 1.41M7.05 16.95l-1.41 1.41" />
+                                                            </svg>
+                                                        </template>
+                                                        <template x-if="darkMode">
+                                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path
+                                                                    d="M17.293 13.293a8 8 0 11-10.586-10.586 8 8 0 0010.586 10.586z" />
+                                                            </svg>
+                                                        </template>
+                                                        <span x-text="darkMode ? 'Dark' : 'Light' " class="text-sm"></span>
+                                                    </button>
+                                                </div>
+                                            </div> --}}
+
+                                            {{-- Grid container --}}
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+                                                id="courses-grid" >
+                                                {{-- initial cards rendered from server --}}
+                                                @foreach ($courses as $course)
+                                                    @include('components.courses_card', ['course' => $course])
+                                                @endforeach
+                                            </div>
+
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center m-4">

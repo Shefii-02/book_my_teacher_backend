@@ -40,7 +40,7 @@ class WebinarController extends Controller
 
   public function create()
   {
-    $users = User::all();
+    $users = User::where('acc_type','teacher')->where('company_id',1)->get();
     $providers = StreamProvider::all();
     return view('company.webinars.form', compact('users', 'providers'));
   }

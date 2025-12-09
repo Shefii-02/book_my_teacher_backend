@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ReferralController;
 use App\Http\Controllers\HRMS\RoleController;
 use App\Http\Controllers\HRMS\TeamController;
+use App\Http\Controllers\LMS\AcademicController;
 use App\Http\Controllers\LMS\AnalyticController;
 use App\Http\Controllers\LMS\CouponController;
 use Illuminate\Support\Facades\Route;
@@ -134,8 +135,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('/otp/{id}/edit', 'dashboard\UserController@editOtp')->name('otp.edit');
   Route::put('/otp/{id}', 'dashboard\UserController@updateOtp')->name('otp.update');
 
-  Route::resource('categories', CourseCategoryController::class)->names('courses.categories');
-  Route::resource('subcategories', CourseSubCategoryController::class)->names('courses.subcategories');
+  Route::resource('courses/categories', CourseCategoryController::class)->names('categories');
+  Route::resource('courses/subcategories', CourseSubCategoryController::class)->names('subcategories');
   Route::get('/categories/{id}/subcategories', [CourseController::class, 'getSubcategories']);
 
   // /admin/courses/load-step-form/${step}?course_id=${courseId}
@@ -157,6 +158,30 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
 
   Route::resource('courses', CourseController::class)->names('courses');
 
+  Route::get('coupons/trashed', [CouponController::class, 'trashed'])->name('coupons.trashed');
+  Route::post('coupons/{id}/restore', [CouponController::class, 'restore'])->name('coupons.restore');
+
+
+  Route::resource('coupons', CouponController::class);
+
+
+  Route::get('admission', 'LMS\AdmissionController@create')->name('admissions.index');
+  Route::post('admission/store', 'LMS\AdmissionController@admissionStore')->name('admissions.store');
+
+  Route::get('admissions/student-search', 'LMS\AdmissionController@studentSearch')->name('admissions.student.search');
+  Route::get('admissions/course-search', 'LMS\AdmissionController@courseSearch')->name('admissions.course.search');
+  Route::get('admissions/course-info/{id}', 'LMS\AdmissionController@courseInfo')->name('admissions.course.info');
+  Route::post('admissions/validate-coupon', 'LMS\AdmissionController@validateCoupon')->name('admissions.coupon.validate');
+
+
+
+  // PhonePe callback (public endpoint - secure it)
+  Route::post('admissions/payment/callback', 'LMS\AdmissionController@paymentCallback')->name('admin.admissions.payment.callback');
+  Route::get('admissions/payment/success', 'LMS\AdmissionController@paymentSuccess')->name('admin.admissions.payment.success'); // optional redirect
+
+  Route::get('course-swap', 'LMS\AcademicController@courseSwap')->name('course-swap.index');
+  Route::post('course-swap/store', 'LMS\AcademicController@courseSwapStore')->name('course-swap.store');
+
 
   // Route::resource('schedule-class/{identity}', CourseClassController::class)->names('courses.schedule-class');
   Route::resource('livestreams', LivestreamClassController::class)->names('livestreams');
@@ -168,11 +193,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('webinars/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
     ->name('webinars.registrations.download-csv');
 
-  Route::get('coupons/trashed', [CouponController::class, 'trashed'])->name('coupons.trashed');
-  Route::post('coupons/{id}/restore', [CouponController::class, 'restore'])->name('coupons.restore');
 
 
-  Route::resource('coupons', CouponController::class);
+  Route::get('/phonepe/pay', 'PhonePeController@initPayment');
+  Route::post('/phonepe/callback', 'PhonePeController@callback')->name('phonepe.callback');
+
+
+
   Route::resource('analytics', AnalyticController::class);
 
 

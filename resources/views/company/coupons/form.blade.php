@@ -32,6 +32,7 @@
             <form action="{{ isset($coupon) ? route('admin.coupons.update', $coupon->id) : route('admin.coupons.store') }}"
                 method="POST">
                 @csrf
+
                 @if (isset($coupon))
                     @method('PUT')
                 @endif

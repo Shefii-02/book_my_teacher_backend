@@ -25,10 +25,10 @@ class Course extends Model
     'net_price',
     'gross_price',
     'is_tax',
-    'video_type',
+    'class_type',
     'has_material',
     'has_material_download',
-    'streaming_type',
+    'class_mode',
     'has_exam',
     'is_counselling',
     'is_career_guidance',
@@ -41,6 +41,10 @@ class Course extends Model
     'course_identity',
     'status',
     'step_completed',
+    'course_type',
+    'level',
+    'commission_percentage',
+    'institude_id',
   ];
 
   public function category()
@@ -54,9 +58,26 @@ class Course extends Model
   }
 
   public function materials()
-{
+  {
     return $this->hasMany(CourseMaterial::class)->orderBy('position');
-}
+  }
+
+  public function teachers()
+  {
+    return $this->belongsToMany(
+      Teacher::class,
+      'teacher_courses',   // pivot table
+      'course_id',         // foreign key on pivot (for Course)
+      'teacher_id'         // related key on pivot (for Teacher)
+    );
+  }
+
+
+
+  public function teacherCourses()
+  {
+    return $this->hasMany(TeacherCourse::class);
+  }
 
 
   public function subCategory()

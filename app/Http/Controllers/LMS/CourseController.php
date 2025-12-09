@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\CourseSubCategory;
+use App\Models\Teacher;
+use App\Models\TeacherCourse;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +56,7 @@ class CourseController extends Controller
           'started_at'   => 'required|date',
           'ended_at'     => 'required|date|after_or_equal:started_at',
           'categories'   => 'required|array',
-          'categories.*.category_id' => 'required|exists:course_categories,id',
+          'categories.*.category_id' => 'nullable|exists:course_categories,id',
         ];
 
 
@@ -199,35 +201,49 @@ class CourseController extends Controller
         }
         $course->save();
       } else if ($request->advanced_form) {
+
         $request->validate([
           'course_identity'       => 'required',
-          'video_type'            => 'required',
-          'streaming_type'        => 'required',
-          'has_material'          => 'required|in:1,0',
-          'has_material_download' => 'nullable|in:1,0',
-          'has_exam'              => 'nullable|in:1,0',
-          'is_counselling'        => 'required|in:1,0',
-          'is_career_guidance'    => 'required|in:1,0',
-          'type'                  => 'required',
+          'course_type'           => 'required',
+          'class_type'            => 'required',
+          // 'course_level'          => 'required',
+          // 'class_mode'            => 'required',
+          // 'has_material'          => 'required|in:1,0',
+          // 'has_material_download' => 'nullable|in:1,0',
+          // 'has_exam'              => 'nullable|in:1,0',
+          // 'is_counselling'        => 'required|in:1,0',
+          // 'is_career_guidance'    => 'required|in:1,0',
         ]);
 
         // 🔹 Find course or 404
         $course = Course::where('course_identity', $request->course_identity)
           ->where('company_id', 1)
           ->firstOrFail();
-
-        $course->video_type             = $request->video_type;
-        $course->has_material           = $request->has_material;
-        $course->has_material_download  = $request->has_material_download;
-        $course->streaming_type         = $request->streaming_type;
-        $course->has_exam               = $request->has_exam;
-        $course->is_counselling         = $request->is_counselling;
-        $course->is_career_guidance     = $request->is_career_guidance;
-        $course->type                   = $request->type;
+        $course->course_type            = $request->course_type;
+        $course->level                  = $request->course_level;
+        $course->class_mode             = $request->class_mode;
+        $course->class_type             = $request->class_type;
+        $course->has_material           = $request->has_material == '1' ? 1 : 0;
+        $course->has_material_download  = $request->has_material_download == '1'  ? 1 : 0;
+        $course->has_exam               = $request->has_exam == '1'  ? 1 : 0;
+        $course->is_counselling         = $request->is_counselling == '1'  ? 1 : 0;
+        $course->is_career_guidance     = $request->is_career_guidance == '1'  ? 1 : 0;
         if ($course->step_completed <= 3) {
-          $course->step_completed         = 3;
+          $course->step_completed        = 3;
         }
+        $course->commission_percentage  = $request->is_commission ? $request->commission_percentage : 0;
+        $course->institude_id           = $request->is_institute ? $request->institute_id : null;
         $course->save();
+
+        TeacherCourse::where('course_id', $course->id)->delete();
+        if ($request->teachers) {
+          foreach ($request->teachers ?? [] as $teacher) {
+            $teachersCourse             = new TeacherCourse();
+            $teachersCourse->course_id  = $course->id;
+            $teachersCourse->teacher_id = $teacher;
+            $teachersCourse->save();
+          }
+        }
       } else if ($request->overview_form) {
 
         $request->validate([
@@ -237,10 +253,10 @@ class CourseController extends Controller
 
         // 🔹 Find course or 404
         $course = Course::where('course_identity', $request->course_identity)
-          ->where('company_id', 1)
-          ->firstOrFail();
+                        ->where('company_id', 1)
+                        ->firstOrFail();
 
-        $course->status                 = $request->status;
+        $course->status  = $request->status;
         if ($course->step_completed <= 4) {
           $course->step_completed         = 4;
         }
@@ -333,7 +349,8 @@ class CourseController extends Controller
     } else if ($step  == 2) {
       return view('company.courses.steps.payments', compact('course'));
     } else if ($step  == 3) {
-      return view('company.courses.steps.advanced', compact('course'));
+      $teachers = Teacher::where('published', 1)->get();
+      return view('company.courses.steps.advanced', compact('course', 'teachers'));
     } else {
       return view('company.courses.steps.overview', compact('course'));
     }

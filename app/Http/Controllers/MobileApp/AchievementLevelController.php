@@ -30,6 +30,7 @@ class AchievementLevelController extends Controller
             'is_active'=>'nullable|boolean',
         ]);
 
+        $data['company_id'] = 1;
         $level = AchievementLevel::create($data);
         return redirect()->route('admin.app.achievements.index')->with('success','Level created');
     }

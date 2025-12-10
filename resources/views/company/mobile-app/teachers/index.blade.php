@@ -36,7 +36,7 @@
 
                     <div class="flex-auto px-3 pt-0 pb-2 overflow-x-auto">
                         <table class="items-center w-full mb-0 text-slate-500 align-top border-collapse">
-                            <thead>
+                            <thead class="align-bottom">
                                 <tr>
                                     <th class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">Photo</th>
                                     <th class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">Name</th>

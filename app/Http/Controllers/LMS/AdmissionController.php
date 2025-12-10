@@ -40,7 +40,7 @@ class AdmissionController extends Controller
   public function courseSearch(Request $req)
   {
     $q = $req->get('q', '');
-    $data = Course::where('title', 'like', "%{$q}%")->limit(30)->get(['id', 'title', 'net_price', 'actual_price', 'total_hours', 'started_at', 'ended_at', 'description', 'is_tax']);
+    $data = Course::where('title', 'like', "%{$q}%")->limit(30)->get(['id', 'title', 'net_price', 'actual_price', 'total_hours', 'started_at', 'ended_at','coupon_available','allow_installment', 'description', 'is_tax']);
     return response()->json($data);
   }
 
@@ -54,20 +54,21 @@ class AdmissionController extends Controller
   {
     $studentId = $req->student_id;
     $courseId  = $req->course_id;
-    $subtotal  = $req->subtotal;
+    $course    = Course::where('id', $courseId)->first();
+    $subtotal  = $course->net_price;
     $code      = $req->code;
 
-    if (!$studentId || !$courseId || !$subtotal) {
+    if (!$studentId || !$courseId) {
       return response()->json(['ok' => false, 'message' => 'Missing required fields']);
     }
 
     $now = now();
 
     // Load coupon with course relation
-    $coupon = Coupon::with('coupon_course')
-      ->where('offer_code', $code)
-      ->where('is_active', 1)
-      ->first();
+    $coupon = Coupon::with('courses')
+                    ->where('offer_code', $code)
+                    ->where('is_active', 1)
+                    ->first();
 
     if (!$coupon) {
       return response()->json(['ok' => false, 'message' => 'Invalid coupon']);
@@ -151,7 +152,7 @@ class AdmissionController extends Controller
       if ($coupon->max_discount_amount) {
         $discount = min($discount, $coupon->max_discount_amount);
       }
-    } elseif ($coupon->discount_type === 'fixed') {
+    } elseif ($coupon->discount_type === 'flat') {
       $discount = $coupon->discount_value;
     }
 
@@ -168,8 +169,11 @@ class AdmissionController extends Controller
 
 
   // store purchase (save pending and redirect to PhonePe)
-  public function store(Request $req)
+  public function admissionStore(Request $req)
   {
+
+    dd($req->all());
+
     $req->validate([
       'student_id' => 'required|exists:students,id',
       'course_id' => 'required|exists:courses,id',

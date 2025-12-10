@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CompanyContact extends Model
+class CompanyStorageSetting extends Model
 {
     protected $fillable = [
-        'company_id', 'label', 'email', 'phone', 'whatsapp', 'is_primary'
+        'company_id', 'disk_type', 'bucket', 'access_key', 'secret_key',
+        'region', 'folder_path', 'is_active'
     ];
 
     protected $casts = [
-        'is_primary' => 'boolean'
+        'is_active' => 'boolean',
     ];
 
     public function company()

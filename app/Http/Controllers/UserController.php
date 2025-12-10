@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Teacher;
 use App\Models\TopTeacher;
 use App\Http\Controllers\Controller;
+use App\Models\SubjectCourse;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -42,4 +43,28 @@ class UserController extends Controller
 
     return response()->json($users);
   }
+
+
+  public function courses($id)
+{
+    $user = User::findOrFail($id);
+    return $user->courses()->get(['id','title']);
+}
+
+
+
+public function subjects($id)
+{
+    $course = SubjectCourse::findOrFail($id);
+    return $course->subjects()->get(['id','name']);
+}
+
+
+public function teachers($id)
+{
+    $course = SubjectCourse::findOrFail($id);
+    return $course->teachers()->get(['id','name']);
+}
+
+
 }

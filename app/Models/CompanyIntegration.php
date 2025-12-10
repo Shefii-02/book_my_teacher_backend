@@ -1,20 +1,22 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SocialLink extends Model
+class CompanyIntegration extends Model
 {
-   protected $fillable = [
-        'company_id', 'name', 'icon', 'link', 'type', 'style', 'is_active', 'sort_order'
+    protected $fillable = [
+        'company_id', 'integration_name', 'config', 'is_active'
     ];
 
     protected $casts = [
-        'style' => 'array',
+        'config' => 'array',
+        'is_active' => 'boolean',
     ];
 
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
-  }
+}

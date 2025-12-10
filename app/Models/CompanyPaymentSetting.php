@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CompanyContact extends Model
+class CompanyPaymentSetting extends Model
 {
     protected $fillable = [
-        'company_id', 'label', 'email', 'phone', 'whatsapp', 'is_primary'
+        'company_id', 'gateway_name', 'merchant_id', 'api_key', 'api_secret',
+        'salt_key', 'salt_index', 'webhook_secret', 'is_active', 'mode'
     ];
 
     protected $casts = [
-        'is_primary' => 'boolean'
+        'is_active' => 'boolean',
     ];
 
     public function company()

@@ -42,4 +42,5 @@ class Coupon extends Model
   {
     return $this->belongsToMany(Course::class, 'coupon_course')->withTimestamps();
   }
+
 }

@@ -33,6 +33,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], 'namespace' => 'App\Http\Controllers'], function () {
 
   Route::get('/ajax/users/search', 'UserController@searchUsers')->name('search-users');
+  Route::get('/users/{id}/courses', 'UserController@courses');
+  Route::get('/courses/{id}/subjects', 'CourseController@subjects');
+  Route::get('/courses/{id}/teachers', 'CourseController@teachers');
+
+
+
+
   Route::group(['prefix' => 'app', 'as' => 'app.', 'namespace' => 'MobileApp'], function () {
     Route::get('/', 'DashboardController@index')->name('index');
 
@@ -56,9 +63,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
     Route::resource('wallets', 'WalletController')->names('wallets');
     Route::post('referral/{ref_id}/credited', 'ReferralController@pointApprove')->name('referral.credit');
     Route::resource('referral', 'ReferralController')->names('referral');
-    Route::resource('reviews', 'ReviewController')->names('reviews');
+    Route::resource('reviews', 'SubjectReviewController')->names('reviews');
     Route::resource('community-links', 'CommunityLinkController')->names('community-links');
     // Route::resource('achivements', 'AchivementsController')->names('achivements');
+
 
     Route::prefix('achievements')->name('achievements.')->group(function () {
       Route::get('/', 'AchievementLevelController@index')->name('index');
@@ -75,7 +83,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
     });
 
 
-    Route::resource('delete-accounts', 'AchivementsController')->names('delete-accounts');
+    Route::get('delete-account-requests', 'UserController@index')->name('delete-accounts.index');
+    Route::post('delete-account-requests/{id}/approve', 'UserController@approve')->name('delete_account_requests.approve');
+    Route::post('delete-account-requests/{id}/reject', 'UserController@reject')->name('delete_account_requests.reject');
+
+
+
+
+    Route::get('/deleted-users', 'UserController@deleted_accounts')
+      ->name('delete_accounts.list');
+
+    Route::post('/deleted-users/restore/{id}', 'UserController@restore')
+      ->name('delete_accounts.restore');
+
     Route::resource('statistics-watch', 'StatisticsWatchController')->names('statistics-watch');
     Route::resource('statistics-spend', 'StatisticsSpendController')->names('statistics-spend');
 
@@ -154,6 +174,32 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
     Route::get('course-banner', 'RequestController@courseBanner')->name('course-banner');
     Route::get('teacher-class', 'RequestController@teacherClass')->name('teacher-class');
   });
+
+
+
+
+  Route::get('/company/settings', 'LMS\CompanySettingController@index')
+    ->name('company.settings');
+
+  Route::post('/company-settings', 'LMS\CompanySettingController@companySettingsStore')
+    ->name('company-settings-store');
+
+
+  Route::post('/company/settings/general', 'LMS\CompanySettingController@updateGeneral')
+    ->name('company.settings.general.update');
+
+  Route::post('/company/settings/branding', 'LMS\CompanySettingController@updateBranding')
+    ->name('company.settings.branding.update');
+
+  Route::post('/company/settings/social', 'LMS\CompanySettingController@updateSocial')
+    ->name('company.settings.social.update');
+
+  Route::post('/company/settings/payment', 'LMS\CompanySettingController@updatePayment')
+    ->name('company.settings.payment.update');
+
+  Route::post('/company/settings/security', 'LMS\CompanySettingController@updateSecurity')
+    ->name('company.settings.security.update');
+
 
 
   Route::resource('courses', CourseController::class)->names('courses');

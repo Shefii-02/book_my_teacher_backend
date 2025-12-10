@@ -435,34 +435,7 @@
                         </li>
 
                         <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.webinars.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.app.community-links.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 bi bi-headset text-sm"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Contact
-                                    Info</span>
-                            </a>
-                        </li>
-
-
-                        <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.coupons.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.app.achievements.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-sm bi bi-share-fill"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Community
-                                    Links</span>
-                            </a>
-                        </li>
-
-                        <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.analytics.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                            <a class=" dark:text-white {{ Request::routeIs('admin.app.delete-accounts.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                 href="{{ route('admin.app.delete-accounts.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">

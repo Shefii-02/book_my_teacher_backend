@@ -301,13 +301,11 @@
                                             Subjects</span>
                                     </a>
                                 </li>
-
                             </ul>
                         </li>
 
-
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.app.wallets.*') || Request::routeIs('admin.app.referral.*') || Request::routeIs('admin.app.achievements.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.app.wallets.*') || Request::routeIs('admin.app.referral.*') || Request::routeIs('admin.app.achievements.*') || Request::routeIs('admin.app.transfer.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -321,7 +319,7 @@
                                 <span class="bi bi-caret-down ml-auto mr-4"></span>
                             </a>
 
-                            <ul class="submenu pl-6 {{ Request::routeIs('admin.app.wallets.*') || Request::routeIs('admin.app.referral.*') || Request::routeIs('admin.app.achievements.*')  ? '' : 'hidden' }}">
+                            <ul class="submenu pl-6 {{ Request::routeIs('admin.app.wallets.*') || Request::routeIs('admin.app.referral.*') || Request::routeIs('admin.app.achievements.*') || Request::routeIs('admin.app.transfer.*')  ? '' : 'hidden' }}">
 
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('admin.app.wallets.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
@@ -361,10 +359,9 @@
                                             class="ml-1 duration-300 opacity-100 pointer-events-none ease">Achivements</span>
                                     </a>
                                 </li>
-
                                   <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.staffs.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.app.achievements.index') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('admin.app.transfer.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('admin.app.transfer.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i

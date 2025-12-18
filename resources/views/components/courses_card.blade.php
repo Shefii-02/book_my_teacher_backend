@@ -7,17 +7,27 @@
 @endphp
 
 <div class="bg-white dark:bg-slate-800 border rounded-xl shadow hover:shadow-xl transform transition duration-300 hover:-translate-y-1 overflow-hidden"
-    style="min-height: 260px;">
+    style="min-height: 230px;">
     {{-- image with lazy loading --}}
-    <div class="h-48 overflow-hidden">
+    <div class="h-48 overflow-hidden relative">
         <img src="{{ $course->thumbnail_url ? $course->thumbnail_url : asset('images/placeholder.png') }}"
             alt="{{ $course->title }}" class="w-full h-full object-cover" loading="lazy">
+        <div class=" absolute end-0 position-absolute top-0">
+            @if ($course->status == 'published')
+                <span class="text-xs px-3 py-1 rounded bg-emerald-500/30 my-1 text-2.8 text-white">Published</span>
+            @elseif($course->status == 'unpublished')
+                <span class="text-xs px-3 py-1 rounded bg-gray-500 my-1 text-2.8 text-white">Unpublished</span>
+            @else
+                <span class="text-xs px-3 py-1 rounded bg-gray-700 my-1 text-2.8 text-white">Draft</span>
+            @endif
+        </div>
     </div>
 
     <div class="p-4 flex flex-col h-48">
         <h3 class="text-lg font-semibold text-gray-800  m-0 p-0 dark:text-white line-clamp-2">
             {{ $course->title }}
         </h3>
+
 
         <p class="text-sm text-gray-600 dark:text-gray-300 m-0 p-0 line-clamp-2">
             {{ $course->description }}
@@ -29,12 +39,13 @@
             </div>
             <div><strong>📅</strong> {{ date('d-M-Y', strtotime($course->started_at)) }} →
                 {{ $course->ended_at == null ? 'Unlimited' : date('d-M-Y', strtotime($course->ended_at)) }}</div>
-            @if ($courseCategories)
+            {{-- @if ($courseCategories)
                 <div><strong>Categories:</strong> <span
                         class="bg-blue-300 px-2 py-1 text-white rounded">{{ implode(', ', $courseCategories) }}</span>
                 </div>
-            @endif
+            @endif --}}
         </div>
+
 
         <div class="mt-auto flex items-center justify-between gap-3">
             <div class="flex gap-2 items-center align-center">
@@ -43,18 +54,14 @@
                     <div class="text-sm text-gray-500 line-through">{{ $course->actual_price }}</div>
                 @endif
                 <div class="text-lg font-semibold text-emerald-600">{{ $course->net_price }}</div>
+
             </div>
 
-            <div class="flex items-center gap-2">
-                @if ($course->status == 'published')
-                    <span class="text-xs px-3 py-1 rounded bg-emerald-600 text-white">Published</span>
-                @elseif($course->status == 'unpublished')
-                    <span class="text-xs px-3 py-1 rounded bg-gray-500 text-white">Unpublished</span>
-                @else
-                    <span class="text-xs px-3 py-1 rounded bg-gray-700 text-white">Draft</span>
-                @endif
 
-                {{-- actions dropdown toggle (works with JS toggleDropdown or Alpine) --}}
+
+            <div class="flex items-center gap-2">
+                {{-- ac
+                tions dropdown toggle (works with JS toggleDropdown or Alpine) --}}
                 <div class="">
                     <!-- ACTIONS -->
                     <div class="relative">

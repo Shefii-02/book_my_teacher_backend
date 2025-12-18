@@ -17,6 +17,7 @@ use App\Http\Controllers\LMS\LivestreamClassController;
 use App\Http\Controllers\LMS\WebinarController;
 use App\Http\Controllers\LMS\GuestController;
 use App\Http\Controllers\LMS\GuestTeacherController;
+use App\Http\Controllers\PhonePeController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 
@@ -26,6 +27,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
   Route::post('/', 'auth\LoginController@loginPost')->name('auth-login-post');
 
   Route::post('/logout', 'dashboard\UserController@logout')->name('logout');
+  Route::get('admin/phonepe/pay', 'PhonePeController@initPayment');
+  Route::get('admin/phonepe/callback', 'PhonePeController@callback')->name('phonepe.callback');
 });
 
 
@@ -66,6 +69,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
     Route::resource('reviews', 'SubjectReviewController')->names('reviews');
     Route::resource('community-links', 'CommunityLinkController')->names('community-links');
     // Route::resource('achivements', 'AchivementsController')->names('achivements');
+
+    Route::get('referral-settings', 'ReferralSettingController@edit')->name('referral.edit');
+    Route::put('referral-settings', 'ReferralSettingController@update')->name('referral.update');
+
+    Route::prefix('transfer')->name('transfer.')->group(function () {
+      Route::get('/', 'TransferAmountController@index')->name('index');
+      Route::get('/create', 'TransferAmountController@create')->name('create');
+      Route::post('/store', 'TransferAmountController@store')->name('store');
+      Route::get('/edit/{id}', 'TransferAmountController@edit')->name('edit');
+      Route::put('/update/{id}', 'TransferAmountController@update')->name('update');
+      Route::post('/approve/{id}', 'TransferAmountController@approve')->name('approve');
+      Route::delete('/delete/{id}', 'TransferAmountController@destroy')->name('delete');
+    });
 
 
     Route::prefix('achievements')->name('achievements.')->group(function () {
@@ -176,6 +192,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   });
 
 
+  Route::prefix('payments')->name('payments.')->group(function () {
+    Route::get('init/{id}', 'LMS\PurchaseController@initPayment')->name('init');
+    Route::get('invoice/download/{id}', 'LMS\AdmissionController@downloadInvoice')->name('invoice.download');
+    Route::post('process/{id}', 'LMS\PurchaseController@paymentProcess')->name('process');
+    Route::get('callback/{id}', 'LMS\PurchaseController@paymentCallback')->name('callback');
+    Route::post('reject', 'LMS\PurchaseController@reject')->name('reject');
+    Route::get('success/{id}', 'LMS\PurchaseController@successPage')->name('success');
+    Route::get('/invoice/verify/{purchase}', 'LMS\PurchaseController@verify')->name('invoice.verify');
+  });
+
 
 
   Route::get('/company/settings', 'LMS\CompanySettingController@index')
@@ -211,7 +237,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::resource('coupons', CouponController::class);
 
 
-  Route::get('admission', 'LMS\AdmissionController@create')->name('admissions.index');
+  Route::get('admission', 'LMS\AdmissionController@index')->name('admissions.index');
+  Route::get('admission/create', 'LMS\AdmissionController@create')->name('admissions.create');
+
   Route::post('admission/store', 'LMS\AdmissionController@admissionStore')->name('admissions.store');
 
   Route::get('admissions/student-search', 'LMS\AdmissionController@studentSearch')->name('admissions.student.search');
@@ -239,10 +267,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], '
   Route::get('webinars/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
     ->name('webinars.registrations.download-csv');
 
-
-
-  Route::get('/phonepe/pay', 'PhonePeController@initPayment');
-  Route::post('/phonepe/callback', 'PhonePeController@callback')->name('phonepe.callback');
 
 
 
@@ -295,6 +319,7 @@ Route::get('admin/webinar', function () {
 
   return view('company.webinar.index', compact('app_id', 'secret_id'));
 });
+
 
 
 //////////////////////////////////////////////////////////////////////////

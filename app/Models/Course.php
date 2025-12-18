@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -107,5 +108,20 @@ class Course extends Model
   public function getMainImageUrlAttribute()
   {
     return $this->mainImageMedia ? asset('storage/' . $this->mainImageMedia->file_path) : null;
+  }
+
+
+
+  public function getValidityAttribute()
+  {
+    $start = Carbon::parse($this->started_at)->format('d-M-Y');
+
+    if ($this->end_at === null) {
+      return $start . ' - Lifetime';
+    }
+
+    $end = Carbon::parse($this->end_at)->format('d-M-Y');
+
+    return $start . ' - ' . $end;
   }
 }

@@ -193,7 +193,7 @@
             <div class="mb-4">
                 <label class="flex items-center gap-1">
                     <input type="checkbox" class="border" id="is_institute" name="is_institute"
-                        {{ old('is_institute', $course->institude_id ?? false) ? 'checked' : '' }}>
+                        {{ old('is_institute', $course->institute_id ?? false) ? 'checked' : '' }}>
                     <span class="text-sm">Institute Based</span>
                 </label>
             </div>
@@ -206,7 +206,7 @@
                 <select id="select2-teachers" name="institute_id" class="form-control border w-full">
                     <option value="">Select one</option>
                     @foreach ($teachers as $teacher)
-                        <option value="{{ $teacher->id }}" @selected(old('institute_id', $course->institude_id ?? '') == $teacher->id)>
+                        <option value="{{ $teacher->id }}" @selected(old('institute_id', $course->institute_id ?? '') == $teacher->id)>
                             {{ $teacher->name }}
                         </option>
                     @endforeach

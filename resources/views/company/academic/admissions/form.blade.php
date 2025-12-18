@@ -37,7 +37,7 @@
                 <div class="flex h-screen overflow-hidden">
 
                     <!-- Left: Scrollable (col-9) -->
-                    <div class="w-full overflow-y-auto bg-gray-100">
+                    <div class="w-full overflow-y-auto ">
                         <!-- Your scroll content -->
                         <div class="p-6 space-y-4">
                             {{-- Student search (simple) --}}
@@ -200,19 +200,17 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm">Tax (%)</label>
-                                <input type="number" step="0.01" name="tax_percent" id="tax_percent"
-                                    value="{{ old('tax_percent', 0) }}" class="w-full p-2 border rounded" />
-                                <div class="text-xs text-gray-500 mt-1">Tax included?
-                                    <label><input type="checkbox" name="tax_included" id="tax_included"
-                                            {{ old('tax_included') ? 'checked' : '' }}> Yes</label>
-                                </div>
-                            </div>
-
-                            <div>
                                 <label class="block text-sm">Sub Total</label>
                                 <input type="number" step="0.01" readonly disabled name="sub_total" id="sub_total"
                                     value="{{ old('sub_total') }}" class="w-full p-2 border rounded" required />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm">Tax</label>
+                                <input class="hidden" type="checkbox" id="tax_included">
+                                <input class="hidden" type="text" id="tax_percent">
+                                <input type="number" readonly step="0.01" name="tax" id="tax"
+                                    value="{{ old('tax', 0) }}" class="w-full p-2 border rounded" />
                             </div>
 
                             <div>
@@ -224,7 +222,8 @@
                             <div>
                                 <label class="block text-sm mb-2">Payment Method</label>
                                 <div class="flex items-center mb-4">
-                                    <input id="online-radio-1" type="radio" value="online" checked name="payment_method"
+                                    <input id="online-radio-1" type="radio" value="online" checked
+                                        name="payment_method"
                                         class="w-4 h-4 text-neutral-primary border-default-medium bg-neutral-secondary-medium rounded-full checked:border-brand focus:ring-2 focus:outline-none focus:ring-brand-subtle border border-default appearance-none">
                                     <label for="online-radio-1"
                                         class="select-none ms-2 text-sm font-medium text-heading">Online Payment</label>
@@ -242,8 +241,6 @@
                                         class="select-none ms-2 text-sm font-medium text-heading">In-cash Payment</label>
                                 </div>
                             </div>
-
-
 
                             <div class="flex gap-3 text-center align-center items-center  mt-5">
                                 <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded"><i
@@ -357,8 +354,12 @@
                     // fill price & totals if empty or always override
                     $('#price').val(course.net_price ?? 0);
                     $('#discount_amount').val(0);
-                    // let taxPercent = course.is_tax ? (course.tax_percent ?? 0) : 0;
-                    // $('#tax_percent').val(taxPercent);
+                    let taxPercent = course.is_tax != 'included' ? (course.tax_percentage ?? 0) : 0;
+
+                    course.is_tax != 'included' ? $('#tax_included').attr('checked', true) : $(
+                        '#tax_included').attr('checked', false);
+                    $('#tax_percent').val(taxPercent);
+
 
                     if (course.coupon_available === 1) {
                         var CouponCode = `
@@ -397,51 +398,6 @@
                 });
             });
 
-
-            /* ---------- course select2 ---------- */
-            // $('#courseSelect').select2({
-            //     placeholder: 'Search course by title',
-            //     ajax: {
-            //         url: '{{ route('admin.admissions.course.search') }}',
-            //         dataType: 'json',
-            //         delay: 300,
-            //         data: params => ({
-            //             q: params.term
-            //         }),
-            //         processResults: function(data) {
-            //             return {
-            //                 results: data.map(c => ({
-            //                     id: c.id,
-            //                     text: c.title
-            //                 }))
-            //             };
-            //         }
-            //     },
-            //     minimumInputLength: 1,
-            //     width: '100%'
-            // });
-            // $(document).on('change','#course_id', function(e) {
-
-
-            // // $('#course_id').on('change', function(e) {
-            //     const id = this.val;
-            //     $.get('{{ url('admin/admissions/course-info') }}/' + id, function(course) {
-            //         $('#courseDetails').removeClass('hidden');
-            //         $('#cd_title').text(course.title);
-            //         $('#cd_desc').text(course.description || '');
-            //         $('#cd_actual_price').text(course.actual_price ?? course.net_price ?? 0);
-            //         $('#cd_net_price').text(course.net_price ?? course.actual_price ?? 0);
-            //         $('#cd_hours').text(course.total_hours ?? '--');
-
-            //         // fill price & totals if empty or always override
-            //         $('#price').val(course.actual_price ?? course.net_price ?? 0);
-            //         $('#discount_amount').val(0);
-            //         let taxPercent = course.is_tax ? (course.tax_percent ?? 0) : 0;
-            //         $('#tax_percent').val(taxPercent);
-            //         // calc tax & grand_total
-            //         recalcTotals();
-            //     });
-            // });
 
             /* coupon */
             $(document).on('click', '#applyCoupon', function() {
@@ -511,6 +467,11 @@
                     recalcInstallmentSum();
                     recalcTotals();
 
+
+                    if ($('#is_installment').is(':checked')) {
+                      $('#generateInstallments').trigger('click')
+                    }
+
                 }, 'json');
             });
 
@@ -523,34 +484,29 @@
                 let taxIncluded = $('#tax_included').is(':checked');
                 const addAmount = parseFloat($('#installment_additional_amount').val() || 0);
 
-                let taxableAmount = price - discount;
+                let taxableAmount = (price - discount) + addAmount;
 
                 let taxAmount = 0;
-                if (taxIncluded) {
+                if (!taxIncluded) {
                     // price includes tax: extract tax portion
-                    taxAmount = taxableAmount - (taxableAmount / (1 + taxPercent / 100))
-                    if (taxPercent > 0) {
-                        let base = taxableAmount / (1 + (taxPercent / 100));
-                        taxAmount = taxableAmount - base;
-                        taxableAmount = base;
-                    } else {
-                        taxAmount = 0;
-                    }
+                    // taxAmount = taxableAmount - (taxableAmount / (1 + taxPercent / 100))
+                    // if (taxPercent > 0) {
+                    //     let base = taxableAmount / (1 + (taxPercent / 100));
+                    //     taxAmount = taxableAmount - base;
+                    //     taxableAmount = base;
+                    // } else {
+                    taxAmount = 0;
+                    // }
                 } else {
                     // tax excluded: add tax on top
                     taxAmount = (taxPercent / 100) * taxableAmount;
                 }
 
-                let grand = (taxableAmount + taxAmount + addAmount);
-                let subT = (taxableAmount + taxAmount);
+                let subT = (taxableAmount);
+                let grand = (taxableAmount + taxAmount);
                 $('#tax_amount').remove(); // cleanup old hidden if any
                 // append tax amount hidden so server can store direct number
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: 'tax_amount',
-                    name: 'tax_amount',
-                    value: taxAmount.toFixed(2)
-                }).appendTo('#admissionForm');
+                $('#tax').val(taxAmount.toFixed(2));
 
                 $('#sub_total').val(subT.toFixed(2))
                 $('#grand_total').val(grand.toFixed(2));
@@ -575,7 +531,7 @@
                 const count = parseInt($('#installments_count').val() || 0);
                 const interval = parseInt($('#installment_interval_months').val() || 1);
                 const addAmount = parseFloat($('#installment_additional_amount').val() || 0);
-                const grandTotal = parseFloat($('#sub_total').val() || 0) + addAmount;
+                const grandTotal = parseFloat($('#grand_total').val() || 0);
                 $('#installmentInputs').empty();
                 $('#installmentsList').empty();
 
@@ -640,9 +596,12 @@
                     sum += parseFloat($(this).val() || 0);
                 });
                 $('#installmentsSum').text(sum.toFixed(2));
-                $('#installmentsGrandTotal').text(parseFloat($('#grand_total').val() || 0).toFixed(2));
-                const grand = parseFloat($('#grand_total').val() || 0);
-                if (Math.abs(sum - grand) > 0.009) {
+
+                const addAmount = parseFloat($('#installment_additional_amount').val() || 0);
+                const grandTotal = parseFloat($('#grand_total').val() || 0);
+                $('#installmentsGrandTotal').text(parseFloat(grandTotal || 0).toFixed(2));
+                // const grand = parseFloat($('#grand_total').val() || 0);
+                if (Math.abs(sum - grandTotal) > 0.009) {
                     $('#installmentError').removeClass('hidden');
                 } else {
                     $('#installmentError').addClass('hidden');
@@ -655,6 +614,7 @@
                     recalcInstallmentSum();
                     const sum = parseFloat($('#installmentsSum').text() || 0);
                     const grand = parseFloat($('#grand_total').val() || 0);
+
                     if (Math.abs(sum - grand) > 0.009) {
                         e.preventDefault();
                         alert('Installments total must equal Grand Total.');

@@ -13,16 +13,115 @@ use App\Models\PurchaseInstallment;
 use App\Models\PurchasePayment;
 use App\Models\User;
 use Carbon\Carbon;
+use Google\Service\Adsense\Payment;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class AdmissionController extends Controller
 {
+
+
+  public function index(Request $request)
+  {
+    $query = Purchase::with([
+      'student:id,name,email,mobile',
+      'course:id,title',
+      'payments'
+    ]);
+
+    /* ================= FILTERS ================= */
+
+    // Status filter
+    if ($request->filled('type')) {
+      if ($request->type !== 'all') {
+        $query->where('status', $request->type);
+      }
+    }
+
+    // Search (name / email / mobile)
+    if ($request->filled('search')) {
+      $query->whereHas('student', function ($q) use ($request) {
+        $q->where('name', 'like', "%{$request->search}%")
+          ->orWhere('email', 'like', "%{$request->search}%")
+          ->orWhere('mobile', 'like', "%{$request->search}%");
+      });
+    }
+
+    // Date filter
+    if ($request->filled('start_date')) {
+      $query->whereDate('created_at', '>=', $request->start_date);
+    }
+
+    if ($request->filled('end_date')) {
+      $query->whereDate('created_at', '<=', $request->end_date);
+    }
+
+    $transactions = $query->latest()->paginate(15);
+
+    /* ================= CARDS DATA ================= */
+
+    $stats = [
+      'total'    => $this->statsByStatus(),
+      'paid'     => $this->statsByStatus('paid'),
+      'pending'  => $this->statsByStatus('pending'),
+      'rejected' => $this->statsByStatus('rejected'),
+    ];
+
+    return view('company.academic.admissions.index', compact(
+      'transactions',
+      'stats'
+    ));
+  }
+
+  private function statsByStatus($status = null)
+  {
+    $q = Purchase::query();
+    if ($status) $q->where('status', $status);
+
+    return [
+      'count'   => $q->count(),
+      'online'  => (clone $q)->where('payment_method', 'online')->count(),
+      'manual'  => (clone $q)->whereIn('payment_method', ['bank', 'manual'])->count(),
+      'cash'    => (clone $q)->where('payment_method', 'cash')->count(),
+    ];
+  }
+
+  public function downloadInvoice($id)
+  {
+    $purchase = Purchase::with('student', 'course')->findOrFail($id);
+
+    abort_if($purchase->status !== 'paid', 403);
+
+    return PDF::loadView('company.academic.payments.purchase-invoice', compact('purchase'))
+      ->download("Invoice-{$purchase->payments->order_id}.pdf");
+  }
+
+  public function reject(Request $request)
+  {
+    $request->validate([
+      'purchase_id' => 'required|exists:purchases,id',
+      'notes'       => 'required|string'
+    ]);
+
+    $purchase = Purchase::findOrFail($request->purchase_id);
+
+    $purchase->update([
+      'status' => 'rejected',
+      'notes'  => $request->notes
+    ]);
+
+    return back()->with('success', 'Transaction rejected');
+  }
+
+
+
+
+
   public function create(Request $request)
   {
     // for create/edit form you may pass $purchase for edit; here create
-    return view('company.academic.admissions.form', [
-      'teachers' => [], // optional
-    ]);
+    return view('company.academic.admissions.form');
   }
 
   // AJAX search students
@@ -40,7 +139,8 @@ class AdmissionController extends Controller
   public function courseSearch(Request $req)
   {
     $q = $req->get('q', '');
-    $data = Course::where('title', 'like', "%{$q}%")->limit(30)->get(['id', 'title', 'net_price', 'actual_price', 'total_hours', 'started_at', 'ended_at','coupon_available','allow_installment', 'description', 'is_tax']);
+    // ['id', 'title', 'net_price', 'actual_price', 'total_hours', 'started_at', 'ended_at', 'coupon_available', 'allow_installment', 'description', 'is_tax'])
+    $data = Course::where('title', 'like', "%{$q}%")->limit(30)->get();
     return response()->json($data);
   }
 
@@ -56,7 +156,7 @@ class AdmissionController extends Controller
     $courseId  = $req->course_id;
     $course    = Course::where('id', $courseId)->first();
     $subtotal  = $course->net_price;
-    $code      = $req->code;
+    $code      = $req->code ?? $req->coupon_code;
 
     if (!$studentId || !$courseId) {
       return response()->json(['ok' => false, 'message' => 'Missing required fields']);
@@ -66,9 +166,9 @@ class AdmissionController extends Controller
 
     // Load coupon with course relation
     $coupon = Coupon::with('courses')
-                    ->where('offer_code', $code)
-                    ->where('is_active', 1)
-                    ->first();
+      ->where('offer_code', $code)
+      ->where('is_active', 1)
+      ->first();
 
     if (!$coupon) {
       return response()->json(['ok' => false, 'message' => 'Invalid coupon']);
@@ -172,42 +272,59 @@ class AdmissionController extends Controller
   public function admissionStore(Request $req)
   {
 
-    dd($req->all());
-
     $req->validate([
-      'student_id' => 'required|exists:students,id',
+      'student_id' => 'required|exists:users,id',
       'course_id' => 'required|exists:courses,id',
-      'price' => 'required|numeric|min:0',
+      'coupon_code' => 'nullable',
+      'payment_method' => 'required',
       'discount_amount' => 'nullable|numeric|min:0',
       'tax_percent' => 'nullable|numeric|min:0',
-      'grand_total' => 'required|numeric|min:0',
       'is_installment' => 'nullable|boolean',
       'installments' => 'nullable|array',
+      'notes' => 'nullable',
     ]);
+
+
+    $purchaseDetails   = $this->calculatePurchaseDetails($req);
+
+    //check installment_grand_total == grand_total;
+
+
+    if ($req->is_installment) {
+      if ($purchaseDetails['installment']['installment_grand_total'] != $purchaseDetails['grand_total']) {
+        return redirect()
+          ->back()
+          ->with('error', 'Installment Amount and Grand Total doesnot match please check');
+      }
+    }
+
 
     DB::beginTransaction();
     try {
       $purchase = Purchase::create([
         'student_id' => $req->student_id,
         'course_id' => $req->course_id,
-        'coupon_code' => $req->coupon_code ?? null,
-        'price' => $req->price,
-        'discount_amount' => $req->discount_amount ?? 0,
-        'tax_amount' => round((($req->tax_percent ?? 0) / 100) * ($req->price - ($req->discount_amount ?? 0)), 2),
-        'grand_total' => $req->grand_total,
-        'is_installment' => $req->is_installment ? 1 : 0,
-        'installments_count' => $req->installments_count,
-        'installment_interval_months' => $req->installment_interval_months,
-        'installment_additional_amount' => $req->installment_additional_amount ?? 0,
+        'coupon_code' => $purchaseDetails['coupon_code'] ?? null,
+        'price' => $purchaseDetails['course_price'],
+        'discount_amount' => $purchaseDetails['discount_amount'] ?? 0,
+        'tax_percent' => $purchaseDetails['tax']['tax_percent'] ?? 0,
+        'tax_amount' => $purchaseDetails['tax']['tax_amount'],
+        'is_installment' => $req->is_installment == 1 ? 1 : 0,
+        'installments_count' => $purchaseDetails['installment']['installments_count'],
+        'installment_interval_months' => $purchaseDetails['installment']['installment_interval_months'],
+        'installment_additional_amount' => $purchaseDetails['installment']['additional_amount'] ?? 0,
         'notes' => $req->notes ?? null,
         'status' => 'pending', // initial pending
-        'created_by' => auth()->id(),
-        'tax_included' => $req->tax_included ? 1 : 0,
-        'tax_percent' => $req->tax_percent ?? 0,
+        'created_by' => auth()->user()->id,
+        'tax_included' => $purchaseDetails['course']['tax_included'] == 'included' ? 1 : 0,
+        'grand_total' => $purchaseDetails['grand_total'],
+        'payment_method' => $req->payment_method,
+        'payment_source' => 'web',
       ]);
 
+      $firstPayment = null;
       // installments creation (if provided)
-      if ($purchase->is_installment && is_array($req->installments)) {
+      if ($req->is_installment) {
         foreach ($req->installments as $ins) {
           PurchaseInstallment::create([
             'purchase_id' => $purchase->id,
@@ -217,95 +334,330 @@ class AdmissionController extends Controller
             'is_paid' => false,
           ]);
         }
+        $firstPayment =  $req->installments[0]['amount'];
       }
 
       // create payment record (initiated)
-      $orderId = 'ORDER-' . Str::upper(Str::random(10)) . '-' . $purchase->id;
+      $orderId = $this->invoiceNumberGenerate();
       $payment = PurchasePayment::create([
         'purchase_id' => $purchase->id,
-        'gateway' => 'phonepe',
+        'gateway' => $req->payment_method,
         'order_id' => $orderId,
-        'amount' => $purchase->grand_total,
+        'amount' => $purchase->is_installment ? $firstPayment ?? 0 : $purchase->grand_total ?? 0,
         'currency' => 'INR',
         'status' => 'initiated',
       ]);
 
       DB::commit();
 
-      // Now redirect to PhonePe (or return a form to post) - stub code below
-      // You must integrate actual PhonePe checkout request & signature here.
-      // For demo we will redirect to a "mock payment page" route; replace with real gateway URL.
+      return $this->redirectToPaymentGateway($purchase, $payment);
 
-      // Example: build PhonePe payload and redirect to gateway
-      // For security: sign payload with secret key, use server-to-server verification.
-
-      // For demo: redirect to local success route after small delay (simulate)
-      // In production: redirect to actual gateway checkout URL with signed payload
-
-      // Example redirect to an internal "simulate" endpoint (for dev)
-      return redirect()->route('admin.admissions.payment.success', ['purchase_id' => $purchase->id]);
     } catch (\Throwable $ex) {
       DB::rollBack();
       return back()->withErrors(['error' => $ex->getMessage()]);
     }
   }
 
-  // PhonePe callback - POST endpoint called by gateway
-  // IMPORTANT: validate signature, verify payment status with gateway
-  public function paymentCallback(Request $req)
+  function invoiceNumberGenerate()
   {
-    // PhonePe will POST response. Validate signature and transaction id.
-    // This is a simplified example — implement proper verification.
-    $payload = $req->all();
-    $orderId = $payload['orderId'] ?? $req->input('order_id');
-    $transactionId = $payload['transactionId'] ?? $req->input('transaction_id');
-    $status = $payload['status'] ?? $req->input('status'); // success/failed
+    $ordercount = Purchase::where('created_at', '>=', date('Y-m-d 00:00:00'))->where('created_at', '<=', date('Y-m-d 23:59:59'))->count();
+    return 'ORDRBMT' . date('ymd') . sprintf('%04d', $ordercount + 1);
+  }
 
-    // Find payment record by order_id
-    $payment = PurchasePayment::where('order_id', $orderId)->first();
-    if (!$payment) {
-      // optionally log and return
-      return response()->json(['ok' => false, 'msg' => 'unknown order'], 404);
-    }
+  protected function redirectToPaymentGateway(Purchase $purchase, PurchasePayment $payment)
+  {
+    switch ($payment->gateway) {
 
-    // store raw payload
-    $payment->payload = $payload;
-    $payment->transaction_id = $transactionId ?? $payment->transaction_id;
-    $payment->status = ($status == 'success' ? 'success' : 'failed');
-    $payment->save();
+      case 'online':
+        return redirect()->route('admin.payments.init', $payment->order_id);
+      case 'manually':
+        return redirect()->route('admin.payments.bank-details', $purchase->id);
+      case 'in-cash':
+        $purchase->update(['status' => 'paid']);
+        $payment->update(['status' => 'success']);
 
-    $purchase = $payment->purchase;
+        return redirect()
+          ->route('admin.admissions.success', $purchase->id)
+          ->with('success', 'Cash payment marked as paid');
 
-    // if success -> mark purchase paid and assign course
-    if ($status == 'success') {
-      // mark purchase paid
-      $purchase->status = 'paid';
-      $purchase->save();
+      case 'free':
+        $purchase->update(['status' => 'paid']);
+        $payment->update(['status' => 'success']);
 
-      // mark payment record success already saved
+        return redirect()
+          ->route('admin.admissions.success', $purchase->id);
 
-      // allocate course to student: create pivot or record in student_courses table
-      // Example: if you have student_courses pivot table:
-      // $purchase->student->courses()->attach($purchase->course_id);
-
-      // If you maintain a enrollments table, create entry here.
-      // For demo: simply log or set an example flag.
-
-      // mark installments paid if any as paid (optionally)
-      foreach ($purchase->installments as $ins) {
-        $ins->is_paid = true;
-        $ins->paid_amount = $ins->amount;
-        $ins->save();
-      }
-
-      // Return success
-      return response()->json(['ok' => true, 'msg' => 'payment success']);
-    } else {
-      $purchase->status = 'failed';
-      $purchase->save();
-      return response()->json(['ok' => false, 'msg' => 'payment failed']);
+      default:
+        throw new \Exception('Invalid payment method');
     }
   }
+
+
+
+  public function calculatePurchaseDetails(Request $request)
+  {
+    $course = Course::findOrFail($request->course_id);
+
+    // Base price
+    $price = $course->net_price;
+
+    // Coupon
+    $couponData = $this->validateCouponData($request, $course);
+
+    $discount = $couponData['discount_amount'];
+    $afterDiscount = max($price - $discount, 0);
+
+    // Installment
+    $installmentData = $request->is_installment
+      ? $this->installmentCalculate($request)
+      : [];
+
+
+    $installmentExtra = $installmentData['additional_amount'] ?? 0;
+
+    // Tax
+    $taxData = $this->taxCalculate($request, $course, $afterDiscount + $installmentExtra);
+
+    // Grand total
+    $grandTotal = round(
+      $afterDiscount + $installmentExtra + $taxData['tax_amount'],
+      2
+    );
+
+    return [
+      'course'           => $course,
+      'course_price'     => $price,
+      'discount_amount'  => $discount,
+      'after_discount'   => $afterDiscount,
+      'installment'      => $installmentData,
+      'tax'              => $taxData,
+      'grand_total'      => $grandTotal,
+      'coupon_code'      => $couponData['coupon']['offer_code'] ?? null,
+    ];
+  }
+
+
+
+  public function installmentCalculate(Request $request)
+  {
+    $data['installments_count'] = 0;
+    $data['installment_interval_months'] = 0;
+    $data['additional_amount'] = 0;
+    $data['installment_grand_total'] = 0;
+    $data['installments'] = [];
+
+    if (isset($request->is_installment) && $request->installments_count > 0) {
+      $installmentTotal = 0;
+      foreach ($request->installments ?? [] as $installment) {
+        $installmentTotal += $installment['amount'] ?? 0;
+      }
+
+      $data['installments_count']          =  $request->installments_count;
+      $data['installment_interval_months'] =  $request->installment_interval_months;
+      $data['additional_amount']           =  $request->installment_additional_amount;
+      $data['installment_grand_total']     =  number_format($installmentTotal, 2);
+      $data['installments']                =  $request->installments;
+
+      return $data;
+    } else {
+      return $data;
+    }
+  }
+
+
+
+
+  public function validateCouponData(Request $req)
+  {
+    $studentId = $req->student_id;
+    $courseId  = $req->course_id;
+    $course    = Course::where('id', $courseId)->first();
+    $subtotal  = $course->net_price;
+    $code      = $req->code ?? $req->coupon_code;
+
+
+
+
+    $data['discount_amount'] = 0;
+    $data['coupon']          = 0;
+
+
+    if (!$studentId || !$courseId) {
+      return $data;
+    }
+
+    $now = now();
+
+    // Load coupon with course relation
+    $coupon = Coupon::with('courses')
+      ->where('offer_code', $code)
+      ->where('is_active', 1)
+      ->first();
+
+    if (!$coupon) {
+      return $data;
+    }
+
+    //---------------------------
+    // 1) VALIDATE COURSE APPLICABILITY
+    //---------------------------
+
+    // coupon_selection_type = all_courses / selected_courses
+    if ($coupon->coupon_selection_type === 'selected_courses') {
+      $allowedCourses = $coupon->coupon_course->pluck('course_id')->toArray();
+
+      if (!in_array($courseId, $allowedCourses)) {
+        return $data;
+      }
+    }
+
+    //---------------------------
+    // 2) VALIDATE DATE RANGE
+    //---------------------------
+
+    // start_date_time
+    if ($coupon->start_date_time && $coupon->start_date_time > $now) {
+      return $data;
+    }
+
+    // end_date_time (apply only if NOT unlimited)
+    if ($coupon->is_unlimited != 1) {
+      if ($coupon->end_date_time && $coupon->end_date_time < $now) {
+        return $data;
+      }
+    }
+
+    //---------------------------
+    // 3) VALIDATE MIN ORDER VALUE
+    //---------------------------
+
+    if ($coupon->minimum_order_value && $subtotal < $coupon->minimum_order_value) {
+      return $data;
+    }
+
+    //---------------------------
+    // 4) VALIDATE STUDENT USAGE LIMIT
+    //---------------------------
+
+    // max_usage_per_student = null means unlimited
+    if ($coupon->max_usage_per_student !== null) {
+
+      $usageCount = Purchase::where('student_id', $studentId)
+        ->where('coupon_code', $code)
+        ->where('status', 'paid')
+        ->count();
+
+      if ($usageCount >= $coupon->max_usage_per_student) {
+        return $data;
+      }
+    }
+
+    // 5) VALIDATE GLOBAL USAGE LIMIT
+    if ($coupon->max_usage_count !== null) {
+      if ($coupon->current_usage_count >= $coupon->max_usage_count) {
+        return $data;
+      }
+    }
+
+
+    //---------------------------
+    // 6) CALCULATE DISCOUNT
+    //---------------------------
+
+    $discount = 0;
+
+    if ($coupon->discount_type === 'percentage') {
+      $discount = round(($subtotal * $coupon->discount_value) / 100, 2);
+
+      // Optional: cap discount if coupon has max discount limit
+      if ($coupon->max_discount_amount) {
+        $discount = min($discount, $coupon->max_discount_amount);
+      }
+    } elseif ($coupon->discount_type === 'flat') {
+      $discount = $coupon->discount_value;
+    }
+
+    //---------------------------
+    // 7) PASS RESPONSE
+    //---------------------------
+
+    $data['coupon'] = $coupon;
+    $data['discount_amount'] = $discount;
+
+    return $data;
+  }
+
+
+  public function taxCalculate(Request $request, $course, float $amount)
+  {
+
+    $taxPercent = $course->is_tax == 'excluded' ? $course->tax_percentage : 0;
+
+    $taxAmount = round(($taxPercent / 100) * $amount, 2);
+
+    return [
+      'tax_percent' => $taxPercent,
+      'tax_amount'  => $taxAmount,
+    ];
+  }
+
+
+  // PhonePe callback - POST endpoint called by gateway
+  // IMPORTANT: validate signature, verify payment status with gateway
+  // public function paymentCallback(Request $req)
+  // {
+  //   // PhonePe will POST response. Validate signature and transaction id.
+  //   // This is a simplified example — implement proper verification.
+  //   $payload = $req->all();
+  //   $orderId = $payload['orderId'] ?? $req->input('order_id');
+  //   $transactionId = $payload['transactionId'] ?? $req->input('transaction_id');
+  //   $status = $payload['status'] ?? $req->input('status'); // success/failed
+
+  //   // Find payment record by order_id
+  //   $payment = PurchasePayment::where('order_id', $orderId)->first();
+  //   if (!$payment) {
+  //     // optionally log and return
+  //     return response()->json(['ok' => false, 'msg' => 'unknown order'], 404);
+  //   }
+
+  //   // store raw payload
+  //   $payment->payload = $payload;
+  //   $payment->transaction_id = $transactionId ?? $payment->transaction_id;
+  //   $payment->status = ($status == 'success' ? 'success' : 'failed');
+  //   $payment->save();
+
+  //   $purchase = $payment->purchase;
+
+  //   // if success -> mark purchase paid and assign course
+  //   if ($status == 'success') {
+  //     // mark purchase paid
+  //     $purchase->status = 'paid';
+  //     $purchase->save();
+
+  //     // mark payment record success already saved
+
+  //     // allocate course to student: create pivot or record in student_courses table
+  //     // Example: if you have student_courses pivot table:
+  //     // $purchase->student->courses()->attach($purchase->course_id);
+
+  //     // If you maintain a enrollments table, create entry here.
+  //     // For demo: simply log or set an example flag.
+
+  //     // mark installments paid if any as paid (optionally)
+  //     foreach ($purchase->installments as $ins) {
+  //       $ins->is_paid = true;
+  //       $ins->paid_amount = $ins->amount;
+  //       $ins->save();
+  //     }
+
+  //     // Return success
+  //     return response()->json(['ok' => true, 'msg' => 'payment success']);
+  //   } else {
+  //     $purchase->status = 'failed';
+  //     $purchase->save();
+  //     return response()->json(['ok' => false, 'msg' => 'payment failed']);
+  //   }
+  // }
 
   // Optional success redirect (for demo)
   public function paymentSuccess(Request $req)

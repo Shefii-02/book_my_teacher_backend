@@ -33,8 +33,8 @@ class PhonePeController extends Controller
             "merchantTransactionId" => "TXN" . time(),
             "merchantUserId"        => "USER123",
             "amount"                => $amount,
-            "redirectUrl"           => url('/phonepe/callback'),
-            "callbackUrl"           => url('/phonepe/callback'),
+            "redirectUrl"           => url('admin/phonepe/callback'),
+            "callbackUrl"           => url('admin/phonepe/callback'),
             "mobileNumber"          => "9999999999",
             "paymentInstrument"     => [
                 "type" => "PAY_PAGE",

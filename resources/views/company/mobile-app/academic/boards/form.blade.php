@@ -102,10 +102,19 @@
                     </label>
                 </div>
 
+                 <div>
+                    <div class="flex items-center gap-3">
+                        <label class="font-medium">
+                            <input type="checkbox" class="border pe-3" name="attach_sub_category" value="1"
+                                @checked(old('attach_sub_category', $grade->attach_sub_category ?? false))> Attach to sub category aslo</label>
+                    </div>
+                </div>
+
+
                 <hr class="border">
 
                 {{-- GRADES CHECKBOX --}}
-                <div>
+                <div class="bg-gray-100 p-4 rounded-3 mb-3">
                     <label class="font-bold">Grades</label>
                     <div class="grid grid-cols-2 gap-3 mt-2">
 
@@ -121,7 +130,7 @@
                 </div>
 
                 {{-- SUBJECTS CHECKBOX --}}
-                <div>
+                <div class="bg-gray-100 p-4 rounded-3">
                     <label class="font-bold">Subjects</label>
                     <div class="grid grid-cols-2 gap-3 mt-2">
                         @foreach ($subjects as $s)

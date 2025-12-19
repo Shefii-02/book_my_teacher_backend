@@ -37,8 +37,16 @@ class LoginController extends Controller
     $remember = $request->has('remember');
 
     if (Auth::attempt($credentials, $remember)) {
-      return redirect()->route('admin.dashboard')
-        ->with('success', 'Login successful');
+      if (auth()->user()->acc_type == 'super_admin') {
+        return redirect()->route('admin.dashboard.index')
+          ->with('success', 'Login successful');
+      } elseif (auth()->user()->acc_type == 'company') {
+        return redirect()->route('company.dashboard')
+          ->with('success', 'Login successful');
+      } elseif (auth()->user()->acc_type == 'teacher') {
+      } elseif (auth()->user()->acc_type == 'student') {
+        abort(404);
+      }
     }
 
     return back()->with('error', 'The provided credentials do not match our records.');

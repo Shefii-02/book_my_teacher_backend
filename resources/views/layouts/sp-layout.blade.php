@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BookMyTeacher-Dashboard</title>
+    <title>BookMyTeacher--Super-Admin-Dashboard</title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Font Awesome Icons -->
@@ -89,66 +89,12 @@
         <hr
             class="h-px mt-0 bg-transparent bg-gradient-to-r m-0 overflow-hidden from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent" />
         <div class="flex gap-2">
-            <div class=" bg-emerald-500/30 h-[calc(100vh-5rem)]" style="border-right: 1px solid blanchedalmond;">
-                <ul class="px-2   mt-4 flex flex-col gap-2.5">
-                    <li class="my-3">
-                        <a href="{{ route('admin.dashboard.index') }}" title="LMS">
-                            <div
-                                class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                <img src="{{ asset('assets/images/logo/lms1.png') }}"
-                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
-                                <span class="text-xxs my-2 text-teal-600 dark:text-white">LMS</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="my-3">
-                        <a href="{{ route('admin.app.index') }}" title="App">
-                            <div
-                                class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                <img src="{{ asset('assets/images/logo/mobile.png') }}"
-                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
-                                <span class="text-xxs my-2 text-teal-600 dark:text-white">App</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="my-3">
-                        <a href="{{ route('admin.dashboard') }}" title="CRMS">
-                            <div
-                                class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                <img src="{{ asset('assets/images/logo/crms.png') }}"
-                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
-                                <span class="text-xxs my-2 text-teal-600 dark:text-white">CRMS</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="my-3">
-                        <a href="{{ route('admin.hrms.dashboard.index') }}" title="HRMS">
-                            <div
-                                class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                <img src="{{ asset('assets/images/logo/hr.png') }}"
-                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
-                                <span class="text-xxs my-2 text-teal-600 dark:text-white">HRMS</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="my-3">
-                        <a href="" title="ACCOUNTS">
-                            <div
-                                class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                <img src="{{ asset('assets/images/logo/accounting.png') }}"
-                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
-                                <span class="text-xxs my-2 text-teal-600 dark:text-white">ACCOUNTS</span>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
             <div class="w-full">
                 <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav-test grow basis-full">
-                    <ul class="flex flex-col pl-0 mb-0">
+                    <ul class="flex flex-col pl-2 mb-0">
                         <li class="mt-0.5 w-full">
                             <a class="py-2.7  {{ Request::routeIs('admin.dashboard') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap rounded-lg  font-semibold text-slate-700 transition-colors"
-                                href="{{ route('admin.dashboard') }}">
+                                href="{{ route('admin.dashboard.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i class="relative top-0 leading-normal text-emerald-500 ni ni-tv-2 text-sm"></i>
@@ -156,192 +102,18 @@
                                 <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Dashboard</span>
                             </a>
                         </li>
+
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.teachers') || Request::routeIs('admin.students') || Request::routeIs('admin.guest.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
-                                href="#">
+                            <a class="py-2.7  {{ Request::routeIs('admin.companies') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap rounded-lg  font-semibold text-slate-700 transition-colors"
+                                href="{{ route('admin.companies.index') }}">
                                 <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-r-circle"></i>
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                    <i class="relative top-0 leading-normal text-emerald-500 ni ni-tv-2 text-sm"></i>
                                 </div>
-
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Registration</span>
-
-                                <!-- Right aligned caret -->
-                                <span class="bi bi-caret-down ml-auto mr-4"></span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Companies</span>
                             </a>
-
-                            <ul
-                                class="submenu pl-6 {{ Request::routeIs('admin.teachers') || Request::routeIs('admin.students') || Request::routeIs('admin.guest.*') ? '' : 'hidden' }} ">
-                                <li class="w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.teachers') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.teachers') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-mortarboard"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Teachers</span>
-                                    </a>
-                                </li>
-                                <li class=" w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.students') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.students') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-fill"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Students</span>
-                                    </a>
-                                </li>
-                                <li class=" w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.guest.*') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-fill-exclamation"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guest
-                                            User </span>
-                                    </a>
-                                </li>
-
-
-                            </ul>
                         </li>
-                        <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.otp-list') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
-                                href="#">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-fingerprint"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Login &
-                                    Security</span>
 
-                                <!-- Right aligned caret -->
-                                <span class="bi bi-caret-down ml-auto mr-4"></span>
-                            </a>
-
-                            <ul class="submenu pl-6 {{ Request::routeIs('admin.otp-list') ? '' : 'hidden' }}">
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.otp-list') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.otp-list') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-key"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">OTP
-                                            List</span>
-                                    </a>
-                                </li>
-                                {{-- <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-google"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Google
-                                            SigIn</span>
-                                    </a>
-                                </li> --}}
-                            </ul>
-                        </li>
-                        <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.courses.*') || Request::routeIs('admin.webinars.*') || Request::routeIs('admin.categories.*') || Request::routeIs('admin.subcategories.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
-                                href="#">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-person-video3"></i>
-                                </div>
-
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Sections</span>
-
-                                <!-- Right aligned caret -->
-                                <span class="bi bi-caret-down ml-auto mr-4"></span>
-                            </a>
-
-                            <ul
-                                class="submenu pl-6 {{ Request::routeIs('admin.courses.*') || Request::routeIs('admin.webinars.*') || Request::routeIs('admin.categories.*') || Request::routeIs('admin.subcategories.*') ? '' : 'hidden' }}">
-
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.categories.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.categories.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Category</span>
-                                    </a>
-                                </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.subcategories.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.subcategories.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Sub
-                                            Category</span>
-                                    </a>
-                                </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.courses.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.courses.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Courses</span>
-                                    </a>
-                                </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.webinars.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.webinars.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Webinars</span>
-                                    </a>
-                                </li>
-
-
-                                {{-- <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.workshop') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-pip"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Workshops</span>
-                                    </a>
-                                </li> --}}
-
-                            </ul>
-                        </li>
                         <li class="mt-0.5 w-full">
                             <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.teachers1') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
@@ -351,7 +123,7 @@
                                         class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-person-video3"></i>
                                 </div>
 
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Users</span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Companies</span>
 
                                 <!-- Right aligned caret -->
                                 <span class="bi bi-caret-down ml-auto mr-4"></span>
@@ -360,7 +132,7 @@
                             <ul class="submenu pl-6 hidden">
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
+                                        href="{{-- route('admin.guest.index') --}}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -370,59 +142,42 @@
                                             class="ml-1 duration-300 opacity-100 pointer-events-none ease">Students</span>
                                     </a>
                                 </li>
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Teachers</span>
-                                    </a>
-                                </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-pip"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Staff</span>
-                                    </a>
-                                </li>
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-pip"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guest
-                                            Users</span>
-                                    </a>
-                                </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-pip"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guest
-                                            Teachers</span>
-                                    </a>
-                                </li>
 
                             </ul>
                         </li>
+
+                        <li class="mt-0.5 w-full">
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.otp-list') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                                href="#">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
+                                    <i
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-fingerprint"></i>
+                                </div>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Login &
+                                    Security Attempt</span>
+
+                                <!-- Right aligned caret -->
+                                <span class="bi bi-caret-down ml-auto mr-4"></span>
+                            </a>
+
+                            <ul class="submenu pl-6 {{ Request::routeIs('admin.otp-list') ? '' : 'hidden' }}">
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('admin.otp-list') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{-- route('admin.otp-list') --}}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-key"></i>
+                                        </div>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">OTP
+                                            List Attempt</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
                         <li class="mt-0.5 w-full">
                             <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.requests.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
@@ -443,7 +198,7 @@
 
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('admin.requests.form-class') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.requests.form-class') }}">
+                                        href="{{-- route('admin.requests.form-class') --}}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -453,144 +208,8 @@
                                             Form </span>
                                     </a>
                                 </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.requests.top-banner') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.requests.top-banner') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Top Banner
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.requests.course-banner') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.requests.course-banner') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Course
-                                            Banner </span>
-                                    </a>
-                                </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.requests.teacher-class') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.requests.teacher-class') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-pip"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Teacher
-                                            Class </span>
-                                    </a>
-                                </li>
-
                             </ul>
                         </li>
-                        {{-- <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.guest.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-lg  bi bi-file-earmark-richtext"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Content</span>
-                            </a>
-                        </li> --}}
-
-                        {{--
-                        <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.guest-teacher') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.guest-teacher.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-lg  bi bi-person-check-fill"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guest
-                                    Teacher</span>
-                            </a>
-                        </li> --}}
-
-                        <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.coupons.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
-                                href="#">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-person-video3"></i>
-                                </div>
-
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Academic</span>
-
-                                <!-- Right aligned caret -->
-                                <span class="bi bi-caret-down ml-auto mr-4"></span>
-                            </a>
-
-                            <ul
-                                class="submenu pl-6 {{ Request::routeIs('admin.coupons.*') || Request::routeIs('admin.admissions.*') || Request::routeIs('admin.course-swap.*') ? '' : 'hidden' }}">
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.admissions.*') || Request::routeIs('admin.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.admissions.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Admissions</span>
-                                    </a>
-                                </li>
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.course-swap.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Course
-                                            Swap</span>
-                                    </a>
-                                </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('admin.coupons.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.coupons.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-pip"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Coupons</span>
-                                    </a>
-                                </li>
-
-
-
-                            </ul>
-                        </li>
-                        {{-- <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.coupons.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.coupons.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-sm bi bi-c-circle"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Coupons</span>
-                            </a>
-                        </li> --}}
 
                         <li class="mt-0.5 w-full">
                             <a class="menu-toggle justify-content-between {{ Request::routeIs('admin.analytics.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
@@ -610,7 +229,7 @@
                             <ul class="submenu pl-6 {{ Request::routeIs('admin.analytics.*') ? '' : 'hidden' }}">
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
+                                        href="{{-- route('admin.guest.index') --}}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -622,7 +241,7 @@
                                 </li>
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
+                                        href="{{-- route('admin.guest.index') --}}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -635,7 +254,7 @@
 
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
+                                        href="{{-- route('admin.guest.index') --}}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -648,7 +267,7 @@
 
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('admin.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('admin.guest.index') }}">
+                                        href="{{-- route('admin.guest.index') --}}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -661,46 +280,24 @@
                             </ul>
                         </li>
 
-                        {{-- <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.analytics.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.analytics.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-sm ni ni-single-copy-04"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Analytics</span>
-                            </a>
-                        </li> --}}
-                        {{-- <li class="mt-0.5 w-full">
-                            <a class=" dark:text-white {{ Request::routeIs('admin.staffs.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.staffs') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-sm ni ni-world-2"></i>
-                                </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Staffs</span>
-                            </a>
-                        </li> --}}
 
                         <li class="mt-0.5 w-full">
                             <a class=" dark:text-white {{ Request::routeIs('admin.webinars.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.company.settings') }}">
+                                href="{{-- route('admin.company.settings') --}}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i
                                         class="relative top-0 leading-normal text-emerald-500 bi bi-headset text-sm"></i>
                                 </div>
                                 <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Company Settings
-                                    </span>
+                                </span>
                             </a>
                         </li>
 
 
                         <li class="mt-0.5 w-full">
                             <a class=" dark:text-white {{ Request::routeIs('admin.profile.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                href="{{ route('admin.profile') }}">
+                                href="{{-- route('admin.profile') --}}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                     <i
@@ -736,7 +333,7 @@
                                 placeholder="Type here..." />
                         </div>
                     </div>
-                    <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
+                    <ul class="flex flex-row justify-end pl-2 mb-0 list-none md-max:w-full">
                         <li class="flex items-center mr-3">
                             <button id="theme-toggle" type="button"
                                 class="text-white flex dark:text-black bg-black  hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1">
@@ -772,13 +369,13 @@
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="avatarButton">
                                     <li>
-                                        <a href="{{ route('admin.profile') }}"
+                                        <a href="{{-- route('admin.profile') --}}"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Profile</a>
                                     </li>
                                 </ul>
                                 <div class="py-1">
                                     <form action="{{ route('logout') }}" method="POST" class="">
-                                      @csrf
+                                        @csrf
                                         @method('POST')
                                         <button type="submit" role="button"
                                             class="block text-start px-4 py-2 w-full text-sm text-gray-700 hover:bg-gray-100 dark:hover:text-white dark:text-gray-200 dark:hover:text-white">Sign

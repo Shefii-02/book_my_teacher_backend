@@ -21,7 +21,7 @@
                     <div class="card-title p-3 my-3  rounded-t-2xl flex justify-between">
                         <h6 class="dark:text-white">Grades List</h6>
                         <a href="{{ route('admin.app.grades.create') }}"
-                            class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
+                            class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                             <i class="bi bi-plus"></i> Create
                         </a>
                     </div>

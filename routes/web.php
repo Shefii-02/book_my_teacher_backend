@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Response;
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
   // authentication
   Route::get('/', 'auth\LoginController@index')->name('login');
+  Route::get('/login', 'auth\LoginController@index')->name('login');
   Route::post('/', 'auth\LoginController@loginPost')->name('auth-login-post');
 
   Route::post('/logout', 'dashboard\UserController@logout')->name('logout');
@@ -33,7 +34,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
 
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], 'namespace' => 'App\Http\Controllers'], function () {
+//superadmin
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], 'namespace' => 'App\Http\Controllers\SuperAdmin'], function () {
+    Route::get('/', 'DashboardController@index')->name('index');
+    Route::get('/', 'DashboardController@index')->name('dashboard.index');
+    Route::resource('companies', 'CompanyController')->names('companies');
+});
+
+
+
+Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'], 'namespace' => 'App\Http\Controllers'], function () {
 
   Route::get('/ajax/users/search', 'UserController@searchUsers')->name('search-users');
   Route::get('/users/{id}/courses', 'UserController@courses');

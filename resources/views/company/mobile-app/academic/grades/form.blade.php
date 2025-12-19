@@ -27,7 +27,7 @@
                 <div class="flex justify-between">
                     <h6 class="font-bold">{{ isset($grade) ? 'Edit' : 'Create' }} Grade</h6>
                     <a href="{{ route('admin.app.grades.index') }}"
-                        class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
+                        class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                         <i class="bi bi-arrow-left me-1 "></i>
                         Back</a>
                 </div>
@@ -79,6 +79,16 @@
                                 @checked(old('published', $grade->published ?? false))> Publish</label>
                     </div>
                 </div>
+
+                 <div>
+                    <div class="flex items-center gap-3">
+                        <label class="font-medium">
+                            <input type="checkbox" class="border pe-3" name="attach_category" value="1"
+                                @checked(old('attach_category', $grade->attach_category ?? false))> Attach to Category aslo</label>
+                    </div>
+                </div>
+
+
 
 
                 {{-- SUBMIT --}}

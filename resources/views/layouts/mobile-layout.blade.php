@@ -512,6 +512,7 @@
                                 </ul>
                                 <div class="py-1">
                                     <form action="{{ route('logout') }}" method="POST" class="">
+                                      @csrf
                                         @method('POST')
                                         <button type="submit" role="button"
                                             class="block text-start px-4 py-2 w-full text-sm text-gray-700 hover:bg-gray-100 dark:hover:text-white dark:text-gray-200 dark:hover:text-white">Sign

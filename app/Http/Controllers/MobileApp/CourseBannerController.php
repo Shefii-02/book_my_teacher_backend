@@ -12,7 +12,7 @@ class CourseBannerController extends Controller
 {
   public function index()
   {
-    $company_id= 1;
+    $company_id= auth()->user()->company_id;
     $banners = TopBanner::where('banner_type','course-banner')->where('company_id',$company_id)->orderBy('priority')->get();
     return view('company.mobile-app.course_banner.index', compact('banners'));
   }
@@ -26,7 +26,7 @@ class CourseBannerController extends Controller
   {
     $data = $request->validated();
 
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     $data['company_id']  =  $company_id;
     $data['banner_type']  = 'course-banner';
 
@@ -70,7 +70,7 @@ class CourseBannerController extends Controller
   {
     $data = $request->validated();
 
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
 
     // Upload Thumbnail
     if ($request->hasFile('thumb_id')) {

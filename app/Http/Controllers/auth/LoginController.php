@@ -12,7 +12,7 @@ class LoginController extends Controller
   public function index()
   {
     if (Auth::check()) {
-      if (auth()->user()->acc_type == 'superadmin') {
+      if (auth()->user()->acc_type == 'super_admin') {
         return redirect()->route('admin.dashboard.index');
       } elseif (auth()->user()->acc_type == 'company') {
         return redirect()->route('company.dashboard.index');

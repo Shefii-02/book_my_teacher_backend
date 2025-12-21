@@ -30,7 +30,7 @@ class SubjectController extends Controller
     $data = $request->validated();
     try {
       DB::beginTransaction();
-      $company_id = 1;
+      $company_id = auth()->user()->company_id;
       // Upload Thumbnail
       $thumbnailPath = null;
       if ($request->hasFile('icon')) {
@@ -63,7 +63,7 @@ class SubjectController extends Controller
   public function update(SubjectRequest $request, Subject $subject)
   {
     $data = $request->validated();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     if ($request->hasFile('icon')) {
       if ($subject->icon) {
         MediaHelper::removeCompanyFile($subject->icon);
@@ -104,7 +104,7 @@ class SubjectController extends Controller
 
   public function setup()
   {
-    $companyId = 1;
+    $companyId =auth()->user()->company_id;
 
     // $subjects = Subject::leftJoin('providing_subjects', function ($join) use ($companyId) {
     //   $join->on('subjects.id', '=', 'providing_subjects.subject_id')
@@ -126,7 +126,7 @@ class SubjectController extends Controller
 
   public function reorder(Request $request)
   {
-    $companyId = 1;
+    $companyId = auth()->user()->company_id;
 
     $checkedIds = $request->positions;
 
@@ -154,7 +154,7 @@ class SubjectController extends Controller
 
   public function toggle(Request $request)
   {
-    $companyId = 1;
+    $companyId = auth()->user()->company_id;
     $subjectId = $request->subject_id;
 
     if ($request->checked) {

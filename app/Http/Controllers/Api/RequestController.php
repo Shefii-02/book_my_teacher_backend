@@ -19,7 +19,7 @@ class RequestController extends Controller
   {
     Log::info("📝 Request Form Submitted:", $request->all());
     $user = $request->user();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     GeneralRequest::create([
       'from_location' => $request->from,
       'grade' => $request->grade,
@@ -38,7 +38,7 @@ class RequestController extends Controller
   // -------------------------
   public function banner(Request $request)
   {
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     Log::info("📢 Top Banner Request:", $request->all());
     $user = $request->user();
     BannerRequest::create([
@@ -58,7 +58,7 @@ class RequestController extends Controller
   {
     Log::info("👨‍🏫 Teacher Class Request:", $request->all());
     $user = $request->user();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     TeacherClassRequest::create([
       'teacher_id'     => $request->teacher_id,
       'type'           => $request->type,
@@ -78,7 +78,7 @@ class RequestController extends Controller
   {
     Log::info("👨‍🏫 Subject Class Request:", $request->all());
     $user = $request->user();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     $subject = Subject::where('id',$request->subject_id)->first();
     TeacherClassRequest::create([
       'teacher_id'     => $request->teacher_id,

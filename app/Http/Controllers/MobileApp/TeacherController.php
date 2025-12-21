@@ -52,7 +52,7 @@ class TeacherController extends Controller
     $data = $request->validated();
     DB::beginTransaction();
     try {
-      $company_id = 1;
+      $company_id = auth()->user()->company_id;
 
 
       // Upload Thumbnail
@@ -179,7 +179,7 @@ class TeacherController extends Controller
   public function update(UpdateTeacherRequest $request, Teacher $teacher)
   {
     $data = $request->validated();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     try {
 
       // Upload Thumbnail

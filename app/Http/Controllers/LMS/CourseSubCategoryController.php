@@ -35,7 +35,7 @@ class CourseSubCategoryController extends Controller
       'thumbnail'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
     ]);
 
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
 
     $thumbnailPath = null;
     if ($request->hasFile('thumbnail')) {
@@ -77,7 +77,7 @@ class CourseSubCategoryController extends Controller
   {
     $course_sub_category = CourseSubCategory::where('id', $course_sub_category)->where('company_id', 1)->first() ?? abort(404);
 
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
 
     $thumbnailPath = $course_sub_category->thumbnail;
     if ($request->hasFile('thumbnail')) {

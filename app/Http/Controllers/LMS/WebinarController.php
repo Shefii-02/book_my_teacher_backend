@@ -97,7 +97,7 @@ class WebinarController extends Controller
       $data['live_id'] = 'WEBINAR-' . strtoupper(Str::random(8));
 
       // Add company_id if needed
-      $data['company_id'] = 1;
+      $data['company_id'] = auth()->user()->company_id;
 
       // Create webinar
       Webinar::create($data);

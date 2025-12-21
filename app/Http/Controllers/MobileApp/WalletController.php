@@ -67,7 +67,7 @@ class WalletController extends Controller
     try {
       DB::beginTransaction();
       $data['wallet_type'] = 'green';
-      $data['company_id'] = 1;
+      $data['company_id'] = auth()->user()->company_id;
       $data['type']       = $data['action'];
       $data['date']       = now();
       $data['status']    = 'pending';

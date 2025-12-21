@@ -35,7 +35,7 @@ class CourseMaterialController extends Controller
 
     $course = Course::where('course_identity', $courseId)->first() ?? abort(404);
     $file = $request->file('file');
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     $path = null;
     if ($request->hasFile('file')) {
       $mainImagePath = MediaHelper::uploadCompanyFile(
@@ -83,7 +83,7 @@ class CourseMaterialController extends Controller
       }
 
       $file = $request->file('file');
-      $company_id = 1;
+      $company_id = auth()->user()->company_id;
       $mainImagePath = MediaHelper::uploadCompanyFile(
         $company_id,
         'courses/' . $course->course_identity . '/material',

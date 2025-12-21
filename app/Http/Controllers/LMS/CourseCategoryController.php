@@ -36,7 +36,7 @@ class CourseCategoryController extends Controller
   public function store(StoreCategoryRequest $request)
   {
     DB::beginTransaction();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     try {
 
       $data = $request->validated();
@@ -93,7 +93,7 @@ class CourseCategoryController extends Controller
   {
     $course_category = CourseCategory::where('id', $course_category)->where('company_id', 1)->first() ?? abort(404);
 
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     $thumbnailPath = $course_category->thumbnail;
 
 

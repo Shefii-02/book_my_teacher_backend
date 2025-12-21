@@ -34,7 +34,7 @@ class TeamController extends Controller
 
   public function store(Request $request)
   {
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     // --- Validation ---
     $request->validate([
       'name'          => 'required|string|max:255',
@@ -147,7 +147,7 @@ class TeamController extends Controller
   public function update(Request $request, $id)
   {
     $staff = User::findOrFail($id);
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
 
     // --- Validation ---
     $request->validate([

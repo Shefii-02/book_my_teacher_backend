@@ -99,7 +99,7 @@ class StudentController extends Controller
   public function store(Request $request)
   {
 
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     DB::beginTransaction();
 
     $teachingSubjects = $request->input('preferable_subjects', []); // array
@@ -251,7 +251,7 @@ class StudentController extends Controller
     }
 
     DB::beginTransaction();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
 
     $teachingSubjects = $request->input('preferable_subjects', []); // array
     $otherSubject = $request->input('other_subject'); // string

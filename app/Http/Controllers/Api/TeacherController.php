@@ -75,7 +75,7 @@ class TeacherController extends Controller
   public function teacherUpdatePersonal(Request $request)
   {
     DB::beginTransaction();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     $teacher = $request->user();
     $teacher_id = $teacher->id;
     Log::info($request->all());
@@ -240,7 +240,7 @@ class TeacherController extends Controller
   {
     Log::info("CV Updating");
     $user = $request->user();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     Log::info($request->all());
     try {
       if ($request->hasFile('cv_file')) {

@@ -25,7 +25,7 @@ class RoleController extends Controller
   public function create()
   {
     // if (Auth::user()->can('create role')) {
-    $user_id = 1;
+    $user_id = auth()->user()->company_id;
     $permissions = Permission::whereHas('company_permissions', function ($query) use ($user_id) {
       $query->where('company_id', $user_id);
     })->get();
@@ -38,7 +38,7 @@ class RoleController extends Controller
 
   public function show($id)
   {
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     // if (Auth::user()->can('role details')) {
       $role = Role::with('permissions')->where('created_by', '=', $company_id)->findOrFail($id);
       $allPermissions = Permission::all();
@@ -51,7 +51,7 @@ class RoleController extends Controller
 
   public function store(Request $request)
   {
-    $company_id= 1;
+    $company_id=  auth()->user()->company_id;
     // Step 1: Prepare _name field
     $request->merge([
       '_name' => $request->input('name') . '-' . $company_id
@@ -112,7 +112,7 @@ class RoleController extends Controller
   public function edit(Role $role)
   {
 
-      $company_id = 1;
+      $company_id = auth()->user()->company_id;
       $permissions = Permission::whereHas('company_permissions', function ($query) use ($company_id) {
         $query->where('company_id', 'LIKE', '%' . $company_id . '%');
       });
@@ -136,7 +136,7 @@ class RoleController extends Controller
   public function update(Request $request, Role $role)
   {
 
-      $company_id = 1;
+      $company_id = auth()->user()->company_id;
       // Merge custom _name to apply uniqueness check with company ID
       $request->merge([
         '_name' => $request->input('name') . '-' . $company_id,

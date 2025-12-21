@@ -25,7 +25,7 @@ class GradeController extends Controller
 
   public function store(Request $request)
   {
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     $request->validate([
       'thumb' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
       'name' => 'required|string|max:255',
@@ -84,7 +84,7 @@ class GradeController extends Controller
       'published' => 'nullable|boolean',
     ]);
 
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     $data = $request->except('thumb');
 
     if ($request->hasFile('thumb')) {

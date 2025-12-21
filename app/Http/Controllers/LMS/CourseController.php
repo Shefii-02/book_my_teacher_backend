@@ -41,7 +41,7 @@ class CourseController extends Controller
   {
     DB::beginTransaction();
     try {
-      $company_id = 1;
+      $company_id = auth()->user()->company_id;
 
       if ($request->basic_form) {
         // Determine if this is a create or update action

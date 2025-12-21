@@ -17,7 +17,7 @@ class CompanySettingController extends Controller
 {
   public function index()
   {
-    $companyId = 1;
+    $companyId = auth()->user()->company_id;
 
     return view('company.settings.index', [
       'general'     => CompanyContact::where('company_id', $companyId)->first(),
@@ -32,7 +32,7 @@ class CompanySettingController extends Controller
   public function updateGeneral(Request $request)
   {
     // $companyId = app('company_id');
-    $companyId = 1;
+    $companyId = auth()->user()->company_id;
     CompanyContact::updateOrCreate(
       ['company_id' => $companyId],
       $request->only(['email', 'phone', 'website', 'whatsapp', 'address'])
@@ -44,7 +44,7 @@ class CompanySettingController extends Controller
   public function updateBranding(Request $request)
   {
     // $companyId = app('company_id');
-    $companyId = 1;
+    $companyId = auth()->user()->company_id;
     $branding = Company::firstOrNew(['id' => $companyId]);
 
 
@@ -86,7 +86,7 @@ class CompanySettingController extends Controller
 
   public function updateSocial(Request $request)
   {
-    $companyId = 1;
+    $companyId =  auth()->user()->company_id;
 
     $request->validate([
       'links.*.name'        => 'required|string|max:100',
@@ -136,7 +136,7 @@ class CompanySettingController extends Controller
   public function updatePayment(Request $request)
   {
     // $companyId = app('company_id');
-    $companyId = 1;
+    $companyId = auth()->user()->company_id;
     CompanyPaymentSetting::updateOrCreate(
       ['company_id' => $companyId],
       $request->only(['merchant_id', 'salt_key', 'salt_index'])
@@ -148,7 +148,7 @@ class CompanySettingController extends Controller
   public function updateSecurity(Request $request)
   {
     // $companyId = app('company_id');
-    $companyId = 1;
+    $companyId = auth()->user()->company_id;
     CompanySecuritySetting::updateOrCreate(
       ['company_id' => $companyId],
       [

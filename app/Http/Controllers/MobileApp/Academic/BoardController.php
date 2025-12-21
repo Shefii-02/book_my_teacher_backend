@@ -38,7 +38,7 @@ class BoardController extends Controller
     try {
       DB::beginTransaction();
 
-      $company_id = 1;
+      $company_id = auth()->user()->company_id;
 
       $data['value'] = $data['name'];
       $data['company_id'] = $company_id;
@@ -86,7 +86,7 @@ class BoardController extends Controller
     $data = $request->validated();
     try {
       DB::beginTransaction();
-      $company_id = 1;
+      $company_id = auth()->user()->company_id;
       $data['value'] = $data['name'];
       if ($request->hasFile('icon')) {
         if ($board->icon) {

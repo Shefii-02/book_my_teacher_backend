@@ -305,7 +305,7 @@ public function exportTeachers(Request $request)
   {
 
     DB::beginTransaction();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
 
     $teachingSubjects = $request->input('teaching_subjects', []); // array
     $otherSubject = $request->input('other_subject'); // string
@@ -505,7 +505,7 @@ public function exportTeachers(Request $request)
     ]);
 
     DB::beginTransaction();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
 
     $teachingSubjects = $request->input('teaching_subjects', []); // array
     $otherSubject = $request->input('other_subject'); // string

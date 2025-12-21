@@ -26,7 +26,7 @@ class RegisterController extends Controller
   {
 
     DB::beginTransaction();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     $teacher_id = $request->teacher_id;
 
     Log::info($request->all());
@@ -187,7 +187,7 @@ class RegisterController extends Controller
   {
 
     DB::beginTransaction();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
     $student_id = $request->student_id;
 
     Log::info($request->all());
@@ -321,7 +321,7 @@ class RegisterController extends Controller
     // Log::info($request->all());
 
     DB::beginTransaction();
-    $company_id = 1;
+    $company_id = auth()->user()->company_id;
 
     try {
       // Get the logged-in user via Sanctum

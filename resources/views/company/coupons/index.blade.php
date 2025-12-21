@@ -31,7 +31,7 @@
                                 <h6 class="dark:text-white">Coupons List</h6>
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 xl:w-3/4">
-                                <a href="{{ route('admin.coupons.create') }}"
+                                <a href="{{ route('company.coupons.create') }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded-full text-sm">
                                     Create Coupon
                                 </a>
@@ -114,11 +114,11 @@
                                                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44">
                                                     <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownBottomButton">
                                                         <li>
-                                                            <a href="{{ route('admin.coupons.edit', $coupon->id) }}"
+                                                            <a href="{{ route('company.coupons.edit', $coupon->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100">Edit</a>
                                                         </li>
                                                         <li>
-                                                            <form action="{{ route('admin.coupons.destroy', $coupon->id) }}"
+                                                            <form action="{{ route('company.coupons.destroy', $coupon->id) }}"
                                                                 id="form_{{ $coupon->id }}" method="POST">
                                                                 @csrf @method('DELETE')
                                                                 <a role="button" href="javascript:;"

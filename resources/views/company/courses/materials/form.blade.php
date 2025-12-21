@@ -7,8 +7,8 @@
              <div class="relative flex flex-col min-w-0 mb-6 break-words">
                  <form method="POST" enctype="multipart/form-data"
                      action="{{ $isEdit
-                         ? route('admin.courses.materials.update', [$course->course_identity, $material->id])
-                         : route('admin.courses.materials.store', $course->course_identity) }}">
+                         ? route('company.courses.materials.update', [$course->course_identity, $material->id])
+                         : route('company.courses.materials.store', $course->course_identity) }}">
 
                      @csrf
                      @if ($isEdit)

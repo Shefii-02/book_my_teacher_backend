@@ -35,7 +35,7 @@
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4">
 
-                                {{-- <a href="{{ route('admin.courses.subcategories.index') }}"
+                                {{-- <a href="{{ route('company.courses.subcategories.index') }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Sub
                                     Category List</a> --}}
                                 <a href="#"
@@ -135,12 +135,12 @@
                                                 class="hidden absolute right-0 mt-0 w-20 bg-white rounded-lg shadow-md ">
 
                                                 <a href="#" class="edit-step block px-4 py-2  text-xxs"
-                                                    data-url="{{ route('admin.categories.edit', $category->id) }}">
+                                                    data-url="{{ route('company.categories.edit', $category->id) }}">
                                                     Edit
                                                 </a>
 
                                                 <form
-                                                    action="{{ route('admin.categories.destroy', $category->id) }}"
+                                                    action="{{ route('company.categories.destroy', $category->id) }}"
                                                     method="POST" id="form_{{ $category->id }}">
                                                     @csrf
                                                     @method('DELETE')
@@ -173,7 +173,7 @@
                 e.preventDefault();
                 $('#drawerContent').html('<div class="text-center text-gray-400 p-5">Loading...</div>');
 
-                $.get(`{{ route('admin.categories.create') }}`, function(html) {
+                $.get(`{{ route('company.categories.create') }}`, function(html) {
                     $('#drawerContent').html(html);
                     openDrawer(); // will work now
                 }).fail(function() {

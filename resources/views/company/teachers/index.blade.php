@@ -207,7 +207,7 @@
                                 <h6 class="dark:text-white">Teachers List</h6>
                             </div>
                             <div class="w-full max-w-full ">
-                                <form method="GET" action="{{ route('admin.teachers') }}"
+                                <form method="GET" action="{{ route('company.teachers') }}"
                                     class="mb-4 flex flex-wrap gap-3 items-end">
 
                                     <!-- 🔍 Search (name, email, mobile) -->
@@ -285,10 +285,10 @@
                                         <button type="submit"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
                                                 class="bi bi-search"></i> Apply</button>
-                                        <a href="{{ route('admin.teachers') }}"
+                                        <a href="{{ route('company.teachers') }}"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded text-white text-sm"><i
                                                 class="bi bi-arrow-clockwise"></i> Reset </a>
-                                        <a href="{{ route('admin.teachers.export', request()->query()) }}"
+                                        <a href="{{ route('company.teachers.export', request()->query()) }}"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                             <i class="bi bi-file-earmark-spreadsheet"></i>
                                             Export Excel
@@ -316,7 +316,7 @@
                                         class="text-red-500 hover:text-red-700 font-bold">×</a>
                                 </div>
                             @endforeach
-                            <a href="{{ route('admin.teachers') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                            <a href="{{ route('company.teachers') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
                                 All</a>
                         </div>
                     @endif
@@ -481,21 +481,21 @@
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
                                                         <li>
-                                                            <a href="{{ route('admin.teachers.overview', $teacher->id) }}"
+                                                            <a href="{{ route('company.teachers.overview', $teacher->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('admin.teachers.edit', $teacher->id) }}"
+                                                            <a href="{{ route('company.teachers.edit', $teacher->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('admin.teachers.login-security', $teacher->id) }}"
+                                                            <a href="{{ route('company.teachers.login-security', $teacher->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login
                                                                 Security</a>
                                                         </li>
                                                         <li>
                                                             <form id="form_{{ $teacher->id }}" class="m-0 p-0"
-                                                                action="{{ route('admin.teachers.destroy', $teacher->id) }}"
+                                                                action="{{ route('company.teachers.destroy', $teacher->id) }}"
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
                                                             <a role="button" href="javascript:;"

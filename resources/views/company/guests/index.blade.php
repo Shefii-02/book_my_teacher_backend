@@ -131,16 +131,16 @@
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
                                                         <li>
-                                                            <a href="{{ route('admin.guest.overview', $guest->id) }}"
+                                                            <a href="{{ route('company.guest.overview', $guest->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('admin.guest.edit', $guest->id) }}"
+                                                            <a href="{{ route('company.guest.edit', $guest->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         <li>
                                                             <form id="form_{{ $guest->id }}" class="m-0 p-0"
-                                                                action="{{ route('admin.guest.destroy', $guest->id) }}"
+                                                                action="{{ route('company.guest.destroy', $guest->id) }}"
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
                                                             <a role="button" href="javascript:;"

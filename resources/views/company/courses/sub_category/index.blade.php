@@ -9,7 +9,7 @@
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Sub Categories List</li>
@@ -34,7 +34,7 @@
 
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4">
-                                <a data-url="{{ route('admin.subcategories.create') }}"
+                                <a data-url="{{ route('company.subcategories.create') }}"
                                     class="px-4 py-2 open-drawer bg-gradient-to-tl from-emerald-500 to-teal-400  text-white  text-sm">
                                     Create Sub Category</a>
                             </div>
@@ -131,11 +131,11 @@
                                             class="hidden absolute right-0 mt-0 w-20 bg-white rounded-lg shadow-md ">
 
                                             <a href="#" class="open-drawer block px-4 py-2  text-xxs"
-                                                data-url="{{ route('admin.subcategories.edit', $sub->id) }}">
+                                                data-url="{{ route('company.subcategories.edit', $sub->id) }}">
                                                 Edit
                                             </a>
 
-                                            <form action="{{ route('admin.subcategories.destroy', $sub->id) }}" method="POST"
+                                            <form action="{{ route('company.subcategories.destroy', $sub->id) }}" method="POST"
                                                 id="form_{{ $sub->id }}">
                                                 @csrf
                                                 @method('DELETE')

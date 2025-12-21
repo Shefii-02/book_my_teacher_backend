@@ -32,7 +32,7 @@
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Course {{ isset($course) ? 'Edit' : 'Create' }}</li>
@@ -47,7 +47,7 @@
             <div class="card-title p-2 m-2 flex justify-between">
                 <h5 class="font-bold">{{ isset($course_draft) ? 'Course Title : ' . $course_draft->title : 'Create' }} a
                     Course</h5>
-                <a href="{{ route('admin.courses.index') }}"
+                <a href="{{ route('company.courses.index') }}"
                     class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                     <i class="bi bi-arrow-left me-1 "></i>
                     Back</a>

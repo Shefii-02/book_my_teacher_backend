@@ -8,7 +8,7 @@
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Course Listing</li>
@@ -33,7 +33,7 @@
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
 
-                                <a href="{{ route('admin.courses.create') }}"
+                                <a href="{{ route('company.courses.create') }}"
                                     class="px-4 py-2 bg-gradient-to-tl  from-emerald-500 to-teal-400  text-white  text-sm">
                                     <i class="bi bi-plus me-1"></i> Create Course</a>
                             </div>
@@ -54,7 +54,7 @@
                                         {{-- <h6 class="dark:text-white">Course List</h6> --}}
                                     </div>
                                     {{-- <div class="w-full max-w-full ">
-                                        <form method="GET" action="{{ route('admin.teachers') }}"
+                                        <form method="GET" action="{{ route('company.teachers') }}"
                                             class="mb-4 flex flex-wrap gap-3 items-end">
 
                                             <!-- 🔍 Search (name, email, mobile) -->
@@ -108,7 +108,7 @@
                                                 <button type="submit"
                                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i
                                                         class="bi bi-search"></i> Apply</button>
-                                                <a href="{{ route('admin.teachers') }}"
+                                                <a href="{{ route('company.teachers') }}"
                                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded-full text-white text-sm"><i
                                                         class="bi bi-arrow-clockwise"></i> Reset </a>
 
@@ -135,7 +135,7 @@
                                                 class="text-red-500 hover:text-red-700 font-bold">×</a>
                                         </div>
                                     @endforeach
-                                    <a href="{{ route('admin.teachers') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                                    <a href="{{ route('company.teachers') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
                                         All</a>
                                 </div>
                             @endif
@@ -277,18 +277,18 @@
                                                                 aria-labelledby="dropdownBottomButton">
                                                                 @if ($course->status == 'published')
                                                                     <li>
-                                                                        <a href="{{ route('admin.courses.show', $course->course_identity) }}"
+                                                                        <a href="{{ route('company.courses.show', $course->course_identity) }}"
                                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                                     </li>
                                                                 @endif
 
                                                                 <li>
-                                                                    <a href="{{ route('admin.courses.create', ['draft' => $course->course_identity]) }}"
+                                                                    <a href="{{ route('company.courses.create', ['draft' => $course->course_identity]) }}"
                                                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                                 </li>
                                                                 <li>
                                                                     <form id="form_{{ $course->id }}" class="m-0 p-0"
-                                                                        action="{{ route('admin.courses.destroy', $course->id) }}"
+                                                                        action="{{ route('company.courses.destroy', $course->id) }}"
                                                                         method="POST" class="inline-block">
                                                                         @csrf @method('DELETE') </form>
                                                                     <a role="button" href="javascript:;"

@@ -66,7 +66,7 @@
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
                     <h5 class="font-bold dark:text-white">Edit a Teacher</h5>
-                    <a href="{{ route('admin.teachers') }}"
+                    <a href="{{ route('company.teachers') }}"
                         class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2">Back</a>
                 </div>
 
@@ -75,7 +75,7 @@
         <div class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
 
             <!-- ✅ Form -->
-            <form action="{{ isset($user) ? route('admin.teachers.update', $user->id) : route('admin.teachers.store') }}"
+            <form action="{{ isset($user) ? route('company.teachers.update', $user->id) : route('company.teachers.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if (isset($user))

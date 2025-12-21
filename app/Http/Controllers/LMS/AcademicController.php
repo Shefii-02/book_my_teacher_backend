@@ -93,7 +93,7 @@ class AcademicController extends Controller
       }
     });
 
-    return redirect()->route('admin.admissions.create')->with('success', 'Purchase completed.');
+    return redirect()->route('company.admissions.create')->with('success', 'Purchase completed.');
   }
   public function courseSwap() {}
   public function courseSwapStore() {}

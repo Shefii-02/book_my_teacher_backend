@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="form-container">
-            <form action="{{ route('admin.teachers.login-security.change',$teacher->id) }}" method="POST">
+            <form action="{{ route('company.teachers.login-security.change',$teacher->id) }}" method="POST">
               @method('POST')
               @csrf
                 <div class="grid gap-6 mb-6 md:grid-cols-2">

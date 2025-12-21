@@ -1,4 +1,4 @@
-          <form action="{{ route('admin.courses.store') }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('company.courses.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="form-title">
                   <h2 id="drawer-right-label"

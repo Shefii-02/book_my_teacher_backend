@@ -9,7 +9,7 @@
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Role {{ isset($role) ? 'Edit' : 'Create' }}</li>
@@ -25,14 +25,14 @@
                 <h5 class="font-bold text-gray-700 dark:text-white">
                     {{ isset($role) ? 'Edit' : 'Create' }} Role
                 </h5>
-                <a href="{{ route('admin.hrms.roles.index') }}"
+                <a href="{{ route('company.hrms.roles.index') }}"
                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded-full text-sm">
                     Back
                 </a>
             </div>
 
             <form
-                action="{{ isset($role) ? route('admin.hrms.roles.update', $role->id) : route('admin.hrms.roles.store') }}"
+                action="{{ isset($role) ? route('company.hrms.roles.update', $role->id) : route('company.hrms.roles.store') }}"
                 method="POST">
                 @csrf
                 @if (isset($role))

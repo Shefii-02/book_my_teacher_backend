@@ -89,7 +89,7 @@
                     }
                 });
 
-                fetch("{{ route('admin.app.providing.reorder') }}", {
+                fetch("{{ route('company.app.providing.reorder') }}", {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",
@@ -106,7 +106,7 @@
         // Toggle providing subject
         document.querySelectorAll('.topToggle').forEach((checkbox) => {
             checkbox.addEventListener('change', function() {
-                fetch("{{ route('admin.app.providing.toggle') }}", {
+                fetch("{{ route('company.app.providing.toggle') }}", {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",

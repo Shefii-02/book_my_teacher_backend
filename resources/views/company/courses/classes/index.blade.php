@@ -8,7 +8,7 @@
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Course Class's Listing</li>
@@ -33,11 +33,11 @@
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
 
-                                <a href="#" data-url="{{ route('admin.courses.schedule-class.create', $course->course_identity) }}"
+                                <a href="#" data-url="{{ route('company.courses.schedule-class.create', $course->course_identity) }}"
                                     class="px-4 py-2 open-drawer bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class=" bi bi-plus me-1"></i>
                                     Create Class</a>
-                                <a href="{{ route('admin.courses.index') }}"
+                                <a href="{{ route('company.courses.index') }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
                                         class="bi bi-arrow-left me-2"></i>Back</a>
                             </div>
@@ -57,7 +57,7 @@
                                     <div class="w-full max-w-full ">
                                     </div>
                                     <div class="w-full max-w-full ">
-                                        {{-- <form method="GET" action="{{ route('admin.teachers') }}"
+                                        {{-- <form method="GET" action="{{ route('company.teachers') }}"
                                             class="mb-4 flex flex-wrap gap-3 items-end">
 
                                             <!-- 🔍 Search (name, email, mobile) -->
@@ -111,7 +111,7 @@
                                                 <button type="submit"
                                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i
                                                         class="bi bi-search"></i> Apply</button>
-                                                <a href="{{ route('admin.teachers') }}"
+                                                <a href="{{ route('company.teachers') }}"
                                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded-full text-white text-sm"><i
                                                         class="bi bi-arrow-clockwise"></i> Reset </a>
 
@@ -215,13 +215,13 @@
                                                 {{ $class->created_at->format('d M Y') }}</td>
                                             <td
                                                 class="px-6 flex  gap-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                                <a href="#" data-url="{{ route('admin.courses.schedule-class.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
+                                                <a href="#" data-url="{{ route('company.courses.schedule-class.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
                                                     class="open-drawer px-3 py-1 text-blue rounded text-xs">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
 
                                                 <form
-                                                    action="{{ route('admin.courses.schedule-class.destroy', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
+                                                    action="{{ route('company.courses.schedule-class.destroy', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
                                                     method="POST" class="inline-block"
                                                     onsubmit="return confirm('Are you sure?')">
                                                     @csrf

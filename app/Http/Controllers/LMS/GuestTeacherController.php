@@ -73,7 +73,7 @@ class GuestTeacherController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.guest-teacher.index')
+        return redirect()->route('company.guest-teacher.index')
             ->with('success', 'Guest teacher created successfully.');
     }
 
@@ -141,7 +141,7 @@ class GuestTeacherController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.guest-teacher.index')
+        return redirect()->route('company.guest-teacher.index')
             ->with('success', 'Guest teacher updated successfully.');
     }
 
@@ -160,7 +160,7 @@ class GuestTeacherController extends Controller
 
         $guestTeacher->delete();
 
-        return redirect()->route('admin.guest-teacher.index')
+        return redirect()->route('company.guest-teacher.index')
             ->with('success', 'Guest teacher deleted successfully.');
     }
 

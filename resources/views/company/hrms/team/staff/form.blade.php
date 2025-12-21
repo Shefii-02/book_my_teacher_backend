@@ -8,7 +8,7 @@
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Staff {{ isset($staff) ? 'Edit' : 'Create' }}</li>
@@ -22,7 +22,7 @@
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
                     <h5 class="font-bold dark:text-white">{{ isset($staff) ? 'Edit' : 'Create' }} a staff</h5>
-                    <a href="{{ route('admin.hrms.teams.index') }}"
+                    <a href="{{ route('company.hrms.teams.index') }}"
                         class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
                 </div>
 
@@ -33,7 +33,7 @@
             class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
 
             <form
-                action="{{ isset($staff) ? route('admin.hrms.teams.update', $staff->id) : route('admin.hrms.teams.store') }}"
+                action="{{ isset($staff) ? route('company.hrms.teams.update', $staff->id) : route('company.hrms.teams.store') }}"
                 method="POST" enctype="multipart/form-data" id="staffForm"
                 class="bg-white rounded-2xl shadow p-6 space-y-6">
                 @if(isset($staff))

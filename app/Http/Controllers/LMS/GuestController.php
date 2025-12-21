@@ -71,7 +71,7 @@ class GuestController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.guest.index')->with('success', 'Guest created successfully!');
+        return redirect()->route('company.guest.index')->with('success', 'Guest created successfully!');
     }
 
     /**
@@ -132,7 +132,7 @@ class GuestController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.guest.index')->with('success', 'Guest updated successfully!');
+        return redirect()->route('company.guest.index')->with('success', 'Guest updated successfully!');
     }
 
     /**
@@ -155,7 +155,7 @@ class GuestController extends Controller
 
         $guest->delete();
 
-        return redirect()->route('admin.guest.index')->with('success', 'Guest deleted successfully!');
+        return redirect()->route('company.guest.index')->with('success', 'Guest deleted successfully!');
     }
 
     /**

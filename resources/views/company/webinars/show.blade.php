@@ -10,7 +10,7 @@
             <li class="text-neutral-900 text-sm"><a class="text-white" href="/">Home</a></li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2 font-bold capitalize text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">
@@ -28,14 +28,14 @@
                 <h5 class="font-bold">Webinar Overview</h5>
 
                 <div class="space-x-2">
-                    <a href="{{ route('admin.webinars.edit', $webinar->id) }}"
+                    <a href="{{ route('company.webinars.edit', $webinar->id) }}"
                         class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Edit</a>
-                    {{-- {{ route('admin.webinars.registrations.csv', $webinar->id) }} --}}
+                    {{-- {{ route('company.webinars.registrations.csv', $webinar->id) }} --}}
                     @if (!$webinar->registrations->isEmpty())
-                        <a href="{{ route('admin.webinars.registrations.download-csv', $webinar->id) }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Download
+                        <a href="{{ route('company.webinars.registrations.download-csv', $webinar->id) }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Download
                             Registered Users CSV</a>
                     @endif
-                    <a href="{{ route('admin.webinars.index') }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
+                    <a href="{{ route('company.webinars.index') }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
 
                 </div>
             </div>

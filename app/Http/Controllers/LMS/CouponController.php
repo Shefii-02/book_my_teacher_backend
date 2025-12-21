@@ -56,7 +56,7 @@ class CouponController extends Controller
       $coupon->courses()->sync($request->course_ids);
     }
 
-    return redirect()->route('admin.coupons.index')->with('success', 'Coupon created successfully!');
+    return redirect()->route('company.coupons.index')->with('success', 'Coupon created successfully!');
   }
 
 
@@ -102,20 +102,20 @@ class CouponController extends Controller
       $coupon->courses()->detach();
     }
 
-    return redirect()->route('admin.coupons.index')->with('success', 'Coupon updated successfully!');
+    return redirect()->route('company.coupons.index')->with('success', 'Coupon updated successfully!');
   }
 
   public function destroy(Coupon $coupon)
   {
     $coupon->delete();
-    return redirect()->route('admin.coupons.index')->with('success', 'Coupon deleted.');
+    return redirect()->route('company.coupons.index')->with('success', 'Coupon deleted.');
   }
 
 
   public function trashed()
   {
     $coupons = Coupon::onlyTrashed()->get();
-    return view('admin.coupons.trashed', compact('coupons'));
+    return view('company.coupons.trashed', compact('coupons'));
   }
 
   public function restore($id)
@@ -123,7 +123,7 @@ class CouponController extends Controller
     $coupon = Coupon::onlyTrashed()->findOrFail($id);
     $coupon->restore();
 
-    return redirect()->route('admin.coupons.index')->with('success', 'Coupon restored successfully!');
+    return redirect()->route('company.coupons.index')->with('success', 'Coupon restored successfully!');
   }
 
   public function forceDelete($id)
@@ -131,6 +131,6 @@ class CouponController extends Controller
     $coupon = Coupon::onlyTrashed()->findOrFail($id);
     $coupon->forceDelete();
 
-    return redirect()->route('admin.coupons.index')->with('success', 'Coupon permanently deleted.');
+    return redirect()->route('company.coupons.index')->with('success', 'Coupon permanently deleted.');
   }
 }

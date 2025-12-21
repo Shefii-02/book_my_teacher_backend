@@ -39,7 +39,7 @@ class PayrollController extends Controller
             $validated
         );
 
-        return redirect()->route('admin.hrms.staff.index')->with('success', 'Payroll saved successfully.');
+        return redirect()->route('company.hrms.staff.index')->with('success', 'Payroll saved successfully.');
     }
 
     public function addAdvance(Request $request, $userId)

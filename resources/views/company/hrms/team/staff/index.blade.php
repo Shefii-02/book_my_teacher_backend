@@ -8,7 +8,7 @@
             </li>
             <li
                 class="text-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2 font-bold capitalize text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Team</li>
@@ -26,7 +26,7 @@
 
                     <div class="w-full max-w-full flex justify-between">
                         <h6 class="dark:text-white">Teachers List</h6>
-                        <a href="{{ route('admin.hrms.teams.create') }}"
+                        <a href="{{ route('company.hrms.teams.create') }}"
                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded-full text-sm">
                             + Add New Staff
                         </a>
@@ -108,7 +108,7 @@
                     <div class="flex1">
 
                         <div class="w-full max-w-full ">
-                            <form method="GET" action="{{ route('admin.hrms.teams.index') }}"
+                            <form method="GET" action="{{ route('company.hrms.teams.index') }}"
                                 class="mb-4 flex flex-wrap gap-3 items-end">
 
                                 <!-- 🔍 Search (name, email, mobile) -->
@@ -153,10 +153,10 @@
                                     <button type="submit"
                                         class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i
                                             class="bi bi-search"></i> Apply</button>
-                                    <a href="{{ route('admin.hrms.teams.index') }}"
+                                    <a href="{{ route('company.hrms.teams.index') }}"
                                         class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded-full text-white text-sm"><i
                                             class="bi bi-arrow-clockwise"></i> Reset </a>
-                                    {{-- <a href="{{ route('admin.hrms.teams.export', request()->query()) }}"
+                                    {{-- <a href="{{ route('company.hrms.teams.export', request()->query()) }}"
                                         class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">
                                         <i class="bi bi-file-earmark-spreadsheet"></i>
                                         Export Excel
@@ -184,7 +184,7 @@
                                     class="text-red-500 hover:text-red-700 font-bold">×</a>
                             </div>
                         @endforeach
-                        <a href="{{ route('admin.teachers') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                        <a href="{{ route('company.teachers') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
                             All</a>
                     </div>
                 @endif
@@ -297,20 +297,20 @@
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownBottomButton">
                                                     <li>
-                                                        <a href="{{ route('admin.hrms.teams.show', $user->id) }}"
+                                                        <a href="{{ route('company.hrms.teams.show', $user->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login
                                                             & Security</a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{ route('admin.hrms.teams.show', $user->id) }}"
+                                                        <a href="{{ route('company.hrms.teams.show', $user->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{ route('admin.hrms.teams.edit', $user->id) }}"
+                                                        <a href="{{ route('company.hrms.teams.edit', $user->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                     </li>
                                                     <li>
-                                                        <form action="{{ route('admin.hrms.teams.destroy', $user->id) }}"
+                                                        <form action="{{ route('company.hrms.teams.destroy', $user->id) }}"
                                                             id="form_{{ $user->id }}" method="POST"
                                                             class="d-inline-block  w-full">
                                                             @csrf @method('DELETE')

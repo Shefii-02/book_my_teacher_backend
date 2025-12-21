@@ -11,7 +11,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('admin.referral.update') }}">
+    <form method="POST" action="{{ route('company.referral.update') }}">
         @csrf
         @method('PUT')
 

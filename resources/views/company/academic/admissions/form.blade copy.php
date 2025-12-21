@@ -7,7 +7,7 @@
                 <a class="text-white" href="javascript:;">Home</a>
             </li>
             <li class="ltext-sm pl-2 capitalize text-white before:float-left before:pr-2 before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2 font-bold capitalize text-white before:float-left before:pr-2 before:content-['/']"
                 aria-current="page">
@@ -23,7 +23,7 @@
         <div class="card bg-white dark:bg-slate-850 dark:shadow-dark-xl rounded-3 my-3">
             <div class="card-title p-3 my-3 flex justify-between">
                 <h5 class="font-bold dark:text-white">{{ isset($coupon) ? 'Edit' : 'Create' }} a Admission</h5>
-                <a href="{{ route('admin.coupons.index') }}"
+                <a href="{{ route('company.coupons.index') }}"
                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded text-sm">
                     <i class="bi bi-arrow-left me-2"></i>
                     Back</a>
@@ -32,7 +32,7 @@
 
         <div class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-xl rounded-2xl p-6">
 
-            <form id="admissionForm" method="POST" action="{{ route('admin.admissions.store') }}">
+            <form id="admissionForm" method="POST" action="{{ route('company.admissions.store') }}">
                 @csrf
 
                 {{-- Student search (simple) --}}
@@ -205,7 +205,7 @@
                     <div class="flex gap-3 text-center align-center items-center  mt-5">
                         <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded"><i
                                 class="bi bi-currency-rupee"></i> Purchase </button>
-                        <a href="{{ route('admin.admissions.index') }}" class="px-4 py-2 bg-gray-200 rounded">Reset</a>
+                        <a href="{{ route('company.admissions.index') }}" class="px-4 py-2 bg-gray-200 rounded">Reset</a>
                     </div>
                 </div>
 
@@ -237,7 +237,7 @@
                     return;
                 }
                 timer = setTimeout(() => {
-                    $.get('{{ route('admin.admissions.student.search') }}', {
+                    $.get('{{ route('company.admissions.student.search') }}', {
                         q
                     }, function(data) {
                         let html = '';
@@ -270,7 +270,7 @@
                     return;
                 }
                 timer = setTimeout(() => {
-                    $.get('{{ route('admin.admissions.course.search') }}', {
+                    $.get('{{ route('company.admissions.course.search') }}', {
                         q
                     }, function(data) {
                         let html = '';
@@ -349,7 +349,7 @@
             // $('#courseSelect').select2({
             //     placeholder: 'Search course by title',
             //     ajax: {
-            //         url: '{{ route('admin.admissions.course.search') }}',
+            //         url: '{{ route('company.admissions.course.search') }}',
             //         dataType: 'json',
             //         delay: 300,
             //         data: params => ({
@@ -399,7 +399,7 @@
                     alert('Enter coupon code');
                     return;
                 }
-                $.post('{{ route('admin.admissions.coupon.validate') }}', {
+                $.post('{{ route('company.admissions.coupon.validate') }}', {
                     _token: '{{ csrf_token() }}',
                     "code": code,
                     "student_id": stdId,

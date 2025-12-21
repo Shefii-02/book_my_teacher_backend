@@ -27,7 +27,7 @@
                     <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
                             <h6 class="dark:text-white">Top Banners List</h6>
-                            <a href="{{ route('admin.app.top-banners.create') }}"
+                            <a href="{{ route('company.app.top-banners.create') }}"
                                 class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-plus me-1 "></i>
                                 Create</a>
@@ -123,12 +123,12 @@
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownBottomButton">
                                                     <li>
-                                                        <a href="{{ route('admin.app.top-banners.edit', $banner->id) }}"
+                                                        <a href="{{ route('company.app.top-banners.edit', $banner->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                     </li>
                                                     <li>
                                                         <form id="form_{{ $banner->id }}" class="m-0 p-0"
-                                                            action="{{ route('admin.app.top-banners.destroy', $banner->id) }}"
+                                                            action="{{ route('company.app.top-banners.destroy', $banner->id) }}"
                                                             method="POST" class="inline-block">
                                                             @csrf @method('DELETE') </form>
                                                         <a role="button" href="javascript:;"

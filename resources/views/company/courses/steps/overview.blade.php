@@ -1,4 +1,4 @@
-<form action="{{ route('admin.courses.store') }}" method="POST">
+<form action="{{ route('company.courses.store') }}" method="POST">
     @csrf
     <div class="form-title mb-3">
         <h2 id="drawer-right-label"

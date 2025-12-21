@@ -11,9 +11,9 @@
         <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
             <li><a class="text-white" href="/">Home</a></li>
             <li class="pl-2 text-white before:content-['/']"><a class="text-white"
-                    href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                    href="{{ route('company.dashboard') }}">Dashboard</a></li>
             <li class="pl-2 text-white before:content-['/']"><a class="text-white"
-                    href="{{ route('admin.webinars.index') }}">Webinars</a></li>
+                    href="{{ route('company.webinars.index') }}">Webinars</a></li>
             <li class="pl-2 font-bold text-white before:content-['/']" aria-current="page">{{ $isEdit ? 'Edit' : 'Create' }}
             </li>
         </ol>
@@ -26,13 +26,13 @@
         <div class="card bg-white rounded-3 my-3 p-4">
             <div class="flex justify-between">
                 <h5 class="font-bold">{{ $isEdit ? 'Edit Webinar' : 'Create Webinar' }}</h5>
-                <a href="{{ route('admin.webinars.index') }}"
+                <a href="{{ route('company.webinars.index') }}"
                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
             </div>
         </div>
 
         <div class="form-container mt-4">
-            <form action="{{ $isEdit ? route('admin.webinars.update', $webinar->id) : route('admin.webinars.store') }}"
+            <form action="{{ $isEdit ? route('company.webinars.update', $webinar->id) : route('company.webinars.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if ($isEdit)

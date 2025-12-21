@@ -62,7 +62,7 @@ class CourseSubCategoryController extends Controller
       'created_by'  => Auth::id(),
     ]);
 
-    return redirect()->route('admin.subcategories.index')->with('success', 'Sub Category created successfully.');
+    return redirect()->route('company.subcategories.index')->with('success', 'Sub Category created successfully.');
   }
 
   public function edit(Request $request, $course_sub_category)
@@ -106,7 +106,7 @@ class CourseSubCategoryController extends Controller
 
 
 
-    return redirect()->route('admin.subcategories.index')->with('success', 'Sub Category updated successfully.');
+    return redirect()->route('company.subcategories.index')->with('success', 'Sub Category updated successfully.');
   }
 
   public function destroy(CourseSubCategory $course_sub_category)
@@ -117,6 +117,6 @@ class CourseSubCategoryController extends Controller
 
     $course_sub_category->delete();
 
-    return redirect()->route('admin.subcategories.index')->with('success', 'Sub Category deleted successfully.');
+    return redirect()->route('company.subcategories.index')->with('success', 'Sub Category deleted successfully.');
   }
 }

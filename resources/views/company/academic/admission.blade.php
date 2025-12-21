@@ -7,7 +7,7 @@
                 <a class="text-white" href="javascript:;">Home</a>
             </li>
             <li class="ltext-sm pl-2 capitalize text-white before:float-left before:pr-2 before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2 font-bold capitalize text-white before:float-left before:pr-2 before:content-['/']"
                 aria-current="page">
@@ -23,13 +23,13 @@
         <div class="card bg-white dark:bg-slate-850 dark:shadow-dark-xl rounded-3 my-3">
             <div class="card-title p-3 my-3 flex justify-between">
                 <h5 class="font-bold dark:text-white">{{ isset($coupon) ? 'Edit' : 'Create' }} a Admission</h5>
-                <a href="{{ route('admin.coupons.index') }}"
+                <a href="{{ route('company.coupons.index') }}"
                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded-full text-sm">Back</a>
             </div>
         </div>
 
         <div class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-xl rounded-2xl p-6">
-            <form id="admissionForm" method="POST" action="{{ route('admin.admissions.store') }}">
+            <form id="admissionForm" method="POST" action="{{ route('company.admissions.store') }}">
                 @csrf
 
                 {{-- Student (ajax search using select2) --}}
@@ -159,7 +159,7 @@
 
                 <div class="flex gap-3">
                     <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Save Purchase</button>
-                    <a href="{{ route('admin.admissions.index') }}" class="px-4 py-2 bg-gray-200 rounded">Reset</a>
+                    <a href="{{ route('company.admissions.index') }}" class="px-4 py-2 bg-gray-200 rounded">Reset</a>
                 </div>
             </form>
         </div>
@@ -195,7 +195,7 @@
 
 
         clearTimeout(searchTimer); searchTimer = setTimeout(() => {
-            fetch("{{ route('admin.search-users') }}?key=" + keyword)
+            fetch("{{ route('company.search-users') }}?key=" + keyword)
                 .then(res => res.json())
                 .then(data => {
 
@@ -235,7 +235,7 @@
     <script>
         $(function() {
 
-          // {{ route('admin.admissions.course.search') }}
+          // {{ route('company.admissions.course.search') }}
 
             // on course select -> load course info
             $('#courseSelect').on('select2:select', function(e) {
@@ -261,7 +261,7 @@
             $('#applyCoupon').on('click', function() {
                 const code = $('#coupon_code').val().trim();
                 if (!code) return alert('Enter coupon code');
-                $.post('{{ route('admin.admissions.coupon.validate') }}', {
+                $.post('{{ route('company.admissions.coupon.validate') }}', {
                     _token: '{{ csrf_token() }}',
                     code
                 }, function(res) {

@@ -35,7 +35,7 @@
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4">
 
-                                <a href="{{ route('admin.hrms.roles.create') }}"
+                                <a href="{{ route('company.hrms.roles.create') }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Create</a>
 
                             </div>
@@ -88,16 +88,16 @@
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
                                                         <li>
-                                                            <a href="{{ route('admin.hrms.roles.show', $role->id) }}"
+                                                            <a href="{{ route('company.hrms.roles.show', $role->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Show</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('admin.hrms.roles.edit', $role->id) }}"
+                                                            <a href="{{ route('company.hrms.roles.edit', $role->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         <li>
                                                             <form
-                                                                action="{{ route('admin.hrms.roles.destroy', $role->id) }}"
+                                                                action="{{ route('company.hrms.roles.destroy', $role->id) }}"
                                                                 id="form_{{ $role->id }}" method="POST"
                                                                 class="d-inline-block  w-full">
                                                                 @csrf @method('DELETE')

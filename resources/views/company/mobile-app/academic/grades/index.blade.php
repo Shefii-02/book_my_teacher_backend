@@ -20,7 +20,7 @@
 
                     <div class="card-title p-3 my-3  rounded-t-2xl flex justify-between">
                         <h6 class="dark:text-white">Grades List</h6>
-                        <a href="{{ route('admin.app.grades.create') }}"
+                        <a href="{{ route('company.app.grades.create') }}"
                             class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                             <i class="bi bi-plus"></i> Create
                         </a>
@@ -75,12 +75,12 @@
                                                 class="hidden z-10 bg-white rounded-lg shadow w-44">
                                                 <ul class="py-2 text-sm text-gray-700 shadow-blur">
                                                     <li>
-                                                        <a href="{{ route('admin.app.grades.edit', $grade->id) }}"
+                                                        <a href="{{ route('company.app.grades.edit', $grade->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100">Edit</a>
                                                     </li>
                                                     <li>
                                                         <form id="form_{{ $grade->id }}" method="POST"
-                                                            action="{{ route('admin.app.grades.destroy', $grade->id) }}">
+                                                            action="{{ route('company.app.grades.destroy', $grade->id) }}">
                                                             @csrf @method('DELETE')
                                                         </form>
                                                         <a onclick="confirmDelete({{ $grade->id }})"

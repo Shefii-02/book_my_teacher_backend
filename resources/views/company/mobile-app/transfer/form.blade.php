@@ -9,8 +9,8 @@
 
     <form method="POST"
           action="{{ isset($item)
-            ? route('admin.transfer.update', $item->id)
-            : route('admin.transfer.store') }}">
+            ? route('company.transfer.update', $item->id)
+            : route('company.transfer.store') }}">
 
         @csrf
         @if(isset($item))

@@ -14,11 +14,11 @@
 
         <form method="POST"
             action="{{ isset($class)
-                ? route('admin.courses.schedule-class.update', [
+                ? route('company.courses.schedule-class.update', [
                     'identity' => $course->course_identity,
                     'schedule_class' => $class->id,
                 ])
-                : route('admin.courses.schedule-class.store', [
+                : route('company.courses.schedule-class.store', [
                     'identity' => $course->course_identity,
                 ]) }}">
 

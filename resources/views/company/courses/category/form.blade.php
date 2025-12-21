@@ -5,7 +5,7 @@
     </div>
 
     <form
-        action="{{ isset($category) ? route('admin.categories.update', $category->id) : route('admin.categories.store') }}"
+        action="{{ isset($category) ? route('company.categories.update', $category->id) : route('company.categories.store') }}"
         method="POST" enctype="multipart/form-data">
         @csrf
         @if (isset($category))

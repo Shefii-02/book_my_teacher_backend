@@ -56,7 +56,7 @@ class CourseMaterialController extends Controller
       'position' => $request->position,
       'status' => $request->status ?? 'published',
     ]);
-    return redirect()->route('admin.courses.materials.index', $course->course_identity)->with('success', 'Material added successfully!');
+    return redirect()->route('company.courses.materials.index', $course->course_identity)->with('success', 'Material added successfully!');
   }
 
   public function edit($courseId, $id)
@@ -102,7 +102,7 @@ class CourseMaterialController extends Controller
       'position' => $request->position,
       'status' => $request->status,
     ]);
-    return redirect()->route('admin.courses.materials.index', $course->course_identity)->with('success', 'Material updated!');
+    return redirect()->route('company.courses.materials.index', $course->course_identity)->with('success', 'Material updated!');
   }
 
   public function destroy($courseId, $id)

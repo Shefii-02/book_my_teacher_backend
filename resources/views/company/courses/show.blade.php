@@ -21,7 +21,7 @@
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Course Overview</li>
@@ -42,21 +42,21 @@
                             <div
                                 class="w-full max-w-full px-3  item-center flex gap-3 items-center">
                                 <h6 class="dark:text-white">Course Overview : {{ $course->title ?? '—' }}</h6>
-                                <a href="{{ route('admin.courses.edit', $course->course_identity) }}"
+                                <a href="{{ route('company.courses.edit', $course->course_identity) }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-xxs">
                                     <i class="bi bi-pencil me-2"></i>
                                     Edit</a>
                             </div>
 
                             <div class="w-full text-right max-w-full px-3  ">
-                                <a href="{{ route('admin.courses.schedule-class.index', $course->course_identity) }}"
+                                <a href="{{ route('company.courses.schedule-class.index', $course->course_identity) }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class="bi bi-calendar-date-fill me-2"></i> Scheduled Class's</a>
-                                <a href="{{ route('admin.courses.materials.index', $course->course_identity) }}"
+                                <a href="{{ route('company.courses.materials.index', $course->course_identity) }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class="bi bi-files me-2"></i> Materials</a>
 
-                                <a href="{{ route('admin.courses.index') }}"
+                                <a href="{{ route('company.courses.index') }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class="bi bi-arrow-left me-2"></i>
                                     Back</a>

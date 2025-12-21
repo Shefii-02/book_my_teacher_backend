@@ -6,7 +6,7 @@
 @endphp
 
 
-<form action="{{ route('admin.courses.store') }}" method="POST" id="advancedSettingsForm" class="space-y-6">
+<form action="{{ route('company.courses.store') }}" method="POST" id="advancedSettingsForm" class="space-y-6">
     @csrf
     <div class="form-title">
         <h2 id="drawer-right-label"

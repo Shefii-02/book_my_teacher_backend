@@ -27,12 +27,12 @@
             </div>
 
             <div class="mt-8 flex gap-4 justify-center">
-                <a href="{{ route('admin.payments.init', $purchase->payments->order_id) }}"
+                <a href="{{ route('company.payments.init', $purchase->payments->order_id) }}"
                     class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold">
                     🔁 Retry Payment
                 </a>
 
-                <a href="{{ route('admin.admissions.index') }}"
+                <a href="{{ route('company.admissions.index') }}"
                     class="px-6 py-3 bg-gray-200 hover:bg-gray-300 rounded-xl font-semibold">
                     ⬅ Back to Courses
                 </a>

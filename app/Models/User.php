@@ -122,6 +122,13 @@ class User extends Authenticatable
   }
 
 
+  public function company()
+  {
+    return $this->hasOne(Company::class,'id','company_id');
+  }
+
+
+
   protected static function boot()
   {
     parent::boot();
@@ -196,13 +203,12 @@ class User extends Authenticatable
   }
 
   public function wallet()
-{
+  {
     return $this->hasOne(\App\Models\Wallet::class);
-}
+  }
 
-public function walletHistories()
-{
+  public function walletHistories()
+  {
     return $this->hasMany(\App\Models\WalletHistory::class);
-}
-
+  }
 }

@@ -40,11 +40,11 @@
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.teachers') }}">Teachers List</a>
+                <a class="text-white" href="{{ route('company.teachers') }}">Teachers List</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Teachers Create</li>
@@ -59,7 +59,7 @@
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
                     <h5 class="font-bold">Create a Teacher</h5>
-                    <a href="{{ route('admin.teachers') }}"
+                    <a href="{{ route('company.teachers') }}"
                         class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2">Back</a>
                 </div>
 
@@ -69,7 +69,7 @@
             class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
 
             <!-- ✅ Form -->
-            <form action="{{ isset($user) ? route('admin.teachers.update', $user->id) : route('admin.teachers.store') }}"
+            <form action="{{ isset($user) ? route('company.teachers.update', $user->id) : route('company.teachers.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if (isset($user))

@@ -26,7 +26,7 @@
                     <div class="p-6 pb-2 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
                             <h6>{{ isset($review) ? 'Edit Review' : 'Add Review' }}</h6>
-                            <a href="{{ route('admin.app.reviews.index') }}"
+                            <a href="{{ route('company.app.reviews.index') }}"
                                 class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-arrow-left me-1 "></i>
                                 Back
@@ -38,7 +38,7 @@
 
                     <div class="flex-auto p-5 overflow-x-auto">
                         <form method="POST"
-                            action="{{ isset($review) ? route('admin.app.reviews.update', $review->id) : route('admin.app.reviews.store') }}">
+                            action="{{ isset($review) ? route('company.app.reviews.update', $review->id) : route('company.app.reviews.store') }}">
                             @csrf
                             @if (isset($review))
                                 @method('PUT')

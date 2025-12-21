@@ -7,7 +7,7 @@
                 <a class="text-white" href="javascript:;">Home</a>
             </li>
             <li class="text-sm pl-2 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.app.top-banners.index') }}">Top Banners List</a>
+                <a class="text-white" href="{{ route('company.app.top-banners.index') }}">Top Banners List</a>
             </li>
             <li
                 class="text-sm pl-2 font-bold text-white before:float-left before:pr-2 before:text-white before:content-['/']">
@@ -27,7 +27,7 @@
                 <div class="flex justify-between">
                     <h6 class="font-bold">{{ isset($banner) ? 'Edit' : 'Create' }} Top Banner</h6>
 
-                    <a href="{{ route('admin.app.top-banners.index') }}"
+                    <a href="{{ route('company.app.top-banners.index') }}"
                         class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                         <i class="bi bi-arrow-left me-1 "></i>
                         Back</a>
@@ -37,7 +37,7 @@
 
         <div class="form-container bg-white shadow-xl rounded-2xl p-6">
             <form
-                action="{{ isset($banner) ? route('admin.app.top-banners.update', $banner->id) : route('admin.app.top-banners.store') }}"
+                action="{{ isset($banner) ? route('company.app.top-banners.update', $banner->id) : route('company.app.top-banners.store') }}"
                 method="POST" enctype="multipart/form-data">
 
                 @csrf

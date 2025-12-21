@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('admin.app.wallets.adjust.store') }}">
+<form method="POST" action="{{ route('company.app.wallets.adjust.store') }}">
     @csrf
 
     <div class="mb-4">
@@ -63,7 +63,7 @@
 
 
         clearTimeout(searchTimer); searchTimer = setTimeout(() => {
-            fetch("{{ route('admin.search-users') }}?key=" + keyword)
+            fetch("{{ route('company.search-users') }}?key=" + keyword)
                 .then(res => res.json())
                 .then(data => {
 

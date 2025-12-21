@@ -68,8 +68,8 @@ class PurchaseController extends Controller
       "merchantTransactionId" => $transactionId,
       "merchantUserId"        => "USER" . $student->id,
       "amount"                => $amount,
-      "redirectUrl"           => route('admin.payments.callback', $orderId),
-      "callbackUrl"           => route('admin.payments.callback', $orderId),
+      "redirectUrl"           => route('company.payments.callback', $orderId),
+      "callbackUrl"           => route('company.payments.callback', $orderId),
       "mobileNumber"          => $student->mobile,
       "paymentInstrument"     => [
         "type" => "PAY_PAGE",
@@ -152,7 +152,7 @@ class PurchaseController extends Controller
       $payment->purchase->student->courses()->attach($payment->purchase->course_id);
     }
 
-        return redirect()->route('admin.payments.success', $orderId);
+        return redirect()->route('company.payments.success', $orderId);
 
 
   }
@@ -222,7 +222,7 @@ class PurchaseController extends Controller
       $payment->purchase->student->courses()->attach($payment->purchase->course_id);
     }
 
-    return redirect()->route('admin.payments.success', $orderId);
+    return redirect()->route('company.payments.success', $orderId);
 
     //////////////////
 
@@ -250,7 +250,7 @@ class PurchaseController extends Controller
         ]);
       });
 
-      return redirect()->route('admin.payments.success');
+      return redirect()->route('company.payments.success');
     }
 
     // FAILED / PENDING

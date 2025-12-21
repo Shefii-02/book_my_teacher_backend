@@ -9,7 +9,7 @@
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Guest Teacher {{ isset($category) ? 'Edit' : 'Create' }}</li>
@@ -28,7 +28,7 @@
 
         <div class="form-container">
             <form
-                action="{{ isset($guestTeacher) ? route('admin.guest-teacher.update', $guestTeacher->id) : route('admin.guest-teacher.store') }}"
+                action="{{ isset($guestTeacher) ? route('company.guest-teacher.update', $guestTeacher->id) : route('company.guest-teacher.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if (isset($guestTeacher))

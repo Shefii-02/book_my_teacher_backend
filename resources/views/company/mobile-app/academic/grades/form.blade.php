@@ -7,7 +7,7 @@
                 <a class="text-white" href="javascript:;">Home</a>
             </li>
             <li class="text-sm pl-2 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.app.grades.index') }}">Grades List</a>
+                <a class="text-white" href="{{ route('company.app.grades.index') }}">Grades List</a>
             </li>
             <li
                 class="text-sm pl-2 font-bold text-white before:float-left before:pr-2 before:text-white before:content-['/']">
@@ -26,7 +26,7 @@
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
                     <h6 class="font-bold">{{ isset($grade) ? 'Edit' : 'Create' }} Grade</h6>
-                    <a href="{{ route('admin.app.grades.index') }}"
+                    <a href="{{ route('company.app.grades.index') }}"
                         class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                         <i class="bi bi-arrow-left me-1 "></i>
                         Back</a>
@@ -40,7 +40,7 @@
                 $isEdit = isset($grade);
                 $thumbPreview = $isEdit && $grade->thumbnail_url ? $grade->thumbnail_url : null;
             @endphp
-            <form action="{{ $isEdit ? route('admin.app.grades.update', $grade->id) : route('admin.app.grades.store') }}"
+            <form action="{{ $isEdit ? route('company.app.grades.update', $grade->id) : route('company.app.grades.store') }}"
                 method="POST" enctype="multipart/form-data" class="space-y-6"> @csrf @if ($isEdit)
                     @method('PUT')
                 @endif <!-- THUMBNAIL -->

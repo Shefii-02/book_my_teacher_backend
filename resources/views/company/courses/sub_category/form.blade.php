@@ -5,7 +5,7 @@
             {{ isset($subCategory) ? 'Edit' : 'Create' }} a Sub Category</h6>
     </div>
     <form
-        action="{{ isset($subCategory) ? route('admin.subcategories.update', $subCategory->id) : route('admin.subcategories.store') }}"
+        action="{{ isset($subCategory) ? route('company.subcategories.update', $subCategory->id) : route('company.subcategories.store') }}"
         method="POST" enctype="multipart/form-data">
         @csrf
         @if (isset($subCategory))

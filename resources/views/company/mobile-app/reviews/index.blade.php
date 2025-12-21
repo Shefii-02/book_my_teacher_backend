@@ -26,7 +26,7 @@
                     <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
                             <h6>Subject Reviews List</h6>
-                            <a href="{{ route('admin.app.reviews.create') }}"
+                            <a href="{{ route('company.app.reviews.create') }}"
                                 class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-plus me-1 "></i>
                                 Create
@@ -76,9 +76,9 @@
                                         <td class="px-6 py-3 font-bold text-left text-xxs opacity-70">
                                             {{ $review->created_at }}</td>
                                         <td class="px-6 py-3 font-bold text-left text-xxs opacity-70 space-x-2">
-                                            <a href="{{ route('admin.app.reviews.edit', $review->id) }}"
+                                            <a href="{{ route('company.app.reviews.edit', $review->id) }}"
                                                 class="text-blue-600 hover:underline">Edit</a>
-                                            <form action="{{ route('admin.app.reviews.destroy', $review->id) }}"
+                                            <form action="{{ route('company.app.reviews.destroy', $review->id) }}"
                                                 method="POST" class="inline-block">
                                                 @csrf
                                                 @method('DELETE')

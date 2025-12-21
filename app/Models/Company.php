@@ -52,6 +52,17 @@ class Company extends Model
 
 
 
+
+  protected static function boot()
+  {
+    parent::boot();
+
+    static::creating(function ($company) {
+      $company->api_key = self::generateUniqueApiKey();
+    });
+  }
+
+
   protected $fillable = [
     'name',
     'slug',
@@ -63,6 +74,7 @@ class Company extends Model
     'website',
     'address_line1',
     'address_line2',
+    'api_key',
     'city',
     'state',
     'country',
@@ -80,6 +92,8 @@ class Company extends Model
   /* -------------------------
      | Relationships
      ------------------------- */
+
+
 
   public function settings()
   {
@@ -127,8 +141,67 @@ class Company extends Model
   }
 
 
+  public function user()
+  {
+    return $this->hasOne(User::class,'id','user_id');
+  }
+
+
   public function getSetting($key, $default = null)
   {
     return optional($this->settings->where('key', $key)->first())->value ?? $default;
+  }
+
+
+
+
+
+  public function faviconLogoMedia()
+  {
+    return $this->belongsTo(MediaFile::class, 'favicon');
+  }
+
+
+  public function whiteLogoMedia()
+  {
+    return $this->belongsTo(MediaFile::class, 'white_logo');
+  }
+
+  public function blackLogoMedia()
+  {
+    return $this->belongsTo(MediaFile::class, 'black_logo');
+  }
+
+  public function getFaviconUrlAttribute()
+  {
+    return $this->faviconLogoMedia ? asset('storage/' . $this->faviconLogoMedia->file_path) : null;
+  }
+
+  public function getBlackLogoUrlAttribute()
+  {
+    return $this->blackLogoMedia  ? asset('storage/' . $this->blackLogoMedia->file_path) : null;
+  }
+
+  public function getWhiteLogoUrlAttribute()
+  {
+    return $this->whiteLogoMedia ? asset('storage/' . $this->whiteLogoMedia->file_path) : null;
+  }
+
+
+
+
+
+
+
+  public static function generateUniqueApiKey()
+  {
+    $characters = 'ABCDEFGHIJK456789LMNOPQRSTUVWXYZ0123';
+
+    do {
+      $random = substr(str_shuffle($characters), 0, 156);
+      $code = 'BMS-' . $random;
+    } while (self::where('api_key', $code)->exists());
+
+    return $code;
   }
 }

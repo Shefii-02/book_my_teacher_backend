@@ -5,7 +5,7 @@
         <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
             <li class="text-neutral-900 text-sm"><a class="text-white" href="javascript:;">Home</a></li>
             <li class="text-sm pl-2 text-white before:content-['/']"><a class="text-white"
-                    href="{{ route('admin.teachers.index') }}">Teachers</a></li>
+                    href="{{ route('company.teachers.index') }}">Teachers</a></li>
             <li class="text-sm pl-2 font-bold text-white before:content-['/']">{{ isset($teacher) ? 'Edit' : 'Create' }}
                 Teacher</li>
         </ol>
@@ -17,12 +17,12 @@
     <div class="container mx-auto">
         <div class="bg-white p-4 rounded-lg shadow mb-4 flex justify-between items-center">
             <h3 class="font-bold">{{ isset($teacher) ? 'Edit' : 'Create' }} Teacher</h3>
-            <a href="{{ route('admin.teachers.index') }}" class="bg-emerald-500 text-white px-3 py-2 rounded">Back</a>
+            <a href="{{ route('company.teachers.index') }}" class="bg-emerald-500 text-white px-3 py-2 rounded">Back</a>
         </div>
 
         <div class="bg-white p-6 rounded-2xl shadow">
             <form method="POST"
-                action="{{ isset($teacher) ? route('admin.teachers.update', $teacher->id) : route('admin.teachers.store') }}"
+                action="{{ isset($teacher) ? route('company.teachers.update', $teacher->id) : route('company.teachers.store') }}"
                 enctype="multipart/form-data">
                 @csrf
                 @if (isset($teacher))

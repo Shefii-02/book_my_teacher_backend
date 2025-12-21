@@ -27,7 +27,7 @@
                         <div class="flex justify-between align-center items-center">
                             <h6>Referral Details for: {{ $user->name }} ({{ $user->referral_code }})</h6>
                             <div class="flex gap-2">
-                                <a type="button" href="{{ route('admin.app.referral.index') }}"
+                                <a type="button" href="{{ route('company.app.referral.index') }}"
                                     class="px-3 py-1 bg-emerald-500/50 text-white flex justify-between items-center rounded-full text-sm">
                                     <i class="bi bi-arrow-left me-1 text-lg"></i>
                                     Back
@@ -105,7 +105,7 @@
                                         {{ ucfirst($ref->status) }}
                                          @if ($ref->status == 'active')
                                             <form id="form__{{ $ref->id }}" method="POST"
-                                                action="{{ route('admin.app.referral.credit', $ref->id) }}">
+                                                action="{{ route('company.app.referral.credit', $ref->id) }}">
                                                 @csrf @method('POST')
                                             </form>
                                             <button form="form__{{ $ref->id }}"  type="submit"

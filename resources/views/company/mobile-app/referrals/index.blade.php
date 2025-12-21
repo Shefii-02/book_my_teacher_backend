@@ -103,7 +103,7 @@
                                         </td>
 
                                         <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">
-                                            <a href="{{ route('admin.app.referral.show', $u->id) }}"
+                                            <a href="{{ route('company.app.referral.show', $u->id) }}"
                                                 class="px-3 py-1 bg-blue-500 text-white rounded">
                                                 View
                                             </a>

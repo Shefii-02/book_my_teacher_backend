@@ -68,7 +68,7 @@ class CourseCategoryController extends Controller
       ]);
       DB::commit();
 
-      return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
+      return redirect()->route('company.categories.index')->with('success', 'Category created successfully.');
     } catch (\Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', 'Category creation failed! ' . $e->getMessage());
@@ -120,7 +120,7 @@ class CourseCategoryController extends Controller
       'position'    => $request->position,
     ]);
 
-    return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully.');
+    return redirect()->route('company.categories.index')->with('success', 'Category updated successfully.');
   }
 
   /**
@@ -136,6 +136,6 @@ class CourseCategoryController extends Controller
 
     $category->delete();
 
-    return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully.');
+    return redirect()->route('company.categories.index')->with('success', 'Category deleted successfully.');
   }
 }

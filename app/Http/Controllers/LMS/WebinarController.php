@@ -104,7 +104,7 @@ class WebinarController extends Controller
 
       DB::commit();
 
-      return redirect()->route('admin.webinars.index')->with('success', 'Webinar created successfully.');
+      return redirect()->route('company.webinars.index')->with('success', 'Webinar created successfully.');
     } catch (\Exception $e) {
       DB::rollBack();
       return redirect()->back()
@@ -176,7 +176,7 @@ class WebinarController extends Controller
       $webinar->update($data);
 
       DB::commit();
-      return redirect()->route('admin.webinars.index')->with('success', 'Webinar updated successfully.');
+      return redirect()->route('company.webinars.index')->with('success', 'Webinar updated successfully.');
     } catch (\Exception $e) {
       DB::rollBack();
       return redirect()->back()->withInput()->with('error', 'Webinar update failed. ' . $e->getMessage());
@@ -192,7 +192,7 @@ class WebinarController extends Controller
       if ($webinar->main_image) Storage::disk('public')->delete($webinar->main_image);
       $webinar->delete();
       DB::commit();
-      return redirect()->route('admin.webinars.index')->with('success', 'Webinar deleted successfully.');
+      return redirect()->route('company.webinars.index')->with('success', 'Webinar deleted successfully.');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', 'Webinar updation failed. ' . $e->getMessage());
@@ -202,7 +202,7 @@ class WebinarController extends Controller
   public function start(Webinar $webinar)
   {
     // $webinar->update(['status' => 'live']);
-    return redirect()->route('admin.webinars.index')->with('success', 'Webinar started successfully.');
+    return redirect()->route('company.webinars.index')->with('success', 'Webinar started successfully.');
   }
 
 

@@ -26,7 +26,7 @@
                     <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
                             <h6>Boad/University List</h6>
-                            <a href="{{ route('admin.app.boards.create') }}"
+                            <a href="{{ route('company.app.boards.create') }}"
                                 class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-plus me-1 "></i>
                                 Create
@@ -99,12 +99,12 @@
                                                 class="hidden z-10 bg-white rounded-lg shadow w-44">
                                                 <ul class="py-2 text-sm text-gray-700 shadow-blur">
                                                     <li>
-                                                        <a href="{{ route('admin.app.boards.edit', $board->id) }}"
+                                                        <a href="{{ route('company.app.boards.edit', $board->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100">Edit</a>
                                                     </li>
                                                     <li>
                                                         <form id="form_{{ $board->id }}" method="POST"
-                                                            action="{{ route('admin.app.boards.destroy', $board->id) }}">
+                                                            action="{{ route('company.app.boards.destroy', $board->id) }}">
                                                             @csrf @method('DELETE')
                                                         </form>
                                                         <a onclick="confirmDelete({{ $board->id }})"

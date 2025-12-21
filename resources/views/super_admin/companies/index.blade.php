@@ -31,9 +31,10 @@
                     <div class="px-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="justify-between flex py-3 items-center">
                             <h6 class="dark:text-white">Company List</h6>
-                            <a href="{{ route('admin.companies.create') }}"
-                                class="px-4 py-2 bg-gradient-to-tl  from-emerald-500 to-teal-400  text-white  text-sm">
-                                <i class="bi bi-plus me-1"></i> Create</a>
+
+                               <a href="#"
+                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  create-step text-white rounded text-sm">
+                                    <i class="bi bi-plus me-2"></i> Create Company</a>
                         </div>
                     </div>
                 </div>
@@ -47,19 +48,19 @@
                                 <tr>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                        Logo</th>
+                                    <th
+                                        class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                         Name</th>
                                     <th
                                         class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                        Profession</th>
+                                        Contact Person</th>
                                     <th
                                         class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                        Subject</th>
+                                        City/State</th>
                                     <th
                                         class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                        Grade</th>
-                                    <th
-                                        class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                        Mode</th>
+                                        Subscription</th>
                                     <th
                                         class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                         Created At</th>
@@ -71,31 +72,29 @@
                                     </th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 @foreach ($companies ?? [] as $key => $company)
+
                                     <tr>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                      {{-- logo --}}
+                                        <td class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            <img src="{{ asset('storage/' . $company ? $company->black_logo_url : '') }}"
+                                                class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
+                                                alt="user1" />
+                                        </td>
+                                        {{-- //company name --}}
+                                         <td
+                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             <div class="flex px-2 py-1">
-                                                <div>
-                                                    <img src="{{ asset('storage/' . $company ? $company->avatar_url : '') }}"
-                                                        class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
-                                                        alt="user1" />
-                                                </div>
+
                                                 <div class="flex flex-col justify-center">
                                                     <h6 class="mb-0 text-sm text-neutral-900 dark:text-white">
                                                         {{ $company->name }}</h6>
-                                                    <p
-                                                        class="my-1 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                        <a href="#" class="__cf_email__">{{ $company->email }}</a>
-                                                    </p>
-                                                    <p
-                                                        class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                        <a href="#" class="__cf_email__">{{ $company->mobile }}</a>
-                                                    </p>
+
                                                     <div class="flex gap-3">
                                                         <a target="_blank"
-                                                            href="https://web.whatsapp.com/send/?text=&type=custom_url&app_absent=0&utm_campaign=wa_api_send_v1&phone{{ $company->mobile }}"
+                                                            href="https://web.whatsapp.com/send/?text=&type=custom_url&app_absent=0&utm_campaign=wa_api_send_v1&phone{{ $company->user->mobile }}"
                                                             class="mb-0 text-sm text-neutral-900 dark:text-white">
                                                             <i class="bi bi-whatsapp text-green-400"></i></a>
                                                         <a target="_blank" href="tel://{{ $company->mobile }}"
@@ -105,70 +104,80 @@
                                                 </div>
                                             </div>
                                         </td>
-
+                                        {{-- contactperson --}}
                                         <td
-                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
+                                            <div class="flex px-2 py-1">
+
+                                                <div>
+                                                    <img src="{{ $company->user ? $company->user->avatar_url : '' }}"
+                                                        class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
+                                                        alt="user1" />
+                                                </div>
+                                                <div class="flex flex-col justify-center">
+                                                    <h6 class="mb-0 text-sm text-neutral-900 dark:text-white">
+                                                        {{ $company->user->name }}</h6>
+                                                    <p
+                                                        class="my-1 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                        <a href="#" class="__cf_email__" title="{{ $company->user->email }}">{{ Str::limit($company->user->email, 10, '...')  }}</a>
+                                                    </p>
+                                                    <p
+                                                        class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                        <a href="#" class="__cf_email__">{{ $company->user->mobile }}</a>
+                                                    </p>
+                                                    <div class="flex gap-3">
+                                                        <a target="_blank"
+                                                            href="https://web.whatsapp.com/send/?text=&type=custom_url&app_absent=0&utm_campaign=wa_api_send_v1&phone{{ $company->user->mobile }}"
+                                                            class="mb-0 text-sm text-neutral-900 dark:text-white">
+                                                            <i class="bi bi-whatsapp text-green-400"></i></a>
+                                                        <a target="_blank" href="tel://{{ $company->user->mobile }}"
+                                                            class="mb-0 text-sm text-neutral-900 dark:text-white">
+                                                            <i class="bi bi-telephone text-blue-400"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        {{-- city/state --}}
+                                        <td
+                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             <p
                                                 class="mb-0 text-xs font-semibold capitalize leading-tight dark:text-white dark:opacity-80 text-slate-400">
-
+                                                {{ $company?->city }}/{{ $company?->state }}
                                             </p>
                                         </td>
+                                        {{-- subscription --}}
                                         <td
-                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             <p
-                                                class="mb-0 capitalize text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                class="mb-0 capitalize text-xs font-semibold text-center leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                --
                                             </p>
                                         </td>
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                            <p
-                                                class="mb-0 capitalize text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                            </p>
-                                        </td>
-                                        <td
-                                            class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                            {{-- @if ($company->professionalInfo)
-                                                    @if ($company->professionalInfo->teaching_mode == 'online')
-                                                        <span
-                                                            class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold capitalize leading-none text-white">Online</span>
-                                                    @elseif($company->professionalInfo->teaching_mode == 'offline')
-                                                        <span
-                                                            class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold capitalize leading-none text-white">Offline</span>
-                                                    @elseif($company->professionalInfo->teaching_mode == 'both')
-                                                        <span
-                                                            class="bg-gradient-to-tl from-blue-700 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold capitalize leading-none text-white">Both</span>
-                                                    @endif
-                                                @endif --}}
-                                        </td>
+                                        {{-- created_at --}}
                                         <td
                                             class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                             <span
-                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $company->created_at }}</span>
+                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $company?->created_at }}</span>
                                         </td>
+                                          {{-- status --}}
                                         <td
                                             class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent capitalize">
-                                            <span class="text-sm mb-1">{{ $company->current_account_stage }}</span><br>
-                                            @if ($company->account_status == 'in progress')
+                                            @if ($company->user->account_status == 'under review')
                                                 <span
-                                                    class="bg-gradient-to-tl capitalize from-lime-200 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">In
-                                                    progress</span>
-                                            @elseif($company->account_status == 'ready for interview')
+                                                    class="bg-gradient-to-tl capitalize from-lime-200 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Account under review</span>
+                                            @elseif($company->user->account_status == 'policy violation')
                                                 <span
-                                                    class="bg-gradient-to-tl capitalize from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Ready
-                                                    for interview</span>
-                                            @elseif($company->account_status == 'scheduled')
+                                                    class="bg-gradient-to-tl capitalize from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Policy Violation</span>
+                                            @elseif($company->user->account_status == 'approved')
                                                 <span
-                                                    class="bg-gradient-to-tl capitalize from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Scheduled</span>
-                                            @elseif($company->account_status == 'completed')
+                                                    class="bg-gradient-to-tl capitalize from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Approved</span>
+                                            @elseif($company->user->account_status == 'suspended')
                                                 <span
-                                                    class="bg-gradient-to-tl capitalize from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Completed</span>
-                                            @elseif($company->account_status == 'rejected')
-                                                <span
-                                                    class="bg-gradient-to-tl capitalize bg-red-900 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Rejected</span>
+                                                    class="bg-gradient-to-tl capitalize bg-red-900 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Suspended</span>
                                             @endif
                                         </td>
                                         <td
-                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                             <button id="dropdownBottomButton"
                                                 data-dropdown-toggle="dropdownBottom_{{ $key }}"
                                                 data-dropdown-placement="bottom" class="" type="button">
@@ -186,16 +195,16 @@
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownBottomButton">
                                                     <li>
-                                                        <a href="{{-- route('admin.companies.overview', $company->id) --}}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
+                                                        <a href="{{ route('admin.companies.show', $company->id) }}"
+                                                            class="block px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{ route('admin.companies.edit', $company->id) }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
+                                                        <a data-url="{{ route('admin.companies.edit', $company->id) }}"
+                                                            class="block edit-step px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                     </li>
                                                     <li>
                                                         <a href="{{-- route('admin.teachers.login-security', $company->id) --}}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login
+                                                            class="block px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login
                                                             Security</a>
                                                     </li>
                                                     <li>
@@ -204,19 +213,15 @@
                                                             method="POST" class="inline-block">
                                                             @csrf @method('DELETE') </form>
                                                         <a role="button" href="javascript:;"
-                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                            class="block px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
                                                             onclick="confirmDelete({{ $company->id }})">Delete</a>
 
                                                     </li>
                                                 </ul>
                                             </div>
-
                                         </td>
                                     </tr>
                                 @endforeach
-
-
-
                             </tbody>
                         </table>
                     </div>
@@ -232,3 +237,42 @@
     </div>
     </div>
 @endsection
+
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.create-step', function(e) {
+                e.preventDefault();
+                $('#drawerContent').html('<div class="text-center text-gray-400 p-5">Loading...</div>');
+
+                $.get(`{{ route('admin.companies.create') }}`, function(html) {
+                    $('#drawerContent').html(html);
+                    openDrawer(); // will work now
+                }).fail(function() {
+                    $('#drawerContent').html(
+                        '<div class="text-center text-red-500 p-5">Failed to load.</div>');
+                });
+
+            });
+            $(document).on('click', '.edit-step', function(e) {
+                e.preventDefault();
+
+                let url = $(this).data('url');
+
+                $('#drawerContent').html('<div class="text-center text-gray-400 p-5">Loading...</div>');
+
+                $.get(url, function(html) {
+                    $('#drawerContent').html(html);
+                    openDrawer();
+                }).fail(function() {
+                    $('#drawerContent').html(
+                        '<div class="text-center text-red-500 p-5">Failed to load.</div>'
+                    );
+                });
+            });
+
+        });
+    </script>
+@endpush

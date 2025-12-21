@@ -25,7 +25,7 @@
                 <h6 class="font-bold dark:text-white">
                     Confirm Your Payment
                 </h6>
-                <a href="{{ route('admin.coupons.index') }}"
+                <a href="{{ route('company.coupons.index') }}"
                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded text-sm">
                     <i class="bi bi-arrow-left me-2"></i>
                     Back</a>
@@ -34,7 +34,7 @@
 
         <div class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-xl rounded-2xl p-6">
 
-            <form action="{{ route('admin.payments.process', $purchase->payments->order_id) }}" method="POST"
+            <form action="{{ route('company.payments.process', $purchase->payments->order_id) }}" method="POST"
                 class="w-full max-w-3xl">
                 @csrf
                 {{-- Main Card --}}

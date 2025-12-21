@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('admin.otp.update', $otp->id) }}">
+<form method="POST" action="{{ route('company.otp.update', $otp->id) }}">
     @csrf
     @method('PUT')
 

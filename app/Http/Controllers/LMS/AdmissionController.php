@@ -369,15 +369,15 @@ class AdmissionController extends Controller
     switch ($payment->gateway) {
 
       case 'online':
-        return redirect()->route('admin.payments.init', $payment->order_id);
+        return redirect()->route('company.payments.init', $payment->order_id);
       case 'manually':
-        return redirect()->route('admin.payments.bank-details', $purchase->id);
+        return redirect()->route('company.payments.bank-details', $purchase->id);
       case 'in-cash':
         $purchase->update(['status' => 'paid']);
         $payment->update(['status' => 'success']);
 
         return redirect()
-          ->route('admin.admissions.success', $purchase->id)
+          ->route('company.admissions.success', $purchase->id)
           ->with('success', 'Cash payment marked as paid');
 
       case 'free':
@@ -385,7 +385,7 @@ class AdmissionController extends Controller
         $payment->update(['status' => 'success']);
 
         return redirect()
-          ->route('admin.admissions.success', $purchase->id);
+          ->route('company.admissions.success', $purchase->id);
 
       default:
         throw new \Exception('Invalid payment method');
@@ -687,6 +687,6 @@ class AdmissionController extends Controller
       }
     });
 
-    return redirect()->route('admin.admissions.create')->with('success', 'Payment simulated and purchase marked paid.');
+    return redirect()->route('company.admissions.create')->with('success', 'Payment simulated and purchase marked paid.');
   }
 }

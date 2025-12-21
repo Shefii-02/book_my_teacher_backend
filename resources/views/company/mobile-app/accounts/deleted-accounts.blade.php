@@ -26,7 +26,7 @@
                     <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
                             <h6>Delete Accounts List</h6>
-                            <a href="{{ route('admin.app.delete-accounts.index') }}"
+                            <a href="{{ route('company.app.delete-accounts.index') }}"
                                 class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-arrow-left me-1 "></i>
                                 Back
@@ -56,7 +56,7 @@
                                         <td class="px-6 py-3 text-sm">{{ $user->email ?? '---' }}</td>
                                         <td class="px-6 py-3 text-sm">{{ $user->deleted_at }}</td>
                                               <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">
-                                            <form action="{{ route('admin.app.delete_accounts.restore', $user->id) }}"
+                                            <form action="{{ route('company.app.delete_accounts.restore', $user->id) }}"
                                                 method="POST">
                                                 @csrf
                                             <button class="bg-green-500 text-white px-2 py-1 rounded show-details-btn" type="submit">

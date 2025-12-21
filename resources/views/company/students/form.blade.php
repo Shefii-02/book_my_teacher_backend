@@ -71,7 +71,7 @@
         <div class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
 
             <!-- ✅ Form -->
-            <form action="{{ isset($user) ? route('admin.students.update', $user->id) : route('admin.students.store') }}"
+            <form action="{{ isset($user) ? route('company.students.update', $user->id) : route('company.students.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if (isset($user))

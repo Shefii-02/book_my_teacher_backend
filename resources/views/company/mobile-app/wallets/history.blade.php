@@ -28,7 +28,7 @@
                         <div class="flex justify-between align-center items-center">
                             <h6>Wallet Transations</h6>
                             <div class="flex gap-2">
-                                <a type="button" href="{{ route('admin.app.wallets.index') }}"
+                                <a type="button" href="{{ route('company.app.wallets.index') }}"
                                     class="px-3 py-1 bg-emerald-500/50 text-white flex justify-between items-center rounded-full text-sm">
                                     <i class="bi bi-arrow-left me-1 text-lg"></i>
                                     Back
@@ -145,7 +145,7 @@
 
 
                                                 @if ($h->status == 'pending')
-                                                    <form action="{{ route('admin.app.wallets.approve', $h->id) }}"
+                                                    <form action="{{ route('company.app.wallets.approve', $h->id) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
                                                         <button class="btn btn-sm btn-success" title="Approve">
@@ -155,7 +155,7 @@
                                                 @endif
 
                                                 @if ($h->status == 'approved')
-                                                    <form action="{{ route('admin.app.wallets.rollback', $h->id) }}"
+                                                    <form action="{{ route('company.app.wallets.rollback', $h->id) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
                                                         <button class="btn btn-sm btn-danger" title="Rollback">

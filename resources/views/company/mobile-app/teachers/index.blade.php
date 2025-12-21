@@ -26,7 +26,7 @@
                     <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
                             <h6>Teachers List</h6>
-                            <a href="{{ route('admin.app.teachers.create') }}"
+                            <a href="{{ route('company.app.teachers.create') }}"
                                 class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-plus me-1 "></i>
                                 Create
@@ -109,12 +109,12 @@
                                                 class="hidden z-10 bg-white rounded-lg shadow w-44">
                                                 <ul class="py-2 text-sm text-gray-700 shadow-blur">
                                                     <li>
-                                                        <a href="{{ route('admin.app.teachers.edit', $t->id) }}"
+                                                        <a href="{{ route('company.app.teachers.edit', $t->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100">Edit</a>
                                                     </li>
                                                     <li>
                                                         <form id="form_{{ $t->id }}" method="POST"
-                                                            action="{{ route('admin.app.teachers.destroy', $t->id) }}">
+                                                            action="{{ route('company.app.teachers.destroy', $t->id) }}">
                                                             @csrf @method('DELETE')
                                                         </form>
                                                         <a onclick="confirmDelete({{ $t->id }})"
@@ -168,7 +168,7 @@
                                                 class="bg-red-500 px-3 py-1 text-xs rounded-full text-white">Disabled</span>
                                         @endif
 
-                                        <a href="{{ route('admin.teachers.edit', $t->id) }}"
+                                        <a href="{{ route('company.teachers.edit', $t->id) }}"
                                             class="text-sm text-blue-600 hover:underline">
                                             Edit →
                                         </a>

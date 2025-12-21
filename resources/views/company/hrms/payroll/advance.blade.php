@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('admin.hrms.payroll.advance.store', $user->id) }}">
+<form method="POST" action="{{ route('company.hrms.payroll.advance.store', $user->id) }}">
     @csrf
     <div class="grid gap-3 md:grid-cols-3">
         <input type="number" step="0.01" name="amount" placeholder="Amount" required class="form-input w-full border-gray-300 rounded-md">

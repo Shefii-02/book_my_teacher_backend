@@ -9,10 +9,11 @@
     $previewId = $name . '_preview';
 
     // Determine image source
-    $src = '';
-    if (!empty($item) && !empty($item->$field)) {
+    $src = $src ?? '';
+    if (!empty($item) && !empty($item->$field) && empty($src)) {
         $src = $item->$field;
     }
+
 
     // Required logic (only required in create mode)
     $requiredAttr = $isEdit ? '' : 'required';
@@ -25,7 +26,7 @@
                 hover:shadow-md transition-all flex items-center justify-center cursor-pointer group">
 
         <img id="{{ $previewId }}" src="{{ $src }}"
-            class="object-cover w-full h-full group-hover:opacity-80 transition">
+            class="object-cover w-full h-full1 group-hover:opacity-80 transition">
 
         {{-- Overlay on Hover --}}
         <div
@@ -43,7 +44,7 @@
         {{-- Size info --}}
         @if ($size)
             <small class="text-gray-600">
-                <span class="text-red-600">*</span> Size {{ $size }}
+                {{ $requiredAttr ? '<span class="text-red-600">*</span>' : '' }} Size {{ $size }}
             </small>
         @endif
 

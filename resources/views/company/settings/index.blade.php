@@ -65,7 +65,7 @@
                     <div x-show="tab=='general'" x-transition>
                         <h3 class="text-xl font-bold mb-4">General Information</h3>
 
-                        <form method="POST" action="{{ route('admin.company.settings.general.update') }}">
+                        <form method="POST" action="{{ route('company.company.settings.general.update') }}">
                             @csrf
 
                             <div class="grid grid-cols-2 gap-4">
@@ -110,7 +110,7 @@
                         <h3 class="text-xl font-bold mb-4">Branding</h3>
 
                         <form method="POST" enctype="multipart/form-data"
-                            action="{{ route('admin.company.settings.branding.update') }}">
+                            action="{{ route('company.company.settings.branding.update') }}">
                             @csrf
 
                             <div class="grid grid-cols-2 gap-4">
@@ -204,7 +204,7 @@
                         <h3 class="text-xl font-bold mb-4">Social Links</h3>
 
                         <form method="POST" enctype="multipart/form-data"
-                            action="{{ route('admin.company.settings.social.update') }}">
+                            action="{{ route('company.company.settings.social.update') }}">
                             @csrf
 
                             <div x-data="{
@@ -336,7 +336,7 @@
                     <div x-show="tab=='payment'" x-transition>
                         <h3 class="text-xl font-bold mb-4">Payment Settings</h3>
 
-                        <form method="POST" action="{{ route('admin.company.settings.payment.update') }}">
+                        <form method="POST" action="{{ route('company.company.settings.payment.update') }}">
                             @csrf
 
                             <div class="grid grid-cols-2 gap-4">
@@ -369,7 +369,7 @@
                     <div x-show="tab=='security'" x-transition>
                         <h3 class="text-xl font-bold mb-4">Security Settings</h3>
 
-                        <form method="POST" action="{{ route('admin.company.settings.security.update') }}">
+                        <form method="POST" action="{{ route('company.company.settings.security.update') }}">
                             @csrf
 
                             <div class="space-y-4">

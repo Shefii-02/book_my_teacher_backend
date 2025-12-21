@@ -7,7 +7,7 @@
                 <a class="text-white" href="javascript:;">Home</a>
             </li>
             <li class="text-sm pl-2 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.app.boards.index') }}">Boards List</a>
+                <a class="text-white" href="{{ route('company.app.boards.index') }}">Boards List</a>
             </li>
             <li
                 class="text-sm pl-2 font-bold text-white before:float-left before:pr-2 before:text-white before:content-['/']">
@@ -27,7 +27,7 @@
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
                     <h6 class="font-bold">{{ $board->id ? 'Edit Board' : 'Create Board' }}</h6>
-                    <a href="{{ route('admin.app.boards.index') }}"
+                    <a href="{{ route('company.app.boards.index') }}"
                         class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                         <i class="bi bi-arrow-left me-1"></i>
                         Back
@@ -44,7 +44,7 @@
             @endphp
 
             <form method="POST" enctype="multipart/form-data"
-                action="{{ $isEdit ? route('admin.app.boards.update', $board->id) : route('admin.app.boards.store') }}"
+                action="{{ $isEdit ? route('company.app.boards.update', $board->id) : route('company.app.boards.store') }}"
                 class="space-y-6">
                 @csrf
                 @if ($isEdit)

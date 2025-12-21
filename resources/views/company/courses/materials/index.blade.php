@@ -8,7 +8,7 @@
             </li>
             <li
                 class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page"> Course Materials — {{ $course->title }}</li>
@@ -34,11 +34,11 @@
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
 
                                 <a href="#"
-                                    data-url="{{ route('admin.courses.materials.create', $course->course_identity) }}"
+                                    data-url="{{ route('company.courses.materials.create', $course->course_identity) }}"
                                     class="px-4 py-2 open-drawer bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class=" bi bi-plus me-1"></i>
                                     Create Material</a>
-                                <a href="{{ route('admin.courses.show', $course->course_identity) }}"
+                                <a href="{{ route('company.courses.show', $course->course_identity) }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
                                         class="bi bi-arrow-left me-2"></i>Back</a>
                             </div>

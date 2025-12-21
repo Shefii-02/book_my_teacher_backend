@@ -19,7 +19,7 @@
 
                     <div class="card-title p-3 my-3 rounded-t-2xl flex justify-between">
                         <h6 class="dark:text-white">Subjects List</h6>
-                        <a href="{{ route('admin.app.subjects.create') }}"
+                        <a href="{{ route('company.app.subjects.create') }}"
                             class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                             <i class="bi bi-plus"></i> Create
                         </a>
@@ -59,12 +59,12 @@
                                                 class="hidden z-10 bg-white rounded-lg shadow w-44">
                                                 <ul class="py-2 text-sm text-gray-700 shadow-blur">
                                                     <li>
-                                                        <a href="{{ route('admin.app.subjects.edit', $sub->id) }}"
+                                                        <a href="{{ route('company.app.subjects.edit', $sub->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100">Edit</a>
                                                     </li>
                                                     <li>
                                                         <form id="form_{{ $sub->id }}" method="POST"
-                                                            action="{{ route('admin.app.subjects.destroy', $sub->id) }}">
+                                                            action="{{ route('company.app.subjects.destroy', $sub->id) }}">
                                                             @csrf @method('DELETE')
                                                         </form>
                                                         <a onclick="confirmDelete({{ $sub->id }})"

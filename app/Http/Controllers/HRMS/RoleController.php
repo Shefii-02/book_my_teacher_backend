@@ -106,7 +106,7 @@ class RoleController extends Controller
     //   Auth::user()->id
     // );
 
-    return redirect()->route('admin.hrms.roles.index')->with('success', 'Role successfully created.');
+    return redirect()->route('company.hrms.roles.index')->with('success', 'Role successfully created.');
   }
 
   public function edit(Role $role)
@@ -193,7 +193,7 @@ class RoleController extends Controller
       //   Auth::user()->id
       // );
 
-      return redirect()->route('admin.hrms.roles.index')->with('success', 'Role successfully updated.');
+      return redirect()->route('company.hrms.roles.index')->with('success', 'Role successfully updated.');
 
   }
 

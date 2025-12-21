@@ -214,7 +214,7 @@
                     </div>
                     <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
 
-                        <a href="{{ route('admin.admissions.create') }}"
+                        <a href="{{ route('company.admissions.create') }}"
                             class="px-4 py-2 bg-gradient-to-tl  from-emerald-500 to-teal-400  text-white  text-sm">
                             <i class="bi bi-plus me-1"></i> Create</a>
                     </div>
@@ -231,7 +231,7 @@
                         <div class="flex1">
 
                             <div class="w-full max-w-full ">
-                                {{--                   <form method="GET" action="{{ route('admin.transactions') }}"
+                                {{--                   <form method="GET" action="{{ route('company.transactions') }}"
                                     class="mb-4 flex flex-wrap gap-3 items-end"> --}}
 
                                 <!-- 🔍 Search (name, email, mobile) -->
@@ -299,10 +299,10 @@
                                         <button type="submit"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
                                                 class="bi bi-search"></i> Apply</button>
-                                        <a href="{{ route('admin.transactions') }}"
+                                        <a href="{{ route('company.transactions') }}"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded text-white text-sm"><i
                                                 class="bi bi-arrow-clockwise"></i> Reset </a>
-                                        <a href="{{ route('admin.transactions.export', request()->query()) }}"
+                                        <a href="{{ route('company.transactions.export', request()->query()) }}"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                             <i class="bi bi-file-earmark-spreadsheet"></i>
                                             Export Excel
@@ -465,7 +465,7 @@
                                                         aria-labelledby="dropdownBottomButton">
                                                         @if ($transaction->status === 'pending')
                                                             <li>
-                                                                <a href="{{ route('admin.payments.init', $transaction->payments->order_id) }}"
+                                                                <a href="{{ route('company.payments.init', $transaction->payments->order_id) }}"
                                                                     class="block px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">
                                                                     Pay Now</a>
                                                             </li>
@@ -477,7 +477,7 @@
                                                             </li>
                                                         @elseif($transaction->status === 'paid')
                                                             <li>
-                                                                <a href="{{ route('admin.payments.invoice.download', $transaction->id) }}"
+                                                                <a href="{{ route('company.payments.invoice.download', $transaction->id) }}"
                                                                     class="block px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Download
                                                                     Invoice</a>
                                                             </li>
@@ -510,7 +510,7 @@
     </div>
 
     <div id="rejectModal" class="hidden fixed inset-0 bg-black opacity-80 flex items-center justify-center">
-        <form method="POST" action="{{ route('admin.payments.reject') }}" class="bg-white p-6 rounded w-96">
+        <form method="POST" action="{{ route('company.payments.reject') }}" class="bg-white p-6 rounded w-96">
             @csrf
             <input type="hidden" name="purchase_id" id="reject_purchase_id">
 

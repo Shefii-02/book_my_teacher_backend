@@ -108,12 +108,12 @@
             {{-- ACTION BUTTONS --}}
             <div class="mt-8 flex  sm:flex-row gap-4 justify-center">
 
-                <a href="{{ route('admin.admissions.index') }}"
+                <a href="{{ route('company.admissions.index') }}"
                     class="px-6 py-3 bg-gray-200 hover:bg-gray-300 rounded-xl font-semibold">
                     ⬅ Back to Courses
                 </a>
 
-                <a href="{{ route('admin.payments.invoice.download', $purchase->id) }}" target="_blank"
+                <a href="{{ route('company.payments.invoice.download', $purchase->id) }}" target="_blank"
                     class="px-6 py-3 bg-emerald-500/50 hover:bg-emerald-700 text-white rounded-xl font-semibold">
                     📄 Download Invoice
                 </a>

@@ -26,7 +26,7 @@
                     <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
                             <h6>Achievement Level List</h6>
-                            <a href="{{ route('admin.app.achievements.create') }}"
+                            <a href="{{ route('company.app.achievements.create') }}"
                                 class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-plus me-1 "></i>
                                 Create
@@ -49,9 +49,9 @@
                                         <p class="text-sm text-gray-600">{{ $lvl->description }}</p>
                                     </div>
                                     <div class="flex gap-2">
-                                        <a href="{{ route('admin.app.achievements.edit', $lvl->id) }}"
+                                        <a href="{{ route('company.app.achievements.edit', $lvl->id) }}"
                                             class="px-2 py-1 bg-blue-500 text-white rounded">Edit</a>
-                                        <a href="{{ route('admin.app.achievements.index', ['show' => $lvl->id]) }}"
+                                        <a href="{{ route('company.app.achievements.index', ['show' => $lvl->id]) }}"
                                             class="px-2 py-1 bg-gray-200 rounded">View Tasks</a>
                                     </div>
                                 </div>

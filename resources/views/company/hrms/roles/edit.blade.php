@@ -1,4 +1,4 @@
-{{Form::model($role,array('route' => array('admin.roles.update', $role->id), 'method' => 'PUT','class'=>'needs-validation','novalidate')) }}
+{{Form::model($role,array('route' => array('company.roles.update', $role->id), 'method' => 'PUT','class'=>'needs-validation','novalidate')) }}
 <div class="modal-body">
     <div class="row">
         <div class="col-md-12">

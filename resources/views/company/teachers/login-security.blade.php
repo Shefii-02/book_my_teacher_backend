@@ -36,13 +36,13 @@
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
                     <h5 class="font-bold">Teacher Login Security</h5>
-                    <a href="{{ route('admin.teachers') }}"
+                    <a href="{{ route('company.teachers') }}"
                         class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2">Back</a>
                 </div>
             </div>
         </div>
         <div class="form-container">
-            <form action="{{ route('admin.teachers.login-security.change', $teacher->id) }}" method="POST">
+            <form action="{{ route('company.teachers.login-security.change', $teacher->id) }}" method="POST">
                 @method('POST')
                 @csrf
                 <div class="grid gap-6 mb-6 md:grid-cols-2">

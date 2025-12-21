@@ -28,7 +28,7 @@
                         <div class="flex justify-between align-center items-center">
                             <h6>Wallet List</h6>
                             <div class="flex gap-2">
-                                <a type="button"  href="{{ route('admin.app.wallets.transations') }}"
+                                <a type="button"  href="{{ route('company.app.wallets.transations') }}"
                                     class="px-3 py-1 bg-emerald-500/50 text-white flex justify-between items-center rounded-full text-sm">
                                     <i class="bi bi-card-checklist me-1 text-lg"></i>
                                     Wallet Transations
@@ -137,7 +137,7 @@
                                         </td>
 
                                         <td class="px-6 py-3  align-middle  text-left text-blue-700 font-bold">
-                                            <a href="{{ route('admin.app.wallets.show', $wallet->user_id) }}"
+                                            <a href="{{ route('company.app.wallets.show', $wallet->user_id) }}"
                                                 class="px-3 py-1 rounded" title="View Details">
                                                 <i class="bi bi-eye text-lg"></i>
                                             </a>

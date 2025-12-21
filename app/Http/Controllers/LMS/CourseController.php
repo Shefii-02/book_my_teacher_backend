@@ -262,10 +262,10 @@ class CourseController extends Controller
         }
         $course->save();
         DB::commit();
-        return redirect()->route('admin.courses.index', ['draft' => $course->course_identity])->with('success', 'Course created successfully.');
+        return redirect()->route('company.courses.index', ['draft' => $course->course_identity])->with('success', 'Course created successfully.');
       }
       DB::commit();
-      return redirect()->route('admin.courses.create', ['draft' => $course->course_identity])->with('success', 'Course created successfully.');
+      return redirect()->route('company.courses.create', ['draft' => $course->course_identity])->with('success', 'Course created successfully.');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', 'Course creation error' . $e->getMessage());
@@ -333,7 +333,7 @@ class CourseController extends Controller
 
       $course->delete();
       DB::commit();
-      return redirect()->route('admin.courses.index')->with('success', 'Course deleted successfully.');
+      return redirect()->route('company.courses.index')->with('success', 'Course deleted successfully.');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', 'Course creation error' . $e->getMessage());

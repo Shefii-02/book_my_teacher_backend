@@ -435,7 +435,7 @@ class StudentController extends Controller
 
       DB::commit();
 
-      return redirect()->route('admin.students.index')->with('success', 'student deleted successfully');
+      return redirect()->route('company.students.index')->with('success', 'student deleted successfully');
     } catch (\Exception $e) {
       DB::rollBack();
       return redirect()->back()->with(['error', 'Failed to delete student' . $e->getMessage()]);

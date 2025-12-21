@@ -7,7 +7,7 @@
                 <a class="text-white" href="javascript:;">Home</a>
             </li>
             <li class="text-sm pl-2 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.app.subjects.index') }}">Subjects List</a>
+                <a class="text-white" href="{{ route('company.app.subjects.index') }}">Subjects List</a>
             </li>
             <li
                 class="text-sm pl-2 font-bold text-white before:float-left before:pr-2 before:text-white before:content-['/']">
@@ -27,7 +27,7 @@
                 <div class="flex justify-between">
                     <h6 class="font-bold">{{ isset($banner) ? 'Edit' : 'Create' }} Subject</h6>
 
-                    <a href="{{ route('admin.app.subjects.index') }}"
+                    <a href="{{ route('company.app.subjects.index') }}"
                         class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                         <i class="bi bi-arrow-left me-1 "></i>
                         Back</a>
@@ -42,7 +42,7 @@
                 $difficultyLevels = "'Easy', 'Medium', 'Hard'";
             @endphp
             <form
-                action="{{ $isEdit ? route('admin.app.subjects.update', $subject->id) : route('admin.app.subjects.store') }}"
+                action="{{ $isEdit ? route('company.app.subjects.update', $subject->id) : route('company.app.subjects.store') }}"
                 method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @if ($isEdit)

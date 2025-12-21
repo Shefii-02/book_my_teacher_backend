@@ -7,7 +7,7 @@
                 <a class="text-white" href="javascript:;">Home</a>
             </li>
             <li class="ltext-sm pl-2 capitalize text-white before:float-left before:pr-2 before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2 font-bold capitalize text-white before:float-left before:pr-2 before:content-['/']"
                 aria-current="page">
@@ -23,13 +23,13 @@
         <div class="card bg-white dark:bg-slate-850 dark:shadow-dark-xl rounded-3 my-3">
             <div class="card-title p-3 my-3 flex justify-between">
                 <h5 class="font-bold dark:text-white">{{ isset($coupon) ? 'Edit' : 'Create' }} Coupon</h5>
-                <a href="{{ route('admin.coupons.index') }}"
+                <a href="{{ route('company.coupons.index') }}"
                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded-full text-sm">Back</a>
             </div>
         </div>
 
         <div class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-xl rounded-2xl p-6">
-            <form action="{{ isset($coupon) ? route('admin.coupons.update', $coupon->id) : route('admin.coupons.store') }}"
+            <form action="{{ isset($coupon) ? route('company.coupons.update', $coupon->id) : route('company.coupons.store') }}"
                 method="POST">
                 @csrf
 

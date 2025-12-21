@@ -9,7 +9,7 @@
             </li>
             <li
                 class="text-sm pl-2 capitalize text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2 font-bold capitalize text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">Webinars</li>
@@ -59,7 +59,7 @@
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                     <div class="p-6 pb-0 mb-3 border-b border-b-transparent flex justify-between items-center">
                         <h6 class="leading-tight dark:text-white dark:opacity-80 text-slate-400">Webinars List</h6>
-                        <a href="{{ route('admin.webinars.create') }}"
+                        <a href="{{ route('company.webinars.create') }}"
                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 mb-4 to-teal-400  text-white rounded-full text-sm">Create Webinar</a>
                     </div>
 
@@ -157,20 +157,20 @@
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
                                                         <li>
-                                                            <a href="{{ route('admin.webinars.show', $webinar->id) }}"
+                                                            <a href="{{ route('company.webinars.show', $webinar->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('admin.webinars.edit', $webinar->id) }}"
+                                                            <a href="{{ route('company.webinars.edit', $webinar->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('admin.webinars.start', $webinar->id) }}"
+                                                            <a href="{{ route('company.webinars.start', $webinar->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Start Streaming</a>
                                                         </li>
                                                         <li>
                                                             <form id="form_{{ $webinar->id }}" class="m-0 p-0"
-                                                                action="{{ route('admin.webinars.destroy', $webinar->id) }}"
+                                                                action="{{ route('company.webinars.destroy', $webinar->id) }}"
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
                                                                 <a role="button" href="javascript:;"

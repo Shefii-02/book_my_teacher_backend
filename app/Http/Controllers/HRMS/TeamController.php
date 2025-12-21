@@ -131,7 +131,7 @@ class TeamController extends Controller
     $staff->assignRole($role_r);
 
 
-    return redirect()->route('admin.hrms.teams.index')
+    return redirect()->route('company.hrms.teams.index')
       ->with('success', 'Staff created successfully!');
   }
 
@@ -227,7 +227,7 @@ class TeamController extends Controller
 
     $staff->roles()->sync([$request->input('designation')]);
 
-    return redirect()->route('admin.hrms.teams.index')
+    return redirect()->route('company.hrms.teams.index')
       ->with('success', 'Staff details updated successfully!');
   }
 
@@ -278,7 +278,7 @@ class TeamController extends Controller
 
       DB::commit();
 
-      return redirect()->route('admin.teachers.index')->with('success', 'Teacher login security updated successfully');
+      return redirect()->route('company.teachers.index')->with('success', 'Teacher login security updated successfully');
     } catch (\Exception $e) {
       DB::rollBack();
       return redirect()->back()->with(['error', 'Failed to teacher login security updation' . $e->getMessage()]);

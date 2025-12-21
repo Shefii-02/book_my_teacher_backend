@@ -5,7 +5,7 @@
     <div class="bg-white shadow-lg rounded-2xl p-6">
         <h2 class="text-xl font-semibold mb-4">Payroll Setup for {{ $user->name }}</h2>
 
-        <form method="POST" action="{{ route('admin.hrms.payroll.store', $user->id) }}">
+        <form method="POST" action="{{ route('company.hrms.payroll.store', $user->id) }}">
             @csrf
             <div class="grid gap-4 md:grid-cols-2">
                 <div>

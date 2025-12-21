@@ -228,7 +228,7 @@
             <p><strong>Verify Invoice</strong></p>
             <img
                 src="data:image/png;base64,{{ base64_encode(
-                    QrCode::format('png')->size(120)->generate(route('admin.payments.invoice.verify', $purchase->payments->order_id)),
+                    QrCode::format('png')->size(120)->generate(route('company.payments.invoice.verify', $purchase->payments->order_id)),
                 ) }}">
         </div>
 

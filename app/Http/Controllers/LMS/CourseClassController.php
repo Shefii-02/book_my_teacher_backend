@@ -67,7 +67,7 @@ class CourseClassController extends Controller
       TeacherClass::create(['teacher_id' => $request->teacher_id,'class_id' => $class->id]);
 
       DB::commit();
-      return redirect()->route('admin.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class created successfully.');
+      return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class created successfully.');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', $e->getMessage());
@@ -119,7 +119,7 @@ class CourseClassController extends Controller
       DB::beginTransaction();
       $class->update($validated);
       DB::commit();
-      return redirect()->route('admin.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
+      return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('errro', $e->getMessage());
@@ -129,6 +129,6 @@ class CourseClassController extends Controller
   public function destroy(CourseClass $course_class)
   {
     $course_class->delete();
-    return redirect()->route('admin.courses.schedule-class.index')->with('success', 'Course class deleted successfully.');
+    return redirect()->route('company.courses.schedule-class.index')->with('success', 'Course class deleted successfully.');
   }
 }

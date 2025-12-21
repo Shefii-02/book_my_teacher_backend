@@ -17,7 +17,7 @@
         <!-- Breadcrumb -->
         <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
             <li class="text-sm">
-                <a class="text-white hover:underline" href="{{ route('admin.dashboard') }}">Home</a>
+                <a class="text-white hover:underline" href="{{ route('company.dashboard') }}">Home</a>
             </li>
             <li
                 class="text-sm pl-2 capitalize text-white before:float-left before:pr-2 before:text-white before:content-['/']">
@@ -42,7 +42,7 @@
                     <h5 class="font-semibold text-lg text-gray-700">Update Profile</h5>
                 </div>
                 <div class="card-body p-6">
-                    <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data"
+                    <form action="{{ route('company.profile.update') }}" method="POST" enctype="multipart/form-data"
                         class="space-y-6">
                         @csrf
                         @method('PUT')
@@ -104,7 +104,7 @@
                     <h5 class="font-semibold text-lg text-gray-700">Change Password</h5>
                 </div>
                 <div class="card-body p-6">
-                    <form action="{{ route('admin.profile.changePassword') }}" method="POST" class="space-y-6">
+                    <form action="{{ route('company.profile.changePassword') }}" method="POST" class="space-y-6">
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>

@@ -26,7 +26,7 @@
                     <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
                             <h6>Delete Accounts List</h6>
-                            <a href="{{ route('admin.app.delete_accounts.list') }}"
+                            <a href="{{ route('company.app.delete_accounts.list') }}"
                                 class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-list me-1 "></i>
                                 Deleted Accounts
@@ -84,14 +84,14 @@
 
                                             @if (!$req->approved_at && !$req->rejected_at)
                                                 <form
-                                                    action="{{ route('admin.app.delete_account_requests.approve', $req->id) }}"
+                                                    action="{{ route('company.app.delete_account_requests.approve', $req->id) }}"
                                                     method="POST" class="inline">
                                                     @csrf
                                                     <button type="submit"
                                                         class="bg-green-500 text-white px-2 py-1 rounded">Approve</button>
                                                 </form>
                                                 <form
-                                                    action="{{ route('admin.app.delete_account_requests.reject', $req->id) }}"
+                                                    action="{{ route('company.app.delete_account_requests.reject', $req->id) }}"
                                                     method="POST" class="inline">
                                                     @csrf
                                                     <button type="submit"

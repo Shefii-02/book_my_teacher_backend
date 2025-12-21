@@ -5,7 +5,7 @@
         <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
             <li class="text-neutral-900 text-sm"><a class="text-white" href="javascript:;">Home</a></li>
             <li class="text-sm pl-2 text-white before:content-['/']"><a class="text-white"
-                    href="{{ route('admin.app.teachers.index') }}">Teachers</a></li>
+                    href="{{ route('company.app.teachers.index') }}">Teachers</a></li>
             <li class="text-sm pl-2 font-bold text-white before:content-['/']">{{ isset($teacher) ? 'Edit' : 'Create' }}
                 Teacher</li>
         </ol>
@@ -17,7 +17,7 @@
     <div class="container mx-auto">
         <div class="bg-white p-4 rounded-lg shadow mb-4 flex justify-between items-center">
             <h6 class="font-bold">{{ isset($teacher) ? 'Edit' : 'Create' }} Teacher</h6>
-            <a href="{{ route('admin.app.teachers.index') }}" class="bg-emerald-500/50 text-white px-3 py-2 rounded-full">
+            <a href="{{ route('company.app.teachers.index') }}" class="bg-emerald-500/50 text-white px-3 py-2 rounded-full">
                 <span class="bi bi-arrow-left me-2"></span>Back</a>
         </div>
 
@@ -35,7 +35,7 @@
             @endphp
 
             <form
-                action="{{ $isEdit ? route('admin.app.teachers.update', $teacher->id) : route('admin.app.teachers.store') }}"
+                action="{{ $isEdit ? route('company.app.teachers.update', $teacher->id) : route('company.app.teachers.store') }}"
                 method="POST" enctype="multipart/form-data" class="space-y-8">
                 @csrf
                 @if ($isEdit)

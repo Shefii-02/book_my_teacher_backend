@@ -26,7 +26,7 @@
                     <div class="p-6 pb-2 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
                             <h6>{{ $editing ? 'Edit Level' : 'Create Level' }}</h6>
-                            <a href="{{ route('admin.app.achievements.index') }}"
+                            <a href="{{ route('company.app.achievements.index') }}"
                                 class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-arrow-left me-1 "></i>
                                 Back
@@ -38,7 +38,7 @@
 
                     <div class="flex-auto p-5 overflow-x-auto">
                         <form method="POST"
-                            action="{{ $editing ? route('admin.app.achievements.update', $level->id) : route('admin.app.achievements.store') }}">
+                            action="{{ $editing ? route('company.app.achievements.update', $level->id) : route('company.app.achievements.store') }}">
                             @csrf
                             @if ($editing)
                                 @method('PUT')
@@ -102,7 +102,7 @@
                             <div class="bg-white p-6 rounded shadow mt-6">
                                 <h3 class="font-semibold mb-3">Tasks for this level</h3>
 
-                                <form method="POST" action="{{ route('admin.app.achievements.tasks.store', $level->id) }}"
+                                <form method="POST" action="{{ route('company.app.achievements.tasks.store', $level->id) }}"
                                     class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     @csrf
                                     <input name="task_type" placeholder="task_type (referral_count)" class="border p-2">
@@ -126,7 +126,7 @@
                                                         Points: {{ $task->points }}</div>
                                                 </div>
                                                 <form
-                                                    action="{{ route('admin.app.achievements.tasks.destroy', $task->id) }}"
+                                                    action="{{ route('company.app.achievements.tasks.destroy', $task->id) }}"
                                                     method="POST">
                                                     @csrf @method('DELETE')
                                                     <button class="px-2 py-1 bg-red-500 text-white rounded">Delete</button>

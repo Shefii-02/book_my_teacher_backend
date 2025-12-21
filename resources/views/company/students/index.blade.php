@@ -359,21 +359,21 @@
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
                                                         <li>
-                                                            <a href="{{ route('admin.students.overview', $student->id) }}"
+                                                            <a href="{{ route('company.students.overview', $student->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('admin.students.edit', $student->id) }}"
+                                                            <a href="{{ route('company.students.edit', $student->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         {{-- <li>
-                                                            <a href="{{ route('admin.students.login-security', $student->id) }}"
+                                                            <a href="{{ route('company.students.login-security', $student->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login
                                                                 Security</a>
                                                         </li> --}}
                                                         <li>
                                                           <form id="form_{{ $student->id }}" class="m-0 p-0"
-                                                                action="{{ route('admin.students.destroy', $student->id) }}"
+                                                                action="{{ route('company.students.destroy', $student->id) }}"
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
                                                                 <a role="button" href="javascript:;"

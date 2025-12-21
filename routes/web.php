@@ -36,9 +36,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
 //superadmin
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth'], 'namespace' => 'App\Http\Controllers\SuperAdmin'], function () {
-    Route::get('/', 'DashboardController@index')->name('index');
-    Route::get('/', 'DashboardController@index')->name('dashboard.index');
-    Route::resource('companies', 'CompanyController')->names('companies');
+  Route::get('/', 'DashboardController@index')->name('index');
+  Route::get('/', 'DashboardController@index')->name('dashboard');
+  Route::get('/', 'DashboardController@index')->name('dashboard.index');
+  Route::resource('companies', 'CompanyController')->names('companies');
 });
 
 
@@ -54,6 +55,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
 
   Route::group(['prefix' => 'app', 'as' => 'app.', 'namespace' => 'MobileApp'], function () {
+     Route::get('/', 'DashboardController@index')->name('dashboard.index');
+      Route::get('/', 'DashboardController@index')->name('dashboard');
     Route::get('/', 'DashboardController@index')->name('index');
 
     Route::resource('top-banners', 'BannerController')->names('top-banners');

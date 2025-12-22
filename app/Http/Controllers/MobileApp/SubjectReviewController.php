@@ -35,7 +35,7 @@ class SubjectReviewController extends Controller
 
         SubjectReview::create($request->all());
 
-        return redirect()->route('admin.app.reviews.index')->with('success', 'Review created successfully!');
+        return redirect()->route('company.app.reviews.index')->with('success', 'Review created successfully!');
     }
 
     // Show edit form
@@ -58,13 +58,13 @@ class SubjectReviewController extends Controller
 
         $review->update($request->all());
 
-        return redirect()->route('admin.app.reviews.index')->with('success', 'Review updated successfully!');
+        return redirect()->route('company.app.reviews.index')->with('success', 'Review updated successfully!');
     }
 
     // Delete review
     public function destroy(SubjectReview $review)
     {
         $review->delete();
-        return redirect()->route('admin.app.reviews.index')->with('success', 'Review deleted successfully!');
+        return redirect()->route('company.app.reviews.index')->with('success', 'Review deleted successfully!');
     }
 }

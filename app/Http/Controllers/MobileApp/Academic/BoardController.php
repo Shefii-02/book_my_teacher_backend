@@ -6,10 +6,12 @@ use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Academics\BoadRequest;
 use App\Models\Board;
+use App\Models\CourseSubCategory;
 use App\Models\Grade;
 use App\Models\Subject;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BoardController extends Controller
@@ -60,8 +62,42 @@ class BoardController extends Controller
       // Sync relations
       $board->grades()->sync($request->grade_ids ?? []);
       $board->subjects()->sync($request->subject_ids ?? []);
+
+      if ($request->has('attach_sub_category')) {
+
+        $subjects = Subject::whereIn('id', $request->subject_ids ?? [])
+          ->get()
+          ->keyBy('id');
+
+        foreach ($request->grade_ids ?? [] as $gradeId) {
+          foreach ($request->subject_ids ?? [] as $subjectId) {
+
+            $subject = $subjects->get($subjectId);
+            if (!$subject) {
+              continue;
+            }
+
+            CourseSubCategory::updateOrCreate(
+              [
+                'category_id' => $gradeId,
+                'title'       => $subject->name,
+                'company_id'  => $company_id,
+              ],
+              [
+                'description' => null,
+                'thumbnail'   => $subject->icon,
+                'status'      => $subject->published ? 1 : 0,
+                'position'    => $subject->position,
+                'created_by'  => Auth::id(),
+              ]
+            );
+          }
+        }
+      }
+
+
       DB::commit();
-      return redirect()->route('admin.app.boards.index')->with('success', 'Board created successfully.');
+      return redirect()->route('company.app.boards.index')->with('success', 'Board created successfully.');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()
@@ -108,8 +144,42 @@ class BoardController extends Controller
       // Sync relations
       $board->grades()->sync($request->grade_ids ?? []);
       $board->subjects()->sync($request->subject_ids ?? []);
+      if ($request->has('attach_sub_category')) {
+
+        $subjects = Subject::whereIn('id', $request->subject_ids ?? [])
+          ->get()
+          ->keyBy('id');
+
+        foreach ($request->grade_ids ?? [] as $gradeId) {
+          $grade = Grade::where('id',$gradeId)->first();
+          $category = $grade->category;
+          foreach ($request->subject_ids ?? [] as $subjectId) {
+            $subject = $subjects->get($subjectId);
+            if (!$subject) {
+              continue;
+            }
+
+            CourseSubCategory::updateOrCreate(
+              [
+                'category_id' => $category->id,
+                'title'       => $subject->name,
+                'company_id'  => $company_id,
+              ],
+              [
+                'description' => null,
+                'thumbnail'   => $subject->icon,
+                'status'      => $subject->published ? 1 : 0,
+                'position'    => $subject->position,
+                'created_by'  => Auth::id(),
+              ]
+            );
+          }
+        }
+      }
+
+
       DB::commit();
-      return redirect()->route('admin.app.boards.index')->with('success', 'Board updated successfully.');
+      return redirect()->route('company.app.boards.index')->with('success', 'Board updated successfully.');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()

@@ -350,9 +350,11 @@
                                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
                                                 id="courses-grid" >
                                                 {{-- initial cards rendered from server --}}
-                                                @foreach ($courses as $course)
+                                                @forelse ($courses as $course)
                                                     @include('components.courses_card', ['course' => $course])
-                                                @endforeach
+                                                @empty
+                                                    <h6>No Course Founded</h6>
+                                                @endforelse
                                             </div>
 
 

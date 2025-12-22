@@ -48,7 +48,7 @@
                 <h5 class="font-bold">{{ isset($course_draft) ? 'Course Title : ' . $course_draft->title : 'Create' }} a
                     Course</h5>
                 <a href="{{ route('company.courses.index') }}"
-                    class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
+                    class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                     <i class="bi bi-arrow-left me-1 "></i>
                     Back</a>
             </div>
@@ -293,7 +293,7 @@
                 let courseId = "{{ $course_draft->course_identity ?? '' }}";
                 $('#drawerContent').html('<div class="text-center text-gray-400 p-5">Loading...</div>');
 
-                $.get(`/admin/courses/load-step-form/${step}?course_id=${courseId}`, function(html) {
+                $.get(`/company/courses/load-step-form/${step}?course_id=${courseId}`, function(html) {
                     $('#drawerContent').html(html);
                     openDrawer();
                 }).fail(function() {

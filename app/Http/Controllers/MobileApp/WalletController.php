@@ -91,11 +91,11 @@ class WalletController extends Controller
       // Log history
       WalletHistory::create($data);
       DB::commit();
-      return redirect()->route('admin.app.wallets.index')
+      return redirect()->route('company.app.wallets.index')
         ->with('success', 'Wallet updated successfully.');
     } catch (Exception $e) {
       DB::rollBack();
-      return redirect()->route('admin.app.wallets.index')
+      return redirect()->route('company.app.wallets.index')
         ->with('error', $e->getMessage());
     }
   }

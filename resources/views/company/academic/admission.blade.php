@@ -240,7 +240,7 @@
             // on course select -> load course info
             $('#courseSelect').on('select2:select', function(e) {
                 const id = e.params.data.id;
-                $.get('{{ url('admin/admissions/course-info') }}/' + id, function(course) {
+                $.get('{{ url('company/admissions/course-info') }}/' + id, function(course) {
                     $('#courseDetails').removeClass('hidden');
                     $('#cd_title').text(course.title);
                     $('#cd_desc').text(course.description || '');

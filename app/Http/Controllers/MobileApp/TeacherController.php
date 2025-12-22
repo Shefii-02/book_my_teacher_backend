@@ -151,7 +151,7 @@ class TeacherController extends Controller
         }
       }
       DB::commit();
-      return redirect()->route('admin.app.teachers.index')->with('success', 'Teacher created');
+      return redirect()->route('company.app.teachers.index')->with('success', 'Teacher created');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', $e->getMessage());
@@ -300,7 +300,7 @@ class TeacherController extends Controller
       }
 
       DB::commit();
-      return redirect()->route('admin.app.teachers.index')->with('success', 'Teacher updated');
+      return redirect()->route('company.app.teachers.index')->with('success', 'Teacher updated');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', $e->getMessage());

@@ -14,7 +14,23 @@
               <div class="form-body mt-3">
                   <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5">
                       <!-- Images -->
-                      <div class="flex justify-center flex-col">
+                      @include('components.thumbImg-input', [
+                          'name' => 'thumbnail',
+                          'field' => 'thumbnail_url',
+                          'label' => 'Select an Thumbnail',
+                          'size' => '',
+                          'item' => $course ?? null,
+                          'isEdit' => isset($course),
+                      ])
+                      @include('components.thumbImg-input', [
+                          'name' => 'main_image',
+                          'field' => 'main_image_url',
+                          'label' => 'Select an Main Image',
+                          'size' => '',
+                          'item' => $course ?? null,
+                          'isEdit' => isset($course),
+                      ])
+                      {{-- <div class="flex justify-center flex-col">
                           <p>
                               <img id="thumbImgPreview" alt="#"
                                   src="{{ old('thumbnail', $course->thumbnail_url ?? asset('assets/images/bg/dummy_image.webp')) }}"
@@ -27,8 +43,8 @@
                           @error('thumbnail')
                               <span class="text-red-500 text-sm">{{ $message }}</span>
                           @enderror
-                      </div>
-                      <div>
+                      </div> --}}
+                      {{-- <div>
                           <p>
                               <img id="imgPreview" alt="#"
                                   src="{{ old('main_image', $course->main_image_url ?? asset('assets/images/bg/dummy_image.webp')) }}"
@@ -40,7 +56,7 @@
                           @error('main_image')
                               <span class="text-red-500 text-sm">{{ $message }}</span>
                           @enderror
-                      </div>
+                      </div> --}}
                   </div>
                   <div class="grid gap-6 mb-6 md:grid-cols-1 mt-5">
                       <!-- Title -->
@@ -121,8 +137,7 @@
                                           <div>
                                               <label class="block mb-2 text-sm font-medium">Category</label>
                                               <select name="categories[{{ $index }}][category_id]"
-                                                  class="category-select border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                  >
+                                                  class="category-select border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                                   <option value="">-- Select Category --</option>
                                                   @foreach ($categories as $cat)
                                                       <option value="{{ $cat->id }}"
@@ -174,8 +189,7 @@
                                       <div>
                                           <label class="block mb-2 text-sm font-medium">Category</label>
                                           <select name="categories[0][category_id]"
-                                              class="category-select border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                              >
+                                              class="category-select border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                               <option value="">-- Select Category --</option>
                                               @foreach ($categories as $cat)
                                                   <option value="{{ $cat->id }}">{{ $cat->title }}</option>
@@ -252,7 +266,7 @@
 
                       subContainer.html('<p class="text-gray-500">Loading subcategories...</p>');
                       if (categoryId) {
-                          $.get(`/admin/categories/${categoryId}/subcategories`, function(data) {
+                          $.get(`/company/categories/${categoryId}/subcategories`, function(data) {
                               if (data.length > 0) {
                                   let checkboxes = '<div class="grid grid-cols-2 gap-2 mt-2">';
                                   data.forEach(function(sub) {

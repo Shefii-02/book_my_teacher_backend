@@ -144,7 +144,7 @@
                         this.users = [];
                         return;
                     }
-                    fetch(`/admin/ajax/users/search?key=${this.searchUser}`)
+                    fetch(`/company/ajax/users/search?key=${this.searchUser}`)
                         .then(res => res.json())
                         .then(data => {
                             this.users = data;
@@ -157,7 +157,7 @@
                     this.users = [];
 
                     // Load user's enrolled courses
-                    fetch(`/admin/users/${user.id}/courses`)
+                    fetch(`/company/users/${user.id}/courses`)
                         .then(res => res.json())
                         .then(data => {
                             this.courses = data;
@@ -171,13 +171,13 @@
                         return;
                     }
 
-                    fetch(`/admin/courses/${this.selectedCourse}/subjects`)
+                    fetch(`/company/courses/${this.selectedCourse}/subjects`)
                         .then(res => res.json())
                         .then(data => {
                             this.subjects = data;
                         });
 
-                    fetch(`/admin/courses/${this.selectedCourse}/teachers`)
+                    fetch(`/company/courses/${this.selectedCourse}/teachers`)
                         .then(res => res.json())
                         .then(data => {
                             this.teachers = data;

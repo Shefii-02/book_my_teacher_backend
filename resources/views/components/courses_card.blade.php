@@ -82,17 +82,17 @@
 
                         @if ($course->status == 'published')
                             <a class="edit-step block px-4 py-2  text-xxs"
-                                href="{{ route('admin.courses.show', $course->course_identity) }}">
+                                href="{{ route('company.courses.show', $course->course_identity) }}">
                                 View
                             </a>
                         @endif
 
                         <a class="edit-step block px-4 py-2  text-xxs"
-                            href="{{ route('admin.courses.create', ['draft' => $course->course_identity]) }}">
+                            href="{{ route('company.courses.create', ['draft' => $course->course_identity]) }}">
                             Edit
                         </a>
 
-                        <form action="{{ route('admin.categories.destroy', $course->id) }}" method="POST"
+                        <form action="{{ route('company.courses.destroy', $course->id) }}" method="POST"
                             id="form_{{ $course->id }}">
                             @csrf
                             @method('DELETE')

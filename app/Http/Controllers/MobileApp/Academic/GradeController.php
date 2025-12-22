@@ -4,9 +4,11 @@ namespace App\Http\Controllers\MobileApp\Academic;
 
 use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
+use App\Models\CourseCategory;
 use App\Models\Grade;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,7 +16,8 @@ class GradeController extends Controller
 {
   public function index()
   {
-    $grades = Grade::orderBy('position')->get();
+    $company_id = auth()->user()->company_id;
+    $grades = Grade::where('company_id', $company_id)->orderBy('position')->get();
     return view('company.mobile-app.academic.grades.index', compact('grades'));
   }
 
@@ -57,14 +60,27 @@ class GradeController extends Controller
 
 
       Grade::create($data);
+
+      if ($request->has('attach_category')) {
+        CourseCategory::create([
+          'title'       => $data['name'],
+          'description' => $data['description'],
+          'thumbnail'   => $thumbnailPath,
+          'status'      => $data['published'] ? '1' : 0,
+          'position'    => $data['position'],
+          'company_id'  => $company_id,
+          'created_by'  => Auth::id(),
+        ]);
+      }
+
       DB::commit();
       return redirect()
-        ->route('admin.app.grades.index')
+        ->route('company.app.grades.index')
         ->with('success', 'Grade created successfully');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()
-        ->route('admin.app.grades.index')
+        ->route('company.app.grades.index')
         ->with('error', $e->getMessage());
     }
   }
@@ -87,27 +103,47 @@ class GradeController extends Controller
     $company_id = auth()->user()->company_id;
     $data = $request->except('thumb');
 
+
+      $thumbnailPath = null;
     if ($request->hasFile('thumb')) {
       if ($grade->thumb) {
         MediaHelper::removeCompanyFile($grade->thumb);
-
       }
-        $thumbnailPath = null;
+      // $thumbnailPath = null;
 
-          $thumbnailPath = MediaHelper::uploadCompanyFile(
-            $company_id,
-            'academic/grades',
-            $request->file('thumb'),
-            'grade_thumb'
-          );
-          $data['thumb'] = $thumbnailPath;
+      $thumbnailPath = MediaHelper::uploadCompanyFile(
+        $company_id,
+        'academic/grades',
+        $request->file('thumb'),
+        'grade_thumb'
+      );
+      $data['thumb'] = $thumbnailPath;
     }
     $data['value'] = $data['name'];
+
+if ($request->has('attach_category')) {
+    CourseCategory::updateOrCreate(
+        [
+            'title'      => $grade->name,
+            'company_id' => $company_id,
+        ],
+        [
+            'title'       => $data['name'],
+            'description' => $data['description'],
+            'thumbnail'   => $thumbnailPath != null ? $thumbnailPath : $grade->thumb,
+            'status'      => $data['published'] ? 1 : 0,
+            'position'    => $data['position'],
+            'company_id'  => $company_id,
+            'created_by'  => Auth::id(),
+        ]
+    );
+}
+
 
     $grade->update($data);
 
     return redirect()
-      ->route('admin.app.grades.index')
+      ->route('company.app.grades.index')
       ->with('success', 'Grade updated successfully');
   }
 
@@ -120,7 +156,7 @@ class GradeController extends Controller
     $grade->delete();
 
     return redirect()
-      ->route('admin.app.grades.index')
+      ->route('company.app.grades.index')
       ->with('success', 'Grade removed successfully');
   }
 }

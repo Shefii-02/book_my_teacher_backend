@@ -157,13 +157,15 @@
             <label class="block text-sm font-medium text-gray-700 my-2">Teachers <span
                     class="text-red-500">*</span></label>
             <div class="pb-1">
-
-                <select id="select-tags" name="teachers[]" multiple data-placeholder="" class="form-control border">
+                <select name="teachers" class="form-control border w-full">
+                    <option value="">Select Teacher</option>
                     @foreach ($teachers as $teacher)
-                        <option value="{{ $teacher->id }}" data-name="{{ $teacher->name }}" {{  in_array($teacher->id,$teacherIds) ? 'selected' : '' }}
-                            data-date="{{ $teacher->thumbnail_url }}">{{ $teacher->id }}</option>
+                        <option value="{{ $teacher->id }}" @selected(old('institute_id', $course->institute_id ?? '') == $teacher->id)>
+                            {{ $teacher->name }}
+                        </option>
                     @endforeach
                 </select>
+
             </div>
         </div>
 
@@ -230,23 +232,25 @@
 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
 <script>
-    new TomSelect("#select-tags", {
-        plugins: ['remove_button'],
-        create: true,
-        onItemAdd: function() {
-            this.setTextboxValue('');
-            this.refreshOptions();
-        },
-        render: {
-            option: function(data, escape) {
-                return `<div class="d-flex"><img src="` + escape(data.date) +
-                    `" class="ms-auto text-muted"><span>` + escape(data.name) +
-                    `</span></div>`;
+    $(document).ready(function() {
+        new TomSelect("#select-tags", {
+            plugins: ['remove_button'],
+            create: true,
+            onItemAdd: function() {
+                this.setTextboxValue('');
+                this.refreshOptions();
             },
-            item: function(data, escape) {
-                return '<div>' + escape(data.name) + '</div>';
+            render: {
+                option: function(data, escape) {
+                    return `<div class="d-flex"><img src="` + escape(data.date) +
+                        `" class="ms-auto text-muted"><span>` + escape(data.name) +
+                        `</span></div>`;
+                },
+                item: function(data, escape) {
+                    return '<div>' + escape(data.name) + '</div>';
+                }
             }
-        }
+        });
     });
 </script>
 {{-- @endpush --}}
@@ -257,36 +261,36 @@
 <script>
     $(document).ready(function() {
 
-        function formatTeacher(option) {
-            if (!option.id) return option.text;
+        // function formatTeacher(option) {
+        //     if (!option.id) return option.text;
 
-            let img = $(option.element).data('img');
-            return $(`
-            <div class="flex items-center gap-2">
-                <img src="${img}" class="teacher-img" />
-                <span>${option.text}</span>
-            </div>
-        `);
-        }
+        //     let img = $(option.element).data('img');
+        //     return $(`
+        //     <div class="flex items-center gap-2">
+        //         <img src="${img}" class="teacher-img" />
+        //         <span>${option.text}</span>
+        //     </div>
+        // `);
+        // }
 
-        function formatSelected(option) {
-            let img = $(option.element).data('img');
-            return $(`
-            <span class="flex items-center gap-1">
-                <img src="${img}" class="teacher-img" />
-                ${option.text}
-            </span>
-        `);
-        }
+        // function formatSelected(option) {
+        //     let img = $(option.element).data('img');
+        //     return $(`
+        //     <span class="flex items-center gap-1">
+        //         <img src="${img}" class="teacher-img" />
+        //         ${option.text}
+        //     </span>
+        // `);
+        // }
 
-        $('#teachersSelect').select2({
-            placeholder: "",
-            allowClear: true,
-            templateResult: formatTeacher,
-            templateSelection: formatSelected,
-            closeOnSelect: false,
-            width: '100%'
-        });
+        // $('#teachersSelect').select2({
+        //     placeholder: "",
+        //     allowClear: true,
+        //     templateResult: formatTeacher,
+        //     templateSelection: formatSelected,
+        //     closeOnSelect: false,
+        //     width: '100%'
+        // });
     });
 
     $(document).ready(function() {

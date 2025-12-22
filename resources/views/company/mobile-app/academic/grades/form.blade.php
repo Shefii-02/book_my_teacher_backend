@@ -40,7 +40,8 @@
                 $isEdit = isset($grade);
                 $thumbPreview = $isEdit && $grade->thumbnail_url ? $grade->thumbnail_url : null;
             @endphp
-            <form action="{{ $isEdit ? route('company.app.grades.update', $grade->id) : route('company.app.grades.store') }}"
+            <form
+                action="{{ $isEdit ? route('company.app.grades.update', $grade->id) : route('company.app.grades.store') }}"
                 method="POST" enctype="multipart/form-data" class="space-y-6"> @csrf @if ($isEdit)
                     @method('PUT')
                 @endif <!-- THUMBNAIL -->
@@ -79,15 +80,15 @@
                                 @checked(old('published', $grade->published ?? false))> Publish</label>
                     </div>
                 </div>
-
-                 <div>
-                    <div class="flex items-center gap-3">
-                        <label class="font-medium">
-                            <input type="checkbox" class="border pe-3" name="attach_category" value="1"
-                                @checked(old('attach_category', $grade->attach_category ?? false))> Attach to Category aslo</label>
+                @if (!$grade->category()->exists())
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <label class="font-medium">
+                                <input type="checkbox" class="border pe-3" name="attach_category" value="1"
+                                    @checked(old('attach_category', $grade->category()->exists() ?? false))> Attach to Category aslo</label>
+                        </div>
                     </div>
-                </div>
-
+                @endif
 
 
 

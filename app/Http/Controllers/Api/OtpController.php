@@ -27,7 +27,7 @@ class OtpController extends Controller
       'mobile' => 'required|digits:10',
     ]);
 
-    $company_id = auth()->user()->company_id;
+    $company_id = 1;
     $mobile = '91' . $request->mobile;
     $expTime = 20;
 
@@ -97,7 +97,7 @@ class OtpController extends Controller
       'mobile' => 'required|digits:10',
     ]);
 
-    $company_id = auth()->user()->company_id;
+    $company_id = 1;
     $mobile = '91' . $request->mobile;
     $expTime = 20;
 
@@ -164,7 +164,7 @@ class OtpController extends Controller
       'mobile' => 'required|digits:10',
     ]);
 
-    $company_id = auth()->user()->company_id;
+    $company_id = 1;
     $mobile = '91' . $request->mobile; // add country code
 
     // Get last unverified OTP
@@ -326,7 +326,7 @@ class OtpController extends Controller
 
     $mobile = '91' . $request->mobile;
     $otpInput = $request->otp;
-    $company_id = auth()->user()->company_id;
+    $company_id = 1;
 
     $otpRecord = Otp::where('mobile', $mobile)
       ->where('otp', $otpInput)
@@ -369,7 +369,7 @@ class OtpController extends Controller
   //   Log::info($request->all());
   //   $mobile = '91' . $request->mobile;
   //   $otpInput  = $request->otp;
-  //   $company_id = auth()->user()->company_id;
+  //   $company_id = 1;
 
   //   $otpRecord = Otp::where('mobile', $mobile)
   //     ->where('otp', $otpInput)
@@ -407,7 +407,7 @@ class OtpController extends Controller
     ]);
 
     $mobile = '91' . $request->mobile;
-    $company_id = auth()->user()->company_id;
+    $company_id =1;
 
     $otpRecord = Otp::where('mobile', $mobile)
       ->where('company_id', $company_id)
@@ -471,7 +471,7 @@ class OtpController extends Controller
     ]);
 
     $email      = $request->email;
-    $company_id = auth()->user()->company_id;
+    $company_id = 1;
     $otp        = rand(1000, 9999);
     $expTime    = 20;
 

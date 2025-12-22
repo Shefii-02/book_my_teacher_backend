@@ -59,7 +59,7 @@ class BannerController extends Controller
 
     TopBanner::create($data);
 
-    return redirect()->route('admin.app.top-banners.index')
+    return redirect()->route('company.app.top-banners.index')
       ->with('success', 'Banner created successfully!');
   }
 
@@ -100,7 +100,7 @@ class BannerController extends Controller
 
     $top_banner->update($data);
 
-    return redirect()->route('admin.app.top-banners.index')
+    return redirect()->route('company.app.top-banners.index')
       ->with('success', 'Banner updated successfully!');
   }
 

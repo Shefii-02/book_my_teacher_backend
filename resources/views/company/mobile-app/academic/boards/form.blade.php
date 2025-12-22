@@ -28,7 +28,7 @@
                 <div class="flex justify-between">
                     <h6 class="font-bold">{{ $board->id ? 'Edit Board' : 'Create Board' }}</h6>
                     <a href="{{ route('company.app.boards.index') }}"
-                        class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
+                        class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                         <i class="bi bi-arrow-left me-1"></i>
                         Back
                     </a>

@@ -32,8 +32,9 @@
                         <table class="w-full text-slate-500 mt-4">
                             <thead class="border-b">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xxs uppercase">Thumb</th>
-                                    <th class="px-6 py-3 text-left text-xxs uppercase">Title</th>
+                                    <th class="px-6 py-3 text-center text-xxs uppercase">Thumb</th>
+                                    <th class="px-6 py-3 text-center text-xxs uppercase">Title</th>
+                                    <th class="px-6 py-3 text-center text-xxs uppercase">No:Boards</th>
                                     <th class="px-6 py-3 text-center text-xxs uppercase">Position</th>
                                     <th class="px-6 py-3 text-center text-xxs uppercase">Status</th>
                                     <th class="px-6 py-3 text-center text-xxs uppercase">Created</th>
@@ -44,15 +45,19 @@
                             <tbody>
                                 @forelse($grades as $key => $grade)
                                     <tr class="border-b">
-                                        <td class="p-2">
+                                        <td class="px-6 py-3 text-center text-xxs">
                                             <img src="{{ $grade->thumbnail_url }}" class="h-12 w-12 object-cover rounded">
                                         </td>
 
-                                        <td class="p-2">{{ $grade->name }}</td>
+                                        <td class="px-6 py-3 text-center text-xxs">{{ $grade->name }}</td>
 
-                                        <td class="p-2 text-center">{{ $grade->position }}</td>
 
-                                        <td class="p-2 text-center">
+                                        <td class="px-6 py-3 text-center text-xxs">{{ $grade->boards->count() ?? 0 }}</td>
+
+
+                                        <td class="px-6 py-3 text-center text-xxs text-center">{{ $grade->position }}</td>
+
+                                        <td class="px-6 py-3 text-center text-xxs text-center">
                                             @if ($grade->published)
                                                 <span
                                                     class="bg-emerald-500/50 text-white text-xs px-3 py-1 rounded-full">Published</span>
@@ -62,9 +67,9 @@
                                             @endif
                                         </td>
 
-                                        <td class="p-2 text-center text-xs">{{ $grade->created_at }}</td>
+                                        <td class="px-6 py-3 text-center text-xxs text-center text-xs">{{ $grade->created_at }}</td>
 
-                                        <td class="p-2 align-middle">
+                                        <td class="px-6 py-3 text-right text-xxs align-middle">
                                             <button data-dropdown-toggle="dropdown_{{ $grade->id }}">
                                                 <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-width="2"
@@ -73,7 +78,7 @@
                                             </button>
                                             <div id="dropdown_{{ $grade->id }}"
                                                 class="hidden z-10 bg-white rounded-lg shadow w-44">
-                                                <ul class="py-2 text-sm text-gray-700 shadow-blur">
+                                                <ul class="py-2 text-sm text-left text-gray-700 shadow-blur">
                                                     <li>
                                                         <a href="{{ route('company.app.grades.edit', $grade->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100">Edit</a>

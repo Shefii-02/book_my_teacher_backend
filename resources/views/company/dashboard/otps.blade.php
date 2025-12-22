@@ -337,7 +337,7 @@
                 $("#editOtpContent").html("<p class='text-gray-400'>Loading...</p>");
 
                 $.ajax({
-                    url: "/admin/otp/" + otpId + "/edit", // route
+                    url: "/company/otp/" + otpId + "/edit", // route
                     type: "GET",
                     success: function(response) {
                         $("#editOtpContent").html(response);

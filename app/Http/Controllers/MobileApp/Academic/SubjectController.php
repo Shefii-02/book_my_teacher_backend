@@ -48,7 +48,7 @@ class SubjectController extends Controller
 
       Subject::create($data);
       DB::commit();
-      return redirect()->route('admin.app.subjects.index')->with('success', 'Subject created successfully.');
+      return redirect()->route('company.app.subjects.index')->with('success', 'Subject created successfully.');
     } catch (Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', $e->getMessage());
@@ -84,7 +84,7 @@ class SubjectController extends Controller
 
     $subject->update($data);
 
-    return redirect()->route('admin.app.subjects.index')->with('success', 'Subject updated successfully.');
+    return redirect()->route('company.app.subjects.index')->with('success', 'Subject updated successfully.');
   }
 
   public function destroy(Subject $subject)
@@ -95,7 +95,7 @@ class SubjectController extends Controller
 
     $subject->delete();
 
-    return redirect()->route('admin.app.subjects.index')->with('success', 'Subject deleted successfully.');
+    return redirect()->route('company.app.subjects.index')->with('success', 'Subject deleted successfully.');
   }
 
 

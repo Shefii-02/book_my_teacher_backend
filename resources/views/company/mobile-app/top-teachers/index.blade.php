@@ -76,7 +76,7 @@
                     order.push(el.dataset.id);
                 });
 
-                fetch('/admin/app/top-teachers/reorder', {
+                fetch('/company/app/top-teachers/reorder', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",
@@ -92,7 +92,7 @@
         // Toggle select/unselect top teacher
         document.querySelectorAll('.topToggle').forEach((checkbox) => {
             checkbox.addEventListener('change', function() {
-                fetch('/admin/app/top-teachers/toggle', {
+                fetch('/company/app/top-teachers/toggle', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",

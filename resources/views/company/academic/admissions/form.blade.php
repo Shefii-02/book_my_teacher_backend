@@ -342,7 +342,7 @@
                 $('.InstallmentOption').html('');
 
 
-                $.get('{{ url('admin/admissions/course-info') }}/' + id, function(course) {
+                $.get('{{ url('company/admissions/course-info') }}/' + id, function(course) {
                     $('#courseDetails').removeClass('hidden');
                     $('#thumb_img').attr('src', course.thumbnail_url);
                     $('#cd_title').text(course.title);

@@ -82,7 +82,7 @@ class UserController extends Controller
     $user = User::onlyTrashed()->findOrFail($id);
     $user->restore();
 
-    return redirect()->route('admin.app.delete_accounts.list')
+    return redirect()->route('company.app.delete_accounts.list')
       ->with('success', 'User restored successfully!');
   }
 

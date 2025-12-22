@@ -39,6 +39,7 @@ class CourseController extends Controller
 
   public function store(Request $request)
   {
+
     DB::beginTransaction();
     try {
       $company_id = auth()->user()->company_id;
@@ -236,14 +237,14 @@ class CourseController extends Controller
         $course->save();
 
         TeacherCourse::where('course_id', $course->id)->delete();
-        if ($request->teachers) {
-          foreach ($request->teachers ?? [] as $teacher) {
-            $teachersCourse             = new TeacherCourse();
-            $teachersCourse->course_id  = $course->id;
-            $teachersCourse->teacher_id = $teacher;
-            $teachersCourse->save();
-          }
-        }
+        // if ($request->teachers) {
+        //   foreach ($request->teachers ?? [] as $teacher) {
+            // $teachersCourse             = new TeacherCourse();
+            // $teachersCourse->course_id  = $course->id;
+            // $teachersCourse->teacher_id = $$request->teachers;
+            // $teachersCourse->save();
+          // }
+        // }
       } else if ($request->overview_form) {
 
         $request->validate([
@@ -267,6 +268,7 @@ class CourseController extends Controller
       DB::commit();
       return redirect()->route('company.courses.create', ['draft' => $course->course_identity])->with('success', 'Course created successfully.');
     } catch (Exception $e) {
+
       DB::rollBack();
       return redirect()->back()->with('error', 'Course creation error' . $e->getMessage());
     }

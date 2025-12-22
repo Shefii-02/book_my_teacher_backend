@@ -32,7 +32,7 @@ class AchievementLevelController extends Controller
 
         $data['company_id'] = auth()->user()->company_id;
         $level = AchievementLevel::create($data);
-        return redirect()->route('admin.app.achievements.index')->with('success','Level created');
+        return redirect()->route('company.app.achievements.index')->with('success','Level created');
     }
 
     public function edit(AchievementLevel $achievementLevel)
@@ -53,7 +53,7 @@ class AchievementLevelController extends Controller
         ]);
 
         $achievementLevel->update($data);
-        return redirect()->route('admin.app.achievements.index')->with('success','Level updated');
+        return redirect()->route('company.app.achievements.index')->with('success','Level updated');
     }
 
     public function destroy(AchievementLevel $achievementLevel)

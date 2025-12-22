@@ -295,7 +295,7 @@
 
                 var id = $(this).data('id');
 
-                $.get('{{ url('admin/admissions/course-info') }}/' + id, function(course) {
+                $.get('{{ url('company/admissions/course-info') }}/' + id, function(course) {
                     $('#courseDetails').removeClass('hidden');
                     $('#thumb_img').attr('src', course.thumbnail_url);
                     $('#cd_title').text(course.title);
@@ -372,7 +372,7 @@
 
             // // $('#course_id').on('change', function(e) {
             //     const id = this.val;
-            //     $.get('{{ url('admin/admissions/course-info') }}/' + id, function(course) {
+            //     $.get('{{ url('company/admissions/course-info') }}/' + id, function(course) {
             //         $('#courseDetails').removeClass('hidden');
             //         $('#cd_title').text(course.title);
             //         $('#cd_desc').text(course.description || '');

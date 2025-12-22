@@ -34,4 +34,16 @@ class Grade extends Model
   {
     return $this->belongsToMany(Board::class, 'board_grade');
   }
+
+
+
+  public function category()
+{
+    return $this->hasOne(
+        CourseCategory::class,
+        'title', // CourseCategory column
+        'name'   // Grade column
+    )->where('company_id', auth()->user()->company_id);
+}
+
 }

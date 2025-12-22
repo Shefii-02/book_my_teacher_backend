@@ -57,7 +57,7 @@ class CourseBannerController extends Controller
 
     TopBanner::create($data);
 
-    return redirect()->route('admin.app.course-banners.index')
+    return redirect()->route('company.app.course-banners.index')
       ->with('success', 'Banner created successfully!');
   }
 
@@ -98,7 +98,7 @@ class CourseBannerController extends Controller
 
     $course_banner->update($data);
 
-    return redirect()->route('admin.app.course-banners.index')
+    return redirect()->route('company.app.course-banners.index')
       ->with('success', 'Banner updated successfully!');
   }
 

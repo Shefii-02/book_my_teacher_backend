@@ -31,7 +31,7 @@ class UserController extends Controller
   public function index(Request $request)
   {
     $mobileNo   = '91' . $request->mobile;
-    $company_id = auth()->user()->company_id;
+    $company_id = 1;
 
     $user = User::where('mobile', $mobileNo)
       ->where('company_id', $company_id)
@@ -107,7 +107,7 @@ class UserController extends Controller
   public function setUserToken(Request $request)
   {
     $userId = $request->input('user_id');
-    $company_id = auth()->user()->company_id;
+    $company_id = 1;
 
     if (!$userId) {
       return response()->json([

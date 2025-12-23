@@ -149,7 +149,7 @@
         </div>
 
         @php
-            $teacherIds = $course->teacherCourses->pluck('teacher_id')->toArray();
+            $teacherIds = $course->teacherCourses->pluck('teacher_id')->first();
         @endphp
 
 
@@ -160,7 +160,7 @@
                 <select name="teachers" class="form-control border w-full">
                     <option value="">Select Teacher</option>
                     @foreach ($teachers as $teacher)
-                        <option value="{{ $teacher->id }}" @selected(old('institute_id', $course->institute_id ?? '') == $teacher->id)>
+                        <option value="{{ $teacher->id }}" @selected(old('teachers', $teacherIds ?? '') == $teacher->id)>
                             {{ $teacher->name }}
                         </option>
                     @endforeach

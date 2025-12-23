@@ -256,7 +256,7 @@
                             </ul>
                         </li>
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.courses.*') || Request::routeIs('company.webinars.*') || Request::routeIs('company.categories.*') || Request::routeIs('company.subcategories.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.courses.*') || Request::routeIs('company.webinars.*') || Request::routeIs('company.workshops.*') || Request::routeIs('company.categories.*') || Request::routeIs('company.subcategories.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -271,7 +271,7 @@
                             </a>
 
                             <ul
-                                class="submenu pl-6 {{ Request::routeIs('company.courses.*') || Request::routeIs('company.webinars.*') || Request::routeIs('company.categories.*') || Request::routeIs('company.subcategories.*') ? '' : 'hidden' }}">
+                                class="submenu pl-6 {{ Request::routeIs('company.courses.*') || Request::routeIs('company.webinars.*') || Request::routeIs('company.workshops.*') || Request::routeIs('company.categories.*') || Request::routeIs('company.subcategories.*') ? '' : 'hidden' }}">
 
 
                                 <li class="mt-0.5 w-full">
@@ -326,10 +326,9 @@
                                     </a>
                                 </li>
 
-
-                                {{-- <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.workshop') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.guest.index') }}">
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.workshops.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.workshops.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -338,7 +337,7 @@
                                         <span
                                             class="ml-1 duration-300 opacity-100 pointer-events-none ease">Workshops</span>
                                     </a>
-                                </li> --}}
+                                </li>
 
                             </ul>
                         </li>
@@ -693,7 +692,7 @@
                                         class="relative top-0 leading-normal text-emerald-500 bi bi-headset text-sm"></i>
                                 </div>
                                 <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Company Settings
-                                    </span>
+                                </span>
                             </a>
                         </li>
 
@@ -752,63 +751,7 @@
                                 </svg>
                             </button>
                         </li>
-                        <li class="flex items-center">
-                            <div class="flex items-center gap-4">
-                                <img class="w-10 h-10 rounded-full" data-dropdown-toggle="userDropdown"
-                                    data-dropdown-placement="bottom-start" src="{{ auth()->user()->avatar_url }}"
-                                    alt="">
-                                <div class="font-medium dark:text-white">
-                                    <div class="text-black font-bold dark:text-white capitalize">
-                                        {{ auth()->user()->name }}</div>
-                                    <div class="text-sm text-black dark:text-white">{{ auth()->user()->acc_type }}
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!-- Dropdown menu -->
-                            <div id="userDropdown"
-                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
-
-                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                    aria-labelledby="avatarButton">
-                                    <li>
-                                        <a href="{{ route('company.profile') }}"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Profile</a>
-                                    </li>
-                                </ul>
-                                <div class="py-1">
-                                    <form action="{{ route('logout') }}" method="POST" class="">
-                                      @csrf
-                                        @method('POST')
-                                        <button type="submit" role="button"
-                                            class="block text-start px-4 py-2 w-full text-sm text-gray-700 hover:bg-gray-100 dark:hover:text-white dark:text-gray-200 dark:hover:text-white">Sign
-                                            out</button>
-                                    </form>
-
-
-                                </div>
-                            </div>
-                        </li>
-                        <li class="flex items-center pl-4 xl:hidden">
-                            <a href="javascript:;" class="block p-0 text-white transition-all ease-nav-brand text-sm"
-                                sidenav-trigger>
-                                <div class="w-4.5 overflow-hidden">
-                                    <i
-                                        class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all"></i>
-                                    <i
-                                        class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all"></i>
-                                    <i class="ease relative block h-0.5 rounded-sm bg-white transition-all"></i>
-                                </div>
-                            </a>
-                        </li>
-                        {{-- <li class="flex items-center px-4">
-                            <a href="javascript:;" class="p-0 text-black dark:text-white transition-all text-sm ease-nav-brand">
-                                <i fixed-plugin-button-nav class="cursor-pointer bi bi-bell-fill text-2xl"></i>
-                                <!-- fixed-plugin-button-nav  -->
-                            </a>
-                        </li> --}}
-
-                        <!-- notifications -->
+                                                <!-- notifications -->
 
                         <li class="relative flex items-center px-4">
                             <p class="hidden transform-dropdown-show"></p>
@@ -909,6 +852,63 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="flex items-center">
+                            <div class="flex items-center gap-4">
+
+                                <div class="font-medium dark:text-white">
+                                    <div class="text-black font-bold dark:text-white capitalize">
+                                        {{ auth()->user()->name }}</div>
+                                    <div class="text-sm text-black dark:text-white">{{ auth()->user()->acc_type }}
+                                    </div>
+                                </div>
+                                <img class="w-10 h-10 rounded-full" data-dropdown-toggle="userDropdown"
+                                    data-dropdown-placement="bottom-start" src="{{ auth()->user()->avatar_url }}"
+                                    alt="">
+                            </div>
+                            <!-- Dropdown menu -->
+                            <div id="userDropdown"
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="avatarButton">
+                                    <li>
+                                        <a href="{{ route('company.profile') }}"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Profile</a>
+                                    </li>
+                                </ul>
+                                <div class="py-1">
+                                    <form action="{{ route('logout') }}" method="POST" class="">
+                                        @csrf
+                                        @method('POST')
+                                        <button type="submit" role="button"
+                                            class="block text-start px-4 py-2 w-full text-sm text-gray-700 hover:bg-gray-100 dark:hover:text-white dark:text-gray-200 dark:hover:text-white">Sign
+                                            out</button>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </li>
+                        <li class="flex items-center pl-4 xl:hidden">
+                            <a href="javascript:;" class="block p-0 text-white transition-all ease-nav-brand text-sm"
+                                sidenav-trigger>
+                                <div class="w-4.5 overflow-hidden">
+                                    <i
+                                        class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all"></i>
+                                    <i
+                                        class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all"></i>
+                                    <i class="ease relative block h-0.5 rounded-sm bg-white transition-all"></i>
+                                </div>
+                            </a>
+                        </li>
+                        {{-- <li class="flex items-center px-4">
+                            <a href="javascript:;" class="p-0 text-black dark:text-white transition-all text-sm ease-nav-brand">
+                                <i fixed-plugin-button-nav class="cursor-pointer bi bi-bell-fill text-2xl"></i>
+                                <!-- fixed-plugin-button-nav  -->
+                            </a>
+                        </li> --}}
+
+
                     </ul>
                 </div>
             </div>

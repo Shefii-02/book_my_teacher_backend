@@ -12,9 +12,9 @@
                 <a class="text-white" href="{{ route('company.dashboard') }}">Dashboard</a>
             </li>
             <li class="text-sm pl-2 font-bold capitalize text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Webinars</li>
+                aria-current="page">Workshops</li>
         </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Webinars</h6>
+        <h6 class="mb-0 font-bold text-white capitalize">Workshops</h6>
     </nav>
 @endsection
 
@@ -52,17 +52,17 @@
             @endforeach
         </div>
 
-        <!-- Webinars Table -->
+        <!-- Workshops Table -->
         <div class="flex flex-wrap -mx-3 mt-4">
             <div class="flex-none w-full max-w-full px-3">
                 <div
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                     <div class="p-6 pb-0 mb-3 border-b border-b-transparent flex justify-between items-center">
-                        <h6 class="leading-tight dark:text-white dark:opacity-80 text-slate-400">Webinars List</h6>
-                        <a href="{{ route('company.webinars.create') }}"
+                        <h6 class="leading-tight dark:text-white dark:opacity-80 text-slate-400">Workshops List</h6>
+                        <a href="{{ route('company.workshops.create') }}"
                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 mb-4 to-teal-400  text-white rounded text-sm">
                               <i class="bi bi-plus"></i>
-                              Create Webinar</a>
+                              Create Workshop</a>
                     </div>
 
                     <div class="flex-auto px-0 pt-0 pb-2">
@@ -105,40 +105,40 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($webinars as $key => $webinar)
+                                    @foreach ($workshops as $key => $workshop)
                                         <tr>
                                             <td class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">{{ $key + 1 }}</td>
                                             <td class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
                                                 <div class="flex items-center">
-                                                    @if ($webinar->thumbnail_image)
-                                                        <img src="{{ asset('storage/' . $webinar->thumbnail_image) }}"
+                                                    @if ($workshop->thumbnail_image)
+                                                        <img src="{{ asset('storage/' . $workshop->thumbnail_image) }}"
                                                             class="h-9 w-9 rounded mr-2" alt="thumb">
                                                     @endif
                                                 </div>
                                                   <span
-                                                        class="text-sm leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $webinar->title }}</span>
+                                                        class="text-sm leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $workshop->title }}</span>
                                             </td>
                                             <td
                                                 class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
-                                                {{ $webinar->host?->name ?? 'N/A' }}</td>
+                                                {{ $workshop->host?->name ?? 'N/A' }}</td>
                                             <td
                                                 class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
-                                                {{ $webinar->provider?->name ?? 'N/A' }}</td>
+                                                {{ $workshop->provider?->name ?? 'N/A' }}</td>
                                             <td
                                                 class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
-                                                {{ $webinar->created_at?->format('d M Y') }}</td>
+                                                {{ $workshop->created_at?->format('d M Y') }}</td>
                                             <td
                                                 class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
-                                                {{ $webinar->started_at?->format('d M Y H:i') ?? '-' }}</td>
+                                                {{ $workshop->started_at?->format('d M Y H:i') ?? '-' }}</td>
                                             <td
                                                 class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
-                                                {{ $webinar->ended_at?->format('d M Y H:i') ?? '-' }}</td>
+                                                {{ $workshop->ended_at?->format('d M Y H:i') ?? '-' }}</td>
                                             <td
                                                 class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
-                                                {{ $webinar->max_participants ?? '-' }}</td>
+                                                {{ $workshop->max_participants ?? '-' }}</td>
                                             <td class="p-2 text-center">
                                                 <span
-                                                    class="{{ $statusColors[$webinar->status] ?? 'bg-emerald-500/50' }} px-2.5 py-1.5 text-xs rounded text-white">{{ ucfirst($webinar->status) }}</span>
+                                                    class="{{ $statusColors[$workshop->status] ?? 'bg-emerald-500/50' }} px-2.5 py-1.5 text-xs rounded text-white">{{ ucfirst($workshop->status) }}</span>
                                             </td>
                                             <td
                                                 class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
@@ -159,25 +159,25 @@
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
                                                         <li>
-                                                            <a href="{{ route('company.webinars.show', $webinar->id) }}"
+                                                            <a href="{{ route('company.workshops.show', $workshop->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('company.webinars.edit', $webinar->id) }}"
+                                                            <a href="{{ route('company.workshops.edit', $workshop->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('company.webinars.start', $webinar->id) }}"
+                                                            <a href="{{ route('company.workshops.start', $workshop->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Start Streaming</a>
                                                         </li>
                                                         <li>
-                                                            <form id="form_{{ $webinar->id }}" class="m-0 p-0"
-                                                                action="{{ route('company.webinars.destroy', $webinar->id) }}"
+                                                            <form id="form_{{ $workshop->id }}" class="m-0 p-0"
+                                                                action="{{ route('company.workshops.destroy', $workshop->id) }}"
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
                                                                 <a role="button" href="javascript:;"
                                                                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
-                                                                    onclick="confirmDelete({{ $webinar->id }})">Delete</a>
+                                                                    onclick="confirmDelete({{ $workshop->id }})">Delete</a>
 
                                                         </li>
                                                     </ul>
@@ -193,7 +193,7 @@
                     </div>
 
                     <div class="d-flex justify-content-center m-4">
-                        {!! $webinars->links() !!}
+                        {!! $workshops->links() !!}
                     </div>
                 </div>
             </div>

@@ -55,8 +55,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
 
   Route::group(['prefix' => 'app', 'as' => 'app.', 'namespace' => 'MobileApp'], function () {
-     Route::get('/', 'DashboardController@index')->name('dashboard.index');
-      Route::get('/', 'DashboardController@index')->name('dashboard');
+    Route::get('/', 'DashboardController@index')->name('dashboard.index');
+    Route::get('/', 'DashboardController@index')->name('dashboard');
     Route::get('/', 'DashboardController@index')->name('index');
 
     Route::resource('top-banners', 'BannerController')->names('top-banners');
@@ -281,6 +281,16 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     ->name('webinars.registrations.download-csv');
 
 
+
+  Route::resource('workshops', 'LMS\WorkshopController')->names('workshops');
+  Route::prefix('workshops/{id}')->group(function () {
+    Route::resource('schedule-class', 'LMS\WorkshopClassController')->names('workshops.schedule-class');
+    Route::resource('materials', 'LMS\WorkshopMaterialController')->names('workshops.materials');
+  });
+
+  Route::get('workshops/start', 'dashboard\UserController@otp')->name('workshops.start');
+  Route::get('workshops/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
+    ->name('workshops.registrations.download-csv');
 
 
   Route::resource('analytics', AnalyticController::class);

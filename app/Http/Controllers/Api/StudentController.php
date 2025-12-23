@@ -433,10 +433,73 @@ class StudentController extends Controller
       ];
     })->values();
 
+
+    $courses = Course::select(
+            'id',
+            'title',
+            'description',
+            DB::raw("'Course' as category"),
+            'image',
+            'duration',
+            'level'
+        )
+        ->get()
+        ->map(function ($item) {
+            $item->is_enrolled = false; // or dynamic check
+            return $item;
+        });
+
+    $webinars = Webinar::select(
+            'id',
+            'title',
+            'description',
+            DB::raw("'Webinar' as category"),
+            'image',
+            'duration',
+            'level',
+            'schedule'
+        )
+        ->get()
+        ->map(function ($item) {
+            $item->is_enrolled = false;
+            return $item;
+        });
+
+    $workshops = Workshop::select(
+            'id',
+            'title',
+            'description',
+            DB::raw("'Workshop' as category"),
+            'image',
+            'duration',
+            'level'
+        )
+        ->get()
+        ->map(function ($item) {
+            $item->is_enrolled = false;
+            return $item;
+        });
+
+    $data = collect([
+        [
+            'category' => 'Course',
+            'items' => $courses,
+        ],
+        [
+            'category' => 'Webinar',
+            'items' => $webinars,
+        ],
+        [
+            'category' => 'Workshop',
+            'items' => $workshops,
+        ],
+    ])->filter(fn ($group) => $group['items']->isNotEmpty())
+      ->values();
+
     return response()->json([
       'status' => true,
       'message' => 'Courses categorized successfully',
-      'data' => $grouped,
+      'data' => $data,
     ]);
   }
 

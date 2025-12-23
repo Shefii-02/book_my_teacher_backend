@@ -201,21 +201,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('requested-classes', 'RequestController@getGeneralRequests');
 
-
-
-
-
     Route::get('/top-banners', 'StudentController@topBanners');
     Route::get('/course-banners', 'StudentController@courseBanners');
 
-
-
-
     Route::post('/notifications', 'NotificationController@notifications');
     Route::post('/notifications/mark-read/{id}', 'NotificationController@markRead');
-
-
-
 
     // Route::post('top-banner/submit', function (Request $request) {
     //   Log::info('📢 Top Banner Request:', $request->all());

@@ -27,7 +27,7 @@
                         <div class="flex justify-between">
                             <h6>Teachers List</h6>
                             <a href="{{ route('company.app.teachers.create') }}"
-                                class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
+                                class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-plus me-1 "></i>
                                 Create
                             </a>

@@ -17,7 +17,7 @@
     <div class="container mx-auto">
         <div class="bg-white p-4 rounded-lg shadow mb-4 flex justify-between items-center">
             <h6 class="font-bold">{{ isset($teacher) ? 'Edit' : 'Create' }} Teacher</h6>
-            <a href="{{ route('company.app.teachers.index') }}" class="bg-emerald-500/50 text-white px-3 py-2 rounded-full">
+            <a href="{{ route('company.app.teachers.index') }}" class="bg-emerald-500/50 text-white px-3 py-2 rounded">
                 <span class="bi bi-arrow-left me-2"></span>Back</a>
         </div>
 

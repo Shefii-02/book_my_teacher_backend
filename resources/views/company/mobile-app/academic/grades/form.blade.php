@@ -80,7 +80,7 @@
                                 @checked(old('published', $grade->published ?? false))> Publish</label>
                     </div>
                 </div>
-                @if (!$grade->category()->exists())
+                @if ($isEdit && !$grade->category()->exists())
                     <div>
                         <div class="flex items-center gap-3">
                             <label class="font-medium">

@@ -41,8 +41,8 @@ class NotificationController extends Controller
 
         return response()->json([
             'status' => 200,
-            'count' => $count,
-            'notifications' => $this->dummyNotifications
+            'count' => 0,
+            'notifications' => [], //$this->dummyNotifications
         ]);
     }
 

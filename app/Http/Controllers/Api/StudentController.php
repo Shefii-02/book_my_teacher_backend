@@ -444,7 +444,7 @@ class StudentController extends Controller
             return $item;
         });
 
-    $webinars = Webinar::where('company_id',1)->get()
+    $webinars = Webinar::where('company_id',1)->whereIn('status',['scheduled','completed'])->get()
         ->map(function ($item) {
             $item->is_enrolled = false;
             return $item;

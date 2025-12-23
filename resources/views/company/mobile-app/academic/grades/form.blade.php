@@ -86,7 +86,7 @@
                         <div class="flex items-center gap-3">
                             <label class="font-medium">
                                 <input type="checkbox" class="border pe-3" name="attach_category" value="1"
-                                    @checked(old('attach_category', $grade->category()->exists() ?? false))> Attach to Category aslo</label>
+                                    @checked(old('attach_category'))> Attach to Category aslo</label>
                         </div>
                     </div>
                 @endif

@@ -7,17 +7,21 @@ use App\Http\Resources\BannerResource;
 use App\Http\Resources\SubjectResource;
 use App\Http\Resources\TeacherResource;
 use App\Models\CompanyTeacher;
+use App\Models\Course;
 use App\Models\MediaFile;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\TopBanner;
 use App\Models\User;
+use App\Models\Webinar;
+use App\Models\Workshop;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -354,7 +358,7 @@ class StudentController extends Controller
     });
     return response()->json(['status' => true, 'data' => $subjects]);
   }
-  public function provideCourses(): JsonResponse
+  public function courseStore(): JsonResponse
   {
     // $courses = collect(range(1, 15))->map(function ($i) {
     //   return [
@@ -434,47 +438,19 @@ class StudentController extends Controller
     })->values();
 
 
-    $courses = Course::select(
-            'id',
-            'title',
-            'description',
-            DB::raw("'Course' as category"),
-            'image',
-            'duration',
-            'level'
-        )
-        ->get()
+    $courses = Course::where('company_id',1)->get()
         ->map(function ($item) {
             $item->is_enrolled = false; // or dynamic check
             return $item;
         });
 
-    $webinars = Webinar::select(
-            'id',
-            'title',
-            'description',
-            DB::raw("'Webinar' as category"),
-            'image',
-            'duration',
-            'level',
-            'schedule'
-        )
-        ->get()
+    $webinars = Webinar::where('company_id',1)->get()
         ->map(function ($item) {
             $item->is_enrolled = false;
             return $item;
         });
 
-    $workshops = Workshop::select(
-            'id',
-            'title',
-            'description',
-            DB::raw("'Workshop' as category"),
-            'image',
-            'duration',
-            'level'
-        )
-        ->get()
+    $workshops = Workshop::where('company_id',1)->get()
         ->map(function ($item) {
             $item->is_enrolled = false;
             return $item;

@@ -108,8 +108,8 @@
                                     @foreach ($workshops as $key => $workshop)
                                         <tr>
                                             <td class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">{{ $key + 1 }}</td>
-                                            <td class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
-                                                <div class="flex items-center">
+                                            <td class="px-6 py-3 text-left font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
+                                                <div class="flex items-left">
                                                     @if ($workshop->thumbnail_image)
                                                         <img src="{{ asset('storage/' . $workshop->thumbnail_image) }}"
                                                             class="h-9 w-9 rounded mr-2" alt="thumb">

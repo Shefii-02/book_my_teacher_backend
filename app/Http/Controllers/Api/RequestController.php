@@ -68,16 +68,21 @@ class RequestController extends Controller
     $company_id = 1;
     Log::info("📢 webinar Request:", $request->all());
     $user                     = $request->user();
-    $webinarReq               = new WebinarRegistration();
-    $webinarReq->webinar_id   = $request->webinar_id;
-    $webinarReq->user_id      = $user->id;
-    $webinarReq->name         = $user->name;
-    $webinarReq->email        = $user->email;
-    $webinarReq->phone        = $user->phone;
-    $webinarReq->checked_in   = 0;
-    $webinarReq->company_id   = $company_id;
-    $webinarReq->attended_status =  0;
-    $webinarReq->save();
+    $webinarReq = WebinarRegistration::where('user_id', $user->id)->where('webinar_id', $request->webinar_id)->where('company_id', $company_id)->first();
+    if (!$webinarReq) {
+      $webinarReq               = new WebinarRegistration();
+      $webinarReq->webinar_id   = $request->webinar_id;
+      $webinarReq->user_id      = $user->id;
+      $webinarReq->name         = $user->name;
+      $webinarReq->email        = $user->email;
+      $webinarReq->phone        = $user->phone;
+      $webinarReq->checked_in   = 0;
+      $webinarReq->company_id   = $company_id;
+      $webinarReq->attended_status =  0;
+      $webinarReq->save();
+    } else {
+      return response()->json(['status' => false, 'data' =>  'Webinar already requested.']);
+    }
 
     return response()->json(['status' => true, 'data' =>  'Webinar request stored.']);
   }
@@ -86,18 +91,23 @@ class RequestController extends Controller
   {
     $company_id = 1;
     Log::info("📢 workshop Request:", $request->all());
-    $user                     = $request->user();
-    $webinarReq               = new WorkshopRegistration();
-    $webinarReq->webinar_id   = $request->webinar_id;
-    $webinarReq->user_id      = $user->id;
-    $webinarReq->name         = $user->name;
-    $webinarReq->email        = $user->email;
-    $webinarReq->phone        = $user->phone;
-    $webinarReq->checked_in   = 0;
-    $webinarReq->company_id   = $company_id;
-    $webinarReq->attended_status =  0;
-    $webinarReq->save();
 
+    $user                     = $request->user();
+    $workshopReq = WorkshopRegistration::where('user_id', $user->id)->where('workshop_id', $request->workshop_id)->where('company_id', $company_id)->first();
+    if (!$workshopReq) {
+      $workshopReq               = new WorkshopRegistration();
+      $workshopReq->workshop_id   = $request->workshop_id;
+      $workshopReq->user_id      = $user->id;
+      $workshopReq->name         = $user->name;
+      $workshopReq->email        = $user->email;
+      $workshopReq->phone        = $user->phone;
+      $workshopReq->checked_in   = 0;
+      $workshopReq->company_id   = $company_id;
+      $workshopReq->attended_status =  0;
+      $workshopReq->save();
+    } else {
+      return response()->json(['status' => false, 'data' =>  'Workshop already requested.']);
+    }
 
     return response()->json(['status' => true, 'data' =>  'Workshop request stored.']);
   }

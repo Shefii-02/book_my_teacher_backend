@@ -478,10 +478,13 @@ class StudentController extends Controller
 
     $courses = Course::with('institute')
       ->where('company_id', 1)
+       ->with(['registrations' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+    }])
       ->get()
       // ->map(fn($c) => tap($c)->is_enrolled = false);
       ->map(function ($item) use ($user) {
-        $item->is_enrolled = $item->registrations->where('user_id',$user->id)->exist(); // or dynamic check
+        $item->is_enrolled = $item->registrations->isNotEmpty();
         return $item;
       });
 
@@ -489,9 +492,12 @@ class StudentController extends Controller
 
     $webinars = Webinar::where('company_id', 1)
       ->whereIn('status', ['scheduled', 'completed'])
+       ->with(['registrations' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+    }])
       ->get()
       ->map(function ($item) use ($user) {
-        $item->is_enrolled = $item->registrations->where('user_id',$user->id)->exist(); // or dynamic check
+        $item->is_enrolled = $item->registrations->isNotEmpty();
         return $item;
       });
 
@@ -499,9 +505,12 @@ class StudentController extends Controller
     // ->map(fn($w) => tap($w)->is_enrolled = false);
 
     $workshops = Workshop::where('company_id', 1)
+     ->with(['registrations' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+    }])
       ->get()
       ->map(function ($item) use ($user) {
-        $item->is_enrolled = $item->registrations->where('user_id',$user->id)->exist(); // or dynamic check
+        $item->is_enrolled = $item->registrations->isNotEmpty();
         return $item;
       });
       // ->map(fn($w) => tap($w)->is_enrolled = false);

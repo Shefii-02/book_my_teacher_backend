@@ -57,7 +57,7 @@ class WorkshopController extends Controller
 
     $guestTeachers = User::where('acc_type', 'guest_teacher')
       ->where('company_id', $company_id)
-      ->where('status', 1)
+      // ->where('status', 1)
       ->get()
       ->map(function ($user) {
         return [

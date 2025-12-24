@@ -48,7 +48,7 @@ class WorkshopController extends Controller
       ->map(function ($teacher) {
         return [
           'id'        => $teacher->id,
-          'type'      => 'teacher',
+          'type'      => 'Teacher',
           'name'      => $teacher->user->name ?? null,
           'email'     => $teacher->user->email ?? null,
           'user_id'   => $teacher->user->id ?? null,
@@ -62,7 +62,7 @@ class WorkshopController extends Controller
       ->map(function ($user) {
         return [
           'id'        => $user->id,
-          'type'      => 'guest_teacher',
+          'type'      => 'Guest Teacher',
           'name'      => $user->name,
           'email'     => $user->email,
           'user_id'   => $user->id,

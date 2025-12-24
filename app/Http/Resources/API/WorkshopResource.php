@@ -15,8 +15,10 @@ class WorkshopResource extends JsonResource
             'description'   => $this->description,
             'slug'          => $this->slug,
 
-            'thumbnail_url'     => $this->thumbnail_image,
-            'main_image_url'         => $this->main_image,
+
+      'thumbnail_url' => $this->thumbnail_image ? asset('storage/' . $this->thumbnail_image) : null,
+      'main_image_url' => $this->main_image ? asset('storage/' . $this->main_image) : null,
+
 
             'started_at'    => $this->started_at,
             'ended_at'      => $this->ended_at,

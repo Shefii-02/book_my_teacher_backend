@@ -8,6 +8,8 @@ use App\Models\GeneralRequest;
 use App\Models\BannerRequest;
 use App\Models\Subject;
 use App\Models\TeacherClassRequest;
+use App\Models\WebinarRegistration;
+use App\Models\WorkshopRegistration;
 use Illuminate\Support\Facades\Log;
 
 class RequestController extends Controller
@@ -60,32 +62,42 @@ class RequestController extends Controller
 
     return response()->json(['status' => true, 'data' =>  'Banner request stored.']);
   }
+
   public function webinar(Request $request)
   {
     $company_id = 1;
     Log::info("📢 webinar Request:", $request->all());
-    $user = $request->user();
+    $user                     = $request->user();
+    $webinarReq               = new WebinarRegistration();
+    $webinarReq->webinar_id   = $request->webinar_id;
+    $webinarReq->user_id      = $user->id;
+    $webinarReq->name         = $user->name;
+    $webinarReq->email        = $user->email;
+    $webinarReq->phone        = $user->phone;
+    $webinarReq->checked_in   = 0;
+    $webinarReq->attended_status =  0;
+    $webinarReq->save();
 
-
-    return response()->json(['status' => true, 'data' =>  'Banner request stored.']);
-
-    //  `webinar_id`,
-    //   `user_id`,
-    //   `name`,
-    //   `email`,
-    //   `phone`,
-    //   `checked_in`,
-    //   `attended_status`,
-
+    return response()->json(['status' => true, 'data' =>  'Webinar request stored.']);
   }
+
   public function workshop(Request $request)
   {
     $company_id = 1;
     Log::info("📢 workshop Request:", $request->all());
-    $user = $request->user();
+    $user                     = $request->user();
+    $webinarReq               = new WorkshopRegistration();
+    $webinarReq->webinar_id   = $request->webinar_id;
+    $webinarReq->user_id      = $user->id;
+    $webinarReq->name         = $user->name;
+    $webinarReq->email        = $user->email;
+    $webinarReq->phone        = $user->phone;
+    $webinarReq->checked_in   = 0;
+    $webinarReq->attended_status =  0;
+    $webinarReq->save();
 
 
-    return response()->json(['status' => true, 'data' =>  'Banner request stored.']);
+    return response()->json(['status' => true, 'data' =>  'Workshop request stored.']);
   }
 
 

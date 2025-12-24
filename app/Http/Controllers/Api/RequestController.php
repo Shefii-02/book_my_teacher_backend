@@ -68,7 +68,7 @@ class RequestController extends Controller
     $company_id = 1;
     Log::info("📢 webinar Request:", $request->all());
     $user                     = $request->user();
-    $webinarReq               = new WorkshopRegistration();
+    $webinarReq               = new WebinarRegistration();
     $webinarReq->webinar_id   = $request->webinar_id;
     $webinarReq->user_id      = $user->id;
     $webinarReq->name         = $user->name;

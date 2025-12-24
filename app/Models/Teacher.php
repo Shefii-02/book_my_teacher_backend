@@ -70,6 +70,12 @@ class Teacher extends Model
     return $this->hasOne(TopTeacher::class);
   }
 
+
+   public function user()
+  {
+    return $this->hasOne(User::class);
+  }
+
   public function reviews()
   {
     return $this->hasMany(SubjectReview::class, 'teacher_id', 'id');

@@ -41,15 +41,6 @@ class CourseClass extends Model
 }
 
 
-public function teacher(){
- return $this->belongsTo(
-        Teacher::class,     // related model
-        'teacher_classes',  // pivot table
-        'class_id',         // foreign key in pivot (points to CourseClass)
-        'teacher_id'        // foreign key in pivot (points to Teacher)
-    );
-}
-
 
   public function livestream()
   {

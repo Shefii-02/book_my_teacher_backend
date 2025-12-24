@@ -177,7 +177,7 @@
                                             </td>
                                             <td
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                                {{ $class->teacher?->name }}</td>
+                                                {{ $class->teachers()->first()?->name }}</td>
                                             <td
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                                 {{ date('d-M-Y', strtotime($class->scheduled_at)) }}<br>{{ $class->start_time }}/{{ $class->end_time }}

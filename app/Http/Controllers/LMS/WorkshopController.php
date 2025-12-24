@@ -144,7 +144,36 @@ class WorkshopController extends Controller
 
   public function edit(Workshop $workshop)
   {
-    $users = User::all();
+    // $users = User::all();
+     $teachers = Teacher::with('user')->whereHas('user')
+      ->where('company_id', $company_id)
+      ->get()
+      ->map(function ($teacher) {
+        return [
+          'id'        => $teacher->id,
+          'type'      => 'Teacher',
+          'name'      => $teacher->user->name ?? null,
+          'email'     => $teacher->user->email ?? null,
+          'user_id'   => $teacher->user->id ?? null,
+        ];
+      });
+
+    $guestTeachers = User::where('acc_type', 'guest_teacher')
+      ->where('company_id', $company_id)
+      // ->where('status', 1)
+      ->get()
+      ->map(function ($user) {
+        return [
+          'id'        => $user->id,
+          'type'      => 'Guest Teacher',
+          'name'      => $user->name,
+          'email'     => $user->email,
+          'user_id'   => $user->id,
+        ];
+      });
+
+    $users = $teachers->merge($guestTeachers)->values();
+
     $providers = StreamProvider::all();
     return view('company.workshops.form', compact('workshop', 'users', 'providers'));
   }

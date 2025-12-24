@@ -51,6 +51,47 @@ class RequestController extends Controller
   }
 
 
+  public function course(Request $request)
+  {
+    $company_id = 1;
+    Log::info("📢 course Request:", $request->all());
+    $user = $request->user();
+
+
+    return response()->json(['status' => true, 'data' =>  'Banner request stored.']);
+  }
+  public function webinar(Request $request)
+  {
+    $company_id = 1;
+    Log::info("📢 webinar Request:", $request->all());
+    $user = $request->user();
+
+
+    return response()->json(['status' => true, 'data' =>  'Banner request stored.']);
+
+    //  `webinar_id`,
+    //   `user_id`,
+    //   `name`,
+    //   `email`,
+    //   `phone`,
+    //   `checked_in`,
+    //   `attended_status`,
+
+  }
+  public function workshop(Request $request)
+  {
+    $company_id = 1;
+    Log::info("📢 workshop Request:", $request->all());
+    $user = $request->user();
+
+
+    return response()->json(['status' => true, 'data' =>  'Banner request stored.']);
+  }
+
+
+
+
+
   // -------------------------
   // 3. TEACHER CLASS REQUEST
   // -------------------------
@@ -79,7 +120,7 @@ class RequestController extends Controller
     Log::info("👨‍🏫 Subject Class Request:", $request->all());
     $user = $request->user();
     $company_id = 1;
-    $subject = Subject::where('id',$request->subject_id)->first();
+    $subject = Subject::where('id', $request->subject_id)->first();
     TeacherClassRequest::create([
       'teacher_id'     => $request->teacher_id,
       'type'           => 'subject',

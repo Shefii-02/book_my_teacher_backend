@@ -87,7 +87,7 @@
                             @foreach ($users as $user)
                                 <option value="{{$user['id']}}"
                                     {{ old('host_id', $isEdit ? $workshop->host_id : '') == $user['id'] ? 'selected' : '' }}>
-                                    {{ $user['name'].'('.str_replace('_',$user['type']).')' }}</option>
+                                    {{ $user['name'].'('.str_replace('_',' ',$user['type']).')' }}</option>
                             @endforeach
                         </select>
                         @error('host_id')

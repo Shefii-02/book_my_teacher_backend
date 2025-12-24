@@ -95,4 +95,26 @@ class Webinar extends Model
   {
     return $this->hasMany(WebinarRegistration::class);
   }
+
+
+    public function thumbnailMedia()
+  {
+    return $this->belongsTo(MediaFile::class, 'thumbnail_id');
+  }
+
+  public function mainImageMedia()
+  {
+    return $this->belongsTo(MediaFile::class, 'mainimage_id');
+  }
+
+  public function getThumbnailUrlAttribute()
+  {
+    return $this->thumbnailMedia ? asset('storage/' . $this->thumbnailMedia->file_path) : null;
+  }
+
+  public function getMainImageUrlAttribute()
+  {
+    return $this->mainImageMedia ? asset('storage/' . $this->mainImageMedia->file_path) : null;
+  }
+
 }

@@ -85,7 +85,7 @@
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('host_id') border-red-500 @enderror">
                             <option value="">-- Select Host --</option>
                             @foreach ($users as $user)
-                                <option value="{{ $user->id }}"
+                                <option value="{{$user['id']}}"
                                     {{ old('host_id', $isEdit ? $workshop->host_id : '') == $user['id'] ? 'selected' : '' }}>
                                     {{ $user['name'].'('.str_replace('_',$user['type']).')' }}</option>
                             @endforeach

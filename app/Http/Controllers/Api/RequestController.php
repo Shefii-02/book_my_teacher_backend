@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\GeneralRequest;
 use App\Models\BannerRequest;
+use App\Models\CourseRegistration;
 use App\Models\Subject;
 use App\Models\TeacherClassRequest;
 use App\Models\WebinarRegistration;
@@ -58,9 +59,24 @@ class RequestController extends Controller
     $company_id = 1;
     Log::info("📢 course Request:", $request->all());
     $user = $request->user();
+    $user                     = $request->user();
+    $courseReq = CourseRegistration::where('user_id', $user->id)->where('course_id', $request->course_id)->where('company_id', $company_id)->first();
+    if (!$courseReq) {
+      $courseReq               = new CourseRegistration();
+      $courseReq->course_id   = $request->course_id;
+      $courseReq->user_id      = $user->id;
+      $courseReq->name         = $user->name;
+      $courseReq->email        = $user->email;
+      $courseReq->phone        = $user->phone;
+      $courseReq->checked_in   = 0;
+      $courseReq->company_id   = $company_id;
+      // $courseReq->attended_status =  0;
+      $courseReq->save();
+    } else {
+      return response()->json(['status' => false, 'message' =>  'Course already requested.']);
+    }
 
-
-    return response()->json(['status' => true, 'data' =>  'Banner request stored.']);
+    return response()->json(['status' => true, 'message' =>  'Course request stored.']);
   }
 
   public function webinar(Request $request)

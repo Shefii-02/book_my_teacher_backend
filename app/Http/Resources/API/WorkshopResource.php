@@ -16,7 +16,7 @@ class WorkshopResource extends JsonResource
             'slug'          => $this->slug,
 
             'thumbnail_url'     => $this->thumbnail_image_url,
-            'image_url'         => $this->main_image_url,
+            'main_image_url'         => $this->main_image_url,
 
             'started_at'    => $this->started_at,
             'ended_at'      => $this->ended_at,

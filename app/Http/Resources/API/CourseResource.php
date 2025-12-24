@@ -13,8 +13,9 @@ class CourseResource extends JsonResource
       'id'                => $this->id,
       'title'             => $this->title,
 
-      'thumbnail_url' => $this->thumbnail_image ? asset('storage/' . $this->thumbnail_image) : null,
-      'main_image_url' => $this->main_image ? asset('storage/' . $this->main_image) : null,
+
+      'thumbnail_url' => $this->thumbnail_url ? asset('storage/' . $this->thumbnail_url) : null,
+      'main_image_url' => $this->main_image_url ? asset('storage/' . $this->main_image_url) : null,
 
       'description'       => $this->description,
       'notes'             => $this->notes,

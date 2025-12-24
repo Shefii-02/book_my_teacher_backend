@@ -74,6 +74,10 @@ class Course extends Model
   }
 
 
+  public function institute(){
+        return $this->hasOne(TeacherCourse::class);
+  }
+
 
   public function teacherCourses()
   {

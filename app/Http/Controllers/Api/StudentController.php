@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\API\CourseResource;
+use App\Http\Resources\API\WorkshopResource;
+use App\Http\Resources\API\WebinarResource;
 use App\Http\Resources\BannerResource;
 use App\Http\Resources\SubjectResource;
 use App\Http\Resources\TeacherResource;
@@ -438,38 +441,85 @@ class StudentController extends Controller
     })->values();
 
 
-    $courses = Course::where('company_id',1)->get()
-        ->map(function ($item) {
-            $item->is_enrolled = false; // or dynamic check
-            return $item;
-        });
+    // $courses = Course::where('company_id',1)->get()
+    //     ->map(function ($item) {
+    //         $item->is_enrolled = false; // or dynamic check
+    //         return $item;
+    //     });
 
-    $webinars = Webinar::where('company_id',1)->whereIn('status',['scheduled','completed'])->get()
-        ->map(function ($item) {
-            $item->is_enrolled = false;
-            return $item;
-        });
+    // $webinars = Webinar::where('company_id',1)->whereIn('status',['scheduled','completed'])->get()
+    //     ->map(function ($item) {
+    //         $item->is_enrolled = false;
+    //         return $item;
+    //     });
 
-    $workshops = Workshop::where('company_id',1)->get()
-        ->map(function ($item) {
-            $item->is_enrolled = false;
-            return $item;
-        });
+    // $workshops = Workshop::where('company_id',1)->get()
+    //     ->map(function ($item) {
+    //         $item->is_enrolled = false;
+    //         return $item;
+    //     });
+
+    // $data = collect([
+    //     [
+    //         'category' => 'Course',
+    //         'items' => $courses,
+    //     ],
+    //     [
+    //         'category' => 'Webinar',
+    //         'items' => $webinars,
+    //     ],
+    //     [
+    //         'category' => 'Workshop',
+    //         'items' => $workshops,
+    //     ],
+    // ])->filter(fn ($group) => $group['items']->isNotEmpty())
+    //   ->values();
+
+    $courses = Course::with('institute')
+      ->where('company_id', 1)
+      ->get()
+      // ->map(fn($c) => tap($c)->is_enrolled = false);
+      ->map(function ($item) {
+        $item->is_enrolled = false; // or dynamic check
+        return $item;
+      });
+
+
+
+    $webinars = Webinar::where('company_id', 1)
+      ->whereIn('status', ['scheduled', 'completed'])
+      ->get()
+      ->map(function ($item) {
+        $item->is_enrolled = false; // or dynamic check
+        return $item;
+      });
+
+
+    // ->map(fn($w) => tap($w)->is_enrolled = false);
+
+    $workshops = Workshop::where('company_id', 1)
+      ->get()
+      ->map(function ($item) {
+        $item->is_enrolled = false; // or dynamic check
+        return $item;
+      });
+      // ->map(fn($w) => tap($w)->is_enrolled = false);
+
 
     $data = collect([
-        [
-            'category' => 'Course',
-            'items' => $courses,
-        ],
-        [
-            'category' => 'Webinar',
-            'items' => $webinars,
-        ],
-        [
-            'category' => 'Workshop',
-            'items' => $workshops,
-        ],
-    ])->filter(fn ($group) => $group['items']->isNotEmpty())
+      [
+        'category' => 'Course',
+        'items'    => CourseResource::collection($courses),
+      ],
+      [
+        'category' => 'Webinar',
+        'items'    => WebinarResource::collection($webinars),
+      ],
+      [
+        'category' => 'Workshop',
+        'items'    => WorkshopResource::collection($workshops),
+      ],
+    ])->filter(fn($g) => $g['items']->isNotEmpty())
       ->values();
 
     return response()->json([

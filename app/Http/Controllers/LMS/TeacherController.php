@@ -585,8 +585,8 @@ public function exportTeachers(Request $request)
       $teacher->save();
 
 
-      if($newStatus = 'completed'){
-        $teacherProfile = Teacher::where('user_id',$teacher->id)->where('company_id',$teacher->id)->first();
+      if($newStatus = 'verified'){
+        $teacherProfile = Teacher::where('user_id',$teacher->id)->where('company_id',auth()->user()->company_id)->first();
         if(!$teacherProfile){
           $teacherProfile           = new Teacher();
           $teacherProfile->user_id  = $teacher->id;

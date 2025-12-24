@@ -103,7 +103,7 @@ class RequestController extends Controller
       $workshopReq->phone        = $user->phone;
       $workshopReq->checked_in   = 0;
       $workshopReq->company_id   = $company_id;
-      $workshopReq->attended_status =  0;
+      // $workshopReq->attended_status =  0;
       $workshopReq->save();
     } else {
       return response()->json(['status' => false, 'message' =>  'Workshop already requested.']);

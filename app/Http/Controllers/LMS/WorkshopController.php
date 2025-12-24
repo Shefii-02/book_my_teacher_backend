@@ -42,7 +42,7 @@ class WorkshopController extends Controller
   public function create()
   {
     $company_id = auth()->user()->company_id;
-    $teachers = Teacher::with('user')
+    $teachers = Teacher::with('user')->whereHas('user')
       ->where('company_id', $company_id)
       ->get()
       ->map(function ($teacher) {
@@ -70,7 +70,7 @@ class WorkshopController extends Controller
       });
 
     $users = $teachers->merge($guestTeachers)->values();
-dd($users);
+
     $providers = StreamProvider::all();
     return view('company.workshops.form', compact('users', 'providers'));
   }

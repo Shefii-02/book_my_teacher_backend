@@ -67,7 +67,7 @@ class RequestController extends Controller
       $courseReq->user_id      = $user->id;
       $courseReq->name         = $user->name;
       $courseReq->email        = $user->email;
-      $courseReq->phone        = $user->phone;
+      $courseReq->phone        = $user->mobile;
       $courseReq->checked_in   = 0;
       $courseReq->company_id   = $company_id;
       // $courseReq->attended_status =  0;
@@ -91,7 +91,7 @@ class RequestController extends Controller
       $webinarReq->user_id      = $user->id;
       $webinarReq->name         = $user->name;
       $webinarReq->email        = $user->email;
-      $webinarReq->phone        = $user->phone;
+      $webinarReq->phone        = $user->mobile;
       $webinarReq->checked_in   = 0;
       $webinarReq->company_id   = $company_id;
       $webinarReq->attended_status =  0;
@@ -116,7 +116,7 @@ class RequestController extends Controller
       $workshopReq->user_id      = $user->id;
       $workshopReq->name         = $user->name;
       $workshopReq->email        = $user->email;
-      $workshopReq->phone        = $user->phone;
+      $workshopReq->phone        = $user->mobile;
       $workshopReq->checked_in   = 0;
       $workshopReq->company_id   = $company_id;
       // $workshopReq->attended_status =  0;

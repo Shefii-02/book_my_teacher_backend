@@ -42,35 +42,69 @@ class WorkshopController extends Controller
   public function create()
   {
     $company_id = auth()->user()->company_id;
-    $teachers = Teacher::with('user')->whereHas('user')
-      ->where('company_id', $company_id)
-      ->get()
-      ->map(function ($teacher) {
-        return [
-          'id'        => $teacher->id,
-          'type'      => 'teacher',
-          'name'      => $teacher->user->name ?? null,
-          'email'     => $teacher->user->email ?? null,
-          'user_id'   => $teacher->user->id ?? null,
-        ];
-      });
+    // $teachers = Teacher::with('user')->whereHas('user')
+    //   ->where('company_id', $company_id)
+    //   ->get()
+    //   ->map(function ($teacher) {
+    //     return [
+    //       'id'        => $teacher->id,
+    //       'type'      => 'teacher',
+    //       'name'      => $teacher->user->name ?? null,
+    //       'email'     => $teacher->user->email ?? null,
+    //       'user_id'   => $teacher->user->id ?? null,
+    //     ];
+    //   });
 
-    $guestTeachers = User::where('acc_type', 'guest_teacher')
-      ->where('company_id', $company_id)
-      // ->where('status', 1)
-      ->get()
-      ->map(function ($user) {
-        return [
-          'id'        => $user->id,
-          'type'      => 'guest_teacher',
-          'name'      => $user->name,
-          'email'     => $user->email,
-          'user_id'   => $user->id,
-        ];
-      });
+    // $guestTeachers = User::where('acc_type', 'guest_teacher')
+    //   ->where('company_id', $company_id)
+    //   // ->where('status', 1)
+    //   ->get()
+    //   ->map(function ($user) {
+    //     return [
+    //       'id'        => $user->id,
+    //       'type'      => 'guest_teacher',
+    //       'name'      => $user->name,
+    //       'email'     => $user->email,
+    //       'user_id'   => $user->id,
+    //     ];
+    //   });
 
-    $users = $teachers->merge($guestTeachers)->values();
-dd($users);
+$users = collect()
+
+    ->merge(
+        Teacher::with('user')
+            ->whereHas('user')
+            ->where('company_id', $company_id)
+            ->get()
+            ->map(function ($teacher) {
+                return [
+                    'id'      => $teacher->id,
+                    'type'    => 'teacher',
+                    'name'    => $teacher->user->name ?? null,
+                    'email'   => $teacher->user->email ?? null,
+                    'user_id' => $teacher->user->id ?? null,
+                ];
+            })
+    )
+
+    ->merge(
+        User::where('acc_type', 'guest_teacher')
+            ->where('company_id', $company_id)
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'id'      => $user->id,
+                    'type'    => 'guest_teacher',
+                    'name'    => $user->name,
+                    'email'   => $user->email,
+                    'user_id' => $user->id,
+                ];
+            })
+    )
+
+    ->values();
+
+
     $providers = StreamProvider::all();
     return view('company.workshops.form', compact('users', 'providers'));
   }

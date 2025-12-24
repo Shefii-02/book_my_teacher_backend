@@ -11,6 +11,7 @@ use App\Http\Resources\SubjectResource;
 use App\Http\Resources\TeacherResource;
 use App\Models\CompanyTeacher;
 use App\Models\Course;
+use App\Models\CourseRegistration;
 use App\Models\MediaFile;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -18,7 +19,10 @@ use App\Models\Teacher;
 use App\Models\TopBanner;
 use App\Models\User;
 use App\Models\Webinar;
+use App\Models\WebinarRegistration;
 use App\Models\Workshop;
+use App\Models\WorkshopRegistration;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -541,7 +545,154 @@ class StudentController extends Controller
 
 
 
-  public function myClasses(): JsonResponse
+public function myClasses(Request $request): JsonResponse
+{
+    $user = $request->user();
+    $today = Carbon::today();
+
+    $sections = [
+        'Ongoing' => [],
+        'Completed' => [],
+        'Pending Started Courses' => [],
+        'Pending Approval' => [],
+    ];
+
+    // 🔹 Mapper
+    $mapItem = function ($model, $type) {
+        return [
+            'id'          => $model->id,
+            'title'       => $model->title,
+            'description' => $model->description,
+            'image'       => $model->banner_image ?? null,
+            'duration'    => $model->duration ?? null,
+            'level'       => $model->level ?? null,
+            'type'        => $type,
+            'join_link'   => $model->join_link ?? null,
+        ];
+    };
+
+    /**
+     * --------------------------------
+     * WEBINARS
+     * --------------------------------
+     */
+    WebinarRegistration::with('webinar')
+        ->where('user_id', $user->id)
+        ->get()
+        ->each(function ($reg) use (&$sections, $today, $mapItem) {
+
+            if (!$reg->webinar) return;
+
+            $webinar = $reg->webinar;
+
+            if ($reg->checked_in == 0) {
+                $sections['Pending Approval'][] = $mapItem($webinar, 'webinar');
+                return;
+            }
+
+            if ($webinar->start_date > $today) {
+                $sections['Pending Started Courses'][] = $mapItem($webinar, 'webinar');
+                return;
+            }
+
+            if ($webinar->start_date <= $today && $webinar->end_date >= $today) {
+                $sections['Ongoing'][] = $mapItem($webinar, 'webinar');
+                return;
+            }
+
+            if ($webinar->end_date < $today) {
+                $sections['Completed'][] = $mapItem($webinar, 'webinar');
+            }
+        });
+
+    /**
+     * --------------------------------
+     * COURSES
+     * --------------------------------
+     */
+    CourseRegistration::with('course')
+        ->where('user_id', $user->id)
+        ->get()
+        ->each(function ($reg) use (&$sections, $today, $mapItem) {
+
+            if (!$reg->course) return;
+
+            $course = $reg->course;
+
+            if ($reg->checked_in == 0) {
+                $sections['Pending Approval'][] = $mapItem($course, 'course');
+                return;
+            }
+
+            if ($course->start_date > $today) {
+                $sections['Pending Started Courses'][] = $mapItem($course, 'course');
+                return;
+            }
+
+            if ($course->start_date <= $today && $course->end_date >= $today) {
+                $sections['Ongoing'][] = $mapItem($course, 'course');
+                return;
+            }
+
+            if ($course->end_date < $today) {
+                $sections['Completed'][] = $mapItem($course, 'course');
+            }
+        });
+
+    /**
+     * --------------------------------
+     * WORKSHOPS
+     * --------------------------------
+     */
+    WorkshopRegistration::with('workshop')
+        ->where('user_id', $user->id)
+        ->get()
+        ->each(function ($reg) use (&$sections, $today, $mapItem) {
+
+            if (!$reg->workshop) return;
+
+            $workshop = $reg->workshop;
+
+            if ($reg->checked_in == 0) {
+                $sections['Pending Approval'][] = $mapItem($workshop, 'workshop');
+                return;
+            }
+
+            if ($workshop->start_date > $today) {
+                $sections['Pending Started Courses'][] = $mapItem($workshop, 'workshop');
+                return;
+            }
+
+            if ($workshop->start_date <= $today && $workshop->end_date >= $today) {
+                $sections['Ongoing'][] = $mapItem($workshop, 'workshop');
+                return;
+            }
+
+            if ($workshop->end_date < $today) {
+                $sections['Completed'][] = $mapItem($workshop, 'workshop');
+            }
+        });
+
+    return response()->json([
+        'status'  => true,
+        'message' => 'My classes fetched successfully',
+        'data' => [
+            'categories' => [
+                [
+                    'sections' => collect($sections)->map(function ($items, $status) {
+                        return [
+                            'status' => $status,
+                            'items'  => array_values($items),
+                        ];
+                    })->values()
+                ]
+            ]
+        ]
+    ]);
+}
+
+
+  public function myClasses2(): JsonResponse
   {
     $data = [
       'categories' => [

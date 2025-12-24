@@ -133,7 +133,7 @@ class CourseController extends Controller
         }
 
         // --- Attach Categories & Subcategories ---
-        if ($request->filled('categories')) {
+        if ($request->filled('categories') && count($request->categories) > 0) {
           $syncData = [];
           foreach ($request->categories as $catData) {
             $syncData[$catData['category_id']] = [

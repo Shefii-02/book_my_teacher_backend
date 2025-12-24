@@ -81,10 +81,10 @@ class RequestController extends Controller
       $webinarReq->attended_status =  0;
       $webinarReq->save();
     } else {
-      return response()->json(['status' => false, 'data' =>  'Webinar already requested.']);
+      return response()->json(['status' => false, 'message' =>  'Webinar already requested.']);
     }
 
-    return response()->json(['status' => true, 'data' =>  'Webinar request stored.']);
+    return response()->json(['status' => true, 'message' =>  'Webinar request stored.']);
   }
 
   public function workshop(Request $request)
@@ -106,10 +106,10 @@ class RequestController extends Controller
       $workshopReq->attended_status =  0;
       $workshopReq->save();
     } else {
-      return response()->json(['status' => false, 'data' =>  'Workshop already requested.']);
+      return response()->json(['status' => false, 'message' =>  'Workshop already requested.']);
     }
 
-    return response()->json(['status' => true, 'data' =>  'Workshop request stored.']);
+    return response()->json(['status' => true, 'message' =>  'Workshop request stored.']);
   }
 
 

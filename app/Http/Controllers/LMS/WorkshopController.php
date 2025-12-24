@@ -70,7 +70,7 @@ class WorkshopController extends Controller
       });
 
     $users = $teachers->merge($guestTeachers)->values();
-dd($users);
+
     $providers = StreamProvider::all();
     return view('company.workshops.form', compact('users', 'providers'));
   }

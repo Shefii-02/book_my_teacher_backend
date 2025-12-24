@@ -104,7 +104,7 @@ $users = collect()
 
     ->values();
 
-
+dd($users);
     $providers = StreamProvider::all();
     return view('company.workshops.form', compact('users', 'providers'));
   }

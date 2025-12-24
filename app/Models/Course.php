@@ -116,6 +116,13 @@ class Course extends Model
 
 
 
+  public function registrations()
+  {
+    return $this->hasMany(CourseRegistration::class);
+  }
+
+
+
   public function getValidityAttribute()
   {
     $start = Carbon::parse($this->started_at)->format('d-M-Y');

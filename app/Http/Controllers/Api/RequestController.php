@@ -68,13 +68,14 @@ class RequestController extends Controller
     $company_id = 1;
     Log::info("📢 webinar Request:", $request->all());
     $user                     = $request->user();
-    $webinarReq               = new WebinarRegistration();
+    $webinarReq               = new WorkshopRegistration();
     $webinarReq->webinar_id   = $request->webinar_id;
     $webinarReq->user_id      = $user->id;
     $webinarReq->name         = $user->name;
     $webinarReq->email        = $user->email;
     $webinarReq->phone        = $user->phone;
     $webinarReq->checked_in   = 0;
+    $webinarReq->company_id   = $company_id;
     $webinarReq->attended_status =  0;
     $webinarReq->save();
 
@@ -93,6 +94,7 @@ class RequestController extends Controller
     $webinarReq->email        = $user->email;
     $webinarReq->phone        = $user->phone;
     $webinarReq->checked_in   = 0;
+    $webinarReq->company_id   = $company_id;
     $webinarReq->attended_status =  0;
     $webinarReq->save();
 

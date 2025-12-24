@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\LMS;
 
 use App\Models\Workshop;
@@ -6,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Models\StreamProvider;
+use App\Models\Teacher;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +41,36 @@ class WorkshopController extends Controller
 
   public function create()
   {
-    $users = User::where('acc_type','teacher')->where('status',1)->where('account_status','verified')->where('company_id',1)->get();
+    $company_id = auth()->user()->company_id;
+    $teachers = Teacher::with('user')
+      ->where('company_id', $company_id)
+      ->get()
+      ->map(function ($teacher) {
+        return [
+          'id'        => $teacher->id,
+          'type'      => 'teacher',
+          'name'      => $teacher->user->name ?? null,
+          'email'     => $teacher->user->email ?? null,
+          'user_id'   => $teacher->user->id ?? null,
+        ];
+      });
+
+    $guestTeachers = User::where('acc_type', 'guest_teacher')
+      ->where('company_id', $company_id)
+      ->where('status', 1)
+      ->get()
+      ->map(function ($user) {
+        return [
+          'id'        => $user->id,
+          'type'      => 'guest_teacher',
+          'name'      => $user->name,
+          'email'     => $user->email,
+          'user_id'   => $user->id,
+        ];
+      });
+
+    $users = $teachers->merge($guestTeachers)->values();
+
     $providers = StreamProvider::all();
     return view('company.workshops.form', compact('users', 'providers'));
   }
@@ -53,7 +84,7 @@ class WorkshopController extends Controller
       'slug' => 'nullable|string|unique:workshops,slug',
       'description' => 'nullable|string',
       'host_id' => 'nullable|exists:users,id',
-            'stream_provider_id' => 'nullable|exists:stream_providers,id',
+      'stream_provider_id' => 'nullable|exists:stream_providers,id',
       'thumbnail_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
       'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
       'started_at' => 'nullable|date',

@@ -117,4 +117,5 @@ class Webinar extends Model
     return $this->mainImageMedia ? asset('storage/' . $this->mainImageMedia->file_path) : null;
   }
 
+
 }

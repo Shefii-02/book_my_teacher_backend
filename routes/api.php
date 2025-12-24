@@ -48,7 +48,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/bottom-social-links', 'UserController@bottomSocialLinks');
 
-  Route::get('/provide-courses', 'StudentController@courseStore');
+
 
   // Route::get('/bottom-social-links', function () {
   //   $socials = [
@@ -208,6 +208,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/notifications', 'NotificationController@notifications');
     Route::post('/notifications/mark-read/{id}', 'NotificationController@markRead');
+
+    Route::get('/provide-courses', 'StudentController@courseStore');
 
     // Route::post('top-banner/submit', function (Request $request) {
     //   Log::info('📢 Top Banner Request:', $request->all());

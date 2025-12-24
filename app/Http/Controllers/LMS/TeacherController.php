@@ -5,6 +5,7 @@ namespace App\Http\Controllers\LMS;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\MediaFile;
+use App\Models\Teacher;
 use App\Models\TeacherGrade;
 use App\Models\TeacherProfessionalInfo;
 use App\Models\TeacherWorkingDay;
@@ -303,7 +304,6 @@ public function exportTeachers(Request $request)
 
   public function store(Request $request)
   {
-
     DB::beginTransaction();
     $company_id = auth()->user()->company_id;
 
@@ -324,10 +324,7 @@ public function exportTeachers(Request $request)
       ));
     }
 
-
     Log::info($request->all());
-
-
     try {
       // 1️⃣ Create or Update User
       $user = User::create(
@@ -577,6 +574,7 @@ public function exportTeachers(Request $request)
         $teacher->account_status = 'completed';
       }
 
+
       // if ($request->filled('acccount_notes')) {
       $teacher->notes = $request->acccount_notes;
       // }
@@ -586,6 +584,17 @@ public function exportTeachers(Request $request)
 
       $teacher->save();
 
+
+      if($newStatus = 'completed'){
+        $teacherProfile = Teacher::where('user_id',$teacher->id)->where('company_id',$teacher->id)->first();
+        if(!$teacherProfile){
+          $teacherProfile = new Teacher();
+          $teacherProfile->user_id = $teacher->id;
+          $teacherProfile->company_id = auth()->user()->company_id;
+          $teacherProfile->published = 0;
+          $teacherProfile->save();
+        }
+      }
 
 
       // 2️⃣ Professional Info (updateOrCreate to avoid duplicates)

@@ -13,7 +13,7 @@ class CourseRegistration extends Model
         'course_id','user_id','name','email','phone','checked_in'
     ];
 
-    public function courses()
+    public function course()
     {
         return $this->belongsTo(Course::class);
     }

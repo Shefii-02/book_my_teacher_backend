@@ -144,6 +144,7 @@ class WorkshopController extends Controller
 
   public function edit(Workshop $workshop)
   {
+    $company_id = auth()->user()->company_id;
     // $users = User::all();
      $teachers = Teacher::with('user')->whereHas('user')
       ->where('company_id', $company_id)

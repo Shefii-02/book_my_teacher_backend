@@ -378,7 +378,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/my-classes', 'StudentController@myClasses');
     Route::post('class-detail', 'StudentController@fetchClassDetail');
 
-    Route::post('/teacher-home', 'TeacherController@home');
+
+    Route::post('/logout', 'UserController@userLogout');
+
+    Route::post('/account/delete-request', 'UserController@deleteAccountRequest');
+
+
+    Route::post('/student/performance', 'StudentController@performance');
+
+
+    ////////////////////////////////Teacher Section///////////////////////////////////////
+    Route::post('/teacher/schedule', 'TeacherController@schedule');
+     Route::post('/teacher-home', 'TeacherController@home');
     Route::post('/teacher-update-personal', 'TeacherController@teacherUpdatePersonal');
     Route::post('/teacher-update-teaching-detail', 'TeacherController@teacherUpdateTeachingDetail');
     Route::post('/teacher-update-cv', 'TeacherController@teacherUpdateCv');
@@ -405,22 +416,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/teacher/achievement-level', 'TeacherController@achievementLevel');
 
-    Route::post('/teacher/own-courses', 'TeacherController@ownCourses');
+    // Route::post('/teacher/own-courses', 'TeacherController@ownCourses');
+     Route::post('/teacher/own-courses', 'TeacherController@courseStore');
+
 
 
     Route::get('/teacher/performance', 'TeacherController@performance');
 
 
-    Route::post('/logout', 'UserController@userLogout');
-
-    Route::post('/account/delete-request', 'UserController@deleteAccountRequest');
-
-
-    Route::post('/student/performance', 'StudentController@performance');
-
-
-    ////////////////////////////////Teacher Section///////////////////////////////////////
-    Route::post('/teacher/schedule', 'TeacherController@schedule');
 
 
     ///////////////////////////////////////////////////////////////////////

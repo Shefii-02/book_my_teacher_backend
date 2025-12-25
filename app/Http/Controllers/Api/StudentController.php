@@ -1042,7 +1042,7 @@ class StudentController extends Controller
 
   public function fetchClassDetail(Request $request): JsonResponse
   {
-    $id = $request->all();
+    $id = $request->course_id;
 
     $course = Course::where('id', $id)->first();
     // Dummy class data
@@ -1130,7 +1130,7 @@ class StudentController extends Controller
 
   public function fetchWebinarDetail(Request $request): JsonResponse
   {
-    $id = $request->all();
+    $id = $request->webinar_id;
 
     $course = Webinar::where('id', $id)->first();
     // Dummy class data
@@ -1196,7 +1196,7 @@ class StudentController extends Controller
   }
   public function fetchWorkshopDetail(Request $request): JsonResponse
   {
-    $id = $request->all();
+    $id = $request->workshop_id;
 
     $course = Workshop::where('id', $id)->first();
     // Dummy class data

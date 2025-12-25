@@ -1208,6 +1208,7 @@ class StudentController extends Controller
         'recorded_video' => '',
         'join_link' => '',
       ],
+
     ];
 
     return response()->json([

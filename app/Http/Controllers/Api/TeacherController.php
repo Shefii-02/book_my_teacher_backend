@@ -791,7 +791,7 @@ class TeacherController extends Controller
 
 
     return response()->json([
-      // "courses" => [
+      "courses" => [
       //   [
       //     "course_id" => 1,
       //     "course_name" => "Flutter Basics",
@@ -907,7 +907,7 @@ class TeacherController extends Controller
       //       ],
           // ]
         // ]
-      // ]
+      ]
     ]);
   }
 

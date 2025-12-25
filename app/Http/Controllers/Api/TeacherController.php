@@ -1087,13 +1087,13 @@ class TeacherController extends Controller
       'status' => true,
       'message' => 'Achievement level fetched',
       'data' => [
-        'current_level' => 2,
-        'current_points' => 2200,
-        'next_level' => 3,
+        'current_level' => 1,
+        'current_points' => 0, //5200
+        'next_level' => 2,
         'points_to_reach_next' => 6000,
         'points_needed_for_next' => 3800, // 6000 - 5200
         'tasks' => [
-          ['title' => 'Complete Daily Practice', 'completed' => true],
+          ['title' => 'Complete Daily Practice', 'completed' => false],
           ['title' => 'Attend Live Class', 'completed' => false],
         ]
       ]

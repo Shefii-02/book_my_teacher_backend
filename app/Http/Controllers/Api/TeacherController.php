@@ -791,123 +791,123 @@ class TeacherController extends Controller
 
 
     return response()->json([
-      "courses" => [
-        [
-          "course_id" => 1,
-          "course_name" => "Flutter Basics",
-          "average_rating" => 4.5,
-          "total_reviews" => 2,
-          "reviews" => [
-            [
-              "name" => "Alice",
-              "rating" => 5.0,
-              "comment" => "Excellent!",
-              "date" => "2025-11-10",
-            ],
-            [
-              "name" => "Bob",
-              "rating" => 4.0,
-              "comment" => "Very helpful",
-              "date" => "2025-11-11",
-            ],
-          ]
-        ],
-        [
-          "course_id" => 10,
-          "course_name" => "Basics",
-          "average_rating" => 0,
-          "total_reviews" => 0,
-          "reviews" => []
-        ],
-        [
-          "course_id" => 2,
-          "course_name" => "Laravel Advanced",
-          "average_rating" => 4.2,
-          "total_reviews" => 2,
-          "reviews" => [
-            [
-              "name" => "Charlie",
-              "rating" => 4.5,
-              "comment" => "Good explanations",
-              "date" => "2025-11-12",
-            ],
-            [
-              "name" => "David",
-              "rating" => 4.0,
-              "comment" => "Learned a lot",
-              "date" => "2025-11-13",
-            ],
-          ]
-        ],
-        [
-          "course_id" => 3,
-          "course_name" => "MEAN STACK",
-          "average_rating" => 4.8,
-          "total_reviews" => 10,
-          "reviews" => [
-            [
-              "name" => "Charlie",
-              "rating" => 4.5,
-              "comment" => "Good explanations",
-              "date" => "2025-11-12",
-            ],
-            [
-              "name" => "David",
-              "rating" => 4.0,
-              "comment" => "Learned a lot",
-              "date" => "2025-11-13",
-            ],
-            [
-              "name" => "Charlie",
-              "rating" => 4.5,
-              "comment" => "Good explanations",
-              "date" => "2025-11-12",
-            ],
-            [
-              "name" => "David",
-              "rating" => 4.0,
-              "comment" => "Learned a lot",
-              "date" => "2025-11-13",
-            ],
-            [
-              "name" => "Charlie",
-              "rating" => 4.5,
-              "comment" => "Good explanations",
-              "date" => "2025-11-12",
-            ],
-            [
-              "name" => "David",
-              "rating" => 4.0,
-              "comment" => "Learned a lot",
-              "date" => "2025-11-13",
-            ],
-            [
-              "name" => "Charlie",
-              "rating" => 4.5,
-              "comment" => "Good explanations",
-              "date" => "2025-11-12",
-            ],
-            [
-              "name" => "David",
-              "rating" => 4.0,
-              "comment" => "Learned a lot",
-              "date" => "2025-11-13",
-            ],
-            [
-              "name" => "Charlie",
-              "rating" => 4.5,
-              "comment" => "Good explanations",
-              "date" => "2025-11-12",
-            ],
-            [
-              "name" => "David",
-              "rating" => 4.0,
-              "comment" => "Learned a lot",
-              "date" => "2025-11-13",
-            ],
-          ]
-        ]
-      ]
+      // "courses" => [
+      //   [
+      //     "course_id" => 1,
+      //     "course_name" => "Flutter Basics",
+      //     "average_rating" => 4.5,
+      //     "total_reviews" => 2,
+      //     "reviews" => [
+      //       [
+      //         "name" => "Alice",
+      //         "rating" => 5.0,
+      //         "comment" => "Excellent!",
+      //         "date" => "2025-11-10",
+      //       ],
+      //       [
+      //         "name" => "Bob",
+      //         "rating" => 4.0,
+      //         "comment" => "Very helpful",
+      //         "date" => "2025-11-11",
+      //       ],
+      //     ]
+      //   ],
+      //   [
+      //     "course_id" => 10,
+      //     "course_name" => "Basics",
+      //     "average_rating" => 0,
+      //     "total_reviews" => 0,
+      //     "reviews" => []
+      //   ],
+      //   [
+      //     "course_id" => 2,
+      //     "course_name" => "Laravel Advanced",
+      //     "average_rating" => 4.2,
+      //     "total_reviews" => 2,
+      //     "reviews" => [
+      //       [
+      //         "name" => "Charlie",
+      //         "rating" => 4.5,
+      //         "comment" => "Good explanations",
+      //         "date" => "2025-11-12",
+      //       ],
+      //       [
+      //         "name" => "David",
+      //         "rating" => 4.0,
+      //         "comment" => "Learned a lot",
+      //         "date" => "2025-11-13",
+      //       ],
+      //     ]
+      //   ],
+      //   [
+      //     "course_id" => 3,
+      //     "course_name" => "MEAN STACK",
+      //     "average_rating" => 4.8,
+      //     "total_reviews" => 10,
+      //     "reviews" => [
+      //       [
+      //         "name" => "Charlie",
+      //         "rating" => 4.5,
+      //         "comment" => "Good explanations",
+      //         "date" => "2025-11-12",
+      //       ],
+      //       [
+      //         "name" => "David",
+      //         "rating" => 4.0,
+      //         "comment" => "Learned a lot",
+      //         "date" => "2025-11-13",
+      //       ],
+      //       [
+      //         "name" => "Charlie",
+      //         "rating" => 4.5,
+      //         "comment" => "Good explanations",
+      //         "date" => "2025-11-12",
+      //       ],
+      //       [
+      //         "name" => "David",
+      //         "rating" => 4.0,
+      //         "comment" => "Learned a lot",
+      //         "date" => "2025-11-13",
+      //       ],
+      //       [
+      //         "name" => "Charlie",
+      //         "rating" => 4.5,
+      //         "comment" => "Good explanations",
+      //         "date" => "2025-11-12",
+      //       ],
+      //       [
+      //         "name" => "David",
+      //         "rating" => 4.0,
+      //         "comment" => "Learned a lot",
+      //         "date" => "2025-11-13",
+      //       ],
+      //       [
+      //         "name" => "Charlie",
+      //         "rating" => 4.5,
+      //         "comment" => "Good explanations",
+      //         "date" => "2025-11-12",
+      //       ],
+      //       [
+      //         "name" => "David",
+      //         "rating" => 4.0,
+      //         "comment" => "Learned a lot",
+      //         "date" => "2025-11-13",
+      //       ],
+      //       [
+      //         "name" => "Charlie",
+      //         "rating" => 4.5,
+      //         "comment" => "Good explanations",
+      //         "date" => "2025-11-12",
+      //       ],
+      //       [
+      //         "name" => "David",
+      //         "rating" => 4.0,
+      //         "comment" => "Learned a lot",
+      //         "date" => "2025-11-13",
+      //       ],
+          // ]
+        // ]
+      // ]
     ]);
   }
 

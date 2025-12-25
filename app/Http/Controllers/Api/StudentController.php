@@ -1065,9 +1065,36 @@ class StudentController extends Controller
 
     // Dummy related classes
     $classList = [
-      ['id' => 101, 'title' => 'Flutter Intermediate', 'teacher' => 'Jane Smith'],
-      ['id' => 102, 'title' => 'Dart Advanced Concepts', 'teacher' => 'Mark Allen'],
+      [
+        'id' => '1',
+        'title' => 'Welcome & Setup',
+        'status' => 'completed',
+        'teacher' => 'Mark Allen',
+        'date_time' => '2025-10-01T10:00:00Z',
+        'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
+        'join_link' => '',
+      ],
+      [
+        'id' => '1',
+        'title' => 'Welcome & Setup',
+        'status' => 'ongoing',
+        'teacher' => 'Mark Allen',
+        'date_time' => '2025-10-01T10:00:00Z',
+        'recorded_video' => '',
+        'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
+      ],
+      [
+        'id' => '1',
+        'title' => 'Welcome & Setup',
+        'status' => 'upcoming',
+        'teacher' => 'Mark Allen',
+        'date_time' => '2025-10-01T10:00:00Z',
+        'recorded_video' => '',
+        'join_link' => '',
+      ],
+
     ];
+
 
     return response()->json([
       'status' => true,

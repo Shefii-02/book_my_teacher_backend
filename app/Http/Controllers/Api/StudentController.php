@@ -1107,15 +1107,6 @@ class StudentController extends Controller
     ]);
 
 
-    return response()->json([
-      'status' => true,
-      'message' => 'Class details fetched successfully',
-      'data' => [
-        'class_detail' => $classDetail,
-        'materials' => $materials,
-        'classes' => $classList,
-      ],
-    ]);
 
 
     // $course = Course::with([
@@ -1139,65 +1130,19 @@ class StudentController extends Controller
 
   public function fetchWebinarDetail(Request $request): JsonResponse
   {
-    $id = $request->courseId;
+    $id = $request->all();
+
+    $course = Webinar::where('id', $id)->first();
     // Dummy class data
     $classDetail = [
       'id' => $id,
-      'title' => 'Flutter Beginner Class',
-      'description' => 'Learn Flutter from scratch — covering widgets, layouts, navigation, and API integration.',
-      'teacher_name' => 'John Doe',
+      'title' => $course->title,
+      'description' => $course->description ?? '',
+      'teacher_name' => 'John Doe2',
       'category' => 'Mobile Development',
-      'price' => 499,
+      'price' => $course->net_price,
       'duration' => '8 weeks',
-      'thumbnail' => asset('images/flutter_class.jpg'),
-    ];
-
-    // Dummy class materials
-    $materials = [
-      ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
-      ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
-    ];
-
-    // Dummy related classes
-    $classList = [
-      ['id' => 101, 'title' => 'Flutter Intermediate', 'teacher' => 'Jane Smith'],
-      ['id' => 102, 'title' => 'Dart Advanced Concepts', 'teacher' => 'Mark Allen'],
-    ];
-
-    return response()->json([
-      'status' => true,
-      'message' => 'Class details fetched successfully',
-      'data' => [
-        'class_detail' => $classDetail,
-        'materials' => $materials,
-        'classes' => $classList,
-      ],
-    ]);
-
-
-    return response()->json([
-      'status' => true,
-      'message' => 'Class details fetched successfully',
-      'data' => [
-        'class_detail' => $classDetail,
-        'materials' => $materials,
-        'classes' => $classList,
-      ],
-    ]);
-  }
-  public function fetchWorkshopDetail(Request $request): JsonResponse
-  {
-    $id = $request->courseId;
-    // Dummy class data
-    $classDetail = [
-      'id' => $id,
-      'title' => 'Flutter Beginner Class',
-      'description' => 'Learn Flutter from scratch — covering widgets, layouts, navigation, and API integration.',
-      'teacher_name' => 'John Doe',
-      'category' => 'Mobile Development',
-      'price' => 499,
-      'duration' => '8 weeks',
-      'thumbnail' => asset('images/flutter_class.jpg'),
+      'thumbnail' => $course->main_image_url,
     ];
 
     // Dummy class materials
@@ -1238,6 +1183,7 @@ class StudentController extends Controller
 
     ];
 
+
     return response()->json([
       'status' => true,
       'message' => 'Class details fetched successfully',
@@ -1247,6 +1193,61 @@ class StudentController extends Controller
         'classes' => $classList,
       ],
     ]);
+  }
+  public function fetchWorkshopDetail(Request $request): JsonResponse
+  {
+    $id = $request->all();
+
+    $course = Workshop::where('id', $id)->first();
+    // Dummy class data
+    $classDetail = [
+      'id' => $id,
+      'title' => $course->title,
+      'description' => $course->description ?? '',
+      'teacher_name' => 'John Doe2',
+      'category' => 'Mobile Development',
+      'price' => $course->net_price,
+      'duration' => '8 weeks',
+      'thumbnail' => $course->main_image_url,
+    ];
+
+    // Dummy class materials
+    $materials = [
+      ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
+      ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
+    ];
+
+    // Dummy related classes
+    $classList = [
+      [
+        'id' => '1',
+        'title' => 'Welcome & Setup',
+        'status' => 'completed',
+        'teacher' => 'Mark Allen',
+        'date_time' => '2025-10-01T10:00:00Z',
+        'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
+        'join_link' => '',
+      ],
+      [
+        'id' => '1',
+        'title' => 'Welcome & Setup',
+        'status' => 'ongoing',
+        'teacher' => 'Mark Allen',
+        'date_time' => '2025-10-01T10:00:00Z',
+        'recorded_video' => '',
+        'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
+      ],
+      [
+        'id' => '1',
+        'title' => 'Welcome & Setup',
+        'status' => 'upcoming',
+        'teacher' => 'Mark Allen',
+        'date_time' => '2025-10-01T10:00:00Z',
+        'recorded_video' => '',
+        'join_link' => '',
+      ],
+
+    ];
 
 
     return response()->json([

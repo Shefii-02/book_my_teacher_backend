@@ -13,6 +13,7 @@ class ClassDoubtController extends Controller
   public function CourseClassDoubts(Request $request)
   {
     $user = $request->user();
+    dd($request->all());
     $doubt = CourseClassDoubt::create([
       'user_id' => $user->id,
       'class_id' => $request->class_id,
@@ -32,7 +33,7 @@ class ClassDoubtController extends Controller
   {
     $user = $request->user();
 
-
+    dd($request->all());
     $doubt = WorkshopClassDoubt::create([
       'user_id' => $user->id,
       'class_id' => $request->class_id,
@@ -52,7 +53,7 @@ class ClassDoubtController extends Controller
   {
     $user = $request->user();
 
-
+    dd($request->all());
     $doubt = WebinarClassDoubt::create([
       'user_id' => $user->id,
       'class_id' => $request->class_id,

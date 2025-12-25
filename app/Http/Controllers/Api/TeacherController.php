@@ -507,49 +507,54 @@ class TeacherController extends Controller
   {
     Log::info($request->all());
     // Dummy data: replace with DB queries
-    $upcoming = [
-      [
-        "id" => 11,
-        "title" => "Flutter Basics",
-        "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
-        "start_date" => "2025-11-20",
-        "start_time" => "10:00 AM",
-        "duration" => 60,
-        "total_classes" => 20,
-        "completed_classes" => 5
-      ],
-    ];
+    // $upcoming = [
+    //   [
+    //     "id" => 11,
+    //     "title" => "Flutter Basics",
+    //     "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
+    //     "start_date" => "2025-11-20",
+    //     "start_time" => "10:00 AM",
+    //     "duration" => 60,
+    //     "total_classes" => 20,
+    //     "completed_classes" => 5
+    //   ],
+    // ];
 
-    $ongoing = [
-      [
-        "id" => 12,
-        "title" => "React Native Live",
-        "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-2.png"),
-        "start_date" => "2025-11-13",
-        "start_time" => "01:00 PM",
-        "duration" => 120,
-        "total_classes" => 10,
-        "completed_classes" => 3
-      ],
-    ];
+    // $ongoing = [
+    //   [
+    //     "id" => 12,
+    //     "title" => "React Native Live",
+    //     "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-2.png"),
+    //     "start_date" => "2025-11-13",
+    //     "start_time" => "01:00 PM",
+    //     "duration" => 120,
+    //     "total_classes" => 10,
+    //     "completed_classes" => 3
+    //   ],
+    // ];
 
-    $completed = [
-      [
-        "id" => 13,
-        "title" => "Python for Beginners",
-        "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-3.png"),
-        "start_date" => "2025-11-10",
-        "start_time" => "03:00 PM",
-        "duration" => 90,
-        "total_classes" => 12,
-        "completed_classes" => 12
-      ],
-    ];
+    // $completed = [
+    //   [
+    //     "id" => 13,
+    //     "title" => "Python for Beginners",
+    //     "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-3.png"),
+    //     "start_date" => "2025-11-10",
+    //     "start_time" => "03:00 PM",
+    //     "duration" => 90,
+    //     "total_classes" => 12,
+    //     "completed_classes" => 12
+    //   ],
+    // ];
 
+    // return response()->json([
+    //   'upcoming' => $upcoming,
+    //   'ongoing' => $ongoing,
+    //   'completed' => $completed,
+    // ]);
     return response()->json([
-      'upcoming' => $upcoming,
-      'ongoing' => $ongoing,
-      'completed' => $completed,
+      'upcoming' => [],
+      'ongoing' => [],
+      'completed' => [],
     ]);
   }
 

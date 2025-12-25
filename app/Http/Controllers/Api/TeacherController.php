@@ -341,11 +341,56 @@ class TeacherController extends Controller
     //   "events"    => $events,
     // ]);
 
-     return response()->json([
+    return response()->json([
       "month" => $month,
       "first_day" => $start->toDateString(),
       "last_day" => $end->toDateString(),
-      "events" => [],
+      "events" => [
+        "2026-02-10" => [
+          [
+            "id" => 1,
+            "type" => "Individual Class",
+            "topic" => "Basic Algebra Introduction",
+            "description" => "Understanding variables, equations, and basic algebraic expressions.",
+            "time_start" => "10:00",
+            "time_end" => "11:00",
+            "duration" => 60,
+            "course_id" => 12,
+            "class_link" => "https://zoom.us/abc123",
+            "meeting_password" => "xyz123",
+            "host_name" => "John Mathew",
+            "class_status" => "upcoming",
+            "attendance_required" => true,
+            "subject_name" => "Mathematics",
+            "thumbnail_url" => "https://example.com/thumb1.jpg",
+            "class_type" => "online",
+            "source" => "zoom",
+            "location" => "Online",
+            "students" => 10
+          ],
+          [
+            "id" => 2,
+            "type" => "Own Course Class",
+            "topic" => "Chapter 5 - Heat & Temperature",
+            "description" => "Explaining core physics concepts using real-life examples.",
+            "time_start" => "14:00",
+            "time_end" => "15:30",
+            "duration" => 90,
+            "course_id" => 4,
+            "class_link" => null,
+            "meeting_password" => null,
+            "host_name" => "Teacher A",
+            "class_status" => "completed",
+            "attendance_required" => false,
+            "subject_name" => "Physics",
+            "thumbnail_url" => "https://example.com/thumb2.jpg",
+            "class_type" => "offline",
+            "location" => "Classroom A",
+            "source" => "gmeet",
+            "students" => 18
+          ]
+        ],
+      ],
     ]);
   }
 

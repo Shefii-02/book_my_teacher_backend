@@ -7,12 +7,15 @@ use App\Http\Resources\UserResource;
 use App\Models\CompanyTeacher;
 use App\Models\MediaFile;
 use App\Models\Teacher;
+use App\Models\TeacherClass;
 use App\Models\TeacherGrade;
 use App\Models\TeacherProfessionalInfo;
 use App\Models\TeacherWorkingDay;
 use App\Models\TeacherWorkingHour;
 use App\Models\TeachingSubject;
 use App\Models\User;
+use App\Models\Webinar;
+use App\Models\Workshop;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +24,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Collection;
 
 class TeacherController extends Controller
 {
@@ -287,124 +291,216 @@ class TeacherController extends Controller
     }
   }
 
-
-
   public function schedule(Request $request)
   {
+    $user = $request->user();
 
     $month = now()->format('Y-m');
-
-    // $start = Carbon::parse($month)->startOfMonth();
-    // $end = Carbon::parse($month)->endOfMonth();
-
     $start = Carbon::parse($month)->subMonths(2)->startOfMonth();
-    $end   = Carbon::parse($month)->addMonth(2)->endOfMonth();
+    $end   = Carbon::parse($month)->addMonths(2)->endOfMonth();
 
+    /* ---------------------------------
+     | Webinar Classes (host_id)
+     |----------------------------------*/
+    // $webinars = Webinar::where('host_id', $user->id)
+    //   ->whereBetween('date', [$start, $end])
+    //   ->get()
+    //   ->map(fn($w) => $this->formatEvent($w, 'Webinar'));
 
-    // 🔥 Dummy data — Replace with DB query later
-    $dummyEvents = [
-      "2025-11-10" => [
-        [
-          "id" => 1,
-          "type" => "Individual Class",
-          "topic" => "Basic Algebra Introduction",
-          "description" => "Understanding variables, equations, and basic algebraic expressions.",
-          "time_start" => "10:00",
-          "time_end" => "11:00",
-          "duration" => 60,
-          "course_id" => 12,
-          "class_link" => "https://zoom.us/abc123",
-          "meeting_password" => "xyz123",
-          "host_name" => "John Mathew",
-          "class_status" => "upcoming",
-          "attendance_required" => true,
-          "subject_name" => "Mathematics",
-          "thumbnail_url" => "https://example.com/thumb1.jpg",
-          "class_type" => "online",
-          "source" => "zoom",
-          "location" => "Online",
-          "students" => 10
-        ],
-        [
-          "id" => 2,
-          "type" => "Own Course Class",
-          "topic" => "Chapter 5 - Heat & Temperature",
-          "description" => "Explaining core physics concepts using real-life examples.",
-          "time_start" => "14:00",
-          "time_end" => "15:30",
-          "duration" => 90,
-          "course_id" => 4,
-          "class_link" => null,
-          "meeting_password" => null,
-          "host_name" => "Teacher A",
-          "class_status" => "completed",
-          "attendance_required" => false,
-          "subject_name" => "Physics",
-          "thumbnail_url" => "https://example.com/thumb2.jpg",
-          "class_type" => "offline",
-          "location" => "Classroom A",
-          "source" => "gmeet",
-          "students" => 18
-        ]
-      ],
+    /* ---------------------------------
+     | Workshop Classes (host_id)
+     |----------------------------------*/
+    // $workshops = Workshop::where('host_id', $user->id)
+    //   ->whereBetween('date', [$start, $end])
+    //   ->get()
+    //   ->map(fn($w) => $this->formatEvent($w, 'Workshop'));
 
-      "2025-11-12" => [
-        [
-          "id" => 5,
-          "type" => "Webinar",
-          "topic" => "Career Growth in Tech",
-          "description" => "How to build your profile and get a tech job in 2025.",
-          "time_start" => "18:00",
-          "time_end" => "20:00",
-          "duration" => 120,
-          "course_id" => null,
-          "class_link" => "https://meet.google.com/jkl987",
-          "meeting_password" => "abc456",
-          "host_name" => "Admin - BookMyTeacher",
-          "class_status" => "live",
-          "attendance_required" => false,
-          "subject_name" => "General Guidance",
-          "thumbnail_url" => "https://example.com/webinar.jpg",
-          "class_type" => "online",
-          "source" => "gmeet",
-          "location" => "Online",
-          "students" => 55
-        ]
-      ],
+    /* ---------------------------------
+     | Course / Individual Classes
+     | teacher_classes.teacher_id
+     |----------------------------------*/
+    // $courses = TeacherClass::where('teacher_id', $user->id)
+    //                         ->whereBetween('date', [$start, $end])
+    //                         ->get()
+    //                         ->map(fn($c) => $this->formatEvent($c, 'Course Class'));
 
-      "2025-11-15" => [
-        [
-          "id" => 9,
-          "type" => "Workshop",
-          "topic" => "Robotics Hands-on Workshop",
-          "description" => "Practicals on assembling a beginner-level robot.",
-          "time_start" => "11:00",
-          "time_end" => "13:00",
-          "duration" => 120,
-          "course_id" => 10,
-          "class_link" => null,
-          "meeting_password" => null,
-          "host_name" => "Dr. Reema",
-          "class_status" => "upcoming",
-          "attendance_required" => true,
-          "subject_name" => "Robotics",
-          "thumbnail_url" => "https://example.com/robotics.jpg",
-          "class_type" => "hybrid",
-          "source" => "",
-          "location" => "Hall 2",
-          "students" => 22
-        ]
-      ],
-    ];
+    /* ---------------------------------
+     | Merge & Group by Date
+     |----------------------------------*/
+    // $events = collect()
+    //   ->merge($webinars)
+    //   ->merge($workshops)
+    //   ->merge($courses)
+    //   ->groupBy('date')
+    //   ->sortKeys();
 
+    // return response()->json([
+    //   "month"      => $month,
+    //   "first_day" => $start->toDateString(),
+    //   "last_day"  => $end->toDateString(),
+    //   "events"    => $events,
+    // ]);
 
-    return response()->json([
+     return response()->json([
       "month" => $month,
       "first_day" => $start->toDateString(),
       "last_day" => $end->toDateString(),
-      "events" => $dummyEvents,
+      "events" => [],
     ]);
   }
+
+  private function formatEvent($model, string $type): array
+  {
+    return [
+      "id" => $model->id,
+      "date" => $model->date,
+
+      "type" => $type,
+      "topic" => $model->title ?? $model->topic,
+      "description" => $model->description,
+
+      "time_start" => Carbon::parse($model->start_time)->format('H:i'),
+      "time_end" => Carbon::parse($model->end_time)->format('H:i'),
+      "duration" => $model->duration,
+
+      "course_id" => $model->course_id ?? null,
+
+      "class_link" => $model->meeting_link ?? null,
+      "meeting_password" => $model->meeting_password ?? null,
+
+      "host_name" => $model->host->name ?? $model->teacher->name ?? 'Admin',
+
+      "class_status" => $model->status, // upcoming | live | completed
+      "attendance_required" => (bool) ($model->attendance_required ?? false),
+
+      "subject_name" => $model->subject->name ?? null,
+      "thumbnail_url" => $model->thumbnail ?? null,
+
+      "class_type" => $model->mode ?? 'online',
+      "source" => $model->source ?? '',
+      "location" => $model->location ?? 'Online',
+
+      "students" => $model->students_count ?? 0,
+    ];
+  }
+
+
+  // public function schedule(Request $request)
+  // {
+
+  //   $month = now()->format('Y-m');
+
+  //   // $start = Carbon::parse($month)->startOfMonth();
+  //   // $end = Carbon::parse($month)->endOfMonth();
+
+  //   $start = Carbon::parse($month)->subMonths(2)->startOfMonth();
+  //   $end   = Carbon::parse($month)->addMonth(2)->endOfMonth();
+
+
+  //   // 🔥 Dummy data — Replace with DB query later
+  //   $dummyEvents = [
+  //     "2025-11-10" => [
+  //       [
+  //         "id" => 1,
+  //         "type" => "Individual Class",
+  //         "topic" => "Basic Algebra Introduction",
+  //         "description" => "Understanding variables, equations, and basic algebraic expressions.",
+  //         "time_start" => "10:00",
+  //         "time_end" => "11:00",
+  //         "duration" => 60,
+  //         "course_id" => 12,
+  //         "class_link" => "https://zoom.us/abc123",
+  //         "meeting_password" => "xyz123",
+  //         "host_name" => "John Mathew",
+  //         "class_status" => "upcoming",
+  //         "attendance_required" => true,
+  //         "subject_name" => "Mathematics",
+  //         "thumbnail_url" => "https://example.com/thumb1.jpg",
+  //         "class_type" => "online",
+  //         "source" => "zoom",
+  //         "location" => "Online",
+  //         "students" => 10
+  //       ],
+  //       [
+  //         "id" => 2,
+  //         "type" => "Own Course Class",
+  //         "topic" => "Chapter 5 - Heat & Temperature",
+  //         "description" => "Explaining core physics concepts using real-life examples.",
+  //         "time_start" => "14:00",
+  //         "time_end" => "15:30",
+  //         "duration" => 90,
+  //         "course_id" => 4,
+  //         "class_link" => null,
+  //         "meeting_password" => null,
+  //         "host_name" => "Teacher A",
+  //         "class_status" => "completed",
+  //         "attendance_required" => false,
+  //         "subject_name" => "Physics",
+  //         "thumbnail_url" => "https://example.com/thumb2.jpg",
+  //         "class_type" => "offline",
+  //         "location" => "Classroom A",
+  //         "source" => "gmeet",
+  //         "students" => 18
+  //       ]
+  //     ],
+
+  //     "2025-11-12" => [
+  //       [
+  //         "id" => 5,
+  //         "type" => "Webinar",
+  //         "topic" => "Career Growth in Tech",
+  //         "description" => "How to build your profile and get a tech job in 2025.",
+  //         "time_start" => "18:00",
+  //         "time_end" => "20:00",
+  //         "duration" => 120,
+  //         "course_id" => null,
+  //         "class_link" => "https://meet.google.com/jkl987",
+  //         "meeting_password" => "abc456",
+  //         "host_name" => "Admin - BookMyTeacher",
+  //         "class_status" => "live",
+  //         "attendance_required" => false,
+  //         "subject_name" => "General Guidance",
+  //         "thumbnail_url" => "https://example.com/webinar.jpg",
+  //         "class_type" => "online",
+  //         "source" => "gmeet",
+  //         "location" => "Online",
+  //         "students" => 55
+  //       ]
+  //     ],
+
+  //     "2025-11-15" => [
+  //       [
+  //         "id" => 9,
+  //         "type" => "Workshop",
+  //         "topic" => "Robotics Hands-on Workshop",
+  //         "description" => "Practicals on assembling a beginner-level robot.",
+  //         "time_start" => "11:00",
+  //         "time_end" => "13:00",
+  //         "duration" => 120,
+  //         "course_id" => 10,
+  //         "class_link" => null,
+  //         "meeting_password" => null,
+  //         "host_name" => "Dr. Reema",
+  //         "class_status" => "upcoming",
+  //         "attendance_required" => true,
+  //         "subject_name" => "Robotics",
+  //         "thumbnail_url" => "https://example.com/robotics.jpg",
+  //         "class_type" => "hybrid",
+  //         "source" => "",
+  //         "location" => "Hall 2",
+  //         "students" => 22
+  //       ]
+  //     ],
+  //   ];
+
+
+  //   return response()->json([
+  //     "month" => $month,
+  //     "first_day" => $start->toDateString(),
+  //     "last_day" => $end->toDateString(),
+  //     "events" => $dummyEvents,
+  //   ]);
+  // }
 
 
   public function courses(Request $request)

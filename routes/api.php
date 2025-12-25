@@ -190,7 +190,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('referral/stats', 'UserController@referralStats');
 
 
-    Route::post('/teacher/schedule', 'TeacherController@schedule');
+
 
     Route::post('top-banner/submit', 'RequestController@banner');
     Route::post('request-form/submit', 'RequestController@general');
@@ -419,7 +419,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/student/performance', 'StudentController@performance');
 
 
-    ///////////////////////////////////////////////////////////////////////
+    ////////////////////////////////Teacher Section///////////////////////////////////////
+    Route::post('/teacher/schedule', 'TeacherController@schedule');
+
+
     ///////////////////////////////////////////////////////////////////////
 
   });

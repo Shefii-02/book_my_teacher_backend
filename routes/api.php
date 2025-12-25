@@ -381,6 +381,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/workshop-detail', 'StudentController@fetchWorkshopDetail');
 
 
+
+
     Route::post('/logout', 'UserController@userLogout');
 
     Route::post('/account/delete-request', 'UserController@deleteAccountRequest');

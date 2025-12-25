@@ -381,6 +381,20 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/workshop-detail', 'StudentController@fetchWorkshopDetail');
 
 
+    // Route::get('/doubts', [ClassDoubtController::class, 'index']);
+    Route::post('/course-class-doubts', 'ClassDoubtController@CourseClassDoubts');
+
+
+    // Route::get('/doubts', [ClassDoubtController::class, 'index']);
+    Route::post('/workshop-class-doubts', 'ClassDoubtController@WorskshopClassDoubts');
+
+
+    // Route::get('/doubts', [ClassDoubtController::class, 'index']);
+    Route::post('/webinar-class-doubts', 'ClassDoubtController@WebinarClassDoubts');
+
+
+
+
 
 
     Route::post('/logout', 'UserController@userLogout');

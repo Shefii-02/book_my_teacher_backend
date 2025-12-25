@@ -1042,7 +1042,7 @@ class StudentController extends Controller
 
   public function fetchClassDetail(Request $request): JsonResponse
   {
-        Log::info($request->all());
+    Log::info($request->all());
     $id = $request->course_id;
 
     $course = Course::where('id', $id)->first();
@@ -1071,6 +1071,7 @@ class StudentController extends Controller
         'title' => 'Welcome & Setup',
         'status' => 'completed',
         'teacher' => 'Mark Allen',
+        'source'    => 'youtube',
         'date_time' => '2025-10-01T10:00:00Z',
         'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
         'join_link' => '',
@@ -1080,6 +1081,7 @@ class StudentController extends Controller
         'title' => 'Welcome & Setup',
         'status' => 'ongoing',
         'teacher' => 'Mark Allen',
+        'source'    => 'gmeet',
         'date_time' => '2025-10-01T10:00:00Z',
         'recorded_video' => '',
         'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
@@ -1089,6 +1091,7 @@ class StudentController extends Controller
         'title' => 'Welcome & Setup',
         'status' => 'upcoming',
         'teacher' => 'Mark Allen',
+        'source'    => '',
         'date_time' => '2025-10-01T10:00:00Z',
         'recorded_video' => '',
         'join_link' => '',
@@ -1144,7 +1147,7 @@ class StudentController extends Controller
       'category' => 'Mobile Development',
       'price' => $course->net_price,
       'duration' => '8 weeks',
-      'thumbnail' => asset('storage/'.$course->main_image),
+      'thumbnail' => asset('storage/' . $course->main_image),
     ];
 
     // Dummy class materials
@@ -1160,6 +1163,7 @@ class StudentController extends Controller
         'title' => 'Welcome & Setup',
         'status' => 'completed',
         'teacher' => 'Mark Allen',
+        'source'    => 'youtube',
         'date_time' => '2025-10-01T10:00:00Z',
         'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
         'join_link' => '',
@@ -1169,6 +1173,7 @@ class StudentController extends Controller
         'title' => 'Welcome & Setup',
         'status' => 'ongoing',
         'teacher' => 'Mark Allen',
+        'source'    => 'gmeet',
         'date_time' => '2025-10-01T10:00:00Z',
         'recorded_video' => '',
         'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
@@ -1178,6 +1183,7 @@ class StudentController extends Controller
         'title' => 'Welcome & Setup',
         'status' => 'upcoming',
         'teacher' => 'Mark Allen',
+        'source'    => '',
         'date_time' => '2025-10-01T10:00:00Z',
         'recorded_video' => '',
         'join_link' => '',
@@ -1198,7 +1204,7 @@ class StudentController extends Controller
   }
   public function fetchWorkshopDetail(Request $request): JsonResponse
   {
-        Log::info($request->all());
+    Log::info($request->all());
     $id = $request->workshop_id;
 
     $course = Workshop::where('id', $id)->first();
@@ -1211,7 +1217,7 @@ class StudentController extends Controller
       'category' => 'Mobile Development',
       'price' => $course->net_price,
       'duration' => '8 weeks',
-      'thumbnail' => asset('storage/'.$course->main_image),
+      'thumbnail' => asset('storage/' . $course->main_image),
     ];
 
     // Dummy class materials
@@ -1228,6 +1234,7 @@ class StudentController extends Controller
         'status' => 'completed',
         'teacher' => 'Mark Allen',
         'date_time' => '2025-10-01T10:00:00Z',
+        'source'    => 'youtube',
         'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
         'join_link' => '',
       ],
@@ -1237,6 +1244,7 @@ class StudentController extends Controller
         'status' => 'ongoing',
         'teacher' => 'Mark Allen',
         'date_time' => '2025-10-01T10:00:00Z',
+        'source'    => 'gmeet',
         'recorded_video' => '',
         'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
       ],
@@ -1245,6 +1253,7 @@ class StudentController extends Controller
         'title' => 'Welcome & Setup',
         'status' => 'upcoming',
         'teacher' => 'Mark Allen',
+        'source'    => '',
         'date_time' => '2025-10-01T10:00:00Z',
         'recorded_video' => '',
         'join_link' => '',

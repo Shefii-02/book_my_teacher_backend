@@ -7,13 +7,14 @@ use App\Models\CourseClassDoubt;
 use App\Models\WebinarClassDoubt;
 use App\Models\WorkshopClassDoubt;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ClassDoubtController extends Controller
 {
   public function CourseClassDoubts(Request $request)
   {
     $user = $request->user();
-    dd($request->all());
+    Log::info($request->all());
     $doubt = CourseClassDoubt::create([
       'user_id' => $user->id,
       'class_id' => $request->class_id,
@@ -33,7 +34,7 @@ class ClassDoubtController extends Controller
   {
     $user = $request->user();
 
-    dd($request->all());
+      Log::info($request->all());
     $doubt = WorkshopClassDoubt::create([
       'user_id' => $user->id,
       'class_id' => $request->class_id,
@@ -53,7 +54,7 @@ class ClassDoubtController extends Controller
   {
     $user = $request->user();
 
-    dd($request->all());
+   Log::info($request->all());
     $doubt = WebinarClassDoubt::create([
       'user_id' => $user->id,
       'class_id' => $request->class_id,

@@ -1144,7 +1144,7 @@ class StudentController extends Controller
       'category' => 'Mobile Development',
       'price' => $course->net_price,
       'duration' => '8 weeks',
-      'thumbnail' => $course->main_image_url,
+      'thumbnail' => asset('storage/'.$course->main_image),
     ];
 
     // Dummy class materials

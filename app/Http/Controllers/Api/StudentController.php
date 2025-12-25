@@ -482,9 +482,9 @@ class StudentController extends Controller
 
     $courses = Course::with('institute')
       ->where('company_id', 1)
-       ->with(['registrations' => function ($q) use ($user) {
+      ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
-    }])
+      }])
       ->get()
       // ->map(fn($c) => tap($c)->is_enrolled = false);
       ->map(function ($item) use ($user) {
@@ -496,9 +496,9 @@ class StudentController extends Controller
 
     $webinars = Webinar::where('company_id', 1)
       ->whereIn('status', ['scheduled', 'completed'])
-       ->with(['registrations' => function ($q) use ($user) {
+      ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
-    }])
+      }])
       ->get()
       ->map(function ($item) use ($user) {
         $item->is_enrolled = $item->registrations->isNotEmpty();
@@ -509,15 +509,15 @@ class StudentController extends Controller
     // ->map(fn($w) => tap($w)->is_enrolled = false);
 
     $workshops = Workshop::where('company_id', 1)
-     ->with(['registrations' => function ($q) use ($user) {
+      ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
-    }])
+      }])
       ->get()
       ->map(function ($item) use ($user) {
         $item->is_enrolled = $item->registrations->isNotEmpty();
         return $item;
       });
-      // ->map(fn($w) => tap($w)->is_enrolled = false);
+    // ->map(fn($w) => tap($w)->is_enrolled = false);
 
 
     $data = collect([
@@ -545,30 +545,30 @@ class StudentController extends Controller
 
 
 
-public function myClasses(Request $request): JsonResponse
-{
+  public function myClasses(Request $request): JsonResponse
+  {
     $user = $request->user();
     $today = Carbon::today();
 
     $sections = [
-        'Ongoing' => [],
-        'Completed' => [],
-        'Pending Started Courses' => [],
-        'Pending Approval' => [],
+      'Ongoing' => [],
+      'Completed' => [],
+      'Pending Started Courses' => [],
+      'Pending Approval' => [],
     ];
 
     // 🔹 Mapper
     $mapItem = function ($model, $type) {
-        return [
-            'id'          => $model->id,
-            'title'       => $model->title,
-            'description' => $model->description,
-            'image'       => $model->banner_image ?? null,
-            'duration'    => $model->duration ?? null,
-            'level'       => $model->level ?? null,
-            'type'        => $type,
-            'join_link'   => $model->join_link ?? null,
-        ];
+      return [
+        'id'          => $model->id,
+        'title'       => $model->title,
+        'description' => $model->description,
+        'image'       => $model->banner_image ?? null,
+        'duration'    => $model->duration ?? null,
+        'level'       => $model->level ?? null,
+        'type'        => $type,
+        'join_link'   => $model->join_link ?? null,
+      ];
     };
 
     /**
@@ -577,33 +577,33 @@ public function myClasses(Request $request): JsonResponse
      * --------------------------------
      */
     WebinarRegistration::with('webinar')
-        ->where('user_id', $user->id)
-        ->get()
-        ->each(function ($reg) use (&$sections, $today, $mapItem) {
+      ->where('user_id', $user->id)
+      ->get()
+      ->each(function ($reg) use (&$sections, $today, $mapItem) {
 
-            if (!$reg->webinar) return;
+        if (!$reg->webinar) return;
 
-            $webinar = $reg->webinar;
+        $webinar = $reg->webinar;
 
-            if ($reg->checked_in == 0) {
-                $sections['Pending Approval'][] = $mapItem($webinar, 'webinar');
-                return;
-            }
+        if ($reg->checked_in == 0) {
+          $sections['Pending Approval'][] = $mapItem($webinar, 'webinar');
+          return;
+        }
 
-            if ($webinar->start_date > $today) {
-                $sections['Pending Started Courses'][] = $mapItem($webinar, 'webinar');
-                return;
-            }
+        if ($webinar->start_date > $today) {
+          $sections['Pending Started Courses'][] = $mapItem($webinar, 'webinar');
+          return;
+        }
 
-            if ($webinar->start_date <= $today && $webinar->end_date >= $today) {
-                $sections['Ongoing'][] = $mapItem($webinar, 'webinar');
-                return;
-            }
+        if ($webinar->start_date <= $today && $webinar->end_date >= $today) {
+          $sections['Ongoing'][] = $mapItem($webinar, 'webinar');
+          return;
+        }
 
-            if ($webinar->end_date < $today) {
-                $sections['Completed'][] = $mapItem($webinar, 'webinar');
-            }
-        });
+        if ($webinar->end_date < $today) {
+          $sections['Completed'][] = $mapItem($webinar, 'webinar');
+        }
+      });
 
     /**
      * --------------------------------
@@ -611,33 +611,33 @@ public function myClasses(Request $request): JsonResponse
      * --------------------------------
      */
     CourseRegistration::with('course')
-        ->where('user_id', $user->id)
-        ->get()
-        ->each(function ($reg) use (&$sections, $today, $mapItem) {
+      ->where('user_id', $user->id)
+      ->get()
+      ->each(function ($reg) use (&$sections, $today, $mapItem) {
 
-            if (!$reg->course) return;
+        if (!$reg->course) return;
 
-            $course = $reg->course;
+        $course = $reg->course;
 
-            if ($reg->checked_in == 0) {
-                $sections['Pending Approval'][] = $mapItem($course, 'course');
-                return;
-            }
+        if ($reg->checked_in == 0) {
+          $sections['Pending Approval'][] = $mapItem($course, 'course');
+          return;
+        }
 
-            if ($course->start_date > $today) {
-                $sections['Pending Started Courses'][] = $mapItem($course, 'course');
-                return;
-            }
+        if ($course->start_date > $today) {
+          $sections['Pending Started Courses'][] = $mapItem($course, 'course');
+          return;
+        }
 
-            if ($course->start_date <= $today && $course->end_date >= $today) {
-                $sections['Ongoing'][] = $mapItem($course, 'course');
-                return;
-            }
+        if ($course->start_date <= $today && $course->end_date >= $today) {
+          $sections['Ongoing'][] = $mapItem($course, 'course');
+          return;
+        }
 
-            if ($course->end_date < $today) {
-                $sections['Completed'][] = $mapItem($course, 'course');
-            }
-        });
+        if ($course->end_date < $today) {
+          $sections['Completed'][] = $mapItem($course, 'course');
+        }
+      });
 
     /**
      * --------------------------------
@@ -645,51 +645,51 @@ public function myClasses(Request $request): JsonResponse
      * --------------------------------
      */
     WorkshopRegistration::with('workshop')
-        ->where('user_id', $user->id)
-        ->get()
-        ->each(function ($reg) use (&$sections, $today, $mapItem) {
+      ->where('user_id', $user->id)
+      ->get()
+      ->each(function ($reg) use (&$sections, $today, $mapItem) {
 
-            if (!$reg->workshop) return;
+        if (!$reg->workshop) return;
 
-            $workshop = $reg->workshop;
+        $workshop = $reg->workshop;
 
-            if ($reg->checked_in == 0) {
-                $sections['Pending Approval'][] = $mapItem($workshop, 'workshop');
-                return;
-            }
+        if ($reg->checked_in == 0) {
+          $sections['Pending Approval'][] = $mapItem($workshop, 'workshop');
+          return;
+        }
 
-            if ($workshop->start_date > $today) {
-                $sections['Pending Started Courses'][] = $mapItem($workshop, 'workshop');
-                return;
-            }
+        if ($workshop->start_date > $today) {
+          $sections['Pending Started Courses'][] = $mapItem($workshop, 'workshop');
+          return;
+        }
 
-            if ($workshop->start_date <= $today && $workshop->end_date >= $today) {
-                $sections['Ongoing'][] = $mapItem($workshop, 'workshop');
-                return;
-            }
+        if ($workshop->start_date <= $today && $workshop->end_date >= $today) {
+          $sections['Ongoing'][] = $mapItem($workshop, 'workshop');
+          return;
+        }
 
-            if ($workshop->end_date < $today) {
-                $sections['Completed'][] = $mapItem($workshop, 'workshop');
-            }
-        });
+        if ($workshop->end_date < $today) {
+          $sections['Completed'][] = $mapItem($workshop, 'workshop');
+        }
+      });
 
     return response()->json([
-        'status'  => true,
-        'message' => 'My classes fetched successfully',
-        'data' => [
-            'categories' => [
-                [
-                    'sections' => collect($sections)->map(function ($items, $status) {
-                        return [
-                            'status' => $status,
-                            'items'  => array_values($items),
-                        ];
-                    })->values()
-                ]
-            ]
+      'status'  => true,
+      'message' => 'My classes fetched successfully',
+      'data' => [
+        'categories' => [
+          [
+            'sections' => collect($sections)->map(function ($items, $status) {
+              return [
+                'status' => $status,
+                'items'  => array_values($items),
+              ];
+            })->values()
+          ]
         ]
+      ]
     ]);
-}
+  }
 
 
   public function myClasses2(): JsonResponse
@@ -1155,7 +1155,125 @@ public function myClasses(Request $request): JsonResponse
         'classes' => $classList,
       ],
     ]);
+
+
+    // $course = Course::with([
+    //     'materials:id,course_id,title,file_url',
+    //     'classes:id,course_id,title,status,date_time,join_link,recorded_video'
+    // ])->findOrFail($id);
+
+    // return response()->json([
+    //     'class_detail' => [
+    //         'id' => $course->id,
+    //         'title' => $course->title,
+    //         'description' => $course->description,
+    //         'image' => $course->image_url,
+    //     ],
+    //     'materials' => $course->materials,
+    //     'classes' => $course->classes,
+    // ]);
   }
+
+
+
+  public function fetchWebinarDetail(Request $request): JsonResponse
+  {
+    $id = $request->courseId;
+    // Dummy class data
+    $classDetail = [
+      'id' => $id,
+      'title' => 'Flutter Beginner Class',
+      'description' => 'Learn Flutter from scratch — covering widgets, layouts, navigation, and API integration.',
+      'teacher_name' => 'John Doe',
+      'category' => 'Mobile Development',
+      'price' => 499,
+      'duration' => '8 weeks',
+      'thumbnail' => asset('images/flutter_class.jpg'),
+    ];
+
+    // Dummy class materials
+    $materials = [
+      ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
+      ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
+    ];
+
+    // Dummy related classes
+    $classList = [
+      ['id' => 101, 'title' => 'Flutter Intermediate', 'teacher' => 'Jane Smith'],
+      ['id' => 102, 'title' => 'Dart Advanced Concepts', 'teacher' => 'Mark Allen'],
+    ];
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Class details fetched successfully',
+      'data' => [
+        'class_detail' => $classDetail,
+        'materials' => $materials,
+        'classes' => $classList,
+      ],
+    ]);
+
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Class details fetched successfully',
+      'data' => [
+        'class_detail' => $classDetail,
+        'materials' => $materials,
+        'classes' => $classList,
+      ],
+    ]);
+  }
+  public function fetchWorkshopDetail(Request $request): JsonResponse
+  {
+        $id = $request->courseId;
+    // Dummy class data
+    $classDetail = [
+      'id' => $id,
+      'title' => 'Flutter Beginner Class',
+      'description' => 'Learn Flutter from scratch — covering widgets, layouts, navigation, and API integration.',
+      'teacher_name' => 'John Doe',
+      'category' => 'Mobile Development',
+      'price' => 499,
+      'duration' => '8 weeks',
+      'thumbnail' => asset('images/flutter_class.jpg'),
+    ];
+
+    // Dummy class materials
+    $materials = [
+      ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
+      ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
+    ];
+
+    // Dummy related classes
+    $classList = [
+      ['id' => 101, 'title' => 'Flutter Intermediate', 'teacher' => 'Jane Smith'],
+      ['id' => 102, 'title' => 'Dart Advanced Concepts', 'teacher' => 'Mark Allen'],
+    ];
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Class details fetched successfully',
+      'data' => [
+        'class_detail' => $classDetail,
+        'materials' => $materials,
+        'classes' => $classList,
+      ],
+    ]);
+
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Class details fetched successfully',
+      'data' => [
+        'class_detail' => $classDetail,
+        'materials' => $materials,
+        'classes' => $classList,
+      ],
+    ]);
+  }
+
+
 
   public function performance(Request $request)
   {

@@ -376,7 +376,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/student-home', 'StudentController@home');
     Route::post('/my-classes', 'StudentController@myClasses');
-    Route::post('class-detail', 'StudentController@fetchClassDetail');
+    Route::post('/class-detail', 'StudentController@fetchClassDetail');
+    Route::post('/webinar-detail', 'StudentController@fetchWebinarDetail');
+    Route::post('/workshop-detail', 'StudentController@fetchWorkshopDetail');
 
 
     Route::post('/logout', 'UserController@userLogout');

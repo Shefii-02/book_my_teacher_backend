@@ -341,7 +341,7 @@ class TeacherController extends Controller
     //   "events"    => $events,
     // ]);
 
-     return response()->json([
+    return response()->json([
       "month" => $month,
       "first_day" => $start->toDateString(),
       "last_day" => $end->toDateString(),
@@ -641,24 +641,23 @@ class TeacherController extends Controller
     ]);
   }
 
-
   private function getDummyStatistics()
   {
     return [
       "spend" => [
         "Last 2 Days" => [
-          "Individual"   => [5, 1],
-          "Own Courses"  => [3, 2],
-          "YouTube"      => [7, 3],
-          "Workshops"    => [2, 5],
-          "Webinar"      => [4, 7],
+          "Individual"   => [0, 0],
+          "Own Courses"  => [0, 0],
+          "YouTube"      => [0, 0],
+          "Workshops"    => [0, 0],
+          "Webinar"      => [0, 0],
         ],
         "Last 7 Days" => [
-          "Individual"   => [3, 6, 8, 7, 10, 9, 12],
-          "Own Courses"  => [2, 4, 5, 6, 7, 8, 9],
-          "YouTube"      => [5, 7, 8, 10, 9, 11, 13],
-          "Workshops"    => [1, 3, 2, 4, 3, 5, 4],
-          "Webinar"      => [2, 3, 4, 5, 6, 7, 8],
+          "Individual"   => [0, 0, 0, 0, 0, 0, 0],
+          "Own Courses"  => [0, 0, 0, 0, 0, 0, 0],
+          "YouTube"      => [0, 0, 0, 0, 0, 0, 0],
+          "Workshops"    => [0, 0, 0, 0, 0, 0, 0],
+          "Webinar"      => [0, 0, 0, 0, 0, 0, 0],
         ],
         "Current Month" => [
           "Individual"   => $this->generateSeries(14, 3, 1.2),
@@ -678,36 +677,103 @@ class TeacherController extends Controller
 
       "watch" => [
         "Last 2 Days" => [
-          "Individual"   => [2, 5],
-          "Own Courses"  => [4, 6],
-          "YouTube"      => [9, 1],
-          "Workshops"    => [3, 9],
-          "Webinar"      => [5, 3],
+          "Individual"   => [0, 0],
+          "Own Courses"  => [0, 0],
+          "YouTube"      => [0, 0],
+          "Workshops"    => [0, 0],
+          "Webinar"      => [0, 0],
         ],
         "Last 7 Days" => [
-          "Individual"   => [4, 5, 6, 8, 7, 6, 9],
-          "Own Courses"  => [3, 4, 5, 7, 6, 8, 10],
-          "YouTube"      => [6, 9, 10, 12, 11, 13, 15],
-          "Workshops"    => [2, 3, 4, 5, 6, 5, 7],
-          "Webinar"      => [3, 5, 6, 8, 9, 10, 12],
+          "Individual"   => [0, 0, 0, 0, 0, 0, 0],
+          "Own Courses"  => [0, 0, 0, 0, 0, 0, 0],
+          "YouTube"      => [0, 0, 0, 0, 0, 0, 0],
+          "Workshops"    => [0, 0, 0, 0, 0, 0, 0],
+          "Webinar"      => [0, 0, 0, 0, 0, 0, 0],
         ],
         "Current Month" => [
-          "Individual"   => $this->generateSeries(14, 2, 1.1),
-          "Own Courses"  => $this->generateSeries(14, 2, 1.3),
-          "YouTube"      => $this->generateSeries(14, 3, 1.8),
-          "Workshops"    => $this->generateSeries(14, 1, 1.0),
-          "Webinar"      => $this->generateSeries(14, 2, 1.4),
+          "Individual"   => $this->generateSeries(14, 2, 0),
+          "Own Courses"  => $this->generateSeries(14, 2, 0),
+          "YouTube"      => $this->generateSeries(14, 3, 0),
+          "Workshops"    => $this->generateSeries(14, 1, 0),
+          "Webinar"      => $this->generateSeries(14, 2, 0),
         ],
         "Last Month" => [
-          "Individual"   => $this->generateSeries(30, 3, 1.1),
-          "Own Courses"  => $this->generateSeries(30, 2, 1.2),
-          "YouTube"      => $this->generateSeries(30, 3, 1.6),
-          "Workshops"    => $this->generateSeries(30, 1, 0.9),
-          "Webinar"      => $this->generateSeries(30, 2, 1.3),
+          "Individual"   => $this->generateSeries(30, 3, 0),
+          "Own Courses"  => $this->generateSeries(30, 2, 0),
+          "YouTube"      => $this->generateSeries(30, 3, 0),
+          "Workshops"    => $this->generateSeries(30, 1, 0),
+          "Webinar"      => $this->generateSeries(30, 2, 0),
         ],
       ],
     ];
   }
+
+  // private function getDummyStatistics()
+  // {
+  //   return [
+  //     "spend" => [
+  //       "Last 2 Days" => [
+  //         "Individual"   => [5, 1],
+  //         "Own Courses"  => [3, 2],
+  //         "YouTube"      => [7, 3],
+  //         "Workshops"    => [2, 5],
+  //         "Webinar"      => [4, 7],
+  //       ],
+  //       "Last 7 Days" => [
+  //         "Individual"   => [3, 6, 8, 7, 10, 9, 12],
+  //         "Own Courses"  => [2, 4, 5, 6, 7, 8, 9],
+  //         "YouTube"      => [5, 7, 8, 10, 9, 11, 13],
+  //         "Workshops"    => [1, 3, 2, 4, 3, 5, 4],
+  //         "Webinar"      => [2, 3, 4, 5, 6, 7, 8],
+  //       ],
+  //       "Current Month" => [
+  //         "Individual"   => $this->generateSeries(14, 3, 1.2),
+  //         "Own Courses"  => $this->generateSeries(14, 2, 1.0),
+  //         "YouTube"      => $this->generateSeries(14, 3, 1.5),
+  //         "Workshops"    => $this->generateSeries(14, 1, 0.9),
+  //         "Webinar"      => $this->generateSeries(14, 2, 1.3),
+  //       ],
+  //       "Last Month" => [
+  //         "Individual"   => $this->generateSeries(30, 3, 0.9),
+  //         "Own Courses"  => $this->generateSeries(30, 2, 0.8),
+  //         "YouTube"      => $this->generateSeries(30, 3, 1.4),
+  //         "Workshops"    => $this->generateSeries(30, 1, 0.7),
+  //         "Webinar"      => $this->generateSeries(30, 2, 1.0),
+  //       ],
+  //     ],
+
+  //     "watch" => [
+  //       "Last 2 Days" => [
+  //         "Individual"   => [2, 5],
+  //         "Own Courses"  => [4, 6],
+  //         "YouTube"      => [9, 1],
+  //         "Workshops"    => [3, 9],
+  //         "Webinar"      => [5, 3],
+  //       ],
+  //       "Last 7 Days" => [
+  //         "Individual"   => [4, 5, 6, 8, 7, 6, 9],
+  //         "Own Courses"  => [3, 4, 5, 7, 6, 8, 10],
+  //         "YouTube"      => [6, 9, 10, 12, 11, 13, 15],
+  //         "Workshops"    => [2, 3, 4, 5, 6, 5, 7],
+  //         "Webinar"      => [3, 5, 6, 8, 9, 10, 12],
+  //       ],
+  //       "Current Month" => [
+  //         "Individual"   => $this->generateSeries(14, 2, 1.1),
+  //         "Own Courses"  => $this->generateSeries(14, 2, 1.3),
+  //         "YouTube"      => $this->generateSeries(14, 3, 1.8),
+  //         "Workshops"    => $this->generateSeries(14, 1, 1.0),
+  //         "Webinar"      => $this->generateSeries(14, 2, 1.4),
+  //       ],
+  //       "Last Month" => [
+  //         "Individual"   => $this->generateSeries(30, 3, 1.1),
+  //         "Own Courses"  => $this->generateSeries(30, 2, 1.2),
+  //         "YouTube"      => $this->generateSeries(30, 3, 1.6),
+  //         "Workshops"    => $this->generateSeries(30, 1, 0.9),
+  //         "Webinar"      => $this->generateSeries(30, 2, 1.3),
+  //       ],
+  //     ],
+  //   ];
+  // }
 
 
   private function generateSeries($count, $base, $multiplier)

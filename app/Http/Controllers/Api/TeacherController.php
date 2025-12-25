@@ -399,7 +399,7 @@ class TeacherController extends Controller
 
     // 🔥 Dummy data — Replace with DB query later
     $dummyEvents = [
-      "2025-11-10" => [
+      "2025-07-10" => [
         [
           "id" => 1,
           "type" => "Individual Class",
@@ -444,7 +444,7 @@ class TeacherController extends Controller
         ]
       ],
 
-      "2025-11-12" => [
+      "2025-07-12" => [
         [
           "id" => 5,
           "type" => "Webinar",
@@ -468,7 +468,7 @@ class TeacherController extends Controller
         ]
       ],
 
-      "2025-11-15" => [
+      "2025-07-15" => [
         [
           "id" => 9,
           "type" => "Workshop",

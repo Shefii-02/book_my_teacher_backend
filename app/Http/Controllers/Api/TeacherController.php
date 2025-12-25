@@ -956,33 +956,33 @@ class TeacherController extends Controller
         [
           "level" => 1,
           "is_unlocked" => true,
-          "progress" => 1.0,
+          "progress" => 0,
           "points_remaining" => 0,
           "tasks" => [
-            ["title" => "Complete 5 classes", "status" => "completed"],
-            ["title" => "Earn 20 reward points", "status" => "completed"],
+            ["title" => "Complete 5 classes", "status" => "pending"],
+            ["title" => "Referring 5 friends", "status" => "pending"],
           ]
         ],
-        [
-          "level" => 2,
-          "is_unlocked" => true,
-          "progress" => 0.65,
-          "points_remaining" => 400,
-          "tasks" => [
-            ["title" => "Teach 10 students", "status" => "ongoing"],
-            ["title" => "Maintain 4.5 rating", "status" => "ongoing"],
-          ]
-        ],
-        [
-          "level" => 3,
-          "is_unlocked" => false,
-          "progress" => 0.0,
-          "points_remaining" => 1200,
-          "tasks" => [
-            ["title" => "Complete 50 classes", "status" => "pending"],
-            ["title" => "Get 100 reviews", "status" => "pending"],
-          ]
-        ]
+        // [
+        //   "level" => 2,
+        //   "is_unlocked" => true,
+        //   "progress" => 0.65,
+        //   "points_remaining" => 400,
+        //   "tasks" => [
+        //     ["title" => "Teach 10 students", "status" => "ongoing"],
+        //     ["title" => "Maintain 4.5 rating", "status" => "ongoing"],
+        //   ]
+        // ],
+        // [
+        //   "level" => 3,
+        //   "is_unlocked" => false,
+        //   "progress" => 0.0,
+        //   "points_remaining" => 1200,
+        //   "tasks" => [
+        //     ["title" => "Complete 50 classes", "status" => "pending"],
+        //     ["title" => "Get 100 reviews", "status" => "pending"],
+        //   ]
+        // ]
       ]
     ]);
   }

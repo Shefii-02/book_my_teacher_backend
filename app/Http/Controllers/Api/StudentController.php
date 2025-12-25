@@ -1042,7 +1042,7 @@ class StudentController extends Controller
 
   public function fetchClassDetail(Request $request): JsonResponse
   {
-    $id = $request->course_id;
+    $id = $request->all();
     Log::info($id);
 
     // $classDetail = [

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\API\CourseResource;
+use App\Http\Resources\API\WorkshopResource;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\WebinarResource;
 use App\Models\CompanyTeacher;
+use App\Models\Course;
 use App\Models\MediaFile;
 use App\Models\Teacher;
 use App\Models\TeacherClass;
@@ -16,6 +20,7 @@ use App\Models\TeachingSubject;
 use App\Models\User;
 use App\Models\Webinar;
 use App\Models\Workshop;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -345,7 +350,7 @@ class TeacherController extends Controller
       "month" => $month,
       "first_day" => $start->toDateString(),
       "last_day" => $end->toDateString(),
-      "events" => [],
+      "events" => ["2025-11-10" => []],
     ]);
   }
 
@@ -792,120 +797,120 @@ class TeacherController extends Controller
 
     return response()->json([
       "courses" => [
-      //   [
-      //     "course_id" => 1,
-      //     "course_name" => "Flutter Basics",
-      //     "average_rating" => 4.5,
-      //     "total_reviews" => 2,
-      //     "reviews" => [
-      //       [
-      //         "name" => "Alice",
-      //         "rating" => 5.0,
-      //         "comment" => "Excellent!",
-      //         "date" => "2025-11-10",
-      //       ],
-      //       [
-      //         "name" => "Bob",
-      //         "rating" => 4.0,
-      //         "comment" => "Very helpful",
-      //         "date" => "2025-11-11",
-      //       ],
-      //     ]
-      //   ],
-      //   [
-      //     "course_id" => 10,
-      //     "course_name" => "Basics",
-      //     "average_rating" => 0,
-      //     "total_reviews" => 0,
-      //     "reviews" => []
-      //   ],
-      //   [
-      //     "course_id" => 2,
-      //     "course_name" => "Laravel Advanced",
-      //     "average_rating" => 4.2,
-      //     "total_reviews" => 2,
-      //     "reviews" => [
-      //       [
-      //         "name" => "Charlie",
-      //         "rating" => 4.5,
-      //         "comment" => "Good explanations",
-      //         "date" => "2025-11-12",
-      //       ],
-      //       [
-      //         "name" => "David",
-      //         "rating" => 4.0,
-      //         "comment" => "Learned a lot",
-      //         "date" => "2025-11-13",
-      //       ],
-      //     ]
-      //   ],
-      //   [
-      //     "course_id" => 3,
-      //     "course_name" => "MEAN STACK",
-      //     "average_rating" => 4.8,
-      //     "total_reviews" => 10,
-      //     "reviews" => [
-      //       [
-      //         "name" => "Charlie",
-      //         "rating" => 4.5,
-      //         "comment" => "Good explanations",
-      //         "date" => "2025-11-12",
-      //       ],
-      //       [
-      //         "name" => "David",
-      //         "rating" => 4.0,
-      //         "comment" => "Learned a lot",
-      //         "date" => "2025-11-13",
-      //       ],
-      //       [
-      //         "name" => "Charlie",
-      //         "rating" => 4.5,
-      //         "comment" => "Good explanations",
-      //         "date" => "2025-11-12",
-      //       ],
-      //       [
-      //         "name" => "David",
-      //         "rating" => 4.0,
-      //         "comment" => "Learned a lot",
-      //         "date" => "2025-11-13",
-      //       ],
-      //       [
-      //         "name" => "Charlie",
-      //         "rating" => 4.5,
-      //         "comment" => "Good explanations",
-      //         "date" => "2025-11-12",
-      //       ],
-      //       [
-      //         "name" => "David",
-      //         "rating" => 4.0,
-      //         "comment" => "Learned a lot",
-      //         "date" => "2025-11-13",
-      //       ],
-      //       [
-      //         "name" => "Charlie",
-      //         "rating" => 4.5,
-      //         "comment" => "Good explanations",
-      //         "date" => "2025-11-12",
-      //       ],
-      //       [
-      //         "name" => "David",
-      //         "rating" => 4.0,
-      //         "comment" => "Learned a lot",
-      //         "date" => "2025-11-13",
-      //       ],
-      //       [
-      //         "name" => "Charlie",
-      //         "rating" => 4.5,
-      //         "comment" => "Good explanations",
-      //         "date" => "2025-11-12",
-      //       ],
-      //       [
-      //         "name" => "David",
-      //         "rating" => 4.0,
-      //         "comment" => "Learned a lot",
-      //         "date" => "2025-11-13",
-      //       ],
-          // ]
+        //   [
+        //     "course_id" => 1,
+        //     "course_name" => "Flutter Basics",
+        //     "average_rating" => 4.5,
+        //     "total_reviews" => 2,
+        //     "reviews" => [
+        //       [
+        //         "name" => "Alice",
+        //         "rating" => 5.0,
+        //         "comment" => "Excellent!",
+        //         "date" => "2025-11-10",
+        //       ],
+        //       [
+        //         "name" => "Bob",
+        //         "rating" => 4.0,
+        //         "comment" => "Very helpful",
+        //         "date" => "2025-11-11",
+        //       ],
+        //     ]
+        //   ],
+        //   [
+        //     "course_id" => 10,
+        //     "course_name" => "Basics",
+        //     "average_rating" => 0,
+        //     "total_reviews" => 0,
+        //     "reviews" => []
+        //   ],
+        //   [
+        //     "course_id" => 2,
+        //     "course_name" => "Laravel Advanced",
+        //     "average_rating" => 4.2,
+        //     "total_reviews" => 2,
+        //     "reviews" => [
+        //       [
+        //         "name" => "Charlie",
+        //         "rating" => 4.5,
+        //         "comment" => "Good explanations",
+        //         "date" => "2025-11-12",
+        //       ],
+        //       [
+        //         "name" => "David",
+        //         "rating" => 4.0,
+        //         "comment" => "Learned a lot",
+        //         "date" => "2025-11-13",
+        //       ],
+        //     ]
+        //   ],
+        //   [
+        //     "course_id" => 3,
+        //     "course_name" => "MEAN STACK",
+        //     "average_rating" => 4.8,
+        //     "total_reviews" => 10,
+        //     "reviews" => [
+        //       [
+        //         "name" => "Charlie",
+        //         "rating" => 4.5,
+        //         "comment" => "Good explanations",
+        //         "date" => "2025-11-12",
+        //       ],
+        //       [
+        //         "name" => "David",
+        //         "rating" => 4.0,
+        //         "comment" => "Learned a lot",
+        //         "date" => "2025-11-13",
+        //       ],
+        //       [
+        //         "name" => "Charlie",
+        //         "rating" => 4.5,
+        //         "comment" => "Good explanations",
+        //         "date" => "2025-11-12",
+        //       ],
+        //       [
+        //         "name" => "David",
+        //         "rating" => 4.0,
+        //         "comment" => "Learned a lot",
+        //         "date" => "2025-11-13",
+        //       ],
+        //       [
+        //         "name" => "Charlie",
+        //         "rating" => 4.5,
+        //         "comment" => "Good explanations",
+        //         "date" => "2025-11-12",
+        //       ],
+        //       [
+        //         "name" => "David",
+        //         "rating" => 4.0,
+        //         "comment" => "Learned a lot",
+        //         "date" => "2025-11-13",
+        //       ],
+        //       [
+        //         "name" => "Charlie",
+        //         "rating" => 4.5,
+        //         "comment" => "Good explanations",
+        //         "date" => "2025-11-12",
+        //       ],
+        //       [
+        //         "name" => "David",
+        //         "rating" => 4.0,
+        //         "comment" => "Learned a lot",
+        //         "date" => "2025-11-13",
+        //       ],
+        //       [
+        //         "name" => "Charlie",
+        //         "rating" => 4.5,
+        //         "comment" => "Good explanations",
+        //         "date" => "2025-11-12",
+        //       ],
+        //       [
+        //         "name" => "David",
+        //         "rating" => 4.0,
+        //         "comment" => "Learned a lot",
+        //         "date" => "2025-11-13",
+        //       ],
+        // ]
         // ]
       ]
     ]);
@@ -1097,6 +1102,72 @@ class TeacherController extends Controller
           ['title' => 'Attend Live Class', 'completed' => false],
         ]
       ]
+    ]);
+  }
+
+  public function courseStore(Request $request): JsonResponse
+  {
+    $user = $request->user();
+    $courses = Course::with('institute')
+      ->where('company_id', 1)
+      ->with(['registrations' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      }])
+      ->get()
+      // ->map(fn($c) => tap($c)->is_enrolled = false);
+      ->map(function ($item) use ($user) {
+        $item->is_enrolled = $item->registrations->isNotEmpty();
+        return $item;
+      });
+
+
+
+    $webinars = Webinar::where('company_id', 1)
+      ->whereIn('status', ['scheduled', 'completed'])
+      ->with(['registrations' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      }])
+      ->get()
+      ->map(function ($item) use ($user) {
+        $item->is_enrolled = $item->registrations->isNotEmpty();
+        return $item;
+      });
+
+
+    // ->map(fn($w) => tap($w)->is_enrolled = false);
+
+    $workshops = Workshop::where('company_id', 1)
+      ->with(['registrations' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      }])
+      ->get()
+      ->map(function ($item) use ($user) {
+        $item->is_enrolled = $item->registrations->isNotEmpty();
+        return $item;
+      });
+    // ->map(fn($w) => tap($w)->is_enrolled = false);
+
+
+    $data = collect([
+      [
+        'category' => 'Course',
+        'items'    => CourseResource::collection($courses),
+      ],
+      [
+        'category' => 'Webinar',
+        'items'    => WebinarResource::collection($webinars),
+      ],
+      [
+        'category' => 'Workshop',
+        'items'    => WorkshopResource::collection($workshops),
+      ],
+    ])->filter(fn($g) => $g['items']->isNotEmpty())
+      ->values();
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Courses categorized successfully',
+      'data' => $data,
     ]);
   }
 

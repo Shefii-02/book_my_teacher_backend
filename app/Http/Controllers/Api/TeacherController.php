@@ -291,7 +291,7 @@ class TeacherController extends Controller
     }
   }
 
-  public function schedule2(Request $request)
+  public function schedule(Request $request)
   {
     $user = $request->user();
 
@@ -385,123 +385,122 @@ class TeacherController extends Controller
   }
 
 
-  public function schedule(Request $request)
-  {
+  // public function schedule(Request $request)
+  // {
 
-    $month = now()->format('Y-m');
+  //   $month = now()->format('Y-m');
 
-    // $start = Carbon::parse($month)->startOfMonth();
-    // $end = Carbon::parse($month)->endOfMonth();
+  //   // $start = Carbon::parse($month)->startOfMonth();
+  //   // $end = Carbon::parse($month)->endOfMonth();
 
-    $start = Carbon::parse($month)->subMonths(2)->startOfMonth();
-    $end   = Carbon::parse($month)->addMonth(2)->endOfMonth();
-
-
-    // 🔥 Dummy data — Replace with DB query later
-    $dummyEvents = [
-      []
-      // "2025-07-10" => [
-      //   [
-      //     "id" => 1,
-      //     "type" => "Individual Class",
-      //     "topic" => "Basic Algebra Introduction",
-      //     "description" => "Understanding variables, equations, and basic algebraic expressions.",
-      //     "time_start" => "10:00",
-      //     "time_end" => "11:00",
-      //     "duration" => 60,
-      //     "course_id" => 12,
-      //     "class_link" => "https://zoom.us/abc123",
-      //     "meeting_password" => "xyz123",
-      //     "host_name" => "John Mathew",
-      //     "class_status" => "upcoming",
-      //     "attendance_required" => true,
-      //     "subject_name" => "Mathematics",
-      //     "thumbnail_url" => "https://example.com/thumb1.jpg",
-      //     "class_type" => "online",
-      //     "source" => "zoom",
-      //     "location" => "Online",
-      //     "students" => 10
-      //   ],
-      //   [
-      //     "id" => 2,
-      //     "type" => "Own Course Class",
-      //     "topic" => "Chapter 5 - Heat & Temperature",
-      //     "description" => "Explaining core physics concepts using real-life examples.",
-      //     "time_start" => "14:00",
-      //     "time_end" => "15:30",
-      //     "duration" => 90,
-      //     "course_id" => 4,
-      //     "class_link" => null,
-      //     "meeting_password" => null,
-      //     "host_name" => "Teacher A",
-      //     "class_status" => "completed",
-      //     "attendance_required" => false,
-      //     "subject_name" => "Physics",
-      //     "thumbnail_url" => "https://example.com/thumb2.jpg",
-      //     "class_type" => "offline",
-      //     "location" => "Classroom A",
-      //     "source" => "gmeet",
-      //     "students" => 18
-      //   ]
-      // ],
-
-      // "2025-07-12" => [
-      //   [
-      //     "id" => 5,
-      //     "type" => "Webinar",
-      //     "topic" => "Career Growth in Tech",
-      //     "description" => "How to build your profile and get a tech job in 2025.",
-      //     "time_start" => "18:00",
-      //     "time_end" => "20:00",
-      //     "duration" => 120,
-      //     "course_id" => null,
-      //     "class_link" => "https://meet.google.com/jkl987",
-      //     "meeting_password" => "abc456",
-      //     "host_name" => "Admin - BookMyTeacher",
-      //     "class_status" => "live",
-      //     "attendance_required" => false,
-      //     "subject_name" => "General Guidance",
-      //     "thumbnail_url" => "https://example.com/webinar.jpg",
-      //     "class_type" => "online",
-      //     "source" => "gmeet",
-      //     "location" => "Online",
-      //     "students" => 55
-      //   ]
-      // ],
-
-      // "2025-07-15" => [
-      //   [
-      //     "id" => 9,
-      //     "type" => "Workshop",
-      //     "topic" => "Robotics Hands-on Workshop",
-      //     "description" => "Practicals on assembling a beginner-level robot.",
-      //     "time_start" => "11:00",
-      //     "time_end" => "13:00",
-      //     "duration" => 120,
-      //     "course_id" => 10,
-      //     "class_link" => null,
-      //     "meeting_password" => null,
-      //     "host_name" => "Dr. Reema",
-      //     "class_status" => "upcoming",
-      //     "attendance_required" => true,
-      //     "subject_name" => "Robotics",
-      //     "thumbnail_url" => "https://example.com/robotics.jpg",
-      //     "class_type" => "hybrid",
-      //     "source" => "",
-      //     "location" => "Hall 2",
-      //     "students" => 22
-      //   ]
-      // ],
-    ];
+  //   $start = Carbon::parse($month)->subMonths(2)->startOfMonth();
+  //   $end   = Carbon::parse($month)->addMonth(2)->endOfMonth();
 
 
-    return response()->json([
-      "month" => $month,
-      "first_day" => $start->toDateString(),
-      "last_day" => $end->toDateString(),
-      "events" => $dummyEvents,
-    ]);
-  }
+  //   // 🔥 Dummy data — Replace with DB query later
+  //   $dummyEvents = [
+  //     "2025-11-10" => [
+  //       [
+  //         "id" => 1,
+  //         "type" => "Individual Class",
+  //         "topic" => "Basic Algebra Introduction",
+  //         "description" => "Understanding variables, equations, and basic algebraic expressions.",
+  //         "time_start" => "10:00",
+  //         "time_end" => "11:00",
+  //         "duration" => 60,
+  //         "course_id" => 12,
+  //         "class_link" => "https://zoom.us/abc123",
+  //         "meeting_password" => "xyz123",
+  //         "host_name" => "John Mathew",
+  //         "class_status" => "upcoming",
+  //         "attendance_required" => true,
+  //         "subject_name" => "Mathematics",
+  //         "thumbnail_url" => "https://example.com/thumb1.jpg",
+  //         "class_type" => "online",
+  //         "source" => "zoom",
+  //         "location" => "Online",
+  //         "students" => 10
+  //       ],
+  //       [
+  //         "id" => 2,
+  //         "type" => "Own Course Class",
+  //         "topic" => "Chapter 5 - Heat & Temperature",
+  //         "description" => "Explaining core physics concepts using real-life examples.",
+  //         "time_start" => "14:00",
+  //         "time_end" => "15:30",
+  //         "duration" => 90,
+  //         "course_id" => 4,
+  //         "class_link" => null,
+  //         "meeting_password" => null,
+  //         "host_name" => "Teacher A",
+  //         "class_status" => "completed",
+  //         "attendance_required" => false,
+  //         "subject_name" => "Physics",
+  //         "thumbnail_url" => "https://example.com/thumb2.jpg",
+  //         "class_type" => "offline",
+  //         "location" => "Classroom A",
+  //         "source" => "gmeet",
+  //         "students" => 18
+  //       ]
+  //     ],
+
+  //     "2025-11-12" => [
+  //       [
+  //         "id" => 5,
+  //         "type" => "Webinar",
+  //         "topic" => "Career Growth in Tech",
+  //         "description" => "How to build your profile and get a tech job in 2025.",
+  //         "time_start" => "18:00",
+  //         "time_end" => "20:00",
+  //         "duration" => 120,
+  //         "course_id" => null,
+  //         "class_link" => "https://meet.google.com/jkl987",
+  //         "meeting_password" => "abc456",
+  //         "host_name" => "Admin - BookMyTeacher",
+  //         "class_status" => "live",
+  //         "attendance_required" => false,
+  //         "subject_name" => "General Guidance",
+  //         "thumbnail_url" => "https://example.com/webinar.jpg",
+  //         "class_type" => "online",
+  //         "source" => "gmeet",
+  //         "location" => "Online",
+  //         "students" => 55
+  //       ]
+  //     ],
+
+  //     "2025-11-15" => [
+  //       [
+  //         "id" => 9,
+  //         "type" => "Workshop",
+  //         "topic" => "Robotics Hands-on Workshop",
+  //         "description" => "Practicals on assembling a beginner-level robot.",
+  //         "time_start" => "11:00",
+  //         "time_end" => "13:00",
+  //         "duration" => 120,
+  //         "course_id" => 10,
+  //         "class_link" => null,
+  //         "meeting_password" => null,
+  //         "host_name" => "Dr. Reema",
+  //         "class_status" => "upcoming",
+  //         "attendance_required" => true,
+  //         "subject_name" => "Robotics",
+  //         "thumbnail_url" => "https://example.com/robotics.jpg",
+  //         "class_type" => "hybrid",
+  //         "source" => "",
+  //         "location" => "Hall 2",
+  //         "students" => 22
+  //       ]
+  //     ],
+  //   ];
+
+
+  //   return response()->json([
+  //     "month" => $month,
+  //     "first_day" => $start->toDateString(),
+  //     "last_day" => $end->toDateString(),
+  //     "events" => $dummyEvents,
+  //   ]);
+  // }
 
 
   public function courses(Request $request)

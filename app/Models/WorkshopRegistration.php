@@ -13,9 +13,9 @@ class WorkshopRegistration extends Model
         'webinar_id','user_id','name','email','phone','checked_in','attended_status'
     ];
 
-    public function webinar()
+    public function workshop()
     {
-        return $this->belongsTo(Webinar::class);
+        return $this->belongsTo(Workshop::class);
     }
 
     public function user()

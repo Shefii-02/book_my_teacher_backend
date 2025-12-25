@@ -1111,16 +1111,17 @@ class StudentController extends Controller
     // ];
 
 
+    $course = Course::where('id',$id)->first();
     // Dummy class data
     $classDetail = [
       'id' => $id,
-      'title' => 'Flutter Beginner Class',
-      'description' => 'Learn Flutter from scratch — covering widgets, layouts, navigation, and API integration.',
+      'title' => $course->title,
+      'description' => $course->description ?? '',
       'teacher_name' => 'John Doe2',
       'category' => 'Mobile Development',
-      'price' => 499,
+      'price' => $course->net_price,
       'duration' => '8 weeks',
-      'thumbnail' => asset('images/flutter_class.jpg'),
+      'thumbnail' => $course->main_image_url,
     ];
 
     // Dummy class materials

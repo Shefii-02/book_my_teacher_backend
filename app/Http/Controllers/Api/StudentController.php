@@ -1116,7 +1116,7 @@ class StudentController extends Controller
       'id' => $id,
       'title' => 'Flutter Beginner Class',
       'description' => 'Learn Flutter from scratch — covering widgets, layouts, navigation, and API integration.',
-      'teacher_name' => 'John Doe',
+      'teacher_name' => 'John Doe2',
       'category' => 'Mobile Development',
       'price' => 499,
       'duration' => '8 weeks',

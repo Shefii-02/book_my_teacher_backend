@@ -62,6 +62,7 @@ class MediaHelper
      */
     public static function removeCompanyFile(int $fileId): bool
     {
+      if($$fileId){
 
         $mediaFile = MediaFile::find($fileId);
 
@@ -78,6 +79,8 @@ class MediaHelper
         $mediaFile->delete();
 
         return true;
+      }
+      return false;
     }
 
 // $this->updateMedia($user, $company_id, 'avatar', 'avatar', 'avatars');

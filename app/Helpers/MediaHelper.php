@@ -62,7 +62,7 @@ class MediaHelper
      */
     public static function removeCompanyFile($fileId): bool
     {
-      if($$fileId){
+      if($fileId){
 
         $mediaFile = MediaFile::find($fileId);
 

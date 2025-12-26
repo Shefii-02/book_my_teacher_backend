@@ -60,7 +60,7 @@ class MediaHelper
     /**
      * Remove file from storage and DB
      */
-    public static function removeCompanyFile(int $fileId): bool
+    public static function removeCompanyFile($fileId): bool
     {
       if($$fileId){
 

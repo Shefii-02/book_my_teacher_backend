@@ -15,7 +15,8 @@ class Subject extends Model
     'color_code',
     'difficulty_level',
     'position',
-    'published'
+    'published',
+    'company_id'
   ];
 
 

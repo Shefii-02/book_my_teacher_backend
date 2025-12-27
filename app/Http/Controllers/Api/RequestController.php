@@ -72,7 +72,7 @@ class RequestController extends Controller
       $courseReq->checked_in   = 0;
       $courseReq->company_id   = 1;
       // $courseReq->attended_status =  0;
-      Log::info($courseReq->dd());
+      Log::info($courseReq);
       $courseReq->save();
 
     } else {

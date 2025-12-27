@@ -17,7 +17,6 @@ class CreateCourseRegistrationsTable extends Migration
             $table->string('phone')->nullable();
             $table->boolean('checked_in')->default(false);
             $table->timestamps();
-
             $table->unique(['course_id', 'user_id']); // single registration per email per webinar
         });
     }

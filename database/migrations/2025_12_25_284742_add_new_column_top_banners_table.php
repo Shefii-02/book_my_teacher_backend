@@ -12,10 +12,12 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::table('course_registrations', function (Blueprint $table) {
-      $table->unsignedBigInteger('company_id')->nullable()->after('id')->index();
-      $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
+
+   Schema::table('top_banners', function (Blueprint $table) {
+      $table->string('type')->after('id')->nullable();
+      $table->integer('section_id')->after('id')->nullable();
     });
+
   }
 
   /**

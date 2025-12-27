@@ -77,7 +77,7 @@ class WorkshopController extends Controller
 
   public function store(Request $request)
   {
-
+dd($request->all());
     // Validate request
     $data = $request->validate([
       'title' => 'required|string|max:255',

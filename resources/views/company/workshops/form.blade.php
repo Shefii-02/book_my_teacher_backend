@@ -44,7 +44,7 @@
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
 
                     <!-- Thumbnail -->
-                    <div>
+                    {{-- <div>
                         <label class="block mb-1 font-semibold">Thumbnail Image</label>
                         <img id="thumbnailPreview"
                             src="{{ $isEdit && $workshop->thumbnail_image ? asset('storage/' . $workshop->thumbnail_image) : '' }}"
@@ -54,7 +54,7 @@
                         @error('thumbnail_image')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <!-- Main Image -->
                     <div>
@@ -68,30 +68,30 @@
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
 
-                    <!-- Title -->
-                    <div>
-                        <label class="block mb-1 font-semibold">Title</label>
-                        <input type="text" name="title" value="{{ old('title', $isEdit ? $workshop->title : '') }}"
-                            required
-                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('title') border-red-500 @enderror">
-                        @error('title')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <!-- Title -->
+                <div>
+                    <label class="block mb-1 font-semibold">Title</label>
+                    <input type="text" name="title" value="{{ old('title', $isEdit ? $workshop->title : '') }}"
+                        required
+                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('title') border-red-500 @enderror">
+                    @error('title')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                    <!-- Description -->
+                <!-- Description -->
 
-                    <div>
-                        <label class="block mb-1 font-semibold">Description</label>
-                        <textarea name="description" required
-                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('description') border-red-500 @enderror">{{ old('description', $isEdit ? $workshop->description : '') }}</textarea>
-                        @error('description')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <div class="mt-5">
+                    <label class="block mb-1 font-semibold">Description</label>
+                    <textarea name="description">{{ old('description', $isEdit ? $workshop->description : '') }}</textarea>
+                    @error('description')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-
+                <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <!-- Host -->
                     <div>
                         <label class="block mb-1 font-semibold">Host</label>

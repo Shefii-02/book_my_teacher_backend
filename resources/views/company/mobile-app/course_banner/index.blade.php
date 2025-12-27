@@ -28,7 +28,7 @@
                         <div class="flex justify-between">
                             <h6 class="dark:text-white">Course Banners List</h6>
                             <a href="{{ route('company.app.course-banners.create') }}"
-                                class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
+                                class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-plus me-1 "></i>
                                 Create</a>
                         </div>
@@ -44,6 +44,8 @@
                                         Main</th>
                                     <th class="px-6 py-3 font-bold text-left text-xxs uppercase text-slate-400 opacity-70">
                                         Title</th>
+                                    <th class="px-6 py-3 font-bold text-left text-xxs uppercase text-slate-400 opacity-70">
+                                        Type</th>
                                     <th
                                         class="px-6 py-3 font-bold text-center text-xxs uppercase text-slate-400 opacity-70">
                                         Priority</th>
@@ -64,13 +66,13 @@
                                         <!-- Thumb -->
                                         <td class="p-2 align-middle">
                                             <img src="{{ $banner->thumbnail_url }}"
-                                                class="h-12  rounded-xl object-cover shadow-sm" alt="thumb">
+                                                class="h-12  rounded object-cover shadow-sm" alt="">
                                         </td>
 
                                         <!-- Main Image -->
                                         <td class="p-2 align-middle">
                                             <img src="{{ $banner->main_image_url }}"
-                                                class="h-20 w-20 rounded-xl object-cover shadow-sm" alt="main">
+                                                class="h-20 w-20 rounded object-cover shadow-sm" alt="">
                                         </td>
 
                                         <!-- Title -->
@@ -80,6 +82,13 @@
                                             </p>
                                         </td>
 
+
+                                        <!-- Title -->
+                                        <td class="p-2 align-middle">
+                                            <p class="text-sm font-semibold capitalize text-neutral-900 dark:text-white">
+                                                {{ $banner->type }}
+                                            </p>
+                                        </td>
                                         <!-- Priority -->
                                         <td class="p-2 align-middle text-center ">
                                             <span class="text-sm text-neutral-900 dark:text-white">
@@ -123,12 +132,12 @@
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownBottomButton">
                                                     <li>
-                                                        <a href="{{ route('company.app.course-banners.edit', $banner->id) }}"
+                                                        <a href="{{ route('company.app.top-banners.edit', $banner->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                     </li>
                                                     <li>
                                                         <form id="form_{{ $banner->id }}" class="m-0 p-0"
-                                                            action="{{ route('company.app.course-banners.destroy', $banner->id) }}"
+                                                            action="{{ route('company.app.top-banners.destroy', $banner->id) }}"
                                                             method="POST" class="inline-block">
                                                             @csrf @method('DELETE') </form>
                                                         <a role="button" href="javascript:;"
@@ -153,7 +162,6 @@
 
                         </table>
                     </div>
-
                 </div>
             </div>
         </div>

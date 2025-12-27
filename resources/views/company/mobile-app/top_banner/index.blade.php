@@ -44,6 +44,8 @@
                                         Main</th>
                                     <th class="px-6 py-3 font-bold text-left text-xxs uppercase text-slate-400 opacity-70">
                                         Title</th>
+                                           <th class="px-6 py-3 font-bold text-left text-xxs uppercase text-slate-400 opacity-70">
+                                        Type</th>
                                     <th
                                         class="px-6 py-3 font-bold text-center text-xxs uppercase text-slate-400 opacity-70">
                                         Priority</th>
@@ -64,13 +66,13 @@
                                         <!-- Thumb -->
                                         <td class="p-2 align-middle">
                                             <img src="{{ $banner->thumbnail_url }}"
-                                                class="h-12  rounded-xl object-cover shadow-sm" alt="thumb">
+                                                class="h-12  rounded object-cover shadow-sm" alt="">
                                         </td>
 
                                         <!-- Main Image -->
                                         <td class="p-2 align-middle">
                                             <img src="{{ $banner->main_image_url }}"
-                                                class="h-20 w-20 rounded-xl object-cover shadow-sm" alt="main">
+                                                class="h-20 w-20 rounded object-cover shadow-sm" alt="">
                                         </td>
 
                                         <!-- Title -->
@@ -80,6 +82,13 @@
                                             </p>
                                         </td>
 
+
+                                        <!-- Title -->
+                                        <td class="p-2 align-middle">
+                                            <p class="text-sm font-semibold capitalize text-neutral-900 dark:text-white">
+                                                {{ $banner->type }}
+                                            </p>
+                                        </td>
                                         <!-- Priority -->
                                         <td class="p-2 align-middle text-center ">
                                             <span class="text-sm text-neutral-900 dark:text-white">

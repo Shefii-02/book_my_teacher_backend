@@ -9,7 +9,7 @@ class TopBanner extends Model
     protected $fillable = [
         'title', 'description', 'thumb_id', 'main_id',
         'priority', 'banner_type', 'ct_label', 'ct_action',
-        'company_id', 'status'
+        'company_id', 'status','type','section_id'
     ];
 
     protected $casts = [

@@ -6,20 +6,28 @@ use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopBanner\StoreTopBannerRequest;
 use App\Http\Requests\TopBanner\UpdateTopBannerRequest;
+use App\Models\Course;
 use App\Models\TopBanner;
+use App\Models\Webinar;
+use App\Models\Workshop;
 
 class CourseBannerController extends Controller
 {
   public function index()
   {
-    $company_id= auth()->user()->company_id;
-    $banners = TopBanner::where('banner_type','course-banner')->where('company_id',$company_id)->orderBy('priority')->get();
+    $company_id = auth()->user()->company_id;
+    $banners = TopBanner::where('banner_type', 'course-banner')->where('company_id', $company_id)->orderBy('priority')->get();
     return view('company.mobile-app.course_banner.index', compact('banners'));
   }
 
   public function create()
   {
-    return view('company.mobile-app.course_banner.form');
+    $company_id = auth()->user()->company_id;
+
+    $courses = Course::where('company_id', $company_id)->get();
+    $webinars = Webinar::where('company_id', $company_id)->get();
+    $workshops = Workshop::where('company_id', $company_id)->get();
+    return view('company.mobile-app.course_banner.form', compact('courses', 'webinars', 'workshops'));
   }
 
   public function store(StoreTopBannerRequest $request)
@@ -53,7 +61,14 @@ class CourseBannerController extends Controller
       );
       $data['main_id'] = $mainImagePath;
     }
+    $data['title'] = $request->title ?? '';
 
+    $data['section_id'] = match ($request->type) {
+      'course'   => $request->course_id,
+      'workshop' => $request->workshop_id,
+      'webinar'  => $request->webinar_id,
+      default    => null,
+    };
 
     TopBanner::create($data);
 
@@ -63,7 +78,11 @@ class CourseBannerController extends Controller
 
   public function edit(TopBanner $course_banner)
   {
-    return view('company.mobile-app.course_banner.form', ['banner' => $course_banner]);
+    $company_id = auth()->user()->company_id;
+    $courses = Course::where('company_id', $company_id)->get();
+    $webinars = Webinar::where('company_id', $company_id)->get();
+    $workshops = Workshop::where('company_id', $company_id)->get();
+    return view('company.mobile-app.course_banner.form', compact('courses', 'webinars', 'workshops', 'banner'));
   }
 
   public function update(UpdateTopBannerRequest $request, TopBanner $course_banner)
@@ -95,6 +114,14 @@ class CourseBannerController extends Controller
       );
       $data['main_id'] = $mainImagePath;
     }
+    $data['title'] = $request->title ?? '';
+
+    $data['section_id'] = match ($request->type) {
+      'course'   => $request->course_id,
+      'workshop' => $request->workshop_id,
+      'webinar'  => $request->webinar_id,
+      default    => null,
+    };
 
     $course_banner->update($data);
 

@@ -61,8 +61,9 @@
             transform: rotate(180deg);
         }
 
-        .tox-promotion,.tox-menubar {
+        .tox-promotion,.tox-menubar,.tox-statusbar {
             display: none !important;
+            margin-bottom: 10px !important;
         }
 
         .tox .tox-editor-container {
@@ -1140,7 +1141,7 @@
             // Try the most popular premium features until Jan 10, 2026:
             'checklist', 'typography',
         ],
-        toolbar: 'fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent ',
+        toolbar: 'fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent | forecolor backcolor',
 
     });
 </script>

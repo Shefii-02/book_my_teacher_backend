@@ -14,15 +14,34 @@ class UpdateTopBannerRequest extends FormRequest
 
   public function rules(): array
   {
-    return [
-      'thumb_id'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-      'main_id'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-      'title'       => 'required|string|max:255',
-      'description' => 'nullable|string',
-      'priority'    => 'required|integer|min:1',
-      'ct_label'    => 'required|string|max:150',
-      'ct_action'   => 'required|string|max:255',
-      'status'      => 'nullable|boolean',
+    // return [
+    //   'thumb_id'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    //   'main_id'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    //   'title'       => 'required|string|max:255',
+    //   'description' => 'nullable|string',
+    //   'priority'    => 'required|integer|min:1',
+    //   'ct_label'    => 'required|string|max:150',
+    //   'ct_action'   => 'required|string|max:255',
+    //   'status'      => 'nullable|boolean',
+    // ];
+     return [
+      'type' => 'required|in:course,workshop,webinar,other',
+
+      'course_id'   => 'required_if:type,course',
+      'workshop_id' => 'required_if:type,workshop',
+      'webinar_id'  => 'required_if:type,webinar',
+
+      'thumb_id' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+      'main_id'  => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+      'title'       => 'exclude_unless:type,other|required|string|max:255',
+      'description' => 'exclude_unless:type,other|required|string',
+
+      'ct_label'  => 'exclude_unless:type,other|required|string|max:150',
+      'ct_action' => 'exclude_unless:type,other|required|string|max:255',
+
+      'priority' => 'required|integer|min:1',
+      'status'   => 'nullable|boolean',
     ];
   }
 

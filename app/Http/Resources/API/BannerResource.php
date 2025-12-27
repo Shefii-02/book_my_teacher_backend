@@ -50,8 +50,8 @@ class BannerResource extends JsonResource
       'cta_action'     => $this->cta_action,
 
       // Booking info
-      'is_booked'      => $this->requestBanner->isNotEmpty(),
-      'last_booked_at' => optional($this->requestBanner->first())->created_at,
+      'is_booked'      => $userBooking ? true : false,
+     'last_booked_at' => $userBooking->created_at ?? null,
 
       // Type info
       'type'           => $this->type,

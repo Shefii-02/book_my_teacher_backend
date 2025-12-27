@@ -33,7 +33,8 @@
         </div>
 
         <div class="form-container mt-4">
-            <form action="{{ $isEdit ? route('company.workshops.update', $workshop->id) : route('company.workshops.store') }}"
+            <form
+                action="{{ $isEdit ? route('company.workshops.update', $workshop->id) : route('company.workshops.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if ($isEdit)
@@ -71,12 +72,25 @@
                     <!-- Title -->
                     <div>
                         <label class="block mb-1 font-semibold">Title</label>
-                        <input type="text" name="title" value="{{ old('title', $isEdit ? $workshop->title : '') }}" required
+                        <input type="text" name="title" value="{{ old('title', $isEdit ? $workshop->title : '') }}"
+                            required
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('title') border-red-500 @enderror">
                         @error('title')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+
+                    <!-- Description -->
+
+                    <div>
+                        <label class="block mb-1 font-semibold">Description</label>
+                        <textarea name="description" required
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('description') border-red-500 @enderror">{{ old('description', $isEdit ? $workshop->description : '') }}</textarea>
+                        @error('description')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
 
                     <!-- Host -->
                     <div>
@@ -87,7 +101,7 @@
                             @foreach ($users ?? [] as $user)
                                 <option value="{{ $user['user_id'] }}"
                                     {{ old('host_id', $isEdit ? $workshop->host_id : '') == $user['id'] ? 'selected' : '' }}>
-                                    {{ $user['name'].'('.$user['type'].')' }}</option>
+                                    {{ $user['name'] . '(' . $user['type'] . ')' }}</option>
                             @endforeach
                         </select>
                         @error('host_id')
@@ -158,9 +172,15 @@
                                 </label>
                             @endforeach
                         </div>
-                        @error('is_teacher_allowed')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                        @error('is_student_allowed')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                        @error('is_guest_allowed')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                        @error('is_teacher_allowed')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                        @error('is_student_allowed')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                        @error('is_guest_allowed')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Max Participants -->
@@ -190,7 +210,9 @@
                                         class="pl-2 text-sm focus:shadow-primary-outline ease leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
                                     {{ ucwords(str_replace('_', ' ', $feature)) }}
                                 </label>
-                                @error('is_'.$feature.'_enabled')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                                @error('is_' . $feature . '_enabled')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
                             @endforeach
                         </div>
                     </div>
@@ -200,7 +222,7 @@
                         <label class="block mb-1 font-semibold">Status</label>
                         <select name="status"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('status') border-red-500 @enderror">
-                            @foreach (['draft', 'scheduled' ] as $status)
+                            @foreach (['draft', 'scheduled'] as $status)
                                 <option value="{{ $status }}"
                                     {{ old('status', $isEdit ? $workshop->status : '') == $status ? 'selected' : '' }}>
                                     {{ ucfirst($status) }}</option>

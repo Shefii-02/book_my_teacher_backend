@@ -751,7 +751,7 @@
                                 </svg>
                             </button>
                         </li>
-                                                <!-- notifications -->
+                        <!-- notifications -->
 
                         <li class="relative flex items-center px-4">
                             <p class="hidden transform-dropdown-show"></p>
@@ -942,6 +942,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.6/perfect-scrollbar.min.js" async>
 </script>
 <!-- main script file  -->
+<script src="https://cdn.tiny.cloud/1/{{ env('TinyEditor1') }}/tinymce/8/tinymce.min.js" referrerpolicy="origin"
+    crossorigin="anonymous"></script>
 
 {{-- <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script> --}}
 <script src="{{ asset('assets/js/main.js') }}" async></script>
@@ -1116,6 +1118,31 @@
         });
     });
 </script>
+
+
+
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: [
+            // Core editing features
+            'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media',
+            'searchreplace', 'table', 'visualblocks', 'wordcount',
+            // Your account includes a free trial of TinyMCE premium features
+            // Try the most popular premium features until Jan 10, 2026:
+            'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker',
+            'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'ai',
+            'uploadcare', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags',
+            'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
+        ],
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject(
+            'See docs to implement AI Assistant')),
+        uploadcare_public_key: '5ed65510803336d1bd09',
+    });
+</script>
+
 
 
 </html>

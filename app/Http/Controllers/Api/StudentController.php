@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\API\CourseResource;
 use App\Http\Resources\API\WorkshopResource;
 use App\Http\Resources\API\WebinarResource;
-use App\Http\Resources\BannerResource;
+use App\Http\Resources\API\BannerResource;
 use App\Http\Resources\SubjectResource;
 use App\Http\Resources\TeacherResource;
 use App\Models\CompanyTeacher;
@@ -90,31 +90,23 @@ class StudentController extends Controller
   public function topBanners(Request $request): JsonResponse
   {
     $user = $request->user();
-    $banners = TopBanner::with(['requestBanner' => function ($q) use ($user) {
-      $q->where('user_id', $user->id);
-    }])->where('banner_type', 'top-banner')->get();
+    // $banners = TopBanner::with(['requestBanner' => function ($q) use ($user) {
+    //   $q->where('user_id', $user->id);
+    // }])->where('banner_type', 'top-banner')->get();
 
-    // $banners = collect(range(1, 3))->map(function ($i) {
-    //   return [
-    //     'id' => $i,
-    //     'title' => "Top Banner $i",
-    //     'main_image' => asset("assets/mobile-app/banners/tb-{$i}.png"),
-    //     'thumb' => asset("assets/mobile-app/banners/tb-{$i}.png"),
-    //     'description' => "This is banner $i description.",
-    //     'priority_order' => $i,
-    //     'banner_type' => $i % 2 ? 'image' : 'video',
-    //     'cta_label' => 'Join Now',
-    //     'cta_action' => '',
-    //     'is_booked' => $i % 3 === 0,
-    //     // 'is_booked' => true,
-    //     'last_booked_at' => $i % 3 === 0 ? now()->subDays($i)->toDateTimeString() : null,
-    //   ];
-    // });
+    $banners = TopBanner::with([
+      'requestBanner' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      },
+      'course',
+      'workshop',
+      'webinar'
+    ])->where('banner_type', 'top-banner')->get();
+
 
     return response()->json([
       'status' => true,
       'message' => 'Top banners fetched successfully',
-      // 'data' =>  BannerResource::collection($banners),
       'data' => BannerResource::collection($banners)->additional([
         'user_id' => $user->id
       ])

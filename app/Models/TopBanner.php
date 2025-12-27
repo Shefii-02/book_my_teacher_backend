@@ -6,19 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class TopBanner extends Model
 {
-    protected $fillable = [
-        'title', 'description', 'thumb_id', 'main_id',
-        'priority', 'banner_type', 'ct_label', 'ct_action',
-        'company_id', 'status','type','section_id'
-    ];
+  protected $fillable = [
+    'title',
+    'description',
+    'thumb_id',
+    'main_id',
+    'priority',
+    'banner_type',
+    'ct_label',
+    'ct_action',
+    'company_id',
+    'status',
+    'type',
+    'section_id'
+  ];
 
-    protected $casts = [
+  protected $casts = [
     //     'is_booked' => 'boolean',
     //     'is_joined' => 'boolean',
-        'status' => 'boolean',
+    'status' => 'boolean',
     //     'booked_at' => 'datetime',
     //     'joined_at' => 'datetime',
-    ];
+  ];
 
 
   public function thumbnailMedia()
@@ -42,10 +51,25 @@ class TopBanner extends Model
   }
 
 
-  public function requestBanner()
+
+  public function course()
   {
-    return $this->hasOne(BannerRequest::class, 'banner_id','id');
+    return $this->belongsTo(Course::class, 'section_id');
+  }
+
+  public function workshop()
+  {
+    return $this->belongsTo(Workshop::class, 'section_id');
+  }
+
+  public function webinar()
+  {
+    return $this->belongsTo(Webinar::class, 'section_id');
   }
 
 
+  public function requestBanner()
+  {
+    return $this->hasOne(BannerRequest::class, 'banner_id', 'id');
+  }
 }

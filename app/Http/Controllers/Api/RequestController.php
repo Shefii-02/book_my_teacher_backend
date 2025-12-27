@@ -72,8 +72,9 @@ class RequestController extends Controller
       $courseReq->checked_in   = 0;
       $courseReq->company_id   = 1;
       // $courseReq->attended_status =  0;
-Log::info($courseReq);
+      Log::info($courseReq->dd());
       $courseReq->save();
+
     } else {
       return response()->json(['status' => false, 'message' =>  'Course already requested.']);
     }

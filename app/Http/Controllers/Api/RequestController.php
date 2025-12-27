@@ -63,13 +63,13 @@ class RequestController extends Controller
     $courseReq = CourseRegistration::where('user_id', $user->id)->where('course_id', $request->course_id)->where('company_id', $company_id)->first();
     if (!$courseReq) {
       $courseReq               = new CourseRegistration();
-      $courseReq->course_id   = $request->course_id;
+      $courseReq->course_id    = $request->course_id;
       $courseReq->user_id      = $user->id;
       $courseReq->name         = $user->name;
       $courseReq->email        = $user->email;
       $courseReq->phone        = $user->mobile;
       $courseReq->checked_in   = 0;
-      $courseReq->company_id   = $company_id;
+      $courseReq->company_id   = 1;
       // $courseReq->attended_status =  0;
       $courseReq->save();
     } else {

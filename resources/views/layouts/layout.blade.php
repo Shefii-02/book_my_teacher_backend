@@ -61,7 +61,9 @@
             transform: rotate(180deg);
         }
 
-        .tox-promotion,.tox-menubar,.tox-statusbar {
+        .tox-promotion,
+        .tox-menubar,
+        .tox-statusbar {
             display: none !important;
             margin-bottom: 10px !important;
         }
@@ -925,227 +927,227 @@
         </nav>
         @yield('content')
         @include('components.drawer-right')
-        <footer class="pt-4">
-            <div class="w-full px-6 mx-auto">
-                <div class="flex flex-wrap items-center -mx-3 lg:justify-between">
-                    <div class="w-full max-w-full px-3 mt-0 mb-6 shrink-0 lg:mb-0 lg:w-1/2 lg:flex-none">
-                        <div class="leading-normal text-center text-sm text-slate-500 lg:text-left">
-                            ©
-                            <script>
-                                document.write(new Date().getFullYear() + ",");
-                            </script>
-                            made with <i class="fa fa-heart"></i> by
-                            Pachavellam Innovations Technologies
-                        </div>
+    </main>
+    <footer class="pt-4">
+        <div class="w-full px-6 mx-auto">
+            <div class="flex flex-wrap items-center -mx-3 lg:justify-between">
+                <div class="w-full max-w-full px-3 mt-0 mb-6 shrink-0 lg:mb-0 lg:w-1/2 lg:flex-none">
+                    <div class="leading-normal text-center text-sm text-slate-500 lg:text-left">
+                        ©
+                        <script>
+                            document.write(new Date().getFullYear() + ",");
+                        </script>
+                        made with <i class="fa fa-heart"></i> by
+                        Pachavellam Innovations Technologies
                     </div>
                 </div>
             </div>
-        </footer>
-    </main>
+        </div>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- plugin for charts  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.min.js" async></script>
+    <!-- plugin for scrollbar  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.6/perfect-scrollbar.min.js" async>
+    </script>
+    <!-- main script file  -->
+    <script src="https://cdn.tiny.cloud/1/{{ env('TinyEditor1') }}/tinymce/8/tinymce.min.js" referrerpolicy="origin"
+        crossorigin="anonymous"></script>
+
+    {{-- <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script> --}}
+    <script src="{{ asset('assets/js/main.js') }}" async></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "preventDuplicates": false,
+            "positionClass": "toast-top-right", // Toast position
+            "timeOut": "5000", // Timeout duration
+            "extendedTimeOut": "5000",
+        };
+
+        @if (session('success'))
+            toastr.success("{{ session('success') }}", "Success");
+        @elseif (session('error'))
+            toastr.error("{{ session('error') }}", "Error");
+        @elseif (session('info'))
+            toastr.info("{{ session('info') }}", "Info");
+        @elseif (session('warning'))
+            toastr.warning("{{ session('warning') }}", "Warning");
+        @endif
+
+        // Validation errors
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}", "Validation Error");
+            @endforeach
+        @endif
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(Idd) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form if confirmed
+                    document.getElementById('form_' + Idd).submit();
+                }
+            });
+        }
+
+        function confirmDeleteAll(event, $form) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form if confirmed
+                    document.getElementById($form).submit();
+                }
+            });
+        }
+    </script>
+    <script>
+        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Change the icons inside the button based on previous settings
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        var themeToggleBtn = document.getElementById('theme-toggle');
+
+        themeToggleBtn.addEventListener('click', function() {
+
+            // toggle icons inside button
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // if set via local storage previously
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+
+                // if NOT set via local storage previously
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('.menu-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const submenu = btn.nextElementSibling;
+                const arrow = btn.querySelector('.arrow');
+                submenu.classList.toggle('hidden');
+                arrow.classList.toggle('rotate-180');
+            });
+        });
+
+        function copyPageLink(content) {
+
+            navigator.clipboard.writeText(content)
+                .then(() => {
+                    toastr.success("copied to clipboard successfully!", "Success");
+
+                })
+                .catch(err => {
+                    toastr.error("Failed to copy link." + err, "Error");
+                });
+        }
+
+
+        document.addEventListener('change', function(event) {
+            if (event.target.classList.contains('image-preview-input')) {
+                let input = event.target;
+                let previewImg = document.querySelector(input.dataset.preview);
+
+                if (input.files && input.files[0]) {
+                    let reader = new FileReader();
+                    reader.onload = e => previewImg.src = e.target.result;
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        });
+    </script>
+    @stack('scripts')
+
+    <script>
+        $(document).ready(function() {
+
+            $(document).on('click', '.open-drawer', function(e) {
+                e.preventDefault();
+
+                let url = $(this).data('url');
+
+                $('#drawerContent').html('<div class="text-center text-gray-400 p-5">Loading...</div>');
+
+                $.get(url, function(html) {
+                    $('#drawerContent').html(html);
+                    openDrawer();
+                }).fail(function() {
+                    $('#drawerContent').html(
+                        '<div class="text-center text-red-500 p-5">Failed to load.</div>'
+                    );
+                });
+            });
+        });
+    </script>
+
+
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: [
+                // Core editing features
+                'anchor', 'charmap', 'lists',
+                // Your account includes a free trial of TinyMCE premium features
+                // Try the most popular premium features until Jan 10, 2026:
+                'checklist', 'typography',
+            ],
+            toolbar: 'fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent | forecolor backcolor',
+
+        });
+    </script>
 
 </body>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<!-- plugin for charts  -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.min.js" async></script>
-<!-- plugin for scrollbar  -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.6/perfect-scrollbar.min.js" async>
-</script>
-<!-- main script file  -->
-<script src="https://cdn.tiny.cloud/1/{{ env('TinyEditor1') }}/tinymce/8/tinymce.min.js" referrerpolicy="origin"
-    crossorigin="anonymous"></script>
-
-{{-- <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script> --}}
-<script src="{{ asset('assets/js/main.js') }}" async></script>
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script type="text/javascript">
-    toastr.options = {
-        "closeButton": true,
-        "progressBar": true,
-        "preventDuplicates": false,
-        "positionClass": "toast-top-right", // Toast position
-        "timeOut": "5000", // Timeout duration
-        "extendedTimeOut": "5000",
-    };
-
-    @if (session('success'))
-        toastr.success("{{ session('success') }}", "Success");
-    @elseif (session('error'))
-        toastr.error("{{ session('error') }}", "Error");
-    @elseif (session('info'))
-        toastr.info("{{ session('info') }}", "Info");
-    @elseif (session('warning'))
-        toastr.warning("{{ session('warning') }}", "Warning");
-    @endif
-
-    // Validation errors
-    @if ($errors->any())
-        @foreach ($errors->all() as $error)
-            toastr.error("{{ $error }}", "Validation Error");
-        @endforeach
-    @endif
-</script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function confirmDelete(Idd) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Submit the form if confirmed
-                document.getElementById('form_' + Idd).submit();
-            }
-        });
-    }
-
-    function confirmDeleteAll(event, $form) {
-        event.preventDefault();
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Submit the form if confirmed
-                document.getElementById($form).submit();
-            }
-        });
-    }
-</script>
-<script>
-    var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-    var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-
-    // Change the icons inside the button based on previous settings
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
-            '(prefers-color-scheme: dark)').matches)) {
-        themeToggleLightIcon.classList.remove('hidden');
-    } else {
-        themeToggleDarkIcon.classList.remove('hidden');
-    }
-
-    var themeToggleBtn = document.getElementById('theme-toggle');
-
-    themeToggleBtn.addEventListener('click', function() {
-
-        // toggle icons inside button
-        themeToggleDarkIcon.classList.toggle('hidden');
-        themeToggleLightIcon.classList.toggle('hidden');
-
-        // if set via local storage previously
-        if (localStorage.getItem('color-theme')) {
-            if (localStorage.getItem('color-theme') === 'light') {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            }
-
-            // if NOT set via local storage previously
-        } else {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            }
-        }
-
-    });
-</script>
-
-<script>
-    document.querySelectorAll('.menu-toggle').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const submenu = btn.nextElementSibling;
-            const arrow = btn.querySelector('.arrow');
-            submenu.classList.toggle('hidden');
-            arrow.classList.toggle('rotate-180');
-        });
-    });
-
-    function copyPageLink(content) {
-
-        navigator.clipboard.writeText(content)
-            .then(() => {
-                toastr.success("copied to clipboard successfully!", "Success");
-
-            })
-            .catch(err => {
-                toastr.error("Failed to copy link." + err, "Error");
-            });
-    }
-
-
-    document.addEventListener('change', function(event) {
-        if (event.target.classList.contains('image-preview-input')) {
-            let input = event.target;
-            let previewImg = document.querySelector(input.dataset.preview);
-
-            if (input.files && input.files[0]) {
-                let reader = new FileReader();
-                reader.onload = e => previewImg.src = e.target.result;
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    });
-</script>
-@stack('scripts')
-
-<script>
-    $(document).ready(function() {
-
-        $(document).on('click', '.open-drawer', function(e) {
-            e.preventDefault();
-
-            let url = $(this).data('url');
-
-            $('#drawerContent').html('<div class="text-center text-gray-400 p-5">Loading...</div>');
-
-            $.get(url, function(html) {
-                $('#drawerContent').html(html);
-                openDrawer();
-            }).fail(function() {
-                $('#drawerContent').html(
-                    '<div class="text-center text-red-500 p-5">Failed to load.</div>'
-                );
-            });
-        });
-    });
-</script>
-
-
-
-<script>
-    tinymce.init({
-        selector: 'textarea',
-        plugins: [
-            // Core editing features
-            'anchor', 'charmap', 'lists',
-            // Your account includes a free trial of TinyMCE premium features
-            // Try the most popular premium features until Jan 10, 2026:
-            'checklist', 'typography',
-        ],
-        toolbar: 'fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent | forecolor backcolor',
-
-    });
-</script>
-
-
 
 </html>

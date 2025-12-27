@@ -60,7 +60,7 @@ class CourseResource extends JsonResource
         ];
       }),
 
-      'is_enrolled' => $this->whenLoaded('registrations')->isNotEmpty() ? true : false,
+      'is_enrolled' => $this->whenLoaded('registrations') ? true : false,
 
       // 'is_enrolled' => (bool) ($this->is_enrolled ?? false),
     ];

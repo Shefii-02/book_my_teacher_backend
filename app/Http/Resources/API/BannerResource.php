@@ -42,8 +42,8 @@ class BannerResource extends JsonResource
       'id'             => $this->id,
       'title'          => $this->title,
       'description'    => $this->description,
-      'main_image'     => asset($this->main_image),
-      'thumb'          => asset($this->thumb),
+      'main_image' => $this->main_id ? $this->main_image_url : null,
+      'thumb'      => $this->thumb_id ? $this->thumbnail_url : null,
       'priority_order' => $this->priority_order,
       'banner_type'    => $this->banner_type,
       'cta_label'      => $this->cta_label,
@@ -51,7 +51,7 @@ class BannerResource extends JsonResource
 
       // Booking info
       'is_booked'      => $userBooking ? true : false,
-     'last_booked_at' => $userBooking->created_at ?? null,
+      'last_booked_at' => $userBooking->created_at ?? null,
 
       // Type info
       'type'           => $this->type,

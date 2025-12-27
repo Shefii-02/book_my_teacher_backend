@@ -10,7 +10,7 @@ class CourseRegistration extends Model
     use HasFactory;
 
     protected $fillable = [
-        'course_id','user_id','name','email','phone','checked_in'
+        'course_id','user_id','name','email','phone','checked_in','company_id'
     ];
 
     public function course()

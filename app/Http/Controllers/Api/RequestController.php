@@ -57,8 +57,10 @@ class RequestController extends Controller
   public function course(Request $request)
   {
     $company_id = 1;
-    Log::info("📢 course Request:", $request->all());
+    Log::info("📢 course Request-1:", $request->all());
+    Log::info("-----");
     $user = $request->user();
+    dd($request->all());
     $user                     = $request->user();
     $courseReq = CourseRegistration::where('user_id', $user->id)->where('course_id', $request->course_id)->where('company_id', $company_id)->first();
     if (!$courseReq) {
@@ -71,6 +73,7 @@ class RequestController extends Controller
       $courseReq->checked_in   = 0;
       $courseReq->company_id   = 1;
       // $courseReq->attended_status =  0;
+      dd($courseReq);
       $courseReq->save();
     } else {
       return response()->json(['status' => false, 'message' =>  'Course already requested.']);

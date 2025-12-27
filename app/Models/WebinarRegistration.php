@@ -10,7 +10,7 @@ class WebinarRegistration extends Model
     use HasFactory;
 
     protected $fillable = [
-        'webinar_id','user_id','name','email','phone','checked_in','attended_status'
+        'webinar_id','user_id','name','email','phone','checked_in','attended_status',
     ];
 
     public function webinar()

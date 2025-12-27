@@ -66,13 +66,13 @@ class BannerResource extends JsonResource
     switch ($this->type) {
 
       case 'course':
-        return $this->course ? $this->course  : null;
+        return  $this->course ? new CourseResource($this->course)  : null;
 
       case 'workshop':
-        return $this->workshop ? $this->workshop : null;
+        return $this->workshop ? new WorkshopResource($this->workshop) : null;
 
       case 'webinar':
-        return $this->webinar ? $this->webinar : null;
+        return $this->webinar ? new WebinarResource($this->webinar) : null;
 
       default:
         return null;

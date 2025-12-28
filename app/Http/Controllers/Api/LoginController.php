@@ -42,6 +42,7 @@ class LoginController extends Controller
       Log::info('idToken: ' . substr($idToken, 0, 50) . '...'); // log partial token for safety
 
       if (!$idToken) {
+        Log::info('Missing idToken');
         return response()->json([
           'status' => 'error',
           'message' => 'Missing idToken'
@@ -53,6 +54,7 @@ class LoginController extends Controller
       $payload = $client->verifyIdToken($idToken);
 
       if (!$payload) {
+        Log::info('Invalid Google token');
         return response()->json([
           'status' => 'error',
           'message' => 'Invalid Google token'
@@ -64,6 +66,7 @@ class LoginController extends Controller
       $email = $payload['email'] ?? null;
 
       if (!$email) {
+         Log::info('Email not found in token');
         return response()->json([
           'status' => 'error',
           'message' => 'Email not found in token'
@@ -86,7 +89,7 @@ class LoginController extends Controller
         ]);
       } else if ($userEx) {
         //login user
-
+      Log::info("createToken");
         // Revoke all existing tokens
         $userEx->tokens()->delete();
 

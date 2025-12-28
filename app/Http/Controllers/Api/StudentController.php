@@ -7,6 +7,7 @@ use App\Http\Resources\API\CourseResource;
 use App\Http\Resources\API\WorkshopResource;
 use App\Http\Resources\API\WebinarResource;
 use App\Http\Resources\API\BannerResource;
+use App\Http\Resources\API\MaterialResource;
 use App\Http\Resources\SubjectResource;
 use App\Http\Resources\TeacherResource;
 use App\Models\CompanyTeacher;
@@ -23,6 +24,7 @@ use App\Models\WebinarRegistration;
 use App\Models\Workshop;
 use App\Models\WorkshopRegistration;
 use Carbon\Carbon;
+use Google\Service\Classroom\Material;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -1048,6 +1050,7 @@ class StudentController extends Controller
       'price' => $course->net_price,
       'duration' => '8 weeks',
       'thumbnail' => $course->main_image_url,
+      'main_image' => $course->main_image_url,
     ];
 
     // Dummy class materials
@@ -1055,6 +1058,8 @@ class StudentController extends Controller
       ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
       ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
     ];
+
+    $materials = MaterialResource::collect($course->materials ?? []);
 
     // Dummy related classes
     $classList = [
@@ -1090,7 +1095,6 @@ class StudentController extends Controller
         'recorded_video' => '',
         'join_link' => '',
       ],
-
     ];
 
 

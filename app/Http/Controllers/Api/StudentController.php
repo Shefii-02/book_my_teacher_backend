@@ -1065,7 +1065,7 @@ class StudentController extends Controller
     //   ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
     // ];
 
-    $materials = MaterialResource::collect($course->materials ?? []);
+    $materials = MaterialResource::collection($course->materials ?? []);
 
     // Dummy related classes
     // $classList = [
@@ -1103,7 +1103,7 @@ class StudentController extends Controller
     //   ],
     // ];
 
-    $courseClass = ClassLinkResource::collect($course->classes);
+    $courseClass = ClassLinkResource::collection($course->classes);
 
 
 
@@ -1162,8 +1162,8 @@ class StudentController extends Controller
     ];
 
 
-    $materials = MaterialResource::collect($course->materials ?? []);
-    $courseClass = ClassLinkResource::collect($course->classes);
+    $materials = MaterialResource::collection($course->materials ?? []);
+    $courseClass = ClassLinkResource::collection($course->classes);
 
     // Dummy class materials
     // $materials = [
@@ -1291,8 +1291,8 @@ class StudentController extends Controller
 
     // ];
 
-    $materials = MaterialResource::collect($course->materials ?? []);
-    $courseClass = ClassLinkResource::collect($course->classes);
+    $materials = MaterialResource::collection($course->materials ?? []);
+    $courseClass = ClassLinkResource::collection($course->classes);
 
     return response()->json([
       'status' => true,

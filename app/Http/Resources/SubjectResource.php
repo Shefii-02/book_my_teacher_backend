@@ -13,7 +13,8 @@ class SubjectResource extends JsonResource
       'name' => $this->name,
       'description' => $this->description ?? '--',
       'main_image' => asset("/assets/mobile-app/bg/full-bg.jpg") ?? asset($this->main_image),
-      'image' => asset($this->icon_url),
+      // 'image' => asset($this->icon_url),
+      'image' => '',
       // Nested Reviews
       'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
       // Nested Teachers

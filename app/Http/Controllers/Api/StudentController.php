@@ -7,6 +7,7 @@ use App\Http\Resources\API\CourseResource;
 use App\Http\Resources\API\WorkshopResource;
 use App\Http\Resources\API\WebinarResource;
 use App\Http\Resources\API\BannerResource;
+use App\Http\Resources\API\ClassLinkResource;
 use App\Http\Resources\API\MaterialResource;
 use App\Http\Resources\SubjectResource;
 use App\Http\Resources\TeacherResource;
@@ -1045,13 +1046,14 @@ class StudentController extends Controller
       'id' => $id,
       'title' => $course->title,
       'description' => $course->description ?? '',
-      'teacher_name' => 'John Doe2',
-      'category' => 'Mobile Development',
+      'teacher_name' => $course->teachers->pluck('name'),
+      'category' => '',
       'price' => $course->net_price,
-      'duration' => '8 weeks',
+      'duration' => $course->duration. ' ' . $course->duration_type,
       'thumbnail' => $course->main_image_url,
       'main_image' => $course->main_image_url,
     ];
+
 
     // Dummy class materials
     $materials = [
@@ -1062,40 +1064,43 @@ class StudentController extends Controller
     $materials = MaterialResource::collect($course->materials ?? []);
 
     // Dummy related classes
-    $classList = [
-      [
-        'id' => '1',
-        'title' => 'Welcome & Setup',
-        'status' => 'completed',
-        'teacher' => 'Mark Allen',
-        'source'    => 'youtube',
-        'date_time' => '2025-10-01T10:00:00Z',
-        'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
-        'join_link' => '',
-      ],
-      [
-        'id' => '1',
-        'title' => 'Welcome & Setup',
-        'status' => 'ongoing',
-        'teacher' => 'Mark Allen',
-        // 'source'    => 'gmeet',
-        'source'    => 'youtube',
-        'date_time' => '2025-10-01T10:00:00Z',
-        'recorded_video' => '',
-        // 'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
-        'join_link' => 'https://www.youtube.com/watch?v=No0B2G5BHjM',
-      ],
-      [
-        'id' => '1',
-        'title' => 'Welcome & Setup',
-        'status' => 'upcoming',
-        'teacher' => 'Mark Allen',
-        'source'    => '',
-        'date_time' => '2025-10-01T10:00:00Z',
-        'recorded_video' => '',
-        'join_link' => '',
-      ],
-    ];
+    // $classList = [
+    //   [
+    //     'id' => '1',
+    //     'title' => 'Welcome & Setup',
+    //     'status' => 'completed',
+    //     'teacher' => 'Mark Allen',
+    //     'source'    => 'youtube',
+    //     'date_time' => '2025-10-01T10:00:00Z',
+    //     'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
+    //     'join_link' => '',
+    //   ],
+    //   [
+    //     'id' => '1',
+    //     'title' => 'Welcome & Setup',
+    //     'status' => 'ongoing',
+    //     'teacher' => 'Mark Allen',
+    //     // 'source'    => 'gmeet',
+    //     'source'    => 'youtube',
+    //     'date_time' => '2025-10-01T10:00:00Z',
+    //     'recorded_video' => '',
+    //     // 'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
+    //     'join_link' => 'https://www.youtube.com/watch?v=No0B2G5BHjM',
+    //   ],
+    //   [
+    //     'id' => '1',
+    //     'title' => 'Welcome & Setup',
+    //     'status' => 'upcoming',
+    //     'teacher' => 'Mark Allen',
+    //     'source'    => '',
+    //     'date_time' => '2025-10-01T10:00:00Z',
+    //     'recorded_video' => '',
+    //     'join_link' => '',
+    //   ],
+    // ];
+
+    $courseClass = ClassLinkResource::collect($course->classes);
+
 
 
     return response()->json([
@@ -1104,7 +1109,7 @@ class StudentController extends Controller
       'data' => [
         'class_detail' => $classDetail,
         'materials' => $materials,
-        'classes' => $classList,
+        'classes' => $courseClass,
       ],
     ]);
 

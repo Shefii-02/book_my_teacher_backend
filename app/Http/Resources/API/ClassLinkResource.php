@@ -4,20 +4,20 @@ namespace App\Http\Resources\API;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MaterialResource extends JsonResource
+class ClassLinkResource extends JsonResource
 {
   public function toArray($request)
   {
 
     return [
-      'id' => '1',
-      'title' => 'Welcome & Setup',
-      'status' => 'completed',
-      'teacher' => 'Mark Allen',
-      'source'    => 'youtube',
-      'date_time' => '2025-10-01T10:00:00Z',
-      'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
-      'join_link' => '',
+      'id' => $this->id,
+      'title' => $this->title,
+      'status' => $this->status == 1 ? 'scheduled' : 'pending',
+      'teacher' => $this->teachers->pluck('name')->first(),
+      'source'    => $this->class_mode,
+      'date_time' => $this->start_time,
+      'recorded_video' => $this->recording_url,
+      'join_link' => $this->meeting_link,
     ];
   }
 }

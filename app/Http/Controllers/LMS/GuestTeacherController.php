@@ -16,7 +16,8 @@ class GuestTeacherController extends Controller
      */
     public function index()
     {
-        $guestTeachers = User::where('company_id', 1)
+      $company_id = auth()->user()->company_id;
+        $guestTeachers = User::where('company_id', $company_id)
             ->where('acc_type', 'guest_teacher')
             ->paginate(10);
 

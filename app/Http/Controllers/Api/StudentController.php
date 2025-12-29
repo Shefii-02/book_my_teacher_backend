@@ -284,7 +284,8 @@ class StudentController extends Controller
       'providingTeachers.teacher',
       'providingTeachers.teacher.selectedSubjects'
 
-    ])->whereHas(['providingTeachers','providingSubjects'])
+    ])->whereHas('providingSubjects')
+      ->whereHas('providingTeachers')
       ->orderBy('position')
       ->where('published', 1)
       ->get();

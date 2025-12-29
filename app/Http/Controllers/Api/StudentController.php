@@ -1049,17 +1049,17 @@ class StudentController extends Controller
       'teacher_name' => $course->teachers->pluck('name'),
       'category' => '',
       'price' => $course->net_price,
-      'duration' => $course->duration. ' ' . $course->duration_type,
+      'duration' => $course->duration . ' ' . $course->duration_type,
       'thumbnail' => $course->main_image_url,
       'main_image' => $course->main_image_url,
     ];
 
 
     // Dummy class materials
-    $materials = [
-      ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
-      ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
-    ];
+    // $materials = [
+    //   ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
+    //   ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
+    // ];
 
     $materials = MaterialResource::collect($course->materials ?? []);
 
@@ -1146,53 +1146,58 @@ class StudentController extends Controller
       'id' => $id,
       'title' => $course->title,
       'description' => $course->description ?? '',
-      'teacher_name' => 'John Doe2',
-      'category' => 'Mobile Development',
+      'teacher_name' => $course->teachers->pluck('name'),
+      'category' => '',
       'price' => $course->net_price,
-      'duration' => '8 weeks',
-      'thumbnail' => asset('storage/' . $course->main_image),
+      'duration' => $course->duration . ' ' . $course->duration_type,
+      'thumbnail' => $course->main_image_url,
+      'main_image' => $course->main_image_url,
     ];
+
+
+    $materials = MaterialResource::collect($course->materials ?? []);
+    $courseClass = ClassLinkResource::collect($course->classes);
 
     // Dummy class materials
-    $materials = [
-      ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
-      ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
-    ];
+    // $materials = [
+    //   ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
+    //   ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
+    // ];
 
     // Dummy related classes
-    $classList = [
-      [
-        'id' => '1',
-        'title' => 'Welcome & Setup',
-        'status' => 'completed',
-        'teacher' => 'Mark Allen',
-        'source'    => 'youtube',
-        'date_time' => '2025-10-01T10:00:00Z',
-        'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
-        'join_link' => '',
-      ],
-      [
-        'id' => '1',
-        'title' => 'Welcome & Setup',
-        'status' => 'ongoing',
-        'teacher' => 'Mark Allen',
-        'source'    => 'gmeet',
-        'date_time' => '2025-10-01T10:00:00Z',
-        'recorded_video' => '',
-        'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
-      ],
-      [
-        'id' => '1',
-        'title' => 'Welcome & Setup',
-        'status' => 'upcoming',
-        'teacher' => 'Mark Allen',
-        'source'    => '',
-        'date_time' => '2025-10-01T10:00:00Z',
-        'recorded_video' => '',
-        'join_link' => '',
-      ],
+    // $classList = [
+    //   [
+    //     'id' => '1',
+    //     'title' => 'Welcome & Setup',
+    //     'status' => 'completed',
+    //     'teacher' => 'Mark Allen',
+    //     'source'    => 'youtube',
+    //     'date_time' => '2025-10-01T10:00:00Z',
+    //     'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
+    //     'join_link' => '',
+    //   ],
+    //   [
+    //     'id' => '1',
+    //     'title' => 'Welcome & Setup',
+    //     'status' => 'ongoing',
+    //     'teacher' => 'Mark Allen',
+    //     'source'    => 'gmeet',
+    //     'date_time' => '2025-10-01T10:00:00Z',
+    //     'recorded_video' => '',
+    //     'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
+    //   ],
+    //   [
+    //     'id' => '1',
+    //     'title' => 'Welcome & Setup',
+    //     'status' => 'upcoming',
+    //     'teacher' => 'Mark Allen',
+    //     'source'    => '',
+    //     'date_time' => '2025-10-01T10:00:00Z',
+    //     'recorded_video' => '',
+    //     'join_link' => '',
+    //   ],
 
-    ];
+    // ];
 
 
     return response()->json([
@@ -1201,7 +1206,7 @@ class StudentController extends Controller
       'data' => [
         'class_detail' => $classDetail,
         'materials' => $materials,
-        'classes' => $classList,
+        'classes' => $courseClass,
       ],
     ]);
   }
@@ -1212,58 +1217,72 @@ class StudentController extends Controller
 
     $course = Workshop::where('id', $id)->first();
     // Dummy class data
+    // $classDetail = [
+    //   'id' => $id,
+    //   'title' => $course->title,
+    //   'description' => $course->description ?? '',
+    //   'teacher_name' => 'John Doe2',
+    //   'category' => 'Mobile Development',
+    //   'price' => $course->net_price,
+    //   'duration' => '8 weeks',
+    //   'thumbnail' => asset('storage/' . $course->main_image),
+    // ];
+
     $classDetail = [
       'id' => $id,
       'title' => $course->title,
       'description' => $course->description ?? '',
-      'teacher_name' => 'John Doe2',
-      'category' => 'Mobile Development',
+      'teacher_name' => $course->teachers->pluck('name'),
+      'category' => '',
       'price' => $course->net_price,
-      'duration' => '8 weeks',
-      'thumbnail' => asset('storage/' . $course->main_image),
+      'duration' => $course->duration . ' ' . $course->duration_type,
+      'thumbnail' => $course->main_image_url,
+      'main_image' => $course->main_image_url,
     ];
 
     // Dummy class materials
-    $materials = [
-      ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
-      ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
-    ];
+    // $materials = [
+    //   ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
+    //   ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
+    // ];
 
     // Dummy related classes
-    $classList = [
-      [
-        'id' => '1',
-        'title' => 'Welcome & Setup',
-        'status' => 'completed',
-        'teacher' => 'Mark Allen',
-        'date_time' => '2025-10-01T10:00:00Z',
-        'source'    => 'youtube',
-        'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
-        'join_link' => '',
-      ],
-      [
-        'id' => '1',
-        'title' => 'Welcome & Setup',
-        'status' => 'ongoing',
-        'teacher' => 'Mark Allen',
-        'date_time' => '2025-10-01T10:00:00Z',
-        'source'    => 'gmeet',
-        'recorded_video' => '',
-        'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
-      ],
-      [
-        'id' => '1',
-        'title' => 'Welcome & Setup',
-        'status' => 'upcoming',
-        'teacher' => 'Mark Allen',
-        'source'    => '',
-        'date_time' => '2025-10-01T10:00:00Z',
-        'recorded_video' => '',
-        'join_link' => '',
-      ],
+    // $classList = [
+    //   [
+    //     'id' => '1',
+    //     'title' => 'Welcome & Setup',
+    //     'status' => 'completed',
+    //     'teacher' => 'Mark Allen',
+    //     'date_time' => '2025-10-01T10:00:00Z',
+    //     'source'    => 'youtube',
+    //     'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
+    //     'join_link' => '',
+    //   ],
+    //   [
+    //     'id' => '1',
+    //     'title' => 'Welcome & Setup',
+    //     'status' => 'ongoing',
+    //     'teacher' => 'Mark Allen',
+    //     'date_time' => '2025-10-01T10:00:00Z',
+    //     'source'    => 'gmeet',
+    //     'recorded_video' => '',
+    //     'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
+    //   ],
+    //   [
+    //     'id' => '1',
+    //     'title' => 'Welcome & Setup',
+    //     'status' => 'upcoming',
+    //     'teacher' => 'Mark Allen',
+    //     'source'    => '',
+    //     'date_time' => '2025-10-01T10:00:00Z',
+    //     'recorded_video' => '',
+    //     'join_link' => '',
+    //   ],
 
-    ];
+    // ];
 
+    $materials = MaterialResource::collect($course->materials ?? []);
+    $courseClass = ClassLinkResource::collect($course->classes);
 
     return response()->json([
       'status' => true,
@@ -1271,7 +1290,7 @@ class StudentController extends Controller
       'data' => [
         'class_detail' => $classDetail,
         'materials' => $materials,
-        'classes' => $classList,
+        'classes' => $courseClass,
       ],
     ]);
   }

@@ -60,9 +60,9 @@ class CourseResource extends JsonResource
         ];
       }),
 
-      'is_enrolled' => $this->whenLoaded('registrations')->count() ? true : false,
+      // 'is_enrolled' => $this->whenLoaded('registrations')->count() ? true : false,
 
-      // 'is_enrolled' => (bool) ($this->is_enrolled ?? false),
+      'is_enrolled' => (bool) ($this->is_enrolled ?? false),
     ];
   }
 }

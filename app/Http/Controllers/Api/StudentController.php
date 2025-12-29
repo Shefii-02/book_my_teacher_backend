@@ -1157,8 +1157,8 @@ class StudentController extends Controller
       'category' => '',
       'price' => $course->net_price,
       'duration' => $course->duration . ' ' . $course->duration_type,
-      'thumbnail' => $course->main_image_url,
-      'main_image' => $course->main_image_url,
+   'thumbnail' => asset('storage/' .$course->main_image),
+      'main_image' => asset('storage/' .$course->main_image),
     ];
 
 
@@ -1245,8 +1245,8 @@ class StudentController extends Controller
       'category' => '',
       'price' => $course->net_price,
       'duration' => $course->duration . ' ' . $course->duration_type,
-      'thumbnail' => $course->main_image_url,
-      'main_image' => $course->main_image_url,
+      'thumbnail' => asset('storage/' .$course->main_image),
+      'main_image' => asset('storage/' .$course->main_image),
     ];
 
     // Dummy class materials

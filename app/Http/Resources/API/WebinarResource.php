@@ -55,7 +55,7 @@ class WebinarResource extends JsonResource
       'is_public'     => (bool) $this->is_public,
 
       // 'is_enrolled'   => (bool) ($this->is_enrolled ?? false),
-        'is_enrolled' => $this->whenLoaded('registrations') ? true : false,
+        'is_enrolled' => $this->whenLoaded('registrations')->count() ? true : false,
     ];
   }
 }

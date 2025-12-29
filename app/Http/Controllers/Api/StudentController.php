@@ -1145,7 +1145,7 @@ class StudentController extends Controller
     $id = $request->webinar_id;
 
     $course = Webinar::where('id', $id)->first();
-    $teacher = $course?->teachers->first();
+    $teacher = $course?->host->first();
     // Dummy class data
     $classDetail = [
       'id' => $id,
@@ -1235,7 +1235,7 @@ class StudentController extends Controller
     //   'thumbnail' => asset('storage/' . $course->main_image),
     // ];
 
-    $teacher = $course?->teachers->first();
+    $teacher = $course?->host?->first();
     $classDetail = [
       'id' => $id,
       'title' => $course->title,

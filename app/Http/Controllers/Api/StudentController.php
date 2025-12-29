@@ -1047,7 +1047,10 @@ class StudentController extends Controller
       'id' => $id,
       'title' => $course->title,
       'description' => $course->description ?? '',
-      'teacher_name' => $course->teachers->pluck('name'),
+      // 'teacher_name' => $course->teachers->pluck('name'),
+      'teacher_name' => optional(
+        $course?->teachers->first()
+      )->name,
       'category' => '',
       'price' => $course->net_price,
       'duration' => $course->duration . ' ' . $course->duration_type,
@@ -1147,7 +1150,10 @@ class StudentController extends Controller
       'id' => $id,
       'title' => $course->title,
       'description' => $course->description ?? '',
-      'teacher_name' => $course->teachers->pluck('name'),
+      // 'teacher_name' => $course->teachers->pluck('name'),
+      'teacher_name' => optional(
+        $course?->teachers->first()
+      )->name,
       'category' => '',
       'price' => $course->net_price,
       'duration' => $course->duration . ' ' . $course->duration_type,
@@ -1233,7 +1239,10 @@ class StudentController extends Controller
       'id' => $id,
       'title' => $course->title,
       'description' => $course->description ?? '',
-      'teacher_name' => $course->teachers->pluck('name'),
+      // 'teacher_name' => $course->teachers->pluck('name'),
+      'teacher_name' => optional(
+        $course?->teachers->first()
+      )->name,
       'category' => '',
       'price' => $course->net_price,
       'duration' => $course->duration . ' ' . $course->duration_type,

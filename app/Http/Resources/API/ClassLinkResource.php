@@ -13,7 +13,10 @@ class ClassLinkResource extends JsonResource
       'id' => $this->id,
       'title' => $this->title,
       'status' => $this->status == 1 ? 'scheduled' : 'pending',
-      'teacher' => $this->teachers->pluck('name')->first(),
+      // 'teacher' => $this->teachers->pluck('name')->first(),
+      'teacher' => optional(
+        $this->course?->teachers->first()
+      )->name,
       'source'    => $this->class_mode,
       'date_time' => $this->start_time,
       'recorded_video' => $this->recording_url,

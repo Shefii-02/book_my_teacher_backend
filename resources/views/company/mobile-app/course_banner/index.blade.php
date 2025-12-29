@@ -132,12 +132,12 @@
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownBottomButton">
                                                     <li>
-                                                        <a href="{{ route('company.app.top-banners.edit', $banner->id) }}"
+                                                        <a href="{{ route('company.app.course-banners.edit', $banner->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                     </li>
                                                     <li>
                                                         <form id="form_{{ $banner->id }}" class="m-0 p-0"
-                                                            action="{{ route('company.app.top-banners.destroy', $banner->id) }}"
+                                                            action="{{ route('company.app.course-banners.destroy', $banner->id) }}"
                                                             method="POST" class="inline-block">
                                                             @csrf @method('DELETE') </form>
                                                         <a role="button" href="javascript:;"

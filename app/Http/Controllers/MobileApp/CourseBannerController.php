@@ -82,7 +82,7 @@ class CourseBannerController extends Controller
     $courses = Course::where('company_id', $company_id)->get();
     $webinars = Webinar::where('company_id', $company_id)->get();
     $workshops = Workshop::where('company_id', $company_id)->get();
-    return view('company.mobile-app.course_banner.form', compact('courses', 'webinars', 'workshops', 'banner'));
+    return view('company.mobile-app.course_banner.form', compact('courses', 'webinars', 'workshops', 'course_banner'));
   }
 
   public function update(UpdateTopBannerRequest $request, TopBanner $course_banner)

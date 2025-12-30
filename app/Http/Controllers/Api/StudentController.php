@@ -518,6 +518,10 @@ class StudentController extends Controller
 
     $data = collect([
       [
+        'category' => 'Workshop',
+        'items'    => WorkshopResource::collection($workshops),
+      ],
+      [
         'category' => 'Course',
         'items'    => CourseResource::collection($courses),
       ],
@@ -525,10 +529,7 @@ class StudentController extends Controller
         'category' => 'Webinar',
         'items'    => WebinarResource::collection($webinars),
       ],
-      [
-        'category' => 'Workshop',
-        'items'    => WorkshopResource::collection($workshops),
-      ],
+
     ])->filter(fn($g) => $g['items']->isNotEmpty())
       ->values();
 

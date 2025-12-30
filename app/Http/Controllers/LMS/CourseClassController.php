@@ -58,13 +58,13 @@ class CourseClassController extends Controller
       $data = $validated;
       $data['course_id'] = $course->id;
 
-      $data['start_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] .' ' .$data['start_time']));
-      $data['end_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] .' ' .$data['end_time']));
+      $data['start_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] . ' ' . $data['start_time']));
+      $data['end_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] . ' ' . $data['end_time']));
 
 
       $class = CourseClass::create($data);
 
-      TeacherClass::create(['teacher_id' => $request->teacher_id,'class_id' => $class->id]);
+      TeacherClass::create(['teacher_id' => $request->teacher_id, 'class_id' => $class->id]);
 
       DB::commit();
       return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class created successfully.');
@@ -126,9 +126,9 @@ class CourseClassController extends Controller
     }
   }
 
-  public function destroy(CourseClass $course_class)
+  public function destroy($identity, CourseClass $course_class)
   {
     $course_class->delete();
-    return redirect()->route('company.courses.schedule-class.index')->with('success', 'Course class deleted successfully.');
+    return redirect()->route('company.courses.schedule-class.index', $identity)->with('success', 'Course class deleted successfully.');
   }
 }

@@ -143,13 +143,10 @@
                                                         <a role="button" href="javascript:;"
                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
                                                             onclick="confirmDelete({{ $banner->id }})">Delete</a>
-
                                                     </li>
                                                 </ul>
                                             </div>
-
                                         </td>
-
                                     </tr>
                                 @empty
                                     <tr class="border-b dark:border-white/40">

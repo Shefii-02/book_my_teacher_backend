@@ -126,9 +126,10 @@ class CourseClassController extends Controller
     }
   }
 
-  public function destroy($identity, CourseClass $course_class)
+  public function destroy($identity, $course_class)
   {
-    $course_class->delete();
+    $class = CourseClass::where('course_id', $identity)->where('id', $course_class)->first() ?? abort(404);
+    $class->delete();
     return redirect()->route('company.courses.schedule-class.index', $identity)->with('success', 'Course class deleted successfully.');
   }
 }

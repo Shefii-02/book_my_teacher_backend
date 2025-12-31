@@ -1162,9 +1162,8 @@ class StudentController extends Controller
       'main_image' => asset('storage/' . $course->main_image),
     ];
 
-   Log::info(11);
     $materials = MaterialResource::collection($course->materials ?? []);
-    Log::info($materials);
+$materials = [];
     //
     $classes = collect([
       ['id' => 1, 'title' => 'Class A', 'status' => 'scheduled', 'teacher' => '', 'source' => '', 'date_time' => '', 'start_date_time' => '', 'end_date_time' => '', 'recorded_video' => '', 'join_link' => ''],

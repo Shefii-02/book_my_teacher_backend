@@ -93,6 +93,6 @@ class Workshop extends Model
 
 
   public function classes(){
-        return $this->hasMany(WorkshopClass::class);
+        return $this->hasMany(WorkshopClass::class)->where('priority','asc');
   }
 }

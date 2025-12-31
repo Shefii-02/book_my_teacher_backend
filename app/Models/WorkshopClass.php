@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +26,32 @@ class WorkshopClass extends Model
     'status'
   ];
 
+
+  public function getStartDateTimeAttribute()
+  {
+    if (!$this->scheduled_at || !$this->start_time) {
+      return null;
+    }
+
+    return Carbon::parse(
+      $this->scheduled_at . ' ' . $this->start_time
+    );
+  }
+
+  public function getEndDateTimeAttribute()
+  {
+    if (!$this->scheduled_at || !$this->end_time) {
+      return null;
+    }
+
+    return Carbon::parse(
+      $this->scheduled_at . ' ' . $this->end_time
+    );
+  }
+
+
+
+
   public function course_data()
   {
     return $this->hasOne(Course::class, 'id', 'course_id');
@@ -32,7 +59,7 @@ class WorkshopClass extends Model
 
   public function workshop()
   {
-    return $this->hasOne(Workshop::class,'id','workshop_id');
+    return $this->hasOne(Workshop::class, 'id', 'workshop_id');
   }
 
   public function livestream()

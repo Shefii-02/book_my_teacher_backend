@@ -16,7 +16,7 @@ class ClassLinkResource extends JsonResource
         // Default status
         $classStatus = 'pending';
 
-        if ($this->status == 'published') {
+        if ($this->status == 'scheduled') {
             if ($now->lt($this->start_date_time)) {
                 $classStatus = 'upcoming';
             } elseif ($now->between($this->start_date_time, $this->end_date_time)) {

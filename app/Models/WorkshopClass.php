@@ -46,16 +46,16 @@ class WorkshopClass extends Model
     return $this->start_time;
   }
 
-  public function getEndDateTimeAttribute()
-  {
-    if (!$this->scheduled_at || !$this->end_time) {
-      return null;
-    }
+  // public function getEndDateTimeAttribute()
+  // {
+  //   if (!$this->scheduled_at || !$this->end_time) {
+  //     return null;
+  //   }
 
-    return Carbon::parse(
-      $this->scheduled_at . ' ' . $this->end_time
-    );
-  }
+  //   return Carbon::parse(
+  //     $this->scheduled_at . ' ' . $this->end_time
+  //   );
+  // }
 
 
   public function course_data()

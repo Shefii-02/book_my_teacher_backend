@@ -20,9 +20,9 @@ class WorkshopResource extends JsonResource
       'main_image_url' => $this->main_image ? asset('storage/' . $this->main_image) : null,
 
 
-      'started_at'    => $this->started_at,
-      'ended_at'      => $this->ended_at,
-      'registration_end_at' => $this->registration_end_at,
+      'started_at'    => date('Y-m-d H:i:s',strtotime($this->started_at)),
+      'ended_at'      => date('Y-m-d H:i:s',strtotime($this->ended_at)),
+      'registration_end_at' => date('Y-m-d H:i:s',strtotime($this->registration_end_at)),
 
       // 💰 Pricing
       'actual_price'  => $this->actual_price,

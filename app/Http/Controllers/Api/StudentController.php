@@ -1167,7 +1167,7 @@ class StudentController extends Controller
     $materials = [];
 
     $courseClass = new WebinarClassLinkResource($course);
-    Log::info($courseClass);
+
 
     return response()->json([
       'status' => true,

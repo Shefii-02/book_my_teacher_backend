@@ -32,9 +32,9 @@ class WebinarClassLinkResource extends JsonResource
       // 'teacher' => $this->teachers->pluck('name')->first(),
       'teacher' => $this->host?->name ?? '',
       'source'    => 'gmeet',
-      'date_time' => $this->started_at,
-      'start_date_time' => $this->started_at,
-      'end_date_time' => $this->ended_at,
+      'date_time' => date('Y-m-d H:i:s', strtotime($this->started_at)),
+      'start_date_time'    => date('Y-m-d H:i:s', strtotime($this->started_at)),
+      'end_date_time'      => date('Y-m-d H:i:s', strtotime($this->ended_at)),
       'recorded_video' => $this->recording_url,
       'join_link' => $this->meeting_url,
     ];

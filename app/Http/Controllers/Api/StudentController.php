@@ -534,6 +534,7 @@ class StudentController extends Controller
       ->values();
 
 
+      Log::info($data);
     return response()->json([
       'status' => true,
       'message' => 'Courses categorized successfully',

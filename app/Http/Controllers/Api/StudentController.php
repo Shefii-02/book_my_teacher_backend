@@ -533,8 +533,6 @@ class StudentController extends Controller
     ])->filter(fn($g) => $g['items']->isNotEmpty())
       ->values();
 
-
-      Log::info($data);
     return response()->json([
       'status' => true,
       'message' => 'Courses categorized successfully',
@@ -1160,8 +1158,8 @@ class StudentController extends Controller
       'category' => '',
       'price' => $course->net_price,
       'duration' => $course->duration . ' ' . $course->duration_type,
-   'thumbnail' => asset('storage/' .$course->main_image),
-      'main_image' => asset('storage/' .$course->main_image),
+      'thumbnail' => asset('storage/' . $course->main_image),
+      'main_image' => asset('storage/' . $course->main_image),
     ];
 
 
@@ -1237,15 +1235,21 @@ class StudentController extends Controller
       'category' => '',
       'price' => $course->net_price,
       'duration' => $course->duration . ' ' . $course->duration_type,
-      'thumbnail' => asset('storage/' .$course->main_image),
-      'main_image' => asset('storage/' .$course->main_image),
+      'thumbnail' => asset('storage/' . $course->main_image),
+      'main_image' => asset('storage/' . $course->main_image),
     ];
 
 
 
+
     $materials = MaterialResource::collection($course->materials ?? []);
-    Log::info($course->classes);
-    $courseClass = ClassLinkResource::collection($course->classes);
+
+    $classes = collect([
+                  // ['id' => 1, 'title' => 'Class A','status' => '', 'teacher' =>'','source' =>'','date_time' =>'','start_date_time' =>'','end_date_time'=>'','recorded_video' =>'','join_link'=>''],
+              ]);
+
+
+    $courseClass = ClassLinkResource::collection($classes);
 
     return response()->json([
       'status' => true,

@@ -40,8 +40,6 @@ class WorkshopClass extends Model
     }
 
     return date('Y-m-d H:i:s',strtotime($this->scheduled_at . ' ' . $this->start_time));
-
-    return $this->start_time;
   }
 
   public function getEndDateTimeAttribute()
@@ -50,10 +48,7 @@ class WorkshopClass extends Model
       return null;
     }
 
-        return date('Y-m-d H:i:s',strtotime($this->scheduled_at . ' ' . $this->end_time));
-
-
-       return $this->end_time;
+    return date('Y-m-d H:i:s',strtotime($this->scheduled_at . ' ' . $this->end_time));
   }
 
 

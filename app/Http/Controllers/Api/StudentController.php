@@ -9,6 +9,7 @@ use App\Http\Resources\API\WebinarResource;
 use App\Http\Resources\API\BannerResource;
 use App\Http\Resources\API\ClassLinkResource;
 use App\Http\Resources\API\MaterialResource;
+use App\Http\Resources\API\WebinarClassLinkResource;
 use App\Http\Resources\SubjectResource;
 use App\Http\Resources\TeacherResource;
 use App\Models\CompanyTeacher;
@@ -1163,54 +1164,10 @@ class StudentController extends Controller
     ];
 
     $materials = MaterialResource::collection($course->materials ?? []);
-$materials = [];
-    //
-    $classes = collect([
-      ['id' => 1, 'title' => 'Class A', 'status' => 'scheduled', 'teacher' => '', 'source' => '', 'date_time' => '', 'start_date_time' => '', 'end_date_time' => '', 'recorded_video' => '', 'join_link' => ''],
-    ]);
-        Log::info($classes);
-    $courseClass = ClassLinkResource::collection($classes);
-    // Dummy class materials
-    // $materials = [
-    //   ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
-    //   ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
-    // ];
+    $materials = [];
 
-    // Dummy related classes
-    // $classList = [
-    //   [
-    //     'id' => '1',
-    //     'title' => 'Welcome & Setup',
-    //     'status' => 'completed',
-    //     'teacher' => 'Mark Allen',
-    //     'source'    => 'youtube',
-    //     'date_time' => '2025-10-01T10:00:00Z',
-    //     'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
-    //     'join_link' => '',
-    //   ],
-    //   [
-    //     'id' => '1',
-    //     'title' => 'Welcome & Setup',
-    //     'status' => 'ongoing',
-    //     'teacher' => 'Mark Allen',
-    //     'source'    => 'gmeet',
-    //     'date_time' => '2025-10-01T10:00:00Z',
-    //     'recorded_video' => '',
-    //     'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
-    //   ],
-    //   [
-    //     'id' => '1',
-    //     'title' => 'Welcome & Setup',
-    //     'status' => 'upcoming',
-    //     'teacher' => 'Mark Allen',
-    //     'source'    => '',
-    //     'date_time' => '2025-10-01T10:00:00Z',
-    //     'recorded_video' => '',
-    //     'join_link' => '',
-    //   ],
-
-    // ];
-
+    $courseClass = WebinarClassLinkResource::collection($course);
+    Log::info($courseClass);
 
     return response()->json([
       'status' => true,

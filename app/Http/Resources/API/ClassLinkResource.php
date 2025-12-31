@@ -2,27 +2,23 @@
 
 namespace App\Http\Resources\API;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ClassLinkResource extends JsonResource
 {
-
   public function toArray($request)
   {
-    $now = Carbon::now();
 
     return [
       'id' => $this->id,
       'title' => $this->title,
-      'status' => $this->status == 'scheduled' ? 'scheduled' : 'pending',
+      'status' => $this->status == 1 ? 'scheduled' : 'pending',
       // 'teacher' => $this->teachers->pluck('name')->first(),
       'teacher' => optional(
         $this->course?->teachers->first()
       )->name,
       'source'    => $this->class_mode,
-      'date_time' => $this->start_date_time,
-      'end_date_time'  => $this->end_date_time,
+      'date_time' => $this->start_time,
       'recorded_video' => $this->recording_url,
       'join_link' => $this->meeting_link,
     ];

@@ -18,7 +18,7 @@ class ClassLinkResource extends JsonResource
         $this->course?->teachers->first()
       )->name,
       'source'    => $this->class_mode,
-      'date_time' => $this->start_date_time,
+      'date_time' => $this->start_date_time?->format('Y-m-d H:i:s'),
       'recorded_video' => $this->recording_url,
       'join_link' => $this->meeting_link,
     ];

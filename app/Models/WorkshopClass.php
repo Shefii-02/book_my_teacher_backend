@@ -39,7 +39,9 @@ class WorkshopClass extends Model
       return null;
     }
 
-    return  date('Y-m-d h:i:s', strtotime($this->scheduled_at . ' ' . $this->start_time));
+    return Carbon::parse(
+      $this->scheduled_at . ' ' . $this->start_time
+    );
   }
 
   public function getEndDateTimeAttribute()
@@ -48,11 +50,10 @@ class WorkshopClass extends Model
       return null;
     }
 
-
-    return  date('Y-m-d h:i:s', strtotime($this->scheduled_at . ' ' . $this->end_time));
+    return Carbon::parse(
+      $this->scheduled_at . ' ' . $this->end_time
+    );
   }
-
-
 
 
   public function course_data()

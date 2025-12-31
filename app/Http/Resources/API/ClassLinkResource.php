@@ -12,14 +12,6 @@ class ClassLinkResource extends JsonResource
   {
     $now = Carbon::now();
 
-    $startDateTime = Carbon::parse(
-      $this->scheduled_at . ' ' . $this->start_time
-    );
-
-    $endDateTime = Carbon::parse(
-      $this->scheduled_at . ' ' . $this->end_time
-    );
-
     return [
       'id' => $this->id,
       'title' => $this->title,
@@ -29,8 +21,8 @@ class ClassLinkResource extends JsonResource
         $this->course?->teachers->first()
       )->name,
       'source'    => $this->class_mode,
-      'date_time' => $startDateTime,
-      'end_date_time'  => $endDateTime,
+      'date_time' => $this->start_date_time,
+      'end_date_time'  => $this->end_date_time,
       'recorded_video' => $this->recording_url,
       'join_link' => $this->meeting_link,
     ];

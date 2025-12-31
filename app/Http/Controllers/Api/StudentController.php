@@ -1166,8 +1166,9 @@ class StudentController extends Controller
     $materials = MaterialResource::collection($course->materials ?? []);
     $materials = [];
 
-    $courseClass = new WebinarClassLinkResource($course);
+    $courseList[] = $course;
 
+    $courseClass = WebinarClassLinkResource::collection($courseList);
 
     return response()->json([
       'status' => true,
@@ -1175,7 +1176,7 @@ class StudentController extends Controller
       'data' => [
         'class_detail' => $classDetail,
         'materials' => $materials,
-        'classes' => $courseClass->toArray($request),
+        'classes' => $courseClass,
       ],
     ]);
   }

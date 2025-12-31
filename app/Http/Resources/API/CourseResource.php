@@ -22,8 +22,9 @@ class CourseResource extends JsonResource
       'duration_type'     => $this->duration_type,
       'duration'          => $this->duration,
       'total_hours'       => $this->total_hours,
-      'started_at'        => $this->started_at,
-      'ended_at'          => $this->ended_at,
+
+      'started_at'    => date('Y-m-d H:i:s', strtotime($this->started_at)),
+      'ended_at'      => date('Y-m-d H:i:s', strtotime($this->ended_at)),
 
       // 💰 Pricing
       'actual_price'      => $this->actual_price,

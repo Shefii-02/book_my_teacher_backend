@@ -1293,7 +1293,7 @@ class StudentController extends Controller
 
     $materials = MaterialResource::collection($course->materials ?? []);
     $courseClass = ClassLinkResource::collection($course->classes);
-Log::info($courseClass);
+
     return response()->json([
       'status' => true,
       'message' => 'Class details fetched successfully',

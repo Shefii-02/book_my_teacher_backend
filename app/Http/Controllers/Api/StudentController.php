@@ -1164,8 +1164,11 @@ class StudentController extends Controller
 
 
     $materials = MaterialResource::collection($course->materials ?? []);
-    $courseClass = ClassLinkResource::collection($course->classes);
-
+    //
+    $classes = collect([
+      ['id' => 1, 'title' => 'Class A', 'status' => '', 'teacher' => '', 'source' => '', 'date_time' => '', 'start_date_time' => '', 'end_date_time' => '', 'recorded_video' => '', 'join_link' => ''],
+    ]);
+    $courseClass = ClassLinkResource::collection($classes);
     // Dummy class materials
     // $materials = [
     //   ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
@@ -1224,7 +1227,7 @@ class StudentController extends Controller
     $id = $request->workshop_id;
 
     $course = Workshop::where('id', $id)->first();
-Log::info($course?->host);
+
     $teacher = $course?->host?->first();
     $classDetail = [
       'id' => $id,
@@ -1241,15 +1244,9 @@ Log::info($course?->host);
 
 
 
-
     $materials = MaterialResource::collection($course->materials ?? []);
-
-    $classes = collect([
-                  // ['id' => 1, 'title' => 'Class A','status' => '', 'teacher' =>'','source' =>'','date_time' =>'','start_date_time' =>'','end_date_time'=>'','recorded_video' =>'','join_link'=>''],
-              ]);
-
-
-    $courseClass = ClassLinkResource::collection($classes);
+    Log::info($course->classes);
+    $courseClass = ClassLinkResource::collection($course->classes);
 
     return response()->json([
       'status' => true,

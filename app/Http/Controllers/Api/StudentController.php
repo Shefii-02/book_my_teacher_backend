@@ -1224,7 +1224,7 @@ class StudentController extends Controller
     $id = $request->workshop_id;
 
     $course = Workshop::where('id', $id)->first();
-
+Log::info($course?->host);
     $teacher = $course?->host?->first();
     $classDetail = [
       'id' => $id,

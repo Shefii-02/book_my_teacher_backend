@@ -18,9 +18,9 @@ class WebinarResource extends JsonResource
       'thumbnail_url' => $this->thumbnail_image ? asset('storage/' . $this->thumbnail_image) : null,
       'main_image_url' => $this->main_image ? asset('storage/' . $this->main_image) : null,
 
-      'started_at'    => $this->started_at,
-      'ended_at'      => $this->ended_at,
-      'registration_end_at' => $this->registration_end_at,
+      'started_at'    => date('Y-m-d H:i:s',strtotime($this->started_at)),
+      'ended_at'      => date('Y-m-d H:i:s',strtotime($this->ended_at)),
+      'registration_end_at' => date('Y-m-d H:i:s',strtotime($this->registration_end_at)),
 
       'meeting_url' => $this->meeting_url,
       'recording_url' => $this->recording_url,

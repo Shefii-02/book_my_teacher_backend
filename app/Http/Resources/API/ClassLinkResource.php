@@ -33,7 +33,7 @@ class ClassLinkResource extends JsonResource
       'status' => $classStatus,
       // 'teacher' => $this->teachers->pluck('name')->first(),
       'teacher' => optional(
-        $this->course?->teachers->first()
+        $this->course?->teachers?->first()
       )->name,
       'source'    => $this->class_mode,
       'date_time' => $this->start_time,

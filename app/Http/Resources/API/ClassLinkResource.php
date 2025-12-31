@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\API;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ClassLinkResource extends JsonResource
@@ -10,11 +11,26 @@ class ClassLinkResource extends JsonResource
   {
 
 
+        $now = Carbon::now();
+
+        // Default status
+        $classStatus = 'pending';
+
+        if ($this->status == 'published') {
+            if ($now->lt($this->start_date_time)) {
+                $classStatus = 'upcoming';
+            } elseif ($now->between($this->start_date_time, $this->end_date_time)) {
+                $classStatus = 'ongoing';
+            } elseif ($now->gt($this->end_date_time)) {
+                $classStatus = 'completed';
+            }
+        }
+
 
     return [
       'id' => $this->id,
       'title' => $this->title,
-      'status' => $this->status == 1 ? 'scheduled' : 'pending',
+      'status' => $classStatus,
       // 'teacher' => $this->teachers->pluck('name')->first(),
       'teacher' => optional(
         $this->course?->teachers->first()

@@ -26,6 +26,12 @@ class WorkshopClass extends Model
     'status'
   ];
 
+  protected $appends = [
+    'start_date_time',
+    'end_date_time',
+];
+
+
 
   public function getStartDateTimeAttribute()
   {

@@ -1175,7 +1175,7 @@ class StudentController extends Controller
       'data' => [
         'class_detail' => $classDetail,
         'materials' => $materials,
-        'classes' => $courseClass,
+        'classes' => $courseClass->toArray($request),
       ],
     ]);
   }

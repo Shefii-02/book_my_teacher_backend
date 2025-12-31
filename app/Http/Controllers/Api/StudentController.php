@@ -1162,7 +1162,7 @@ class StudentController extends Controller
       'main_image' => asset('storage/' . $course->main_image),
     ];
 
-
+   Log::info(11);
     $materials = MaterialResource::collection($course->materials ?? []);
     Log::info($materials);
     //

@@ -1224,17 +1224,6 @@ class StudentController extends Controller
     $id = $request->workshop_id;
 
     $course = Workshop::where('id', $id)->first();
-    // Dummy class data
-    // $classDetail = [
-    //   'id' => $id,
-    //   'title' => $course->title,
-    //   'description' => $course->description ?? '',
-    //   'teacher_name' => 'John Doe2',
-    //   'category' => 'Mobile Development',
-    //   'price' => $course->net_price,
-    //   'duration' => '8 weeks',
-    //   'thumbnail' => asset('storage/' . $course->main_image),
-    // ];
 
     $teacher = $course?->host?->first();
     $classDetail = [
@@ -1250,46 +1239,7 @@ class StudentController extends Controller
       'main_image' => asset('storage/' .$course->main_image),
     ];
 
-    // Dummy class materials
-    // $materials = [
-    //   ['id' => 1, 'title' => 'Introduction to Flutter', 'file_url' => asset('materials/intro.pdf')],
-    //   ['id' => 2, 'title' => 'Widgets Deep Dive', 'file_url' => asset('materials/widgets.pdf')],
-    // ];
 
-    // Dummy related classes
-    // $classList = [
-    //   [
-    //     'id' => '1',
-    //     'title' => 'Welcome & Setup',
-    //     'status' => 'completed',
-    //     'teacher' => 'Mark Allen',
-    //     'date_time' => '2025-10-01T10:00:00Z',
-    //     'source'    => 'youtube',
-    //     'recorded_video' => 'https://youtu.be/iLnmTe5Q2Qw',
-    //     'join_link' => '',
-    //   ],
-    //   [
-    //     'id' => '1',
-    //     'title' => 'Welcome & Setup',
-    //     'status' => 'ongoing',
-    //     'teacher' => 'Mark Allen',
-    //     'date_time' => '2025-10-01T10:00:00Z',
-    //     'source'    => 'gmeet',
-    //     'recorded_video' => '',
-    //     'join_link' => 'https://meet.google.com/ufr-stwo-jjc',
-    //   ],
-    //   [
-    //     'id' => '1',
-    //     'title' => 'Welcome & Setup',
-    //     'status' => 'upcoming',
-    //     'teacher' => 'Mark Allen',
-    //     'source'    => '',
-    //     'date_time' => '2025-10-01T10:00:00Z',
-    //     'recorded_video' => '',
-    //     'join_link' => '',
-    //   ],
-
-    // ];
 
     $materials = MaterialResource::collection($course->materials ?? []);
 

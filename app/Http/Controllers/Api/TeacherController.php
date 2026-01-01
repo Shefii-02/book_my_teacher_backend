@@ -635,6 +635,17 @@ class TeacherController extends Controller
 
     $dummyData = $this->getDummyStatistics();
 
+    Log::info('Class Time Summary', [
+    'range'      => $range,
+    'spend_time' => $dummyData['spend'],
+    'watch_time' => $dummyData['watch'],
+    'summary'    => [
+        'total_spend' => '0 hrs',
+        'total_watch' => '0 hrs',
+    ],
+]);
+
+
     return response()->json([
       "range"       => $range,
       "spend_time"  => $dummyData['spend'],

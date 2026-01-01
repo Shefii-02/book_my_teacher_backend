@@ -107,6 +107,8 @@ class ReferralController extends Controller
 
     $refCode = User::where('referral_code', $code)->first();
 
+    Log::info($refCode);
+
     if (!$refCode) {
       return response()->json([
         'status' => false,

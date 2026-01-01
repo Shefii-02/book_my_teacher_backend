@@ -107,7 +107,7 @@ class ReferralController extends Controller
 
     $refCode = User::where('referral_code', $code)->first();
 
-    Log::info($refCode);
+
 
     if (!$refCode) {
       return response()->json([
@@ -122,13 +122,10 @@ class ReferralController extends Controller
       ->orderBy('first_visit', 'desc')
       ->first();
 
+        Log::info($ref);
+
     if (!$ref) {
-      return response()->json([
-        'status' => false,
-        'message' => 'Invalid or already used referral code'
-      ], 400);
-    } else {
-      $ref = AppReferral::create([
+       $ref = AppReferral::create([
         'referral_code' => $code,
         'device_hash'   => $deviceHash,
         'ip'            => $ip,
@@ -138,7 +135,23 @@ class ReferralController extends Controller
         'applied'       => false,
         'status'        => 'active',
       ]);
+      // return response()->json([
+      //   'status' => false,
+      //   'message' => 'Invalid or already used referral code'
+      // ], 400);
     }
+    // else {
+    //   $ref = AppReferral::create([
+    //     'referral_code' => $code,
+    //     'device_hash'   => $deviceHash,
+    //     'ip'            => $ip,
+    //     'ua'            => $ua,
+    //     'first_visit'   => Carbon::now(),
+    //     'last_visit'    => Carbon::now(),
+    //     'applied'       => false,
+    //     'status'        => 'active',
+    //   ]);
+    // }
 
     // Mark applied
     $ref->update([

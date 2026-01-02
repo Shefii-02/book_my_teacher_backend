@@ -36,7 +36,7 @@ class CourseController extends Controller
       $course_draft     = Course::where('course_identity', $course_identity)->first();
     }
 
-    $institutes = Institute::with('user')->where('company_id', $company_id)->first();
+    $institutes = Institute::with('user')->where('company_id', $company_id)->get();
 
     return view('company.courses.form', compact('categories', 'course_draft', 'institutes'));
   }
@@ -363,7 +363,7 @@ class CourseController extends Controller
       return view('company.courses.steps.payments', compact('course'));
     } else if ($step  == 3) {
       $teachers = Teacher::where('published', 1)->get();
-      $institutes = Institute::with('user')->where('company_id', $company_id)->first();
+      $institutes = Institute::with('user')->where('company_id', $company_id)->get();
 
       return view('company.courses.steps.advanced', compact('course', 'teachers', 'institutes'));
     } else {

@@ -33,6 +33,7 @@ class LoginController extends Controller
 
   public function googleLoginCheck(Request $request)
   {
+    Log::info($request->all());
     try {
       $authUser = $request->user(); // may be null
       $idToken  = $request->input('idToken');

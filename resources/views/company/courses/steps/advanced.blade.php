@@ -205,11 +205,12 @@
                 <label class="block text-sm font-medium my-2">
                     Institute
                 </label>
+                @dump($institutes)
                 <select id="select2-teachers" name="institute_id" class="form-control border w-full">
                     <option value="">Select one</option>
-                    @foreach ($teachers as $teacher)
-                        <option value="{{ $teacher->id }}" @selected(old('institute_id', $course->institute_id ?? '') == $teacher->id)>
-                            {{ $teacher->name }}
+                    @foreach ($institutes ?? [] as $institute)
+                        <option value="{{ $institute->id }}" @selected(old('institute_id', $course->institute_id ?? '') == $institute->id)>
+                            {{ $institute->user->name }}
                         </option>
                     @endforeach
                 </select>

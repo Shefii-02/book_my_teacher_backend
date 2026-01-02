@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\CourseSubCategory;
+use App\Models\Institute;
 use App\Models\Teacher;
 use App\Models\TeacherCourse;
 use Exception;
@@ -26,15 +27,18 @@ class CourseController extends Controller
 
   public function create(Request $request)
   {
-    $course_identity            = $request->draft;
-    $categories       = CourseCategory::all();
-    $course_draft = null;
+    $company_id         = 1;
+    $course_identity    = $request->draft;
+    $categories         = CourseCategory::all();
+    $course_draft       = null;
 
     if ($course_identity != null) {
       $course_draft     = Course::where('course_identity', $course_identity)->first();
     }
 
-    return view('company.courses.form', compact('categories', 'course_draft'));
+    $institutes = Institute::with('user')->where('company_id', $company_id)->first();
+
+    return view('company.courses.form', compact('categories', 'course_draft', 'institutes'));
   }
 
   public function store(Request $request)
@@ -351,6 +355,7 @@ class CourseController extends Controller
   public function loadStepForm($step = 0, Request $request)
   {
     $course     = Course::where('course_identity', $request->course_id)->first();
+    $company_id = auth()->user()->company_id;
     if ($step  == 1) {
       $categories       = CourseCategory::all();
       return view('company.courses.steps.basic', compact('course', 'categories'));
@@ -358,7 +363,9 @@ class CourseController extends Controller
       return view('company.courses.steps.payments', compact('course'));
     } else if ($step  == 3) {
       $teachers = Teacher::where('published', 1)->get();
-      return view('company.courses.steps.advanced', compact('course', 'teachers'));
+      $institutes = Institute::with('user')->where('company_id', $company_id)->first();
+
+      return view('company.courses.steps.advanced', compact('course', 'teachers', 'institutes'));
     } else {
       return view('company.courses.steps.overview', compact('course'));
     }

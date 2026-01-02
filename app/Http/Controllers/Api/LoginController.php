@@ -59,15 +59,16 @@ class LoginController extends Controller
 
         $payload = $client->verifyIdToken($idToken);
 
-        if (!$payload) {
-          Log::warning('Invalid Google ID token');
-          return response()->json([
-            'status' => false,
-            'message' => 'Invalid Google token',
-          ], 401);
+        // if (!$payload) {
+        //   Log::warning('Invalid Google ID token');
+        //   return response()->json([
+        //     'status' => false,
+        //     'message' => 'Invalid Google token',
+        //   ], 401);
+        // }
+        if ($payload) {
+          $email = $payload['email'] ?? null;
         }
-
-        $email = $payload['email'] ?? null;
       }
 
       // ✅ Fallback email (optional)

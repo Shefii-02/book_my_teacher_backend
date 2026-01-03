@@ -233,6 +233,7 @@ class CourseController extends Controller
         $course->has_exam               = $request->has_exam == '1'  ? 1 : 0;
         $course->is_counselling         = $request->is_counselling == '1'  ? 1 : 0;
         $course->is_career_guidance     = $request->is_career_guidance == '1'  ? 1 : 0;
+        $course->is_public              = $request->has('is_public') ? 1 : 0;
         if ($course->step_completed <= 3) {
           $course->step_completed        = 3;
         }

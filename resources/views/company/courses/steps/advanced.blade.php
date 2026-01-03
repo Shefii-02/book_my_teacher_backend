@@ -188,7 +188,10 @@
             </div>
 
         </div>
-
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="is_public" id="isPublicCheckBox" checked>
+            <label class="form-check-label" for="isPublicCheckBox">Show on Public</label>
+        </div>
         <div class="grid md:grid-cols-2 gap-6 items-center">
             <!-- Institute Based -->
 

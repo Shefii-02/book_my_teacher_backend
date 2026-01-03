@@ -10,7 +10,7 @@
     style="min-height: 230px;">
     {{-- image with lazy loading --}}
     <div class=" overflow-hidden relative">
-        <img src="{{ $course->thumbnail_url ? $course->thumbnail_url : ($course->main_image_url ?asset('images/placeholder.png') : '') }}"
+        <img src="{{ $course->thumbnail_url ? $course->thumbnail_url : ($course->main_image_url ? $course->main_image_url :  'asset('images/placeholder.png')') }}"
             alt="{{ $course->title }}" class="w-full" loading="lazy">
         <div class=" absolute end-0 position-absolute top-0">
             @if ($course->status == 'published')

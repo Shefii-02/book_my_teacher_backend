@@ -149,7 +149,10 @@ class CourseController extends Controller
               'subcategories' => json_encode($catData['subcategories'] ?? []),
             ];
           }
-          $course->categories()->sync($syncData);
+          // Sync only if valid data exists
+          if (!empty($syncData)) {
+            $course->categories()->sync($syncData);
+          }
         }
       } else if ($request->pricing_form) {
 

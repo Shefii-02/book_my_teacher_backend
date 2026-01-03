@@ -97,7 +97,7 @@
             {{-- Has Material --}}
             <div>
                 <div class="form-check form-switch mb-3">
-                    <input class="form-check-input" {{ $course && $course->has_material == 1 ? 'checked' : '' }}
+                    <input class="form-check-input border" {{ $course && $course->has_material == 1 ? 'checked' : '' }}
                         type="checkbox" name="has_material" id="isMaterialCheckBox" checked>
                     <label class="form-check-label" for="isMaterialCheckBox">Has Material?</label>
                 </div>
@@ -115,7 +115,7 @@
 
             <div id="material_download_wrapper" class="hidden">
                 <div class="form-check form-switch mb-3">
-                    <input class="form-check-input"
+                    <input class="form-check-input border"
                         {{ $course && $course->has_material_download == 1 ? 'checked' : '' }} type="checkbox"
                         name="has_material_download" id="isMaterialDownloadCheckBox" checked>
                     <label class="form-check-label" for="isMaterialDownloadCheckBox">Allow Material Download?</label>
@@ -136,7 +136,7 @@
             {{-- Has Exam --}}
             <div>
                 <div class="form-check form-switch mb-3">
-                    <input class="form-check-input" {{ $course && $course->has_exam == 1 ? 'checked' : '' }}
+                    <input class="form-check-input border" {{ $course && $course->has_exam == 1 ? 'checked' : '' }}
                         type="checkbox" name="has_exam" id="HasExamCheckBox" checked>
                     <label class="form-check-label" for="HasExamCheckBox">Has Exam?</label>
                 </div>
@@ -152,7 +152,7 @@
             {{-- Counselling --}}
             <div>
                 <div class="form-check form-switch mb-3">
-                    <input class="form-check-input" {{ $course && $course->is_counselling == 1 ? 'checked' : '' }}
+                    <input class="form-check-input border" {{ $course && $course->is_counselling == 1 ? 'checked' : '' }}
                         type="checkbox" name="is_counselling" id="HasCounsellingCheckBox" checked>
                     <label class="form-check-label" for="HasCounsellingCheckBox">Counselling Session Available?</label>
                 </div>
@@ -168,7 +168,7 @@
             {{-- Career Guidance --}}
             <div>
                 <div class="form-check form-switch mb-3">
-                    <input class="form-check-input" {{ $course && $course->is_career_guidance == 1 ? 'checked' : '' }}
+                    <input class="form-check-input border" {{ $course && $course->is_career_guidance == 1 ? 'checked' : '' }}
                         type="checkbox" name="is_career_guidance" id="HasCareerCheckBox" checked>
                     <label class="form-check-label" for="HasCareerCheckBox">Career Guidance Included?</label>
                 </div>

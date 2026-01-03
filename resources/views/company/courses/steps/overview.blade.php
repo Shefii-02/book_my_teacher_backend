@@ -22,14 +22,14 @@
             </h2>
             <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5">
                 <!-- Images -->
-                <div class="flex justify-center flex-col">
+                {{-- <div class="flex justify-center flex-col">
                     <label for="imgSelect" class="mb-2">Thumbnail</label>
                     <p>
                         <img id="imgPreview" alt="#"
                             src="{{ old('thumbnail', $course->thumbnail_url ?? asset('assets/images/bg/dummy_image.webp')) }}"
                             class="rounded w-1/2 border ">
                     </p>
-                </div>
+                </div> --}}
                 <div>
                     <label for="imgSelect" class="mb-2">Main Image</label>
                     <p>

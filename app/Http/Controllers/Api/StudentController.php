@@ -673,6 +673,8 @@ class StudentController extends Controller
         }
       });
 
+      Log::info($sections);
+
     return response()->json([
       'status'  => true,
       'message' => 'My classes fetched successfully',

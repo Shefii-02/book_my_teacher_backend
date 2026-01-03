@@ -589,17 +589,18 @@ class StudentController extends Controller
           return;
         }
 
-        if ($webinar->start_date > $today) {
+        if ($webinar->started_at > $today) {
           $sections['Pending Started Courses'][] = $mapItem($webinar, 'webinar');
           return;
         }
 
-        if ($webinar->start_date <= $today && $webinar->end_date >= $today) {
+        if ($webinar->started_at <= $today && $webinar->ended_at >= $today) {
           $sections['Ongoing'][] = $mapItem($webinar, 'webinar');
           return;
         }
 
-        if ($webinar->end_date < $today) {
+
+        if ($webinar->ended_at < $today) {
           $sections['Completed'][] = $mapItem($webinar, 'webinar');
         }
       });
@@ -657,17 +658,17 @@ class StudentController extends Controller
           return;
         }
 
-        if ($workshop->start_date > $today) {
+        if ($workshop->started_at > $today) {
           $sections['Pending Started Courses'][] = $mapItem($workshop, 'workshop');
           return;
         }
 
-        if ($workshop->start_date <= $today && $workshop->end_date >= $today) {
+        if ($workshop->started_at <= $today && $workshop->ended_at >= $today) {
           $sections['Ongoing'][] = $mapItem($workshop, 'workshop');
           return;
         }
 
-        if ($workshop->end_date < $today) {
+        if ($workshop->ended_at < $today) {
           $sections['Completed'][] = $mapItem($workshop, 'workshop');
         }
       });

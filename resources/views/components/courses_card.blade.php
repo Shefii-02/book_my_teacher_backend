@@ -14,16 +14,16 @@
             alt="{{ $course->title }}" class="w-full h-full object-cover" loading="lazy">
         <div class=" absolute end-0 position-absolute top-0">
             @if ($course->status == 'published')
-                <span class="text-xs px-3 py-1 rounded bg-emerald-500/30 my-1 text-2.8 text-white">Published</span>
+                <span class="text-xs px-3 py-1 rounded bg-green-500 my-1 text-2.8 text-white">Published</span>
             @elseif($course->status == 'unpublished')
-                <span class="text-xs px-3 py-1 rounded bg-gray-500 my-1 text-2.8 text-white">Unpublished</span>
+                <span class="text-xs px-3 py-1 rounded bg-red-600 my-1 text-2.8 text-white">Unpublished</span>
             @else
-                <span class="text-xs px-3 py-1 rounded bg-gray-700 my-1 text-2.8 text-white">Draft</span>
+                <span class="text-xs px-3 py-1 rounded bg-[#F7BE38] my-1 text-2.8 text-white">Draft</span>
             @endif
         </div>
     </div>
 
-    <div class="p-4 flex flex-col h-48">
+    <div class="p-4 flex flex-col">
         <h3 class="text-lg font-semibold text-gray-800  m-0 p-0 dark:text-white line-clamp-2">
             {{ $course->title }}
         </h3>

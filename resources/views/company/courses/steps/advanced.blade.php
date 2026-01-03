@@ -255,7 +255,7 @@
         </div>
 
         <div class="form-check form-switch mb-3">
-            <input class="form-check-input" type="checkbox" name="is_public" {{ old('is_public', $course->is_public ?? false) ? 'checked' : '' }} id="isPublicCheckBox" >
+            <input class="form-check-input border" type="checkbox" name="is_public" {{ old('is_public', $course->is_public ?? false) ? 'checked' : '' }} id="isPublicCheckBox" >
             <label class="form-check-label" for="isPublicCheckBox">Show on Public</label>
         </div>
 

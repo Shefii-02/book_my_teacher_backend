@@ -479,6 +479,7 @@ class StudentController extends Controller
 
     $courses = Course::with('institute')
       ->where('company_id', 1)
+      ->where('is_public',1)
       ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
       }])

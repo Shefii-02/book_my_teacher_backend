@@ -92,18 +92,37 @@
                 </select>
             </div>
 
+
+
             {{-- Has Material --}}
             <div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" {{ $course && $course->has_material == 1 ? 'checked' : '' }}
+                        type="checkbox" name="has_material" id="isMaterialCheckBox" checked>
+                    <label class="form-check-label" for="isMaterialCheckBox">Has Material?</label>
+                </div>
+            </div>
+            {{-- <div>
                 <label class="block text-sm font-medium text-gray-700">Has Material?</label>
                 <select name="has_material" id="has_material"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option {{ $course && $course->has_material == 0 ? 'selected' : '' }} value="0">No</option>
                     <option {{ $course && $course->has_material == 1 ? 'selected' : '' }} value="1">Yes</option>
                 </select>
-            </div>
+            </div> --}}
 
             {{-- Has Material Download (only if has_material = 1) --}}
+
             <div id="material_download_wrapper" class="hidden">
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input"
+                        {{ $course && $course->has_material_download == 1 ? 'checked' : '' }} type="checkbox"
+                        name="has_material_download" id="isMaterialDownloadCheckBox" checked>
+                    <label class="form-check-label" for="isMaterialDownloadCheckBox">Allow Material Download?</label>
+                </div>
+            </div>
+
+            {{-- <div >
                 <label class="block text-sm font-medium text-gray-700">Allow Material Download?</label>
                 <select name="has_material_download" id="has_material_download"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -112,38 +131,56 @@
                     <option {{ $course && $course->has_material_download == 1 ? 'selected' : '' }} value="1">Yes
                     </option>
                 </select>
-            </div>
+            </div> --}}
 
             {{-- Has Exam --}}
             <div>
-                <label class="block text-sm font-medium text-gray-700">Has Exam?</label>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" {{ $course && $course->has_exam == 1 ? 'checked' : '' }}
+                        type="checkbox" name="has_exam" id="HasExamCheckBox" checked>
+                    <label class="form-check-label" for="HasExamCheckBox">Has Exam?</label>
+                </div>
+
+                {{-- <label class="block text-sm font-medium text-gray-700"></label>
                 <select name="has_exam" id="has_exam"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option {{ $course && $course->has_exam == 0 ? 'selected' : '' }} value="0">No</option>
                     <option {{ $course && $course->has_exam == 1 ? 'selected' : '' }} value="1">Yes</option>
-                </select>
+                </select> --}}
             </div>
 
             {{-- Counselling --}}
             <div>
-                <label class="block text-sm font-medium text-gray-700">Counselling Session Available?</label>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" {{ $course && $course->is_counselling == 1 ? 'checked' : '' }}
+                        type="checkbox" name="is_counselling" id="HasCounsellingCheckBox" checked>
+                    <label class="form-check-label" for="HasCounsellingCheckBox">Counselling Session Available?</label>
+                </div>
+
+                {{-- <label class="block text-sm font-medium text-gray-700">Counselling Session Available?</label>
                 <select name="is_counselling" id="is_counselling"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option {{ $course && $course->is_counselling == 0 ? 'selected' : '' }} value="0">No</option>
                     <option {{ $course && $course->is_counselling == 1 ? 'selected' : '' }} value="1">Yes</option>
-                </select>
+                </select> --}}
             </div>
 
             {{-- Career Guidance --}}
             <div>
-                <label class="block text-sm font-medium text-gray-700">Career Guidance Included?</label>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" {{ $course && $course->is_career_guidance == 1 ? 'checked' : '' }}
+                        type="checkbox" name="is_career_guidance" id="HasCareerCheckBox" checked>
+                    <label class="form-check-label" for="HasCareerCheckBox">Career Guidance Included?</label>
+                </div>
+
+                {{-- <label class="block text-sm font-medium text-gray-700">Career Guidance Included?</label>
                 <select name="is_career_guidance" id="is_career_guidance"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option {{ $course && $course->is_career_guidance == 0 ? 'selected' : '' }} value="0">No
                     </option>
                     <option {{ $course && $course->is_career_guidance == 1 ? 'selected' : '' }} value="1">Yes
                     </option>
-                </select>
+                </select> --}}
             </div>
             {{-- Course Type --}}
         </div>
@@ -152,7 +189,7 @@
             $teacherIds = $course->teacherCourses->pluck('teacher_id')->first();
         @endphp
 
-
+<div class="grid md:grid-cols-2 gap-6 items-center">
         <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 my-2">Teachers <span
                     class="text-red-500">*</span></label>
@@ -168,6 +205,7 @@
 
             </div>
         </div>
+</div>
 
         <div class="grid md:grid-cols-2 gap-6 items-center">
             <!-- Commission Based -->
@@ -188,10 +226,7 @@
             </div>
 
         </div>
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" name="is_public" id="isPublicCheckBox" checked>
-            <label class="form-check-label" for="isPublicCheckBox">Show on Public</label>
-        </div>
+
         <div class="grid md:grid-cols-2 gap-6 items-center">
             <!-- Institute Based -->
 
@@ -219,6 +254,10 @@
             </div>
         </div>
 
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" name="is_public" id="isPublicCheckBox" checked>
+            <label class="form-check-label" for="isPublicCheckBox">Show on Public</label>
+        </div>
 
         <!-- Submit -->
         <div class="my-2 text-center md:col-span-2">

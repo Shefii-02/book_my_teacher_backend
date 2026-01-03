@@ -104,7 +104,7 @@
                       <!-- Started at -->
                       <div>
                           <label class="block mb-2 text-sm font-medium">Start Date<span class="text-danger">*</span></label>
-                          <input type="date" name="started_at"
+                          <input type="date" name="started_at" required
                               value="{{ old('started_at', $course->started_at ?? '') }}"
                               class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
                           @error('started_at')
@@ -115,7 +115,7 @@
                       <!-- Ended at -->
                       <div>
                           <label class="block mb-2 text-sm font-medium">End Date<span class="text-danger">*</span></label>
-                          <input type="date" name="ended_at" value="{{ old('ended_at', $course->ended_at ?? '') }}"
+                          <input type="date" required name="ended_at" value="{{ old('ended_at', $course->ended_at ?? '') }}"
                               class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
                           @error('end_date')
                               <span class="text-red-500 text-sm">{{ $message }}</span>

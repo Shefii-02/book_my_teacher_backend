@@ -531,6 +531,10 @@ class StudentController extends Controller
         'category' => 'Webinar',
         'items'    => WebinarResource::collection($webinars),
       ],
+       [
+        'category' => 'Demos',
+        'items'    => WebinarResource::collection($webinars),
+      ],
 
     ])->filter(fn($g) => $g['items']->isNotEmpty())
       ->values();

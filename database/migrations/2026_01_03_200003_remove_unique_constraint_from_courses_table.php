@@ -11,10 +11,10 @@ return new class extends Migration
         Schema::table('courses', function (Blueprint $table) {
 
             // 1. Drop foreign key
-            $table->dropForeign('courses_institude_id_foreign');
+            // $table->dropForeign('courses_institude_id_foreign');
 
-            // 2. Drop unique constraint
-            $table->dropUnique('courses_institude_id_unique');
+            // // 2. Drop unique constraint
+            // $table->dropUnique('courses_institude_id_unique');
 
             // 3. Drop the column completely
             $table->dropColumn('is_public');

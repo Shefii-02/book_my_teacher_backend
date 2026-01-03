@@ -246,7 +246,7 @@ class CourseController extends Controller
           $course->step_completed        = 3;
         }
         $course->commission_percentage  = $request->is_commission ? $request->commission_percentage : 0;
-        $course->institude_id           = $request->is_institute ? $request->institute_id : null;
+        $course->institute_id           = $request->is_institute ? $request->institute_id : null;
         $course->save();
 
         TeacherCourse::where('course_id', $course->id)->delete();

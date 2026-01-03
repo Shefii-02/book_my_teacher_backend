@@ -189,23 +189,23 @@
             $teacherIds = $course->teacherCourses->pluck('teacher_id')->first();
         @endphp
 
-<div class="grid md:grid-cols-2 gap-6 items-center">
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 my-2">Teachers <span
-                    class="text-red-500">*</span></label>
-            <div class="pb-1">
-                <select name="teachers" class="form-control border w-full">
-                    <option value="">Select Teacher</option>
-                    @foreach ($teachers as $teacher)
-                        <option value="{{ $teacher->id }}" @selected(old('teachers', $teacherIds ?? '') == $teacher->id)>
-                            {{ $teacher->name }}
-                        </option>
-                    @endforeach
-                </select>
+        <div class="grid md:grid-cols-2 gap-6 items-center">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 my-2">Teachers <span
+                        class="text-red-500">*</span></label>
+                <div class="pb-1">
+                    <select name="teachers" class="form-control border w-full">
+                        <option value="">Select Teacher</option>
+                        @foreach ($teachers as $teacher)
+                            <option value="{{ $teacher->id }}" @selected(old('teachers', $teacherIds ?? '') == $teacher->id)>
+                                {{ $teacher->name }}
+                            </option>
+                        @endforeach
+                    </select>
 
+                </div>
             </div>
         </div>
-</div>
 
         <div class="grid md:grid-cols-2 gap-6 items-center">
             <!-- Commission Based -->
@@ -255,7 +255,7 @@
         </div>
 
         <div class="form-check form-switch mb-3">
-            <input class="form-check-input" type="checkbox" name="is_public" id="isPublicCheckBox" checked>
+            <input class="form-check-input" type="checkbox" name="is_public" {{ old('is_institute', $course->is_public ?? false) ? 'checked' : '' }} id="isPublicCheckBox" >
             <label class="form-check-label" for="isPublicCheckBox">Show on Public</label>
         </div>
 

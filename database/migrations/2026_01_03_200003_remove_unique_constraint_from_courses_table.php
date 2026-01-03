@@ -10,8 +10,6 @@ return new class extends Migration
     {
         Schema::table('courses', function (Blueprint $table) {
 
-
-
             // 1. Drop foreign key
             // $table->dropForeign('courses_institude_id_foreign');
 

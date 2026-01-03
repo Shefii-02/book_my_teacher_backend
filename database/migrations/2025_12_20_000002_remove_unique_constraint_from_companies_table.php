@@ -6,44 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::table('courses', function (Blueprint $table) {
-
-            // 1. Drop foreign key
-            $table->dropForeign('courses_institude_id_foreign');
-
-            // 2. Drop unique constraint
-            $table->dropUnique('courses_institude_id_unique');
-
-            // 3. Drop the column completely
-            $table->dropColumn('is_public');
-        });
-
-        Schema::table('courses', function (Blueprint $table) {
-            // 4. Recreate column with same name (NO unique, NO FK)
-            $table->boolean('is_public')->nullable();
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropUnique(['status']);
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::table('courses', function (Blueprint $table) {
-
-            // 5. Drop recreated column
-            $table->dropColumn('is_public');
-        });
-
-        Schema::table('courses', function (Blueprint $table) {
-
-            // 6. Restore original column
-            $table->unsignedBigInteger('is_public');
-
-            // // 8. Restore FOREIGN KEY
-            // $table->foreign('institude_id')
-            //       ->references('id')
-            //       ->on('institudes')
-            //       ->onDelete('cascade');
+        Schema::table('companies', function (Blueprint $table) {
+            $table->unique(['status']);
         });
     }
 };

@@ -3,7 +3,7 @@
     $size = $size ?? null;
     $label = $label ?? 'Select Image';
     $isEdit = $isEdit ?? false;
-
+    $isRequired = $isRequired ?? false;
     // Auto-generate IDs
     $inputId = $name . '_input';
     $previewId = $name . '_preview';
@@ -16,7 +16,7 @@
 
 
     // Required logic (only required in create mode)
-    $requiredAttr = $isEdit ? '' : 'required';
+    $requiredAttr = $isEdit && !$isRequired ? '' : 'required';
 @endphp
 <div class="flex mb-4 gap-3">
 

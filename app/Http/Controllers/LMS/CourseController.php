@@ -60,7 +60,7 @@ class CourseController extends Controller
           'total_hours'        => 'required',
           'started_at'   => 'required|date',
           'ended_at'     => 'required|date|after_or_equal:started_at',
-          'categories'   => 'required|array',
+          'categories'   => 'nullable|array',
           'categories.*.category_id' => 'nullable|exists:course_categories,id',
         ];
 
@@ -70,7 +70,7 @@ class CourseController extends Controller
           $rules['thumbnail'] = 'nullable|image|mimes:jpg,jpeg,png';
           $rules['main_image'] = 'nullable|image|mimes:jpg,jpeg,png';
         } else {
-          $rules['thumbnail'] = 'required|image|mimes:jpg,jpeg,png';
+          $rules['thumbnail'] = 'nullable|image|mimes:jpg,jpeg,png';
           $rules['main_image'] = 'required|image|mimes:jpg,jpeg,png';
         }
 

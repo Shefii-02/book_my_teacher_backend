@@ -14,14 +14,15 @@
               <div class="form-body mt-3">
                   <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5">
                       <!-- Images -->
-                      @include('components.thumbImg-input', [
+                      {{-- @include('components.thumbImg-input', [
                           'name' => 'thumbnail',
                           'field' => 'thumbnail_url',
                           'label' => 'Select an Thumbnail',
                           'size' => '',
+                          'isRequired'=>false,
                           'item' => $course ?? null,
                           'isEdit' => isset($course),
-                      ])
+                      ]) --}}
                       @include('components.thumbImg-input', [
                           'name' => 'main_image',
                           'field' => 'main_image_url',
@@ -61,7 +62,7 @@
                   <div class="grid gap-6 mb-6 md:grid-cols-1 mt-5">
                       <!-- Title -->
                       <div>
-                          <label class="block mb-2 text-sm font-medium">Title</label>
+                          <label class="block mb-2 text-sm font-medium">Title<span class="text-danger">*</span></label>
                           <input type="text" name="title" placeholder="" required
                               value="{{ old('title', $course->title ?? '') }}"
                               class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
@@ -82,7 +83,7 @@
                   <div class="grid gap-6 mb-6 md:grid-cols-2 mt-5">
                       <!-- Total days -->
                       <div>
-                          <label class="block mb-2 text-sm font-medium">Total Days</label>
+                          <label class="block mb-2 text-sm font-medium">Total Days<span class="text-danger">*</span></label>
                           <input type="number" name="duration" placeholder="" required
                               value="{{ old('duration', $course->duration ?? '') }}"
                               class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
@@ -92,7 +93,7 @@
                       </div>
                       <!-- Total Hours -->
                       <div>
-                          <label class="block mb-2 text-sm font-medium">Total Hours</label>
+                          <label class="block mb-2 text-sm font-medium">Total Hours<span class="text-danger">*</span></label>
                           <input type="number" name="total_hours" placeholder="" required
                               value="{{ old('total_hours', $course->total_hours ?? '') }}"
                               class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
@@ -102,7 +103,7 @@
                       </div>
                       <!-- Started at -->
                       <div>
-                          <label class="block mb-2 text-sm font-medium">Start Date</label>
+                          <label class="block mb-2 text-sm font-medium">Start Date<span class="text-danger">*</span></label>
                           <input type="date" name="started_at"
                               value="{{ old('started_at', $course->started_at ?? '') }}"
                               class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
@@ -113,7 +114,7 @@
 
                       <!-- Ended at -->
                       <div>
-                          <label class="block mb-2 text-sm font-medium">End Date</label>
+                          <label class="block mb-2 text-sm font-medium">End Date<span class="text-danger">*</span></label>
                           <input type="date" name="ended_at" value="{{ old('ended_at', $course->ended_at ?? '') }}"
                               class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
                           @error('end_date')

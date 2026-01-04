@@ -91,7 +91,7 @@ class Course extends Model
   }
   public function classes()
   {
-    return $this->hasMany(CourseClass::class, 'course_id')->orderBy('scheduled_at')->where('priority','asc');;
+    return $this->hasMany(CourseClass::class, 'course_id')->orderBy('scheduled_at')->orderBy('priority','asc');;
   }
 
   public function thumbnailMedia()

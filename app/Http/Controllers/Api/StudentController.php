@@ -584,10 +584,10 @@ class StudentController extends Controller
 
         $webinar = $reg->webinar;
 
-        if ($reg->checked_in == 0) {
-          $sections['Pending Approval'][] = $mapItem($webinar, 'webinar');
-          return;
-        }
+        // if ($reg->checked_in == 0) {
+        //   $sections['Pending Approval'][] = $mapItem($webinar, 'webinar');
+        //   return;
+        // }
 
         if ($webinar->started_at > $today) {
           $sections['Pending Started Courses'][] = $mapItem($webinar, 'webinar');
@@ -619,10 +619,10 @@ class StudentController extends Controller
 
         $course = $reg->course;
 
-        if ($reg->checked_in == 0) {
-          $sections['Pending Approval'][] = $mapItem($course, 'course');
-          return;
-        }
+        // if ($reg->checked_in == 0) {
+        //   $sections['Pending Approval'][] = $mapItem($course, 'course');
+        //   return;
+        // }
 
         if ($course->start_date > $today) {
           $sections['Pending Started Courses'][] = $mapItem($course, 'course');
@@ -653,10 +653,10 @@ class StudentController extends Controller
 
         $workshop = $reg->workshop;
 
-        if ($reg->checked_in == 0) {
-          $sections['Pending Approval'][] = $mapItem($workshop, 'workshop');
-          return;
-        }
+        // if ($reg->checked_in == 0) {
+        //   $sections['Pending Approval'][] = $mapItem($workshop, 'workshop');
+        //   return;
+        // }
 
         if ($workshop->started_at > $today) {
           $sections['Pending Started Courses'][] = $mapItem($workshop, 'workshop');

@@ -290,7 +290,7 @@ class AdmissionController extends Controller
     //check installment_grand_total == grand_total;
 
 
-    if ($req->is_installment) {
+    if ($req->has('is_installment')) {
       if ($purchaseDetails['installment']['installment_grand_total'] != $purchaseDetails['grand_total']) {
         return redirect()
           ->back()
@@ -311,7 +311,7 @@ class AdmissionController extends Controller
         'tax_amount' => $purchaseDetails['tax']['tax_amount'],
         'is_installment' => $req->is_installment == 1 ? 1 : 0,
         'installments_count' => $purchaseDetails['installment']['installments_count'],
-        'installment_interval_months' => $purchaseDetails['installment']['installment_interval_months'],
+        'installment_interval_months' => $purchaseDetails['installment']['installment_interval_months'] ?? 0,
         'installment_additional_amount' => $purchaseDetails['installment']['additional_amount'] ?? 0,
         'notes' => $req->notes ?? null,
         'status' => 'pending', // initial pending

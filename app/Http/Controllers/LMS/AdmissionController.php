@@ -298,6 +298,13 @@ class AdmissionController extends Controller
       }
     }
 
+    $pur = Purchase::where('student_id',$req->student_id)->where('course_id',$req->course_id)->where('status','paid')->first();
+    if($pur){
+        return redirect()
+          ->back()
+          ->with('error', 'Student already purchased');
+    }
+
 
     DB::beginTransaction();
     try {

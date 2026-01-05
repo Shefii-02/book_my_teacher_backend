@@ -324,7 +324,7 @@ class AdmissionController extends Controller
 
       $firstPayment = null;
       // installments creation (if provided)
-      if ($req->is_installment) {
+      if ($req->has('is_installment')) {
         foreach ($req->installments as $ins) {
           PurchaseInstallment::create([
             'purchase_id' => $purchase->id,
@@ -351,7 +351,6 @@ class AdmissionController extends Controller
       DB::commit();
 
       return $this->redirectToPaymentGateway($purchase, $payment);
-
     } catch (\Throwable $ex) {
       DB::rollBack();
       return back()->withErrors(['error' => $ex->getMessage()]);

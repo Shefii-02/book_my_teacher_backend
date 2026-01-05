@@ -310,7 +310,7 @@ class AdmissionController extends Controller
         'tax_percent' => $purchaseDetails['tax']['tax_percent'] ?? 0,
         'tax_amount' => $purchaseDetails['tax']['tax_amount'],
         'is_installment' => $req->is_installment == 1 ? 1 : 0,
-        'installments_count' => $purchaseDetails['installment']['installments_count'],
+        'installments_count' => $purchaseDetails['installment']['installments_count'] ?? 0,
         'installment_interval_months' => $purchaseDetails['installment']['installment_interval_months'] ?? 0,
         'installment_additional_amount' => $purchaseDetails['installment']['additional_amount'] ?? 0,
         'notes' => $req->notes ?? null,

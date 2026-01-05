@@ -376,7 +376,7 @@ class AdmissionController extends Controller
         $payment->update(['status' => 'success']);
 
         return redirect()
-          ->route('company.payments.success')
+          ->route('company.payments.success',$payment->order_id)
           ->with('success', 'Cash payment marked as paid');
 
       case 'free':
@@ -384,7 +384,7 @@ class AdmissionController extends Controller
         $payment->update(['status' => 'success']);
 
         return redirect()
-          ->route('company.payments.success');
+          ->route('company.payments.success',$payment->order_id);
 
       default:
         throw new \Exception('Invalid payment method');

@@ -166,10 +166,10 @@
                                                             <a href="{{ route('company.demo-classes.edit', $demo_class->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
-                                                        {{-- <li>
+                                                        <li>
                                                             <a href="{{ route('company.demo-classes.start', $demo_class->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Start Streaming</a>
-                                                        </li> --}}
+                                                        </li>
                                                         <li>
                                                             <form id="form_{{ $demo_class->id }}" class="m-0 p-0"
                                                                 action="{{ route('company.demo-classes.destroy', $demo_class->id) }}"

@@ -93,7 +93,7 @@ class DemoClass extends Model
 
   public function registrations()
   {
-    return $this->hasMany(WebinarRegistration::class);
+    return $this->hasMany(DemoClassRegistration::class);
   }
 
 

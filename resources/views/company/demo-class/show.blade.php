@@ -25,7 +25,7 @@
     <div class="container">
         <div class="card bg-white rounded-3 my-3">
             <div class="card-title p-3 my-3 flex justify-between items-center">
-                <h5 class="font-bold">Webinar Overview</h5>
+                <h5 class="font-bold">Demo class Overview</h5>
 
                 <div class="space-x-2">
                        <a href="{{ route('company.demo-classes.edit', $demoClass->id) }}"

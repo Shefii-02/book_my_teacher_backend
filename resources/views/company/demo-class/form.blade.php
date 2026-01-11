@@ -124,16 +124,6 @@
                         @enderror
                     </div>
 
-                    <!-- Registration End At -->
-                    <div>
-                        <label class="block mb-1 font-semibold">Registration End At</label>
-                        <input type="datetime-local" name="registration_end_at"
-                            value="{{ old('registration_end_at', $isEdit && $webinar->registration_end_at ? $webinar->registration_end_at->format('Y-m-d\TH:i') : '') }}"
-                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('registration_end_at') border-red-500 @enderror">
-                        @error('registration_end_at')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
 
                     <!-- Who can join -->
                     <div>
@@ -248,7 +238,7 @@
                 </div>
 
                 <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{{ $isEdit ? 'Update Webinar' : 'Create Webinar' }}</button>
+                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{{ $isEdit ? 'Update Demo class' : 'Create Demo class' }}</button>
             </form>
         </div>
     </div>

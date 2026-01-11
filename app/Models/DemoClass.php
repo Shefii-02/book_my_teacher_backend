@@ -22,7 +22,6 @@ class DemoClass extends Model
     'meeting_url',
     'started_at',
     'ended_at',
-    'registration_end_at',
     'is_teacher_allowed',
     'is_student_allowed',
     'is_guest_allowed',

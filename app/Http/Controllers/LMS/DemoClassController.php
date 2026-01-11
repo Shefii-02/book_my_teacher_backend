@@ -90,7 +90,6 @@ class DemoClassController extends Controller
       'meeting_url' => 'nullable|url',
       'started_at' => 'nullable|date',
       'ended_at' => 'nullable|date|after_or_equal:started_at',
-      'registration_end_at' => 'nullable|date|before_or_equal:started_at',
       'is_teacher_allowed' => 'nullable|boolean',
       'is_student_allowed' => 'nullable|boolean',
       'is_guest_allowed' => 'nullable|boolean',

@@ -281,8 +281,9 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     ->name('webinars.registrations.download-csv');
 
   Route::resource('demo-classes', 'LMS\DemoClassController');
-  Route::get('demo-classes/{demo_class}/registrations', 'LMS\DemoClassController@registrations')->name('demo-classes.register');
-  // Route::get('demo-classes/{demo_class}/registrations/store', 'LMS\DemoClassController@registrationStore')->name('demo-classes.store');
+  // Route::get('demo-classes/{demo_class}/registrations', 'LMS\DemoClassController@registrations')->name('demo-classes.register');
+  Route::get('demo-classes/{demo_class}/class/start', 'LMS\DemoClassController@registrationStore')->name('demo-classes.start');
+  Route::get('demo-classes/{demo_class}/participant/store', 'LMS\DemoClassController@participantStore')->name('demo-classes.participant.store');
 
 
 

@@ -140,8 +140,10 @@ class DemoClassController extends Controller
     }
   }
 
-  public function edit(DemoClass $webinar)
+  public function edit($demoClass)
   {
+    $company_id = auth()->user()->company_id;
+    $demoClass = DemoClass::where('id',$demoClass)->where('company_id',$company_id)->first();
     $company_id = 1;
     $teachers = Teacher::with('user')->whereHas('user')
       ->where('company_id', $company_id)

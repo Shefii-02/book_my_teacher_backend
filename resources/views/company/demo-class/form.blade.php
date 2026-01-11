@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @php
-    $isEdit = isset($webinar);
+    $isEdit = isset($demoClass);
 @endphp
 
 @section('title', $isEdit ? 'Edit Webinar' : 'Create Webinar')
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="form-container mt-4">
-            <form action="{{ $isEdit ? route('company.demo-classes.update', $webinar->id) : route('company.demo-classes.store') }}"
+            <form action="{{ $isEdit ? route('company.demo-classes.update', $demoClass->id) : route('company.demo-classes.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if ($isEdit)
@@ -45,7 +45,7 @@
                     <div>
                         <label class="block mb-1 font-semibold">Thumbnail Image</label>
                         <img id="thumbnailPreview"
-                            src="{{ $isEdit && $webinar->thumbnail_image ? asset('storage/' . $webinar->thumbnail_image) : '' }}"
+                            src="{{ $isEdit && $demoClass->thumbnail_image ? asset('storage/' . $demoClass->thumbnail_image) : '' }}"
                             class="w-20 h-20 mt-2 rounded">
                         <input type="file" id="thumbnailInput" name="thumbnail_image" accept="image/*"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('thumbnail_image') border-red-500 @enderror">
@@ -60,7 +60,7 @@
                     <!-- Title -->
                     <div>
                         <label class="block mb-1 font-semibold">Title</label>
-                        <input type="text" name="title" value="{{ old('title', $isEdit ? $webinar->title : '') }}" required
+                        <input type="text" name="title" value="{{ old('title', $isEdit ? $demoClass->title : '') }}" required
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('title') border-red-500 @enderror">
                         @error('title')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -76,7 +76,7 @@
                             <option value="">-- Select Host --</option>
                             @foreach ($users ?? [] as $user)
                                 <option value="{{ $user['user_id'] }}"
-                                    {{ old('host_id', $isEdit ? $webinar->host_id : '') == $user['id'] ? 'selected' : '' }}>
+                                    {{ old('host_id', $isEdit ? $demoClass->host_id : '') == $user['id'] ? 'selected' : '' }}>
                                     {{ $user['name'] . '(' . $user['type'] . ')' }}</option>
                             @endforeach
                         </select>
@@ -93,7 +93,7 @@
                             <option value="">-- Select Provider --</option>
                             @foreach ($providers as $provider)
                                 <option value="{{ $provider->id }}"
-                                    {{ old('stream_provider_id', $isEdit ? $webinar->stream_provider_id : '') == $provider->id ? 'selected' : '' }}>
+                                    {{ old('stream_provider_id', $isEdit ? $demoClass->stream_provider_id : '') == $provider->id ? 'selected' : '' }}>
                                     {{ $provider->name }}</option>
                             @endforeach
                         </select>
@@ -106,7 +106,7 @@
                     <div>
                         <label class="block mb-1 font-semibold">Start At</label>
                         <input type="datetime-local" name="started_at"
-                            value="{{ old('started_at', $isEdit && $webinar->started_at ? $webinar->started_at->format('Y-m-d\TH:i') : '') }}"
+                            value="{{ old('started_at', $isEdit && $demoClass->started_at ? $demoClass->started_at->format('Y-m-d\TH:i') : '') }}"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('started_at') border-red-500 @enderror">
                         @error('started_at')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -117,7 +117,7 @@
                     <div>
                         <label class="block mb-1 font-semibold">End At</label>
                         <input type="datetime-local" name="ended_at"
-                            value="{{ old('ended_at', $isEdit && $webinar->ended_at ? $webinar->ended_at->format('Y-m-d\TH:i') : '') }}"
+                            value="{{ old('ended_at', $isEdit && $demoClass->ended_at ? $demoClass->ended_at->format('Y-m-d\TH:i') : '') }}"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('ended_at') border-red-500 @enderror">
                         @error('ended_at')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -131,7 +131,7 @@
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('max_participants') border-red-500 @enderror">
                             @foreach ([10, 25, 50, 100, 250, 500, 1000] as $number)
                                 <option value="{{ $number }}"
-                                    {{ old('max_participants', $isEdit ? $webinar->max_participants : '') == $number ? 'selected' : '' }}>
+                                    {{ old('max_participants', $isEdit ? $demoClass->max_participants : '') == $number ? 'selected' : '' }}>
                                     {{ $number }}</option>
                             @endforeach
                         </select>
@@ -147,7 +147,7 @@
                             @foreach (['record', 'chat', 'screen_share', 'whiteboard', 'camera', 'audio_only'] as $feature)
                                 <label class="flex gap-2 items-center mb-2">
                                     <input type="checkbox" name="is_{{ $feature }}_enabled" value="1"
-                                        {{ old('is_' . $feature . '_enabled', $isEdit ? $webinar->{'is_' . $feature . '_enabled'} : ($feature != 'audio_only' ? 1 : 0)) ? 'checked' : '' }}
+                                        {{ old('is_' . $feature . '_enabled', $isEdit ? $demoClass->{'is_' . $feature . '_enabled'} : ($feature != 'audio_only' ? 1 : 0)) ? 'checked' : '' }}
                                         class="pl-2 text-sm focus:shadow-primary-outline ease leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
                                     {{ ucwords(str_replace('_', ' ', $feature)) }}
                                 </label>
@@ -163,7 +163,7 @@
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('status') border-red-500 @enderror">
                             @foreach (['draft', 'scheduled', 'live', 'ended'] as $status)
                                 <option value="{{ $status }}"
-                                    {{ old('status', $isEdit ? $webinar->status : '') == $status ? 'selected' : '' }}>
+                                    {{ old('status', $isEdit ? $demoClass->status : '') == $status ? 'selected' : '' }}>
                                     {{ ucfirst($status) }}</option>
                             @endforeach
                         </select>
@@ -175,7 +175,7 @@
                      <!-- Tags -->
                     <div class="md:col-span-2">
                         <label class="block mb-1 font-semibold">Meeting url</label>
-                        <input type="text" name="meeting_url" value="{{ old('meeting_url', $isEdit ? $webinar->meeting_url : '') }}"
+                        <input type="text" name="meeting_url" value="{{ old('meeting_url', $isEdit ? $demoClass->meeting_url : '') }}"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('tags') border-red-500 @enderror">
                         @error('meeting_url')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -187,7 +187,7 @@
                      <!-- Tags -->
                     <div class="md:col-span-2">
                         <label class="block mb-1 font-semibold">Recording url</label>
-                        <input type="text" name="recording_url" value="{{ old('recording_url', $isEdit ? $webinar->recording_url : '') }}"
+                        <input type="text" name="recording_url" value="{{ old('recording_url', $isEdit ? $demoClass->recording_url : '') }}"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('tags') border-red-500 @enderror">
                         @error('recording_url')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -199,7 +199,7 @@
                     <!-- Tags -->
                     <div class="md:col-span-2">
                         <label class="block mb-1 font-semibold">Tags (comma separated)</label>
-                        <input type="text" name="tags" value="{{ old('tags', $isEdit ? $webinar->tags : '') }}"
+                        <input type="text" name="tags" value="{{ old('tags', $isEdit ? $demoClass->tags : '') }}"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('tags') border-red-500 @enderror">
                         @error('tags')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -210,7 +210,7 @@
                     <div class="md:col-span-2">
                         <label class="block mb-1 font-semibold">Meta</label>
                         <textarea name="meta"
-                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('meta') border-red-500 @enderror">{{ old('meta', $isEdit ? $webinar->meta : '') }}</textarea>
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('meta') border-red-500 @enderror">{{ old('meta', $isEdit ? $demoClass->meta : '') }}</textarea>
                         @error('meta')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror

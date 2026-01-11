@@ -159,20 +159,20 @@
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
                                                         <li>
-                                                            <a href="{{ route('company.demo-class.show', $demo_class->id) }}"
+                                                            <a href="{{ route('company.demo-classes.show', $demo_class->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('company.demo-class.edit', $demo_class->id) }}"
+                                                            <a href="{{ route('company.demo-classes.edit', $demo_class->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('company.demo-class.start', $demo_class->id) }}"
+                                                            <a href="{{ route('company.demo-classes.start', $demo_class->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Start Streaming</a>
                                                         </li>
                                                         <li>
                                                             <form id="form_{{ $demo_class->id }}" class="m-0 p-0"
-                                                                action="{{ route('company.demo-class.destroy', $demo_class->id) }}"
+                                                                action="{{ route('company.demo-classes.destroy', $demo_class->id) }}"
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
                                                                 <a role="button" href="javascript:;"

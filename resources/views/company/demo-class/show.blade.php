@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @php
-    $isView = isset($webinar);
+    $isView = isset($demoClass);
 @endphp
 
 @section('nav-options')
@@ -28,7 +28,7 @@
                 <h5 class="font-bold">Webinar Overview</h5>
 
                 <div class="space-x-2">
-                    <a href="{{ route('company.demo-classes.edit', $webinar->id) }}"
+                    <a href="{{ route('company.demo-classes.edit', $demoClass->id) }}"
                         class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Edit</a>
 
 
@@ -56,23 +56,23 @@
                 <h2 class="text-xl font-bold mb-4 dark:text-white">📝 Basic Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <p><span class="font-semibold">Title:</span> <span
-                            class="capitalize font-bold">{{ $webinar->title }}</span></p>
-                    <p><span class="font-semibold">Slug:</span> <span class="font-bold">{{ $webinar->slug }}</span></p>
+                            class="capitalize font-bold">{{ $demoClass->title }}</span></p>
+                    <p><span class="font-semibold">Slug:</span> <span class="font-bold">{{ $demoClass->slug }}</span></p>
                     <p><span class="font-semibold">Description:</span> <span
-                            class="font-bold">{{ $webinar->description ?? 'N/A' }}</span></p>
+                            class="font-bold">{{ $demoClass->description ?? 'N/A' }}</span></p>
                     <p><span class="font-semibold">Host:</span> <span
-                            class="font-bold">{{ $webinar->host?->name ?? 'N/A' }}</span></p>
+                            class="font-bold">{{ $demoClass->host?->name ?? 'N/A' }}</span></p>
                     <p><span class="font-semibold">Stream Provider:</span> <span
-                            class="font-bold">{{ $webinar->streamProvider?->name ?? 'N/A' }}</span></p>
+                            class="font-bold">{{ $demoClass->streamProvider?->name ?? 'N/A' }}</span></p>
                     <p>
                         <span class="font-semibold">Status:</span>
                         <span
-                            class="font-bold px-2 py-1 rounded {{ $webinar->status == 'live' ? 'bg-green-200 text-green-800' : ($webinar->status == 'scheduled' ? 'bg-yellow-200 text-yellow-800' : ($webinar->status == 'ended' ? 'bg-gray-200 text-gray-800' : 'bg-blue-200 text-blue-800')) }}">
-                            {{ ucfirst($webinar->status) }}
+                            class="font-bold px-2 py-1 rounded {{ $demoClass->status == 'live' ? 'bg-green-200 text-green-800' : ($demoClass->status == 'scheduled' ? 'bg-yellow-200 text-yellow-800' : ($demoClass->status == 'ended' ? 'bg-gray-200 text-gray-800' : 'bg-blue-200 text-blue-800')) }}">
+                            {{ ucfirst($demoClass->status) }}
                         </span>
                     </p>
                     <p><span class="font-semibold">Max Participants:</span> <span
-                            class="font-bold">{{ $webinar->max_participants ?? 'N/A' }}</span></p>
+                            class="font-bold">{{ $demoClass->max_participants ?? 'N/A' }}</span></p>
                 </div>
             </div>
 
@@ -80,16 +80,16 @@
             <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6">
                 <h2 class="text-xl font-bold mb-4 dark:text-white">🖼️ Images</h2>
                 <div class="flex space-x-6">
-                    @if ($webinar->thumbnail_image)
+                    @if ($demoClass->thumbnail_image)
                         <div>
                             <p class="font-semibold mb-1">Thumbnail</p>
-                            <img src="{{ asset('storage/' . $webinar->thumbnail_image) }}" class="w-32 h-32 rounded-lg">
+                            <img src="{{ asset('storage/' . $demoClass->thumbnail_image) }}" class="w-32 h-32 rounded-lg">
                         </div>
                     @endif
-                    @if ($webinar->main_image)
+                    @if ($demoClass->main_image)
                         <div>
                             <p class="font-semibold mb-1">Main Image</p>
-                            <img src="{{ asset('storage/' . $webinar->main_image) }}" class="w-32 h-32 rounded-lg">
+                            <img src="{{ asset('storage/' . $demoClass->main_image) }}" class="w-32 h-32 rounded-lg">
                         </div>
                     @endif
                 </div>
@@ -100,23 +100,23 @@
                 <h2 class="text-xl font-bold mb-4 dark:text-white">📅 Schedule</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <p><span class="font-semibold">Start At:</span> <span
-                            class="font-bold">{{ $webinar->started_at?->format('d-m-Y H:i') ?? 'N/A' }}</span></p>
+                            class="font-bold">{{ $demoClass->started_at?->format('d-m-Y H:i') ?? 'N/A' }}</span></p>
                     <p><span class="font-semibold">End At:</span> <span
-                            class="font-bold">{{ $webinar->ended_at?->format('d-m-Y H:i') ?? 'N/A' }}</span></p>
+                            class="font-bold">{{ $demoClass->ended_at?->format('d-m-Y H:i') ?? 'N/A' }}</span></p>
                     <p><span class="font-semibold">Registration Ends At:</span> <span
-                            class="font-bold">{{ $webinar->registration_end_at?->format('d-m-Y H:i') ?? 'N/A' }}</span></p>
+                            class="font-bold">{{ $demoClass->registration_end_at?->format('d-m-Y H:i') ?? 'N/A' }}</span></p>
                     <p><span class="font-semibold">Meeting URL:</span>
-                        @if ($webinar->meeting_url)
-                            <a href="{{ $webinar->meeting_url }}" target="_blank"
-                                class="text-blue-500 underline">{{ $webinar->meeting_url }}</a>
+                        @if ($demoClass->meeting_url)
+                            <a href="{{ $demoClass->meeting_url }}" target="_blank"
+                                class="text-blue-500 underline">{{ $demoClass->meeting_url }}</a>
                         @else
                             N/A
                         @endif
                     </p>
                     <p><span class="font-semibold">Recording URL:</span>
-                        @if ($webinar->recording_url)
-                            <a href="{{ $webinar->recording_url }}" target="_blank"
-                                class="text-blue-500 underline">{{ $webinar->recording_url }}</a>
+                        @if ($demoClass->recording_url)
+                            <a href="{{ $demoClass->recording_url }}" target="_blank"
+                                class="text-blue-500 underline">{{ $demoClass->recording_url }}</a>
                         @else
                             N/A
                         @endif
@@ -130,13 +130,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach (['teacher', 'student', 'guest'] as $role)
                         <p><span class="font-semibold">{{ ucfirst($role) }} Access:</span>
-                            <span class="font-bold">{{ $webinar->{'is_' . $role . '_allowed'} ? 'Yes' : 'No' }}</span>
+                            <span class="font-bold">{{ $demoClass->{'is_' . $role . '_allowed'} ? 'Yes' : 'No' }}</span>
                         </p>
                     @endforeach
 
                     @foreach (['record', 'chat', 'screen_share', 'whiteboard', 'camera', 'audio_only'] as $feature)
                         <p><span class="font-semibold">{{ ucwords(str_replace('_', ' ', $feature)) }}:</span>
-                            <span class="font-bold">{{ $webinar->{'is_' . $feature . '_enabled'} ? 'Yes' : 'No' }}</span>
+                            <span class="font-bold">{{ $demoClass->{'is_' . $feature . '_enabled'} ? 'Yes' : 'No' }}</span>
                         </p>
                     @endforeach
                 </div>
@@ -145,9 +145,9 @@
             {{-- Registered Users --}}
             <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6">
                 <h2 class="text-xl font-bold mb-4 dark:text-white">👥 Registered Users
-                    ({{ $webinar->registrations->count() }})</h2>
+                    ({{ $demoClass->registrations->count() }})</h2>
 
-                @if ($webinar->registrations->isEmpty())
+                @if ($demoClass->registrations->isEmpty())
                     <p>No users have registered yet.</p>
                 @else
                     <div class="overflow-x-auto">
@@ -164,7 +164,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($webinar->registrations as $registration)
+                                @foreach ($demoClass->registrations as $registration)
                                     <tr>
                                         <td class="px-4 py-2 border">{{ $loop->iteration }}</td>
                                         <td class="px-4 py-2 border">{{ $registration->name }}</td>
@@ -187,9 +187,9 @@
             {{-- Tags & Meta --}}
             <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6">
                 <h2 class="text-xl font-bold mb-4 dark:text-white">🏷️ Tags & Meta</h2>
-                <p><span class="font-semibold">Tags:</span> <span class="font-bold">{{ $webinar->tags ?? 'N/A' }}</span>
+                <p><span class="font-semibold">Tags:</span> <span class="font-bold">{{ $demoClass->tags ?? 'N/A' }}</span>
                 </p>
-                <p><span class="font-semibold">Meta:</span> <span class="font-bold">{{ $webinar->meta ?? 'N/A' }}</span>
+                <p><span class="font-semibold">Meta:</span> <span class="font-bold">{{ $demoClass->meta ?? 'N/A' }}</span>
                 </p>
             </div>
 

@@ -287,7 +287,7 @@ class DemoClassController extends Controller
     $totalGuests = $demoClass->registrations->where('user.acc_type', 'guest')->count();
 
     return view('company.demo-class.show', compact(
-      'webinar',
+      'demoClass',
       'totalParticipants',
       'totalTeachers',
       'totalStudents',

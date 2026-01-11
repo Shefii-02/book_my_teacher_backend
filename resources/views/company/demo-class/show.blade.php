@@ -28,23 +28,15 @@
                 <h5 class="font-bold">Webinar Overview</h5>
 
                 <div class="space-x-2">
+                       <a href="{{ route('company.demo-classes.edit', $demoClass->id) }}"
+                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">Add Participant</a>
+
                     <a href="{{ route('company.demo-classes.edit', $demoClass->id) }}"
-                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Edit</a>
+                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">Edit</a>
 
-
-                    <a href="{{ route('company.demo-classes.index') }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
+                    <a href="{{ route('company.demo-classes.index') }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">Back</a>
 
                 </div>
-            </div>
-        </div>
-
-        {{-- Statistics Cards --}}
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-
-            <!-- Total Participants -->
-            <div class="bg-white dark:bg-slate-850 shadow rounded-2xl p-4 text-center">
-                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-300">Total Participants</h3>
-                <p class="text-2xl font-bold text-gray-800 dark:text-white">{{ $totalParticipants }}</p>
             </div>
         </div>
 

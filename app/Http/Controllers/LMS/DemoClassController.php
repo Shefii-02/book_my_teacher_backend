@@ -174,7 +174,7 @@ class DemoClassController extends Controller
 
     $users = $teachers->merge($guestTeachers)->values();
     $providers = StreamProvider::all();
-    return view('company.demo-class.form', compact('webinar', 'users', 'providers'));
+    return view('company.demo-class.form', compact('demoClass', 'users', 'providers'));
   }
 
   public function update(Request $request, DemoClass $webinar)

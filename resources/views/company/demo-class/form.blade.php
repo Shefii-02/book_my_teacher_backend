@@ -124,25 +124,6 @@
                         @enderror
                     </div>
 
-
-                    <!-- Who can join -->
-                    <div>
-                        <label class="block mb-1 font-semibold">Who can Join</label>
-                        <div class="flex space-x-4">
-                            @foreach (['teacher', 'student', 'guest'] as $role)
-                                <label class="flex gap-2 items-center">
-                                    <input type="checkbox" name="is_{{ $role }}_allowed" value="1"
-                                        {{ old('is_' . $role . '_allowed', $isEdit ? $webinar->{'is_' . $role . '_allowed'} : ($role != 'guest' ? 1 : 0)) ? 'checked' : '' }}
-                                        class="pl-2 text-sm focus:shadow-primary-outline ease leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
-                                    {{ ucfirst($role) }}
-                                </label>
-                            @endforeach
-                        </div>
-                        @error('is_teacher_allowed')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                        @error('is_student_allowed')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                        @error('is_guest_allowed')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                    </div>
-
                     <!-- Max Participants -->
                     <div>
                         <label class="block mb-1 font-semibold">Max Participants</label>

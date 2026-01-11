@@ -42,7 +42,7 @@
 
 
 
-        <div class="w-full px-6 py-4 mx-auto space-y-6">
+        <div class="w-full  py-4 mx-auto space-y-6">
             {{-- Basic Info --}}
             <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6">
                 <h2 class="text-xl font-bold mb-4 dark:text-white">📝 Basic Information</h2>

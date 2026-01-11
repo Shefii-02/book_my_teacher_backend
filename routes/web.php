@@ -280,6 +280,10 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('webinars/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
     ->name('webinars.registrations.download-csv');
 
+  Route::resource('demo-classes', 'LMS\DemoClassController');
+  Route::get('demo-classes/{demo_class}/registrations', 'LMS\DemoClassController@registrations')->name('demo-classes.register');
+  // Route::get('demo-classes/{demo_class}/registrations/store', 'LMS\DemoClassController@registrationStore')->name('demo-classes.store');
+
 
 
   Route::resource('workshops', 'LMS\WorkshopController')->names('workshops');

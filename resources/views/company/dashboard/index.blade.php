@@ -30,12 +30,12 @@
                                     <p
                                         class="mb-0 font-petro font-semibold leading-normal uppercase text-neutral-900 dark:text-white dark:opacity-60 text-sm">
                                         Total Students</p>
-                                    <h5 class="mb-2 font-bold dark:text-white">53,000</h5>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['students']['total'] }}</h5>
                                     <p class="mb-0 dark:text-white text-neutral-900 dark:opacity-60">
                                         <span class="font-bold leading-normal text-sm text-emerald-500">
-                                            Last Week Added :
+                                            Last Week Reg :
                                         </span>
-                                        <span class="font-bold">560</span>
+                                        <span class="font-bold">{{ $data['students']['last_week'] }}</span>
                                     </p>
                                 </div>
                             </div>
@@ -61,11 +61,10 @@
                                     <p
                                         class="mb-0 font-petro font-semibold leading-normal text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
                                         Total Teachers</p>
-                                    <h5 class="mb-2 font-bold dark:text-white">2,300</h5>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['teachers']['total'] }}</h5>
                                     <p class="mb-0 dark:text-white text-neutral-900 dark:opacity-60">
-                                        <span class="font-bold leading-normal text-sm text-emerald-500">Last Week Added
-                                            :</span>
-                                        <span class="font-bold">340</span>
+                                        <span class="font-bold leading-normal text-sm text-emerald-500">Last Week Reg:</span>
+                                        <span class="font-bold">{{ $data['teachers']['total'] }}</span>
                                     </p>
                                 </div>
                             </div>
@@ -91,11 +90,11 @@
                                     <p
                                         class="mb-0 text-neutral-900 font-petro font-semibold leading-normal uppercase dark:text-white dark:opacity-60 text-sm">
                                         Total Class's</p>
-                                    <h5 class="mb-2 font-bold dark:text-white">+362</h5>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['classes']['total'] }}</h5>
                                     <p class="mb-0 dark:text-white dark:opacity-60">
                                         <span class="font-bold leading-normal  text-sm text-emerald-500">
-                                          Last Week Admissions :</span>
-                                        <span class="font-bold text-neutral-900">30</span>
+                                          Last Week Created :</span>
+                                        <span class="font-bold text-neutral-900">{{ $data['classes']['total'] }}</span>
                                     </p>
                                 </div>
                             </div>
@@ -121,11 +120,11 @@
                                     <p
                                         class="mb-0 text-neutral-900 font-petro font-semibold leading-normal uppercase dark:text-white dark:opacity-60 text-sm">
                                         Total Revenue</p>
-                                    <h5 class="mb-2 font-bold dark:text-white">₹103,430</h5>
+                                    <h5 class="mb-2 font-bold dark:text-white">₹{{ $data['revenue']['total'] }}</h5>
                                     <p class="mb-0 text-neutral-900 dark:text-white dark:opacity-60">
                                         <span class="font-bold leading-normal text-sm text-emerald-500">Last Week Revenue :
                                         </span>
-                                        <span class="font-bold">3400</span>
+                                        <span class="font-bold">{{ $data['revenue']['total'] }}</span>
                                     </p>
                                 </div>
                             </div>

@@ -11,7 +11,8 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <!-- Nucleo Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/argon-dashboard/2.0.4/css/nucleo-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
@@ -268,7 +269,7 @@
                             </ul>
                         </li>
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.courses.*') || Request::routeIs('company.webinars.*') || Request::routeIs('company.workshops.*') || Request::routeIs('company.categories.*') || Request::routeIs('company.subcategories.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.courses.*') || Request::routeIs('company.webinars.*') || Request::routeIs('company.workshops.*') || Request::routeIs('company.categories.*') || Request::routeIs('company.subcategories.*') || Request::routeIs('company.demo-classes.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -283,34 +284,7 @@
                             </a>
 
                             <ul
-                                class="submenu pl-6 {{ Request::routeIs('company.courses.*') || Request::routeIs('company.webinars.*') || Request::routeIs('company.workshops.*') || Request::routeIs('company.categories.*') || Request::routeIs('company.subcategories.*') ? '' : 'hidden' }}">
-
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.categories.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.categories.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Category</span>
-                                    </a>
-                                </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.subcategories.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.subcategories.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Sub
-                                            Category</span>
-                                    </a>
-                                </li>
+                                class="submenu pl-6 {{ Request::routeIs('company.courses.*') || Request::routeIs('company.webinars.*') || Request::routeIs('company.workshops.*') || Request::routeIs('company.categories.*') || Request::routeIs('company.subcategories.*') || Request::routeIs('company.demo-classes.*')  ? '' : 'hidden' }}">
 
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.courses.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
@@ -350,6 +324,48 @@
                                             class="ml-1 duration-300 opacity-100 pointer-events-none ease">Workshops</span>
                                     </a>
                                 </li>
+
+                                 <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.demo-classes.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.demo-classes.index') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
+                                        </div>
+                                        <span
+                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Demo Class</span>
+                                    </a>
+                                </li>
+
+
+
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.categories.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.categories.index') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
+                                        </div>
+                                        <span
+                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Category</span>
+                                    </a>
+                                </li>
+
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.subcategories.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.subcategories.index') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
+                                        </div>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Sub
+                                            Category</span>
+                                    </a>
+                                </li>
+
 
                             </ul>
                         </li>
@@ -929,7 +945,7 @@
         @include('components.drawer-right')
     </main>
     <footer class="pt-4">
-        <div class="w-full px-6 mx-auto">
+        <div class="w-full px-6 mx-auto fixed-bottom flex justify-content-center whitespace-nowrap bg-green-300 ">
             <div class="flex flex-wrap items-center -mx-3 lg:justify-between">
                 <div class="w-full max-w-full px-3 mt-0 mb-6 shrink-0 lg:mb-0 lg:w-1/2 lg:flex-none">
                     <div class="leading-normal text-center text-sm text-slate-500 lg:text-left">
@@ -945,7 +961,6 @@
         </div>
     </footer>
 
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- plugin for charts  -->
@@ -956,7 +971,9 @@
     <!-- main script file  -->
     <script src="https://cdn.tiny.cloud/1/{{ env('TinyEditor1') }}/tinymce/8/tinymce.min.js" referrerpolicy="origin"
         crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script> --}}
     <script src="{{ asset('assets/js/main.js') }}" async></script>
 
@@ -1135,7 +1152,7 @@
 
     <script>
         tinymce.init({
-            selector: 'textarea',
+            selector: 'textarea.editor',
             plugins: [
                 // Core editing features
                 'anchor', 'charmap', 'lists',

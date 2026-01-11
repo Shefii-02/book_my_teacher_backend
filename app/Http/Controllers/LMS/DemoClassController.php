@@ -143,7 +143,7 @@ class DemoClassController extends Controller
   public function edit($demoClass)
   {
     $company_id = auth()->user()->company_id;
-    $demoClass = DemoClass::where('id',$demoClass)->where('company_id',$company_id)->first();
+    $demoClass = DemoClass::where('id', $demoClass)->where('company_id', $company_id)->first();
     $company_id = 1;
     $teachers = Teacher::with('user')->whereHas('user')
       ->where('company_id', $company_id)
@@ -177,11 +177,14 @@ class DemoClassController extends Controller
     return view('company.demo-class.form', compact('demoClass', 'users', 'providers'));
   }
 
-  public function update(Request $request, DemoClass $webinar)
+  public function update(Request $request, $demoClass)
   {
+    $company_id = auth()->user()->company_id;
+    $demoClass = DemoClass::where('id', $demoClass)->where('company_id', $company_id)->first();
+
     $data = $request->validate([
       'title' => 'required|string|max:255',
-      'slug' => 'nullable|string|unique:webinars,slug,' . $webinar->id,
+      'slug' => 'nullable|string|unique:webinars,slug,' . $demoClass->id,
       'description' => 'nullable|string',
       'host_id' => 'nullable|exists:users,id',
       'stream_provider_id' => 'nullable|exists:stream_providers,id',
@@ -211,16 +214,16 @@ class DemoClassController extends Controller
     try {
       // Handle thumbnail image
       if ($request->hasFile('thumbnail_image')) {
-        if ($webinar->thumbnail_image) {
-          Storage::disk('public')->delete($webinar->thumbnail_image);
+        if ($demoClass->thumbnail_image) {
+          Storage::disk('public')->delete($demoClass->thumbnail_image);
         }
         $data['thumbnail_image'] = $request->file('thumbnail_image')->store('webinars', 'public');
       }
 
       // Handle main image
       if ($request->hasFile('main_image')) {
-        if ($webinar->main_image) {
-          Storage::disk('public')->delete($webinar->main_image);
+        if ($demoClass->main_image) {
+          Storage::disk('public')->delete($demoClass->main_image);
         }
         $data['main_image'] = $request->file('main_image')->store('webinars', 'public');
       }
@@ -228,7 +231,7 @@ class DemoClassController extends Controller
       // Slug
       $data['slug'] = $data['slug'] ?? Str::slug($data['title']);
 
-      $webinar->update($data);
+      $demoClass->update($data);
 
       DB::commit();
       return redirect()->route('company.demo-classes.index')->with('success', 'Demo Class updated successfully.');
@@ -239,13 +242,16 @@ class DemoClassController extends Controller
   }
 
 
-  public function destroy(DemoClass $webinar)
+  public function destroy(DemoClass $demoClass)
   {
+    $company_id = auth()->user()->company_id;
+    $demoClass = DemoClass::where('id', $demoClass)->where('company_id', $company_id)->first();
+
     DB::beginTransaction();
     try {
-      if ($webinar->thumbnail_image) Storage::disk('public')->delete($webinar->thumbnail_image);
-      if ($webinar->main_image) Storage::disk('public')->delete($webinar->main_image);
-      $webinar->delete();
+      if ($demoClass->thumbnail_image) Storage::disk('public')->delete($demoClass->thumbnail_image);
+      if ($demoClass->main_image) Storage::disk('public')->delete($demoClass->main_image);
+      $demoClass->delete();
       DB::commit();
       return redirect()->route('company.demo-classes.index')->with('success', 'Demo Class deleted successfully.');
     } catch (Exception $e) {
@@ -256,15 +262,18 @@ class DemoClassController extends Controller
 
   public function start(DemoClass $webinar)
   {
-    // $webinar->update(['status' => 'live']);
+    // $demoClass->update(['status' => 'live']);
     return redirect()->route('company.demo-classes.index')->with('success', 'Demo Class started successfully.');
   }
 
 
-  public function show(DemoClass $webinar)
+  public function show( $demoClass)
   {
+    $company_id = auth()->user()->company_id;
+    $demoClass = DemoClass::where('id', $demoClass)->where('company_id', $company_id)->first();
+
     // Eager load relationships to avoid N+1 queries
-    $webinar->load([
+    $demoClass->load([
       'host',
       'provider',
       'providerApp',
@@ -272,10 +281,10 @@ class DemoClassController extends Controller
     ]);
 
     // Optional: you can also calculate statistics here
-    $totalParticipants = $webinar->registrations->count();
-    $totalTeachers = $webinar->registrations->where('user.acc_type', 'teacher')->count();
-    $totalStudents = $webinar->registrations->where('user.acc_type', 'student')->count();
-    $totalGuests = $webinar->registrations->where('user.acc_type', 'guest')->count();
+    $totalParticipants = $demoClass->registrations->count();
+    $totalTeachers = $demoClass->registrations->where('user.acc_type', 'teacher')->count();
+    $totalStudents = $demoClass->registrations->where('user.acc_type', 'student')->count();
+    $totalGuests = $demoClass->registrations->where('user.acc_type', 'guest')->count();
 
     return view('company.demo-class.show', compact(
       'webinar',
@@ -286,39 +295,5 @@ class DemoClassController extends Controller
     ));
   }
 
-  public function downloadCsv(DemoClass $webinar)
-  {
-    $fileName = 'demo_class_' . $webinar->id . '_registrations.csv';
 
-    $headers = [
-      "Content-type"        => "text/csv",
-      "Content-Disposition" => "attachment; filename=$fileName",
-      "Pragma"              => "no-cache",
-      "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-      "Expires"             => "0"
-    ];
-
-    $columns = ['Name', 'Email', 'Phone', 'Account Type', 'Checked In', 'Attended', 'Registered At'];
-
-    $callback = function () use ($webinar, $columns) {
-      $file = fopen('php://output', 'w');
-      fputcsv($file, $columns);
-
-      foreach ($webinar->registrations as $reg) {
-        fputcsv($file, [
-          $reg->name,
-          $reg->email,
-          $reg->phone ?? '-',
-          $reg->user?->acc_type ?? 'Guest',
-          $reg->checked_in ? 'Confirmed' : 'Pending',
-          $reg->attended_status ? 'Attended' : 'Absent',
-          $reg->created_at->format('Y-m-d H:i:s'),
-        ]);
-      }
-
-      fclose($file);
-    };
-
-    return response()->stream($callback, 200, $headers);
-  }
 }

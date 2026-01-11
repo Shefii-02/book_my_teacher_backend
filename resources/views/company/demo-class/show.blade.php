@@ -28,14 +28,11 @@
                 <h5 class="font-bold">Webinar Overview</h5>
 
                 <div class="space-x-2">
-                    <a href="{{ route('company.demo-class.edit', $webinar->id) }}"
+                    <a href="{{ route('company.demo-classes.edit', $webinar->id) }}"
                         class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Edit</a>
 
-                    @if (!$webinar->registrations->isEmpty())
-                        <a href="{{ route('company.demo-class.registrations.download-csv', $webinar->id) }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Download
-                            Registered Users CSV</a>
-                    @endif
-                    <a href="{{ route('company.demo-class.index') }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
+
+                    <a href="{{ route('company.demo-classes.index') }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm">Back</a>
 
                 </div>
             </div>
@@ -48,24 +45,6 @@
             <div class="bg-white dark:bg-slate-850 shadow rounded-2xl p-4 text-center">
                 <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-300">Total Participants</h3>
                 <p class="text-2xl font-bold text-gray-800 dark:text-white">{{ $totalParticipants }}</p>
-            </div>
-
-            <!-- Teachers Joined -->
-            <div class="bg-white dark:bg-slate-850 shadow rounded-2xl p-4 text-center">
-                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-300">Teachers</h3>
-                <p class="text-2xl font-bold text-green-500">{{ $totalTeachers }}</p>
-            </div>
-
-            <!-- Students Joined -->
-            <div class="bg-white dark:bg-slate-850 shadow rounded-2xl p-4 text-center">
-                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-300">Students</h3>
-                <p class="text-2xl font-bold text-blue-500">{{ $totalStudents }}</p>
-            </div>
-
-            <!-- Guests Joined -->
-            <div class="bg-white dark:bg-slate-850 shadow rounded-2xl p-4 text-center">
-                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-300">Guests</h3>
-                <p class="text-2xl font-bold text-yellow-500">{{ $totalGuests }}</p>
             </div>
         </div>
 

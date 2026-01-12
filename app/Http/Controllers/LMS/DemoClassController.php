@@ -327,4 +327,12 @@ class DemoClassController extends Controller
       return redirect()->back()->with('error', 'Student Not Found');
     }
   }
+
+
+  public function participantDelete($demoClass, $id)
+  {
+    $company_id = auth()->user()->company_id;
+    $reg = DemoClassRegistration::where('class_id', $demoClass)->where('id', $id)->delete();
+    return redirect()->back()->with('success', 'Student Registration Deleted.');
+  }
 }

@@ -285,6 +285,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('demo-classes/{demo_class}/class/start', 'LMS\DemoClassController@registrationStore')->name('demo-classes.start');
   Route::get('demo-classes/{demo_class}/participant/create', 'LMS\DemoClassController@participantCreate')->name('demo-classes.participant.create');
   Route::post('demo-classes/{demo_class}/participant/store', 'LMS\DemoClassController@participantStore')->name('demo-classes.participant.store');
+  Route::delete('demo-classes/{demo_class}/participant/{id}/delete', 'LMS\DemoClassController@participantDelete')->name('demo-classes.participant.delete');
 
 
 

@@ -166,6 +166,9 @@
                                                             <a href="{{ route('company.demo-classes.edit', $demo_class->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
+                                                         <a role="button" data-url="{{ route('company.demo-classes.participant.create', $demo_class->id) }}"
+                                                           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white open-drawer">Add
+                                                          Participant</a>
                                                         <li>
                                                             <a href="{{ route('company.demo-classes.start', $demo_class->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Start Streaming</a>

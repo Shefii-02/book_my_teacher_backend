@@ -28,13 +28,15 @@
                 <h5 class="font-bold">Demo class Overview</h5>
 
                 <div class="space-x-2">
-                       <a role="button" data-url="{{ route('company.demo-classes.participant.create', $demoClass->id) }}"
-                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm open-drawer">Add Participant</a>
+                    <a role="button" data-url="{{ route('company.demo-classes.participant.create', $demoClass->id) }}"
+                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm open-drawer"><i class="bi bi-plus me-2"></i>Add
+                        Participant</a>
 
                     <a href="{{ route('company.demo-classes.edit', $demoClass->id) }}"
-                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">Edit</a>
+                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i class="bi bi-pencil me-2"></i> Edit</a>
 
-                    <a href="{{ route('company.demo-classes.index') }}" class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">Back</a>
+                    <a href="{{ route('company.demo-classes.index') }}"
+                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i class="bi bi-arrow-left me-2"></i> Back</a>
 
                 </div>
             </div>
@@ -96,7 +98,8 @@
                     <p><span class="font-semibold">End At:</span> <span
                             class="font-bold">{{ $demoClass->ended_at?->format('d-m-Y H:i') ?? 'N/A' }}</span></p>
                     <p><span class="font-semibold">Registration Ends At:</span> <span
-                            class="font-bold">{{ $demoClass->registration_end_at?->format('d-m-Y H:i') ?? 'N/A' }}</span></p>
+                            class="font-bold">{{ $demoClass->registration_end_at?->format('d-m-Y H:i') ?? 'N/A' }}</span>
+                    </p>
                     <p><span class="font-semibold">Meeting URL:</span>
                         @if ($demoClass->meeting_url)
                             <a href="{{ $demoClass->meeting_url }}" target="_blank"
@@ -153,6 +156,7 @@
                                     <th class="px-4 py-2 border">Checked In</th>
                                     <th class="px-4 py-2 border">Attended</th>
                                     <th class="px-4 py-2 border">Registered At</th>
+                                    <th class="px-4 py-2 border">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -167,6 +171,19 @@
                                         </td>
                                         <td class="px-4 py-2 border">{{ $registration->created_at->format('d-m-Y H:i') }}
                                         </td>
+                                        <td class="px-4 py-2 border">
+                                            <form id="form_{{ $registration->id }}"
+                                                action="{{ route('company.demo-classes.participant.delete', ['demo_class' => $registration->class_id, 'id' => $registration->id]) }}"
+                                                method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <a role="button" href="javascript:;"
+                                                    class="block px-4 py-2 hover:bg-gray-100"
+                                                    onclick="confirmDelete({{ $registration->id }})"><i
+                                                        class="bi bi-trash text-danger"></i></a>
+
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -179,9 +196,11 @@
             {{-- Tags & Meta --}}
             <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6">
                 <h2 class="text-xl font-bold mb-4 dark:text-white">🏷️ Tags & Meta</h2>
-                <p><span class="font-semibold">Tags:</span> <span class="font-bold">{{ $demoClass->tags ?? 'N/A' }}</span>
+                <p><span class="font-semibold">Tags:</span> <span
+                        class="font-bold">{{ $demoClass->tags ?? 'N/A' }}</span>
                 </p>
-                <p><span class="font-semibold">Meta:</span> <span class="font-bold">{{ $demoClass->meta ?? 'N/A' }}</span>
+                <p><span class="font-semibold">Meta:</span> <span
+                        class="font-bold">{{ $demoClass->meta ?? 'N/A' }}</span>
                 </p>
             </div>
 

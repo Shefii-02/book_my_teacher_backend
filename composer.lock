@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b52dbbd55d0dc9372a0abb8277749d8",
+    "content-hash": "75e7418eff15e0038b9e18bf095eb01d",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1625,6 +1625,64 @@
                 }
             ],
             "time": "2025-08-22T14:27:06+00:00"
+        },
+        {
+            "name": "illegal/fluent-bcmath",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illegalstudio/fluent-bcmath.git",
+                "reference": "6b07e3f57b85e9fdfb2da210fe1868c0b5af37c0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illegalstudio/fluent-bcmath/zipball/6b07e3f57b85e9fdfb2da210fe1868c0b5af37c0",
+                "reference": "6b07e3f57b85e9fdfb2da210fe1868c0b5af37c0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "pestphp/pest": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "functions/fluent-bcmath.php"
+                ],
+                "psr-4": {
+                    "Illegal\\FluentBCMath\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincenzo Petrucci",
+                    "email": "vincenzo.petrucci@gmail.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Fluent BCMath is a PHP package designed to simplify the usage of PHP's bcmath functions in a more fluid and intuitive way. With its expressive syntax and Laravel compatibility, it aims to improve the developer experience while working with arbitrary precision arithmetic operations.",
+            "keywords": [
+                "Arbitrary-precision",
+                "bcmath",
+                "chainable",
+                "fluent",
+                "laravel",
+                "math",
+                "php"
+            ],
+            "support": {
+                "docs": "https://github.com/illegalstudio/fluent-bcmath/blob/main/README.md",
+                "issues": "https://github.com/illegalstudio/fluent-bcmath",
+                "source": "https://github.com/illegalstudio/fluent-bcmath"
+            },
+            "time": "2023-04-10T22:02:23+00:00"
         },
         {
             "name": "laravel/framework",

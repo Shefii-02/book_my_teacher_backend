@@ -11,6 +11,7 @@
     "php": "^8.2",
     "barryvdh/laravel-dompdf": "^3.1",
     "google/apiclient": "^2.18",
+    "illegal/fluent-bcmath": "*",
     "laravel/framework": "^11.0",
     "laravel/sanctum": "^4.2",
     "laravel/socialite": "^5.23",

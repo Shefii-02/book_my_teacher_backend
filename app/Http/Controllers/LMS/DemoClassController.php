@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Models\DemoClass;
+use App\Models\DemoClassRegistration;
 use App\Models\StreamProvider;
 use App\Models\Teacher;
 use App\Models\User;
@@ -267,7 +268,7 @@ class DemoClassController extends Controller
   }
 
 
-  public function show( $demoClass)
+  public function show($demoClass)
   {
     $company_id = auth()->user()->company_id;
     $demoClass = DemoClass::where('id', $demoClass)->where('company_id', $company_id)->first();
@@ -294,6 +295,36 @@ class DemoClassController extends Controller
       'totalGuests',
     ));
   }
+  public function participantCreate($demoClass)
+  {
+    $company_id = auth()->user()->company_id;
+    $demoClass = DemoClass::where('id', $demoClass)->where('company_id', $company_id)->first();
+
+    return view('company.demo-class.create-participant', compact('demoClass'));
+  }
 
 
+
+  public function participantStore(Request $request, $demoClass)
+  {
+    $company_id = auth()->user()->company_id;
+
+    $student = User::where('id', $request->student_id)->where('company_id', $company_id)->first();
+    if ($student) {
+      $reg = DemoClassRegistration::where('class_id', $demoClass)->where('user_id', $student->id)->first();
+      if ($reg) {
+        return redirect()->back()->with('error', 'This Student Already Registred');
+      }
+      $reg = new DemoClassRegistration();
+      $reg->class_id     = $demoClass;
+      $reg->user_id      = $student->id;
+      $reg->name         = $student->name;
+      $reg->email        = $student->email;
+      $reg->phone        = $student->mobile;
+      $reg->save();
+      return redirect()->back()->with('success', 'Student Registration successfully.');
+    } else {
+      return redirect()->back()->with('error', 'Student Not Found');
+    }
+  }
 }

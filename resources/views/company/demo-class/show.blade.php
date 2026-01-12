@@ -28,8 +28,8 @@
                 <h5 class="font-bold">Demo class Overview</h5>
 
                 <div class="space-x-2">
-                       <a href="{{ route('company.demo-classes.edit', $demoClass->id) }}"
-                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">Add Participant</a>
+                       <a role="button" data-url="{{ route('company.demo-classes.participant.create', $demoClass->id) }}"
+                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm open-drawer">Add Participant</a>
 
                     <a href="{{ route('company.demo-classes.edit', $demoClass->id) }}"
                         class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">Edit</a>

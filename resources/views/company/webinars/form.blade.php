@@ -259,7 +259,7 @@
                 </div>
 
                 <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{{ $isEdit ? 'Update Webinar' : 'Create Webinar' }}</button>
+                    class="bg-success text-white px-4 py-2 rounded hover:bg-blue-700">{{ $isEdit ? 'Update Webinar' : 'Create Webinar' }}</button>
             </form>
         </div>
     </div>

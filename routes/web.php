@@ -283,7 +283,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::resource('demo-classes', 'LMS\DemoClassController');
   // Route::get('demo-classes/{demo_class}/registrations', 'LMS\DemoClassController@registrations')->name('demo-classes.register');
   Route::get('demo-classes/{demo_class}/class/start', 'LMS\DemoClassController@registrationStore')->name('demo-classes.start');
-  Route::get('demo-classes/{demo_class}/participant/store', 'LMS\DemoClassController@participantStore')->name('demo-classes.participant.store');
+  Route::get('demo-classes/{demo_class}/participant/create', 'LMS\DemoClassController@participantCreate')->name('demo-classes.participant.create');
+  Route::post('demo-classes/{demo_class}/participant/store', 'LMS\DemoClassController@participantStore')->name('demo-classes.participant.store');
 
 
 

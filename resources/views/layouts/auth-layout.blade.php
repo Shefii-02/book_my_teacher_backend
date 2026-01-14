@@ -50,6 +50,7 @@
 
             <div class="flex flex-wrap -mx-3">
                 <div class="w-8/12 max-w-full px-3 mx-auto mt-1 text-center flex-0">
+                  <p><a href="{{ url('privacy-policy') }}">Privacy Policy</a>|<a href="{{ url('terms-conditions') }}">Terms Conditions</a></p>
                     <p class="mb-0 text-slate-400">
                         Copyright ©
                         <script>

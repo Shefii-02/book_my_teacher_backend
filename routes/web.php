@@ -30,6 +30,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
   Route::post('/logout', 'dashboard\UserController@logout')->name('logout');
   Route::get('admin/phonepe/pay', 'PhonePeController@initPayment');
   Route::get('admin/phonepe/callback', 'PhonePeController@callback')->name('phonepe.callback');
+  Route::get('privacy-policy', function () {
+    return view('privacy-policy');
+  });
+  Route::get('terms-conditions', function () {
+    return view('terms-conditions');
+  });
 });
 
 

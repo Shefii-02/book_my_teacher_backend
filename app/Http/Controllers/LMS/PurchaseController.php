@@ -8,6 +8,8 @@ use App\Models\PurchasePayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
+
 class PurchaseController extends Controller
 {
 

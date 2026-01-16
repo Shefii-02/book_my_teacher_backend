@@ -1337,6 +1337,7 @@ class StudentController extends Controller
   {
     $user = $request->user();
     $courses = Course::with('institute')
+      ->whereHas('registrations')
       ->where('company_id', 1)
       ->where('is_public', 1)
       ->with(['registrations' => function ($q) use ($user) {
@@ -1352,6 +1353,7 @@ class StudentController extends Controller
 
 
     $webinars = Webinar::where('company_id', 1)
+      ->whereHas('registrations')
       ->whereIn('status', ['scheduled', 'completed'])
       ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
@@ -1366,6 +1368,7 @@ class StudentController extends Controller
     // ->map(fn($w) => tap($w)->is_enrolled = false);
 
     $workshops = Workshop::where('company_id', 1)
+      ->whereHas('registrations')
       ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
       }])

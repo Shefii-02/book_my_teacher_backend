@@ -444,6 +444,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
+    Route::post('/fetch-enrolled-courses', 'StudentController@enrolledCourses');
+
     ///////////////////////////////////////////////////////////////////////
 
   });
@@ -1373,11 +1375,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // Route::get('/teachers', 'StudentController@teachersListing');
   Route::get('/grades-subjects', 'StudentController@gradesSubjects');
   Route::get('/board-syllabus', 'StudentController@boardSyllabus');
-
-
-  Route::get('/provide-subjects', 'StudentController@provideSubjects');
-
   Route::post('/student-update-personal', 'StudentController@UpdatePersonal');
 
-  Route::post('/fetch-enrolled-courses', 'StudentController@enrolledCourses');
+  Route::get('/provide-subjects', 'StudentController@provideSubjects');
 });

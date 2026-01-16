@@ -1249,9 +1249,6 @@ class StudentController extends Controller
   }
 
 
-
-
-
   public function UpdatePersonal(Request $request)
   {
     DB::beginTransaction();

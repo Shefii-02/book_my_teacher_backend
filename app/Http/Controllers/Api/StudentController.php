@@ -1331,4 +1331,73 @@ class StudentController extends Controller
       ], 500);
     }
   }
+
+
+  public function enrolledCourses(Request $request)
+  {
+    $user = $request->user();
+    $courses = Course::with('institute')
+      ->where('company_id', 1)
+      ->where('is_public', 1)
+      ->with(['registrations' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      }])
+      ->get()
+      // ->map(fn($c) => tap($c)->is_enrolled = false);
+      ->map(function ($item) use ($user) {
+        $item->is_enrolled = $item->registrations->isNotEmpty();
+        return $item;
+      });
+
+
+
+    $webinars = Webinar::where('company_id', 1)
+      ->whereIn('status', ['scheduled', 'completed'])
+      ->with(['registrations' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      }])
+      ->get()
+      ->map(function ($item) use ($user) {
+        $item->is_enrolled = $item->registrations->isNotEmpty();
+        return $item;
+      });
+
+
+    // ->map(fn($w) => tap($w)->is_enrolled = false);
+
+    $workshops = Workshop::where('company_id', 1)
+      ->with(['registrations' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      }])
+      ->get()
+      ->map(function ($item) use ($user) {
+        $item->is_enrolled = $item->registrations->isNotEmpty();
+        return $item;
+      });
+    // ->map(fn($w) => tap($w)->is_enrolled = false);
+
+
+    $data = collect([
+      [
+        'category' => 'Workshop',
+        'items'    => WorkshopResource::collection($workshops),
+      ],
+      [
+        'category' => 'Course',
+        'items'    => CourseResource::collection($courses),
+      ],
+      [
+        'category' => 'Webinar',
+        'items'    => WebinarResource::collection($webinars),
+      ]
+
+    ])->filter(fn($g) => $g['items']->isNotEmpty())
+      ->values();
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Courses categorized successfully',
+      'data' => $data,
+    ]);
+  }
 }

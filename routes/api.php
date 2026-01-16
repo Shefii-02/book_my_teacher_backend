@@ -1378,4 +1378,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
 
   Route::post('/student-update-personal', 'StudentController@UpdatePersonal');
+
+  Route::post('/fetch-enrolled-courses', 'StudentController@enrolledCourses');
 });

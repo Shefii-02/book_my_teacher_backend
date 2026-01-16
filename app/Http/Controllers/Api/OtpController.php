@@ -108,7 +108,7 @@ class OtpController extends Controller
       ->exists();
 
     if ($userr) {
-      return $this->error('User already registered, Please SignIn', Response::HTTP_CONFLICT);
+      return $this->error('User already registered, Please Sign In', Response::HTTP_CONFLICT);
     }
 
     // Check if there is already an unverified OTP

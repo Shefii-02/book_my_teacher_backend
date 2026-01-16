@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -479,7 +480,7 @@ class StudentController extends Controller
 
     $courses = Course::with('institute')
       ->where('company_id', 1)
-      ->where('is_public',1)
+      ->where('is_public', 1)
       ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
       }])
@@ -673,7 +674,7 @@ class StudentController extends Controller
         }
       });
 
-      Log::info($sections);
+    Log::info($sections);
 
     return response()->json([
       'status'  => true,
@@ -1245,5 +1246,92 @@ class StudentController extends Controller
       "message" => "success",
       "data" => $data
     ], 200);
+  }
+
+
+
+
+
+  public function UpdatePersonal(Request $request)
+  {
+    DB::beginTransaction();
+    $company_id = 1;
+    $student = $request->user();
+    $student_id = $student->id;
+    Log::info($request->all());
+
+    $user = User::where('id', $student_id)->where('company_id', $company_id)->first();
+    Log::info($user);
+
+    try {
+      if ($user) {
+        // 1️⃣ Create or Update User
+        User::where('id', $student_id)
+          ->update(
+            [
+              'name'        => $request->name,
+              'email'       => $request->email,
+              'address'     => $request->address,
+              'city'        => $request->city,
+              'postal_code' => $request->postal_code,
+              'district'    => $request->district,
+              'state'       => $request->state,
+              'country'     => $request->country,
+            ]
+          );
+
+        // 7️⃣ Media Files (Avatar + CV)
+        if ($request->hasFile('avatar')) {
+
+          // Delete physical file
+          $userAvatarPath = $user->avatar ? $user->avatar->file_path : null;
+
+          if ($userAvatarPath && Storage::disk('public')->exists($userAvatarPath)) {
+            Storage::disk('public')->delete($userAvatarPath);
+          }
+
+          MediaFile::where('company_id', $company_id)->where('user_id', $user->id)->where('file_type', 'avatar')->delete();
+          $file = $request->file('avatar');
+          $path = $file->storeAs(
+            'uploads/avatars',
+            time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
+            'public'
+          );
+
+          MediaFile::create([
+            'user_id' => $user->id,
+            'company_id' => $company_id,
+            'file_type'  => 'avatar',
+            'file_path'  => $path,
+            'name'       => $file->getClientOriginalName(),
+            'mime_type'  => $file->getMimeType(),
+          ]);
+        }
+
+        $user->save();
+        DB::commit();
+        $user->refresh();
+        Log::info($user);
+
+        return response()->json([
+          'status'            => true,
+          'message'           => 'Student updated successfully'
+        ], 201);
+      } else {
+        DB::rollBack();
+        return response()->json([
+          'status'            => false,
+          'message' => 'Student updation failed',
+          'error'   => "User not found",
+        ], 500);
+      }
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return response()->json([
+        'status'            => false,
+        'message' => 'Student updation failed',
+        'error'   => $e->getMessage(),
+      ], 500);
+    }
   }
 }

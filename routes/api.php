@@ -407,7 +407,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     ////////////////////////////////Teacher Section///////////////////////////////////////
     Route::post('/teacher/schedule', 'TeacherController@schedule');
-     Route::post('/teacher-home', 'TeacherController@home');
+    Route::post('/teacher-home', 'TeacherController@home');
     Route::post('/teacher-update-personal', 'TeacherController@teacherUpdatePersonal');
     Route::post('/teacher-update-teaching-detail', 'TeacherController@teacherUpdateTeachingDetail');
     Route::post('/teacher-update-cv', 'TeacherController@teacherUpdateCv');
@@ -435,7 +435,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher/achievement-level', 'TeacherController@achievementLevel');
 
     // Route::post('/teacher/own-courses', 'TeacherController@ownCourses');
-     Route::post('/teacher/own-courses', 'TeacherController@courseStore');
+    Route::post('/teacher/own-courses', 'TeacherController@courseStore');
 
 
 
@@ -1376,4 +1376,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
+
+  Route::post('/student-update-personal', 'StudentController@UpdatePersonal');
 });

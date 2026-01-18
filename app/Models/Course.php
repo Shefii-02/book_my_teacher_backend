@@ -74,8 +74,15 @@ class Course extends Model
   }
 
 
-  public function institute(){
-        return $this->hasOne(TeacherCourse::class);
+  public function getTeacherIdAttribute()
+  {
+    return $this->teachers()->first()?->id; // returns first teacher id
+  }
+
+
+  public function institute()
+  {
+    return $this->hasOne(TeacherCourse::class);
   }
 
 
@@ -91,7 +98,7 @@ class Course extends Model
   }
   public function classes()
   {
-    return $this->hasMany(CourseClass::class, 'course_id')->orderBy('scheduled_at')->orderBy('priority','asc');;
+    return $this->hasMany(CourseClass::class, 'course_id')->orderBy('scheduled_at')->orderBy('priority', 'asc');;
   }
 
   public function thumbnailMedia()

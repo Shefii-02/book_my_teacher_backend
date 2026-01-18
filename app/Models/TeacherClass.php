@@ -20,4 +20,8 @@ class TeacherClass extends Model
     return $this->hasOne(Teacher::class, 'id', 'teacher_id');
   }
 
+  public function course_classes(){
+    return $this->hasOne(CourseClass::class,'id','class_id');
+  }
+
 }

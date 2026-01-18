@@ -9,7 +9,7 @@ class AdminPanel
     public function handle($request, Closure $next)
     {
 
-        if (Auth::check() && (Auth::user()->type === 'super_admin' || Auth::user()->type === 'admin_staff')) {
+        if (Auth::check() && (Auth::user()->acc_type === 'super_admin' || Auth::user()->acc_type === 'admin_staff')) {
             return $next($request);
         }
         return redirect()->route('login')->with('error', 'Access denied.');

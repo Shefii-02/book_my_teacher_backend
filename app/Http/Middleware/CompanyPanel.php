@@ -8,7 +8,7 @@ class CompanyPanel
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && (Auth::user()->type === 'company' || Auth::user()->type === 'company-staff')) {
+        if (Auth::check() && (Auth::user()->acc_type === 'company' || Auth::user()->acc_type === 'company-staff')) {
             return $next($request);
         }
         return redirect()->route('login')->with('error', 'Access denied.');

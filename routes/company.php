@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'], 'namespace' => 'App\Http\Controllers'], function () {
+Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth','company_panel'], 'namespace' => 'App\Http\Controllers'], function () {
 
   Route::get('/ajax/users/search', 'UserController@searchUsers')->name('search-users');
   Route::get('/users/{id}/courses', 'UserController@courses');
@@ -142,16 +142,16 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('/otp/{id}/edit', 'dashboard\UserController@editOtp')->name('otp.edit');
   Route::put('/otp/{id}', 'dashboard\UserController@updateOtp')->name('otp.update');
 
-  Route::resource('courses/categories', CourseCategoryController::class)->names('categories');
+  Route::resource('courses/categories', 'LMS\CourseCategoryController')->names('categories');
   Route::resource('courses/subcategories', CourseSubCategoryController::class)->names('subcategories');
-  Route::get('/categories/{id}/subcategories', [CourseController::class, 'getSubcategories']);
+  Route::get('/categories/{id}/subcategories', 'LMS\CourseController@getSubcategories');
 
   // /admin/courses/load-step-form/${step}?course_id=${courseId}
-  Route::get('courses/load-step-form/{step}', [CourseController::class, 'loadStepForm'])->name('courses.load-step-form');
+  Route::get('courses/load-step-form/{step}', 'LMS\CourseController@loadStepForm')->name('courses.load-step-form');
   Route::prefix('courses/{identity}')->group(function () {
-    Route::resource('schedule-class', CourseClassController::class)
+    Route::resource('schedule-class', 'LMS\CourseClassController')
       ->names('courses.schedule-class');
-    Route::resource('materials', CourseMaterialController::class)
+    Route::resource('materials', 'LMS\CourseMaterialController')
       ->names('courses.materials');
   });
 
@@ -199,13 +199,13 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
 
 
-  Route::resource('courses', CourseController::class)->names('courses');
+  Route::resource('courses', 'LMS\CourseController')->names('courses');
 
-  Route::get('coupons/trashed', [CouponController::class, 'trashed'])->name('coupons.trashed');
-  Route::post('coupons/{id}/restore', [CouponController::class, 'restore'])->name('coupons.restore');
+  Route::get('coupons/trashed', 'LMS\CouponController@trashed')->name('coupons.trashed');
+  Route::post('coupons/{id}/restore', 'LMS\CouponController@restore')->name('coupons.restore');
 
 
-  Route::resource('coupons', CouponController::class);
+  Route::resource('coupons', 'LMS\CouponController');
 
 
   Route::get('admission', 'LMS\AdmissionController@index')->name('admissions.index');

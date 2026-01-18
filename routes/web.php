@@ -62,3 +62,4 @@ Route::get('/invite', [ReferralController::class, 'trackReferral']);
 
 require __DIR__ . '/admin.php';
 require __DIR__ . '/company.php';
+require __DIR__ . '/teacher.php';

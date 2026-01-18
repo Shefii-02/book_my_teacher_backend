@@ -25,20 +25,28 @@ class CourseClass extends Model
     'status'
   ];
 
+
+  public function scopeWithMeetingLink($query)
+  {
+    return $query->whereNotNull('meeting_link')
+      ->where('meeting_link', '!=', '');
+  }
+
+
   public function course_data()
   {
     return $this->hasOne(Course::class, 'id', 'course_id');
   }
 
   public function teachers()
-{
+  {
     return $this->belongsToMany(
-        Teacher::class,     // related model
-        'teacher_classes',  // pivot table
-        'class_id',         // foreign key in pivot (points to CourseClass)
-        'teacher_id'        // foreign key in pivot (points to Teacher)
+      Teacher::class,     // related model
+      'teacher_classes',  // pivot table
+      'class_id',         // foreign key in pivot (points to CourseClass)
+      'teacher_id'        // foreign key in pivot (points to Teacher)
     );
-}
+  }
 
 
 

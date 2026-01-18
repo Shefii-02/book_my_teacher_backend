@@ -175,3 +175,197 @@ function accountStatus($teacher)
     'steps' => $steps,
   ];
 }
+
+
+
+function getPrice($price){
+  return '₹'.$price;
+}
+
+
+
+
+if (!function_exists('shorten_price')) {
+    function shorten_price($price)
+    {
+        if ($price >= 10000000) {
+            return '₹' . indian_number_format($price / 10000000, 2) . ' Cr';
+        } elseif ($price >= 100000) {
+            return '₹' . indian_number_format($price / 100000, 2) . ' L';
+        } elseif ($price >= 1000) {
+            return '₹' . indian_number_format($price / 1000, 2) . ' K';
+        } else {
+            return '₹' . indian_number_format($price, 2);
+        }
+    }
+}
+
+// if (! function_exists('human_price_text')) {
+//     function human_price_text(float|null|string $price, string|null $priceUnit = '', bool $fullNumber = false): string
+//     {
+//         $numberAfterDot = ($currency instanceof Currency) ? $currency->decimals : 0;
+
+//         if (! $fullNumber) {
+//             if ($price >= 1000000 && $price < 1000000000) {
+//                 $price = round($price / 1000000, 2) + 0;
+//                 $priceUnit = __('Million') . ' ' . $priceUnit;
+//                 $numberAfterDot = strlen(substr(strrchr((string)$price, '.'), 1));
+//             } elseif ($price >= 1000000000) {
+//                 $price = round($price / 1000000000, 2) + 0;
+//                 $priceUnit = __('Billion') . ' ' . $priceUnit;
+//                 $numberAfterDot = strlen(substr(strrchr((string)$price, '.'), 1));
+//             }
+//         }
+
+//         if (is_numeric($price)) {
+//             $price = preg_replace('/[^0-9,.]/s', '', (string)$price);
+//         }
+
+//         $decimalSeparator = setting('real_estate_decimal_separator', '.');
+
+//         if ($decimalSeparator == 'space') {
+//             $decimalSeparator = ' ';
+//         }
+
+//         $thousandSeparator = setting('real_estate_thousands_separator', ',');
+
+//         if ($thousandSeparator == 'space') {
+//             $thousandSeparator = ' ';
+//         }
+
+//         $price = indian_number_format(
+//             (float)$price,
+//             (int)$numberAfterDot,
+//             $decimalSeparator,
+//             $thousandSeparator
+//         );
+
+//         $space = setting('real_estate_add_space_between_price_and_currency', 0) == 1 ? ' ' : null;
+
+//         return $price . $space . ($priceUnit ?: '');
+//     }
+// }
+
+
+
+if (!function_exists('dateTimeFormat')) {
+
+    function dateTimeFormat($date)
+    {
+        $date = date('d M,Y', strtotime($date));
+        $time = date('h:i a', strtotime($date));
+        return  $date . ',' . $time;
+    }
+}
+
+if (!function_exists('dateFormat')) {
+
+    function dateFormat($date)
+    {
+        $date = date('d M,Y', strtotime($date));
+        return  $date;
+    }
+}
+
+if (!function_exists('TimeFormat')) {
+
+    function TimeFormat($date)
+    {
+        $time = date('h:i a', strtotime($date));
+        return  $time;
+    }
+}
+
+
+function indian_number_format($number)
+{
+    $decimal = ''; // To store decimal part if needed
+    if (strpos($number, '.') !== false) {
+        [$number, $decimal] = explode('.', $number); // Split integer and decimal parts
+        $decimal = '.' . $decimal; // Reattach decimal point
+    }
+
+    // Convert the number to a string and reverse it
+    $number = strrev($number);
+
+    // Insert commas after the first 3 digits, then every 2 digits
+    $formatted = preg_replace('/(\d{3})(?=\d)/', '$1,', $number);
+    $formatted = preg_replace('/(\d{2})(?=(\d{2},)+\d)/', '$1,', $formatted);
+
+    // Reverse the string back to normal
+    $formatted = strrev($formatted);
+
+    // Reattach decimal part if present
+    return $formatted . $decimal;
+}
+
+function numberToWords($number)
+{
+    $units = [
+        0 => '',
+        1 => 'one',
+        2 => 'two',
+        3 => 'three',
+        4 => 'four',
+        5 => 'five',
+        6 => 'six',
+        7 => 'seven',
+        8 => 'eight',
+        9 => 'nine',
+        10 => 'ten',
+        11 => 'eleven',
+        12 => 'twelve',
+        13 => 'thirteen',
+        14 => 'fourteen',
+        15 => 'fifteen',
+        16 => 'sixteen',
+        17 => 'seventeen',
+        18 => 'eighteen',
+        19 => 'nineteen'
+    ];
+    $tens = [
+        20 => 'twenty',
+        30 => 'thirty',
+        40 => 'forty',
+        50 => 'fifty',
+        60 => 'sixty',
+        70 => 'seventy',
+        80 => 'eighty',
+        90 => 'ninety'
+    ];
+    $scales = [
+        100 => 'hundred',
+        1000 => 'thousand',
+        1000000 => 'million',
+        1000000000 => 'billion'
+    ];
+    $result = [];
+    if ($number == 0) {
+        return 'zero';
+    }
+    while ($number > 0) {
+        $scale = 1;
+        foreach ($scales as $multiplier => $scaleName) {
+            if ($number >= $multiplier) {
+                $scale = $multiplier;
+            }
+        }
+        $scaleName = $scales[$scale] ?? '';
+        if ($scaleName) {
+            $result[] = numberToWords($number / $scale) . ' ' . $scaleName;
+            $number %= $scale;
+        } elseif ($number < 20) {
+            $result[] = $units[$number];
+            $number = 0;
+        } elseif ($number < 100) {
+            $ten = floor($number / 10) * 10;
+            $unit = $number % 10;
+            $result[] = ($tens[$ten] ?? '') . ($unit ? ' ' . $units[$unit] : '');
+            $number = 0;
+        } else {
+            $result[] = numberToWords($number / 100) . ' hundred';
+            $number %= 100;
+        }
+    }
+    return implode(' ', array_reverse($result));
+}

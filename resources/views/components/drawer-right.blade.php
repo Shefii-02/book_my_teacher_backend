@@ -6,7 +6,7 @@
           class="absolute top-2 end-6 text-2xl text-gray-400 hover:text-gray-800">
           ✕
       </button>
-      <div id="drawerContent" class="mt-8">
+      <div id="drawerContent" class="mb-4">
           <!-- Step form will load here -->
           <div class="text-center text-gray-400">Loading...</div>
       </div>

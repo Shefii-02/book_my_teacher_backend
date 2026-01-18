@@ -28,7 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
             // 'revalidate' => \App\Http\Middleware\RevalidateBackHistory::class,
             'admin_panel' => \App\Http\Middleware\AdminPanel::class,
             'company_panel' => \App\Http\Middleware\CompanyPanel::class,
-            // 'tenant_panel' => \App\Http\Middleware\TenantPanel::class,
+            'teacher_panel' => \App\Http\Middleware\TeacherPanel::class,
             // 'owner_panel' => \App\Http\Middleware\OwnerPanel::class,
             // 'maintainer_panel' => \App\Http\Middleware\MaintainerPanel::class,
             // 'check.plan.expiry' => \App\Http\Middleware\CheckPlanExpiry::class,

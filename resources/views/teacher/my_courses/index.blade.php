@@ -70,12 +70,12 @@
                                                     View
                                                 </a>
                                                 @if($course->status == 'published')
-                                                <a class="edit-step block px-4 py-2  text-xxs"
-                                                    href="{{ route('teacher.my-courses.schedule-class.create', $course->course_identity) }}">
+                                                <a class=" block px-4 py-2  text-xxs open-drawer"  href="#"
+                                                    data-url="{{ route('teacher.my-courses.schedule-class.create', $course->course_identity) }}">
                                                     Add Class
                                                 </a>
-                                                <a class="edit-step block px-4 py-2  text-xxs"
-                                                    href="{{ route('teacher.my-courses.materials.create', $course->course_identity) }}">
+                                                <a class=" block px-4 py-2  text-xxs open-drawer" href="#"
+                                                    data-url="{{ route('teacher.my-courses.materials.create', $course->course_identity) }}">
                                                     Add Material
                                                 </a>
                                                 @endif

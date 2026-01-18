@@ -26,7 +26,7 @@ class MyScheduleController extends Controller
          | Webinars
          |------------------------------*/
     $webinars = Webinar::
-      // where('host_id', $user->id)->
+      where('host_id', $user->id)->
       // whereBetween('started_at', [$start, $end])
       // ->
       get()
@@ -37,10 +37,10 @@ class MyScheduleController extends Controller
          | Workshops
          |------------------------------*/
     $workshops = WorkshopClass::
-      // whereHas('workshop', function ($q) use ($user) {
-      //   $q->where('host_id', $user->id);
-      // })
-      // ->whereBetween('scheduled_at', [$start, $end])->
+      whereHas('workshop', function ($q) use ($user) {
+        $q->where('host_id', $user->id);
+      })->
+      // whereBetween('scheduled_at', [$start, $end])->
       get()
       ->map(fn($w) => $this->formatEvent($w, 'Workshop'));
 

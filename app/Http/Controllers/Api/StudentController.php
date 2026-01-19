@@ -1418,6 +1418,10 @@ class StudentController extends Controller
       [
         'category' => 'Demo Class',
         'items'    => WebinarResource::collection($democlasses),
+      ],
+      [
+        'category' => 'Demo Class2',
+        'items'    => WebinarResource::collection($democlasses),
       ]
 
 

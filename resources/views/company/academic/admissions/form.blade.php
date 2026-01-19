@@ -23,7 +23,7 @@
         <div class="card bg-white dark:bg-slate-850 dark:shadow-dark-xl rounded-3 my-3">
             <div class="card-title p-3 my-3 flex justify-between">
                 <h5 class="font-bold dark:text-white">{{ isset($coupon) ? 'Edit' : 'Create' }} a Admission</h5>
-                <a href="{{ route('company.admission.index') }}"
+                <a href="{{ route('company.admissions.index') }}"
                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded text-sm">
                     <i class="bi bi-arrow-left me-2"></i>
                     Back</a>

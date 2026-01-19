@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Student;
 use App\Models\Course;
 use App\Models\Coupon;
+use App\Models\CourseRegistration;
 use App\Models\Purchase;
 use App\Models\PurchaseInstallment;
 use App\Models\PurchasePayment;
@@ -284,7 +285,6 @@ class AdmissionController extends Controller
       'notes' => 'nullable',
     ]);
 
-
     $purchaseDetails   = $this->calculatePurchaseDetails($req);
 
     //check installment_grand_total == grand_total;
@@ -305,6 +305,7 @@ class AdmissionController extends Controller
           ->with('error', 'Student already purchased');
     }
 
+    $user = User::where('id',$req->student_id)->where('company_id',auth()->user()->company_id)->first();
 
     DB::beginTransaction();
     try {
@@ -355,9 +356,23 @@ class AdmissionController extends Controller
         'status' => 'initiated',
       ]);
 
+
+      $courseReg = new CourseRegistration();
+      $courseReg->company_id = auth()->user()->company_id;
+      $courseReg->course_id	 = $req->course_id;
+      $courseReg->user_id	   = $user->id;
+      $courseReg->name       = $user->name;
+      $courseReg->email      = $user->email;
+      $courseReg->phone      = $user->mobile;
+      $courseReg->checked_in = null;
+      $courseReg->status     = 'penindg';
+      $courseReg->payment_id = $purchase->id;
+      $courseReg->save();
+
+
       DB::commit();
 
-      return $this->redirectToPaymentGateway($purchase, $payment);
+      return $this->redirectToPaymentGateway($purchase, $payment, $courseReg);
     } catch (\Throwable $ex) {
       DB::rollBack();
       return back()->withErrors(['error' => $ex->getMessage()]);
@@ -370,17 +385,25 @@ class AdmissionController extends Controller
     return 'ORDRBMT' . date('ymd') . sprintf('%04d', $ordercount + 1);
   }
 
-  protected function redirectToPaymentGateway(Purchase $purchase, PurchasePayment $payment)
+  protected function redirectToPaymentGateway(Purchase $purchase, PurchasePayment $payment, CourseRegistration $courseReg)
   {
     switch ($payment->gateway) {
 
       case 'online':
         return redirect()->route('company.payments.init', $payment->order_id);
       case 'manually':
-        return redirect()->route('company.payments.bank-details', $purchase->id);
+        $purchase->update(['status' => 'paid']);
+        $payment->update(['status' => 'success']);
+        $courseReg->update(['status' => 'completed']);
+
+        return redirect()
+          ->route('company.payments.success',$payment->order_id)
+          ->with('success', 'Cash payment marked as paid');
+        // return redirect()->route('company.payments.bank-details', $purchase->id);
       case 'in-cash':
         $purchase->update(['status' => 'paid']);
         $payment->update(['status' => 'success']);
+        $courseReg->update(['status' => 'completed']);
 
         return redirect()
           ->route('company.payments.success',$payment->order_id)
@@ -389,6 +412,7 @@ class AdmissionController extends Controller
       case 'free':
         $purchase->update(['status' => 'paid']);
         $payment->update(['status' => 'success']);
+        $courseReg->update(['status' => 'completed']);
 
         return redirect()
           ->route('company.payments.success',$payment->order_id);

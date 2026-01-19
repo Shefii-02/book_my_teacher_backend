@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use App\Models\Course;
 use App\Models\CourseInstallment;
+use App\Models\StudentCourse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AcademicController extends Controller
 {

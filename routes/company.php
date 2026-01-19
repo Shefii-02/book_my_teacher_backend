@@ -143,7 +143,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::put('/otp/{id}', 'dashboard\UserController@updateOtp')->name('otp.update');
 
   Route::resource('courses/categories', 'LMS\CourseCategoryController')->names('categories');
-  Route::resource('courses/subcategories', CourseSubCategoryController::class)->names('subcategories');
+  Route::resource('courses/subcategories', 'LMS\CourseSubCategoryController')->names('subcategories');
   Route::get('/categories/{id}/subcategories', 'LMS\CourseController@getSubcategories');
 
   // /admin/courses/load-step-form/${step}?course_id=${courseId}

@@ -250,7 +250,7 @@ class DemoClassController extends Controller
 
     DB::beginTransaction();
     try {
-      if ($demoClass->thumbnail_image) Storage::disk('public')->delete($demoClass->thumbnail_image);
+      // if ($demoClass->thumbnail_image) Storage::disk('public')->delete($demoClass->thumbnail_image);
       if ($demoClass->main_image) Storage::disk('public')->delete($demoClass->main_image);
       $demoClass->delete();
       DB::commit();

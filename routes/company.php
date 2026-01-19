@@ -127,13 +127,13 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::post('students/{id}/login-security', 'LMS\StudentController@loginSecurityChange')->name('students.login-security.change');
 
 
-  Route::resource('guest', GuestController::class)->names('guest');
+  Route::resource('guest', 'LMS\GuestController')->names('guest');
 
-  Route::resource('guest-teacher', GuestTeacherController::class);
+  Route::resource('guest-teacher', 'LMS\GuestTeacherController');
 
-  Route::get('guest/{id}/overview', [GuestController::class, 'overview'])
+  Route::get('guest/{id}/overview', 'LMS\GuestController@overview')
     ->name('guest.overview');
-  Route::get('guest-teacher/{id}/overview', [GuestTeacherController::class, 'overview'])
+  Route::get('guest-teacher/{id}/overview', 'LMS\GuestTeacherController@overview')
     ->name('guest-teacher.overview');
 
   Route::get('/staffs', 'LMS\StaffController@index')->name('staffs');

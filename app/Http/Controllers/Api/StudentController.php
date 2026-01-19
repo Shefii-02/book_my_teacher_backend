@@ -15,6 +15,7 @@ use App\Http\Resources\TeacherResource;
 use App\Models\CompanyTeacher;
 use App\Models\Course;
 use App\Models\CourseRegistration;
+use App\Models\DemoClass;
 use App\Models\MediaFile;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -1386,19 +1387,39 @@ class StudentController extends Controller
     // ->map(fn($w) => tap($w)->is_enrolled = false);
 
 
+     $democlasses = DemoClass::where('company_id', 1)
+      ->whereHas('registrations', function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      })
+      ->whereIn('status', ['scheduled', 'completed'])
+      ->with(['registrations' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      }])
+      ->get()
+      ->map(function ($item) use ($user) {
+        $item->is_enrolled = $item->registrations->isNotEmpty();
+        return $item;
+      });
+
     $data = collect([
-      [
-        'category' => 'Workshop',
-        'items'    => WorkshopResource::collection($workshops),
-      ],
+
       [
         'category' => 'Course',
         'items'    => CourseResource::collection($courses),
       ],
       [
+        'category' => 'Workshop',
+        'items'    => WorkshopResource::collection($workshops),
+      ],
+      [
         'category' => 'Webinar',
         'items'    => WebinarResource::collection($webinars),
+      ],
+      [
+        'category' => 'Demo Class',
+        'items'    => WebinarResource::collection($democlasses),
       ]
+
 
     ])
     // ->filter(fn($g) => $g['items']->isNotEmpty())

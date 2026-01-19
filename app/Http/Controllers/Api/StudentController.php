@@ -1417,7 +1417,7 @@ class StudentController extends Controller
       ],
       [
         'category' => 'Demo Class',
-        'items'    => WebinarResource::collection($democlasses),
+        'items'    => DemoClassResource::collection($democlasses),
       ]
 
     ])

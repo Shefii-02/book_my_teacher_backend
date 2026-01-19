@@ -249,9 +249,10 @@ class DemoClassController extends Controller
     $demoClass = DemoClass::where('id', $demoClass)->where('company_id', $company_id)->first();
 
     DB::beginTransaction();
+    dd($demoClass->thumbnail_image,$demoClass->main_image);
     try {
       // if ($demoClass->thumbnail_image) Storage::disk('public')->delete($demoClass->thumbnail_image);
-      if ($demoClass->main_image) Storage::disk('public')->delete($demoClass->main_image);
+      // if ($demoClass->main_image) Storage::disk('public')->delete($demoClass->main_image);
       $demoClass->delete();
       DB::commit();
       return redirect()->route('company.demo-classes.index')->with('success', 'Demo Class deleted successfully.');

@@ -33,6 +33,8 @@ class DemoClassResource extends JsonResource
       'description'   => $this->description,
       'slug'          => $this->slug,
 
+      'source'        => $this->source,
+
       'thumbnail_url' => $this->thumbnail_image ? asset('storage/' . $this->thumbnail_image) : null,
       'main_image_url' => $this->thumbnail_image ? asset('storage/' . $this->thumbnail_image) : null,
 

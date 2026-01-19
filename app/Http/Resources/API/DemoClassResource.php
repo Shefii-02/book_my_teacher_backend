@@ -18,11 +18,11 @@ class DemoClassResource extends JsonResource
     $classStatus = 'pending';
 
     if ($this->status == 'scheduled') {
-      if ($now->lt($this->start_date_time)) {
+      if ($now->lt($this->started_at)) {
         $classStatus = 'upcoming';
-      } elseif ($now->between($this->start_date_time, $this->end_date_time)) {
+      } elseif ($now->between($this->started_at, $this->ended_at)) {
         $classStatus = 'ongoing';
-      } elseif ($now->gt($this->end_date_time)) {
+      } elseif ($now->gt($this->ended_at)) {
         $classStatus = 'completed';
       }
     }

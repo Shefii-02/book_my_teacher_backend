@@ -233,9 +233,9 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::resource('class-permissions', CourseClassPermissionController::class);
 
 
-  Route::resource('webinars', WebinarController::class);
+  Route::resource('webinars', 'LMS\WebinarController')->names('webinars');
   Route::get('webinars/start', 'dashboard\UserController@otp')->name('webinars.start');
-  Route::get('webinars/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
+  Route::get('webinars/{webinar}/registrations/download-csv', 'LMS\WebinarController@downloadCsv')
     ->name('webinars.registrations.download-csv');
 
   Route::resource('demo-classes', 'LMS\DemoClassController');
@@ -254,7 +254,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   });
 
   Route::get('workshops/start', 'dashboard\UserController@otp')->name('workshops.start');
-  Route::get('workshops/{webinar}/registrations/download-csv', [WebinarController::class, 'downloadCsv'])
+  Route::get('workshops/{webinar}/registrations/download-csv', 'LMS\WebinarController@downloadCsv')
     ->name('workshops.registrations.download-csv');
 
 

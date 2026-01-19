@@ -364,7 +364,7 @@ class AdmissionController extends Controller
       $courseReg->name       = $user->name;
       $courseReg->email      = $user->email;
       $courseReg->phone      = $user->mobile;
-      $courseReg->checked_in = null;
+      $courseReg->checked_in = 0;
       $courseReg->status     = 'penindg';
       $courseReg->payment_id = $purchase->id;
       $courseReg->save();

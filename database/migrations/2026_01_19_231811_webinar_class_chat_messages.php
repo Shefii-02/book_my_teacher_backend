@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+  /**
+   * Run the migrations.
+   */
+  public function up(): void
+  {
+    //
+    Schema::create('webinar_class_chat_messages', function (Blueprint $table) {
+      $table->id();
+      $table->foreignId('class_id')->constrained('webinars')->cascadeOnDelete();
+      $table->foreignId('sender_id')->constrained('users')->cascadeOnDelete();
+      $table->string('sender_role')->nullable();
+      $table->string('message_type')->default('text')->nullable();
+      $table->integer('file_id')->nullable();
+      $table->mediumText('message')->nullable();
+      $table->integer('replied_id')->nullable();
+      $table->timestamps();
+    });
+  }
+
+  /**
+   * Reverse the migrations.
+   */
+  public function down(): void
+  {
+    //
+  }
+};

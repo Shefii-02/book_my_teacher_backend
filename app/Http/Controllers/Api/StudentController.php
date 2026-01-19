@@ -8,6 +8,7 @@ use App\Http\Resources\API\WorkshopResource;
 use App\Http\Resources\API\WebinarResource;
 use App\Http\Resources\API\BannerResource;
 use App\Http\Resources\API\ClassLinkResource;
+use App\Http\Resources\API\DemoClassResource;
 use App\Http\Resources\API\MaterialResource;
 use App\Http\Resources\API\WebinarClassLinkResource;
 use App\Http\Resources\SubjectResource;

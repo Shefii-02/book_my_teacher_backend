@@ -513,9 +513,6 @@ class TeacherController extends Controller
 
   public function courses(Request $request)
   {
-
-
-    Log::info($request->all());
     // Dummy data: replace with DB queries
     $upcoming = [
       [
@@ -565,52 +562,52 @@ class TeacherController extends Controller
     Log::info($user);
     $teacher = Teacher::where('user_id',$user->id)->first();
     $start = Carbon::today();
-
+Log::info($teacher);
     /* ------------------------------
          | Webinars
          |------------------------------*/
-    $webinars = Webinar::where('host_id', $user->id)->get()
-      ->map(fn($w) => $this->directFormatSections($w, 'Webinar'));
+    // $webinars = Webinar::where('host_id', $user->id)->get()
+    //   ->map(fn($w) => $this->directFormatSections($w, 'Webinar'));
 
 
     /* ------------------------------
          | Workshops
          |------------------------------*/
-    $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
-      $q->where('host_id', $user->id);
-    })->get()
-      ->map(fn($w) => $this->formatSectiont($w, 'Workshop'));
+    // $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
+    //   $q->where('host_id', $user->id);
+    // })->get()
+    //   ->map(fn($w) => $this->formatSectiont($w, 'Workshop'));
 
     /* ------------------------------
          | Course / Individual Classes
          |------------------------------*/
-    $courses = TeacherClass::where('teacher_id', $teacher->id)
-      // ->whereHas('course_classes')
-      // ->with('course_classes')
-      ->get()
-      ->flatMap(function ($teacherClass) {
-        return $teacherClass->course_classes->map(function ($class) {
-          return $this->formatSectiont($class, 'Course Class');
-        });
-      });
+//     $courses = TeacherClass::where('teacher_id', $teacher->id)
+//       // ->whereHas('course_classes')
+//       // ->with('course_classes')
+//       ->get()
+//       ->flatMap(function ($teacherClass) {
+//         return $teacherClass->course_classes->map(function ($class) {
+//           return $this->formatSectiont($class, 'Course Class');
+//         });
+//       });
 
-Log::info(TeacherClass::where('teacher_id', $teacher->id)
-      ->get());
+// Log::info(TeacherClass::where('teacher_id', $teacher->id)
+//       ->get());
     /* ------------------------------
          | Demo Classes
          |------------------------------*/
-    $demoClasses = DemoClass::where('host_id', $user->id)
-      ->get()
-      ->map(fn($d) => $this->directFormatSections($d, 'Demo Class'));
+    // $demoClasses = DemoClass::where('host_id', $user->id)
+    //   ->get()
+    //   ->map(fn($d) => $this->directFormatSections($d, 'Demo Class'));
 
     /* ------------------------------
          | Merge & Group by Date
          |------------------------------*/
     $allClasses = collect()
-      ->merge($webinars)
-      ->merge($workshops)
-      ->merge($courses)
-      ->merge($demoClasses)
+      ->merge($webinars ?? [])
+      ->merge($workshops?? [])
+      ->merge($courses?? [])
+      ->merge($demoClasses?? [])
       ->groupBy('date')
       ->sortKeys();
 

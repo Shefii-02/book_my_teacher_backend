@@ -37,8 +37,8 @@ class ClassLinkResource extends JsonResource
       )->name,
       'source'    => $this->class_mode,
       'date_time' => $this->start_time,
-      'start_date_time' => $this->start_date_time,
-      'end_date_time' => $this->end_date_time,
+      'start_date_time' => $this->start_time,
+      'end_date_time' => $this->end_time,
       'recorded_video' => $this->recording_url,
       'join_link' => $this->meeting_link,
     ];

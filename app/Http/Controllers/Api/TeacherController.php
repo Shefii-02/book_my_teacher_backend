@@ -648,38 +648,39 @@ class TeacherController extends Controller
     // ]);
 
     // 1️⃣ Fetch course classes (HAS ONE relation)
-    // $courses = TeacherClass::where('teacher_id', $teacher->id)
-    //   ->with('course_classes')
-    //   ->get()
-    //   ->map(function ($teacherClass) {
-    //     if (!$teacherClass->course_classes) {
-    //       return null;
-    //     }
+    $courses = TeacherClass::where('teacher_id', $teacher->id)
+      ->with('course_classes')
+      ->get()
+      ->map(function ($teacherClass) {
+        if (!$teacherClass->course_classes) {
+          return null;
+        }
 
-    //     return $this->formatSections(
-    //       $teacherClass->course_classes,
-    //       'course'
-    //     );
-    //   })
-    //   ->filter()
-    //   ->values();
+        return $this->formatSections(
+          $teacherClass->course_classes,
+          'course'
+        );
+      })
+      ->filter()
+      ->values();
+
 
     // // 2️⃣ Merge all class types (only courses for now)
-    // $allClasses = collect()
-    //   ->merge($courses);
+    $allClasses = collect()
+      ->merge($courses);
 
     // // 3️⃣ Sort by actual datetime (ASC)
-    // $sortedClasses = $allClasses
-    //   ->sortBy(fn($item) => Carbon::parse($item['start_date']))
-    //   ->values();
+    $sortedClasses = $allClasses
+      ->sortBy(fn($item) => Carbon::parse($item['start_date']))
+      ->values();
 
-    // $now = Carbon::now();
+    $now = Carbon::now();
 
     // // 4️⃣ Split by time
-    // $upcomingOngoing = $sortedClasses
-    //   ->filter(fn($item) => Carbon::parse($item['start_date'])->gte($now))
-    //   ->map(fn($item) => collect($item)->except('start_date')->toArray())
-    //   ->values();
+    $upcomingOngoing = $sortedClasses
+      ->filter(fn($item) => Carbon::parse($item['start_date'])->gte($now))
+      ->map(fn($item) => collect($item)->except('start_date')->toArray())
+      ->values();
 
     // $completed = $sortedClasses
     //   ->filter(fn($item) => Carbon::parse($item['start_date'])->lt($now))
@@ -691,7 +692,10 @@ class TeacherController extends Controller
     //   'upcoming_ongoing' => $upcomingOngoing,
     //   'completed' => $completed,
     // ]);
+
 Log::info($upcoming);
+Log::info($sortedClasses);
+Log::info($upcomingOngoing);
 
     // *///////////////////////////////////////////*
 

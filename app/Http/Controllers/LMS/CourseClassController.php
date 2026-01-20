@@ -123,6 +123,7 @@ class CourseClassController extends Controller
              dd($class);
       return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
     } catch (Exception $e) {
+      Log::info($e);
       DB::rollBack();
       return redirect()->back()->with('errro', $e->getMessage());
     }

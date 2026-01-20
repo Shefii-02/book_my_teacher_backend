@@ -604,7 +604,7 @@
                     </div>
                     <div class="flex-auto p-4">
                         <ul class="flex flex-col pl-0 mb-0 rounded-lg">
-                            <li
+                            {{-- <li
                                 class="relative flex justify-between py-2 pr-4 mb-2 border-0 rounded-t-lg rounded-xl text-inherit">
                                 <div class="flex items-center">
                                     <div
@@ -687,7 +687,7 @@
                                             class="ni ease-bounce text-2xs group-hover:translate-x-1.25 ni-bold-right transition-all duration-200"
                                             aria-hidden="true"></i></button>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>

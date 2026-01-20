@@ -521,6 +521,7 @@ class TeacherController extends Controller
         "start_time" => "10:00 AM",
         "duration" => 60,
         "total_classes" => 20,
+        "type" => 'course',
         "completed_classes" => 5
       ],
     ];
@@ -534,6 +535,7 @@ class TeacherController extends Controller
         "start_time" => "01:00 PM",
         "duration" => 120,
         "total_classes" => 10,
+        "type" => 'workshop',
         "completed_classes" => 3
       ],
     ];
@@ -547,6 +549,7 @@ class TeacherController extends Controller
         "start_time" => "03:00 PM",
         "duration" => 90,
         "total_classes" => 12,
+        "type" => 'webinar',
         "completed_classes" => 12
       ],
     ];
@@ -557,6 +560,7 @@ class TeacherController extends Controller
       'ongoing' => $ongoing,
       'completed' => $completed,
     ]);
+
     return response()->json([
       'ongoing' => [],
       'upcoming' => [],
@@ -637,14 +641,14 @@ class TeacherController extends Controller
     $dummyData = $this->getDummyStatistics();
 
     Log::info('Class Time Summary', [
-    'range'      => $range,
-    'spend_time' => $dummyData['spend'],
-    'watch_time' => $dummyData['watch'],
-    'summary'    => [
+      'range'      => $range,
+      'spend_time' => $dummyData['spend'],
+      'watch_time' => $dummyData['watch'],
+      'summary'    => [
         'total_spend' => '0 hrs',
         'total_watch' => '0 hrs',
-    ],
-]);
+      ],
+    ]);
 
 
     return response()->json([

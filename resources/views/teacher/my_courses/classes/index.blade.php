@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.teacher')
 @section('nav-options')
     <nav>
         <!-- breadcrumb -->

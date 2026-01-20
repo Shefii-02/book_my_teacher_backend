@@ -765,7 +765,7 @@ public function exportTeachers(Request $request)
   public function loginSecurity($id)
   {
     $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
-    return view('company.teachers.login-security', compact('teacher'));
+    return view('company.mobile-app.teachers.login-security', compact('teacher'));
   }
 
 

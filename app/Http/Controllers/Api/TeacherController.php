@@ -591,8 +591,8 @@ Log::info($teacher);
 //         });
 //       });
 
-// Log::info(TeacherClass::where('teacher_id', $teacher->id)
-//       ->get());
+Log::info(TeacherClass::where('teacher_id', $teacher->id)
+      ->get());
     /* ------------------------------
          | Demo Classes
          |------------------------------*/

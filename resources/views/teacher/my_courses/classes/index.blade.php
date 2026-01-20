@@ -124,7 +124,7 @@
                                                 {{ dateFormat($class->scheduled_at) }}</td>
                                             <td
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                                {{ TimeFormat($class->started_at) }}
+                                                {{ TimeFormat($class->start_time) }}
                                             </td>
                                             <td
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">

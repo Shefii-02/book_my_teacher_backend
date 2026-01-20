@@ -218,8 +218,8 @@
                     <div class="overflow-x-auto">
                         <table
                             class="items-center w-full mb-4 align-top border-collapse border-gray-200 dark:border-white/40">
-                            <tbody>
-                                <tr>
+                           <tbody>
+                              {{--    <tr>
                                     <td
                                         class="p-2 align-middle bg-transparent border-b w-3/10 whitespace-nowrap dark:border-white/40">
                                         <div class="flex items-center px-2 py-1">
@@ -395,7 +395,7 @@
                                             <h6 class="mb-0 leading-normal text-sm dark:text-white">32.14%</h6>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr>--}}
                             </tbody>
                         </table>
                     </div>
@@ -409,7 +409,7 @@
                     </div>
                     <div class="flex-auto p-4">
                         <ul class="flex flex-col pl-0 mb-0 rounded-lg">
-                            <li
+                            {{-- <li
                                 class="relative flex justify-between py-2 pr-4 mb-2 border-0 rounded-t-lg rounded-xl text-inherit">
                                 <div class="flex items-center">
                                     <div
@@ -492,7 +492,7 @@
                                             class="ni ease-bounce text-2xs group-hover:translate-x-1.25 ni-bold-right transition-all duration-200"
                                             aria-hidden="true"></i></button>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
@@ -508,7 +508,7 @@
                     </div>
                     <div class="flex-auto p-4">
                         <ul class="flex flex-col pl-0 mb-0 rounded-lg">
-                            <li
+                            {{-- <li
                                 class="relative flex justify-between py-2 pr-4 mb-2 border-0 rounded-t-lg rounded-xl text-inherit">
                                 <div class="flex items-center">
                                     <div
@@ -591,7 +591,7 @@
                                             class="ni ease-bounce text-2xs group-hover:translate-x-1.25 ni-bold-right transition-all duration-200"
                                             aria-hidden="true"></i></button>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
@@ -613,8 +613,8 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <h6 class="mb-1 leading-normal text-sm text-slate-700 dark:text-white">Devices</h6>
-                                        <span class="leading-tight dark:text-white/80 text-xs">250 in stock, <span
-                                                class="font-semibold">346+ sold</span></span>
+                                        <span class="leading-tight dark:text-white/80 text-xs">0 in stock, <span
+                                                class="font-semibold">0+ sold</span></span>
                                     </div>
                                 </div>
                                 <div class="flex">
@@ -632,8 +632,8 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <h6 class="mb-1 leading-normal text-sm text-slate-700 dark:text-white">Tickets</h6>
-                                        <span class="leading-tight dark:text-white/80 text-xs">123 closed, <span
-                                                class="font-semibold">15
+                                        <span class="leading-tight dark:text-white/80 text-xs">0 closed, <span
+                                                class="font-semibold">0
                                                 open</span></span>
                                     </div>
                                 </div>
@@ -654,8 +654,8 @@
                                     <div class="flex flex-col">
                                         <h6 class="mb-1 leading-normal text-sm text-slate-700 dark:text-white">Error logs
                                         </h6>
-                                        <span class="leading-tight dark:text-white/80 text-xs">1 is active, <span
-                                                class="font-semibold">40
+                                        <span class="leading-tight dark:text-white/80 text-xs">0 is active, <span
+                                                class="font-semibold">0
                                                 closed</span></span>
                                     </div>
                                 </div>
@@ -677,7 +677,7 @@
                                         <h6 class="mb-1 leading-normal text-sm text-slate-700 dark:text-white">Happy users
                                         </h6>
                                         <span class="leading-tight dark:text-white/80 text-xs"><span
-                                                class="font-semibold">+ 430
+                                                class="font-semibold">+ 0
                                             </span></span>
                                     </div>
                                 </div>
@@ -700,7 +700,7 @@
                     </div>
                     <div class="flex-auto p-4">
                         <ul class="flex flex-col pl-0 mb-0 rounded-lg">
-                            <li
+                            {{-- <li
                                 class="relative flex justify-between py-2 pr-4 mb-2 border-0 rounded-t-lg rounded-xl text-inherit">
                                 <div class="flex items-center">
                                     <div
@@ -783,7 +783,7 @@
                                             class="ni ease-bounce text-2xs group-hover:translate-x-1.25 ni-bold-right transition-all duration-200"
                                             aria-hidden="true"></i></button>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>

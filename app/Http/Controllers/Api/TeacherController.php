@@ -754,7 +754,7 @@ class TeacherController extends Controller
     return [
       "id"                  => $model->id,
       "title"               => $model->title,
-      // "thumbnail_url"       => $model->thumbnail_url,
+      // "thumbnail_url"       => $model->courses->thumbnail_url,
       "thumbnail_url"       => asset("assets/mobile-app/banners/course-banner-3.png"),
       "start_date"          => Carbon::parse($start)->format('d-m-Y H:i'),
       "start_time"          => Carbon::parse($start)->format('d-m-Y H:i'),

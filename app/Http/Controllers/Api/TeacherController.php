@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\WebinarResource;
 use App\Models\CompanyTeacher;
 use App\Models\Course;
+use App\Models\DemoClass;
 use App\Models\MediaFile;
 use App\Models\Teacher;
 use App\Models\TeacherClass;
@@ -20,6 +21,7 @@ use App\Models\TeachingSubject;
 use App\Models\User;
 use App\Models\Webinar;
 use App\Models\Workshop;
+use App\Models\WorkshopClass;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
@@ -510,6 +512,8 @@ class TeacherController extends Controller
 
   public function courses(Request $request)
   {
+
+
     Log::info($request->all());
     // Dummy data: replace with DB queries
     $upcoming = [
@@ -553,7 +557,82 @@ class TeacherController extends Controller
         "completed_classes" => 12
       ],
     ];
+    // *///////////////////////////////////////////*
 
+
+    $user = $request->user();
+    $start = Carbon::today();
+
+    /* ------------------------------
+         | Webinars
+         |------------------------------*/
+    $webinars = Webinar::where('host_id', $user->id)->get()
+      ->map(fn($w) => $this->directFormatSections($w, 'Webinar'));
+
+
+    /* ------------------------------
+         | Workshops
+         |------------------------------*/
+    $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
+      $q->where('host_id', $user->id);
+    })->get()
+      ->map(fn($w) => $this->formatSectiont($w, 'Workshop'));
+
+    /* ------------------------------
+         | Course / Individual Classes
+         |------------------------------*/
+    $courses = TeacherClass::where('teacher_id', $user->id)
+      ->whereHas('course_classes')
+      ->with('course_classes')
+      ->get()
+      ->flatMap(function ($teacherClass) {
+        return $teacherClass->course_classes->map(function ($class) {
+          return $this->formatSectiont($class, 'Course Class');
+        });
+      });
+
+
+    /* ------------------------------
+         | Demo Classes
+         |------------------------------*/
+    $demoClasses = DemoClass::where('host_id', $user->id)
+      ->get()
+      ->map(fn($d) => $this->directFormatSections($d, 'Demo Class'));
+
+    /* ------------------------------
+         | Merge & Group by Date
+         |------------------------------*/
+    $allClasses = collect()
+      ->merge($webinars)
+      ->merge($workshops)
+      ->merge($courses)
+      ->merge($demoClasses)
+      ->groupBy('date')
+      ->sortKeys();
+
+    $sortedClasses = $allClasses->sortBy(function ($item) {
+      return Carbon::parse($item['start_date']);
+    })->values();
+
+    $now = Carbon::now();
+
+    $upcomingOngoing = $sortedClasses->filter(function ($item) use ($now) {
+      return Carbon::parse($item['start_date'])->gte($now)
+        || in_array($item['class_status'], ['upcoming', 'live']);
+    })->values();
+
+    $completed = $sortedClasses->filter(function ($item) use ($now) {
+      return Carbon::parse($item['start_date'])->lt($now)
+        && $item['class_status'] === 'completed';
+    })->values();
+
+    return response()->json([
+      'upcoming_ongoing' => $upcomingOngoing,
+      'completed' => $completed,
+    ]);
+
+
+    // *///////////////////////////////////////////*
 
     return response()->json([
       'upcoming' => $upcoming,
@@ -561,11 +640,42 @@ class TeacherController extends Controller
       'completed' => $completed,
     ]);
 
-    return response()->json([
-      'ongoing' => [],
-      'upcoming' => [],
-      'completed' => [],
-    ]);
+    // return response()->json([
+    //   'ongoing' => [],
+    //   'upcoming' => [],
+    //   'completed' => [],
+    // ]);
+  }
+
+  private function directFormatSections($model, string $type): array
+  {
+
+    return [
+      "id"                  => Carbon::parse($model->started_at)->format('d-m-Y'),
+      "title"               => $model->title,
+      "thumbnail_url"       => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
+      "start_date"          => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
+      "start_time"          => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
+      "duration"            => $model->provider?->name,
+      "total_classes"       => 'online',
+      "type"                => $type,
+      "completed_classes"   => $model->meeting_url,
+    ];
+  }
+
+  private function formatSectiont($model, string $type): array
+  {
+    return [
+      "id"                  => Carbon::parse($model->started_at)->format('d-m-Y'),
+      "title"               => $model->title,
+      "thumbnail_url"       => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
+      "start_date"          => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
+      "start_time"          => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
+      "duration"            => $model->provider?->name,
+      "total_classes"       => 'online',
+      "type"                => $type,
+      "completed_classes"   => $model->meeting_url,
+    ];
   }
 
   public function courseDetails(Request $request)

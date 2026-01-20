@@ -649,7 +649,7 @@ class TeacherController extends Controller
     Log::info($upcoming);
     // 1️⃣ Fetch course classes (HAS ONE relation)
     $courses = TeacherClass::where('teacher_id', $teacher->id)
-      ->with('course_classes')
+      ->with(['course_classes','courses'])
       ->get()
       ->map(function ($teacherClass) {
         if (!$teacherClass->course_classes) {

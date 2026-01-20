@@ -16,7 +16,7 @@ class CourseClassLinkResource extends JsonResource
         // Default status
         $classStatus = 'pending';
 
-        if ($this->status == 'scheduled') {
+        if ($this->status == '1') {
             if ($now->lt($this->start_time)) {
                 $classStatus = 'upcoming';
             } elseif ($now->between($this->start_time, $this->end_time)) {

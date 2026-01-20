@@ -55,8 +55,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     });
 
 
-    Route::get('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurity')->name('teachers.login-security');
-    Route::post('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurityChange')->name('teachers.login-security.change');
+    Route::get('teachers/{id}/login-security', 'TeacherController@loginSecurity')->name('teachers.login-security');
+    Route::post('teachers/{id}/login-security', 'TeacherController@loginSecurityChange')->name('teachers.login-security.change');
 
     Route::prefix('achievements')->name('achievements.')->group(function () {
       Route::get('/', 'AchievementLevelController@index')->name('index');

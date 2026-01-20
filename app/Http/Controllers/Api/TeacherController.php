@@ -551,6 +551,7 @@ class TeacherController extends Controller
       ],
     ];
 
+
     return response()->json([
       'upcoming' => $upcoming,
       'ongoing' => $ongoing,

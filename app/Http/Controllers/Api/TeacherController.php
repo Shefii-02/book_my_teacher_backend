@@ -581,28 +581,28 @@ class TeacherController extends Controller
     /* ------------------------------
          | Course / Individual Classes
          |------------------------------*/
-    $courses = TeacherClass::where('teacher_id', $teacher->id)
-      ->with('course_classes')
-      ->get()
-      ->map(function ($teacherClass) {
-        if (!$teacherClass->course_classes) {
-          return null;
-        }
+    // $courses = TeacherClass::where('teacher_id', $teacher->id)
+    //   ->with('course_classes')
+    //   ->get()
+    //   ->map(function ($teacherClass) {
+    //     if (!$teacherClass->course_classes) {
+    //       return null;
+    //     }
 
-        return $this->formatSections(
-          $teacherClass->course_classes,
-          'course'
-        );
-      })
-      ->filter() // remove nulls
-      ->sortBy('start_time')
-      ->values();
+    //     return $this->formatSections(
+    //       $teacherClass->course_classes,
+    //       'course'
+    //     );
+    //   })
+    //   ->filter() // remove nulls
+    //   ->sortBy('start_time')
+    //   ->values();
 
 
 
     //
 
-    Log::info($courses);
+    // Log::info($courses);
     /* ------------------------------
          | Demo Classes
          |------------------------------*/
@@ -644,56 +644,56 @@ class TeacherController extends Controller
     // ]);
 
     // 1️⃣ Fetch course classes (HAS ONE relation)
-    $courses = TeacherClass::where('teacher_id', $teacher->id)
-      ->with('course_classes')
-      ->get()
-      ->map(function ($teacherClass) {
-        if (!$teacherClass->course_classes) {
-          return null;
-        }
+    // $courses = TeacherClass::where('teacher_id', $teacher->id)
+    //   ->with('course_classes')
+    //   ->get()
+    //   ->map(function ($teacherClass) {
+    //     if (!$teacherClass->course_classes) {
+    //       return null;
+    //     }
 
-        return $this->formatSections(
-          $teacherClass->course_classes,
-          'course'
-        );
-      })
-      ->filter()
-      ->values();
+    //     return $this->formatSections(
+    //       $teacherClass->course_classes,
+    //       'course'
+    //     );
+    //   })
+    //   ->filter()
+    //   ->values();
 
-    // 2️⃣ Merge all class types (only courses for now)
-    $allClasses = collect()
-      ->merge($courses);
+    // // 2️⃣ Merge all class types (only courses for now)
+    // $allClasses = collect()
+    //   ->merge($courses);
 
-    // 3️⃣ Sort by actual datetime (ASC)
-    $sortedClasses = $allClasses
-      ->sortBy(fn($item) => Carbon::parse($item['start_date']))
-      ->values();
+    // // 3️⃣ Sort by actual datetime (ASC)
+    // $sortedClasses = $allClasses
+    //   ->sortBy(fn($item) => Carbon::parse($item['start_date']))
+    //   ->values();
 
-    $now = Carbon::now();
+    // $now = Carbon::now();
 
-    // 4️⃣ Split by time
-    $upcomingOngoing = $sortedClasses
-      ->filter(fn($item) => Carbon::parse($item['start_date'])->gte($now))
-      ->map(fn($item) => collect($item)->except('start_date')->toArray())
-      ->values();
+    // // 4️⃣ Split by time
+    // $upcomingOngoing = $sortedClasses
+    //   ->filter(fn($item) => Carbon::parse($item['start_date'])->gte($now))
+    //   ->map(fn($item) => collect($item)->except('start_date')->toArray())
+    //   ->values();
 
-    $completed = $sortedClasses
-      ->filter(fn($item) => Carbon::parse($item['start_date'])->lt($now))
-      ->map(fn($item) => collect($item)->except('start_date')->toArray())
-      ->values();
+    // $completed = $sortedClasses
+    //   ->filter(fn($item) => Carbon::parse($item['start_date'])->lt($now))
+    //   ->map(fn($item) => collect($item)->except('start_date')->toArray())
+    //   ->values();
 
-    // 5️⃣ API response
-    return response()->json([
-      'upcoming_ongoing' => $upcomingOngoing,
-      'completed' => $completed,
-    ]);
+    // // 5️⃣ API response
+    // return response()->json([
+    //   'upcoming_ongoing' => $upcomingOngoing,
+    //   'completed' => $completed,
+    // ]);
 
 
     // *///////////////////////////////////////////*
 
     return response()->json([
-      'upcoming' => $upcoming,
-      'ongoing' => $ongoing,
+      'upcoming_ongoing' => $upcoming,
+      // 'ongoing' => $ongoing,
       'completed' => $completed,
     ]);
 

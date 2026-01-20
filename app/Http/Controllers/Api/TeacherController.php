@@ -514,6 +514,23 @@ class TeacherController extends Controller
   public function courses(Request $request)
   {
     // Dummy data: replace with DB queries
+
+     $ongoing = [
+      [
+        "id" => 12,
+        "title" => "React Native Live",
+        "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-2.png"),
+        "start_date" => "2025-11-13",
+        "start_time" => "01:00 PM",
+        "duration" => 120,
+        "total_classes" => 10,
+        "type" => 'workshop',
+        "completed_classes" => 3
+      ],
+    ];
+
+
+
     $upcoming = [
       [
         "id" => 11,
@@ -528,19 +545,6 @@ class TeacherController extends Controller
       ],
     ];
 
-    $ongoing = [
-      [
-        "id" => 12,
-        "title" => "React Native Live",
-        "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-2.png"),
-        "start_date" => "2025-11-13",
-        "start_time" => "01:00 PM",
-        "duration" => 120,
-        "total_classes" => 10,
-        "type" => 'workshop',
-        "completed_classes" => 3
-      ],
-    ];
 
     $completed = [
       [
@@ -687,7 +691,7 @@ class TeacherController extends Controller
     //   'upcoming_ongoing' => $upcomingOngoing,
     //   'completed' => $completed,
     // ]);
-
+Log::info($upcoming);
 
     // *///////////////////////////////////////////*
 

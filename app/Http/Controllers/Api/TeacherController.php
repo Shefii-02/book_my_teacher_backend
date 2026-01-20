@@ -670,15 +670,15 @@ Log::info(TeacherClass::where('teacher_id', $teacher->id)
   private function formatSectiont($model, string $type): array
   {
     return [
-      "id"                  => Carbon::parse($model->started_at)->format('d-m-Y'),
+      "id"                  => $model->id,
       "title"               => $model->title,
-      "thumbnail_url"       => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
-      "start_date"          => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
-      "start_time"          => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
-      "duration"            => $model->provider?->name,
+      "thumbnail_url"       => $model->thumbnail_url,
+      "start_date"          => Carbon::parse($model->start_time)->format('d-m-Y H:i'),
+      "start_time"          => Carbon::parse($model->start_time)->format('d-m-Y H:i'),
+      "duration"            => '20',
       "total_classes"       => 'online',
       "type"                => $type,
-      "completed_classes"   => $model->meeting_url,
+      "completed_classes"   => 0,
     ];
   }
 

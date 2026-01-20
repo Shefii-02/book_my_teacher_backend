@@ -640,7 +640,7 @@ class TeacherController extends Controller
 
     return response()->json([
       'upcoming_ongoing' => $upcomingOngoing,
-      'completed' => $completed,
+      'completed' => [],
     ]);
 
 

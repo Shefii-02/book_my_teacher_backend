@@ -593,10 +593,10 @@ class TeacherController extends Controller
           $teacherClass->course_classes,
           'course'
         );
-      })
-      ->filter() // remove nulls
-      ->sortBy('start_time')
-      ->values();
+      });
+      // ->filter() // remove nulls
+      // ->sortBy('start_time')
+      // ->values();
 
 
 
@@ -639,7 +639,7 @@ class TeacherController extends Controller
 
 
     return response()->json([
-      'upcoming_ongoing' => [],
+      'upcoming_ongoing' => $upcomingOngoing,
       'completed' => [],
     ]);
 

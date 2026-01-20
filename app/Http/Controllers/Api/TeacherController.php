@@ -595,7 +595,7 @@ class TeacherController extends Controller
         );
       })
       ->filter() // remove nulls
-      ->sortBy('start_datetime')
+      ->sortBy('start_time')
       ->values();
 
 
@@ -614,12 +614,13 @@ class TeacherController extends Controller
          | Merge & Group by Date
          |------------------------------*/
     $allClasses = collect()
-      ->merge($webinars ?? [])
-      ->merge($workshops ?? [])
+      // ->merge($webinars ?? [])
+      // ->merge($workshops ?? [])
       ->merge($courses ?? [])
-      ->merge($demoClasses ?? [])
-      ->groupBy('date')
+      // ->merge($demoClasses ?? [])
+      // ->groupBy('date')
       ->sortKeys();
+      Log::error($allClasses);
 
     $sortedClasses = $allClasses->sortBy(function ($item) {
       return Carbon::parse($item['start_date']);

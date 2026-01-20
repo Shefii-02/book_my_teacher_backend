@@ -91,7 +91,6 @@ class CourseClassController extends Controller
 
   public function update($identity, Request $request, $course_class)
   {
-
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);
     $class = CourseClass::where('course_id', $course->id)->where('id', $course_class)->first() ?? abort(404);
     $validated = $request->validate([
@@ -117,9 +116,11 @@ class CourseClassController extends Controller
     // $course = Course::where('course_identity', $identity)->first() ?? abort(404);
     try {
       DB::beginTransaction();
-      dd($validated);
+
       $class->update($validated);
+
       DB::commit();
+             dd($class);
       return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
     } catch (Exception $e) {
       DB::rollBack();

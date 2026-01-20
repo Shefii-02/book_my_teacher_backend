@@ -591,7 +591,10 @@ class TeacherController extends Controller
         });
       });
 
-
+Log::info(TeacherClass::where('teacher_id', $user->id)
+      ->whereHas('course_classes')
+      ->with('course_classes')
+      ->get());
     /* ------------------------------
          | Demo Classes
          |------------------------------*/

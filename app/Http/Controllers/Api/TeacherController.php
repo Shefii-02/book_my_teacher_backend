@@ -561,6 +561,7 @@ class TeacherController extends Controller
 
 
     $user = $request->user();
+    Log::info($user);
     $start = Carbon::today();
 
     /* ------------------------------
@@ -582,8 +583,8 @@ class TeacherController extends Controller
          | Course / Individual Classes
          |------------------------------*/
     $courses = TeacherClass::where('teacher_id', $user->id)
-      ->whereHas('course_classes')
-      ->with('course_classes')
+      // ->whereHas('course_classes')
+      // ->with('course_classes')
       ->get()
       ->flatMap(function ($teacherClass) {
         return $teacherClass->course_classes->map(function ($class) {

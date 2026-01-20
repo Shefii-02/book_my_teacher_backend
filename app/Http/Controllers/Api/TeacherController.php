@@ -758,6 +758,7 @@ class TeacherController extends Controller
       "thumbnail_url"       => asset("assets/mobile-app/banners/course-banner-3.png"),
       "start_date"          => Carbon::parse($start)->format('d-m-Y H:i'),
       "start_time"          => Carbon::parse($start)->format('d-m-Y H:i'),
+      "end_time"          => Carbon::parse($model->end_time)->format('d-m-Y H:i'),
       // internal use only
       "_start_datetime" => $start->toDateTimeString(),
       "duration"            => 20,

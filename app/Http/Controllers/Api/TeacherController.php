@@ -759,8 +759,8 @@ class TeacherController extends Controller
       "start_time"          => Carbon::parse($start)->format('d-m-Y H:i'),
       // internal use only
       "_start_datetime" => $start->toDateTimeString(),
-      "duration"            => '20',
-      "total_classes"       => '20',
+      "duration"            => 20,
+      "total_classes"       => 20,
       "type"                => $type,
       "completed_classes"   => 0,
     ];

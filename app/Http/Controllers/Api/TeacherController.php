@@ -593,10 +593,10 @@ class TeacherController extends Controller
           $teacherClass->course_classes,
           'course'
         );
-      });
-      // ->filter() // remove nulls
-      // ->sortBy('start_time')
-      // ->values();
+      })
+      ->filter() // remove nulls
+      ->sortBy('start_time')
+      ->values();
 
 
 
@@ -613,34 +613,79 @@ class TeacherController extends Controller
     /* ------------------------------
          | Merge & Group by Date
          |------------------------------*/
-    $allClasses = collect()
-      // ->merge($webinars ?? [])
-      // ->merge($workshops ?? [])
-      ->merge($courses ?? [])
-      // ->merge($demoClasses ?? [])
-      // ->groupBy('date')
-      ->sortKeys();
-    Log::error($allClasses);
+    // $allClasses = collect()
+    //   // ->merge($webinars ?? [])
+    //   // ->merge($workshops ?? [])
+    //   ->merge($courses ?? [])
+    //   // ->merge($demoClasses ?? [])
+    //   // ->groupBy('date')
+    //   ->sortKeys();
+    // Log::error($allClasses);
 
-    $sortedClasses = $allClasses->sortBy(function ($item) {
-      return Carbon::parse($item['start_date']);
-    })->values();
+    // $sortedClasses = $allClasses->sortBy(function ($item) {
+    //   return Carbon::parse($item['start_date']);
+    // })->values();
+
+    // $now = Carbon::now();
+
+
+    // $upcomingOngoing = $sortedClasses->filter(function ($item) use ($now) {
+    //   return Carbon::parse($item['start_date'])->gte($now);
+    // })->values();
+
+    // $completed = $sortedClasses->filter(function ($item) use ($now) {
+    //   return Carbon::parse($item['start_date'])->lt($now);
+    // })->values();
+
+
+    // return response()->json([
+    //   'upcoming_ongoing' => $upcomingOngoing,
+    //   'completed' => [],
+    // ]);
+
+    // 1️⃣ Fetch course classes (HAS ONE relation)
+    $courses = TeacherClass::where('teacher_id', $teacher->id)
+      ->with('course_classes')
+      ->get()
+      ->map(function ($teacherClass) {
+        if (!$teacherClass->course_classes) {
+          return null;
+        }
+
+        return $this->formatSections(
+          $teacherClass->course_classes,
+          'course'
+        );
+      })
+      ->filter()
+      ->values();
+
+    // 2️⃣ Merge all class types (only courses for now)
+    $allClasses = collect()
+      ->merge($courses);
+
+    // 3️⃣ Sort by actual datetime (ASC)
+    $sortedClasses = $allClasses
+      ->sortBy(fn($item) => Carbon::parse($item['start_datetime']))
+      ->values();
 
     $now = Carbon::now();
 
+    // 4️⃣ Split by time
+    $upcomingOngoing = $sortedClasses
+      ->filter(fn($item) => Carbon::parse($item['start_datetime'])->gte($now))
+      ->map(fn($item) => collect($item)->except('start_datetime')->toArray())
+      ->values();
 
-    $upcomingOngoing = $sortedClasses->filter(function ($item) use ($now) {
-      return Carbon::parse($item['start_date'])->gte($now);
-    })->values();
+    $completed = $sortedClasses
+      ->filter(fn($item) => Carbon::parse($item['start_datetime'])->lt($now))
+      ->map(fn($item) => collect($item)->except('start_datetime')->toArray())
+      ->values();
 
-    $completed = $sortedClasses->filter(function ($item) use ($now) {
-      return Carbon::parse($item['start_date'])->lt($now);
-    })->values();
-
-
+    // 5️⃣ API response
     return response()->json([
       'upcoming_ongoing' => $upcomingOngoing,
-      'completed' => [],
+      'completed' => $completed,
     ]);
 
 

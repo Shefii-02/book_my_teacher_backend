@@ -666,20 +666,20 @@ class TeacherController extends Controller
 
     // 3️⃣ Sort by actual datetime (ASC)
     $sortedClasses = $allClasses
-      ->sortBy(fn($item) => Carbon::parse($item['start_datetime']))
+      ->sortBy(fn($item) => Carbon::parse($item['start_date']))
       ->values();
 
     $now = Carbon::now();
 
     // 4️⃣ Split by time
     $upcomingOngoing = $sortedClasses
-      ->filter(fn($item) => Carbon::parse($item['start_datetime'])->gte($now))
-      ->map(fn($item) => collect($item)->except('start_datetime')->toArray())
+      ->filter(fn($item) => Carbon::parse($item['start_date'])->gte($now))
+      ->map(fn($item) => collect($item)->except('start_date')->toArray())
       ->values();
 
     $completed = $sortedClasses
-      ->filter(fn($item) => Carbon::parse($item['start_datetime'])->lt($now))
-      ->map(fn($item) => collect($item)->except('start_datetime')->toArray())
+      ->filter(fn($item) => Carbon::parse($item['start_date'])->lt($now))
+      ->map(fn($item) => collect($item)->except('start_date')->toArray())
       ->values();
 
     // 5️⃣ API response

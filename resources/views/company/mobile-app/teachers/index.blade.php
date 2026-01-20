@@ -114,7 +114,7 @@
                                                             class="block px-4 py-2 hover:bg-gray-100">Edit</a>
                                                     </li>
                                                     <li>
-                                                        <a data-url="{{ route('company.teachers.login-security', $teacher->id) }}"
+                                                        <a data-url="{{ route('company.teachers.login-security', $t->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100 open-drawer dark:hover:bg-white dark:hover:text-white">Login
                                                             Security</a>
                                                     </li>

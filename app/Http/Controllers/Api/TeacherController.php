@@ -684,7 +684,7 @@ class TeacherController extends Controller
       "start_date"          => Carbon::parse($model->start_time)->format('d-m-Y H:i'),
       "start_time"          => Carbon::parse($model->start_time)->format('d-m-Y H:i'),
       "duration"            => '20',
-      "total_classes"       => 'online',
+      "total_classes"       => '20',
       "type"                => $type,
       "completed_classes"   => 0,
     ];

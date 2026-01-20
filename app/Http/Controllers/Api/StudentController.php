@@ -1112,7 +1112,7 @@ class StudentController extends Controller
     //   ],
     // ];
 
-    $courseClass = ClassLinkResource::collection($course->classes);
+    $courseClass = CourseClassLinkResource::collection($course->classes);
 
 
 

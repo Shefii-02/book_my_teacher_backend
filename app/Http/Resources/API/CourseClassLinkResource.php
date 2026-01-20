@@ -5,7 +5,7 @@ namespace App\Http\Resources\API;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ClassLinkResource extends JsonResource
+class CourseClassLinkResource extends JsonResource
 {
   public function toArray($request)
   {
@@ -17,11 +17,11 @@ class ClassLinkResource extends JsonResource
         $classStatus = 'pending';
 
         if ($this->status == 'scheduled') {
-            if ($now->lt($this->start_date_time)) {
+            if ($now->lt($this->start_time)) {
                 $classStatus = 'upcoming';
-            } elseif ($now->between($this->start_date_time, $this->end_date_time)) {
+            } elseif ($now->between($this->start_time, $this->end_time)) {
                 $classStatus = 'ongoing';
-            } elseif ($now->gt($this->end_date_time)) {
+            } elseif ($now->gt($this->end_time)) {
                 $classStatus = 'completed';
             }
         }
@@ -36,9 +36,9 @@ class ClassLinkResource extends JsonResource
         $this->course?->teachers?->first()
       )->name,
       'source'    => $this->class_mode,
-      'date_time' => $this->start_time,
-      'start_date_time' => $this->start_date_time,
-      'end_date_time' => $this->end_date_time,
+      'date_time' => $this->scheduled_at,
+      'start_date_time' => $this->start_time,
+      'end_date_time' => $this->end_time,
       'recorded_video' => $this->recording_url,
       'join_link' => $this->meeting_link,
     ];

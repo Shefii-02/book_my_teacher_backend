@@ -631,12 +631,13 @@ class TeacherController extends Controller
 
     $upcomingOngoing = $sortedClasses->filter(function ($item) use ($now) {
       return Carbon::parse($item['start_date'])->gte($now);
-    })->values();
+    })->array();
 
     $completed = $sortedClasses->filter(function ($item) use ($now) {
       return Carbon::parse($item['start_date'])->lt($now);
     })->values();
 
+    Log::info($upcomingOngoing);
 
     return response()->json([
       'upcoming_ongoing' => [],

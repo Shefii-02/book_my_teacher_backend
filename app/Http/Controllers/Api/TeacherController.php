@@ -581,9 +581,9 @@ class TeacherController extends Controller
     /* ------------------------------
          | Course / Individual Classes
          |------------------------------*/
-    $courses = TeacherClass::where('teacher_id', $teacher->id)
+    $courses = TeacherClass::with('course_classes')->where('teacher_id', $teacher->id)
       // ->whereHas('course_classes')
-      // ->with('course_classes')
+      //
       ->get();
 
       // ->flatMap(function ($teacherClass) {

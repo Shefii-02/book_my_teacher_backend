@@ -28,7 +28,7 @@ class CourseClassLinkResource extends JsonResource
 
 
     return [
-      'id' => intval($this->id),
+      'id' => (string)$this->id,
       'title' => $this->title,
       'status' => $classStatus,
       // 'teacher' => $this->teachers->pluck('name')->first(),

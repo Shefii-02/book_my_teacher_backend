@@ -620,7 +620,7 @@ class TeacherController extends Controller
       // ->merge($demoClasses ?? [])
       // ->groupBy('date')
       ->sortKeys();
-      Log::error($allClasses);
+    Log::error($allClasses);
 
     $sortedClasses = $allClasses->sortBy(function ($item) {
       return Carbon::parse($item['start_date']);
@@ -628,15 +628,16 @@ class TeacherController extends Controller
 
     $now = Carbon::now();
 
+    $now = Carbon::now();
+
     $upcomingOngoing = $sortedClasses->filter(function ($item) use ($now) {
-      return Carbon::parse($item['start_date'])->gte($now)
-        || in_array($item['class_status'], ['upcoming', 'live']);
+      return Carbon::parse($item['start_datetime'])->gte($now);
     })->values();
 
     $completed = $sortedClasses->filter(function ($item) use ($now) {
-      return Carbon::parse($item['start_date'])->lt($now)
-        && $item['class_status'] === 'completed';
+      return Carbon::parse($item['start_datetime'])->lt($now);
     })->values();
+
 
     return response()->json([
       'upcoming_ongoing' => $upcomingOngoing,

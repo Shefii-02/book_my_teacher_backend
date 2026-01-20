@@ -639,7 +639,7 @@ class TeacherController extends Controller
 
 
     return response()->json([
-      'upcoming_ongoing' => $upcomingOngoing,
+      'upcoming_ongoing' => [],
       'completed' => [],
     ]);
 

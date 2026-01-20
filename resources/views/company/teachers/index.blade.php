@@ -489,11 +489,6 @@
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('company.teachers.login-security', $teacher->id) }}"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login
-                                                                Security</a>
-                                                        </li>
-                                                        <li>
                                                             <form id="form_{{ $teacher->id }}" class="m-0 p-0"
                                                                 action="{{ route('company.teachers.destroy', $teacher->id) }}"
                                                                 method="POST" class="inline-block">

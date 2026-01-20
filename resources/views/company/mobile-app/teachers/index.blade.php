@@ -52,7 +52,8 @@
                                 @forelse ($teachers as $t)
                                     <tr class="border-b">
                                         <td class="p-2 align-middle">
-                                            <img src="{{ $t->thumbnail_url }}" class="h-12 rounded-xl object-cover shadow-sm  ms-4" />
+                                            <img src="{{ $t->thumbnail_url }}"
+                                                class="h-12 rounded-xl object-cover shadow-sm  ms-4" />
                                         </td>
 
                                         <td class="p-2 align-middle">
@@ -111,6 +112,11 @@
                                                     <li>
                                                         <a href="{{ route('company.app.teachers.edit', $t->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100">Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a data-url="{{ route('company.teachers.login-security', $teacher->id) }}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 open-drawer dark:hover:bg-white dark:hover:text-white">Login
+                                                            Security</a>
                                                     </li>
                                                     <li>
                                                         <form id="form_{{ $t->id }}" method="POST"

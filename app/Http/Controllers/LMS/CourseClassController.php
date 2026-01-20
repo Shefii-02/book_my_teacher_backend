@@ -117,11 +117,14 @@ class CourseClassController extends Controller
     // $course = Course::where('course_identity', $identity)->first() ?? abort(404);
     try {
       DB::beginTransaction();
+      $validated['start_time'] = date('Y-m-d H:i', strtotime($validated['scheduled_at'] . ' ' . $validated['start_time']));
+      $validated['end_time'] = date('Y-m-d H:i', strtotime($validated['scheduled_at'] . ' ' . $validated['end_time']));
+
 
       $class->update($validated);
 
       DB::commit();
-             dd($class);
+      dd($class);
       return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
     } catch (Exception $e) {
       Log::info($e);

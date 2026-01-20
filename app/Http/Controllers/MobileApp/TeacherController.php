@@ -10,6 +10,7 @@ use App\Models\Teacher;
 use App\Models\TeacherSubjectRate;
 use App\Models\Subject;
 use App\Models\TeacherCertificate;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -319,5 +320,42 @@ class TeacherController extends Controller
     // Storage::disk('public')->delete($f);
     $teacher->delete();
     return back()->with('success', 'Teacher deleted');
+  }
+
+
+  public function loginSecurity($id)
+  {
+    $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
+    return view('company.mobile-app.teachers.login-security', compact('teacher'));
+  }
+
+
+  public function loginSecurityChange($id, Request $request)
+  {
+    DB::beginTransaction();
+    try {
+      $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
+
+      if (!$teacher) {
+        return redirect()->back(['error' => 'Teacher not found'], 404);
+      }
+
+      $teacher = User::where('id', $id)->where('acc_type', 'teacher')->first();
+
+      if ($request->filled('password')) {
+        $teacher->password = $request->password;
+      }
+
+      $teacher->email  = $request->email;
+      $teacher->mobile = $request->mobile;
+      $teacher->save();
+
+      DB::commit();
+
+      return redirect()->back()->with('success', 'Teacher login security updated successfully');
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return redirect()->back()->with(['error', 'Failed to teacher login security updation' . $e->getMessage()]);
+    }
   }
 }

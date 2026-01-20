@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth','company_panel'], 'namespace' => 'App\Http\Controllers'], function () {
+Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth', 'company_panel'], 'namespace' => 'App\Http\Controllers'], function () {
 
   Route::get('/ajax/users/search', 'UserController@searchUsers')->name('search-users');
   Route::get('/users/{id}/courses', 'UserController@courses');
@@ -54,6 +54,9 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
       Route::delete('/delete/{id}', 'TransferAmountController@destroy')->name('delete');
     });
 
+
+    Route::get('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurity')->name('teachers.login-security');
+    Route::post('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurityChange')->name('teachers.login-security.change');
 
     Route::prefix('achievements')->name('achievements.')->group(function () {
       Route::get('/', 'AchievementLevelController@index')->name('index');
@@ -108,8 +111,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('teachers/{id}/edit', 'LMS\TeacherController@edit')->name('teachers.edit');
   Route::put('teachers/{id}/edit', 'LMS\TeacherController@update')->name('teachers.update');  // Edit
   Route::delete('teachers/{id}', 'LMS\TeacherController@delete')->name('teachers.destroy');  // Delete
-  Route::get('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurity')->name('teachers.login-security');
-  Route::post('teachers/{id}/login-security', 'LMS\TeacherController@loginSecurityChange')->name('teachers.login-security.change');
+
 
 
   Route::get('/company-settings/{company_id}', 'LMS\CompanySettingController@index');
@@ -293,4 +295,3 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::resource('teams', TeamController::class)->names('teams');
   });
 });
-

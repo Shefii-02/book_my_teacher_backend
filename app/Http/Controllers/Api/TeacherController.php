@@ -628,7 +628,6 @@ class TeacherController extends Controller
 
     $now = Carbon::now();
 
-    $now = Carbon::now();
 
     $upcomingOngoing = $sortedClasses->filter(function ($item) use ($now) {
       return Carbon::parse($item['start_date'])->gte($now);

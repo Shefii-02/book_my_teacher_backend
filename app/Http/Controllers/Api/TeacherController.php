@@ -515,7 +515,7 @@ class TeacherController extends Controller
   {
     // Dummy data: replace with DB queries
 
-     $ongoing = [
+    $ongoing = [
       [
         "id" => 12,
         "title" => "React Native Live",
@@ -646,7 +646,7 @@ class TeacherController extends Controller
     //   'upcoming_ongoing' => $upcomingOngoing,
     //   'completed' => [],
     // ]);
-
+    Log::info($upcoming);
     // 1️⃣ Fetch course classes (HAS ONE relation)
     $courses = TeacherClass::where('teacher_id', $teacher->id)
       ->with('course_classes')
@@ -664,23 +664,42 @@ class TeacherController extends Controller
       ->filter()
       ->values();
 
+    // Merge (future proof)
+    $allClasses = collect()->merge($courses);
 
-    // // 2️⃣ Merge all class types (only courses for now)
-    $allClasses = collect()
-      ->merge($courses);
-
-    // // 3️⃣ Sort by actual datetime (ASC)
+    // Sort ASC
     $sortedClasses = $allClasses
-      ->sortBy(fn($item) => Carbon::parse($item['start_date']))
+      ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
       ->values();
 
     $now = Carbon::now();
 
-    // // 4️⃣ Split by time
-    $upcomingOngoing = $sortedClasses
-      ->filter(fn($item) => Carbon::parse($item['start_date'])->gte($now))
-      ->map(fn($item) => collect($item)->except('start_date')->toArray())
-      ->values();
+    // Upcoming / Ongoing
+    $upcoming = $sortedClasses
+      ->filter(
+        fn($item) =>
+        Carbon::parse($item['_start_datetime'])->gte($now)
+      )
+      ->map(function ($item) {
+        unset($item['_start_datetime']); // remove helper
+        return $item;
+      })
+      ->values()
+      ->toArray();
+
+    // Completed
+    $completed = $sortedClasses
+      ->filter(
+        fn($item) =>
+        Carbon::parse($item['_start_datetime'])->lt($now)
+      )
+      ->map(function ($item) {
+        unset($item['_start_datetime']);
+        return $item;
+      })
+      ->values()
+      ->toArray();
+
 
     // $completed = $sortedClasses
     //   ->filter(fn($item) => Carbon::parse($item['start_date'])->lt($now))
@@ -693,9 +712,9 @@ class TeacherController extends Controller
     //   'completed' => $completed,
     // ]);
 
-Log::info($upcoming);
-Log::info($sortedClasses);
-Log::info($upcomingOngoing);
+    Log::info($upcoming);
+    Log::info($sortedClasses);
+
 
     // *///////////////////////////////////////////*
 
@@ -730,12 +749,16 @@ Log::info($upcomingOngoing);
 
   private function formatSections($model, string $type): array
   {
+    $start = Carbon::parse($model->start_time);
+
     return [
       "id"                  => $model->id,
       "title"               => $model->title,
       "thumbnail_url"       => $model->thumbnail_url,
-      "start_date"          => Carbon::parse($model->start_time)->format('d-m-Y H:i'),
-      "start_time"          => Carbon::parse($model->start_time)->format('d-m-Y H:i'),
+      "start_date"          => Carbon::parse($start)->format('d-m-Y H:i'),
+      "start_time"          => Carbon::parse($start)->format('d-m-Y H:i'),
+      // internal use only
+      "_start_datetime" => $start->toDateTimeString(),
       "duration"            => '20',
       "total_classes"       => '20',
       "type"                => $type,

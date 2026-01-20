@@ -650,6 +650,7 @@
             </div>
         </nav>
         @yield('content')
+        @include('components.drawer-right')
     </main>
     <footer class="pt-4">
         <div class="w-full px-6 mx-auto">

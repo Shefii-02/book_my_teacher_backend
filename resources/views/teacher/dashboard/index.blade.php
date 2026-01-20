@@ -155,7 +155,7 @@
                                 class="inline-block w-8 h-8 mb-4 text-center text-black bg-white bg-center rounded-lg fill-current stroke-none">
                                 <i class="top-0.75 text-xxs relative text-slate-700 ni ni-camera-compact"></i>
                             </div>
-                            <h5 class="mb-1 text-white">Get started with Argon</h5>
+                            <h5 class="mb-1 text-white">Get started with BMT</h5>
                             <p class="dark:opacity-80">There’s nothing I really wanted to do in life that I wasn’t able to
                                 get good
                                 at.</p>

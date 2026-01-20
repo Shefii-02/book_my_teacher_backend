@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Dom\Text;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -562,6 +563,7 @@ class TeacherController extends Controller
 
     $user = $request->user();
     Log::info($user);
+    $teacher = Teacher::where('user_id',$user->id)->first();
     $start = Carbon::today();
 
     /* ------------------------------
@@ -582,7 +584,7 @@ class TeacherController extends Controller
     /* ------------------------------
          | Course / Individual Classes
          |------------------------------*/
-    $courses = TeacherClass::where('teacher_id', $user->id)
+    $courses = TeacherClass::where('teacher_id', $teacher->id)
       // ->whereHas('course_classes')
       // ->with('course_classes')
       ->get()
@@ -592,7 +594,7 @@ class TeacherController extends Controller
         });
       });
 
-Log::info(TeacherClass::where('teacher_id', $user->id)
+Log::info(TeacherClass::where('teacher_id', $teacher->id)
       ->whereHas('course_classes')
       ->with('course_classes')
       ->get());

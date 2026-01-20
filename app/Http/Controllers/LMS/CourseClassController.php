@@ -124,7 +124,7 @@ class CourseClassController extends Controller
       $class->update($validated);
 
       DB::commit();
-      dd($class);
+
       return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
     } catch (Exception $e) {
       Log::info($e);

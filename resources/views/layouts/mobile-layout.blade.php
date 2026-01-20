@@ -677,7 +677,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.6/perfect-scrollbar.min.js" async>
     </script>
     <!-- main script file  -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script> --}}
     <script src="{{ asset('assets/js/main.js') }}" async></script>
 
@@ -804,6 +806,27 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function() {
+
+            $(document).on('click', '.open-drawer', function(e) {
+                e.preventDefault();
+
+                let url = $(this).data('url');
+
+                $('#drawerContent').html('<div class="text-center text-gray-400 p-5">Loading...</div>');
+
+                $.get(url, function(html) {
+                    $('#drawerContent').html(html);
+                    openDrawer();
+                }).fail(function() {
+                    $('#drawerContent').html(
+                        '<div class="text-center text-red-500 p-5">Failed to load.</div>'
+                    );
+                });
+            });
+        });
+    </script>
 
     <script>
         tinymce.init({

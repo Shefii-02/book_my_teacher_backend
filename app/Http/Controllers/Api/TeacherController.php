@@ -595,8 +595,6 @@ class TeacherController extends Controller
       });
 
 Log::info(TeacherClass::where('teacher_id', $teacher->id)
-      ->whereHas('course_classes')
-      ->with('course_classes')
       ->get());
     /* ------------------------------
          | Demo Classes

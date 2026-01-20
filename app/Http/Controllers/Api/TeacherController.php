@@ -581,16 +581,15 @@ class TeacherController extends Controller
     /* ------------------------------
          | Course / Individual Classes
          |------------------------------*/
-    $courses = TeacherClass::with('course_classes')->where('teacher_id', $teacher->id)
-      // ->whereHas('course_classes')
-      //
-      ->get();
+    $courses = TeacherClass::with('course_classes')->where('teacher_id', $teacher->id)->get()
+   ->flatMap(function ($teacherClass) {
+        return $teacherClass->course_classes->map(function ($class) {
+          return $this->formatSectiont($class, 'Course Class');
+        });
+      });
 
-      // ->flatMap(function ($teacherClass) {
-      //   return $teacherClass->course_classes->map(function ($class) {
-      //     return $this->formatSectiont($class, 'Course Class');
-      //   });
-      // });
+
+      //
 
 Log::info($courses);
     /* ------------------------------

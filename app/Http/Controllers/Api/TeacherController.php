@@ -631,11 +631,11 @@ class TeacherController extends Controller
     $now = Carbon::now();
 
     $upcomingOngoing = $sortedClasses->filter(function ($item) use ($now) {
-      return Carbon::parse($item['start_datetime'])->gte($now);
+      return Carbon::parse($item['start_date'])->gte($now);
     })->values();
 
     $completed = $sortedClasses->filter(function ($item) use ($now) {
-      return Carbon::parse($item['start_datetime'])->lt($now);
+      return Carbon::parse($item['start_date'])->lt($now);
     })->values();
 
 

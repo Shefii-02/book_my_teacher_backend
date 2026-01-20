@@ -36,7 +36,7 @@ class CourseClassLinkResource extends JsonResource
         $this->course?->teachers?->first()
       )->name,
       'source'    => $this->class_mode,
-      'date_time' => $this->scheduled_at,
+      'date_time' => $this->start_time,
       'start_date_time' => $this->start_time,
       'end_date_time' => $this->end_time,
       'recorded_video' => $this->recording_url,

@@ -114,9 +114,10 @@ class CourseClassController extends Controller
       'recording_url'    => 'nullable|required_if:type,recorded',
     ]);
 
-    $course = Course::where('course_identity', $identity)->first() ?? abort(404);
+    // $course = Course::where('course_identity', $identity)->first() ?? abort(404);
     try {
       DB::beginTransaction();
+      dd($validated);
       $class->update($validated);
       DB::commit();
       return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');

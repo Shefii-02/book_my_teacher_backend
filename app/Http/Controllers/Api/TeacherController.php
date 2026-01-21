@@ -879,9 +879,10 @@ class TeacherController extends Controller
     ];
 
 
-
     $courseClass = $course->classes;
+    $courseMaterial = $course->materials;
 
+    Log::info($courseMaterial);
 
     $classes = [
       "ongoing_upcoming" => [
@@ -921,7 +922,7 @@ class TeacherController extends Controller
       ],
     ];
 
-       Log::info($classDetail);
+    Log::info($classDetail);
 
     return response()->json([
       "course" => $classDetail,

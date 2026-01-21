@@ -1039,7 +1039,7 @@ $classes = [
     ];
 
     return response()->json([
-      "course" => $course,
+      "course" => $webinarDetail,
       "classes" => $classes,
       "materials" => $materials,
     ]);

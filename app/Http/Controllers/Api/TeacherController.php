@@ -510,8 +510,16 @@ class TeacherController extends Controller
   //   ]);
   // }
 
-
   public function courses(Request $request)
+  {
+
+    return response()->json([
+      'upcoming_ongoing' => [],
+      'completed' => [],
+    ]);
+  }
+
+  public function courses2(Request $request)
   {
     // Dummy data: replace with DB queries
 
@@ -649,7 +657,7 @@ class TeacherController extends Controller
     Log::info($upcoming);
     // 1️⃣ Fetch course classes (HAS ONE relation)
     $courses = TeacherClass::where('teacher_id', $teacher->id)
-      ->with(['course_classes','courses'])
+      ->with(['course_classes', 'courses'])
       ->get()
       ->map(function ($teacherClass) {
         if (!$teacherClass->course_classes) {

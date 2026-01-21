@@ -919,7 +919,7 @@ class TeacherController extends Controller
 // Example dummy details per course id
     $course = [
       "id" => (int)$request->id,
-      "title" => "React Native Live",
+      "title" => "React Native Live999",
       "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
       "description" => "Learn cross-platform development with React Native. Build real apps.",
       "duration" => "2 Months",
@@ -981,7 +981,7 @@ class TeacherController extends Controller
 // Example dummy details per course id
     $course = [
       "id" => (int)$request->id,
-      "title" => "React Native Live",
+      "title" => "React Native Live33",
       "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
       "description" => "Learn cross-platform development with React Native. Build real apps.",
       "duration" => "2 Months",

@@ -555,10 +555,10 @@ class TeacherController extends Controller
     $completed = $sortedClasses
       ->filter(
         fn($item) =>
-        Carbon::parse($item['_start_datetime'])->lt($now)
+        Carbon::parse($item['_end_datetime'])->lte($now)
       )
       ->map(function ($item) {
-        unset($item['_start_datetime']);
+        unset($item['_end_datetime']);
         return $item;
       })
       ->values()
@@ -842,6 +842,7 @@ class TeacherController extends Controller
       "end_time"          => Carbon::parse($model->end_time)->format('d-m-Y H:i'),
       // internal use only
       "_start_datetime" => $start->toDateTimeString(),
+      "_end_datetime" => $model->end_time->toDateTimeString(),
       "duration"            => 20,
       "total_classes"       => 20,
       "type"                => $type,

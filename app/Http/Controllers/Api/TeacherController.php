@@ -532,6 +532,7 @@ class TeacherController extends Controller
       ->filter()
       ->values();
 
+      Log::info($courses);
 
     $allClasses = collect()->merge($courses);
     $sortedClasses = $allClasses

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\API\CourseResource;
+use App\Http\Resources\API\MaterialResource;
 use App\Http\Resources\API\WorkshopResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WebinarResource;
@@ -880,7 +881,7 @@ class TeacherController extends Controller
 
 
     $courseClass = $course->classes;
-    $courseMaterial = $course->materials;
+    $courseMaterial = MaterialResource::collection($course->materials);
 
     Log::info($courseMaterial);
 

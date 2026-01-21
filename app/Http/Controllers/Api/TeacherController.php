@@ -881,7 +881,7 @@ class TeacherController extends Controller
 
     $courseClass = $course->classes;
     $materials      = CourseMaterial::where('course_id',$course->id)->get();
-    $courseMaterial = MaterialResource::collection($materials);
+    $courseMaterial = new MaterialResource($materials);
 
     Log::info($courseMaterial);
 

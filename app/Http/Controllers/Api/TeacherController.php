@@ -523,7 +523,7 @@ class TeacherController extends Controller
       ->values();
 
 
-    $webinars = Webinar::where('host_id', $teacher->id)
+    $webinars = Webinar::where('host_id', $user->id)
       ->get()
       ->map(fn($webinars) => $this->formatSections($webinars, 'webinars'))
       ->values();

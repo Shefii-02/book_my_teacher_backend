@@ -850,7 +850,7 @@ class TeacherController extends Controller
   }
 
 
-  public function courseDetails(Request $request)
+  public function courseDetails2(Request $request)
   {
     // Example dummy details per course id
 
@@ -862,21 +862,21 @@ class TeacherController extends Controller
     Log::info($course);
     $teacher = $course?->teachers->first();
     // Dummy class data
-    $classDetail = [
-      'id' => (int)$id,
-      'title' => $course->title,
-      'thumbnail_url' => $course->main_image_url,
-      'main_image' => $course->main_image_url,
-      'description' => $course->description ?? '',
-      'teacher_name' => $teacher ? $teacher->name : '',
-      'category' => '',
-      'price' => $course->net_price,
-      'duration' => $course->duration . ' ' . $course->duration_type,
-      'level'      => $course->level,
-      'language'    => '',
-      'total_classes' => 0,
-      'completed_classes' => 0,
-    ];
+    // $classDetail = [
+    //   'id' => (int)$id,
+    //   'title' => $course->title,
+    //   'thumbnail_url' => $course->main_image_url,
+    //   'main_image' => $course->main_image_url,
+    //   'description' => $course->description ?? '',
+    //   'teacher_name' => $teacher ? $teacher->name : '',
+    //   'category' => '',
+    //   'price' => $course->net_price,
+    //   'duration' => $course->duration . ' ' . $course->duration_type,
+    //   'level'      => $course->level,
+    //   'language'    => '',
+    //   'total_classes' => 0,
+    //   'completed_classes' => 0,
+    // ];
 
 
     $classDetail = [
@@ -943,7 +943,7 @@ class TeacherController extends Controller
   }
 
 
-  public function webinarDetails(Request $request)
+  public function courseDetails(Request $request)
   {
     // Example dummy details per course id
     $course = [

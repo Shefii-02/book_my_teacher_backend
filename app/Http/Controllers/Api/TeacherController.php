@@ -527,7 +527,7 @@ class TeacherController extends Controller
       ->get()
       ->map(fn($webinars) => $this->formatSections($webinars, 'webinars'))
       ->values();
-    $events = collect()->merge($webinars)->merge($courses)->groupBy('_start_datetime')->sortKeys();
+    $events = collect()->merge($webinars)->merge($courses)->sortKeys();
     $now = Carbon::now();
 
 

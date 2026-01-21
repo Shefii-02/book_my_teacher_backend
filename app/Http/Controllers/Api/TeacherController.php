@@ -929,7 +929,7 @@ class TeacherController extends Controller
     return response()->json([
       "course" => $classDetail,
       "classes" => $classes,
-      "materials" => $materials,
+      "materials" => $courseMaterial,
     ]);
   }
 

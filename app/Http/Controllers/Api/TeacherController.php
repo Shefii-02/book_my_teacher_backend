@@ -856,11 +856,9 @@ class TeacherController extends Controller
     // Example dummy details per course id
 
     $id = $request->id;
-    Log::info($request->all());
 
     $course = Course::where('id', $id)->first();
 
-    Log::info($course);
     $teacher = $course?->teachers->first();
     // Dummy class data
     $classDetail = [

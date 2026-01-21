@@ -843,7 +843,7 @@ class TeacherController extends Controller
       "end_time"          => Carbon::parse($end)->format('d-m-Y H:i'),
       // internal use only
       "_start_datetime" => $start->toDateTimeString(),
-      "_end_datetime" => $model->end_time->toDateTimeString(),
+      "_end_datetime" => $end->toDateTimeString(),
       "duration"            => 20,
       "total_classes"       => 20,
       "type"                => $type,

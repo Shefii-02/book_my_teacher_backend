@@ -414,6 +414,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/teacher/courses', 'TeacherController@courses');
     Route::post('/teacher/course-details', 'TeacherController@courseDetails');
+    Route::post('/teacher/webinar-details', 'TeacherController@webinarDetails');
+    Route::post('/teacher/workshop-details', 'TeacherController@workshopDetails');
+
 
     Route::post('/teacher/reviews', 'TeacherController@reviews');
     Route::post('/teacher/student-reviews', 'TeacherController@fetchingReviews');

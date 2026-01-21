@@ -850,7 +850,7 @@ class TeacherController extends Controller
   }
 
 
-  public function courseDetails2(Request $request)
+  public function courseDetails(Request $request)
   {
     // Example dummy details per course id
 
@@ -862,35 +862,23 @@ class TeacherController extends Controller
     Log::info($course);
     $teacher = $course?->teachers->first();
     // Dummy class data
-    // $classDetail = [
-    //   'id' => (int)$id,
-    //   'title' => $course->title,
-    //   'thumbnail_url' => $course->main_image_url,
-    //   'main_image' => $course->main_image_url,
-    //   'description' => $course->description ?? '',
-    //   'teacher_name' => $teacher ? $teacher->name : '',
-    //   'category' => '',
-    //   'price' => $course->net_price,
-    //   'duration' => $course->duration . ' ' . $course->duration_type,
-    //   'level'      => $course->level,
-    //   'language'    => '',
-    //   'total_classes' => 0,
-    //   'completed_classes' => 0,
-    // ];
-
-
     $classDetail = [
-      "id" => (int)$request->id,
-      "title" => "React Native Live999",
-      "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
-      "description" => "Learn cross-platform development with React Native. Build real apps.",
-      "duration" => "2 Months",
-      "level" => "Intermediate",
-      "language" => "English",
-      "category" => "Mobile Development",
-      "total_classes" => 20,
-      "completed_classes" => 5
+      'id' => (int)$id,
+      'title' => $course->title,
+      'thumbnail_url' => $course->main_image_url,
+      'main_image' => $course->main_image_url,
+      'description' => $course->description ?? '',
+      'teacher_name' => $teacher ? $teacher->name : '',
+      'category' => '',
+      'price' => $course->net_price,
+      'duration' => $course->duration . ' ' . $course->duration_type,
+      'level'      => $course->level,
+      'language'    => '',
+      'total_classes' => 0,
+      'completed_classes' => 0,
     ];
+
+
 
     $courseClass = $course->classes;
 
@@ -943,7 +931,7 @@ class TeacherController extends Controller
   }
 
 
-  public function courseDetails(Request $request)
+  public function webinarDetails(Request $request)
   {
     // Example dummy details per course id
     $course = [

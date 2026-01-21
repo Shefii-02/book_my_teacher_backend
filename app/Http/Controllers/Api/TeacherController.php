@@ -525,13 +525,13 @@ class TeacherController extends Controller
 
     $webinars = Webinar::where('host_id', $user->id)
       ->get()
-      ->map(fn($webinars) => $this->formatSections($webinars, 'webinars'))
+      ->map(fn($webinars) => $this->formatSections($webinars, 'webinar'))
       ->values();
 
 
     $workshops = Workshop::where('host_id', $user->id)
       ->get()
-      ->map(fn($workshop) => $this->formatSections($workshop, 'workshops'))
+      ->map(fn($workshop) => $this->formatSections($workshop, 'workshop'))
       ->values();
   $events = collect()->merge($webinars)->merge($courses)->merge($workshops)->sortKeys();
     $now = Carbon::now();

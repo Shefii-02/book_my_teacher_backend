@@ -527,12 +527,14 @@ class TeacherController extends Controller
       ->get()
       ->map(fn($webinars) => $this->formatSections($webinars, 'webinars'))
       ->values();
-    $events = collect()->merge($webinars)->merge($courses)->sortKeys();
 
-    Log::info($webinars);
 
+    $workshops = Workshop::where('host_id', $user->id)
+      ->get()
+      ->map(fn($workshop) => $this->formatSections($workshop, 'workshops'))
+      ->values();
+  $events = collect()->merge($webinars)->merge($courses)->merge($workshops)->sortKeys();
     $now = Carbon::now();
-
 
 
     // Sort by start time ASC

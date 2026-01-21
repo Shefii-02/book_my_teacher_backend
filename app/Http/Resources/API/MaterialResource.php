@@ -15,4 +15,4 @@ class MaterialResource extends JsonResource
       'file_type'         => $this->file_type
     ];
   }
-}s
+}

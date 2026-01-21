@@ -522,10 +522,18 @@ class TeacherController extends Controller
       ->map(fn($course) => $this->formatSections($course, 'course'))
       ->values();
 
+
+    $webinars = Webinar::where('host_id', $teacher->id)
+      ->get()
+      ->map(fn($webinars) => $this->formatSections($webinars, 'webinars'))
+      ->values();
+    $events = collect()->merge($webinars)->merge($courses)->groupBy('_start_datetime')->sortKeys();
     $now = Carbon::now();
 
+
+
     // Sort by start time ASC
-    $sorted = $courses
+    $sorted = $events
       ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
       ->values();
 
@@ -558,6 +566,7 @@ class TeacherController extends Controller
       })
       ->values()
       ->toArray();
+
 
     return response()->json([
       'upcoming_ongoing' => $upcomingOngoing,

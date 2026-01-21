@@ -831,7 +831,8 @@ class TeacherController extends Controller
 
   private function formatSections($model, string $type): array
   {
-    $start = Carbon::parse($model->start_time);
+    $start = $model->start_time ? Carbon::parse($model->start_time)  : Carbon::parse($model->started_at);
+    $end   = $model->ended_at ? Carbon::parse($model->ended_at) : Carbon::parse($model->end_time);
 
     return [
       "id"                  => $model->id,
@@ -839,7 +840,7 @@ class TeacherController extends Controller
       "thumbnail_url"       => $model->course_data->thumbnail_url ?? asset("assets/mobile-app/banners/course-banner-3.png"),
       "start_date"          => Carbon::parse($start)->format('d-m-Y H:i'),
       "start_time"          => Carbon::parse($start)->format('d-m-Y H:i'),
-      "end_time"          => Carbon::parse($model->end_time)->format('d-m-Y H:i'),
+      "end_time"          => Carbon::parse($end)->format('d-m-Y H:i'),
       // internal use only
       "_start_datetime" => $start->toDateTimeString(),
       "_end_datetime" => $model->end_time->toDateTimeString(),

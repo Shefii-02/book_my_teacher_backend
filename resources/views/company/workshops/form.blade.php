@@ -100,7 +100,7 @@
                             <option value="">-- Select Host --</option>
                             @foreach ($users ?? [] as $user)
                                 <option value="{{ $user['user_id'] }}"
-                                    {{ old('host_id', $isEdit ? $workshop->host_id : '') == $user['id'] ? 'selected' : '' }}>
+                                    {{ old('host_id', $isEdit ? $workshop->host_id : '') == $user['user_id'] ? 'selected' : '' }}>
                                     {{ $user['name'] . '(' . $user['type'] . ')' }}</option>
                             @endforeach
                         </select>

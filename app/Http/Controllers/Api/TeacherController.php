@@ -820,9 +820,9 @@ class TeacherController extends Controller
         ?? asset("assets/mobile-app/banners/course-banner-3.png"),
 
       // Flutter-friendly
-      "start_date" => $start->format('Y-m-d'),
-      "start_time" => $start->format('h:i A'),
-      "end_time" => $end->format('h:i A'),
+      "start_date" => $start->format('Y-m-d h:i A'),
+      "start_time" => $start->format('Y-m-d h:i A'),
+      "end_time" => $end->format('Y-m-d h:i A'),
 
       // internal helpers
       "_start_datetime" => $start->toDateTimeString(),

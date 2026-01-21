@@ -863,7 +863,7 @@ class TeacherController extends Controller
 
     $teacher = $course?->teachers->first();
     // Dummy class data
-    $classDetail = [
+    $courseDetail = [
       'id' => (int)$id,
       'title' => $course->title,
       'thumbnail_url' => $course->main_image_url,
@@ -967,7 +967,7 @@ $classes = [
 
 
     return response()->json([
-      "course" => $classDetail,
+      "course" => $courseDetail,
       "classes" => $classes,
       "materials" => $courseMaterial,
     ]);
@@ -976,19 +976,26 @@ $classes = [
 
   public function webinarDetails(Request $request)
   {
+    $user = $request->user();
+    $webinar_id = $request->id;
+    $webinars = Webinar::where('id',$webinar_id)->first();
     // Example dummy details per course id
-    $course = [
-      "id" => (int)$request->id,
-      "title" => "React Native Live999",
-      "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
-      "description" => "Learn cross-platform development with React Native. Build real apps.",
-      "duration" => "2 Months",
-      "level" => "Intermediate",
-      "language" => "English",
-      "category" => "Mobile Development",
-      "total_classes" => 20,
-      "completed_classes" => 5
+     $webinarDetail = [
+      'id' => (int)$webinars->id,
+      'title' => $webinars->title,
+      'thumbnail_url' => $webinars->main_image_url,
+      'main_image' => $webinars->main_image_url,
+      'description' => $webinars->description ?? '',
+      'teacher_name' => $webinars ? $webinars->host->name : '',
+      'category' => '',
+      'price' => $webinars->net_price,
+      'duration' => $webinars->duration . ' ' . $webinars->duration_type,
+      'level'      => $webinars->level,
+      'language'    => '',
+      'total_classes' => 0,
+      'completed_classes' => 0,
     ];
+
 
     $classes = [
       "upcoming" => [

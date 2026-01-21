@@ -10,6 +10,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\WebinarResource;
 use App\Models\CompanyTeacher;
 use App\Models\Course;
+use App\Models\CourseMaterial;
 use App\Models\DemoClass;
 use App\Models\MediaFile;
 use App\Models\Teacher;
@@ -879,9 +880,10 @@ class TeacherController extends Controller
 
 
     $courseClass = $course->classes;
-    $courseMaterial = MaterialResource::collection($course->materials);
+    $materials      = CourseMaterial::where('course_id',$course->id)->get();
+    $courseMaterial = MaterialResource::collection($materials);
 
-    // Log::info($courseMaterial);
+    Log::info($courseMaterial);
 
     $classes = [
       "ongoing_upcoming" => [

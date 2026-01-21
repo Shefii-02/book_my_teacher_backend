@@ -883,7 +883,7 @@ class TeacherController extends Controller
     $courseClass = $course->classes;
     $courseMaterial = MaterialResource::collection($course->materials);
 
-    Log::info($courseMaterial);
+    // Log::info($courseMaterial);
 
     $classes = [
       "ongoing_upcoming" => [

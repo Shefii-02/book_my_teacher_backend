@@ -919,6 +919,8 @@ class TeacherController extends Controller
       ],
     ];
 
+       Log::info($classDetail);
+
     return response()->json([
       "course" => $classDetail,
       "classes" => $classes,

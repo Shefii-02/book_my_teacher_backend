@@ -533,7 +533,7 @@ class TeacherController extends Controller
       ->get()
       ->map(fn($workshop) => $this->formatSections($workshop, 'workshop'))
       ->values();
-  $events = collect()->merge($webinars)->merge($courses)->merge($workshops)->sortKeys();
+    $events = collect()->merge($webinars)->merge($courses)->merge($workshops)->sortKeys();
     $now = Carbon::now();
 
 
@@ -853,21 +853,33 @@ class TeacherController extends Controller
   public function courseDetails(Request $request)
   {
     // Example dummy details per course id
-    $course = [
-      "id" => (int)$request->id,
-      "title" => "React Native Live",
-      "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
-      "description" => "Learn cross-platform development with React Native. Build real apps.",
-      "duration" => "2 Months",
-      "level" => "Intermediate",
-      "language" => "English",
-      "category" => "Mobile Development",
-      "total_classes" => 20,
-      "completed_classes" => 5
+
+    $id = $request->course_id;
+
+    $course = Course::where('id', $id)->first();
+    $teacher = $course?->teachers->first();
+    // Dummy class data
+    $classDetail = [
+      'id' => (int)$id,
+      'title' => $course->title,
+      'thumbnail_url' => $course->main_image_url,
+      'main_image' => $course->main_image_url,
+      'description' => $course->description ?? '',
+      'teacher_name' => $teacher ? $teacher->name : '',
+      'category' => '',
+      'price' => $course->net_price,
+      'duration' => $course->duration . ' ' . $course->duration_type,
+      'level'      => $course->level,
+      'language'    => '',
+      'total_classes' => 0,
+      'completed_classes' => 0,
     ];
 
+    $courseClass = $course->classes;
+
+
     $classes = [
-      "upcoming" => [
+      "ongoing_upcoming" => [
         [
           "id" => 101,
           "title" => "Introduction to React Native",
@@ -876,9 +888,6 @@ class TeacherController extends Controller
           "time_end" => "11:00 AM",
           "class_status" => "upcoming"
         ],
-      ],
-      "ongoing" => [
-        // none in dummy
       ],
       "completed" => [
         [
@@ -908,15 +917,16 @@ class TeacherController extends Controller
     ];
 
     return response()->json([
-      "course" => $course,
+      "course" => $classDetail,
       "classes" => $classes,
       "materials" => $materials,
     ]);
   }
 
 
-  public function webinarDetails(Request $request){
-// Example dummy details per course id
+  public function webinarDetails(Request $request)
+  {
+    // Example dummy details per course id
     $course = [
       "id" => (int)$request->id,
       "title" => "React Native Live999",
@@ -977,8 +987,9 @@ class TeacherController extends Controller
       "materials" => $materials,
     ]);
   }
-  public function workshopDetails(Request $request){
-// Example dummy details per course id
+  public function workshopDetails(Request $request)
+  {
+    // Example dummy details per course id
     $course = [
       "id" => (int)$request->id,
       "title" => "React Native Live33",

@@ -512,87 +512,59 @@ class TeacherController extends Controller
 
   public function courses(Request $request)
   {
-
     $user = $request->user();
-    Log::info($user);
-    $teacher = Teacher::where('user_id', $user->id)->first();
-    Log::info($teacher);
+    $teacher = Teacher::where('user_id', $user->id)->firstOrFail();
+
     $courses = Course::whereHas('teacherCourses', function ($q) use ($teacher) {
       $q->where('teacher_id', $teacher->id);
-    })->get()
-      ->map(function ($course) {
-        if (!$course) {
-          return null;
-        }
-        return $this->formatSections(
-          $course,
-          'course'
-        );
-      })
-      ->filter()
-      ->values();
-
-      Log::info($courses);
-
-    $allClasses = collect()->merge($courses);
-    $sortedClasses = $allClasses
-      ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
+    })
+      ->get()
+      ->map(fn($course) => $this->formatSections($course, 'course'))
       ->values();
 
     $now = Carbon::now();
-    $upcoming = $sortedClasses
-      ->filter(
-        fn($item) =>
-        Carbon::parse($item['_start_datetime'])->gte($now)
-      )
+
+    // Sort by start time ASC
+    $sorted = $courses
+      ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
+      ->values();
+
+    // Upcoming + Ongoing
+    $upcomingOngoing = $sorted
+      ->filter(function ($item) use ($now) {
+        return
+          Carbon::parse($item['_start_datetime'])->gt($now) || // upcoming
+          (
+            Carbon::parse($item['_start_datetime'])->lte($now) &&
+            Carbon::parse($item['_end_datetime'])->gte($now)    // ongoing
+          );
+      })
       ->map(function ($item) {
-        unset($item['_start_datetime']); // remove helper
+        unset($item['_start_datetime'], $item['_end_datetime']);
         return $item;
       })
       ->values()
       ->toArray();
 
     // Completed
-    $completed = $sortedClasses
+    $completed = $sorted
       ->filter(
         fn($item) =>
-        Carbon::parse($item['_end_datetime'])->lte($now)
+        Carbon::parse($item['_end_datetime'])->lt($now)
       )
       ->map(function ($item) {
-        unset($item['_end_datetime']);
+        unset($item['_start_datetime'], $item['_end_datetime']);
         return $item;
       })
       ->values()
       ->toArray();
 
-
-    // $completed = $sortedClasses
-    //   ->filter(fn($item) => Carbon::parse($item['start_date'])->lt($now))
-    //   ->map(fn($item) => collect($item)->except('start_date')->toArray())
-    //   ->values();
-
-    // // 5️⃣ API response
-    // return response()->json([
-    //   'upcoming_ongoing' => $upcomingOngoing,
-    //   'completed' => $completed,
-    // ]);
-
-    Log::info($upcoming);
-    Log::info($sortedClasses);
-
-
-    // *///////////////////////////////////////////*
-
     return response()->json([
-      'upcoming_ongoing' => $upcoming,
-      // 'ongoing' => $ongoing,
+      'upcoming_ongoing' => $upcomingOngoing,
       'completed' => $completed,
     ]);
-    return response()->json([
-      'upcoming_ongoing' => [],
-      'completed' => [],
-    ]);
   }
+
 
   public function courses2(Request $request)
   {
@@ -832,25 +804,37 @@ class TeacherController extends Controller
 
   private function formatSections($model, string $type): array
   {
-    $start = $model->start_time ? Carbon::parse($model->start_time)  : Carbon::parse($model->started_at);
-    $end   = $model->ended_at ? Carbon::parse($model->ended_at) : Carbon::parse($model->end_time);
+    $start = $model->start_time
+      ? Carbon::parse($model->start_time)
+      : Carbon::parse($model->started_at);
+
+    $end = $model->ended_at
+      ? Carbon::parse($model->ended_at)
+      : Carbon::parse($model->end_time);
 
     return [
-      "id"                  => $model->id,
-      "title"               => $model->title,
-      "thumbnail_url"       => $model->course_data->thumbnail_url ?? asset("assets/mobile-app/banners/course-banner-3.png"),
-      "start_date"          => Carbon::parse($start)->format('d-m-Y H:i'),
-      "start_time"          => Carbon::parse($start)->format('d-m-Y H:i'),
-      "end_time"          => Carbon::parse($end)->format('d-m-Y H:i'),
-      // internal use only
+      "id" => $model->id,
+      "title" => $model->title,
+
+      "thumbnail_url" => $model->course_data->thumbnail_url
+        ?? asset("assets/mobile-app/banners/course-banner-3.png"),
+
+      // Flutter-friendly
+      "start_date" => $start->format('Y-m-d'),
+      "start_time" => $start->format('h:i A'),
+      "end_time" => $end->format('h:i A'),
+
+      // internal helpers
       "_start_datetime" => $start->toDateTimeString(),
       "_end_datetime" => $end->toDateTimeString(),
-      "duration"            => 20,
-      "total_classes"       => 20,
-      "type"                => $type,
-      "completed_classes"   => 0,
+
+      "duration" => 0,
+      "total_classes" => 0,
+      "type" => $type,
+      "completed_classes" => 0,
     ];
   }
+
 
   public function courseDetails(Request $request)
   {

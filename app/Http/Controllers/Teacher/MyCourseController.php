@@ -24,6 +24,7 @@ class MyCourseController extends Controller
   {
     $user = User::where('id', auth()->user()->id)->first() ?? abort(404);
     $teacher = Teacher::where('user_id', $user->id)->first();
+
     $my_courses = Course::whereHas('teacherCourses', function ($q) use ($teacher) {
       $q->where('teacher_id', $teacher->id);
     })->get();

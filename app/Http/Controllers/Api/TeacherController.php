@@ -513,6 +513,80 @@ class TeacherController extends Controller
   public function courses(Request $request)
   {
 
+    $user = $request->user();
+    Log::info($user);
+    $teacher = Teacher::where('user_id', $user->id)->first();
+    Log::info($teacher);
+    $courses = Course::whereHas('teacherCourses', function ($q) use ($teacher) {
+      $q->where('teacher_id', $teacher->id);
+    })->get()
+      ->map(function ($course) {
+        if (!$course) {
+          return null;
+        }
+        return $this->formatSections(
+          $course,
+          'course'
+        );
+      })
+      ->filter()
+      ->values();
+
+
+    $allClasses = collect()->merge($courses);
+    $sortedClasses = $allClasses
+      ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
+      ->values();
+
+    $now = Carbon::now();
+    $upcoming = $sortedClasses
+      ->filter(
+        fn($item) =>
+        Carbon::parse($item['_start_datetime'])->gte($now)
+      )
+      ->map(function ($item) {
+        unset($item['_start_datetime']); // remove helper
+        return $item;
+      })
+      ->values()
+      ->toArray();
+
+    // Completed
+    $completed = $sortedClasses
+      ->filter(
+        fn($item) =>
+        Carbon::parse($item['_start_datetime'])->lt($now)
+      )
+      ->map(function ($item) {
+        unset($item['_start_datetime']);
+        return $item;
+      })
+      ->values()
+      ->toArray();
+
+
+    // $completed = $sortedClasses
+    //   ->filter(fn($item) => Carbon::parse($item['start_date'])->lt($now))
+    //   ->map(fn($item) => collect($item)->except('start_date')->toArray())
+    //   ->values();
+
+    // // 5️⃣ API response
+    // return response()->json([
+    //   'upcoming_ongoing' => $upcomingOngoing,
+    //   'completed' => $completed,
+    // ]);
+
+    Log::info($upcoming);
+    Log::info($sortedClasses);
+
+
+    // *///////////////////////////////////////////*
+
+    return response()->json([
+      'upcoming_ongoing' => $upcoming,
+      // 'ongoing' => $ongoing,
+      'completed' => $completed,
+    ]);
     return response()->json([
       'upcoming_ongoing' => [],
       'completed' => [],

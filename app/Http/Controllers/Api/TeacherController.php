@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\API\CourseClassLinkResource;
 use App\Http\Resources\API\CourseResource;
 use App\Http\Resources\API\MaterialResource;
 use App\Http\Resources\API\WorkshopResource;
@@ -880,49 +881,88 @@ class TeacherController extends Controller
 
 
     $courseClass = $course->classes;
-    $materials      = CourseMaterial::where('course_id',$course->id)->get();
+    $materials      = CourseMaterial::where('course_id', $course->id)->get();
     Log::info($materials);
     $courseMaterial = MaterialResource::collection($materials);
 
 
+    $courseClasses = CourseClassLinkResource::collection($courseClass);
 
-    $classes = [
-      "ongoing_upcoming" => [
-        [
-          "id" => 101,
-          "title" => "Introduction to React Native",
-          "date" => Carbon::parse('2025-11-16')->toDateString(),
-          "time_start" => "10:00 AM",
-          "time_end" => "11:00 AM",
-          "class_status" => "upcoming"
-        ],
-      ],
-      "completed" => [
-        [
-          "id" => 90,
-          "title" => "JS Basics",
-          "date" => Carbon::parse('2025-11-10')->toDateString(),
-          "time_start" => "03:00 PM",
-          "time_end" => "04:00 PM",
-          "class_status" => "completed"
-        ],
-      ],
+
+    // $classes = [
+    //   "ongoing_upcoming" => [
+    //     [
+    //       "id" => 101,
+    //       "title" => "Introduction to React Native",
+    //       "date" => Carbon::parse('2025-11-16')->toDateString(),
+    //       "time_start" => "10:00 AM",
+    //       "time_end" => "11:00 AM",
+    //       "class_status" => "upcoming"
+    //     ],
+    //   ],
+    //   "completed" => [
+    //     [
+    //       "id" => 90,
+    //       "title" => "JS Basics",
+    //       "date" => Carbon::parse('2025-11-10')->toDateString(),
+    //       "time_start" => "03:00 PM",
+    //       "time_end" => "04:00 PM",
+    //       "class_status" => "completed"
+    //     ],
+    //   ],
+    // ];
+
+    $now = Carbon::now();
+
+    $ongoingUpcoming = collect($courseClasses)
+      ->filter(function ($item) use ($now) {
+        $start = Carbon::parse($item['start_time']);
+        $end   = Carbon::parse($item['end_time']);
+
+        // upcoming OR ongoing
+        return $start->gte($now) || ($start->lte($now) && $end->gte($now));
+      })
+      ->map(function ($item) use ($now) {
+        $start = Carbon::parse($item['start_time']);
+        $end   = Carbon::parse($item['end_time']);
+
+        $item['class_status'] = $start->gte($now) ? 'upcoming' : 'ongoing';
+        return $item;
+      })
+      ->values()
+      ->toArray();
+
+
+    $completed = collect($courseClasses)
+      ->filter(function ($item) use ($now) {
+        return Carbon::parse($item['end_time'])->lt($now);
+      })
+      ->map(function ($item) {
+        $item['class_status'] = 'completed';
+        return $item;
+      })
+      ->values()
+      ->toArray();
+$classes = [
+      'ongoing_upcoming' => $ongoingUpcoming,
+      'completed'        => $completed,
     ];
 
-    $materials = [
-      [
-        "id" => 201,
-        "title" => "Chapter 1 Notes",
-        "file_url" => "https://example.com/files/ch1.pdf",
-        "file_type" => "pdf"
-      ],
-      [
-        "id" => 202,
-        "title" => "UI Design Video",
-        "file_url" => "https://example.com/files/ui.mp4",
-        "file_type" => "video"
-      ],
-    ];
+
+    // $materials = [
+    //   [
+    //     "id" => 201,
+    //     "title" => "Chapter 1 Notes",
+    //     "file_url" => "https://example.com/files/ch1.pdf",
+    //     "file_type" => "pdf"
+    //   ],
+    //   [
+    //     "id" => 202,
+    //     "title" => "UI Design Video",
+    //     "file_url" => "https://example.com/files/ui.mp4",
+    //     "file_type" => "video"
+    //   ],
+    // ];
 
 
 

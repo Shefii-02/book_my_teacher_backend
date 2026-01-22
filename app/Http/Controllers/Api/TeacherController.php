@@ -437,6 +437,8 @@ class TeacherController extends Controller
       })
       ->toArray();
 
+      Log::info($events);
+
     return response()->json([
       "month"      => $month,
       "first_day" => $start->toDateString(),

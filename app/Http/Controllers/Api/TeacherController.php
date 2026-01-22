@@ -312,6 +312,12 @@ class TeacherController extends Controller
     $start = Carbon::parse($month)->subMonths(2)->startOfMonth();
     $end   = Carbon::parse($month)->addMonths(2)->endOfMonth();
 
+    $user = $request->user();
+    Log::info($user);
+    $teacher = Teacher::where('user_id', $user->id)->first();
+    $start = Carbon::today();
+    Log::info($teacher);
+
     /* ---------------------------------
      | Webinar Classes (host_id)
      |----------------------------------*/
@@ -332,6 +338,31 @@ class TeacherController extends Controller
      | Course / Individual Classes
      | teacher_classes.teacher_id
      |----------------------------------*/
+    $courses = TeacherClass::where('teacher_id', $teacher->id)
+      ->with(['course_classes', 'courses'])
+      ->get()
+      ->map(function ($teacherClass) {
+        if (!$teacherClass->course_classes) {
+          return null;
+        }
+
+        return $this->formatSections(
+          $teacherClass->course_classes,
+          'course'
+        );
+      })
+      ->filter()
+      ->values();
+
+    // Merge (future proof)
+    $allClasses = collect()->merge($courses);
+
+    // Sort ASC
+    $sortedClasses = $allClasses
+      ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
+      ->values();
+
+      Log::inf($sortedClasses);
     // $courses = TeacherClass::where('teacher_id', $user->id)
     //                         ->whereBetween('date', [$start, $end])
     //                         ->get()
@@ -1173,7 +1204,7 @@ class TeacherController extends Controller
     //   ],
     // ];
 
-   $now = Carbon::now();
+    $now = Carbon::now();
 
     $ongoingUpcoming = collect($courseClasses)
       ->filter(function ($item) use ($now) {

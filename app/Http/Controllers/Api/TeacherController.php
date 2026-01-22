@@ -432,10 +432,15 @@ class TeacherController extends Controller
     /* ---------------------------------
      | Workshop Classes (host_id)
      |----------------------------------*/
-    $workshops = Workshop::where('host_id', $user->id)
-
-      ->get()
+     $workshops = WorkshopClass::
+      whereHas('workshop', function ($q) use ($user) {
+        $q->where('host_id', $user->id);
+      })->
+      // whereBetween('scheduled_at', [$start, $end])->
+      get()
       ->map(fn($w) => $this->formatEvent($w, 'workshop'));
+
+
 
     Log::info($workshops);
 

@@ -304,40 +304,109 @@ class TeacherController extends Controller
     }
   }
 
+  // public function schedule(Request $request)
+  // {
+  //   $user = $request->user();
+
+  //   $month = now()->format('Y-m');
+  //   $start = Carbon::parse($month)->subMonths(2)->startOfMonth();
+  //   $end   = Carbon::parse($month)->addMonths(2)->endOfMonth();
+
+  //   $user = $request->user();
+  //   Log::info($user);
+  //   $teacher = Teacher::where('user_id', $user->id)->first();
+  //   $start = Carbon::today();
+  //   Log::info($teacher);
+
+  //   /* ---------------------------------
+  //    | Webinar Classes (host_id)
+  //    |----------------------------------*/
+  //   // $webinars = Webinar::where('host_id', $user->id)
+  //   //   ->whereBetween('date', [$start, $end])
+  //   //   ->get()
+  //   //   ->map(fn($w) => $this->formatEvent($w, 'Webinar'));
+
+  //   /* ---------------------------------
+  //    | Workshop Classes (host_id)
+  //    |----------------------------------*/
+  //   // $workshops = Workshop::where('host_id', $user->id)
+  //   //   ->whereBetween('date', [$start, $end])
+  //   //   ->get()
+  //   //   ->map(fn($w) => $this->formatEvent($w, 'Workshop'));
+
+  //   /* ---------------------------------
+  //    | Course / Individual Classes
+  //    | teacher_classes.teacher_id
+  //    |----------------------------------*/
+  //   $courses = TeacherClass::where('teacher_id', $teacher->id)
+  //     ->with(['course_classes', 'courses'])
+  //     // ->whereBetween('date', [$start, $end])
+  //     ->get()
+  //     ->map(function ($teacherClass) {
+  //       if (!$teacherClass->course_classes) {
+  //         return null;
+  //       }
+
+  //       return $this->formatEvent(
+  //         $teacherClass->course_classes,
+  //         'course'
+  //       );
+  //     })
+  //     ->filter()
+  //     ->values();
+
+  //   /* ---------------------------------
+  //    | Merge & Group by Date
+  //    |----------------------------------*/
+  //   $events = collect()
+  //     // ->merge($webinars)
+  //     // ->merge($workshops)
+  //     ->merge($courses)
+  //     ->groupBy('date')
+  //     ->sortKeys();
+
+  //     Log::info($events);
+
+
+  //   $events = $events->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
+  //     ->groupBy('date')
+  //     ->map(function ($items) {
+  //       return $items->map(function ($event) {
+  //         unset($event['_start_datetime']); // remove helper
+  //         return $event;
+  //       })->values();
+  //     })
+  //     ->toArray();
+
+  //   Log::info($events);
+
+  //   return response()->json([
+  //     "month"      => $month,
+  //     "first_day" => $start->toDateString(),
+  //     "last_day"  => $end->toDateString(),
+  //     "events"    => $events,
+  //   ]);
+
+  //   return response()->json([
+  //     "month" => $month,
+  //     "first_day" => $start->toDateString(),
+  //     "last_day" => $end->toDateString(),
+  //     "events" => ["2025-11-10" => []],
+  //   ]);
+  // }
+
   public function schedule(Request $request)
   {
     $user = $request->user();
+    $teacher = Teacher::where('user_id', $user->id)->first();
 
     $month = now()->format('Y-m');
     $start = Carbon::parse($month)->subMonths(2)->startOfMonth();
     $end   = Carbon::parse($month)->addMonths(2)->endOfMonth();
 
-    $user = $request->user();
-    Log::info($user);
-    $teacher = Teacher::where('user_id', $user->id)->first();
-    $start = Carbon::today();
-    Log::info($teacher);
-
     /* ---------------------------------
-     | Webinar Classes (host_id)
-     |----------------------------------*/
-    // $webinars = Webinar::where('host_id', $user->id)
-    //   ->whereBetween('date', [$start, $end])
-    //   ->get()
-    //   ->map(fn($w) => $this->formatEvent($w, 'Webinar'));
-
-    /* ---------------------------------
-     | Workshop Classes (host_id)
-     |----------------------------------*/
-    // $workshops = Workshop::where('host_id', $user->id)
-    //   ->whereBetween('date', [$start, $end])
-    //   ->get()
-    //   ->map(fn($w) => $this->formatEvent($w, 'Workshop'));
-
-    /* ---------------------------------
-     | Course / Individual Classes
-     | teacher_classes.teacher_id
-     |----------------------------------*/
+   | Course / Individual Classes
+   |----------------------------------*/
     $courses = TeacherClass::where('teacher_id', $teacher->id)
       ->with(['course_classes', 'courses'])
       ->get()
@@ -354,57 +423,28 @@ class TeacherController extends Controller
       ->filter()
       ->values();
 
-
-    // Sort ASC
-    // $sortedClasses = $allClasses
-    //   ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
-    //   ->values();
-
-
-    // $courses = TeacherClass::where('teacher_id', $user->id)
-    //                         ->whereBetween('date', [$start, $end])
-    //                         ->get()
-    //                         ->map(fn($c) => $this->formatEvent($c, 'Course Class'));
-
     /* ---------------------------------
-     | Merge & Group by Date
-     |----------------------------------*/
-    $events = collect()
-      // ->merge($webinars)
-      // ->merge($workshops)
-      ->merge($courses)
-      ->groupBy('date')
-      ->sortKeys();
-
-      Log::info($events);
-
-
-    $events = $events->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
-      ->groupBy('date')
+   | SORT → GROUP → CLEAN
+   |----------------------------------*/
+    $events = collect($courses)
+      ->sortBy(fn($event) => Carbon::parse($event['_start_datetime'])) // ✅ SORT FIRST
+      ->groupBy('date') // ✅ THEN GROUP
       ->map(function ($items) {
         return $items->map(function ($event) {
-          unset($event['_start_datetime']); // remove helper
+          unset($event['_start_datetime']); // ✅ remove helper
           return $event;
         })->values();
       })
       ->toArray();
 
-    Log::info($events);
-
-    // return response()->json([
-    //   "month"      => $month,
-    //   "first_day" => $start->toDateString(),
-    //   "last_day"  => $end->toDateString(),
-    //   "events"    => $events,
-    // ]);
-
     return response()->json([
-      "month" => $month,
+      "month"      => $month,
       "first_day" => $start->toDateString(),
-      "last_day" => $end->toDateString(),
-      "events" => ["2025-11-10" => []],
+      "last_day"  => $end->toDateString(),
+      "events"    => $events,
     ]);
   }
+
 
   private function formatEvent($model, string $type): array
   {

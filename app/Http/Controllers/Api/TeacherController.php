@@ -462,7 +462,7 @@ class TeacherController extends Controller
 
       "time_start" => Carbon::parse($start)->format('d-m-Y H:i'),
       "time_end" => Carbon::parse($model->end_time)->format('d-m-Y H:i'),
-      "duration" => $model->duration,
+      "duration" => $model->duration ?? 0,
 
       "course_id" => $model->course_id ?? null,
 
@@ -478,7 +478,7 @@ class TeacherController extends Controller
       "thumbnail_url" => $model->thumbnail ?? null,
 
       "class_type" => $model->mode ?? 'online',
-      "source" => $model->source ?? '',
+      "source" => $model->provider?->source ?? $model->source,
       "location" => $model->location ?? 'Online',
 
       "students" => $model->students_count ?? 0,

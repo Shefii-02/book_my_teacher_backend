@@ -432,8 +432,7 @@ class TeacherController extends Controller
     /* ---------------------------------
      | Workshop Classes (host_id)
      |----------------------------------*/
-     $workshops = WorkshopClass::
-      whereHas('workshop', function ($q) use ($user) {
+    $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
         $q->where('host_id', $user->id);
       })->
       // whereBetween('scheduled_at', [$start, $end])->
@@ -478,19 +477,25 @@ class TeacherController extends Controller
 
   private function formatEvent($model, string $type): array
   {
-    $start = Carbon::parse($model->start_time ? $model->start_time : $model->started_at);
-    $end   = Carbon::parse($model->end_time ? $model->end_time : $model->ended_at);
+
+    $start = Carbon::parse(
+      $model->start_time
+        ?? $model->started_at
+        ?? $model->start_date_time
+        ?? now()
+    );
+    $end   = Carbon::parse($model->end_time ?? $model->ended_at ?? $model->end_date_time);
     $now = Carbon::now();
 
     // Default status
     $classStatus = 'pending';
 
     if ($model->status == '1') {
-      if ($now->lt($model->start_time)) {
+      if ($now->lt($start)) {
         $classStatus = 'upcoming';
-      } elseif ($now->between($model->start_time, $model->end_time)) {
+      } elseif ($now->between($start, $end)) {
         $classStatus = 'ongoing';
-      } elseif ($now->gt($model->end_time)) {
+      } elseif ($now->gt($end)) {
         $classStatus = 'completed';
       }
     }
@@ -504,7 +509,7 @@ class TeacherController extends Controller
       "description" => $model->description ?? '',
 
       "time_start" => Carbon::parse($start)->format('d-m-Y H:i'),
-      "time_end" => Carbon::parse($model->end_time)->format('d-m-Y H:i'),
+      "time_end" => Carbon::parse($end)->format('d-m-Y H:i'),
       "duration" => $model->duration ?? 0,
 
       "course_id" => $model->course_id ?? null,

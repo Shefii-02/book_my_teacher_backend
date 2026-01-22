@@ -346,7 +346,7 @@ class TeacherController extends Controller
           return null;
         }
 
-        return $this->formatSections(
+        return $this->formatEvent(
           $teacherClass->course_classes,
           'course'
         );
@@ -358,9 +358,9 @@ class TeacherController extends Controller
     $allClasses = collect()->merge($courses);
 
     // Sort ASC
-    $sortedClasses = $allClasses
-      ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
-      ->values();
+    // $sortedClasses = $allClasses
+    //   ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
+    //   ->values();
 
       Log::info($sortedClasses);
     // $courses = TeacherClass::where('teacher_id', $user->id)
@@ -371,12 +371,25 @@ class TeacherController extends Controller
     /* ---------------------------------
      | Merge & Group by Date
      |----------------------------------*/
-    // $events = collect()
-    //   ->merge($webinars)
-    //   ->merge($workshops)
-    //   ->merge($courses)
-    //   ->groupBy('date')
-    //   ->sortKeys();
+    $events = collect()
+      // ->merge($webinars)
+      // ->merge($workshops)
+      ->merge($courses)
+      ->groupBy('date')
+      ->sortKeys();
+
+
+    $events = $events->sortBy(fn ($item) => Carbon::parse($item['_start_datetime']))
+  ->groupBy('date')
+  ->map(function ($items) {
+    return $items->map(function ($event) {
+      unset($event['_start_datetime']); // remove helper
+      return $event;
+    })->values();
+  })
+  ->toArray();
+
+        Log::info($events);
 
     // return response()->json([
     //   "month"      => $month,

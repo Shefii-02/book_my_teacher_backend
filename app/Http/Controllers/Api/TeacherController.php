@@ -425,15 +425,16 @@ class TeacherController extends Controller
       // ->whereBetween('date', [$start, $end])
     $webinars = Webinar::where('host_id', $user->id)
       ->get()
-      ->map(fn($w) => $this->formatEvent($w, 'Webinar'));
+      ->map(fn($w) => $this->formatEvent($w, 'webinar'));
 
+      Log::info($webinars);
     /* ---------------------------------
      | Workshop Classes (host_id)
      |----------------------------------*/
     $workshops = Workshop::where('host_id', $user->id)
 
       ->get()
-      ->map(fn($w) => $this->formatEvent($w, 'Workshop'));
+      ->map(fn($w) => $this->formatEvent($w, 'workshop'));
 
 
     $events = collect()

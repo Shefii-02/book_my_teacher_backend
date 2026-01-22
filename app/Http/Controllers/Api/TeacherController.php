@@ -377,17 +377,17 @@ class TeacherController extends Controller
       ->sortKeys();
 
 
-    $events = $events->sortBy(fn ($item) => Carbon::parse($item['_start_datetime']))
-  ->groupBy('date')
-  ->map(function ($items) {
-    return $items->map(function ($event) {
-      unset($event['_start_datetime']); // remove helper
-      return $event;
-    })->values();
-  })
-  ->toArray();
+    $events = $events->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
+      ->groupBy('date')
+      ->map(function ($items) {
+        return $items->map(function ($event) {
+          unset($event['_start_datetime']); // remove helper
+          return $event;
+        })->values();
+      })
+      ->toArray();
 
-        Log::info($events);
+    Log::info($events);
 
     // return response()->json([
     //   "month"      => $month,
@@ -406,6 +406,8 @@ class TeacherController extends Controller
 
   private function formatEvent($model, string $type): array
   {
+    $start = Carbon::parse($model->start_time);
+    $end   = Carbon::parse($model->end_time);
     return [
       "id" => $model->id,
       "date" => $model->date,
@@ -436,6 +438,8 @@ class TeacherController extends Controller
       "location" => $model->location ?? 'Online',
 
       "students" => $model->students_count ?? 0,
+      "_start_datetime" => $start->toDateTimeString(),
+
     ];
   }
 

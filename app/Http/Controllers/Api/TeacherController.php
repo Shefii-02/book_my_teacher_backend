@@ -362,7 +362,7 @@ class TeacherController extends Controller
       ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
       ->values();
 
-      Log::inf($sortedClasses);
+      Log::info($sortedClasses);
     // $courses = TeacherClass::where('teacher_id', $user->id)
     //                         ->whereBetween('date', [$start, $end])
     //                         ->get()

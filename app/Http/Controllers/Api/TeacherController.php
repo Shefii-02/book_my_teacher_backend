@@ -376,6 +376,8 @@ class TeacherController extends Controller
       ->groupBy('date')
       ->sortKeys();
 
+      Log::info($events);
+
 
     $events = $events->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
       ->groupBy('date')

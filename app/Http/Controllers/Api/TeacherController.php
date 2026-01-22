@@ -422,12 +422,13 @@ class TeacherController extends Controller
       })
       ->filter()
       ->values();
-      // ->whereBetween('date', [$start, $end])
+    Log::info($courses);
+    // ->whereBetween('date', [$start, $end])
     $webinars = Webinar::where('host_id', $user->id)
       ->get()
       ->map(fn($w) => $this->formatEvent($w, 'webinar'));
 
-      Log::info($webinars);
+    Log::info($webinars);
     /* ---------------------------------
      | Workshop Classes (host_id)
      |----------------------------------*/
@@ -436,10 +437,11 @@ class TeacherController extends Controller
       ->get()
       ->map(fn($w) => $this->formatEvent($w, 'workshop'));
 
+    Log::info($workshops);
 
     $events = collect()
-       ->merge($webinars)
-       ->merge($workshops)
+      ->merge($webinars)
+      ->merge($workshops)
       ->merge($courses)
       // ->groupBy('date')
       ->sortKeys();

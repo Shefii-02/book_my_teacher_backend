@@ -424,10 +424,12 @@ class TeacherController extends Controller
       ->values();
 
 
-$events = collect()
-//  ->merge($webinars)
-//  ->merge($workshops)
-  ->merge($courses) ->groupBy('date') ->sortKeys();
+    $events = collect()
+      //  ->merge($webinars)
+      //  ->merge($workshops)
+      ->merge($courses)
+      // ->groupBy('date')
+      ->sortKeys();
 
     /* ---------------------------------
    | SORT → GROUP → CLEAN

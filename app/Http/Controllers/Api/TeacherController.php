@@ -1046,11 +1046,48 @@ class TeacherController extends Controller
 
     $courseList[] = $webinars;
 
-    $courseClass = WebinarClassLinkResource::collection($courseList);
+    $courseClasses = WebinarClassLinkResource::collection($courseList);
+
+    $now = Carbon::now();
+
+    $ongoingUpcoming = collect($courseClasses)
+      ->filter(function ($item) use ($now) {
+        $start = Carbon::parse($item['start_time']);
+        $end   = Carbon::parse($item['end_time']);
+
+        // upcoming OR ongoing
+        return $start->gte($now) || ($start->lte($now) && $end->gte($now));
+      })
+      ->map(function ($item) use ($now) {
+        $start = Carbon::parse($item['start_time']);
+        $end   = Carbon::parse($item['end_time']);
+
+        $item['class_status'] = $start->gte($now) ? 'upcoming' : 'ongoing';
+        return $item;
+      })
+      ->values()
+      ->toArray();
+
+
+    $completed = collect($courseClasses)
+      ->filter(function ($item) use ($now) {
+        return Carbon::parse($item['end_time'])->lt($now);
+      })
+      ->map(function ($item) {
+        $item['class_status'] = 'completed';
+        return $item;
+      })
+      ->values()
+      ->toArray();
+
+    $classes = [
+      'ongoing_upcoming' => $ongoingUpcoming,
+      'completed'        => $completed,
+    ];
 
     return response()->json([
       "course" => $webinarDetail,
-      "classes" => $courseClass,
+      "classes" => $classes,
       "materials" => $materials,
     ]);
   }
@@ -1113,7 +1150,7 @@ class TeacherController extends Controller
     ];
 
     return response()->json([
-      "course" => $course,
+      "workshop" => $course,
       "classes" => $classes,
       "materials" => $materials,
     ]);

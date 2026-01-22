@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\API\CourseClassLinkResource;
 use App\Http\Resources\API\CourseResource;
 use App\Http\Resources\API\MaterialResource;
+use App\Http\Resources\API\WebinarClassLinkResource;
 use App\Http\Resources\API\WorkshopResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WebinarResource;
@@ -943,7 +944,7 @@ class TeacherController extends Controller
       })
       ->values()
       ->toArray();
-$classes = [
+    $classes = [
       'ongoing_upcoming' => $ongoingUpcoming,
       'completed'        => $completed,
     ];
@@ -978,9 +979,9 @@ $classes = [
   {
     $user = $request->user();
     $webinar_id = $request->id;
-    $webinars = Webinar::where('id',$webinar_id)->first();
+    $webinars = Webinar::where('id', $webinar_id)->first();
     // Example dummy details per course id
-     $webinarDetail = [
+    $webinarDetail = [
       'id' => (int)$webinars->id,
       'title' => $webinars->title,
       'thumbnail_url' => $webinars->main_image_url ?? '',
@@ -996,68 +997,64 @@ $classes = [
       'completed_classes' => 0,
     ];
 
-     $webinarDetail = [
-      "id" => (int)$request->id,
-      "title" => "React Native Live33",
-      "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
-      "description" => "Learn cross-platform development with React Native. Build real apps.",
-      "duration" => "2 Months",
-      "level" => "Intermediate",
-      "language" => "English",
-      "category" => "Mobile Development",
-      "total_classes" => 20,
-      "completed_classes" => 5
-    ];
 
 
 
-    $classes = [
-      "upcoming" => [
-        [
-          "id" => 101,
-          "title" => "Introduction to React Native",
-          "date" => Carbon::parse('2025-11-16')->toDateString(),
-          "time_start" => "10:00 AM",
-          "time_end" => "11:00 AM",
-          "class_status" => "upcoming"
-        ],
-      ],
-      "ongoing" => [
-        // none in dummy
-      ],
-      "completed" => [
-        [
-          "id" => 90,
-          "title" => "JS Basics",
-          "date" => Carbon::parse('2025-11-10')->toDateString(),
-          "time_start" => "03:00 PM",
-          "time_end" => "04:00 PM",
-          "class_status" => "completed"
-        ],
-      ],
-    ];
+    // $classes = [
+    //   "upcoming" => [
+    //     [
+    //       "id" => 101,
+    //       "title" => "Introduction to React Native",
+    //       "date" => Carbon::parse('2025-11-16')->toDateString(),
+    //       "time_start" => "10:00 AM",
+    //       "time_end" => "11:00 AM",
+    //       "class_status" => "upcoming"
+    //     ],
+    //   ],
+    //   "ongoing" => [
+    //     // none in dummy
+    //   ],
+    //   "completed" => [
+    //     [
+    //       "id" => 90,
+    //       "title" => "JS Basics",
+    //       "date" => Carbon::parse('2025-11-10')->toDateString(),
+    //       "time_start" => "03:00 PM",
+    //       "time_end" => "04:00 PM",
+    //       "class_status" => "completed"
+    //     ],
+    //   ],
+    // ];
 
-    $materials = [
-      [
-        "id" => 201,
-        "title" => "Chapter 1 Notes",
-        "file_url" => "https://example.com/files/ch1.pdf",
-        "file_type" => "pdf"
-      ],
-      [
-        "id" => 202,
-        "title" => "UI Design Video",
-        "file_url" => "https://example.com/files/ui.mp4",
-        "file_type" => "video"
-      ],
-    ];
+    // $materials = [
+    //   [
+    //     "id" => 201,
+    //     "title" => "Chapter 1 Notes",
+    //     "file_url" => "https://example.com/files/ch1.pdf",
+    //     "file_type" => "pdf"
+    //   ],
+    //   [
+    //     "id" => 202,
+    //     "title" => "UI Design Video",
+    //     "file_url" => "https://example.com/files/ui.mp4",
+    //     "file_type" => "video"
+    //   ],
+    // ];
+
+    $materials = MaterialResource::collection($webinarDetail->materials ?? []);
+    $materials = [];
+
+    $courseList[] = $webinars;
+
+    $courseClass = WebinarClassLinkResource::collection($courseList);
 
     return response()->json([
       "course" => $webinarDetail,
-      "classes" => $classes,
+      "classes" => $courseClass,
       "materials" => $materials,
     ]);
   }
+
   public function workshopDetails(Request $request)
   {
     // Example dummy details per course id

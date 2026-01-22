@@ -473,8 +473,8 @@ class TeacherController extends Controller
 
   private function formatEvent($model, string $type): array
   {
-    $start = Carbon::parse($model->start_time);
-    $end   = Carbon::parse($model->end_time);
+    $start = Carbon::parse($model->start_time ? $model->start_time : $model->started_at);
+    $end   = Carbon::parse($model->end_time ? $model->end_time : $model->ended_at);
     $now = Carbon::now();
 
     // Default status

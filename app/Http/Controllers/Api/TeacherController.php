@@ -454,14 +454,14 @@ class TeacherController extends Controller
     $end   = Carbon::parse($model->end_time);
     return [
       "id" => $model->id,
-      "date" => $model->date,
+      "date" => $start->toDateString(),
 
       "type" => $type,
       "topic" => $model->title ?? $model->topic,
       "description" => $model->description,
 
-      "time_start" => Carbon::parse($model->start_time)->format('H:i'),
-      "time_end" => Carbon::parse($model->end_time)->format('H:i'),
+      "time_start" => Carbon::parse($start)->format('d-m-Y H:i'),
+      "time_end" => Carbon::parse($model->end_time)->format('d-m-Y H:i'),
       "duration" => $model->duration,
 
       "course_id" => $model->course_id ?? null,
@@ -469,7 +469,7 @@ class TeacherController extends Controller
       "class_link" => $model->meeting_link ?? null,
       "meeting_password" => $model->meeting_password ?? null,
 
-      "host_name" => $model->host->name ?? $model->teacher->name ?? 'Admin',
+      "host_name" => $model->host->name ?? $model->teacher->name ?? 'BMT',
 
       "class_status" => $model->status, // upcoming | live | completed
       "attendance_required" => (bool) ($model->attendance_required ?? false),

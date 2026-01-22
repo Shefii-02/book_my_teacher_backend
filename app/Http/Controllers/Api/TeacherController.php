@@ -423,10 +423,16 @@ class TeacherController extends Controller
       ->filter()
       ->values();
 
+
+$events = collect()
+//  ->merge($webinars)
+//  ->merge($workshops)
+  ->merge($courses) ->groupBy('date') ->sortKeys();
+
     /* ---------------------------------
    | SORT → GROUP → CLEAN
    |----------------------------------*/
-    $events = collect($courses)
+    $events = collect($events)
       ->sortBy(fn($event) => Carbon::parse($event['_start_datetime'])) // ✅ SORT FIRST
       ->groupBy('date') // ✅ THEN GROUP
       ->map(function ($items) {

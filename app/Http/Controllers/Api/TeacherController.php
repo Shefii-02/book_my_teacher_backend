@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\API\ClassLinkResource;
 use App\Http\Resources\API\CourseClassLinkResource;
 use App\Http\Resources\API\CourseResource;
 use App\Http\Resources\API\MaterialResource;
@@ -1095,62 +1096,122 @@ class TeacherController extends Controller
   public function workshopDetails(Request $request)
   {
     // Example dummy details per course id
-    $course = [
-      "id" => (int)$request->id,
-      "title" => "React Native Live33",
-      "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
-      "description" => "Learn cross-platform development with React Native. Build real apps.",
-      "duration" => "2 Months",
-      "level" => "Intermediate",
-      "language" => "English",
-      "category" => "Mobile Development",
-      "total_classes" => 20,
-      "completed_classes" => 5
+    // $course = [
+    //   "id" => (int)$request->id,
+    //   "title" => "React Native Live33",
+    //   "thumbnail_url" => asset("assets/mobile-app/banners/course-banner-1.png"),
+    //   "description" => "Learn cross-platform development with React Native. Build real apps.",
+    //   "duration" => "2 Months",
+    //   "level" => "Intermediate",
+    //   "language" => "English",
+    //   "category" => "Mobile Development",
+    //   "total_classes" => 20,
+    //   "completed_classes" => 5
+    // ];
+
+    $user = $request->user();
+    $workshop_id = $request->id;
+    $workshop = Workshop::where('id', $workshop_id)->first();
+    $worshopDetail = [
+      'id' => (int)$workshop->id,
+      'title' => $workshop->title,
+      'thumbnail_url' => $workshop->main_image_url ?? '',
+      'main_image' => $workshop->main_image_url ?? '',
+      'description' => $workshop->description ?? '',
+      'teacher_name' => $workshop ? $workshop->host->name : '',
+      'category' => '',
+      'price' => $workshop->net_price ?? '',
+      'duration' => $workshop->duration . ' ' . $workshop->duration_type,
+      'level'      => $workshop->level ?? '',
+      'language'    => '',
+      'total_classes' => 0,
+      'completed_classes' => 0,
     ];
+
+
+    $materials = MaterialResource::collection($workshop->materials ?? []);
+
+    $courseClasses = ClassLinkResource::collection($workshop->classes);
+    // $classes = [
+    //   "upcoming" => [
+    //     [
+    //       "id" => 101,
+    //       "title" => "Introduction to React Native",
+    //       "date" => Carbon::parse('2025-11-16')->toDateString(),
+    //       "time_start" => "10:00 AM",
+    //       "time_end" => "11:00 AM",
+    //       "class_status" => "upcoming"
+    //     ],
+    //   ],
+    //   "ongoing" => [
+    //     // none in dummy
+    //   ],
+    //   "completed" => [
+    //     [
+    //       "id" => 90,
+    //       "title" => "JS Basics",
+    //       "date" => Carbon::parse('2025-11-10')->toDateString(),
+    //       "time_start" => "03:00 PM",
+    //       "time_end" => "04:00 PM",
+    //       "class_status" => "completed"
+    //     ],
+    //   ],
+    // ];
+
+    // $materials = [
+    //   [
+    //     "id" => 201,
+    //     "title" => "Chapter 1 Notes",
+    //     "file_url" => "https://example.com/files/ch1.pdf",
+    //     "file_type" => "pdf"
+    //   ],
+    //   [
+    //     "id" => 202,
+    //     "title" => "UI Design Video",
+    //     "file_url" => "https://example.com/files/ui.mp4",
+    //     "file_type" => "video"
+    //   ],
+    // ];
+
+   $now = Carbon::now();
+
+    $ongoingUpcoming = collect($courseClasses)
+      ->filter(function ($item) use ($now) {
+        $start = Carbon::parse($item['start_time']);
+        $end   = Carbon::parse($item['end_time']);
+
+        // upcoming OR ongoing
+        return $start->gte($now) || ($start->lte($now) && $end->gte($now));
+      })
+      ->map(function ($item) use ($now) {
+        $start = Carbon::parse($item['start_time']);
+        $end   = Carbon::parse($item['end_time']);
+
+        $item['class_status'] = $start->gte($now) ? 'upcoming' : 'ongoing';
+        return $item;
+      })
+      ->values()
+      ->toArray();
+
+
+    $completed = collect($courseClasses)
+      ->filter(function ($item) use ($now) {
+        return Carbon::parse($item['end_time'])->lt($now);
+      })
+      ->map(function ($item) {
+        $item['class_status'] = 'completed';
+        return $item;
+      })
+      ->values()
+      ->toArray();
 
     $classes = [
-      "upcoming" => [
-        [
-          "id" => 101,
-          "title" => "Introduction to React Native",
-          "date" => Carbon::parse('2025-11-16')->toDateString(),
-          "time_start" => "10:00 AM",
-          "time_end" => "11:00 AM",
-          "class_status" => "upcoming"
-        ],
-      ],
-      "ongoing" => [
-        // none in dummy
-      ],
-      "completed" => [
-        [
-          "id" => 90,
-          "title" => "JS Basics",
-          "date" => Carbon::parse('2025-11-10')->toDateString(),
-          "time_start" => "03:00 PM",
-          "time_end" => "04:00 PM",
-          "class_status" => "completed"
-        ],
-      ],
-    ];
-
-    $materials = [
-      [
-        "id" => 201,
-        "title" => "Chapter 1 Notes",
-        "file_url" => "https://example.com/files/ch1.pdf",
-        "file_type" => "pdf"
-      ],
-      [
-        "id" => 202,
-        "title" => "UI Design Video",
-        "file_url" => "https://example.com/files/ui.mp4",
-        "file_type" => "video"
-      ],
+      'ongoing_upcoming' => $ongoingUpcoming,
+      'completed'        => $completed,
     ];
 
     return response()->json([
-      "workshop" => $course,
+      "course" => $worshopDetail,
       "classes" => $classes,
       "materials" => $materials,
     ]);

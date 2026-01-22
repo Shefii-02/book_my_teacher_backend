@@ -354,15 +354,13 @@ class TeacherController extends Controller
       ->filter()
       ->values();
 
-    // Merge (future proof)
-    $allClasses = collect()->merge($courses);
 
     // Sort ASC
     // $sortedClasses = $allClasses
     //   ->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
     //   ->values();
 
-      Log::info($sortedClasses);
+
     // $courses = TeacherClass::where('teacher_id', $user->id)
     //                         ->whereBetween('date', [$start, $end])
     //                         ->get()

@@ -437,7 +437,7 @@ class TeacherController extends Controller
       })
       ->toArray();
 
-      Log::info($events);
+    Log::info($events);
 
     return response()->json([
       "month"      => $month,
@@ -452,13 +452,28 @@ class TeacherController extends Controller
   {
     $start = Carbon::parse($model->start_time);
     $end   = Carbon::parse($model->end_time);
+    $now = Carbon::now();
+
+    // Default status
+    $classStatus = 'pending';
+
+    if ($model->status == '1') {
+      if ($now->lt($model->start_time)) {
+        $classStatus = 'upcoming';
+      } elseif ($now->between($model->start_time, $model->end_time)) {
+        $classStatus = 'ongoing';
+      } elseif ($now->gt($model->end_time)) {
+        $classStatus = 'completed';
+      }
+    }
+
     return [
       "id" => $model->id,
       "date" => $start->toDateString(),
 
       "type" => $type,
       "topic" => $model->title ?? $model->topic,
-      "description" => $model->description,
+      "description" => $model->description ?? '',
 
       "time_start" => Carbon::parse($start)->format('d-m-Y H:i'),
       "time_end" => Carbon::parse($model->end_time)->format('d-m-Y H:i'),
@@ -471,7 +486,7 @@ class TeacherController extends Controller
 
       "host_name" => $model->host->name ?? $model->teacher->name ?? 'BMT',
 
-      "class_status" => $model->status, // upcoming | live | completed
+      "class_status" => $classStatus, // upcoming | live | completed
       "attendance_required" => (bool) ($model->attendance_required ?? false),
 
       "subject_name" => $model->subject->name ?? null,

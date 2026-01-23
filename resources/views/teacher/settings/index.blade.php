@@ -6,7 +6,7 @@
 
         <!-- LEFT VERTICAL TABS -->
         <div class="md:w-1/4">
-            <div class="bg-white flex gap-1 dark:bg-slate-800 rounded-2xl shadow p-4 space-y-1">
+            <div class="bg-white relative overflow-x-auto flex gap-1 dark:bg-slate-800 rounded-2xl shadow p-4 space-y-1">
 
                 @php
                     $tabs = [

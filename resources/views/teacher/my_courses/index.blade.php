@@ -2,7 +2,7 @@
 @section('nav-options')
     <nav>
         <!-- breadcrumb -->
-        <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+        <ol class="flex flex-wrap pt-1  bg-transparent rounded-lg ">
             <li class="text-neutral-900 text-sm">
                 <a class="text-white " href="javascript:;">Home</a>
             </li>
@@ -25,16 +25,10 @@
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                     <div class="p-4 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="flex">
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                            <div class="w-full max-w-full px-3  sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
                                 <h6 class="dark:text-white">My Course List</h6>
                             </div>
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 
-                            </div>
-                            <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
-
-
-                            </div>
                         </div>
                     </div>
                 </div>

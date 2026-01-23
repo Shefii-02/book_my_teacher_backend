@@ -4313,3 +4313,11 @@ h6 {
     overflow: auto !important;
   }
 }
+
+
+@media (max-width: 640px) {
+  .sm-flex-column {
+    flex-direction: column !important;
+  }
+
+}

@@ -38,23 +38,23 @@
                 <div
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                     <div class="p-3 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex justify-between items-center">
+                        <div class="flex justify-between sm-flex-column items-center">
                             <div
                                 class="w-full max-w-full px-3  item-center flex gap-3 items-center">
                                 <h6 class="dark:text-white">Course Overview : {{ $course->title ?? '—' }}</h6>
 
                             </div>
 
-                            <div class="w-full text-right max-w-full px-3  ">
+                            <div class="w-full text-right max-w-full px-3  flex flex-wrap justify-content-end">
                                 <a href="{{ route('teacher.my-courses.schedule-class.index', $course->course_identity) }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
+                                    class="px-4 py-2 m-1 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class="bi bi-calendar-date-fill me-2"></i> Scheduled Class's</a>
                                 <a href="{{ route('teacher.my-courses.materials.index', $course->course_identity) }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
+                                    class="px-4 py-2 bg-gradient-to-tl m-1 from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class="bi bi-files me-2"></i> Materials</a>
 
                                 <a href="{{ route('teacher.my-courses.index') }}"
-                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
+                                    class="px-4 py-2 bg-gradient-to-tl m-1 from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class="bi bi-arrow-left me-2"></i>
                                     Back</a>
                             </div>

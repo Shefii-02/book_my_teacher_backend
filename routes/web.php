@@ -20,10 +20,28 @@ use App\Http\Controllers\LMS\GuestTeacherController;
 use App\Http\Controllers\PhonePeController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\Web\PhonePePaymentController;
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
+
+  Route::get('/', function () {
+    return view('web.index');
+  });
+
+
+
+Route::get('/pay', [PhonePePaymentController::class, 'checkout'])->name('phonepe.checkout');
+
+Route::post('/phonepe/pay', [PhonePePaymentController::class, 'pay'])->name('phonepe.pay');
+
+Route::any('/phonepe/callback', [PhonePePaymentController::class, 'callback'])->name('phonepe.callback');
+
+Route::get('/payment/success', [PhonePePaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/failed', [PhonePePaymentController::class, 'failed'])->name('payment.failed');
+
+
   // authentication
-  Route::get('/', 'auth\LoginController@index')->name('login');
+  // Route::get('/', 'auth\LoginController@index')->name('login');
   Route::get('/login', 'auth\LoginController@index')->name('login');
   Route::post('/', 'auth\LoginController@loginPost')->name('auth-login-post');
 

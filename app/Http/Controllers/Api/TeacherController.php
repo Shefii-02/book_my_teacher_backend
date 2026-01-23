@@ -422,13 +422,13 @@ class TeacherController extends Controller
       })
       ->filter()
       ->values();
-    Log::info($courses);
+
     // ->whereBetween('date', [$start, $end])
     $webinars = Webinar::where('host_id', $user->id)
       ->get()
       ->map(fn($w) => $this->formatEvent($w, 'webinar'));
 
-    Log::info($webinars);
+
     /* ---------------------------------
      | Workshop Classes (host_id)
      |----------------------------------*/
@@ -482,7 +482,6 @@ class TeacherController extends Controller
       $model->start_time
         ?? $model->started_at
         ?? $model->start_date_time
-        ?? now()
     );
     $end   = Carbon::parse($model->end_time ?? $model->ended_at ?? $model->end_date_time);
     $now = Carbon::now();

@@ -1055,8 +1055,8 @@
                     <div class="col-lg-5 d-flex justify-content-center">
                         <div class="phone-mock">
                             <div class="phone-topbar"></div>
-                            <img id="mockPreview" src="https://via.placeholder.com/500x900?text=Student+Home"
-                                class="w-100" alt="App Mock Preview">
+                            <img id="mockPreview" src="/assets/images/app/image1.jpg"
+                                class="w-100 mx-auto" alt="App Mock Preview">
                         </div>
                     </div>
 
@@ -1066,7 +1066,7 @@
 
                             <div class="col-md-6">
                                 <button class="thumb-btn active"
-                                    data-img="https://via.placeholder.com/500x900?text=Student+Home">
+                                    data-img="/assets/images/app/image1.jpg">
                                     <div class="fw-black"><i class="bi bi-house-door me-2 text-success"></i>Student
                                         Home</div>
                                     <small>Course list + upcoming classes</small>
@@ -1075,7 +1075,7 @@
 
                             <div class="col-md-6">
                                 <button class="thumb-btn"
-                                    data-img="https://via.placeholder.com/500x900?text=Live+Class">
+                                    data-img="/assets/images/app/image2.jpg">
                                     <div class="fw-black"><i class="bi bi-camera-video me-2 text-success"></i>Live
                                         Class</div>
                                     <small>Streaming + attendance + engagement</small>
@@ -1083,7 +1083,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <button class="thumb-btn" data-img="https://via.placeholder.com/500x900?text=Chat">
+                                <button class="thumb-btn" data-img="/assets/images/app/image3.jpg">
                                     <div class="fw-black"><i class="bi bi-chat-dots me-2 text-success"></i>Chat</div>
                                     <small>Doubts + announcements + support</small>
                                 </button>
@@ -1091,7 +1091,7 @@
 
                             <div class="col-md-6">
                                 <button class="thumb-btn"
-                                    data-img="https://via.placeholder.com/500x900?text=Payment+Page">
+                                    data-img="/assets/images/app/image4.jpg">
                                     <div class="fw-black"><i class="bi bi-credit-card me-2 text-success"></i>Payment
                                         Page</div>
                                     <small>UPI/cards + fee tracking</small>
@@ -1100,7 +1100,7 @@
 
                             <div class="col-md-6">
                                 <button class="thumb-btn"
-                                    data-img="https://via.placeholder.com/500x900?text=Dashboard">
+                                    data-img="/assets/images/app/image5.jpg">
                                     <div class="fw-black"><i
                                             class="bi bi-speedometer2 me-2 text-success"></i>Dashboard</div>
                                     <small>Reports + analytics + performance</small>
@@ -1108,7 +1108,7 @@
                             </div>
                             <div class="col-md-6">
                                 <button class="thumb-btn"
-                                    data-img="https://via.placeholder.com/500x900?text=Dashboard">
+                                    data-img="/assets/images/app/image6.jpg">
                                     <div class="fw-black"><i
                                             class="bi bi-speedometer2 me-2 text-success"></i>Dashboard</div>
                                     <small>Reports + analytics + performance</small>
@@ -1371,6 +1371,14 @@
         </div>
     </div>
 
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Bootstrap 5 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AOS -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
         // App mockup switcher
         $(document).on("click", ".thumb-btn", function() {
@@ -1395,14 +1403,6 @@
     </script>
 
 
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <!-- Bootstrap 5 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- AOS -->
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
     <script>
         AOS.init({

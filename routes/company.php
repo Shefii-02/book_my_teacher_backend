@@ -158,10 +158,10 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   });
 
   Route::prefix('requests')->name('requests.')->group(function () {
-    Route::get('form-class', 'RequestController@formClass')->name('form-class');
-    Route::get('top-banner', 'RequestController@topBanner')->name('top-banner');
-    Route::get('course-banner', 'RequestController@courseBanner')->name('course-banner');
-    Route::get('teacher-class', 'RequestController@teacherClass')->name('teacher-class');
+    Route::get('form-class', 'LMS\RequestController@formClass')->name('form-class');
+    Route::get('top-banner', 'LMS\RequestController@topBanner')->name('top-banner');
+    Route::get('course-banner', 'LMS\RequestController@courseBanner')->name('course-banner');
+    Route::get('teacher-class', 'LMS\RequestController@teacherClass')->name('teacher-class');
   });
 
 

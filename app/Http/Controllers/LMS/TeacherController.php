@@ -39,13 +39,13 @@ class TeacherController extends Controller
         'both_teachers'   => $countByMode($allTeachers, 'both'),
       ],
       'unverified' => [
-        'teachers'        => $allTeachers->where('current_account_status', '!=', 'account verified')->count(),
-        'online_teachers' => $countByMode($allTeachers->where('current_account_status', '!=', 'account verified'), 'online'),
-        'offline_teachers' => $countByMode($allTeachers->where('current_account_status', '!=', 'account verified'), 'offline'),
-        'both_teachers'   => $countByMode($allTeachers->where('current_account_status', '!=', 'account verified'), 'both'),
+        'teachers'        => $allTeachers->where('current_account_stage', '!=', 'account verified')->count(),
+        'online_teachers' => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified'), 'online'),
+        'offline_teachers' => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified'), 'offline'),
+        'both_teachers'   => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified'), 'both'),
       ],
       'verified' => [
-        'teachers'        => $allTeachers->where('current_account_status', 'account verified')->count(),
+        'teachers'        => $allTeachers->where('current_account_stage', 'account verified')->count(),
         'online_teachers' => $countByMode($allTeachers->where('current_account_stage', 'account verified'), 'online'),
         'offline_teachers' => $countByMode($allTeachers->where('current_account_stage', 'account verified'), 'offline'),
         'both_teachers'   => $countByMode($allTeachers->where('current_account_stage', 'account verified'), 'both'),

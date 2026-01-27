@@ -136,8 +136,8 @@
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="flex">
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                                <h6 class="dark:text-white">OTP List</h6>
+                            <div class="w-full max-w-full px-3 mb-2 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                                <h5 class="dark:text-white">OTP List</h5>
                             </div>
                             <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 
@@ -150,6 +150,84 @@
                             </div>
                         </div>
                     </div>
+                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+
+                        <div class="w-full max-w-full ">
+                            <form method="GET" action="{{ route('company.otp-list') }}"
+                                class="mb-4 flex flex-wrap gap-4 items-end">
+
+                                {{-- 🔍 Search Mobile --}}
+                                <div class="w-1/4">
+                                    <label class="block text-sm font-medium mb-1">Mobile Number</label>
+                                    <input type="text" name="mobile" value="{{ request('mobile') }}"
+                                        placeholder="Enter mobile number" class="border rounded w-100 px-3 py-2 w-48">
+                                </div>
+
+                                {{-- 📌 Status --}}
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Status</label>
+                                    <select name="status" class="border rounded px-3 py-2 w-40">
+                                        <option value="">All</option>
+                                        <option value="verified" {{ request('status') == 'verified' ? 'selected' : '' }}>
+                                            Verified</option>
+                                        <option value="unverified"
+                                            {{ request('status') == 'unverified' ? 'selected' : '' }}>Unverified</option>
+                                        <option value="uncompleted"
+                                            {{ request('status') == 'uncompleted' ? 'selected' : '' }}>Uncompleted</option>
+                                    </select>
+                                </div>
+
+                                {{-- 📅 Created From --}}
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">From Date</label>
+                                    <input type="date" name="start_date" value="{{ request('start_date') }}"
+                                        class="border rounded px-3 py-2">
+                                </div>
+
+                                {{-- 📅 Created To --}}
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">To Date</label>
+                                    <input type="date" name="end_date" value="{{ request('end_date') }}"
+                                        class="border rounded px-3 py-2">
+                                </div>
+
+                                {{-- Buttons --}}
+                                <div class="flex gap-2">
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded text-sm">
+                                        <i class="bi bi-search"></i> Apply
+                                    </button>
+
+                                    <a href="{{ route('company.otp-list') }}"
+                                        class="px-4 py-2 bg-slate-500 text-white rounded text-sm">
+                                        <i class="bi bi-arrow-clockwise"></i> Reset
+                                    </a>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                @php
+                    $activeFilters = collect(
+                        request()->only(['mobile', 'status', 'start_date', 'end_date'])
+                    )->filter(fn ($value) => filled($value));
+                @endphp
+
+                    @if ($activeFilters->isNotEmpty())
+                        <div class="mb-4 pl-9 flex flex-wrap gap-2">
+                            @foreach ($activeFilters as $key => $value)
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
+                                    <span class="mr-2 capitalize">{{ str_replace('_', ' ', $key) }}:
+                                        {{ $value }}</span>
+                                    <a href="{{ request()->fullUrlWithQuery([$key => null]) }}"
+                                        class="text-red-500 hover:text-red-700 font-bold">×</a>
+                                </div>
+                            @endforeach
+                            <a href="{{ route('company.otp-list') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                                All</a>
+                        </div>
+                    @endif
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
                             <table
@@ -170,10 +248,10 @@
                                             Expired At</th>
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                           Account Status</th>
+                                            Account Status</th>
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                             Status
+                                            Status
                                         </th>
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">

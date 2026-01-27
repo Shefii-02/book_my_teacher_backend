@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Http\Controllers\Controller;
+use App\Models\LoginActivity;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\User;
@@ -16,6 +17,7 @@ use Google\Service\CloudSourceRepositories\Repo;
 use Google_Client;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -33,7 +35,7 @@ class LoginController extends Controller
 
   public function googleLoginCheck(Request $request)
   {
-    Log::info($request->all());
+
     try {
       $authUser = $request->user(); // may be null
       $idToken  = $request->input('idToken');
@@ -116,6 +118,8 @@ class LoginController extends Controller
 
       $user->email_verified_at = now();
       $user->save();
+
+      $this->LoginActivityStore($user, $request);
 
       return response()->json([
         'success' => true,
@@ -329,6 +333,60 @@ class LoginController extends Controller
         'message' => 'Email verification failed',
       ], 500);
     }
+  }
+
+
+  private function LoginActivityStore($user, Request $request)
+  {
+    LoginActivity::create([
+      'user_id'      => $user->id,
+      'provider'     => 'google',
+      'source'       => $request->header('X-APP-SOURCE', 'android'),
+      'email'        => $user->email,
+      'ip_address'   => $request->ip(),
+      'user_agent'   => $request->userAgent(),
+      'logged_in_at' => now(),
+    ]);
+  }
+
+
+  public function appleCallback(Request $request)
+  {
+    $appleUser = Socialite::driver('apple')->stateless()->user();
+
+    // Apple sometimes hides email after first login
+    $email = $appleUser->email;
+
+    $user = User::where('apple_id', $appleUser->id)
+      ->orWhere('email', $email)
+      ->first();
+
+    if (!$user) {
+      $user = User::create([
+        'name'     => $appleUser->name ?? 'Apple User',
+        'email'    => $email,
+        'apple_id' => $appleUser->id,
+      ]);
+    } else {
+      // attach apple id if user existed
+      if (!$user->apple_id) {
+        $user->apple_id = $appleUser->id;
+        $user->save();
+      }
+    }
+
+    // ✅ STORE LOGIN ACTIVITY
+    LoginActivity::create([
+      'user_id'      => $user->id,
+      'provider'     => 'apple',
+      'source'       => $request->header('X-APP-SOURCE', 'web'),
+      'email'        => $email,
+      'ip_address'   => $request->ip(),
+      'user_agent'   => $request->userAgent(),
+      'logged_in_at' => now(),
+    ]);
+
+    return redirect()->route('dashboard');
   }
 
 

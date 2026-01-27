@@ -48,13 +48,12 @@
             </div>
         </div>
 
-        <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
+        {{-- <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6 mb-6">
             <h2 class="text-xl font-bold mb-4 dark:text-white">🎓 Professional Information</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <p><span class="font-semibold">Mode of Interest:</span> {{ $student->professionalInfo->mode }}</p>
                 <p><span class="font-semibold">Teaching Grades:</span>
                     {{ implode(', ', $student->professionalInfo->grades ?? []) }}</p>
-                {{-- <p><span class="font-semibold">Subjects:</span> {{ implode(', ', $studentSubjects) }}</p> --}}
                 <p><span class="font-semibold">Years of Exp (Offline):</span> {{ $student->professionalInfo->exp_offline }}
                 </p>
                 <p><span class="font-semibold">Years of Exp (Online):</span> {{ $student->professionalInfo->exp_online }}
@@ -63,7 +62,7 @@
                 <p><span class="font-semibold">Preferred Days:</span> {{ implode(', ', $working_days ?? []) }}</p>
                 <p><span class="font-semibold">Preferred Times:</span> {{ implode(', ', $working_hours ?? []) }}</p>
             </div>
-        </div>
+        </div> --}}
 
         <div class="bg-white dark:bg-slate-850 shadow-xl rounded-2xl p-6">
             <h2 class="text-xl font-bold mb-4 dark:text-white">🔐 Login & Security</h2>

@@ -202,7 +202,7 @@
                 @endphp
 
                 <!-- Step 2: Professional Information -->
-                <div class="form-step">
+                {{-- <div class="form-step">
                     <h2 class="text-lg font-bold mb-4">Study Details</h2>
 
                     <!-- Mode of Interest -->
@@ -301,7 +301,7 @@
                             </label>
                         @endforeach
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Buttons -->
                 <div class="button-group mt-4 flex justify-center">

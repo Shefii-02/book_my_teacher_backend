@@ -21,8 +21,9 @@ class StudentController extends Controller
 
   public function index()
   {
+    $company_id = auth()->user()->company_id;
     $students = User::with('professionalInfo')
-      ->where('company_id', 1)
+      ->where('company_id', $company_id)
       ->where('acc_type', 'student')
       ->get();
 
@@ -33,7 +34,7 @@ class StudentController extends Controller
 
     $threeWeeksAgo = Carbon::now()->subWeeks(3);
 
-    $unActive = User::where('last_activation', '<', $threeWeeksAgo)->get();
+    $unActive = User::where('acc_type','student')->where('last_activation', '<', $threeWeeksAgo)->get();
 
     // Helper to count by teaching mode
     $countByMode = function ($collection, $mode) {
@@ -93,7 +94,8 @@ class StudentController extends Controller
   public function create()
   {
 
-    return view('company.students.form');
+    return redirect()->back();
+    // return view('company.students.form');
   }
 
   public function store(Request $request)

@@ -207,7 +207,7 @@
                                 <h6 class="dark:text-white">Teachers List</h6>
                             </div>
                             <div class="w-full max-w-full ">
-                                <form method="GET" action="{{ route('company.teachers') }}"
+                                <form method="GET" action="{{ route('company.teachers.index') }}"
                                     class="mb-4 flex flex-wrap gap-3 items-end">
 
                                     <!-- 🔍 Search (name, email, mobile) -->
@@ -285,7 +285,7 @@
                                         <button type="submit"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
                                                 class="bi bi-search"></i> Apply</button>
-                                        <a href="{{ route('company.teachers') }}"
+                                        <a href="{{ route('company.teachers.index') }}"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded text-white text-sm"><i
                                                 class="bi bi-arrow-clockwise"></i> Reset </a>
                                         <a href="{{ route('company.teachers.export', request()->query()) }}"

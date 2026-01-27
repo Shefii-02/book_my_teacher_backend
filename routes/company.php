@@ -103,7 +103,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::put('/profile', 'dashboard\UserController@update')->name('profile.update');
   Route::post('/profile', 'dashboard\UserController@changePassword')->name('profile.changePassword');
 
-  Route::get('/teachers', 'LMS\TeacherController@index')->name('teachers');
+  Route::get('/teachers', 'LMS\TeacherController@index')->name('teachers.index');
   Route::get('/teachers/create', 'LMS\TeacherController@create')->name('teachers.create');
   Route::post('/teachers/store', 'LMS\TeacherController@store')->name('teachers.store');
   Route::get('teachers/export', 'LMS\TeacherController@exportTeachers')->name('teachers.export');
@@ -118,7 +118,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::post('/company-settings/social', 'LMS\CompanySettingController@storeSocial');
   Route::post('/company-settings/contact', 'LMS\CompanySettingController@updateContact');
 
-  Route::get('/students', 'LMS\StudentController@index')->name('students');
+  Route::get('/students', 'LMS\StudentController@index')->name('students.index');
   Route::get('/students/create', 'LMS\StudentController@create')->name('students.create');
   Route::post('/students/store', 'LMS\StudentController@store')->name('students.store');
   Route::get('students/{id}', 'LMS\StudentController@overview')->name('students.overview');   // Overview
@@ -143,6 +143,10 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('/otp', 'dashboard\UserController@otp')->name('otp-list');
   Route::get('/otp/{id}/edit', 'dashboard\UserController@editOtp')->name('otp.edit');
   Route::put('/otp/{id}', 'dashboard\UserController@updateOtp')->name('otp.update');
+
+  Route::get('/google-signIn', 'dashboard\UserController@googleSignInList')->name('google-signIn');
+
+  Route::get('/apple-signIn', 'dashboard\UserController@appleSignInList')->name('apple-signIn');
 
   Route::resource('courses/categories', 'LMS\CourseCategoryController')->names('categories');
   Route::resource('courses/subcategories', 'LMS\CourseSubCategoryController')->names('subcategories');

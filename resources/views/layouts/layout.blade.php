@@ -185,10 +185,10 @@
                             </a>
 
                             <ul
-                                class="submenu pl-6 {{ Request::routeIs('company.teachers') || Request::routeIs('company.students') || Request::routeIs('company.guest.*') ? '' : 'hidden' }} ">
+                                class="submenu pl-6 {{ Request::routeIs('company.teachers.*') || Request::routeIs('company.students.*') ? '' : 'hidden' }} ">
                                 <li class="w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.teachers') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.teachers') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.teachers.*') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.teachers.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -199,8 +199,8 @@
                                     </a>
                                 </li>
                                 <li class=" w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.students') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.students') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.students.*') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.students.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -210,7 +210,7 @@
                                             class="ml-1 duration-300 opacity-100 pointer-events-none ease">Students</span>
                                     </a>
                                 </li>
-                                <li class=" w-full">
+                                {{-- <li class=" w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.guest.*') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.guest.index') }}">
                                         <div
@@ -221,7 +221,7 @@
                                         <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guest
                                             User </span>
                                     </a>
-                                </li>
+                                </li> --}}
 
 
                             </ul>
@@ -254,18 +254,18 @@
                                             List</span>
                                     </a>
                                 </li>
-                                {{-- <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.guest.index') }}">
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.google-signIn') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.google-signIn') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
                                                 class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-google"></i>
                                         </div>
                                         <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Google
-                                            SigIn</span>
+                                            Sign In</span>
                                     </a>
-                                </li> --}}
+                                </li>
                             </ul>
                         </li>
                         <li class="mt-0.5 w-full">

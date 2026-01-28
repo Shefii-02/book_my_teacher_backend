@@ -19,28 +19,116 @@
 @section('content')
     <!-- cards -->
     <div class="w-full px-6 py-6 mx-auto">
-        <div class="flex flex-wrap -mx-3 mt-4">
-            <div class="flex-none w-full max-w-full px-3">
+        <!-- row 1 -->
+        <div class="flex flex-wrap justify-center -mx-3">
+            <!-- card1 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
                 <div
-                    class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="p-4 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex">
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                                <h6 class="dark:text-white">Course List</h6>
+                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div class="">
+                                    <p
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        Total Courses</p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['total_courses'] }}</h5>
+                                </div>
                             </div>
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-
-                            </div>
-                            <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
-
-                                <a href="{{ route('company.courses.create') }}"
-                                    class="px-4 py-2 bg-gradient-to-tl  from-emerald-500 to-teal-400  text-white  text-sm">
-                                    <i class="bi bi-plus me-1"></i> Create Course</a>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-blue-500 to-violet-500">
+                                    <i class="ni ni-money-coins text-lg relative top-3.5 text-white"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- card2 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div
+                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        On Going </p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['ongoing'] }}</h5>
+
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-red-600 to-orange-600">
+                                    <i class="ni ni-world text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- card3 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div
+                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        Completed
+                                    </p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['completed'] }}</h5>
+
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-emerald-500 to-teal-400">
+                                    <i class="ni ni-paper-diploma text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- card4 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div
+                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        Unpublished/Suspended </p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['unpublished'] }}</h5>
+
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-circle bg-green-500 from-emerald-500 to-teal-400">
+                                    <i class="bi bi-person-fill-slash text-lg relative top-3 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap -mx-3 mt-4">
+            <div class="flex-none w-full max-w-full px-3">
 
                 <!-- table 1 -->
 
@@ -50,73 +138,130 @@
                             class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                             <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                                 <div class="flex1">
-                                    <div class="w-full max-w-full ">
-                                        {{-- <h6 class="dark:text-white">Course List</h6> --}}
-                                    </div>
-                                    {{-- <div class="w-full max-w-full ">
-                                        <form method="GET" action="{{ route('company.teachers') }}"
-                                            class="mb-4 flex flex-wrap gap-3 items-end">
+                                    <div class="flex">
+                                        <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                                            <h6 class="dark:text-white">Course List</h6>
+                                        </div>
+                                        <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 
-                                            <!-- 🔍 Search (name, email, mobile) -->
+                                        </div>
+                                        <div
+                                            class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
+
+                                            <a href="{{ route('company.courses.create') }}"
+                                                class="px-4 py-2 bg-gradient-to-tl  from-emerald-500 to-teal-400  text-white  text-sm">
+                                                <i class="bi bi-plus me-1"></i> Create Course</a>
+                                        </div>
+                                    </div>
+                                    <div class="w-full max-w-full ">
+                                        <form method="GET" action="{{ route('company.courses.index') }}"
+                                            class="mb-4 flex flex-wrap gap-4 items-end">
+
+                                            <!-- Course name -->
                                             <div>
-                                                <label class="block text-sm font-medium mb-1">Search</label>
+                                                <label class="block text-sm font-medium mb-1">Course Name</label>
                                                 <input type="text" name="search" value="{{ request('search') }}"
-                                                    placeholder="Search name, email, mobile"
-                                                    class="border rounded px-3 py-2 w-64">
+                                                    class="border rounded px-3 py-2 w-56" placeholder="Search course">
                                             </div>
 
-                                            <!-- 🎛 Teaching Mode -->
+                                            <!-- Start date -->
                                             <div>
-                                                <label class="block text-sm font-medium mb-1">Video Mode</label>
-                                                <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
+                                                <label class="block text-sm font-medium mb-1">Start Date</label>
+                                                <input type="date" name="start_date" value="{{ request('start_date') }}"
+                                                    class="border rounded px-3 py-2">
+                                            </div>
+
+                                            <!-- End date -->
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">End Date</label>
+                                                <input type="date" name="end_date" value="{{ request('end_date') }}"
+                                                    class="border rounded px-3 py-2">
+                                            </div>
+
+                                            <!-- Teacher -->
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">Teacher</label>
+                                                <select name="teacher_id" class="border rounded px-3 py-2 w-44">
                                                     <option value="">All</option>
-                                                    <option value="online"
-                                                        {{ request('teaching_mode') == 'online' ? 'selected' : '' }}>
-                                                        Online
-                                                    </option>
-                                                    <option value="offline"
-                                                        {{ request('teaching_mode') == 'offline' ? 'selected' : '' }}>
-                                                        Offline
-                                                    </option>
-                                                    <option value="both"
-                                                        {{ request('teaching_mode') == 'both' ? 'selected' : '' }}>Both
-                                                    </option>
+                                                    @foreach ($teachers as $teacher)
+                                                        <option value="{{ $teacher->id }}"
+                                                            {{ request('teacher_id') == $teacher->id ? 'selected' : '' }}>
+                                                            {{ $teacher->name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
 
-                                            <!-- 📌 Account Status -->
+                                            <!-- Status -->
                                             <div>
                                                 <label class="block text-sm font-medium mb-1">Status</label>
-                                                <select name="account_status" class="border rounded px-3 py-2 w-32">
+                                                <select name="status" class="border rounded px-3 py-2 w-36">
                                                     <option value="">All</option>
-                                                    <option value="draft"
-                                                        {{ request('status') == 'draft' ? 'selected' : '' }}>
+                                                    <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>
                                                         Draft</option>
                                                     <option value="unpublished"
-                                                        {{ request('status') == 'unpublished' ? 'selected' : '' }}>
-                                                        Unpublished
+                                                        {{ request('status') == 'unpublished' ? 'selected' : '' }}>Unpublished
                                                     </option>
                                                     <option value="published"
-                                                        {{ request('status') == 'published' ? 'selected' : '' }}>
-                                                        Published
+                                                        {{ request('status') == 'published' ? 'selected' : '' }}>Published
                                                     </option>
                                                 </select>
                                             </div>
 
-                                            <!-- Submit + Reset -->
+                                            <!-- Course type -->
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">Course Type</label>
+                                                <select name="course_type" class="border rounded px-3 py-2 w-36">
+                                                    <option value="">All</option>
+                                                    <option value="individual"
+                                                        {{ request('course_type') == 'individual' ? 'selected' : '' }}>Individual
+                                                    </option>
+                                                    <option value="common"
+                                                        {{ request('course_type') == 'common' ? 'selected' : '' }}>Common
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Visibility -->
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">Visibility</label>
+                                                <select name="visibility" class="border rounded px-3 py-2 w-36">
+                                                    <option value="">All</option>
+                                                    <option value="public"
+                                                        {{ request('visibility') == 'public' ? 'selected' : '' }}>Public</option>
+                                                    <option value="private"
+                                                        {{ request('visibility') == 'private' ? 'selected' : '' }}>Private
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Price -->
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">Price From</label>
+                                                <input type="number" name="price_from"
+                                                    value="{{ request('price_from') }}"
+                                                    class="border rounded px-3 py-2 w-28">
+                                            </div>
+
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">Price To</label>
+                                                <input type="number" name="price_to" value="{{ request('price_to') }}"
+                                                    class="border rounded px-3 py-2 w-28">
+                                            </div>
+
+                                            <!-- Actions -->
                                             <div class="flex gap-2">
                                                 <button type="submit"
-                                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded-full text-sm"><i
-                                                        class="bi bi-search"></i> Apply</button>
-                                                <a href="{{ route('company.teachers') }}"
-                                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded-full text-white text-sm"><i
-                                                        class="bi bi-arrow-clockwise"></i> Reset </a>
-
-
+                                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded-full text-sm">
+                                                    Apply
+                                                </button>
+                                                <a href="{{ route('company.courses.index') }}"
+                                                    class="px-4 py-2 bg-slate-200 rounded-full text-sm">
+                                                    Reset
+                                                </a>
                                             </div>
                                         </form>
-
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                             @php
@@ -135,7 +280,8 @@
                                                 class="text-red-500 hover:text-red-700 font-bold">×</a>
                                         </div>
                                     @endforeach
-                                    <a href="{{ route('company.teachers') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                                    <a href="{{ route('company.teachers') }}"
+                                        class="ml-3 mt-2.5 text-sm text-red-600">Clear
                                         All</a>
                                 </div>
                             @endif
@@ -348,10 +494,12 @@
 
                                             {{-- Grid container --}}
                                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-                                                id="courses-grid" >
+                                                id="courses-grid">
                                                 {{-- initial cards rendered from server --}}
                                                 @forelse ($courses as $course)
-                                                    @include('components.courses_card', ['course' => $course])
+                                                    @include('components.courses_card', [
+                                                        'course' => $course,
+                                                    ])
                                                 @empty
                                                     <h6>No Course Founded</h6>
                                                 @endforelse

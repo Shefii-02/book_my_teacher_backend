@@ -202,29 +202,41 @@ class UserController extends Controller
 
 
 
-  public function appleLogins(Request $request)
-{
+  public function appleSignInList(Request $request)
+  {
     $logins = LoginActivity::where('provider', 'apple')
-        ->when($request->filled('email'), fn($q) =>
-            $q->where('email', 'like', '%' . $request->email . '%')
-        )
-        ->when($request->filled('start_date'), fn($q) =>
-            $q->whereDate('logged_in_at', '>=', $request->start_date)
-        )
-        ->when($request->filled('end_date'), fn($q) =>
-            $q->whereDate('logged_in_at', '<=', $request->end_date)
-        )
-        ->latest('logged_in_at')
-        ->paginate(30)
-        ->withQueryString();
+      ->when(
+        $request->filled('email'),
+        fn($q) =>
+        $q->where('email', 'like', '%' . $request->email . '%')
+      )
+      ->when(
+        $request->filled('start_date'),
+        fn($q) =>
+        $q->whereDate('logged_in_at', '>=', $request->start_date)
+      )
+      ->when(
+        $request->filled('end_date'),
+        fn($q) =>
+        $q->whereDate('logged_in_at', '<=', $request->end_date)
+      )
+      ->latest('logged_in_at')
+      ->paginate(30)
+      ->withQueryString();
+    $data = [
+      'total_otp'   => (clone $logins)->count(),
+      'verified'    => (clone $logins)->where('verified', 1)->count(),
+      'unverified'  => (clone $logins)->where('verified', 0)->count(),
+    ];
 
-    return view('company.dashboard.apple-logins', compact('logins'));
-}
+    return view('company.dashboard.apple-logins', compact('logins', 'data'));
+  }
 
 
 
 
-  public function signInList(Request $request)
+
+  public function googleSignInList(Request $request)
   {
     $logins = LoginActivity::where('provider', 'google')
       ->when(
@@ -245,8 +257,12 @@ class UserController extends Controller
       ->latest('logged_in_at')
       ->paginate(30)
       ->withQueryString();
-
-    return view('company.dashboard.google-logins', compact('logins'));
+    $data = [
+      'total_otp'   => (clone $logins)->count(),
+      'verified'    => (clone $logins)->where('verified', 1)->count(),
+      'unverified'  => (clone $logins)->where('verified', 0)->count(),
+    ];
+    return view('company.dashboard.google-logins', compact('logins', 'data'));
   }
 
   public function editOtp($id)

@@ -19,10 +19,69 @@ use PHPUnit\Framework\MockObject\Builder\Identity;
 
 class CourseController extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
-    $courses = Course::with('category')->latest()->paginate(10);
-    return view('company.courses.index', compact('courses'));
+    $companyId = auth()->user()->company_id;
+
+    $courses = Course::with(['teacher', 'categories'])
+      ->where('company_id', $companyId)
+
+      // 🔍 Course name
+      ->when($request->filled('search'), function ($q) use ($request) {
+        $q->where('title', 'like', '%' . $request->search . '%');
+      })
+
+      // 📅 Start date
+      ->when($request->filled('start_date'), function ($q) use ($request) {
+        $q->whereDate('started_at', '>=', $request->start_date);
+      })
+
+      // 📅 End date
+      ->when($request->filled('end_date'), function ($q) use ($request) {
+        $q->whereDate('ended_at', '<=', $request->end_date);
+      })
+
+      // 👨‍🏫 Teacher
+      ->when($request->filled('teacher_id'), function ($q) use ($request) {
+        $q->where('teacher_id', $request->teacher_id);
+      })
+
+      // 📌 Status
+      ->when($request->filled('status'), function ($q) use ($request) {
+        $q->where('status', $request->status);
+      })
+
+      // 🎓 Course Type (individual/common)
+      ->when($request->filled('course_type'), function ($q) use ($request) {
+        $q->where('course_type', $request->course_type);
+      })
+
+      // 🌍 Visibility (public/private)
+      ->when($request->filled('visibility'), function ($q) use ($request) {
+        $q->where('visibility', $request->visibility);
+      })
+
+      // 💰 Price range
+      ->when($request->filled('price_from'), function ($q) use ($request) {
+        $q->where('net_price', '>=', $request->price_from);
+      })
+      ->when($request->filled('price_to'), function ($q) use ($request) {
+        $q->where('net_price', '<=', $request->price_to);
+      })
+
+      ->latest()
+      ->paginate(12)
+      ->withQueryString();
+
+    // Stats
+    $data['total_courses'] = Course::where('company_id', $companyId)->count();
+    $data['ongoing'] = Course::where('company_id', $companyId)->where('status', 'published')->count();
+    $data['completed'] = Course::where('company_id', $companyId)->where('ended_at', '<', now())->count();
+    $data['unpublished'] = Course::where('company_id', $companyId)->whereIn('status', ['draft', 'unpublished'])->count();
+
+    $teachers = Teacher::where('company_id', $companyId)->get();
+
+    return view('company.courses.index', compact('courses', 'data', 'teachers'));
   }
 
   public function create(Request $request)

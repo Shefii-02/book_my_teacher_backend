@@ -10,7 +10,7 @@
             </svg>
             Overview Confirmation
         </h2>
-        <p class="text-gray-500">Please review all course details carefully before final submission.</p>
+        <p class="text-gray-500 mt-5">Please review all course details carefully before final submission.</p>
 
     </div>
     <div class="form-body mt-3">

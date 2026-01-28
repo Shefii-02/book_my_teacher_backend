@@ -154,137 +154,201 @@
                                         </div>
                                     </div>
                                     <div class="w-full max-w-full ">
-                                        <form method="GET" action="{{ route('company.courses.index') }}"
-                                            class="mb-4 flex flex-wrap gap-4 items-end">
+                                        <form method="GET" action="{{ route('company.courses.index') }}" class="mb-4">
 
-                                            <!-- Course name -->
-                                            <div>
-                                                <label class="block text-sm font-medium mb-1">Course Name</label>
-                                                <input type="text" name="search" value="{{ request('search') }}"
-                                                    class="border rounded px-3 py-2 w-56" placeholder="Search course">
-                                            </div>
+                                            <!-- MAIN ROW -->
+                                            <div class="flex flex-wrap gap-4 items-end">
 
-                                            <!-- Start date -->
-                                            <div>
-                                                <label class="block text-sm font-medium mb-1">Start Date</label>
-                                                <input type="date" name="start_date" value="{{ request('start_date') }}"
-                                                    class="border rounded px-3 py-2">
-                                            </div>
+                                                <!-- Course name -->
+                                                <div>
+                                                    <label class="block text-sm font-medium mb-1">Course Name</label>
+                                                    <input type="text" name="search" value="{{ request('search') }}"
+                                                        class="border rounded px-3 py-2 w-56" placeholder="Search course">
+                                                </div>
 
-                                            <!-- End date -->
-                                            <div>
-                                                <label class="block text-sm font-medium mb-1">End Date</label>
-                                                <input type="date" name="end_date" value="{{ request('end_date') }}"
-                                                    class="border rounded px-3 py-2">
-                                            </div>
+                                                <!-- Start date -->
+                                                <div>
+                                                    <label class="block text-sm font-medium mb-1">Start Date</label>
+                                                    <input type="date" name="start_date"
+                                                        value="{{ request('start_date') }}"
+                                                        class="border rounded px-3 py-2">
+                                                </div>
 
-                                            <!-- Teacher -->
-                                            <div>
-                                                <label class="block text-sm font-medium mb-1">Teacher</label>
-                                                <select name="teacher_id" class="border rounded px-3 py-2 w-44">
-                                                    <option value="">All</option>
-                                                    @foreach ($teachers as $teacher)
-                                                        <option value="{{ $teacher->id }}"
-                                                            {{ request('teacher_id') == $teacher->id ? 'selected' : '' }}>
-                                                            {{ $teacher->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                                <!-- End date -->
+                                                <div>
+                                                    <label class="block text-sm font-medium mb-1">End Date</label>
+                                                    <input type="date" name="end_date" value="{{ request('end_date') }}"
+                                                        class="border rounded px-3 py-2">
+                                                </div>
 
-                                            <!-- Status -->
-                                            <div>
-                                                <label class="block text-sm font-medium mb-1">Status</label>
-                                                <select name="status" class="border rounded px-3 py-2 w-36">
-                                                    <option value="">All</option>
-                                                    <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>
-                                                        Draft</option>
-                                                    <option value="unpublished"
-                                                        {{ request('status') == 'unpublished' ? 'selected' : '' }}>Unpublished
-                                                    </option>
-                                                    <option value="published"
-                                                        {{ request('status') == 'published' ? 'selected' : '' }}>Published
-                                                    </option>
-                                                </select>
-                                            </div>
+                                                <!-- Teacher -->
+                                                <div>
+                                                    <label class="block text-sm font-medium mb-1">Teacher</label>
+                                                    <select name="teacher_id" class="border rounded px-3 py-2 w-44">
+                                                        <option value="">All</option>
+                                                        @foreach ($teachers as $teacher)
+                                                            <option value="{{ $teacher->id }}"
+                                                                {{ request('teacher_id') == $teacher->id ? 'selected' : '' }}>
+                                                                {{ $teacher->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
-                                            <!-- Course type -->
-                                            <div>
-                                                <label class="block text-sm font-medium mb-1">Course Type</label>
-                                                <select name="course_type" class="border rounded px-3 py-2 w-36">
-                                                    <option value="">All</option>
-                                                    <option value="individual"
-                                                        {{ request('course_type') == 'individual' ? 'selected' : '' }}>Individual
-                                                    </option>
-                                                    <option value="common"
-                                                        {{ request('course_type') == 'common' ? 'selected' : '' }}>Common
-                                                    </option>
-                                                </select>
-                                            </div>
 
-                                            <!-- Visibility -->
-                                            <div>
-                                                <label class="block text-sm font-medium mb-1">Visibility</label>
-                                                <select name="visibility" class="border rounded px-3 py-2 w-36">
-                                                    <option value="">All</option>
-                                                    <option value="public"
-                                                        {{ request('visibility') == 'public' ? 'selected' : '' }}>Public</option>
-                                                    <option value="private"
-                                                        {{ request('visibility') == 'private' ? 'selected' : '' }}>Private
-                                                    </option>
-                                                </select>
-                                            </div>
 
-                                            <!-- Price -->
-                                            <div>
-                                                <label class="block text-sm font-medium mb-1">Price From</label>
-                                                <input type="number" name="price_from"
-                                                    value="{{ request('price_from') }}"
-                                                    class="border rounded px-3 py-2 w-28">
-                                            </div>
+                                                <button type="button" onclick="toggleFilters()"
+                                                    class="px-4 py-2 border rounded-full text-sm flex items-center gap-2">
+                                                    <span>More Filters</span>
+                                                    <svg id="filterArrow" class="w-4 h-4 transition-transform duration-200"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                </button>
 
-                                            <div>
-                                                <label class="block text-sm font-medium mb-1">Price To</label>
-                                                <input type="number" name="price_to" value="{{ request('price_to') }}"
-                                                    class="border rounded px-3 py-2 w-28">
-                                            </div>
 
-                                            <!-- Actions -->
-                                            <div class="flex gap-2">
+                                                <!-- Apply -->
                                                 <button type="submit"
-                                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded-full text-sm">
+                                                    class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded text-sm">
                                                     Apply
                                                 </button>
+
+                                                <!-- Reset -->
                                                 <a href="{{ route('company.courses.index') }}"
-                                                    class="px-4 py-2 bg-slate-200 rounded-full text-sm">
+                                                    class="px-4 py-2 bg-danger text-white rounded text-sm">
                                                     Reset
                                                 </a>
                                             </div>
+
+                                            <!-- ADVANCED FILTERS -->
+                                            <div id="advancedFilters"
+                                                class="mt-3 {{ collect(request()->only(['course_type', 'visibility', 'price_from', 'price_to']))->filter()->isNotEmpty()? '': 'hidden' }}">
+
+                                                <div class="flex flex-wrap gap-4 items-end">
+
+                                                    <!-- Status -->
+                                                    <div>
+                                                        <label class="block text-sm font-medium mb-1">Status</label>
+                                                        <select name="status" class="border rounded px-3 py-2 w-36">
+                                                            <option value="">All</option>
+                                                            <option value="draft"
+                                                                {{ request('status') == 'draft' ? 'selected' : '' }}>Draft
+                                                            </option>
+                                                            <option value="unpublished"
+                                                                {{ request('status') == 'unpublished' ? 'selected' : '' }}>
+                                                                Unpublished</option>
+                                                            <option value="published"
+                                                                {{ request('status') == 'published' ? 'selected' : '' }}>
+                                                                Published
+                                                            </option>
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Course type -->
+                                                    <div>
+                                                        <label class="block text-sm font-medium mb-1">Course Type</label>
+                                                        <select name="course_type" class="border rounded px-3 py-2 w-36">
+                                                            <option value="">All</option>
+                                                            <option value="individual"
+                                                                {{ request('course_type') == 'individual' ? 'selected' : '' }}>
+                                                                Individual</option>
+                                                            <option value="common"
+                                                                {{ request('course_type') == 'common' ? 'selected' : '' }}>
+                                                                Common
+                                                            </option>
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Visibility -->
+                                                    <div>
+                                                        <label class="block text-sm font-medium mb-1">Visibility</label>
+                                                        <select name="visibility" class="border rounded px-3 py-2 w-36">
+                                                            <option value="">All</option>
+                                                            <option value="public"
+                                                                {{ request('visibility') == 'public' ? 'selected' : '' }}>
+                                                                Public
+                                                            </option>
+                                                            <option value="private"
+                                                                {{ request('visibility') == 'private' ? 'selected' : '' }}>
+                                                                Private</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Price -->
+                                                    <div>
+                                                        <label class="block text-sm font-medium mb-1">Price From</label>
+                                                        <input type="number" name="price_from"
+                                                            value="{{ request('price_from') }}"
+                                                            class="border rounded px-3 py-2 w-28">
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="block text-sm font-medium mb-1">Price To</label>
+                                                        <input type="number" name="price_to"
+                                                            value="{{ request('price_to') }}"
+                                                            class="border rounded px-3 py-2 w-28">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
                                         </form>
+
                                     </div>
                                 </div>
                             </div>
                             @php
-                                $activeFilters = collect(request()->only(['search', 'class_mode', 'status']))->filter(
+                                $filterLabels = [
+                                    'search' => 'Course',
+                                    'start_date' => 'Start Date',
+                                    'end_date' => 'End Date',
+                                    'teacher_id' => 'Teacher',
+                                    'status' => 'Status',
+                                    'course_type' => 'Course Type',
+                                    'visibility' => 'Visibility',
+                                    'price_from' => 'Price From',
+                                    'price_to' => 'Price To',
+                                ];
+
+                                $activeFilters = collect(request()->only(array_keys($filterLabels)))->filter(
                                     fn($value) => filled($value),
-                                ); // remove null/empty
+                                );
                             @endphp
 
                             @if ($activeFilters->isNotEmpty())
-                                <div class="mb-4 pl-9 flex flex-wrap gap-2">
+                                <div class="mb-4 px-6 flex flex-wrap gap-2 items-center">
+
                                     @foreach ($activeFilters as $key => $value)
-                                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
-                                            <span class="mr-2 capitalize">{{ str_replace('_', ' ', $key) }}:
-                                                {{ $value }}</span>
+                                        <div
+                                            class="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                                            <span class="mr-2 font-medium">
+                                                {{ $filterLabels[$key] }}:
+                                                <span class="font-semibold">
+                                                    {{ is_array($value) ? implode(', ', $value) : $value }}
+                                                </span>
+                                            </span>
+
+                                            <!-- Remove single filter -->
                                             <a href="{{ request()->fullUrlWithQuery([$key => null]) }}"
-                                                class="text-red-500 hover:text-red-700 font-bold">×</a>
+                                                class="ml-1 text-red-500 hover:text-red-700 font-bold">
+                                                ×
+                                            </a>
                                         </div>
                                     @endforeach
-                                    <a href="{{ route('company.teachers') }}"
-                                        class="ml-3 mt-2.5 text-sm text-red-600">Clear
-                                        All</a>
+                                    <span class="ml-2 text-xs bg-red-500 text-white px-2 py-0.5 rounded-full">
+                                        {{ $activeFilters->count() }}
+                                    </span>
+
+                                    <!-- Clear all -->
+                                    <a href="{{ route('company.courses.index') }}"
+                                        class="ml-3 text-sm text-red-600 hover:underline font-semibold">
+                                        Clear All
+                                    </a>
                                 </div>
                             @endif
+
 
                             <div class="flex-auto px-0 pt-0 pb-2">
                                 <div class="p-0 overflow-x-auto">
@@ -524,3 +588,17 @@
         </div>
     </div>
 @endsection
+
+
+@push('scripts')
+<script>
+    function toggleFilters() {
+        const filters = document.getElementById('advancedFilters');
+        const arrow = document.getElementById('filterArrow');
+
+        filters.classList.toggle('hidden');
+        arrow.classList.toggle('rotate-180');
+    }
+</script>
+
+@endpush

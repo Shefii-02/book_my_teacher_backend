@@ -23,7 +23,7 @@ class CourseController extends Controller
   {
     $companyId = auth()->user()->company_id;
 
-    $courses = Course::with(['teacher', 'categories'])
+    $courses = Course::with(['teachers', 'categories'])
       ->where('company_id', $companyId)
 
       // 🔍 Course name

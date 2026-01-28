@@ -26,42 +26,42 @@
         </span>
 
     </div>
- {{-- ACTIONS --}}
-        <div class="absolute top-0 end-0 z-990 ">
-            <button onclick="document.getElementById('dropdown_{{ $course->id }}').classList.toggle('hidden')"
-                class="p-2 bg-yellow-50  hover:bg-gray-100 dark:hover:bg-slate-700">
-                <i class="bi bi-three-dots-vertical text-dark"></i>
-            </button>
+    {{-- ACTIONS --}}
+    <div class="absolute top-0 end-0 z-990 ">
+        <button onclick="document.getElementById('dropdown_{{ $course->id }}').classList.toggle('hidden')"
+            class="p-2 bg-yellow-50  hover:bg-gray-100 dark:hover:bg-slate-700">
+            <i class="bi bi-three-dots-vertical text-dark"></i>
+        </button>
 
-            <div id="dropdown_{{ $course->id }}"
-                class="hidden absolute right-0 mt-2 w-28 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded-lg shadow-lg text-sm">
+        <div id="dropdown_{{ $course->id }}"
+            class="hidden absolute right-0 mt-2 w-28 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded-lg shadow-lg text-sm">
 
-                @if ($course->status === 'published')
-                    <a href="{{ route('company.courses.show', $course->course_identity) }}"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
-                        View
-                    </a>
-                    <a href="{{ route('company.courses.show', $course->course_identity) }}"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
-                        Classes
-                    </a>
-                      <a href="{{ route('company.courses.show', $course->course_identity) }}"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
-                        Materials
-                    </a>
-                @endif
-
-                <a href="{{ route('company.courses.create', ['draft' => $course->course_identity]) }}"
+            @if ($course->status === 'published')
+                <a href="{{ route('company.courses.show', $course->course_identity) }}"
                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
-                    Edit
+                    View
                 </a>
+                <a href="{{ route('company.courses.schedule-class.index', $course->course_identity) }}"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
+                    Classes
+                </a>
+                <a href="{{ route('company.courses.materials.index', $course->course_identity) }}"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
+                    Materials
+                </a>
+            @endif
 
-                <button onclick="confirmDelete({{ $course->id }})"
-                    class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
-                    Delete
-                </button>
-            </div>
+            <a href="{{ route('company.courses.create', ['draft' => $course->course_identity]) }}"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
+                Edit
+            </a>
+
+            <button onclick="confirmDelete({{ $course->id }})"
+                class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
+                Delete
+            </button>
         </div>
+    </div>
     {{-- CONTENT --}}
     <div class="p-4 flex flex-col h-[230px]">
 
@@ -72,7 +72,7 @@
 
         {{-- DESCRIPTION --}}
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
-            {{ Str::limit($course->description,20,'...') ?? 'No description available' }}
+            {{ Str::limit($course->description, 20, '...') ?? 'No description available' }}
         </p>
 
         {{-- META INFO --}}

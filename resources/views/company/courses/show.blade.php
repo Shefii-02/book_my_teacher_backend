@@ -35,15 +35,15 @@
                             class="block px-4 py-2 text-dark hover:bg-gray-100 dark:hover:bg-slate-700">
                             ← Back
                         </a>
-                        <a href="{{ route('company.courses.show', $course->course_identity) }}"
+                        {{-- <a href="{{ route('company.courses.show', $course->course_identity) }}"
                             class="block px-4 py-2 text-dark hover:bg-gray-100 dark:hover:bg-slate-700">
                             👁️ View
-                        </a>
-                        <a href="{{ route('company.courses.show', $course->course_identity) }}"
+                        </a> --}}
+                        <a href="{{ route('company.courses.schedule-class.index', $course->course_identity) }}"
                             class="block px-4 py-2 text-dark hover:bg-gray-100 dark:hover:bg-slate-700">
                             📅 Classes
                         </a>
-                        <a href="{{ route('company.courses.show', $course->course_identity) }}"
+                        <a href="{{ route('company.courses.materials.index', $course->course_identity) }}"
                             class="block px-4 py-2 text-dark hover:bg-gray-100 dark:hover:bg-slate-700">
                             📕 Materials
                         </a>

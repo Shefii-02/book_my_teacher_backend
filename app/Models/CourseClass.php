@@ -22,7 +22,9 @@ class CourseClass extends Model
     'is_recording_available',
     'recording_url',
     'priority',
-    'status'
+    'status',
+    'created_by',
+    'updated_by'
   ];
 
 

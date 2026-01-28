@@ -62,6 +62,7 @@ class CourseClassController extends Controller
       $data['start_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] . ' ' . $data['start_time']));
       $data['end_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] . ' ' . $data['end_time']));
 
+      $data['created_by'] = auth()->user()->id;
 
       $class = CourseClass::create($data);
 
@@ -120,6 +121,7 @@ class CourseClassController extends Controller
       $validated['start_time'] = date('Y-m-d H:i', strtotime($validated['scheduled_at'] . ' ' . $validated['start_time']));
       $validated['end_time'] = date('Y-m-d H:i', strtotime($validated['scheduled_at'] . ' ' . $validated['end_time']));
 
+      $data['updated_by'] = auth()->user()->id;
 
       $class->update($validated);
 

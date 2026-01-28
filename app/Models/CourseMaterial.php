@@ -14,6 +14,8 @@ class CourseMaterial extends Model
     'file_type',
     'position',
     'status',
+    'created_by',
+    'updated_by'
   ];
 
   public function course()

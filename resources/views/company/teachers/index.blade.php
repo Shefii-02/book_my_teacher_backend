@@ -316,7 +316,7 @@
                                         class="text-red-500 hover:text-red-700 font-bold">×</a>
                                 </div>
                             @endforeach
-                            <a href="{{ route('company.teachers') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                            <a href="{{ route('company.teachers.index') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
                                 All</a>
                         </div>
                     @endif

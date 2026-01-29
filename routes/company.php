@@ -162,11 +162,21 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   });
 
   Route::prefix('requests')->name('requests.')->group(function () {
-    Route::get('form-class', 'LMS\RequestController@formClass')->name('form-class');
-    Route::get('top-banner', 'LMS\RequestController@topBanner')->name('top-banner');
+    Route::get('form-class', 'LMS\RequestController@formClassRequest')->name('form-class');
+    Route::post('form-class/update/{id}', 'LMS\RequestController@updateFormClassStatus')->name('form-class.update');
+    Route::get('top-banner', 'LMS\RequestController@bannerRequests')->name('top-banner');
+    Route::post('top-banner/update/{id}', 'LMS\RequestController@bannerRequestsUpdate')->name('top-banner.update');
     Route::get('course-banner', 'LMS\RequestController@courseBanner')->name('course-banner');
-    Route::get('teacher-class', 'LMS\RequestController@teacherClass')->name('teacher-class');
+    Route::post('course-banner/update/{id}', 'LMS\RequestController@courseBannerRequestsUpdate')->name('course-banner.update');
+
+    Route::get('teacher-class', 'LMS\RequestController@teacherClassRequests')->name('teacher-class');
+    Route::post('teacher-class/update/{id}', 'LMS\RequestController@teacherClassRequestsUpdate')->name('teacher-class.update');
   });
+
+  Route::get('custom-invoices', 'LMS\CustomInvoiceController@index')->name('custom.invoices.index');
+  Route::get('custom-invoices/create', 'LMS\CustomInvoiceController@create')->name('custom.invoices.create');
+  Route::post('custom-invoices', 'LMS\CustomInvoiceController@store')->name('custom.invoices.store');
+  Route::get('custom-invoices/{invoice}/download', 'LMS\CustomInvoiceController@download')->name('custom.invoices.download');
 
 
   Route::prefix('payments')->name('payments.')->group(function () {

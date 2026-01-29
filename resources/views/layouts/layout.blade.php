@@ -225,7 +225,7 @@
                             </ul>
                         </li>
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.otp-list') || Request::routeIs('company.otp-list')  || Request::routeIs('company.google-signIn') || Request::routeIs('company.apple-signIn') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.otp-list') || Request::routeIs('company.otp-list') || Request::routeIs('company.google-signIn') || Request::routeIs('company.apple-signIn') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -239,7 +239,8 @@
                                 <span class="bi bi-caret-down ml-auto mr-4"></span>
                             </a>
 
-                            <ul class="submenu pl-6 {{ Request::routeIs('company.otp-list') || Request::routeIs('company.otp-list')  || Request::routeIs('company.google-signIn') || Request::routeIs('company.apple-signIn')  ? '' : 'hidden' }}">
+                            <ul
+                                class="submenu pl-6 {{ Request::routeIs('company.otp-list') || Request::routeIs('company.otp-list') || Request::routeIs('company.google-signIn') || Request::routeIs('company.apple-signIn') ? '' : 'hidden' }}">
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.otp-list') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.otp-list') }}">
@@ -585,6 +586,30 @@
                                         </div>
                                         <span
                                             class="ml-1 duration-300 opacity-100 pointer-events-none ease">Admissions</span>
+                                    </a>
+                                </li>
+                                 <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.custom-invoices.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.custom.invoices.index') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
+                                        </div>
+                                        <span
+                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Custom Invoice</span>
+                                    </a>
+                                </li>
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.course-swap.index') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
+                                        </div>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Course
+                                            Extend</span>
                                     </a>
                                 </li>
                                 <li class="mt-0.5 w-full">

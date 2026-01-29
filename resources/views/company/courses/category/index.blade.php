@@ -109,6 +109,11 @@
                                                         {{ $category->creator->name ?? 'N/A' }}
                                                     </div>
 
+                                                    <!-- No:of courses -->
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                                                        <span class="font-semibold">Courses</span>
+                                                        {{ $category->courses->count() ?? 'N/A' }}
+                                                    </div>
 
 
                                                 </div>

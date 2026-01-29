@@ -1,6 +1,6 @@
 <div>
     <div class="position-relative">
-        <h6 class="mb-0 font-bold text-black absolute top-2 text-8xl capitalize">Category
+        <h6 class="my-5 font-bold text-black absolute top-2 text-8xl capitalize">Category
             {{ isset($category) ? 'Edit' : 'Create' }}</h6>
     </div>
 
@@ -14,16 +14,18 @@
             @method('POST')
         @endif
 
+        <div class="my-5">
 
-        @include('components.thumbImg-input', [
-            'name' => 'thumbnail',
-            'field' => 'thumbnail_url',
-            'label' => 'Thumbnail',
-            'size' => '128x128 px',
-            'item' => $category ?? null,
-            'isEdit' => isset($category),
-        ])
+            @include('components.thumbImg-input', [
+                'name' => 'thumbnail',
+                'field' => 'thumbnail_url',
+                'label' => 'Thumbnail',
+                'size' => '128x128 px',
+                'item' => $category ?? null,
+                'isEdit' => isset($category),
+            ])
 
+        </div>
         {{-- Title --}}
         @include('components.text-input', [
             'name' => 'title',

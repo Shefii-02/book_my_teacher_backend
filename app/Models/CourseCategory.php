@@ -16,9 +16,19 @@ class CourseCategory extends Model
     return $this->hasMany(CourseSubCategory::class, 'category_id');
   }
 
-  public function courses()
+  // public function courses()
+  // {
+  //   return $this->hasMany(Course::class, 'category_id');
+  // }
+
+   public function courses()
   {
-    return $this->hasMany(Course::class, 'category_id');
+    return $this->belongsToMany(
+      Course::class,
+      'course_category',   // pivot table
+      'course_id',         // foreign key on pivot (for Course)
+      'course_id'         // related key on pivot (for Teacher)
+    );
   }
 
   public function creator()

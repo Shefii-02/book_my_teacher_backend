@@ -44,7 +44,7 @@
         {{-- Size info --}}
         @if ($size)
             <small class="text-gray-600">
-                {{ $requiredAttr ? '<span class="text-red-600">*</span>' : '' }} Size {{ $size }}
+                {!! $requiredAttr ? '<span class="text-red-600">*</span>' : '' !!} Size {{ $size }}
             </small>
         @endif
 

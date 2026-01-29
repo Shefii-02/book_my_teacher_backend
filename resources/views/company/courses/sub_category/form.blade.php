@@ -1,9 +1,9 @@
-<div class="card  rounded-3 mb-3">
+<div class="">
 
-    <div class="position-relative">
-        <h6 class="mb-0 font-bold text-black absolute top-2 text-8xl">
+    {{-- <div class="position-relative">
+        <h6 class="mb-0 font-bold text-black absolute top-2 text-8xl capitalize">
             {{ isset($subCategory) ? 'Edit' : 'Create' }} a Sub Category</h6>
-    </div>
+    </div> --}}
     <form
         action="{{ isset($subCategory) ? route('company.subcategories.update', $subCategory->id) : route('company.subcategories.store') }}"
         method="POST" enctype="multipart/form-data">

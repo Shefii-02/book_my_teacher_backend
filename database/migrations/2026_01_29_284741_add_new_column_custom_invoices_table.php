@@ -13,6 +13,7 @@ return new class extends Migration
   public function up(): void
   {
     Schema::table('custom_invoices', function (Blueprint $table) {
+      $table->unsignedBigInteger('student_id');
       $table->foreignId('company_id')->constrained()->onDelete('cascade')->nullable();
       $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade')->nullable();
     });

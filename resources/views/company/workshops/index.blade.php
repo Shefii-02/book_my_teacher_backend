@@ -158,6 +158,10 @@
                                                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
+                                                         <li>
+                                                            <a href="{{ route('company.workshops.schedule-class.index', $workshop->id) }}"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Scheduled Class</a>
+                                                        </li>
                                                         <li>
                                                             <a href="{{ route('company.workshops.show', $workshop->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
@@ -165,10 +169,6 @@
                                                         <li>
                                                             <a href="{{ route('company.workshops.edit', $workshop->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="{{ route('company.workshops.start', $workshop->id) }}"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Start Streaming</a>
                                                         </li>
                                                         <li>
                                                             <form id="form_{{ $workshop->id }}" class="m-0 p-0"

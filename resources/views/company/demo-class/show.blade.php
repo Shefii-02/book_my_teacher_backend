@@ -14,7 +14,7 @@
             </li>
             <li class="text-sm pl-2 font-bold capitalize text-white before:float-left before:pr-2 before:text-white before:content-['/']"
                 aria-current="page">
-                Webinar Overview
+                Demo Class Overview
             </li>
         </ol>
         <h6 class="mb-0 font-bold text-white capitalize">Webinar Overview</h6>

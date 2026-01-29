@@ -34,12 +34,12 @@
 
             <form id="admissionForm" method="POST" action="{{ route('company.admissions.store') }}">
                 @csrf
-                <div class="flex h-screen overflow-hidden">
+                <div class="flex2 h-screen overflow-hidden">
 
                     <!-- Left: Scrollable (col-9) -->
                     <div class="w-full overflow-y-auto ">
                         <!-- Your scroll content -->
-                        <div class="p-6 space-y-4">
+                        <div class="px-6 space-y-4">
                             {{-- Student search (simple) --}}
                             <div class="mb-4">
                                 <label class="block text-sm font-medium">Student</label>
@@ -53,6 +53,28 @@
                                     <p class="text-red-600 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
+
+                            {{-- CUSTOMER DETAILS (AUTO-FILL OR MANUAL) --}}
+                            <div id="studentDetails" style="display: none">
+                                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                                    <div>
+                                        <span>Full Name</span>
+                                        <label id="customer_name"
+                                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"></label>
+                                    </div>
+                                    <div>
+                                        <span>Email id</span>
+                                        <label id="customer_email"
+                                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"></label>
+                                    </div>
+                                    <div>
+                                        <span>Mobile Number</span>
+                                        <label id="customer_mobile"
+                                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"></label>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             {{-- Course select (ajax) --}}
                             <div class="mb-4">
@@ -176,11 +198,11 @@
                         </div>
                     </div>
 
-                    <!-- Right: Fixed (col-3) -->
-                    <div class="w-4/12 h-screen  overflow-auto sticky top-0 bg-white border-l p-6">
+                    <!-- Right: Fixed (col-3) w-4/12-->
+                    <div class=" h-screen  overflow-auto sticky top-0 bg-white border-l px-1.5">
 
                         {{-- Price / tax / totals --}}
-                        <div class="flex flex-col gap-3 grid-cols-4 items-start mb-4 w-full">
+                        <div class="flex flex-row gap-3 grid-cols-4 items-start mb-4 w-full">
 
 
                             <div class="CouponCode">
@@ -219,35 +241,34 @@
                                     id="grand_total" value="{{ old('grand_total') }}" class="w-full p-2 border rounded"
                                     required />
                             </div>
-                            <div>
-                                <label class="block text-sm mb-2">Payment Method</label>
-                                <div class="flex items-center mb-4">
-                                    <input id="online-radio-1" type="radio" value="online" checked
-                                        name="payment_method"
-                                        class="w-4 h-4 text-neutral-primary border-default-medium bg-neutral-secondary-medium rounded-full checked:border-brand focus:ring-2 focus:outline-none focus:ring-brand-subtle border border-default appearance-none">
-                                    <label for="online-radio-1"
-                                        class="select-none ms-2 text-sm font-medium text-heading">Online Payment</label>
-                                </div>
-                                <div class="flex items-center mb-4">
-                                    <input id="manually-radio-1" type="radio" value="manually" name="payment_method"
-                                        class="w-4 h-4 text-neutral-primary border-default-medium bg-neutral-secondary-medium rounded-full checked:border-brand focus:ring-2 focus:outline-none focus:ring-brand-subtle border border-default appearance-none">
-                                    <label for="manually-radio-1"
-                                        class="select-none ms-2 text-sm font-medium text-heading">Manually Payment</label>
-                                </div>
-                                <div class="flex items-center mb-4">
-                                    <input id="in-cash-radio-1" type="radio" value="in-cash" name="payment_method"
-                                        class="w-4 h-4 text-neutral-primary border-default-medium bg-neutral-secondary-medium rounded-full checked:border-brand focus:ring-2 focus:outline-none focus:ring-brand-subtle border border-default appearance-none">
-                                    <label for="in-cash-radio-1"
-                                        class="select-none ms-2 text-sm font-medium text-heading">In-cash Payment</label>
-                                </div>
-                            </div>
+                        </div>
+                        <label class="block text-sm mb-2 px-6">Payment Method</label>
 
-                            <div class="flex gap-3 text-center align-center items-center  mt-5">
-                                <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded"><i
-                                        class="bi bi-currency-rupee"></i> Purchase </button>
-                                {{-- <a href="{{ route('company.admissions.index') }}"
-                                    class="px-4 py-2 bg-gray-200 rounded">Reset</a> --}}
+                        <div class="flex flex-row px-6 gap-4">
+                            <div class="flex items-center mb-4">
+                                <input id="online-radio-1" type="radio" value="online" checked name="payment_method"
+                                    class="w-4 h-4 text-neutral-primary border-default-medium bg-neutral-secondary-medium rounded-full checked:border-brand focus:ring-2 focus:outline-none focus:ring-brand-subtle border border-default appearance-none">
+                                <label for="online-radio-1"
+                                    class="select-none ms-2 text-sm font-medium text-heading">Online Payment</label>
                             </div>
+                            <div class="flex items-center mb-4">
+                                <input id="manually-radio-1" type="radio" value="manually" name="payment_method"
+                                    class="w-4 h-4 text-neutral-primary border-default-medium bg-neutral-secondary-medium rounded-full checked:border-brand focus:ring-2 focus:outline-none focus:ring-brand-subtle border border-default appearance-none">
+                                <label for="manually-radio-1"
+                                    class="select-none ms-2 text-sm font-medium text-heading">Manually Payment</label>
+                            </div>
+                            <div class="flex items-center mb-4">
+                                <input id="in-cash-radio-1" type="radio" value="in-cash" name="payment_method"
+                                    class="w-4 h-4 text-neutral-primary border-default-medium bg-neutral-secondary-medium rounded-full checked:border-brand focus:ring-2 focus:outline-none focus:ring-brand-subtle border border-default appearance-none">
+                                <label for="in-cash-radio-1"
+                                    class="select-none ms-2 text-sm font-medium text-heading">In-cash Payment</label>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 text-start align-start items-start  mt-2 px-6">
+                            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded"><i
+                                    class="bi bi-currency-rupee"></i> Purchase </button>
+                            {{-- <a href="{{ route('company.admissions.index') }}"
+                                    class="px-4 py-2 bg-gray-200 rounded">Reset</a> --}}
                         </div>
                     </div>
 
@@ -274,6 +295,7 @@
             let timer = null;
             $('#studentSearch').on('keyup', function() {
                 const q = $(this).val().trim();
+                $('#studentDetails').hide();
                 clearTimeout(timer);
                 if (q.length < 1) {
                     $('#studentResults').addClass('hidden').html('');
@@ -288,7 +310,7 @@
                         if (data.length === 0) html = '<div class="p-2">No results</div>';
                         data.forEach(u => {
                             html +=
-                                `<div class="p-2 border-b cursor-pointer studentRow" data-id="${u.id}" data-name="${u.name}"><b>${u.name}</b><br><small>${u.email||''} ${u.mobile||''}</small></div>`;
+                                `<div class="p-2 border-b cursor-pointer studentRow" data-id="${u.id}" data-name="${u.name}" data-email="${u.email}" data-mobile="${u.mobile}"><b>${u.name}</b><br><small>${u.email||''} ${u.mobile||''}</small></div>`;
                         });
                         $('#studentResults').removeClass('hidden').html(html);
                     }, 'json');
@@ -296,9 +318,15 @@
             });
 
             $(document).on('click', '.studentRow', function() {
+                $('#studentDetails').show();
                 $('#studentSearch').val($(this).data('name'));
                 $('#student_id').val($(this).data('id'));
                 $('#studentResults').addClass('hidden');
+
+                $('#customer_name').text($(this).data('name'));
+                $('#customer_email').text($(this).data('email'));
+                $('#customer_mobile').text($(this).data('mobile'));
+
             });
 
 
@@ -469,7 +497,7 @@
 
 
                     if ($('#is_installment').is(':checked')) {
-                      $('#generateInstallments').trigger('click')
+                        $('#generateInstallments').trigger('click')
                     }
 
                 }, 'json');

@@ -49,7 +49,7 @@ class CustomInvoiceController extends Controller
       'tax_percent' => 'nullable|numeric|min:0',
     ]);
 
-      dd($request->all());
+
 
     DB::beginTransaction();
 
@@ -80,7 +80,6 @@ class CustomInvoiceController extends Controller
         'tax_percent' => $taxPercent,
         'tax_amount' => $taxAmount,
         'grand_total' => $grandTotal,
-
         'status' => 'unpaid', // default
       ]);
 
@@ -98,7 +97,7 @@ class CustomInvoiceController extends Controller
       DB::commit();
 
       return redirect()
-        ->route('company.custom.invoices.show', $invoice->id)
+        ->route('company.custom.invoices.index', $invoice->id)
         ->with('success', 'Invoice created successfully');
     } catch (\Throwable $e) {
       DB::rollBack();

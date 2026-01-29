@@ -176,7 +176,11 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('custom-invoices', 'LMS\CustomInvoiceController@index')->name('custom.invoices.index');
   Route::get('custom-invoices/create', 'LMS\CustomInvoiceController@create')->name('custom.invoices.create');
   Route::post('custom-invoices', 'LMS\CustomInvoiceController@store')->name('custom.invoices.store');
+  Route::get('custom-invoices/pay/{id}', 'LMS\CustomInvoiceController@create')->name('custom.invoices.pay');
+  Route::post('custom-invoices/pay/{id}', 'LMS\CustomInvoiceController@payupdate')->name('custom.invoices.pay.update');
   Route::get('custom-invoices/{invoice}/download', 'LMS\CustomInvoiceController@download')->name('custom.invoices.download');
+  Route::delete('custom-invoices/{invoice}/delete', 'LMS\CustomInvoiceController@destroy')->name('custom.invoices.destroy');
+
 
 
   Route::prefix('payments')->name('payments.')->group(function () {

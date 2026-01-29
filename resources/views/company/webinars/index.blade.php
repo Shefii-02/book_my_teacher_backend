@@ -61,8 +61,8 @@
                         <h6 class="leading-tight dark:text-white dark:opacity-80 text-slate-400">Webinars List</h6>
                         <a href="{{ route('company.webinars.create') }}"
                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 mb-4 to-teal-400  text-white rounded text-sm">
-                              <i class="bi bi-plus"></i>
-                              Create Webinar</a>
+                            <i class="bi bi-plus"></i>
+                            Create Webinar</a>
                     </div>
 
                     <div class="flex-auto px-0 pt-0 pb-2">
@@ -107,16 +107,19 @@
                                 <tbody>
                                     @foreach ($webinars as $key => $webinar)
                                         <tr>
-                                            <td class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">{{ $key + 1 }}</td>
-                                            <td class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
+                                            <td
+                                                class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
+                                                {{ $key + 1 }}</td>
+                                            <td
+                                                class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
                                                 <div class="flex items-center">
                                                     @if ($webinar->thumbnail_image)
                                                         <img src="{{ asset('storage/' . $webinar->thumbnail_image) }}"
                                                             class="h-9 w-9 rounded mr-2" alt="thumb">
                                                     @endif
                                                 </div>
-                                                  <span
-                                                        class="text-sm leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $webinar->title }}</span>
+                                                <span
+                                                    class="text-sm leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $webinar->title }}</span>
                                             </td>
                                             <td
                                                 class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
@@ -148,8 +151,8 @@
                                                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         fill="none" viewBox="0 0 24 24">
-                                                        <path stroke="currentColor" stroke-linecap="round"
-                                                            stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01" />
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                                            d="M12 6h.01M12 12h.01M12 18h.01" />
                                                     </svg>
                                                 </button>
 
@@ -167,17 +170,18 @@
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('company.webinars.start', $webinar->id) }}"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Start Streaming</a>
+                                                            <a href="{{ $webinar->meeting_url }}"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Start
+                                                                Streaming</a>
                                                         </li>
                                                         <li>
                                                             <form id="form_{{ $webinar->id }}" class="m-0 p-0"
                                                                 action="{{ route('company.webinars.destroy', $webinar->id) }}"
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
-                                                                <a role="button" href="javascript:;"
-                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
-                                                                    onclick="confirmDelete({{ $webinar->id }})">Delete</a>
+                                                            <a role="button" href="javascript:;"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                onclick="confirmDelete({{ $webinar->id }})">Delete</a>
 
                                                         </li>
                                                     </ul>

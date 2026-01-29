@@ -13,7 +13,7 @@
             <li class="pl-2 text-white before:content-['/']"><a class="text-white"
                     href="{{ route('company.dashboard') }}">Dashboard</a></li>
             <li class="pl-2 text-white before:content-['/']"><a class="text-white"
-                    href="{{ route('company.demo-classes.index') }}">Webinars</a></li>
+                    href="{{ route('company.demo-classes.index') }}">Demo Class</a></li>
             <li class="pl-2 font-bold text-white before:content-['/']" aria-current="page">{{ $isEdit ? 'Edit' : 'Create' }}
             </li>
         </ol>
@@ -25,14 +25,15 @@
     <div class="container">
         <div class="card bg-white rounded-3 my-3 p-4">
             <div class="flex justify-between">
-                <h5 class="font-bold">{{ $isEdit ? 'Edit Webinar' : 'Create Webinar' }}</h5>
+                <h5 class="font-bold">{{ $isEdit ? 'Edit Demo Class' : 'Create Demo Class' }}</h5>
                 <a href="{{ route('company.demo-classes.index') }}"
                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                     <i class="bi bi-arrow-left"></i> Back</a>
             </div>
         </div>
         <div class="form-container mt-4">
-            <form action="{{ $isEdit ? route('company.demo-classes.update', $demoClass->id) : route('company.demo-classes.store') }}"
+            <form
+                action="{{ $isEdit ? route('company.demo-classes.update', $demoClass->id) : route('company.demo-classes.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if ($isEdit)
@@ -60,7 +61,8 @@
                     <!-- Title -->
                     <div>
                         <label class="block mb-1 font-semibold">Title</label>
-                        <input type="text" name="title" value="{{ old('title', $isEdit ? $demoClass->title : '') }}" required
+                        <input type="text" name="title" value="{{ old('title', $isEdit ? $demoClass->title : '') }}"
+                            required
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('title') border-red-500 @enderror">
                         @error('title')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -69,7 +71,7 @@
 
                     <!-- Host -->
 
-                       <div>
+                    <div>
                         <label class="block mb-1 font-semibold">Host</label>
                         <select name="host_id"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('host_id') border-red-500 @enderror">
@@ -151,7 +153,9 @@
                                         class="pl-2 text-sm focus:shadow-primary-outline ease leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
                                     {{ ucwords(str_replace('_', ' ', $feature)) }}
                                 </label>
-                                @error('is_'.$feature.'_enabled')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                                @error('is_' . $feature . '_enabled')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
                             @endforeach
                         </div>
                     </div>
@@ -172,10 +176,11 @@
                         @enderror
                     </div>
 
-                     <!-- Tags -->
+                    <!-- Tags -->
                     <div class="md:col-span-2">
                         <label class="block mb-1 font-semibold">Meeting url</label>
-                        <input type="text" name="meeting_url" value="{{ old('meeting_url', $isEdit ? $demoClass->meeting_url : '') }}"
+                        <input type="text" name="meeting_url"
+                            value="{{ old('meeting_url', $isEdit ? $demoClass->meeting_url : '') }}"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('tags') border-red-500 @enderror">
                         @error('meeting_url')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -184,10 +189,11 @@
 
 
 
-                     <!-- Tags -->
+                    <!-- Tags -->
                     <div class="md:col-span-2">
                         <label class="block mb-1 font-semibold">Recording url</label>
-                        <input type="text" name="recording_url" value="{{ old('recording_url', $isEdit ? $demoClass->recording_url : '') }}"
+                        <input type="text" name="recording_url"
+                            value="{{ old('recording_url', $isEdit ? $demoClass->recording_url : '') }}"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('tags') border-red-500 @enderror">
                         @error('recording_url')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

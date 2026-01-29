@@ -132,7 +132,7 @@ class AdmissionController extends Controller
     $data = User::where('name', 'like', "%{$q}%")
       ->orWhere('email', 'like', "%{$q}%")
       ->orWhere('mobile', 'like', "%{$q}%")
-      ->limit(30)->get(['id', 'name', 'email', 'mobile']);
+      ->limit(30)->get(['id', 'name', 'email', 'mobile','address','city','postal_code','district','state','country']);
     return response()->json($data);
   }
 

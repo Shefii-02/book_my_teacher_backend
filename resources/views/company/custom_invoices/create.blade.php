@@ -4,7 +4,7 @@
 @section('content')
     <div class="max-w-6xl mx-auto p-6">
         <div class="bg-white rounded-2xl shadow-xl p-6">
-            <h2 class="text-2xl font-bold text-indigo-600 mb-6">Create Custom Invoice</h2>
+            <h5 class="text-2xl font-bold text-indigo-600 mb-6">Create Custom Invoice</h5>
 
             <form method="POST" action="{{ route('company.custom.invoices.store') }}" id="invoiceForm">
                 @csrf
@@ -12,33 +12,42 @@
                 {{-- CUSTOMER TYPE --}}
                 <div class="flex gap-6 mb-4">
                     <label class="flex items-center gap-2">
-                        <input type="radio" name="customer_type" value="student" checked>
+                        <input type="radio" class="border" name="customer_type" value="student" checked>
                         Student
                     </label>
                     <label class="flex items-center gap-2">
-                        <input type="radio" name="customer_type" value="manual">
+                        <input type="radio" class="border" name="customer_type" value="manual">
                         Manual Customer
                     </label>
                 </div>
 
                 {{-- STUDENT SEARCH (OPTIONAL) --}}
-                <div  id="studentBox" class="mb-4">
-                    <label class="font-sm">Search Student (optional)</label>
-                    <input type="text" id="studentSearch" class="border" placeholder="Search by name / email / mobile">
+                <div id="studentBox" class="mb-4">
+                    <label class="font-sm mb-2">Search Student (optional)</label>
+                    <input type="text" id="studentSearch"
+                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full bg-zinc-700/10 leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
+                        placeholder="Search by name / email / mobile">
                     <input type="hidden" name="student_id" id="student_id">
 
-                    <div id="studentResults" class="border mt-1 rounded hidden max-h-48 overflow-auto bg-white"></div>
+                    <div id="studentResults"
+                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow mt-1 rounded hidden max-h-48 overflow-auto bg-white">
+                    </div>
                 </div>
 
                 {{-- CUSTOMER DETAILS (AUTO-FILL OR MANUAL) --}}
                 <div class="grid md:grid-cols-2 gap-4 mb-6">
-                    <input name="customer_name" id="customer_name" placeholder="Customer Name" class="border" required>
+                    <input name="customer_name" id="customer_name" placeholder="Customer Name"
+                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
+                        required>
 
-                    <input name="customer_email" id="customer_email" placeholder="Email" class="border">
+                    <input name="customer_email" id="customer_email" placeholder="Email"
+                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
 
-                    <input name="customer_mobile" id="customer_mobile" placeholder="Mobile" class="border">
+                    <input name="customer_mobile" id="customer_mobile" placeholder="Mobile"
+                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow">
 
-                    <textarea name="customer_address" id="customer_address" placeholder="Address" class="border md:col-span-2"></textarea>
+                    <textarea name="customer_address" id="customer_address" placeholder="Address"
+                        class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow md:col-span-2"></textarea>
                 </div>
 
 
@@ -63,32 +72,33 @@
 
                 {{-- TOTALS --}}
                 <div class="grid md:grid-cols-3 gap-4 mb-6">
-                    <input name="discount" id="discount" placeholder="Discount" class="input" oninput="calc()">
-                    <input name="tax_percent" id="tax_percent" placeholder="Tax %" class="input" oninput="calc()">
-                    <input id="grand_total" readonly class="input font-bold" placeholder="Grand Total">
+                    <div class="">
+                        <label for="discount">Discount</label>
+                        <input name="discount" id="discount" placeholder="Discount"
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
+                            oninput="calc()">
+                    </div>
+                    <div class="">
+                        <label for="tax_percent">Tax Percent</label>
+                        <input name="tax_percent" id="tax_percent" placeholder="Tax %"
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
+                            oninput="calc()">
+                    </div>
+                    <div class="">
+                        <label for="grand_total">Grand Total</label>
+                        <input id="grand_total" readonly
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow font-bold"
+                            placeholder="Grand Total">
+                    </div>
                 </div>
 
                 {{-- ACTIONS --}}
-                <div class="flex gap-4">
-                    <button type="button" onclick="previewInvoice()" class="px-6 py-2 bg-gray-800 text-white rounded-lg">
-                        Preview
-                    </button>
-                    <button type="submit" class="px-6 py-2 bg-emerald-600 text-white rounded-lg">
+                <div class="flex gap-4 justify-center">
+                    <button type="submit" class="px-6 py-2 bg-success text-white rounded-lg">
                         Save Invoice
                     </button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    {{-- PREVIEW MODAL --}}
-    <div id="previewModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50">
-        <div class="bg-white w-full max-w-3xl rounded-xl p-6">
-            <div class="flex justify-between mb-4">
-                <h3 class="text-xl font-bold">Invoice Preview</h3>
-                <button onclick="closePreview()" class="text-xl text-red-600">×</button>
-            </div>
-            <div id="previewContent"></div>
         </div>
     </div>
 @endsection
@@ -110,8 +120,8 @@
         });
 
         /* ---------- student search ---------- */
+        $('body').on('keyup', '#studentSearch', function() {
 
-        $('#studentSearch').on('keyup', function() {
             let q = $(this).val().trim();
             if (q.length < 2) {
                 $('#studentResults').addClass('hidden').html('');
@@ -132,7 +142,7 @@
                      data-name="${s.name ?? ''}"
                      data-email="${s.email ?? ''}"
                      data-mobile="${s.mobile ?? ''}"
-                     data-address="${s.address ?? ''}">
+                     data-address="${s.address + ', '+s.city+', '+s.postal_code+', '+s.district+', '+s.state+', '+s.country ?? ''}">
                     <b>${s.name}</b><br>
                     <small>${s.email ?? ''} ${s.mobile ?? ''}</small>
                 </div>`;
@@ -151,7 +161,7 @@
             $('#customer_email').val($(this).data('email'));
             $('#customer_mobile').val($(this).data('mobile'));
             $('#customer_address').val($(this).data('address'));
-
+            $('#studentSearch').val($(this).data('name'));
             $('#studentResults').addClass('hidden');
         });
 
@@ -161,9 +171,9 @@
         function addItem() {
             $('#itemsBody').append(`
         <tr>
-            <td><input name="items[${itemIndex}][title]" class="input" required></td>
-            <td><input name="items[${itemIndex}][quantity]" value="1" class="input qty" oninput="calc()"></td>
-            <td><input name="items[${itemIndex}][price]" class="input price" oninput="calc()"></td>
+            <td><input name="items[${itemIndex}][title]" class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow" required></td>
+            <td><input name="items[${itemIndex}][quantity]" value="1" class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow qty" oninput="calc()"></td>
+            <td><input name="items[${itemIndex}][price]" class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow price" oninput="calc()"></td>
             <td class="total p-2 font-semibold">0</td>
             <td><button type="button" onclick="$(this).closest('tr').remove();calc()">🗑</button></td>
         </tr>
@@ -189,25 +199,6 @@
             $('#grand_total').val((subtotal - discount + taxAmount).toFixed(2));
         }
 
-        /* ---------- preview ---------- */
-        function previewInvoice() {
-            calc();
-            let html = `<table class="w-full text-sm">`;
-            $('#itemsBody tr').each(function() {
-                html += `<tr>
-            <td>${$(this).find('[name*="[title]"]').val()}</td>
-            <td>${$(this).find('.qty').val()}</td>
-            <td>${$(this).find('.total').text()}</td>
-        </tr>`;
-            });
-            html += `</table><p class="text-right font-bold mt-3">Total: ₹${$('#grand_total').val()}</p>`;
-            $('#previewContent').html(html);
-            $('#previewModal').removeClass('hidden').addClass('flex');
-        }
-
-        function closePreview() {
-            $('#previewModal').addClass('hidden');
-        }
 
         addItem();
     </script>

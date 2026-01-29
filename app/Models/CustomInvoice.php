@@ -11,8 +11,10 @@ class CustomInvoice extends Model
 {
   use HasFactory;
   protected $fillable = [
+    'company_id',
     'invoice_no',
     'user_id',
+    'student_id',
     'customer_name',
     'customer_email',
     'customer_mobile',
@@ -24,6 +26,10 @@ class CustomInvoice extends Model
     'grand_total',
     'status',
     'invoice_date',
+    'invoice_expiry_date',
+    'payment_date',
+    'payment_method',
+    'payment_note',
   ];
 
   public function items()

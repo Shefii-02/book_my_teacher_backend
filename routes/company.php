@@ -86,7 +86,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::post('/deleted-users/restore/{id}', 'UserController@restore')
       ->name('delete_accounts.restore');
 
-    Route::post('/deleted-users/restore/{id}/force', 'UserController@forceDelete')
+    Route::delete('/deleted-users/restore/{id}/force', 'UserController@forceDelete')
       ->name('delete_accounts.force.destroy');
 
 

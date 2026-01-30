@@ -91,7 +91,7 @@
 
                             <tbody>
                                 @foreach ($users ?? [] as $u)
-                                    {{-- <tr class="border-b">
+                                  <tr class="border-b">
                                         <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">{{ $u->name }}</td>
                                         <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">{{ $u->email }}</td>
                                         <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70 font-bold">{{ $u->referral_code }}</td>
@@ -102,13 +102,13 @@
                                             {{ $u->total_visits > 0 ? round(($u->joined_users / $u->total_visits) * 100, 1) : 0 }}%
                                         </td>
 
-                                        <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">
+                                         {{--  <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">
                                             <a href="{{ route('company.app.referral.show', $u->id) }}"
                                                 class="px-3 py-1 bg-blue-500 text-white rounded">
                                                 View
                                             </a>
-                                        </td>
-                                    </tr> --}}
+                                        </td>--}}
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

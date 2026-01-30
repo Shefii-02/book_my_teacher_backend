@@ -55,7 +55,7 @@
                                         <td class="px-6 py-3 text-sm">{{ $user->name ?? '---' }}</td>
                                         <td class="px-6 py-3 text-sm">{{ $user->email ?? '---' }}</td>
                                         <td class="px-6 py-3 text-sm">{{ $user->deleted_at }}</td>
-                                        <td class="px-6 py-3 flex gap-1 font-bold text-left text-xxs uppercase opacity-70">
+                                        <td class="px-6 py-3 flex items-center gap-1 font-bold text-left text-xxs uppercase opacity-70">
                                             <form action="{{ route('company.app.delete_accounts.restore', $user->id) }}"
                                                 method="POST">
                                                 @csrf

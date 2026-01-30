@@ -461,7 +461,7 @@ public function exportTeachers(Request $request)
 
       DB::commit();
 
-      return redirect()->route('company.teachers')->with('success', 'Teacher created successfully!');
+      return redirect()->route('company.teachers.index')->with('success', 'Teacher created successfully!');
     } catch (\Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', 'Teacher creation failed! ' . $e->getMessage());
@@ -721,7 +721,7 @@ public function exportTeachers(Request $request)
 
       DB::commit();
 
-      return redirect()->route('company.teachers')->with('success', 'Teacher created successfully!');
+      return redirect()->route('company.teachers.index')->with('success', 'Teacher created successfully!');
     } catch (\Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', 'Teacher creation failed! ' . $e->getMessage());

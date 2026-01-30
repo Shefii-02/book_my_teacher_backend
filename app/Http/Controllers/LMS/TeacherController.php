@@ -88,7 +88,7 @@ class TeacherController extends Controller
       $query->where('current_account_stage', $request->current_account_stage);
     }
 
-    $teachers = $query->paginate(10)->appends($request->query());
+    $teachers = $query->paginate(50)->appends($request->query());
 
     return view('company.teachers.index', compact('teachers', 'data'));
   }

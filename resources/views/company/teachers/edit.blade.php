@@ -72,10 +72,12 @@
 
             </div>
         </div>
-        <div class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+        <div
+            class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
 
             <!-- ✅ Form -->
-            <form action="{{ isset($user) ? route('company.teachers.update', $user->id) : route('company.teachers.store') }}"
+            <form
+                action="{{ isset($user) ? route('company.teachers.update', $user->id) : route('company.teachers.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if (isset($user))
@@ -357,12 +359,16 @@
 
                     <div class="mb-4 mt-4" x-data="{ status: '{{ $account_status }}' }">
                         <p class="mb-2 text-sm font-medium">Account Status</p>
-                        <strong
-                            class="capitalize text-blue-800 text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
+                        @if ($account_status == 'rejected')
+                            <strong
+                                class="capitalize text-danger text-lg fw-bold mb-5">{{ $user->account_status }}</strong>
+                        @else
+                            <strong
+                                class="capitalize text-blue-800 text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
+                        @endif
                         <br>
                         @if ($user->current_account_stage == 'account verified' || $account_status == 'rejected')
                         @else
-
                             <label class="mt-3">
                                 <input type="radio" name="account_status" value="in progress" required
                                     x-model="status"

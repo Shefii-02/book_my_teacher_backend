@@ -55,7 +55,7 @@
                                         <td class="px-6 py-3 text-sm">{{ $user->name ?? '---' }}</td>
                                         <td class="px-6 py-3 text-sm">{{ $user->email ?? '---' }}</td>
                                         <td class="px-6 py-3 text-sm">{{ $user->deleted_at }}</td>
-                                        <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">
+                                        <td class="px-6 py-3 flex gap-1 font-bold text-left text-xxs uppercase opacity-70">
                                             <form action="{{ route('company.app.delete_accounts.restore', $user->id) }}"
                                                 method="POST">
                                                 @csrf
@@ -68,8 +68,9 @@
                                                 id="form_{{ $user->id }}" method="POST">
                                                 @csrf @method('DELETE')
                                                 <a role="button" href="javascript:;"
-                                                    class="bg-green-500 text-white px-2 py-1 rounded show-details-btn"
-                                                    onclick="confirmDelete({{ $user->id }})">Delete</a>
+                                                    class="bg-danger text-white px-2 py-1 rounded show-details-btn"
+                                                    onclick="confirmDelete({{ $user->id }})">
+                                                    <i class="bi bi-trash-fill"></i> Delete</a>
                                             </form>
                                         </td>
                                     </tr>

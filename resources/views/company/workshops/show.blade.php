@@ -32,7 +32,7 @@
                             <div
                                 class="w-full max-w-full px-3  item-center flex gap-3 items-center">
                                 <h5 class="dark:text-white">Course Overview : {{ $workshop->title ?? '—' }}</h5>
-                                <a href="{{-- route('company.workshops.edit', $workshop->workshop_identity) --}}"
+                                <a href="{{ route('company.workshops.edit', $workshop->id) }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-xxs">
                                     <i class="bi bi-pencil me-2"></i>
                                     Edit</a>
@@ -46,7 +46,7 @@
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class="bi bi-files me-2"></i> Materials</a>--}}
 
-                                <a href="{{-- route('company.workshops.index') --}}"
+                                <a href="{{ route('company.workshops.index') }}"
                                     class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class="bi bi-arrow-left me-2"></i>
                                     Back</a>

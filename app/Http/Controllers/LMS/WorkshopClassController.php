@@ -17,6 +17,7 @@ class WorkshopClassController extends Controller
 {
   public function index($identity)
   {
+
     $workshop = Workshop::with('classes')->where('id', $identity)->first() ?? abort(404);
     return view('company.workshops.classes.index', compact('workshop'));
   }
@@ -31,7 +32,19 @@ class WorkshopClassController extends Controller
   public function store(Request $request, $identity)
   {
 
-    $workshop = Workshop::where('id', $identity)->first() ?? abort(404);
+    $company_id = auth()->user()->company_id;
+    $workshop_classes_limits = auth()->user()->company->workshop_classes_limits;
+
+    $workshop = Workshop::where('id', $identity)->where('company_id', $company_id)->first() ?? abort(404);
+    $countClass =  0;
+    if ($workshop->classes) {
+      $countClass = $workshop->classes->count() ?? 0;
+    }
+
+    if ($countClass >= $workshop_classes_limits) {
+      return redirect()->back()->with('error', "workshop classes limit exceed, please limit increase");
+    }
+
 
     $validated = $request->validate([
       'scheduled_at'     => 'required',
@@ -60,8 +73,8 @@ class WorkshopClassController extends Controller
       $data['teacher_id'] = $workshop->host_id;
       $data['workshop_id'] = $workshop->id;
 
-      $data['start_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] .' ' .$data['start_time']));
-      $data['end_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] .' ' .$data['end_time']));
+      $data['start_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] . ' ' . $data['start_time']));
+      $data['end_time'] = date('Y-m-d H:i', strtotime($data['scheduled_at'] . ' ' . $data['end_time']));
 
 
       $class = WorkshopClass::create($data);

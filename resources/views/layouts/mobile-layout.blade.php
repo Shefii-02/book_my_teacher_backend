@@ -82,7 +82,7 @@
 
         <hr
             class="h-px mt-0 bg-transparent bg-gradient-to-r m-0 from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent" />
-        <div class="flex gap-2">
+        <div class="flex gap-2 h-100">
             <div class=" bg-emerald-500/30" style="border-right: 1px solid blanchedalmond;">
                 <ul class="px-2   mt-4 flex flex-col gap-2.5">
                     <li class="my-3">
@@ -652,8 +652,8 @@
         @yield('content')
         @include('components.drawer-right')
     </main>
-    <footer class="pt-4">
-        <div class="w-full px-6 mx-auto">
+     <footer class="pt-4">
+        <div class="w-full px-6 mx-auto fixed-bottom flex justify-content-center whitespace-nowrap bg-green-300 ">
             <div class="flex flex-wrap items-center -mx-3 lg:justify-between">
                 <div class="w-full max-w-full px-3 mt-0 mb-6 shrink-0 lg:mb-0 lg:w-1/2 lg:flex-none">
                     <div class="leading-normal text-center text-sm text-slate-500 lg:text-left">

@@ -90,8 +90,8 @@
                             </thead>
 
                             <tbody>
-                                @foreach ($users as $u)
-                                    <tr class="border-b">
+                                @foreach ($users ?? [] as $u)
+                                    {{-- <tr class="border-b">
                                         <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">{{ $u->name }}</td>
                                         <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">{{ $u->email }}</td>
                                         <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70 font-bold">{{ $u->referral_code }}</td>
@@ -108,7 +108,7 @@
                                                 View
                                             </a>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                 @endforeach
                             </tbody>
                         </table>

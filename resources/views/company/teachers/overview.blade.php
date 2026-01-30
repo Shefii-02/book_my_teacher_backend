@@ -34,11 +34,19 @@
         <div class="card bg-white rounded-3 my-3">
             <div class="card-title p-3 my-3">
                 <div class="flex justify-between">
-                    <h5 class="font-bold">Teacher Overview</h5>
-                    <a href="{{ route('company.teachers.index') }}"
-                        class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2"> <i class="bi bi-arrow-left"></i>Back</a>
-                    <a href="{{ route('company.teachers.edit', $teacher->id) }}"
-                        class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2"><i class="bi bi-pencil"></i> Edit</a>
+                    <div class="">
+                        <h5 class="font-bold">Teacher Overview:{{ $teacher->name }}</h5>
+                    </div>
+                    <div class="">
+
+                        <a href="{{ route('company.teachers.edit', $teacher->id) }}"
+                            class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2"><i class="bi bi-pencil"></i>
+                            Edit</a>
+                        <a href="{{ route('company.teachers.index') }}"
+                            class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2"> <i
+                                class="bi bi-arrow-left"></i>Back</a>
+
+                    </div>
 
                 </div>
             </div>

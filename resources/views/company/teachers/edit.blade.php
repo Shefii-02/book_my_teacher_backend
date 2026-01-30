@@ -361,7 +361,7 @@
                             class="capitalize text-blue-800 text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
                         <br>
                         @if ($user->current_account_stage == 'account verified')
-                        @if ($user->current_account_stage == 'rejected')
+                        @elseif ($user->current_account_stage == 'rejected')
                        <strong
                             class="capitalize text-danger text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
                         <br>

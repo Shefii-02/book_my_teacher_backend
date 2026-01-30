@@ -93,9 +93,9 @@
                                 </label>
                             </div>
 
-                            <div class="mt-4">
+                            <div class="mt-4 text-center">
                                 <button
-                                    class="px-4 py-2 bg-emerald-500 text-white rounded">{{ $editing ? 'Update Level' : 'Create Level' }}</button>
+                                    class="px-4 py-2 bg-success text-white rounded">{{ $editing ? 'Update Level' : 'Create Level' }}</button>
                             </div>
                         </form>
                         @if ($editing)

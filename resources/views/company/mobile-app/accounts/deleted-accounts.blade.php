@@ -10,9 +10,9 @@
                 <a class="text-white" href="javascript:;">Dashboard</a>
             </li>
             <li class="text-sm pl-2 font-bold text-white capitalize before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Delete Accounts List</li>
+                aria-current="page">Deleted Accounts List</li>
         </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Delete Accounts List</h6>
+        <h6 class="mb-0 font-bold text-white capitalize">Deleted Accounts List</h6>
     </nav>
 @endsection
 
@@ -25,7 +25,7 @@
 
                     <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
-                            <h6>Delete Accounts List</h6>
+                            <h6>Deleted Accounts List</h6>
                             <a href="{{ route('company.app.delete-accounts.index') }}"
                                 class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-arrow-left me-1 "></i>
@@ -55,13 +55,21 @@
                                         <td class="px-6 py-3 text-sm">{{ $user->name ?? '---' }}</td>
                                         <td class="px-6 py-3 text-sm">{{ $user->email ?? '---' }}</td>
                                         <td class="px-6 py-3 text-sm">{{ $user->deleted_at }}</td>
-                                              <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">
+                                        <td class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">
                                             <form action="{{ route('company.app.delete_accounts.restore', $user->id) }}"
                                                 method="POST">
                                                 @csrf
-                                            <button class="bg-green-500 text-white px-2 py-1 rounded show-details-btn" type="submit">
-                                                   <i class="bi bi-arrow-clockwise"></i> Restore
+                                                <button class="bg-green-500 text-white px-2 py-1 rounded show-details-btn"
+                                                    type="submit">
+                                                    <i class="bi bi-arrow-clockwise"></i> Restore
                                                 </button>
+                                            </form>
+                                            <form action="{{ route('company.app.delete_accounts.force.destroy', $user->id) }}"
+                                                id="form_{{ $user->id }}" method="POST">
+                                                @csrf @method('DELETE')
+                                                <a role="button" href="javascript:;"
+                                                    class="bg-green-500 text-white px-2 py-1 rounded show-details-btn"
+                                                    onclick="confirmDelete({{ $user->id }})">Delete</a>
                                             </form>
                                         </td>
                                     </tr>

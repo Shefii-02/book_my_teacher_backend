@@ -86,4 +86,37 @@ class UserController extends Controller
       ->with('success', 'User restored successfully!');
   }
 
+  public function forceDelete($id)
+  {
+    DB::beginTransaction();
+
+    try {
+      // Fetch only soft deleted user
+      $user = User::onlyTrashed()->findOrFail($id);
+
+      // OPTIONAL: delete related data safely (adjust if needed)
+      // Example:
+      // $user->teacher()->forceDelete();
+      // $user->certificates()->delete();
+      // $user->subjects()->detach();
+
+      // Remove delete account requests linked to this user
+      DeleteAccountRequest::where('user_id', $user->id)->delete();
+
+      // Permanently delete user
+      $user->forceDelete();
+
+      DB::commit();
+
+      return redirect()
+        ->back()
+        ->with('success', 'User permanently deleted from system.');
+    } catch (Exception $e) {
+      DB::rollBack();
+
+      return redirect()
+        ->back()
+        ->with('error', 'Something went wrong while deleting user.');
+    }
+  }
 }

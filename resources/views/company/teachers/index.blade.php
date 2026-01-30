@@ -316,7 +316,8 @@
                                         class="text-red-500 hover:text-red-700 font-bold">×</a>
                                 </div>
                             @endforeach
-                            <a href="{{ route('company.teachers.index') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                            <a href="{{ route('company.teachers.index') }}"
+                                class="ml-3 mt-2.5 text-sm text-red-600">Clear
                                 All</a>
                         </div>
                     @endif
@@ -441,8 +442,12 @@
                                             </td>
                                             <td
                                                 class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent capitalize">
-                                                <span
-                                                    class="text-sm mb-1">{{ $teacher->current_account_stage }}</span><br>
+                                                @if ($teacher->account_status == 'rejected')
+                                                @else
+                                                    <span
+                                                        class="text-sm mb-1">{{ $teacher->current_account_stage }}</span><br>
+                                                @endif
+
                                                 @if ($teacher->account_status == 'in progress')
                                                     <span
                                                         class="bg-gradient-to-tl capitalize from-lime-200 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">In

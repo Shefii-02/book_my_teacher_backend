@@ -99,12 +99,9 @@
             </a>
         </div>
 
-
-
-
         <hr
             class="h-px mt-0 bg-transparent bg-gradient-to-r m-0 overflow-hidden from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent" />
-        <div class="flex gap-2 h-100">
+        <div class="flex gap-2">
             <div class=" bg-emerald-500/30 h-[calc(100vh-5rem)]" style="border-right: 1px solid blanchedalmond;">
                 <ul class="px-2   mt-4 flex flex-col gap-2.5">
                     <li class="my-3">

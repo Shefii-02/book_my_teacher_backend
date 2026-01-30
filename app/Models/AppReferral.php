@@ -27,6 +27,10 @@ class AppReferral extends Model
     ];
 
 
+   public function user()
+  {
+    return $this->hasOne(User::class,'id','ref_user_id');
+  }
 
    public function appliedUser()
   {

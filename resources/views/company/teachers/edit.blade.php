@@ -360,12 +360,9 @@
                         <strong
                             class="capitalize text-blue-800 text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
                         <br>
-                        @if ($user->current_account_stage == 'account verified')
-                        @elseif ($user->current_account_stage == 'rejected')
-                       <strong
-                            class="capitalize text-danger text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
-                        <br>
+                        @if ($user->current_account_stage == 'account verified' || $account_status == 'rejected')
                         @else
+
                             <label class="mt-3">
                                 <input type="radio" name="account_status" value="in progress" required
                                     x-model="status"

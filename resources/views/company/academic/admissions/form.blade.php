@@ -199,7 +199,7 @@
                     </div>
 
                     <!-- Right: Fixed (col-3) w-4/12-->
-                    <div class=" h-screen  overflow-auto sticky top-0 bg-white border-l px-1.5">
+                    <div class=" top-0 bg-white border-l px-1.5">
 
                         {{-- Price / tax / totals --}}
                         <div class="flex flex-row gap-3 grid-cols-4 items-start mb-4 w-full">
@@ -242,7 +242,7 @@
                                     required />
                             </div>
                         </div>
-                        12345
+
                         <label class="block text-sm mb-2 px-6">Payment Method</label>
 
                         <div class="flex flex-row px-6 gap-4">

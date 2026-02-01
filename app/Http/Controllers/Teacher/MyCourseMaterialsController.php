@@ -90,6 +90,7 @@ class MyCourseMaterialsController extends Controller
         $file,
         'material'
       );
+
       $path = $mainImagePath;
       $material->update([
         'file_path' => $path,
@@ -102,6 +103,7 @@ class MyCourseMaterialsController extends Controller
       'position' => $request->position,
       'status' => $request->status,
     ]);
+
     return redirect()->route('teacher.my-courses.materials.index', $course->course_identity)->with('success', 'Material updated!');
   }
 

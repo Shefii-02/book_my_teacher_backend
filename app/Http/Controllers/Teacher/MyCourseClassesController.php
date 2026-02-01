@@ -32,11 +32,11 @@ class MyCourseClassesController extends Controller
 
     // Ensure first class created by admin
     $courseClass = CourseClass::where('course_id', $course->id)
-                                ->withMeetingLink()
-                                // ->whereNotNull('meeting_link')
-                                // ->where('meeting_link', '!=', '')
-                                ->latest('scheduled_at')
-                                ->first();
+      ->withMeetingLink()
+      // ->whereNotNull('meeting_link')
+      // ->where('meeting_link', '!=', '')
+      ->latest('scheduled_at')
+      ->first();
 
     if (!$courseClass) {
       return back()->with('error', 'First class creation only possible by admin. Please contact support.');
@@ -114,11 +114,11 @@ class MyCourseClassesController extends Controller
 
   public function update($identity, Request $request, $course_class)
   {
-
+dd($request->all());
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);
     $class = CourseClass::where('course_id', $course->id)->where('id', $course_class)->first() ?? abort(404);
     $validated = $request->validate([
-       'scheduled_at' => 'required|date',
+      'scheduled_at' => 'required|date',
       'title'        => 'required|string|max:255',
       'description'  => 'nullable|string',
       'start_time'   => 'required|date_format:H:i',

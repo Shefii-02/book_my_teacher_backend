@@ -147,7 +147,7 @@ class MyCourseClassesController extends Controller
       DB::commit();
       return redirect()->route('teacher.my-courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
     } catch (Exception $e) {
-
+      dd($e->getMessage());
       DB::rollBack();
       return redirect()->back()->with('errro', $e->getMessage());
     }

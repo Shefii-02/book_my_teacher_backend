@@ -114,7 +114,7 @@ class MyCourseClassesController extends Controller
 
   public function update($identity, Request $request, $course_class)
   {
-dd($request->all());
+
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);
     $class = CourseClass::where('course_id', $course->id)->where('id', $course_class)->first() ?? abort(404);
     $validated = $request->validate([
@@ -134,6 +134,7 @@ dd($request->all());
       DB::commit();
       return redirect()->route('teacher.my-courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
     } catch (Exception $e) {
+      dd($request->all(),$e->getMessage());
       DB::rollBack();
       return redirect()->back()->with('errro', $e->getMessage());
     }

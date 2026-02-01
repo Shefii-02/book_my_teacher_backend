@@ -242,6 +242,7 @@
                                     required />
                             </div>
                         </div>
+                        12345
                         <label class="block text-sm mb-2 px-6">Payment Method</label>
 
                         <div class="flex flex-row px-6 gap-4">

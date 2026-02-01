@@ -129,6 +129,7 @@ class MyCourseClassesController extends Controller
 
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);
 
+    $data = $validated;
     $data['start_time'] = date(
       'Y-m-d H:i:s',
       strtotime($validated['scheduled_at'] . ' ' . $validated['start_time'])
@@ -139,7 +140,6 @@ class MyCourseClassesController extends Controller
       strtotime($validated['scheduled_at'] . ' ' . $validated['end_time'])
     );
 
-    $data = $validated;
 
 
     try {
@@ -148,7 +148,7 @@ class MyCourseClassesController extends Controller
       DB::commit();
       return redirect()->route('teacher.my-courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
     } catch (Exception $e) {
-      dd($data,$e->getMessage(),1);
+      // dd($data,$e->getMessage(),1);
       DB::rollBack();
       return redirect()->back()->with('errro', $e->getMessage());
     }

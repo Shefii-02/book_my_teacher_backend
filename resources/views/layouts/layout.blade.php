@@ -588,7 +588,7 @@
                                             class="ml-1 duration-300 opacity-100 pointer-events-none ease">Admissions</span>
                                     </a>
                                 </li>
-                                 <li class="mt-0.5 w-full">
+                                <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.custom-invoices.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.custom.invoices.index') }}">
                                         <div
@@ -596,8 +596,8 @@
                                             <i
                                                 class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
                                         </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Custom Invoice</span>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Custom
+                                            Invoice</span>
                                     </a>
                                 </li>
                                 <li class="mt-0.5 w-full">
@@ -1197,6 +1197,30 @@
             ],
             toolbar: 'fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent | forecolor backcolor',
 
+        });
+    </script>
+
+
+    <script>
+        const quill = new Quill('#noteEditor', {
+            theme: 'snow',
+            placeholder: 'Write notes here...',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    [{
+                        'list': 'ordered'
+                    }, {
+                        'list': 'bullet'
+                    }],
+                    ['link'],
+                    ['clean']
+                ]
+            }
+        });
+
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('note').value = quill.root.innerHTML;
         });
     </script>
 

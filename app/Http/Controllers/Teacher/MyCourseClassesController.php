@@ -118,23 +118,13 @@ class MyCourseClassesController extends Controller
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);
     $class = CourseClass::where('course_id', $course->id)->where('id', $course_class)->first() ?? abort(404);
     $validated = $request->validate([
-      'teacher_id'       => 'required',
-      'scheduled_at'     => 'required',
-      'type'             => 'required|in:online,offline,recorded',
-      'title'            => 'required|string|max:255',
-      'description'      => 'nullable|string',
-
-      'start_time'       => 'required',
-      'end_time'         => 'required',
-      'priority'         => 'required',
-      'status'           => 'required',
-
-      'class_mode'       => 'nullable|required_if:type,online',
-      'meeting_link'     => 'nullable|required_if:type,online',
-
-      'class_address'    => 'nullable|required_if:type,offline',
-
-      'recording_url'    => 'nullable|required_if:type,recorded',
+       'scheduled_at' => 'required|date',
+      'title'        => 'required|string|max:255',
+      'description'  => 'nullable|string',
+      'start_time'   => 'required|date_format:H:i',
+      'end_time'     => 'required|date_format:H:i|after:start_time',
+      'priority'     => 'required|integer',
+      'status'       => 'required|string',
     ]);
 
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);

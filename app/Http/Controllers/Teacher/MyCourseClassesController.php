@@ -141,13 +141,14 @@ class MyCourseClassesController extends Controller
 
     $data = $validated;
 
+
     try {
       DB::beginTransaction();
       $class->update($data);
       DB::commit();
       return redirect()->route('teacher.my-courses.schedule-class.index', $course->course_identity)->with('success', 'Course class updated successfully.');
     } catch (Exception $e) {
-      dd($data,$e->getMessage());
+      dd($data,$e->getMessage(),1);
       DB::rollBack();
       return redirect()->back()->with('errro', $e->getMessage());
     }

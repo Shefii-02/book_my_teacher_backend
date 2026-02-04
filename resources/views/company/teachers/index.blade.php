@@ -260,7 +260,7 @@
                                     </div>
 
                                     <!-- 📌 Account Status -->
-                                    <div>
+                                    {{-- <div>
                                         <label class="block text-sm font-medium mb-1">Account Status</label>
                                         <select name="account_status" class="border rounded px-3 py-2 w-32">
                                             <option value="">All</option>
@@ -277,13 +277,13 @@
                                                 {{ request('account_status') == 'scheduled' ? 'selected' : '' }}>Scheduled
                                             </option>
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                     <!-- 📍 Current Account Stage -->
-                                    <div>
+                                    {{-- <div>
                                         <label class="block text-sm font-medium mb-1">Current Stage</label>
                                         <select name="current_account_stage" class="border rounded px-3 py-2 w-32">
-                                            <option value="">All</option>
+                                            <option value="">All</option> --}}
                                             {{-- <option value="personal information"
                                                 {{ request('current_account_stage') == 'personal information' ? 'selected' : '' }}>
                                                 Personal Information</option>
@@ -293,7 +293,7 @@
                                             <option value="cv upload"
                                                 {{ request('current_account_stage') == 'cv upload' ? 'selected' : '' }}>CV --}}
                                             {{-- Upload</option> --}}
-                                            <option value="verification process"
+                                            {{-- <option value="verification process"
                                                 {{ request('current_account_stage') == 'verification process' ? 'selected' : '' }}>
                                                 Verification Process</option>
                                             <option value="schedule interview"
@@ -301,9 +301,9 @@
                                                 Schedule Interview</option>
                                             <option value="upload demo class"
                                                 {{ request('current_account_stage') == 'upload demo class' ? 'selected' : '' }}>
-                                                Upload Demo Class</option>
-                                        </select>
-                                    </div>
+                                                Upload Demo Class</option> --}}
+                                        {{-- </select>
+                                    </div> --}}
 
                                     <!-- Submit + Reset -->
                                     <div class="flex gap-2">

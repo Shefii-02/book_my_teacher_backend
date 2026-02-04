@@ -73,6 +73,8 @@
             border: 1px solid #e4e4e4 !important;
             border-radius: 9px;
         }
+
+
     </style>
     @stack('styles')
 </head>
@@ -1186,18 +1188,18 @@
 
 
     <script>
-        tinymce.init({
-            selector: 'textarea.editor',
-            plugins: [
-                // Core editing features
-                'anchor', 'charmap', 'lists',
-                // Your account includes a free trial of TinyMCE premium features
-                // Try the most popular premium features until Jan 10, 2026:
-                'checklist', 'typography',
-            ],
-            toolbar: 'fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent | forecolor backcolor',
+        // tinymce.init({
+        //     selector: 'textarea.editor',
+        //     plugins: [
+        //         // Core editing features
+        //         'anchor', 'charmap', 'lists',
+        //         // Your account includes a free trial of TinyMCE premium features
+        //         // Try the most popular premium features until Jan 10, 2026:
+        //         'checklist', 'typography',
+        //     ],
+        //     toolbar: 'fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent | forecolor backcolor',
 
-        });
+        // });
     </script>
 
 

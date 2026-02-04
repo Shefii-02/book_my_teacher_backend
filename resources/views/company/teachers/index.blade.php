@@ -201,15 +201,40 @@
             <div class="flex-none w-full max-w-full px-3">
                 <div
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+
+
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="flex1">
                             <div class="w-full max-w-full ">
                                 <h6 class="dark:text-white">Teachers List</h6>
                             </div>
+                            @php
+                                $activeTab = request('tab', 'pending');
+                            @endphp
+
+                            <div class="flex mb-4 mt-2">
+                                <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'pending'])) }}"
+                                    class="px-4 py-2  text-sm font-semibold
+                                    {{ $activeTab === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
+                                    Pending
+                                </a>
+
+                                <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'approved'])) }}"
+                                    class="px-4 py-2  text-sm font-semibold
+                                    {{ $activeTab === 'approved' ? 'bg-emerald-500/50 text-white' : 'bg-gray-200' }}">
+                                    Approved
+                                </a>
+
+                                <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'rejected'])) }}"
+                                    class="px-4 py-2  text-sm font-semibold
+                                    {{ $activeTab === 'rejected' ? 'bg-red-500 text-white' : 'bg-gray-200' }}">
+                                    Rejected
+                                </a>
+                            </div>
                             <div class="w-full max-w-full ">
                                 <form method="GET" action="{{ route('company.teachers.index') }}"
                                     class="mb-4 flex flex-wrap gap-3 items-end">
-
+                                    <input type="hidden" name="tab" value="{{ $activeTab }}" />
                                     <!-- 🔍 Search (name, email, mobile) -->
                                     <div>
                                         <label class="block text-sm font-medium mb-1">Search</label>

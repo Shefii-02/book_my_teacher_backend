@@ -59,9 +59,33 @@ class TeacherController extends Controller
     ];
 
     // ----- Listing Query -----
+    // $query = User::with('professionalInfo')
+    //   ->where('company_id', 1)
+    //   ->where('acc_type', 'teacher');
+    // ----- Listing Query -----
+    $company_id = auth()->user()->company_id;
     $query = User::with('professionalInfo')
-      ->where('company_id', 1)
+      ->where('company_id', $company_id)
       ->where('acc_type', 'teacher');
+
+    // 🧭 Tabs logic
+    $tab = $request->get('tab', 'pending');
+
+    if ($tab === 'approved') {
+      $query->where('current_account_stage', 'account verified')
+        ->where('account_status', '!=', 'rejected');
+    }
+
+    if ($tab === 'rejected') {
+      $query->where('account_status', 'rejected');
+    }
+
+    if ($tab === 'pending') {
+
+      $query->where('current_account_stage', '!=', 'account verified')
+        ->where('account_status', '!=', 'rejected');
+    }
+
 
     // 🔍 Global search
     if ($request->filled('search')) {
@@ -80,13 +104,13 @@ class TeacherController extends Controller
       });
     }
 
-    if ($request->filled('account_status')) {
-      $query->where('account_status', $request->account_status);
-    }
+    // if ($request->filled('account_status')) {
+    //   $query->where('account_status', $request->account_status);
+    // }
 
-    if ($request->filled('current_account_stage')) {
-      $query->where('current_account_stage', $request->current_account_stage);
-    }
+    // if ($request->filled('current_account_stage')) {
+    //   $query->where('current_account_stage', $request->current_account_stage);
+    // }
 
     $teachers = $query->paginate(50)->appends($request->query());
 
@@ -157,34 +181,54 @@ class TeacherController extends Controller
   //   exit;
   // }
 
-public function exportTeachers(Request $request)
-{
+  public function exportTeachers(Request $request)
+  {
+    $company_id = auth()->user()->company_id;
     // ----- Build Same Query As Listing -----
     $query = User::with(['professionalInfo', 'subjects'])
-        ->where('company_id', 1)
-        ->where('acc_type', 'teacher');
+      ->where('company_id', $company_id)
+      ->where('acc_type', 'teacher');
 
-    if ($request->filled('search')) {
-        $search = $request->search;
-        $query->where(function ($q) use ($search) {
-            $q->where('name', 'like', "%$search%")
-              ->orWhere('email', 'like', "%$search%")
-              ->orWhere('mobile', 'like', "%$search%");
-        });
+      $tab = $request->get('tab', 'pending');
+
+    if ($tab === 'approved') {
+      $query->where('current_account_stage', 'account verified')
+        ->where('account_status', '!=', 'rejected');
     }
 
+    if ($tab === 'rejected') {
+      $query->where('account_status', 'rejected');
+    }
+
+    if ($tab === 'pending') {
+
+      $query->where('current_account_stage', '!=', 'account verified')
+        ->where('account_status', '!=', 'rejected');
+    }
+
+    if ($request->filled('search')) {
+      $search = $request->search;
+      $query->where(function ($q) use ($search) {
+        $q->where('name', 'like', "%$search%")
+          ->orWhere('email', 'like', "%$search%")
+          ->orWhere('mobile', 'like', "%$search%");
+      });
+    }
+
+
+
     if ($request->filled('teaching_mode')) {
-        $query->whereHas('professionalInfo', function ($q) use ($request) {
-            $q->where('teaching_mode', $request->teaching_mode);
-        });
+      $query->whereHas('professionalInfo', function ($q) use ($request) {
+        $q->where('teaching_mode', $request->teaching_mode);
+      });
     }
 
     if ($request->filled('account_status')) {
-        $query->where('account_status', $request->account_status);
+      $query->where('account_status', $request->account_status);
     }
 
     if ($request->filled('current_account_stage')) {
-        $query->where('current_account_stage', $request->current_account_stage);
+      $query->where('current_account_stage', $request->current_account_stage);
     }
 
     $teachers = $query->get();
@@ -201,29 +245,29 @@ public function exportTeachers(Request $request)
     echo "ID\tName\tEmail\tMobile\tAddress\tCity\tDistrict\tState\tCountry\tSubjects\tTeaching Mode\tAccount Status\tAccount Stage\tCreated At\n";
 
     foreach ($teachers as $t) {
-        // Get subjects list (comma separated)
-        $subjects = $t->subjects
-            ? $t->subjects->pluck('subject')->implode(', ')
-            : '-';
+      // Get subjects list (comma separated)
+      $subjects = $t->subjects
+        ? $t->subjects->pluck('subject')->implode(', ')
+        : '-';
 
-        echo $t->id . "\t" .
-            $t->name . "\t" .
-            $t->email . "\t" .
-            $t->mobile . "\t" .
-            ($t->address ?? '-') . "\t" .
-            ($t->city ?? '-') . "\t" .
-            ($t->district ?? '-') . "\t" .
-            ($t->state ?? '-') . "\t" .
-            ($t->country ?? '-') . "\t" .
-            $subjects . "\t" .
-            ($t->professionalInfo->teaching_mode ?? '-') . "\t" .
-            ($t->account_status ?? '-') . "\t" .
-            ($t->current_account_stage ?? '-') . "\t" .
-            $t->created_at . "\n";
+      echo $t->id . "\t" .
+        $t->name . "\t" .
+        $t->email . "\t" .
+        $t->mobile . "\t" .
+        ($t->address ?? '-') . "\t" .
+        ($t->city ?? '-') . "\t" .
+        ($t->district ?? '-') . "\t" .
+        ($t->state ?? '-') . "\t" .
+        ($t->country ?? '-') . "\t" .
+        $subjects . "\t" .
+        ($t->professionalInfo->teaching_mode ?? '-') . "\t" .
+        ($t->account_status ?? '-') . "\t" .
+        ($t->current_account_stage ?? '-') . "\t" .
+        $t->created_at . "\n";
     }
 
     exit;
-}
+  }
 
 
 
@@ -585,9 +629,9 @@ public function exportTeachers(Request $request)
       $teacher->save();
 
 
-      if($newStatus = 'verified'){
-        $teacherProfile = Teacher::where('user_id',$teacher->id)->where('company_id',auth()->user()->company_id)->first();
-        if(!$teacherProfile){
+      if ($newStatus = 'verified') {
+        $teacherProfile = Teacher::where('user_id', $teacher->id)->where('company_id', auth()->user()->company_id)->first();
+        if (!$teacherProfile) {
           $teacherProfile           = new Teacher();
           $teacherProfile->user_id  = $teacher->id;
           $teacherProfile->name     = $teacher->name;
@@ -760,6 +804,4 @@ public function exportTeachers(Request $request)
       return redirect()->back()->with('error', 'Failed to delete teacher' . $e->getMessage());
     }
   }
-
-
 }

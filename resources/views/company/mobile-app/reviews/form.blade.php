@@ -88,7 +88,7 @@
                                 <div>
 
                                     <label class="font-semibold">Subject (Optional)</label>
-                                    <select name="subject" id="subjectSelect" class="w-full border rounded px-3 py-2">
+                                    <select name="subject_id" id="subjectSelect" class="w-full border rounded px-3 py-2">
                                         <option value="">-- Select Subject --</option>
                                     </select>
                                 </div>
@@ -229,19 +229,6 @@
                         $('#teacherSelect').html(html);
                     });
 
-                //  $.get(
-                //   '{{ route('company.app.reviews.course.subject.details', '') }}/' + courseId,
-                //    function(subcategories) {
-                //     let html2 = '<option value="">-- Select Subject --</option>';
-                //     subcategories.subjects.forEach(s => {
-                //         html2 += `<option value="${s.id}">${s.title}</option>`;
-                //     });
-
-                //     $('#subjectSelect').html(html2);
-                // });
-// $('#subjectSelect')
-//     .html('<option>Loading subjects...</option>')
-//     .prop('disabled', true);
 
                 $.get(
                     `{{ route('company.app.reviews.course.subject.details', '') }}/${courseId}`,
@@ -249,13 +236,9 @@
 
                         let html = `<option value="">-- Select Subject --</option>`;
 
-                        // if (response.subjects && response.subjects.length > 0) {
-                            response.subjects.forEach(s => {
-                                html += `<option value="${s.id}">${s.title}</option>`;
-                            });
-                        // } else {
-                        //     html += `<option value="">No subjects available</option>`;
-                        // }
+                        Object.values(response.subjects).forEach(s => {
+                            html += `<option value="${s.id}">${s.title}</option>`;
+                        });
 
                         $('#subjectSelect')
                             .html(html)
@@ -266,6 +249,7 @@
                         .html('<option value="">Failed to load subjects</option>')
                         .prop('disabled', true);
                 });
+
 
             });
 

@@ -37,6 +37,8 @@ class SubjectReviewController extends Controller
       'rating' => 'required|integer|min:1|max:5',
     ]);
 
+
+
     SubjectReview::create($request->all());
 
     return redirect()->route('company.app.reviews.index')->with('success', 'Review created successfully!');
@@ -79,11 +81,12 @@ class SubjectReviewController extends Controller
     $company_id = auth()->user()->company_id;
     $student = User::where('id', $student)->where('company_id', $company_id)->first();
     // Purchased courses (adjust relation names if needed)
+    dd($student->registrations()->get());
     $courses = $student->registrations()
       // ->with('course')
       ->get()
       ->map(fn($c) => [
-        'id'   => $c->course->id,
+        'id'   => $c->id,
         'name' => $c->course->title,
       ]);
 

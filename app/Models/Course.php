@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
-    use SoftDeletes;
+  use SoftDeletes;
 
   protected $fillable = [
     'thumbnail_id',
@@ -61,6 +61,11 @@ class Course extends Model
     return $this->belongsToMany(CourseCategory::class, 'course_category')->withPivot('subcategories');
   }
 
+  public function selectedcategories()
+  {
+    return $this->belongsTo(CourseCategory::class);
+  }
+
   public function materials()
   {
     return $this->hasMany(CourseMaterial::class)->orderBy('position');
@@ -99,6 +104,8 @@ class Course extends Model
   {
     return $this->belongsTo(CourseSubCategory::class);
   }
+
+
   public function classes()
   {
     return $this->hasMany(CourseClass::class, 'course_id')->orderBy('scheduled_at')->orderBy('priority', 'asc');;

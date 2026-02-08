@@ -37,6 +37,11 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::resource('wallets', 'WalletController')->names('wallets');
     Route::post('referral/{ref_id}/credited', 'ReferralController@pointApprove')->name('referral.credit');
     Route::resource('referral', 'ReferralController')->names('referral');
+
+    Route::get('reviews/student/details/{id}', 'SubjectReviewController@studentDetails')->name('reviews.student.details');
+    Route::get('reviews/course/details/{id}', 'SubjectReviewController@courseDetails')->name('reviews.course.details');
+    Route::get('reviews/course/subject/details/{id}', 'SubjectReviewController@courseSubjects')->name('reviews.course.subject.details');
+
     Route::resource('reviews', 'SubjectReviewController')->names('reviews');
     Route::resource('community-links', 'CommunityLinkController')->names('community-links');
     // Route::resource('achivements', 'AchivementsController')->names('achivements');

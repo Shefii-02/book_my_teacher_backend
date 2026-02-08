@@ -124,7 +124,7 @@ class User extends Authenticatable
 
   public function company()
   {
-    return $this->hasOne(Company::class,'id','company_id');
+    return $this->hasOne(Company::class, 'id', 'company_id');
   }
 
 
@@ -210,6 +210,11 @@ class User extends Authenticatable
   public function walletHistories()
   {
     return $this->hasMany(\App\Models\WalletHistory::class);
+  }
+
+  public function registrations()
+  {
+    return $this->hasMany(CourseRegistration::class, 'user_id', 'id');
   }
 
 }

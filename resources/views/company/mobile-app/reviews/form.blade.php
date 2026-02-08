@@ -46,57 +46,50 @@
 
                             <div class="grid grid-cols-2 gap-4 mb-4">
 
-                                <!-- USER SEARCH -->
-                                <div class="col-span-2">
-                                    <label class="font-semibold">User</label>
-                                    <input type="text" x-model="searchUser" @input.debounce.500="searchUsers"
-                                        placeholder="Type user name or email..." class="w-full border rounded px-3 py-2">
+                                {{-- Student search (simple) --}}
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium">Student</label>
+                                    <input type="text" id="studentSearch" value="{{ old('student_display') }}"
+                                        placeholder="Search name/email/mobile" class="border p-2 rounded w-full"
+                                        autocomplete="off">
+                                    <input type="hidden" name="user_id" id="student_id" value="{{ old('student_id') }}">
+                                    <div id="studentResults" class="hidden mt-1 bg-white border rounded overflow-auto"
+                                        style="max-height:200px"></div>
+                                    @error('student_id')
+                                        <p class="text-red-600 text-sm">{{ $message }}</p>
+                                    @enderror
 
-                                    <template x-if="users.length">
-                                        <ul class="border rounded mt-1 bg-white max-h-40 overflow-y-auto shadow">
-                                            <template x-for="user in users" :key="user.id">
-                                                <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer"
-                                                    @click="selectUser(user)">
-                                                    <span x-text="user.name"></span> - <span x-text="user.email"></span>
-                                                </li>
-                                            </template>
-                                        </ul>
-                                    </template>
+
+                                    {{-- CUSTOMER DETAILS (AUTO-FILL OR MANUAL) --}}
+                                    <div id="studentDetails" style="display: none">
+
+                                    </div>
                                 </div>
-
                                 <!-- COURSES -->
                                 <div>
                                     <label class="font-semibold">Course</label>
-                                    <select name="subject_course_id" x-model="selectedCourse"
-                                        @change="loadSubjectsAndTeachers" class="w-full border rounded px-3 py-2">
+                                    <select name="subject_course_id" id="courseSelect"
+                                        class="w-full border rounded px-3 py-2">
                                         <option value="">-- Select Course --</option>
-                                        <template x-for="course in courses" :key="course.id">
-                                            <option :value="course.id" x-text="course.title"></option>
-                                        </template>
+                                    </select>
+                                </div>
+
+
+
+                                <!-- TEACHERS -->
+                                <div>
+                                    <label class="font-semibold">Teacher</label>
+                                    <select name="teacher_id" id="teacherSelect" class="w-full border rounded px-3 py-2">
+                                        <option value="">-- Select Teacher --</option>
                                     </select>
                                 </div>
 
                                 <!-- SUBJECT -->
                                 <div>
-                                    <label class="font-semibold">Subject (Optional)</label>
-                                    <select name="subject_id" x-model="selectedSubject"
-                                        class="w-full border rounded px-3 py-2">
-                                        <option value="">-- Select Subject --</option>
-                                        <template x-for="subject in subjects" :key="subject.id">
-                                            <option :value="subject.id" x-text="subject.name"></option>
-                                        </template>
-                                    </select>
-                                </div>
 
-                                <!-- TEACHERS -->
-                                <div>
-                                    <label class="font-semibold">Teacher</label>
-                                    <select name="teacher_id" x-model="selectedTeacher"
-                                        class="w-full border rounded px-3 py-2">
-                                        <option value="">-- Select Teacher --</option>
-                                        <template x-for="teacher in teachers" :key="teacher.id">
-                                            <option :value="teacher.id" x-text="teacher.name"></option>
-                                        </template>
+                                    <label class="font-semibold">Subject (Optional)</label>
+                                    <select name="subject" id="subjectSelect" class="w-full border rounded px-3 py-2">
+                                        <option value="">-- Select Subject --</option>
                                     </select>
                                 </div>
 
@@ -125,65 +118,157 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function reviewForm() {
-            return {
-                searchUser: '',
-                users: [],
-                selectedUser: null,
-                courses: [],
-                selectedCourse: '{{ $review->subject_course_id ?? '' }}',
-                subjects: [],
-                selectedSubject: '{{ $review->subject_id ?? '' }}',
-                teachers: [],
-                selectedTeacher: '{{ $review->teacher_id ?? '' }}',
-
-                searchUsers() {
-                    if (this.searchUser.length < 2) {
-                        this.users = [];
-                        return;
-                    }
-                    fetch(`/company/ajax/users/search?key=${this.searchUser}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            this.users = data;
-                        });
-                },
-
-                selectUser(user) {
-                    this.selectedUser = user;
-                    this.searchUser = user.name;
-                    this.users = [];
-
-                    // Load user's enrolled courses
-                    fetch(`/company/users/${user.id}/courses`)
-                        .then(res => res.json())
-                        .then(data => {
-                            this.courses = data;
-                        });
-                },
-
-                loadSubjectsAndTeachers() {
-                    if (!this.selectedCourse) {
-                        this.subjects = [];
-                        this.teachers = [];
-                        return;
-                    }
-
-                    fetch(`/company/courses/${this.selectedCourse}/subjects`)
-                        .then(res => res.json())
-                        .then(data => {
-                            this.subjects = data;
-                        });
-
-                    fetch(`/company/courses/${this.selectedCourse}/teachers`)
-                        .then(res => res.json())
-                        .then(data => {
-                            this.teachers = data;
-                        });
-                }
-            }
-        }
-    </script>
 @endsection
+
+@push('scripts')
+    <script>
+        $(function() {
+
+            /* ---------- student inline search (no select2) ---------- */
+            let timer = null;
+            $('#studentSearch').on('keyup', function() {
+                const q = $(this).val().trim();
+                $('#studentDetails').hide();
+                clearTimeout(timer);
+                if (q.length < 1) {
+                    $('#studentResults').addClass('hidden').html('');
+                    $('#student_id').val('');
+                    return;
+                }
+                timer = setTimeout(() => {
+                    $.get('{{ route('company.admissions.student.search') }}', {
+                        q
+                    }, function(data) {
+                        let html = '';
+                        if (data.length === 0) html = '<div class="p-2">No results</div>';
+                        data.forEach(u => {
+                            html +=
+                                `<div class="p-2 border-b cursor-pointer studentRow" data-id="${u.id}" data-name="${u.name}" data-email="${u.email}" data-mobile="${u.mobile}"><b>${u.name}</b><br><small>${u.email||''} ${u.mobile||''}</small></div>`;
+                        });
+                        $('#studentResults').removeClass('hidden').html(html);
+                    }, 'json');
+                }, 300);
+            });
+
+            $(document).on('click', '.studentRow', function() {
+                $('#studentDetails').show();
+                $('#studentSearch').val($(this).data('name'));
+                $('#student_id').val($(this).data('id'));
+                $('#studentResults').addClass('hidden');
+                const name = $(this).data('name');
+                const mobile = $(this).data('mobile') || '—';
+                const email = $(this).data('email') || '—';
+                const studentId = $(this).data('id');
+
+                const details = `
+                        <div class="p-4 mt-3 rounded-xl border bg-slate-50 shadow-sm">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="h-10 w-10 rounded-full bg-emerald-500/30 flex items-center justify-center text-white font-bold">
+                                    ${name.charAt(0)}
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-slate-800 p-0 m-0">${name}</p>
+                                    <p class="text-xs text-slate-500 p-0 m-0">Selected Student</p>
+                                </div>
+                            </div>
+
+                            <div class="text-sm text-slate-700 space-y-1">
+                                <p class="flex items-center gap-2 p-0 m-0">
+                                    <i class="bi bi-telephone text-blue-500"></i>
+                                    <span>${mobile}</span>
+                                </p>
+                                <p class="flex items-center gap-2 p-0 m-0">
+                                    <i class="bi bi-envelope text-emerald-500"></i>
+                                    <span>${email}</span>
+                                </p>
+                            </div>
+                        </div>
+                    `;
+
+                $('#studentDetails').html(details);
+
+                // 🔄 Load courses + review
+                $.get(
+                    '{{ route('company.app.reviews.student.details', '') }}/' + studentId,
+                    function(res) {
+
+                        /* ---------- courses ---------- */
+                        let courseOptions = '<option value="">-- Select Course --</option>';
+                        res.courses.forEach(c => {
+                            courseOptions += `<option value="${c.id}">${c.name}</option>`;
+                        });
+                        $('#courseSelect').html(courseOptions);
+
+                        /* ---------- review autofill ---------- */
+                        if (res.review) {
+                            $('#courseSelect').val(res.review.subject_course_id);
+                            $('#teacherSelect').val(res.review.teacher_id);
+                            $('#commentsBox').val(res.review.comments);
+                            $('#ratingInput').val(res.review.rating);
+                            $('input[name="subject"]').val(res.review.subject);
+                        } else {
+                            $('#commentsBox').val('');
+                            $('#ratingInput').val('');
+                            $('input[name="subject"]').val('');
+                        }
+                    }
+                );
+            });
+
+            $('#courseSelect').on('change', function() {
+                const courseId = $(this).val();
+                if (!courseId) return;
+                $.get(
+                    '{{ route('company.app.reviews.course.details', '') }}/' + courseId,
+                    function(teacher_courses) {
+                        let html = '<option value="">-- Select Teacher --</option>';
+                        teacher_courses.teachers.forEach(t => {
+                            html += `<option value="${t.id}">${t.name}</option>`;
+                        });
+
+                        $('#teacherSelect').html(html);
+                    });
+
+                //  $.get(
+                //   '{{ route('company.app.reviews.course.subject.details', '') }}/' + courseId,
+                //    function(subcategories) {
+                //     let html2 = '<option value="">-- Select Subject --</option>';
+                //     subcategories.subjects.forEach(s => {
+                //         html2 += `<option value="${s.id}">${s.title}</option>`;
+                //     });
+
+                //     $('#subjectSelect').html(html2);
+                // });
+// $('#subjectSelect')
+//     .html('<option>Loading subjects...</option>')
+//     .prop('disabled', true);
+
+                $.get(
+                    `{{ route('company.app.reviews.course.subject.details', '') }}/${courseId}`,
+                    function(response) {
+
+                        let html = `<option value="">-- Select Subject --</option>`;
+
+                        // if (response.subjects && response.subjects.length > 0) {
+                            response.subjects.forEach(s => {
+                                html += `<option value="${s.id}">${s.title}</option>`;
+                            });
+                        // } else {
+                        //     html += `<option value="">No subjects available</option>`;
+                        // }
+
+                        $('#subjectSelect')
+                            .html(html)
+                            .prop('disabled', false);
+                    }
+                ).fail(function() {
+                    $('#subjectSelect')
+                        .html('<option value="">Failed to load subjects</option>')
+                        .prop('disabled', true);
+                });
+
+            });
+
+        });
+    </script>
+@endpush

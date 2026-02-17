@@ -13,7 +13,7 @@ return new class extends Migration
   public function up(): void
   {
     Schema::table('banner_requests', function (Blueprint $table) {
-      $table->mediumText('notes')->nullable();
+      // $table->mediumText('notes')->nullable();
       $table->string('status')->default('pending');
     });
 

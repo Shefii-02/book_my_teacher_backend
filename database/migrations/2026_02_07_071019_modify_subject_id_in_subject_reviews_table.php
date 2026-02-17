@@ -19,6 +19,9 @@ return new class extends Migration {
     });
   }
 
+
+
+
   public function down()
   {
     Schema::table('subject_reviews', function (Blueprint $table) {});

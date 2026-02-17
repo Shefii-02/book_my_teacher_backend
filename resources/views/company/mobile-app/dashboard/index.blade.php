@@ -10,16 +10,16 @@
     {{-- ===================== --}}
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         @foreach([
-            ['Students','1,240','from-indigo-500 to-indigo-600','bi-people'],
-            ['Teachers','120','from-purple-500 to-purple-600','bi-person-video'],
-            ['Courses','86','from-emerald-500 to-emerald-600','bi-journal-bookmark'],
-            ['Live Today','12','from-rose-500 to-rose-600','bi-broadcast']
+            ['Students','1,240','from-blue-700 to-zinc-700','bi-people'],
+            ['Teachers','120','from-red-600 to-zinc-700','bi-person-video'],
+            ['Courses','86','from-emerald-500 to-zinc-700','bi-journal-bookmark'],
+            ['Live Today','12','from-green-600 to-zinc-700','bi-broadcast']
         ] as $stat)
         <div class="bg-gradient-to-r {{$stat[2]}} text-white rounded-2xl p-4 shadow-lg hover:scale-[1.02] transition">
             <div class="flex justify-between items-center">
                 <div>
                     <p class="text-xs opacity-80">{{$stat[0]}}</p>
-                    <h3 class="text-2xl font-bold">{{$stat[1]}}</h3>
+                    <h3 class="text-2xl text-light font-bold">{{$stat[1]}}</h3>
                 </div>
                 <i class="bi {{$stat[3]}} text-2xl opacity-80"></i>
             </div>

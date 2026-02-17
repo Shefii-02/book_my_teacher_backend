@@ -27,7 +27,7 @@
                         <div class="flex justify-between">
                             <h6>{{ isset($review) ? 'Edit Review' : 'Add Review' }}</h6>
                             <a href="{{ route('company.app.reviews.index') }}"
-                                class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
+                                class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-arrow-left me-1 "></i>
                                 Back
                             </a>
@@ -68,7 +68,7 @@
                                 <!-- COURSES -->
                                 <div>
                                     <label class="font-semibold">Course</label>
-                                    <select name="subject_course_id" id="courseSelect"
+                                    <select name="course_id" id="courseSelect"
                                         class="w-full border rounded px-3 py-2">
                                         <option value="">-- Select Course --</option>
                                     </select>
@@ -87,7 +87,7 @@
                                 <!-- SUBJECT -->
                                 <div>
 
-                                    <label class="font-semibold">Subject (Optional)</label>
+                                    <label class="font-semibold">Subject</label>
                                     <select name="subject_id" id="subjectSelect" class="w-full border rounded px-3 py-2">
                                         <option value="">-- Select Subject --</option>
                                     </select>
@@ -237,7 +237,7 @@
                         let html = `<option value="">-- Select Subject --</option>`;
 
                         Object.values(response.subjects).forEach(s => {
-                            html += `<option value="${s.id}">${s.title}</option>`;
+                            html += `<option value="${s.title}">${s.title}</option>`;
                         });
 
                         $('#subjectSelect')

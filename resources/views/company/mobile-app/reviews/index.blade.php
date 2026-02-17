@@ -25,9 +25,9 @@
 
                     <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
-                            <h6>Subject Reviews List</h6>
+                            <h6>Reviews List</h6>
                             <a href="{{ route('company.app.reviews.create') }}"
-                                class="bg-emerald-500/50 rounded-full text-sm text-white px-4 fw-bold py-1">
+                                class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                                 <i class="bi bi-plus me-1 "></i>
                                 Create
                             </a>
@@ -64,7 +64,7 @@
                                         <td class="px-6 py-3 font-bold text-left text-xxs opacity-70">{{ $review->id }}
                                         </td>
                                         <td class="px-6 py-3 font-bold text-left text-xxs opacity-70">
-                                            {{ $review->subject?->name ?? '-' }}</td>
+                                            {{ $review->subject_id ?? '-' }}</td>
                                         <td class="px-6 py-3 font-bold text-left text-xxs opacity-70">
                                             {{ $review->user?->name ?? '-' }}</td>
                                         <td class="px-6 py-3 font-bold text-left text-xxs opacity-70">
@@ -76,14 +76,17 @@
                                         <td class="px-6 py-3 font-bold text-left text-xxs opacity-70">
                                             {{ $review->created_at }}</td>
                                         <td class="px-6 py-3 font-bold text-left text-xxs opacity-70 space-x-2">
-                                            <a href="{{ route('company.app.reviews.edit', $review->id) }}"
-                                                class="text-blue-600 hover:underline">Edit</a>
+                                            <a data-url="{{ route('company.app.reviews.edit', $review->id) }}"
+                                                href="#" class="open-drawer text-blue-600 hover:underline">Edit</a>
                                             <form action="{{ route('company.app.reviews.destroy', $review->id) }}"
-                                                method="POST" class="inline-block">
+                                                method="POST" class="inline-block" id="form_{{ $review->id }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:underline"
-                                                    onclick="return confirm('Are you sure?')">Delete</button>
+
+                                                <button type="button" onclick="confirmDelete({{ $review->id }})"
+                                                    class="w-full text-left text-red-600 hover:underline px-4 py-2 text-xxs">
+                                                    Delete
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>

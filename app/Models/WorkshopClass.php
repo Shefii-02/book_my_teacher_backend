@@ -62,6 +62,11 @@ class WorkshopClass extends Model
     return $this->hasOne(Workshop::class, 'id', 'workshop_id');
   }
 
+   public function durationAnalytics()
+  {
+    return $this->hasOne(SpendTimeClassAnalytics::class, 'class_id');
+  }
+
   public function livestream()
   {
     return $this->hasOne(LivestreamClass::class, 'class_id');

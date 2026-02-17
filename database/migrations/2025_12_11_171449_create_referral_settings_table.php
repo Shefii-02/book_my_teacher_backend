@@ -8,7 +8,7 @@ return new class extends Migration {
     {
         Schema::create('referral_settings', function (Blueprint $table) {
             $table->id();
-                 $table->foreignId('company_id')->constrained()->onDelete('cascade');
+            $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->integer('reward_per_join')->default(100);
             $table->integer('bonus_on_first_class')->default(250);
 

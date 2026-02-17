@@ -87,17 +87,18 @@ class DemoClass extends Model
     };
   }
 
-  public function providerApp() {
-        return $this->belongsTo(ProviderCredential::class, 'provider_app_id');
-    }
+  public function providerApp()
+  {
+    return $this->belongsTo(ProviderCredential::class, 'provider_app_id');
+  }
 
   public function registrations()
   {
-    return $this->hasMany(DemoClassRegistration::class,'class_id','id');
+    return $this->hasMany(DemoClassRegistration::class, 'class_id', 'id');
   }
 
 
-    public function thumbnailMedia()
+  public function thumbnailMedia()
   {
     return $this->belongsTo(MediaFile::class, 'thumbnail_id');
   }
@@ -112,10 +113,13 @@ class DemoClass extends Model
     return $this->thumbnailMedia ? asset('storage/' . $this->thumbnailMedia->file_path) : null;
   }
 
+  public function durationAnalytics()
+  {
+    return $this->hasOne(SpendTimeClassAnalytics::class, 'class_id');
+  }
+
   public function getMainImageUrlAttribute()
   {
     return $this->mainImageMedia ? asset('storage/' . $this->mainImageMedia->file_path) : null;
   }
-
-
 }

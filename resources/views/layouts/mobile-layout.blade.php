@@ -67,7 +67,7 @@
         class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0  overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-3 xl:left-0 xl:translate-x-0"
         aria-expanded="false">
         <div class="h-19">
-            <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-white text-slate-400 xl:hidden"
+            <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer bi bi-times dark:text-white text-slate-400 xl:hidden"
                 sidenav-close></i>
             <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700"
                 href="dashboard.html" target="_blank">
@@ -466,7 +466,7 @@
                         <div class="relative flex flex-wrap items-stretch w-full transition-all rounded-lg ease">
                             <span
                                 class="text-sm ease leading-5.6 absolute z-50 -ml-px flex h-full items-center whitespace-nowrap rounded-lg rounded-tr-none rounded-br-none border border-r-0 border-transparent bg-transparent py-2 px-2.5 text-center font-normal text-slate-500 transition-all">
-                                <i class="fas fa-search"></i>
+                                <i class="bi bi-search"></i>
                             </span>
                             <input type="text"
                                 class="pl-9 text-sm focus:shadow-primary-outline ease w-1/100 leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"

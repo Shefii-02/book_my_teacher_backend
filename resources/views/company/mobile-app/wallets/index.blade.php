@@ -29,12 +29,12 @@
                             <h6>Wallet List</h6>
                             <div class="flex gap-2">
                                 <a type="button"  href="{{ route('company.app.wallets.transations') }}"
-                                    class="px-3 py-1 bg-emerald-500/50 text-white flex justify-between items-center rounded-full text-sm">
+                                    class="px-3 py-1 bg-emerald-500/50 text-white flex justify-between items-center rounded text-sm">
                                     <i class="bi bi-card-checklist me-1 text-lg"></i>
                                     Wallet Transations
                                 </a>
                                 <button type="button" data-modal-target="wallet-modal" data-modal-toggle="wallet-modal"
-                                    class="px-3 py-1 bg-emerald-500/50 text-white flex justify-between items-center rounded-full text-sm">
+                                    class="px-3 py-1 bg-emerald-500/50 text-white flex justify-between items-center rounded text-sm">
                                     <i class="bi bi-plus me-1 text-lg"></i>
                                     Adjust Wallet
                                 </button>

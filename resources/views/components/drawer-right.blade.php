@@ -1,6 +1,6 @@
   <!-- drawer component -->
   <div id="drawer-right-example"
-      class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto translate-x-full bg-white shadow-lg transition-transform w-1/2"
+      class="fixed top-0 right-0 z-990 h-screen p-4 overflow-y-auto translate-x-full bg-white shadow-lg transition-transform w-1/2"
       tabindex="-1">
       <button type="button" role="button" id="closeDrawer"
           class="absolute top-2 end-6 text-2xl text-gray-400 hover:text-gray-800">

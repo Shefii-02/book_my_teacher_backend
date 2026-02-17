@@ -51,10 +51,10 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
     Route::prefix('transfer')->name('transfer.')->group(function () {
       Route::get('/', 'TransferAmountController@index')->name('index');
-      Route::get('/create', 'TransferAmountController@create')->name('create');
-      Route::post('/store', 'TransferAmountController@store')->name('store');
+      // Route::get('/create', 'TransferAmountController@create')->name('create');
+      // Route::post('/store', 'TransferAmountController@store')->name('store');
       Route::get('/edit/{id}', 'TransferAmountController@edit')->name('edit');
-      Route::put('/update/{id}', 'TransferAmountController@update')->name('update');
+      Route::put('/update/{id}', 'TransferAmountController@ApproveStore')->name('update');
       Route::post('/approve/{id}', 'TransferAmountController@approve')->name('approve');
       Route::delete('/delete/{id}', 'TransferAmountController@destroy')->name('delete');
     });
@@ -94,8 +94,27 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::delete('/deleted-users/restore/{id}/force', 'UserController@forceDelete')
       ->name('delete_accounts.force.destroy');
 
+    Route::get(
+      'statistics-watch/{statistics_watch}/edit/{type}',
+      'StatisticsWatchController@edit'
+    )->name('statistics-watch.edit-with-type');
+    Route::put(
+      'statistics-watch/{statistics_watch}/update/{type}',
+      'StatisticsWatchController@update'
+    )->name('statistics-watch.update-with-type');
 
     Route::resource('statistics-watch', 'StatisticsWatchController')->names('statistics-watch');
+    Route::get(
+      'statistics-spend/{statistics_spend}/edit/{type}',
+      'StatisticsSpendController@edit'
+    )->name('statistics-spend.edit-with-type');
+    Route::put(
+      'statistics-spend/{statistics_spend}/update/{type}',
+      'StatisticsSpendController@update'
+    )->name('statistics-spend.update-with-type');
+
+    Route::resource('statistics-spend', 'StatisticsSpendController')
+      ->names('statistics-spend');
     Route::resource('statistics-spend', 'StatisticsSpendController')->names('statistics-spend');
 
     Route::post('/top-teachers/toggle', 'TopTeacherController@toggle');

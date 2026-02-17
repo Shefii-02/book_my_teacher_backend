@@ -15,6 +15,7 @@ use App\Models\DeleteAccountRequest;
 use App\Models\SocialLink;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use App\Models\TransferRequest;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletHistory;
@@ -345,6 +346,20 @@ class UserController extends Controller
 
   public function transferToBank(Request $request)
   {
+    $user = $request->user();
+    $transReq = new TransferRequest();
+    $transReq->company_id = 1;
+    $transReq->user_id = $user->id;
+    $transReq->request_id = date('ymdhisa');
+    $transReq->requested_at = now();
+    $transReq->request_amount = null;
+    $transReq->approved_by = null;
+    $transReq->approved_at = null;
+    $transReq->approved_amount = null;
+    $transReq->transfer_account = null;
+    $transReq->status = 'pending';
+    $transReq->save();
+
     Log::info('👨‍🏫 Transfer to Bank Account:', $request->all());
 
     return response()->json([

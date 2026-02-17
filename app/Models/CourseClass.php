@@ -51,6 +51,10 @@ class CourseClass extends Model
   }
 
 
+  public function durationAnalytics()
+  {
+    return $this->hasOne(SpendTimeClassAnalytics::class, 'class_id');
+  }
 
   public function livestream()
   {

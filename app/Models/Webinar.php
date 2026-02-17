@@ -97,6 +97,11 @@ class Webinar extends Model
   }
 
 
+   public function durationAnalytics()
+  {
+    return $this->hasOne(SpendTimeClassAnalytics::class, 'class_id');
+  }
+
     public function thumbnailMedia()
   {
     return $this->belongsTo(MediaFile::class, 'thumbnail_id');

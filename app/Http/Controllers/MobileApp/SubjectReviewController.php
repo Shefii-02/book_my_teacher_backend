@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\SubjectReview;
 use App\Models\TeacherCourse;
 use App\Models\User;
+use Exception;
 
 class SubjectReviewController extends Controller
 {
@@ -29,37 +30,35 @@ class SubjectReviewController extends Controller
   public function store(Request $request)
   {
     $request->validate([
-      'subject_id' => 'required|integer',
+      'subject_id' => 'required',
       'user_id' => 'required|integer',
       'teacher_id' => 'nullable|integer',
-      'subject_course_id' => 'nullable|integer',
+      'course_id' => 'nullable',
       'comments' => 'required|string',
       'rating' => 'required|integer|min:1|max:5',
     ]);
 
-
-
-    SubjectReview::create($request->all());
-
-    return redirect()->route('company.app.reviews.index')->with('success', 'Review created successfully!');
+    try {
+      SubjectReview::create($request->all());
+      return redirect()->route('company.app.reviews.index')->with('success', 'Review created successfully!');
+    } catch (Exception $e) {
+      return redirect()->back()->with('error', $e->getMessage());
+    }
   }
 
   // Show edit form
   public function edit(SubjectReview $review)
   {
-    return view('company.mobile-app.reviews.form', compact('review'));
+    return view('company.mobile-app.reviews.edit', compact('review'));
   }
 
   // Update review
   public function update(Request $request, SubjectReview $review)
   {
     $request->validate([
-      'subject_id' => 'required|integer',
-      'user_id' => 'required|integer',
-      'teacher_id' => 'nullable|integer',
-      'subject_course_id' => 'nullable|integer',
+
       'comments' => 'required|string',
-      'rating' => 'required|integer|min:1|max:5',
+      'rating' => 'required|min:1|max:5',
     ]);
 
     $review->update($request->all());
@@ -81,12 +80,12 @@ class SubjectReviewController extends Controller
     $company_id = auth()->user()->company_id;
     $student = User::where('id', $student)->where('company_id', $company_id)->first();
     // Purchased courses (adjust relation names if needed)
-    dd($student->registrations()->get());
+
     $courses = $student->registrations()
       // ->with('course')
       ->get()
       ->map(fn($c) => [
-        'id'   => $c->id,
+        'id'   => $c->course->id,
         'name' => $c->course->title,
       ]);
 

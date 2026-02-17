@@ -14,12 +14,12 @@ return new class extends Migration
   {
     Schema::table('banner_requests', function (Blueprint $table) {
       // $table->mediumText('notes')->nullable();
-      $table->string('status')->default('pending');
+      // $table->string('status')->default('pending');
     });
 
     Schema::table('teacher_class_requests', function (Blueprint $table) {
-      $table->mediumText('lead_notes')->nullable();
-      $table->string('status')->default('pending');
+      // $table->mediumText('lead_notes')->nullable();
+      // $table->string('status')->default('pending');
     });
 
   }

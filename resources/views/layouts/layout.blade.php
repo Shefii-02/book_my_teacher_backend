@@ -126,7 +126,7 @@
                             </div>
                         </a>
                     </li>
-                    <li class="my-3">
+                    {{-- <li class="my-3">
                         <a href="{{ route('company.dashboard') }}" title="CRMS">
                             <div
                                 class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
@@ -135,8 +135,8 @@
                                 <span class="text-xxs my-2 text-teal-600 dark:text-white">CRMS</span>
                             </div>
                         </a>
-                    </li>
-                    <li class="my-3">
+                    </li> --}}
+                    {{-- <li class="my-3">
                         <a href="{{ route('company.hrms.dashboard.index') }}" title="HRMS">
                             <div
                                 class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
@@ -145,8 +145,8 @@
                                 <span class="text-xxs my-2 text-teal-600 dark:text-white">HRMS</span>
                             </div>
                         </a>
-                    </li>
-                    <li class="my-3">
+                    </li> --}}
+                    {{-- <li class="my-3">
                         <a href="" title="ACCOUNTS">
                             <div
                                 class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
@@ -155,7 +155,7 @@
                                 <span class="text-xxs my-2 text-teal-600 dark:text-white">ACCOUNTS</span>
                             </div>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
             <div class="w-full">

@@ -1390,15 +1390,15 @@
     <script>
         // Offer popup on page load (once per session)
         $(document).ready(function() {
-            const shown = sessionStorage.getItem("offerModalShown");
+            // const shown = sessionStorage.getItem("offerModalShown");
 
-            if (!shown) {
-                setTimeout(function() {
-                    const modal = new bootstrap.Modal(document.getElementById('offerModal'));
-                    modal.show();
-                    sessionStorage.setItem("offerModalShown", "true");
-                }, 900); // delay for better UX
-            }
+            // if (!shown) {
+            //     setTimeout(function() {
+            //         const modal = new bootstrap.Modal(document.getElementById('offerModal'));
+            //         modal.show();
+            //         sessionStorage.setItem("offerModalShown", "true");
+            //     }, 900); // delay for better UX
+            // }
         });
     </script>
 

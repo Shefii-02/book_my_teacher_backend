@@ -11,8 +11,8 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         @foreach([
             ['Students','1,240','from-blue-700 to-zinc-700','bi-people'],
-            ['Teachers','120','from-red-600 to-zinc-700','bi-person-video'],
-            ['Courses','86','from-emerald-500 to-zinc-700','bi-journal-bookmark'],
+            ['Teachers','120','from-emerald-500 to-zinc-700','bi-person-video'],
+            ['Courses','86','from-red-600 to-zinc-700 ','bi-journal-bookmark'],
             ['Live Today','12','from-green-600 to-zinc-700','bi-broadcast']
         ] as $stat)
         <div class="bg-gradient-to-r {{$stat[2]}} text-white rounded-2xl p-4 shadow-lg hover:scale-[1.02] transition">
@@ -35,13 +35,13 @@
 
         {{-- Watch vs Spend --}}
         <div class="bg-white/80 backdrop-blur rounded-2xl p-4 shadow">
-            <h3 class="font-semibold mb-2">Watch vs Spend Time</h3>
+            <h4 class="font-semibold mb-2">Watch vs Spend Time</h4>
             <div id="watchSpendChart"></div>
         </div>
 
         {{-- Revenue Chart --}}
         <div class="bg-white/80 backdrop-blur rounded-2xl p-4 shadow">
-            <h3 class="font-semibold mb-2">Monthly Revenue</h3>
+            <h4 class="font-semibold mb-2">Monthly Revenue</h4>
             <div id="revenueChart"></div>
         </div>
     </div>
@@ -51,7 +51,7 @@
     {{-- ⚡ QUICK ACTIONS --}}
     {{-- ===================== --}}
     <div class="bg-white rounded-2xl shadow p-4">
-        <h3 class="font-bold mb-3">Quick Actions</h3>
+        <h4 class="font-bold mb-3">Quick Actions</h4>
 
         <div class="grid grid-cols-3 md:grid-cols-6 gap-3 text-center text-xs">
             @foreach([
@@ -74,7 +74,7 @@
     {{-- ===================== --}}
     {{-- 📦 GRID SECTIONS --}}
     {{-- ===================== --}}
-    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div class="grid md:grid-cols-3 xl:grid-cols-4 gap-4">
 
         {{-- Teachers --}}
         <div class="bg-white rounded-2xl p-4 shadow">

@@ -197,7 +197,7 @@
                     <select name="teachers" class="form-control border w-full">
                         <option value="">Select Teacher</option>
                         @foreach ($teachers as $teacher)
-                            <option value="{{ $teacher->id }}" @selected(old('teachers', $teacherIds ?? '') == $teacher->id)>
+                            <option value="{{ $teacher->user_id }}" @selected(old('teachers', $teacherIds ?? '') == $teacher->user_id)>
                                 {{ $teacher->name }}
                             </option>
                         @endforeach

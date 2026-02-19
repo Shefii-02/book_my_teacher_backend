@@ -556,4 +556,42 @@ class UserController extends Controller
     //   ],
     // ]);
   }
+
+
+  public function fetchingReviews(Request $request)
+  {
+    $reviews = [
+      [
+        "name" => "Aisha Patel",
+        "review" => "Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.",
+        "image" => "https://i.pravatar.cc/150?img=5",
+        "rating" => 4.5,
+      ],
+      [
+        "name" => "Rahul Sharma",
+        "review" => "Helpful and patient during sessions.",
+        "image" => "https://i.pravatar.cc/150?img=12",
+        "rating" => 5.0,
+      ],
+      [
+        "name" => "Sneha R.",
+        "review" => "Good teaching but classes sometimes run late.",
+        "image" => "https://i.pravatar.cc/150?img=8",
+        "rating" => 3.5,
+      ],
+      [
+        "name" => "Kevin Thomas",
+        "review" => "Very friendly and made learning fun!",
+        "image" => "https://i.pravatar.cc/150?img=14",
+        "rating" => 4.0,
+      ],
+      // Add the rest...
+    ];
+
+    return response()->json([
+      "status" => true,
+      "reviews" => $reviews
+    ]);
+  }
+
 }

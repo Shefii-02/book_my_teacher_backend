@@ -48,6 +48,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/bottom-social-links', 'UserController@bottomSocialLinks');
 
+  Route::post('/student-reviews', 'UserController@fetchingReviews');
 
 
   // Route::get('/bottom-social-links', function () {
@@ -449,7 +450,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/fetch-enrolled-courses', 'StudentController@enrolledCourses');
 
-  Route::post('/student-update-personal', 'StudentController@UpdatePersonal');
+    Route::post('/student-update-personal', 'StudentController@UpdatePersonal');
     ///////////////////////////////////////////////////////////////////////
 
   });

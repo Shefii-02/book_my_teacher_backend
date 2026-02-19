@@ -74,4 +74,6 @@ class UserController extends Controller
 
     return view('company.students.detailed-information', compact('user'));
   }
+
+
 }

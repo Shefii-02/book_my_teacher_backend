@@ -11,7 +11,7 @@ class LoginActivity extends Model
     //
      use HasFactory;
 
-    protected $fillable = ['user_id','provider','source','email','ip_address','user_agent','logged_in_at'];
+    protected $fillable = ['user_id','provider','source','email','ip_address','user_agent','logged_in_at','company_id'];
 
 
 

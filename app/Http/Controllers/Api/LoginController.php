@@ -339,6 +339,7 @@ class LoginController extends Controller
   private function LoginActivityStore($user, Request $request)
   {
     LoginActivity::create([
+      'company_id'   => $user->company_id,
       'user_id'      => $user->id,
       'provider'     => 'google',
       'source'       => $request->header('X-APP-SOURCE', 'android'),

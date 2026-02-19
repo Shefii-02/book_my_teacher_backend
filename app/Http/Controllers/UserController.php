@@ -36,7 +36,7 @@ class UserController extends Controller
         // Mobile (with 91 prefix)
         ->orWhereRaw("mobile LIKE ?", ["{$searchMobile}%"]);
     })
-    // ->where('status',1)
+      // ->where('status',1)
       ->select('id', 'name', 'email', 'mobile', 'acc_type')
       ->limit(10)
       ->get();
@@ -46,25 +46,32 @@ class UserController extends Controller
 
 
   public function courses($id)
-{
+  {
     $user = User::findOrFail($id);
-    return $user->courses()->get(['id','title']);
-}
+    return $user->courses()->get(['id', 'title']);
+  }
 
 
 
-public function subjects($id)
-{
+  public function subjects($id)
+  {
     $course = SubjectCourse::findOrFail($id);
-    return $course->subjects()->get(['id','name']);
-}
+    return $course->subjects()->get(['id', 'name']);
+  }
 
 
-public function teachers($id)
-{
+  public function teachers($id)
+  {
     $course = SubjectCourse::findOrFail($id);
-    return $course->teachers()->get(['id','name']);
-}
+    return $course->teachers()->get(['id', 'name']);
+  }
 
 
+  public function studentDetails($id)
+  {
+    $company_id = auth()->user()->company_id;
+    $user = User::where('id', $id)->where('company_id')->first();
+
+    return view('company.students.detailed-information', compact('user'));
+  }
 }

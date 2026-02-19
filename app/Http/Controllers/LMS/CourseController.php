@@ -86,7 +86,7 @@ class CourseController extends Controller
 
   public function create(Request $request)
   {
-    $company_id         = 1;
+    $company_id         = auth()->user()->company_id;
     $course_identity    = $request->draft;
     $categories         = CourseCategory::all();
     $course_draft       = null;

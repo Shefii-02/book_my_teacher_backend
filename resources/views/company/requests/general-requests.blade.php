@@ -167,26 +167,26 @@
                         </div>
                         <div class="flex justify-between items-end">
                             <div class="flex mb-4 mt-2">
-                                <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'pending'])) }}"
+                                <a href="{{ route('company.requests.form-class', array_merge(request()->query(), ['tab' => 'pending'])) }}"
                                     class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
                                     Pending
                                 </a>
 
-                                <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'approved'])) }}"
+                                <a href="{{ route('company.requests.form-class', array_merge(request()->query(), ['tab' => 'approved'])) }}"
                                     class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'approved' ? 'bg-emerald-500/50 text-white' : 'bg-gray-200' }}">
                                     Approved
                                 </a>
 
-                                <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'rejected'])) }}"
+                                <a href="{{ route('company.requests.form-class', array_merge(request()->query(), ['tab' => 'rejected'])) }}"
                                     class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'rejected' ? 'bg-red-500 text-white' : 'bg-gray-200' }}">
                                     Rejected
                                 </a>
                             </div>
                             <div class="">
-                                <form method="GET" action="{{ route('company.teachers.index') }}"
+                                <form method="GET" action="{{ route('company.requests.form-class') }}"
                                     class="mb-4 flex flex-wrap gap-3 items-end">
                                     <input type="hidden" name="tab" value="{{ $activeTab }}" />
                                     <!-- 🔍 Search (name, email, mobile) -->

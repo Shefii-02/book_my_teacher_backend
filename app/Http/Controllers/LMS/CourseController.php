@@ -123,7 +123,6 @@ class CourseController extends Controller
           'categories.*.category_id' => 'nullable|exists:course_categories,id',
         ];
 
-
         // Only require images if creating new course
         if ($isUpdate) {
           $rules['thumbnail'] = 'nullable|image|mimes:jpg,jpeg,png';

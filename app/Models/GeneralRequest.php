@@ -21,4 +21,16 @@ class GeneralRequest extends Model
   {
     return $this->hasOne(User::class, 'id', 'user_id');
   }
+
+  // Status Label Accessor
+  public function getStatusBadgeAttribute()
+  {
+    return match ($this->status) {
+      'pending' => '<span class="badge bg-warning">Pending</span>',
+      'demo_scheduled' => '<span class="badge bg-info">Demo Scheduled</span>',
+      'converted_to_admission' => '<span class="badge bg-success">Converted</span>',
+      'closed' => '<span class="badge bg-danger">Closed</span>',
+      default => '<span class="badge bg-secondary">Unknown</span>',
+    };
+  }
 }

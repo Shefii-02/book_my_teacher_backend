@@ -26,7 +26,7 @@ class RequestController extends Controller
 
       $query->whereHas('user', function ($q) use ($search) {
         $q->where('name', 'LIKE', "%$search%")
-          ->orWhere('phone', 'LIKE', "%$search%");
+          ->orWhere('mobile', 'LIKE', "%$search%");
       });
     }
 

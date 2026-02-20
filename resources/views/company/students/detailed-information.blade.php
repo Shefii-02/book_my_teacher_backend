@@ -61,30 +61,30 @@
     <div class="enterprise-student mt-4">
 
         <!-- ================= HEADER ================= -->
-        <div class="student-header-premium">
+        <div class="student-header-premium m-5">
 
             <div class="d-flex justify-content-between flex-wrap">
 
                 <div class="d-flex align-items-center gap-4">
-                    <img src="https://i.pravatar.cc/150" class="avatar-xl">
+                    <img src="{{ $user->avatar_url ?? 'https://i.pravatar.cc/150' }}" class="avatar-xl">
 
                     <div>
-                        <h3 class="fw-bold mb-1">Rahul Sharma</h3>
-                        <p class="text-muted mb-1">ID: STU-10241</p>
+                        <h3 class="fw-bold mb-1">{{ $user->name }}</h3>
+                        <p class="text-muted mb-1">ID: {{ $user->referral_code }}</p>
 
                         <div class="d-flex gap-2 flex-wrap">
-                            <span class="badge bg-success">Active</span>
-                            <span class="badge bg-primary">Grade 10 - CBSE</span>
+                            {{-- <span class="badge bg-primary">Grade 10 - CBSE</span>
                             <span class="badge bg-warning text-dark">VIP Student</span>
-                            <span class="badge bg-danger">Low Engagement</span>
+                            <span class="badge bg-danger">Low Engagement</span> --}}
                         </div>
                     </div>
                 </div>
 
                 <div class="admin-actions">
-                    <button class="btn btn-outline-primary">Message</button>
-                    <button class="btn btn-outline-warning">Adjust Wallet</button>
-                    <button class="btn btn-danger">Block</button>
+                    {{-- <button class="btn btn-outline-primary">Message</button>
+                    <button class="btn btn-outline-warning">Adjust Wallet</button> --}}
+                    <span
+                        class="badge {{ $user->status ? 'bg-success' : 'bg-danger' }}">{{ $user->status ? 'Active' : 'Deactive' }}</span>
                 </div>
 
             </div>
@@ -112,9 +112,11 @@
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#wallet">Wallet</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#payments">Payments</button>
             </li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#activity">Activity Log</button>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#activity">Activity
+                    Log</button>
             </li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#security">Login Devices</button>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#security">Login
+                    Devices</button>
             </li>
         </ul>
 
@@ -155,7 +157,7 @@
                 </div>
             </div>
 
-             <!-- ================= Academics ================= -->
+            <!-- ================= Academics ================= -->
             <div class="tab-pane fade" id="academics">
                 <div class="row g-4">
                     <h4>No Data Found</h4>

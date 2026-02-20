@@ -11,10 +11,10 @@ return new class extends Migration {
 
 
     // Drop unique composite key
-    $table->dropUnique('teacher_courses_teacher_id_course_id_unique');
+    // $table->dropUnique('teacher_courses_teacher_id_course_id_unique');
 
     // Make teacher nullable
-    $table->unsignedBigInteger('teacher_id')->nullable()->change();
+    // $table->unsignedBigInteger('teacher_id')->nullable()->change();
     });
   }
 

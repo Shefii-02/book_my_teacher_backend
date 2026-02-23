@@ -589,7 +589,7 @@
                                             Invoice</span>
                                     </a>
                                 </li>
-                                <li class="mt-0.5 w-full">
+                                {{-- <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.course-swap.index') }}">
                                         <div
@@ -612,7 +612,7 @@
                                         <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Course
                                             Swap</span>
                                     </a>
-                                </li>
+                                </li> --}}
 
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.coupons.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"

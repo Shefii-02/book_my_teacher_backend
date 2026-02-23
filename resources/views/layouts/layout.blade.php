@@ -482,8 +482,8 @@
                             <ul class="submenu pl-6 {{ Request::routeIs('company.requests.*') ? '' : 'hidden' }}">
 
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.requests.form-class') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.requests.form-class') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.requests.form-class.index') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.requests.form-class.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -495,34 +495,21 @@
                                 </li>
 
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.requests.top-banner') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.requests.top-banner') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.requests.banner.index') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.requests.banner.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
                                                 class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
                                         </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Top Banner
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Banner Requests
                                         </span>
                                     </a>
                                 </li>
 
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.requests.course-banner') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.requests.course-banner') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Course
-                                            Banner </span>
-                                    </a>
-                                </li>
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.requests.teacher-class') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.requests.teacher-class') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.requests.teacher-class.index') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.requests.teacher-class.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -562,7 +549,7 @@
                         </li> --}}
 
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.coupons.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.custom.invoices.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -577,9 +564,9 @@
                             </a>
 
                             <ul
-                                class="submenu pl-6 {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.admissions.*') || Request::routeIs('company.course-swap.*') ? '' : 'hidden' }}">
+                                class="submenu pl-6 {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') ? '' : 'hidden' }}">
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.admissions.*') || Request::routeIs('company.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                    <a class=" dark:text-white {{ Request::routeIs('company.admissions.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.admissions.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
@@ -591,7 +578,7 @@
                                     </a>
                                 </li>
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.custom-invoices.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                    <a class=" dark:text-white {{ Request::routeIs('company.custom.invoices.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.custom.invoices.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
@@ -697,7 +684,7 @@
                                     </a>
                                 </li>
 
-                                <li class="mt-0.5 w-full">
+                                {{-- <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.guest.index') }}">
                                         <div
@@ -708,7 +695,7 @@
                                         <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Bank
                                             Accounts</span>
                                     </a>
-                                </li>
+                                </li> --}}
 
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
@@ -1062,6 +1049,25 @@
                 }
             });
         }
+
+          function confirmSubmit(Idd) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'can I continue?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, do it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form if confirmed
+                    document.getElementById('form2_' + Idd).submit();
+                }
+            });
+        }
+
+
 
         function confirmDeleteAll(event, $form) {
             event.preventDefault();

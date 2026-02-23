@@ -12,11 +12,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 
-class RequestController extends Controller
+class GeneralRequestController extends Controller
 {
 
 
-  public function formClassRequest(Request $request)
+  public function index(Request $request)
   {
     $query = GeneralRequest::with('user')->latest();
 
@@ -62,10 +62,50 @@ class RequestController extends Controller
     return view('company.requests.general-requests', compact('requests', 'data'));
   }
 
+  public function create(Request $request)
+  {
+
+    return view('company.requests.general-requests-create');
+  }
+
+  public function edit($form_class)
+  {
+    $company_id = auth()->user()->company_id;
+
+    $form_class = GeneralRequest::with('user')
+      ->where('id', $form_class)
+      ->where('company_id', $company_id)
+      ->firstOrFail();
+    // Security check
+    if (!$form_class) {
+      abort(403);
+    }
+
+    return view('company.requests.general-requests-edit', compact('form_class'));
+  }
+
+  public function show($form_class)
+  {
+    $company_id = auth()->user()->company_id;
+
+    $form_class = GeneralRequest::with('user')
+      ->where('id', $form_class)
+      ->where('company_id', $company_id)
+      ->firstOrFail();
+    // Security check
+    if (!$form_class) {
+      abort(403);
+    }
+
+    return view('company.requests.general-requests-show', compact('form_class'));
+  }
+
   /**
    * ✏️ Update Lead Status
    */
-  public function updateFormClassStatus(Request $request, $id)
+
+
+  public function update(Request $request, $id)
   {
     $request->validate([
       'status' => 'required|string',
@@ -80,6 +120,14 @@ class RequestController extends Controller
     ]);
 
     return back()->with('success', 'Lead updated successfully');
+  }
+
+
+  public function destroy($form_class)
+  {
+    $company_id = auth()->user()->company_id;
+    GeneralRequest::where('id', $form_class)->where('company_id', $company_id)->delete();
+    return back()->with('success', 'Lead deleted successfully');
   }
 
 

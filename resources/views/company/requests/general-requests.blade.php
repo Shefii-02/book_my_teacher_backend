@@ -18,17 +18,7 @@
     </nav>
 @endsection
 
-@php
-    $statusColors = [
-        'PENDING' => 'bg-gray-200 text-gray-800',
-        'NOT_CONNECTED' => 'bg-red-100 text-red-700',
-        'CALL_BACK_LATER' => 'bg-yellow-100 text-yellow-700',
-        'FOLLOW_UP_LATER' => 'bg-blue-100 text-blue-700',
-        'DEMO_SCHEDULED' => 'bg-purple-100 text-purple-700',
-        'CONVERTED_TO_ADMISSION' => 'bg-green-100 text-green-700',
-        'CLOSED' => 'bg-slate-200 text-slate-700',
-    ];
-@endphp
+
 
 @section('content')
     <!-- cards -->
@@ -156,7 +146,8 @@
                         <div class="flex flex-col border-bottom mb-2">
                             <div class="w-full max-w-full mb-3 flex justify-between">
                                 <h6 class="dark:text-white">Request From Class Requests (Leads)</h6>
-                                <button class="btn bg-gradient-to-tl from-emerald-500 to-teal-400 text-light btn-sm"><i class="bi bi-plus"></i> Create</button>
+                                <button class="btn bg-gradient-to-tl from-emerald-500 to-teal-400 text-light btn-sm"><i
+                                        class="bi bi-plus"></i> Create</button>
                             </div>
                         </div>
 
@@ -167,26 +158,26 @@
                         </div>
                         <div class="flex justify-between items-end">
                             <div class="flex mb-4 mt-2">
-                                <a href="{{ route('company.requests.form-class', array_merge(request()->query(), ['tab' => 'pending'])) }}"
+                                <a href="{{ route('company.requests.form-class.index', array_merge(request()->query(), ['tab' => 'pending'])) }}"
                                     class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
                                     Pending
                                 </a>
 
-                                <a href="{{ route('company.requests.form-class', array_merge(request()->query(), ['tab' => 'approved'])) }}"
+                                <a href="{{ route('company.requests.form-class.index', array_merge(request()->query(), ['tab' => 'approved'])) }}"
                                     class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'approved' ? 'bg-emerald-500/50 text-white' : 'bg-gray-200' }}">
-                                    Approved
+                                    Converted
                                 </a>
 
-                                <a href="{{ route('company.requests.form-class', array_merge(request()->query(), ['tab' => 'rejected'])) }}"
+                                <a href="{{ route('company.requests.form-class.index', array_merge(request()->query(), ['tab' => 'rejected'])) }}"
                                     class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'rejected' ? 'bg-red-500 text-white' : 'bg-gray-200' }}">
                                     Rejected
                                 </a>
                             </div>
                             <div class="">
-                                <form method="GET" action="{{ route('company.requests.form-class') }}"
+                                <form method="GET" action="{{ route('company.requests.form-class.index') }}"
                                     class="mb-4 flex flex-wrap gap-3 items-end">
                                     <input type="hidden" name="tab" value="{{ $activeTab }}" />
                                     <!-- 🔍 Search (name, email, mobile) -->
@@ -201,14 +192,9 @@
                                         <button type="submit"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
                                                 class="bi bi-search"></i> Apply</button>
-                                        <a href="{{ route('company.teachers.index') }}"
+                                        <a href="{{ route('company.requests.form-class.index') }}"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded text-white text-sm"><i
                                                 class="bi bi-arrow-clockwise"></i> Reset </a>
-                                        <a href="{{ route('company.teachers.export', request()->query()) }}"
-                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                            Export Excel
-                                        </a>
                                     </div>
                                 </form>
                             </div>
@@ -272,7 +258,7 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($requests as $lead)
+                                    @foreach ($requests as $key => $lead)
                                         <tr class="border-b">
                                             <td class="p-3">
                                                 <div class="font-semibold">
@@ -280,7 +266,7 @@
                                                         target="user-details">
                                                         {{ $lead->user->name ?? '—' }}</a>
                                                 </div>
-                                                <div class="text-xs text-gray-500">{{ $lead->user->phone ?? '' }}</div>
+                                                <div class="text-xs text-gray-500">{{ $lead->user->mobile ?? '' }}</div>
                                             </td>
 
                                             <td>{{ $lead->from_location }}</td>
@@ -289,61 +275,65 @@
                                             <td>{{ $lead->subject }}</td>
 
                                             <td>
-                                                <span
-                                                    class="px-3 py-1 rounded-full text-xs
-                                {{ $statusColors[$lead->status] ?? 'bg-gray-200' }}">
-                                                    {{ str_replace('_', ' ', $lead->status) }}
-                                                </span>
+
+                                                {!! $lead->status_badge !!}
                                             </td>
 
                                             <td class="max-w-xs text-xs">
                                                 {{ $lead->note ?? '—' }}
                                             </td>
-
-                                            <td>
-                                                <button onclick="openModal({{ $lead->id }})"
-                                                    class="px-3 py-1 text-xs bg-indigo-600 text-white rounded">
-                                                    Update
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                <button id="dropdownBottomButton"
+                                                    data-dropdown-toggle="dropdownBottom_{{ $key }}"
+                                                    data-dropdown-placement="bottom" class="" type="button">
+                                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        fill="none" viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01" />
+                                                    </svg>
                                                 </button>
+
+                                                <!-- Dropdown menu -->
+                                                <div id="dropdownBottom_{{ $key }}"
+                                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                        aria-labelledby="dropdownBottomButton">
+                                                        <li>
+                                                            <a target="_new" href="{{ route('company.student-details', $lead->user->id) }}"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Student
+                                                                View</a>
+                                                        </li>
+                                                        <li>
+                                                            <a role="button" data-url="{{ route('company.requests.form-class.show', $lead->id) }}"
+                                                                class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Lead View</a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a role="button" data-url="{{ route('company.requests.form-class.edit', $lead->id) }}"
+                                                                class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
+                                                        </li>
+                                                        @if($lead->status == 'closed')
+                                                        <li>
+                                                            <form id="form_{{ $lead->id }}" class="m-0 p-0"
+                                                                action="{{ route('company.requests.form-class.destroy', $lead->id) }}"
+                                                                method="POST" class="inline-block">
+                                                                @csrf @method('DELETE') </form>
+                                                            <a role="button" href="javascript:;"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                onclick="confirmDelete({{ $lead->id }})">Delete</a>
+
+                                                        </li>
+                                                        @endif
+                                                    </ul>
+                                                </div>
+
                                             </td>
+
                                         </tr>
 
-                                        {{-- MODAL --}}
-                                        <div id="modal_{{ $lead->id }}"
-                                            class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                                            <div class="bg-white rounded-xl p-5 w-96">
-                                                <h3 class="font-semibold mb-3">Update Lead</h3>
 
-                                                <form method="POST"
-                                                    action="{{ route('company.requests.form-class.update', $lead->id) }}">
-                                                    @csrf
-
-                                                    <label class="block text-sm mb-1">Status</label>
-                                                    <select name="status" class="w-full border rounded px-3 py-2 mb-3">
-                                                        @foreach (array_keys($statusColors) as $status)
-                                                            <option value="{{ $status }}"
-                                                                {{ $lead->status === $status ? 'selected' : '' }}>
-                                                                {{ str_replace('_', ' ', $status) }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-
-                                                    <label class="block text-sm mb-1">Note</label>
-                                                    <textarea name="note" class="w-full border rounded px-3 py-2" rows="3">{{ $lead->note }}</textarea>
-
-                                                    <div class="flex justify-end gap-2 mt-4">
-                                                        <button type="button" onclick="closeModal({{ $lead->id }})"
-                                                            class="px-4 py-2 bg-gray-200 rounded">
-                                                            Cancel
-                                                        </button>
-                                                        <button type="submit"
-                                                            class="px-4 py-2 bg-green-600 text-white rounded">
-                                                            Save
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -355,13 +345,5 @@
                     </div>
 
                 </div>
-                <script>
-                    function openModal(id) {
-                        document.getElementById('modal_' + id).classList.remove('hidden');
-                    }
 
-                    function closeModal(id) {
-                        document.getElementById('modal_' + id).classList.add('hidden');
-                    }
-                </script>
             @endsection

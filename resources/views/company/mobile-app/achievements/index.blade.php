@@ -41,7 +41,7 @@
 
 
                         <div class="grid gap-4">
-                            @forelse ($levels as $lvl)
+                            @forelse ($levels ?? [] as $key => $lvl)
                                 <div class="bg-white p-4 rounded shadow flex justify-between items-center">
                                     <div>
                                         <h6 class="font-semibold">{{ ucfirst($lvl->role) }} - Level {{ $lvl->level_number }}
@@ -49,14 +49,61 @@
                                         <p class="text-sm text-gray-600">{{ $lvl->description }}</p>
                                     </div>
                                     <div class="flex gap-2">
-                                        <a href="{{ route('company.app.achievements.edit', $lvl->id) }}"
-                                            class="px-2 py-1 bg-blue-500 text-white rounded">Edit</a>
-                                        {{-- <a href="{{ route('company.app.achievements.index', ['show' => $lvl->id]) }}"
-                                            class="px-2 py-1 bg-gray-200 rounded">View Tasks</a> --}}
+                                        <button id="dropdownBottomButton"
+                                            data-dropdown-toggle="dropdownBottom_{{ $key }}"
+                                            data-dropdown-placement="bottom" class="" type="button">
+                                            <svg class="w-6 h-6 text-gray-800 dark:text-black" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                                    d="M12 6h.01M12 12h.01M12 18h.01" />
+                                            </svg>
+                                        </button>
+
+                                        <!-- Dropdown menu -->
+                                        <div id="dropdownBottom_{{ $key }}"
+                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownBottomButton">
+
+                                                <li>
+                                                    <a role="button"
+                                                        data-url="{{ route('company.app.achievements.show', $lvl->id) }}"
+                                                        class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">
+                                                        View</a>
+                                                </li>
+
+                                                <li>
+                                                    <a role="button" href="{{ route('company.app.achievements.edit', $lvl->id) }}"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
+                                                </li>
+
+                                                <li>
+                                                    <form id="form_{{ $lvl->id }}" class="m-0 p-0"
+                                                        action="{{ route('company.app.achievements.destroy', $lvl->id) }}"
+                                                        method="POST" class="inline-block">
+                                                        @csrf @method('DELETE') </form>
+                                                    <a role="button" href="javascript:;"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                        onclick="confirmDelete({{ $lvl->id }})">Delete</a>
+
+                                                </li>
+                                                <li>
+                                                    <a role="button"
+                                                        data-url="{{ route('company.app.achievements.tasks.create', $lvl->id) }}"
+                                                        class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Task Create</a>
+                                                </li>
+                                                <li>
+                                                    <a role="button"
+                                                        data-url="{{ route('company.app.achievements.tasks.show', $lvl->id) }}"
+                                                        class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Task List</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             @empty
-                             <div class="bg-white p-4 rounded shadow flex justify-between items-center">
+                                <div class="bg-white p-4 rounded shadow flex justify-between items-center">
                                     <div>
                                         <h5 class="font-semibold text-center">No data found..</h5>
                                     </div>

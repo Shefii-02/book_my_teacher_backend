@@ -69,7 +69,7 @@ class CustomInvoiceController extends Controller
         'company_id' => auth()->user()->company_id,
         'user_id' => auth()->id(),
         'student_id' => $request->student_id,
-        'invoice_no' => '#'.date('ymdhisu'),
+        'invoice_no' => '#' . date('ymdhisu'),
         'customer_name' => $request->customer_name,
         'customer_email' => $request->customer_email,
         'customer_mobile' => $request->customer_mobile,
@@ -112,5 +112,24 @@ class CustomInvoiceController extends Controller
   {
     $pdf = PDF::loadView('company.custom_invoices.pdf', compact('invoice'));
     return $pdf->download($invoice->invoice_no . '.pdf');
+  }
+
+
+  public function payupdate(Request $request, $id)
+  {
+    $invoice = CustomInvoice::where('id', $id)->first();
+    $invoice->status = 'paid';
+    $invoice->save();
+    return redirect()
+      ->back()
+      ->with('success', 'Invoice updated successfully');
+  }
+
+  public function destroy($id)
+  {
+       CustomInvoice::where('id', $id)->delete();
+           return redirect()
+      ->back()
+      ->with('success', 'Invoice deleted successfully');
   }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\MobileApp;
 
 use App\Http\Controllers\Controller;
@@ -8,95 +9,115 @@ use Illuminate\Http\Request;
 
 class AchievementLevelController extends Controller
 {
-    public function index()
-    {
-        $levels = AchievementLevel::orderBy('role')->orderBy('level_number')->paginate(30);
-        return view('company.mobile-app.achievements.index', compact('levels'));
-    }
+  public function index()
+  {
+    $levels = AchievementLevel::orderBy('role')->orderBy('level_number')->paginate(30);
+    return view('company.mobile-app.achievements.index', compact('levels'));
+  }
 
-    public function create()
-    {
-        return view('company.mobile-app.achievements.form', ['level' => new AchievementLevel()]);
-    }
+  public function create()
+  {
+    return view('company.mobile-app.achievements.form', ['level' => new AchievementLevel()]);
+  }
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'role' => 'required|string',
-            'level_number' => 'required|integer',
-            'title'=>'required|string',
-            'description'=>'nullable|string',
-            'position'=>'nullable|integer',
-            'is_active'=>'nullable|boolean',
-        ]);
+  public function store(Request $request)
+  {
+    $data = $request->validate([
+      'role' => 'required|string',
+      'level_number' => 'required|integer',
+      'title' => 'required|string',
+      'description' => 'nullable|string',
+      'position' => 'nullable|integer',
+      'is_active' => 'nullable|boolean',
+    ]);
 
-        $data['company_id'] = auth()->user()->company_id;
-        $level = AchievementLevel::create($data);
-        return redirect()->route('company.app.achievements.index')->with('success','Level created');
-    }
+    $data['company_id'] = auth()->user()->company_id;
+    $level = AchievementLevel::create($data);
+    return redirect()->route('company.app.achievements.index')->with('success', 'Level created');
+  }
 
-    public function edit(AchievementLevel $achievementLevel)
-    {
-        $level = $achievementLevel->load('tasks');
-        return view('company.mobile-app.achievements.form', compact('level'));
-    }
+  public function show($id)
+  {
+    $level = AchievementLevel::where('id', $id)->first();
+    return view('company.mobile-app.achievements.show', compact('level'));
+  }
 
-    public function update(Request $request, AchievementLevel $achievementLevel)
-    {
-        $data = $request->validate([
-            'role' => 'required|string',
-            'level_number' => 'required|integer',
-            'title'=>'required|string',
-            'description'=>'nullable|string',
-            'position'=>'nullable|integer',
-            'is_active'=>'nullable|boolean',
-        ]);
+  public function edit(AchievementLevel $achievementLevel)
+  {
+    $level = $achievementLevel->load('tasks');
+    return view('company.mobile-app.achievements.form', compact('level'));
+  }
 
-        $achievementLevel->update($data);
-        return redirect()->route('company.app.achievements.index')->with('success','Level updated');
-    }
+  public function update(Request $request, AchievementLevel $achievementLevel)
+  {
+    $data = $request->validate([
+      'role' => 'required|string',
+      'level_number' => 'required|integer',
+      'title' => 'required|string',
+      'description' => 'nullable|string',
+      'position' => 'nullable|integer',
+      'is_active' => 'nullable|boolean',
+    ]);
 
-    public function destroy(AchievementLevel $achievementLevel)
-    {
-        $achievementLevel->delete();
-        return back()->with('success','Deleted');
-    }
+    $achievementLevel->update($data);
+    return redirect()->route('company.app.achievements.index')->with('success', 'Level updated');
+  }
 
-    // Tasks CRUD (simple)
-    public function storeTask(Request $request, AchievementLevel $achievementLevel)
-    {
-        $data = $request->validate([
-            'task_type'=>'required|string',
-            'title'=>'required|string',
-            'description'=>'nullable|string',
-            'target_value'=>'required|integer|min:1',
-            'points'=>'nullable|integer',
-            'position'=>'nullable|integer',
-            'is_active'=>'nullable|boolean'
-        ]);
-        $data['achievement_level_id'] = $achievementLevel->id;
-        AchievementTask::create($data);
-        return back()->with('success','Task added');
-    }
+  public function destroy(AchievementLevel $achievementLevel)
+  {
+    $achievementLevel->delete();
+    return back()->with('success', 'Deleted');
+  }
 
-    public function updateTask(Request $request, AchievementTask $task)
-    {
-        $data = $request->validate([
-            'task_type'=>'required|string',
-            'title'=>'required|string',
-            'description'=>'nullable|string',
-            'target_value'=>'required|integer|min:1',
-            'points'=>'nullable|integer',
-            'position'=>'nullable|integer',
-            'is_active'=>'nullable|boolean'
-        ]);
-        $task->update($data);
-        return back()->with('success','Task updated');
-    }
+  // Tasks CRUD (simple)
 
-    public function destroyTask(AchievementTask $task)
-    {
-        $task->delete();
-        return back()->with('success','Task deleted');
-    }
+  public function createTask($id)
+  {
+    $level =  AchievementLevel::where('id', $id)->first();
+    return view('company.mobile-app.achievements.task-level-form', compact('level'));
+  }
+
+  public function showTask(AchievementLevel $achievementLevel)
+  {
+    $level = $achievementLevel->load('tasks');
+    $tasks = $level->tasks;
+    return view('company.mobile-app.achievements.task-list', compact('tasks'));
+  }
+
+  public function storeTask(Request $request, AchievementLevel $achievementLevel)
+  {
+    $data = $request->validate([
+      'task_type' => 'required|string',
+      'title' => 'required|string',
+      'description' => 'nullable|string',
+      'target_value' => 'required|integer|min:1',
+      'points' => 'nullable|integer',
+      'position' => 'nullable|integer',
+      'is_active' => 'nullable|boolean'
+    ]);
+    $data['achievement_level_id'] = $achievementLevel->id;
+    AchievementTask::create($data);
+    return back()->with('success', 'Task added');
+  }
+
+  public function updateTask(Request $request, AchievementTask $task)
+  {
+    $data = $request->validate([
+      'task_type' => 'required|string',
+      'title' => 'required|string',
+      'description' => 'nullable|string',
+      'target_value' => 'required|integer|min:1',
+      'points' => 'nullable|integer',
+      'position' => 'nullable|integer',
+      'is_active' => 'nullable|boolean'
+    ]);
+    $task->update($data);
+    return back()->with('success', 'Task updated');
+  }
+
+  public function destroyTask(AchievementTask $task)
+  {
+    $task->delete();
+    return back()->with('success', 'Task deleted');
+  }
 }

@@ -12,9 +12,9 @@
                 <a class="text-white" href="javascript:;">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Banner Requests Lead List</li>
+                aria-current="page">Teacher Class Requests Lead List</li>
         </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Banner Requests Lead List</h6>
+        <h6 class="mb-0 font-bold text-white capitalize">Teacher Class Requests Lead List</h6>
     </nav>
 @endsection
 
@@ -160,7 +160,7 @@
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="flex flex-col border-bottom mb-2">
                             <div class="w-full max-w-full mb-3 flex justify-between">
-                                <h6 class="dark:text-white">Banner Requests (Leads)</h6>
+                                <h6 class="dark:text-white">Teacher Class Requests (Leads)</h6>
 
                             </div>
                         </div>
@@ -172,26 +172,26 @@
                         </div>
                         <div class="flex justify-between items-end">
                             <div class="flex mb-4 mt-2">
-                                <a href="{{ route('company.requests.banner.index', array_merge(request()->query(), ['tab' => 'pending'])) }}"
+                                <a href="{{ route('company.requests.teacher-class.index', array_merge(request()->query(), ['tab' => 'pending'])) }}"
                                     class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
                                     Pending
                                 </a>
 
-                                <a href="{{ route('company.requests.banner.index', array_merge(request()->query(), ['tab' => 'approved'])) }}"
+                                <a href="{{ route('company.requests.teacher-class.index', array_merge(request()->query(), ['tab' => 'approved'])) }}"
                                     class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'approved' ? 'bg-emerald-500/50 text-white' : 'bg-gray-200' }}">
                                     Converted
                                 </a>
 
-                                <a href="{{ route('company.requests.banner.index', array_merge(request()->query(), ['tab' => 'rejected'])) }}"
+                                <a href="{{ route('company.requests.teacher-class.index', array_merge(request()->query(), ['tab' => 'rejected'])) }}"
                                     class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'rejected' ? 'bg-red-500 text-white' : 'bg-gray-200' }}">
                                     Rejected
                                 </a>
                             </div>
                             <div class="">
-                                <form method="GET" action="{{ route('company.requests.banner.index') }}"
+                                <form method="GET" action="{{ route('company.requests.teacher-class.index') }}"
                                     class="mb-4 flex flex-wrap gap-3 items-end">
                                     <input type="hidden" name="tab" value="{{ $activeTab }}" />
                                     <!-- 🔍 Search (name, email, mobile) -->
@@ -206,7 +206,7 @@
                                         <button type="submit"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
                                                 class="bi bi-search"></i> Apply</button>
-                                        <a href="{{ route('company.requests.banner.index') }}"
+                                        <a href="{{ route('company.requests.teacher-class.index') }}"
                                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded text-white text-sm"><i
                                                 class="bi bi-arrow-clockwise"></i> Reset </a>
                                     </div>
@@ -249,13 +249,20 @@
                                             Student</th>
                                         <th
                                             class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Teacher</th>
+                                        <th
+                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Type</th>
                                         <th
                                             class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Section</th>
+                                            Selected Items</th>
                                         <th
                                             class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Title</th>
+                                            Class Type</th>
+                                            <th
+                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Days Needed</th>
+
                                         <th
                                             class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Created at</th>
@@ -280,11 +287,12 @@
                                                 <div class="text-xs text-gray-500">{{ $lead->user->mobile ?? '' }}</div>
                                             </td>
 
-                                            <td>{{ $lead->banner->type }}</td>
-                                            <td>{{ $lead->banner->banner_type }}</td>
-                                            <td>{{ $lead->banner->title }}</td>
+                                            <td>{{ $lead->teacher?->name }}</td>
+                                            <td>{{ $lead->type }}</td>
+                                            <td>{{ $lead->selected_items }}</td>
+                                            <td>{{ $lead->class_type }}</td>
+                                            <td>{{ $lead->days_needed }}</td>
                                             <td>{{ $lead->created_at }}</td>
-
                                             <td>
                                                 {!! $lead->status_badge !!}
                                             </td>
@@ -313,18 +321,18 @@
                                                                 View</a>
                                                         </li>
                                                         <li>
-                                                            <a role="button" data-url="{{ route('company.requests.banner.show', $lead->id) }}"
+                                                            <a role="button" data-url="{{ route('company.requests.teacher-class.show', $lead->id) }}"
                                                                 class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Lead View</a>
                                                         </li>
 
                                                         <li>
-                                                            <a role="button" data-url="{{ route('company.requests.banner.edit', $lead->id) }}"
+                                                            <a role="button" data-url="{{ route('company.requests.teacher-class.edit', $lead->id) }}"
                                                                 class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         @if($lead->status == 'closed')
                                                         <li>
                                                             <form id="form_{{ $lead->id }}" class="m-0 p-0"
-                                                                action="{{ route('company.requests.banner.destroy', $lead->id) }}"
+                                                                action="{{ route('company.requests.teacher-class.destroy', $lead->id) }}"
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
                                                             <a role="button" href="javascript:;"

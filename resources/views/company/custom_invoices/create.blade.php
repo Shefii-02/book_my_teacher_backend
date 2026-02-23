@@ -3,9 +3,14 @@
 
 @section('content')
     <div class="max-w-6xl mx-auto p-6">
+        <div class="bg-white flex justify-between rounded-2xl shadow-xl mb-4 p-6">
+            <h5 class="text-2xl font-bold text-indigo-600">Create Custom Invoice</h5>
+            <a href="{{ route('company.custom.invoices.index') }}"
+                class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400 text-white rounded text-sm">
+                <i class="bi bi-arrow-left"></i> Back Invoices
+            </a>
+        </div>
         <div class="bg-white rounded-2xl shadow-xl p-6">
-            <h5 class="text-2xl font-bold text-indigo-600 mb-6">Create Custom Invoice</h5>
-
             <form method="POST" action="{{ route('company.custom.invoices.store') }}" id="invoiceForm">
                 @csrf
 

@@ -67,12 +67,15 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::prefix('achievements')->name('achievements.')->group(function () {
       Route::get('/', 'AchievementLevelController@index')->name('index');
       Route::get('/create', 'AchievementLevelController@create')->name('create');
+      Route::get('/{achievementLevel}', 'AchievementLevelController@show')->name('show');
       Route::post('/', 'AchievementLevelController@store')->name('store');
       Route::get('/{achievementLevel}/edit', 'AchievementLevelController@edit')->name('edit');
       Route::put('/{achievementLevel}', 'AchievementLevelController@update')->name('update');
       Route::delete('/{achievementLevel}', 'AchievementLevelController@destroy')->name('destroy');
 
       // tasks
+      Route::get('/{achievementLevel}/create', 'AchievementLevelController@createTask')->name('tasks.create');
+      Route::get('/{achievementLevel}/show', 'AchievementLevelController@showTask')->name('tasks.show');
       Route::post('/{achievementLevel}/tasks', 'AchievementLevelController@storeTask')->name('tasks.store');
       Route::put('/tasks/{task}', 'AchievementLevelController@updateTask')->name('tasks.update');
       Route::delete('/tasks/{task}', 'AchievementLevelController@destroyTask')->name('tasks.destroy');
@@ -191,24 +194,25 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   });
 
   Route::prefix('requests')->name('requests.')->group(function () {
-    Route::get('form-class', 'LMS\RequestController@formClassRequest')->name('form-class');
-    Route::post('form-class/update/{id}', 'LMS\RequestController@updateFormClassStatus')->name('form-class.update');
-    Route::get('top-banner', 'LMS\RequestController@bannerRequests')->name('top-banner');
-    Route::post('top-banner/update/{id}', 'LMS\RequestController@bannerRequestsUpdate')->name('top-banner.update');
-    Route::get('course-banner', 'LMS\RequestController@courseBanner')->name('course-banner');
-    Route::post('course-banner/update/{id}', 'LMS\RequestController@courseBannerRequestsUpdate')->name('course-banner.update');
+    Route::resource('form-class', 'LMS\GeneralRequestController')->names('form-class');
 
-    Route::get('teacher-class', 'LMS\RequestController@teacherClassRequests')->name('teacher-class');
-    Route::post('teacher-class/update/{id}', 'LMS\RequestController@teacherClassRequestsUpdate')->name('teacher-class.update');
+    Route::resource('banner', 'LMS\BannerRequestController')->names('banner');
+
+    Route::resource('teacher-class', 'LMS\TeacherClassRequestController')->names('teacher-class');
+
   });
 
   Route::get('custom-invoices', 'LMS\CustomInvoiceController@index')->name('custom.invoices.index');
   Route::get('custom-invoices/create', 'LMS\CustomInvoiceController@create')->name('custom.invoices.create');
   Route::post('custom-invoices', 'LMS\CustomInvoiceController@store')->name('custom.invoices.store');
   Route::get('custom-invoices/pay/{id}', 'LMS\CustomInvoiceController@create')->name('custom.invoices.pay');
-  Route::post('custom-invoices/pay/{id}', 'LMS\CustomInvoiceController@payupdate')->name('custom.invoices.pay.update');
-  Route::get('custom-invoices/{invoice}/download', 'LMS\CustomInvoiceController@download')->name('custom.invoices.download');
+
   Route::delete('custom-invoices/{invoice}/delete', 'LMS\CustomInvoiceController@destroy')->name('custom.invoices.destroy');
+
+  Route::post('custom-invoices/pay/{id}', 'LMS\CustomInvoiceController@payupdate')->name('custom.invoices.pay.update');
+
+  Route::get('custom-invoices/{invoice}/download', 'LMS\CustomInvoiceController@download')->name('custom.invoices.download');
+
 
 
 

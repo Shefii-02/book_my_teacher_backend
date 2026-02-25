@@ -111,7 +111,7 @@
                             <div
                                 class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                 <img src="{{ asset('assets/images/logo/lms1.png') }}"
-                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm">
+                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-blue-500 text-sm border-success border-3">
                                 <span class="text-xxs my-2 text-teal-600 dark:text-white">LMS</span>
                             </div>
                         </a>
@@ -549,7 +549,7 @@
                         </li> --}}
 
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.custom.invoices.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.coupons.*')|| Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -644,7 +644,7 @@
                         </li> --}}
 
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.analytics.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.analytics.admissions.*') || Request::routeIs('company.analytics.registrations.*') || Request::routeIs('company.analytics.refferal-rewards.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -658,10 +658,10 @@
                                 <span class="bi bi-caret-down ml-auto mr-4"></span>
                             </a>
 
-                            <ul class="submenu pl-6 {{ Request::routeIs('company.analytics.*') ? '' : 'hidden' }}">
+                            <ul class="submenu pl-6 {{ Request::routeIs('company.analytics.admissions.*') || Request::routeIs('company.analytics.registrations.*') || Request::routeIs('company.analytics.refferal-rewards.*') ? '' : 'hidden' }}">
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.guest.index') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.analytics.admissions.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.analytics.admissions.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -672,8 +672,8 @@
                                     </a>
                                 </li>
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.guest.index') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.analytics.registrations.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.analytics.registrations.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -698,8 +698,8 @@
                                 </li> --}}
 
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.guest') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.guest.index') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.analytics.refferal-rewards.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.analytics.refferal-rewards.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i

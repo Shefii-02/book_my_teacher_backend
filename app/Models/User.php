@@ -65,6 +65,17 @@ class User extends Authenticatable
     ];
   }
 
+  protected static function boot()
+  {
+    parent::boot();
+
+    static::creating(function ($user) {
+      $user->referral_code = self::generateUniqueReferralCode();
+    });
+  }
+
+
+
   public function professionalInfo()
   {
     return $this->hasOne(TeacherProfessionalInfo::class, 'teacher_id');
@@ -122,21 +133,17 @@ class User extends Authenticatable
   }
 
 
+  public function teachers()
+  {
+    return $this->hasMany(Teacher::class, 'user_id', 'id');
+  }
+
+
   public function company()
   {
     return $this->hasOne(Company::class, 'id', 'company_id');
   }
 
-
-
-  protected static function boot()
-  {
-    parent::boot();
-
-    static::creating(function ($user) {
-      $user->referral_code = self::generateUniqueReferralCode();
-    });
-  }
 
   // public static function generateUniqueReferralCode()
   // {
@@ -216,5 +223,12 @@ class User extends Authenticatable
   {
     return $this->hasMany(CourseRegistration::class, 'user_id', 'id');
   }
+
+
+   public function top_teachers()
+  {
+    return $this->hasMany(TopTeacher::class, 'teacher_id', 'id');
+  }
+
 
 }

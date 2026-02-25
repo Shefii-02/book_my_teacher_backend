@@ -26,9 +26,9 @@ class AdmissionController extends Controller
   public function index(Request $request)
   {
     $query = Purchase::with([
-      'student:id,name,email,mobile',
-      'course:id,title',
-      'payments'
+      // 'student:id,name,email,mobile',
+      // 'course:id,title',
+      // 'payments'
     ]);
 
     /* ================= FILTERS ================= */
@@ -132,7 +132,7 @@ class AdmissionController extends Controller
     $data = User::where('name', 'like', "%{$q}%")
       ->orWhere('email', 'like', "%{$q}%")
       ->orWhere('mobile', 'like', "%{$q}%")
-      ->limit(30)->get(['id', 'name', 'email', 'mobile','address','city','postal_code','district','state','country']);
+      ->limit(30)->get(['id', 'name', 'email', 'mobile', 'address', 'city', 'postal_code', 'district', 'state', 'country']);
     return response()->json($data);
   }
 
@@ -285,6 +285,8 @@ class AdmissionController extends Controller
       'notes' => 'nullable',
     ]);
 
+    $company_id = auth()->user()->company_id;
+
     $purchaseDetails   = $this->calculatePurchaseDetails($req);
 
     //check installment_grand_total == grand_total;
@@ -298,14 +300,14 @@ class AdmissionController extends Controller
       }
     }
 
-    $pur = Purchase::where('student_id',$req->student_id)->where('course_id',$req->course_id)->where('status','paid')->first();
-    if($pur){
-        return redirect()
-          ->back()
-          ->with('error', 'Student already purchased');
+    $pur = Purchase::where('student_id', $req->student_id)->where('course_id', $req->course_id)->where('status', 'paid')->first();
+    if ($pur) {
+      return redirect()
+        ->back()
+        ->with('error', 'Student already purchased');
     }
 
-    $user = User::where('id',$req->student_id)->where('company_id',auth()->user()->company_id)->first();
+    $user = User::where('id', $req->student_id)->where('company_id', auth()->user()->company_id)->first();
 
     DB::beginTransaction();
     try {
@@ -356,18 +358,20 @@ class AdmissionController extends Controller
         'status' => 'initiated',
       ]);
 
-
-      $courseReg = new CourseRegistration();
-      $courseReg->company_id = auth()->user()->company_id;
-      $courseReg->course_id	 = $req->course_id;
-      $courseReg->user_id	   = $user->id;
-      $courseReg->name       = $user->name;
-      $courseReg->email      = $user->email;
-      $courseReg->phone      = $user->mobile;
-      $courseReg->checked_in = 0;
-      $courseReg->status     = 'penindg';
-      $courseReg->payment_id = $purchase->id;
-      $courseReg->save();
+      $courseReg = CourseRegistration::where('course_id', $req->course_id)->where('company_id', $company_id)->where('user_id', $user->id)->first();
+      if (!$courseReg) {
+        $courseReg = new CourseRegistration();
+        $courseReg->company_id = $company_id;
+        $courseReg->course_id   = $req->course_id;
+        $courseReg->user_id     = $user->id;
+        $courseReg->name       = $user->name;
+        $courseReg->email      = $user->email;
+        $courseReg->phone      = $user->mobile;
+        $courseReg->checked_in = 0;
+        $courseReg->status     = 'penindg';
+        $courseReg->payment_id = $purchase->id;
+        $courseReg->save();
+      }
 
 
       DB::commit();
@@ -397,7 +401,7 @@ class AdmissionController extends Controller
         $courseReg->update(['status' => 'completed']);
 
         return redirect()
-          ->route('company.payments.success',$payment->order_id)
+          ->route('company.payments.success', $payment->order_id)
           ->with('success', 'Cash payment marked as paid');
         // return redirect()->route('company.payments.bank-details', $purchase->id);
       case 'in-cash':
@@ -406,7 +410,7 @@ class AdmissionController extends Controller
         $courseReg->update(['status' => 'completed']);
 
         return redirect()
-          ->route('company.payments.success',$payment->order_id)
+          ->route('company.payments.success', $payment->order_id)
           ->with('success', 'Cash payment marked as paid');
 
       case 'free':
@@ -415,7 +419,7 @@ class AdmissionController extends Controller
         $courseReg->update(['status' => 'completed']);
 
         return redirect()
-          ->route('company.payments.success',$payment->order_id);
+          ->route('company.payments.success', $payment->order_id);
 
       default:
         throw new \Exception('Invalid payment method');

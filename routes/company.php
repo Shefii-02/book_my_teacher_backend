@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\dashboard\Analytics;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth', 'company_panel'], 'namespace' => 'App\Http\Controllers'], function () {
@@ -11,6 +12,12 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
   Route::get('/student-details/{id}', 'UserController@studentDetails')->name('student-details');
 
+
+  Route::prefix('analytics')->name('analytics.')->group(function () {
+    Route::resource('admissions', 'LMS\Analytics\AdmissionAnalyticsController')->names('admissions');
+    Route::resource('registrations', 'LMS\Analytics\RegistrationAnalyticsController')->names('registrations');
+    Route::resource('refferal-rewards', 'LMS\Analytics\RefferalRewardAnalyticsController')->names('refferal-rewards');
+  });
 
 
   Route::group(['prefix' => 'app', 'as' => 'app.', 'namespace' => 'MobileApp'], function () {
@@ -199,7 +206,6 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::resource('banner', 'LMS\BannerRequestController')->names('banner');
 
     Route::resource('teacher-class', 'LMS\TeacherClassRequestController')->names('teacher-class');
-
   });
 
   Route::get('custom-invoices', 'LMS\CustomInvoiceController@index')->name('custom.invoices.index');

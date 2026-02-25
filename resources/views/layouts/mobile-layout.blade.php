@@ -90,7 +90,7 @@
                             <div
                                 class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                 <img src="{{ asset('assets/images/logo/lms1.png') }}"
-                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-emerald-500 text-sm">
+                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-emerald-500 text-sm ">
                                 <span class="text-xxs my-2 text-teal-600 dark:text-white">LMS</span>
                             </div>
                         </a>
@@ -100,7 +100,7 @@
                             <div
                                 class="mr-2 flex flex-col h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                 <img src="{{ asset('assets/images/logo/mobile.png') }}"
-                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-emerald-500 text-sm">
+                                    class="relative top-0 w-8 shadow-lg rounded-10 leading-normal text-emerald-500 text-sm border-success border-3">
                                 <span class="text-xxs my-2 text-teal-600 dark:text-white">App</span>
                             </div>
                         </a>

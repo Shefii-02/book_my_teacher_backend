@@ -73,8 +73,6 @@
             border: 1px solid #e4e4e4 !important;
             border-radius: 9px;
         }
-
-
     </style>
     @stack('styles')
 </head>
@@ -180,7 +178,7 @@
                                         class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-r-circle"></i>
                                 </div>
 
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Registration</span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Users</span>
 
                                 <!-- Right aligned caret -->
                                 <span class="bi bi-caret-down ml-auto mr-4"></span>
@@ -255,7 +253,7 @@
                                             List</span>
                                     </a>
                                 </li>
-                                <li class="mt-0.5 w-full">
+                                {{-- <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.google-signIn') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.google-signIn') }}">
                                         <div
@@ -266,7 +264,7 @@
                                         <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Google
                                             Sign In</span>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.apple-signIn') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.apple-signIn') }}">
@@ -502,7 +500,8 @@
                                             <i
                                                 class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
                                         </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Banner Requests
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Banner
+                                            Requests
                                         </span>
                                     </a>
                                 </li>
@@ -549,7 +548,7 @@
                         </li> --}}
 
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.coupons.*')|| Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -658,7 +657,8 @@
                                 <span class="bi bi-caret-down ml-auto mr-4"></span>
                             </a>
 
-                            <ul class="submenu pl-6 {{ Request::routeIs('company.analytics.admissions.*') || Request::routeIs('company.analytics.registrations.*') || Request::routeIs('company.analytics.refferal-rewards.*') ? '' : 'hidden' }}">
+                            <ul
+                                class="submenu pl-6 {{ Request::routeIs('company.analytics.admissions.*') || Request::routeIs('company.analytics.registrations.*') || Request::routeIs('company.analytics.refferal-rewards.*') ? '' : 'hidden' }}">
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.analytics.admissions.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.analytics.admissions.index') }}">
@@ -780,11 +780,14 @@
                         <div class="relative flex flex-wrap items-stretch w-full transition-all rounded-lg ease">
                             <span
                                 class="text-sm ease leading-5.6 absolute z-50 -ml-px flex h-full items-center whitespace-nowrap rounded-lg rounded-tr-none rounded-br-none border border-r-0 border-transparent bg-transparent py-2 px-2.5 text-center font-normal text-slate-500 transition-all">
-                                <i class="fas fa-search"></i>
+                                <i class="bi bi-search"></i>
                             </span>
-                            <input type="text"
+                            <input type="search" autocomplete="off" id="globalSearch"
                                 class="pl-9 text-sm focus:shadow-primary-outline ease w-1/100 leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
                                 placeholder="Type here..." />
+                            <div id="searchResults"
+                                class="absolute mt-10 left-0 w-full bg-white rounded-xl shadow-lg hidden z-50 max-h-96 overflow-y-auto">
+                            </div>
                         </div>
                     </div>
                     <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
@@ -1050,7 +1053,7 @@
             });
         }
 
-          function confirmSubmit(Idd) {
+        function confirmSubmit(Idd) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: 'can I continue?',
@@ -1231,6 +1234,155 @@
             document.getElementById('note').value = quill.root.innerHTML;
         });
     </script>
+    <script>
+        $(document).ready(function() {
+
+            let timer;
+
+            $('body').on('input', '#globalSearch', function() {
+
+                clearTimeout(timer);
+
+                let q = $(this).val().trim();
+
+                if (q.length < 2) {
+                    $('#searchResults').addClass('hidden').html('');
+                    return;
+                }
+
+                timer = setTimeout(function() {
+
+                    $.ajax({
+                        url: "/company/global-search",
+                        type: "GET",
+                        data: {
+                            q: q
+                        },
+                        success: function(data) {
+                            renderResults(data);
+                        },
+                        error: function() {
+                            console.log("Search error");
+                        }
+                    });
+
+                }, 300);
+
+            });
+
+            function renderResults(data) {
+
+                let html = '';
+
+                const buildSection = (title, items) => {
+                    if (!items || items.length === 0) return ''; // 🔥 hide empty
+
+                    let section = `
+            <div class="p-2 border-b">
+                <div class="text-xs font-bold text-gray-400 mb-1"> ${title} (${items.length})
+</div>
+        `;
+
+                    $.each(items, function(index, item) {
+                        section += `
+                <a href="${item.url}" class="block px-3 py-2 hover:bg-gray-100 rounded">
+                    <div class="font-semibold text-sm">${item.name}</div>
+                    ${item.mobile ? `<div class="text-xs text-gray-500">(${item.mobile})</div>` : ''}
+                    <div class="text-xs text-gray-500">${item.sub ?? ''}</div>
+                </a>
+            `;
+                    });
+
+                    section += `</div>`;
+                    return section;
+                };
+
+                // 🔥 Loop dynamically (cleaner)
+                const sections = {
+                    Students: data.students,
+                    Teachers: data.teachers,
+                    Staff: data.staff,
+                    "Quick Links": data.links
+                };
+
+                $.each(sections, function(title, items) {
+                    html += buildSection(title, items);
+                });
+
+                // Empty state
+                if (!html.trim()) {
+                    html = `<div class="p-3 text-sm text-gray-400">No results found</div>`;
+                }
+
+                $('#searchResults')
+                    .html(html)
+                    .removeClass('hidden');
+            }
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#globalSearch, #searchResults').length) {
+                    $('#searchResults').addClass('hidden');
+                }
+            });
+
+        });
+    </script>
+    {{-- <script>
+        const input = document.getElementById('globalSearch');
+        const results = document.getElementById('searchResults');
+
+        let timer;
+
+        input.addEventListener('keyup', function() {
+            clearTimeout(timer);
+
+            let q = this.value.trim();
+
+            if (q.length < 2) {
+                results.classList.add('hidden');
+                return;
+            }
+
+            timer = setTimeout(() => {
+                fetch(`/company/global-search?q=${q}`)
+                    .then(res => res.json())
+                    .then(data => renderResults(data));
+            }, 300);
+        });
+
+        function renderResults(data) {
+            let html = '';
+
+            const buildSection = (title, items) => {
+                if (!items.length) return '';
+                let s = `<div class="p-2 border-b">
+                    <div class="text-xs font-bold text-gray-400 mb-1">${title}</div>`;
+                items.forEach(i => {
+                    s += `
+                <a href="${i.url}" class="block px-3 py-2 hover:bg-gray-100 rounded">
+                    <div class="font-semibold text-sm">${i.name}</div>
+                    <div class="text-xs text-gray-500">${i.sub}</div>
+                </a>`;
+                });
+                return s + '</div>';
+            };
+
+            html += buildSection('Students', data.students);
+            html += buildSection('Teachers', data.teachers);
+            html += buildSection('Staff', data.staff);
+            html += buildSection('Quick Links', data.links);
+
+            results.innerHTML = html;
+            results.classList.remove('hidden');
+        }
+
+        // Close on outside click
+        document.addEventListener('click', function(e) {
+            if (!input.contains(e.target) && !results.contains(e.target)) {
+                results.classList.add('hidden');
+            }
+        });
+    </script> --}}
 
 </body>
 

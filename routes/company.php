@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth', 'company_panel'], 'namespace' => 'App\Http\Controllers'], function () {
 
+  Route::get('global-search', 'GlobalSearchController@search')
+    ->name('global.search');
+
   Route::get('/ajax/users/search', 'UserController@searchUsers')->name('search-users');
   Route::get('/users/{id}/courses', 'UserController@courses');
   Route::get('/courses/{id}/subjects', 'CourseController@subjects');
@@ -143,6 +146,10 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::post('/profile', 'dashboard\UserController@changePassword')->name('profile.changePassword');
 
   Route::get('/teachers', 'LMS\TeacherController@index')->name('teachers.index');
+  Route::get('teachers/search', 'LMS\TeacherController@teachersSearch')->name('teachers.search');
+
+
+
   Route::get('/teachers/create', 'LMS\TeacherController@create')->name('teachers.create');
   Route::post('/teachers/store', 'LMS\TeacherController@store')->name('teachers.store');
   Route::get('teachers/export', 'LMS\TeacherController@exportTeachers')->name('teachers.export');

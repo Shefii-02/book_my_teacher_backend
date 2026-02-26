@@ -204,32 +204,40 @@
 
 
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex1">
+                        <div>
                             <div class="w-full max-w-full ">
                                 <h6 class="dark:text-white">Teachers List</h6>
                             </div>
-                            @php
-                                $activeTab = request('tab', 'pending');
-                            @endphp
+                            <div class="flex justify-between items-center">
+                                @php
+                                    $activeTab = request('tab', 'pending');
+                                @endphp
 
-                            <div class="flex mb-4 mt-2">
-                                <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'pending'])) }}"
-                                    class="px-4 py-2  text-sm font-semibold
+                                <div class="flex mb-4 mt-2">
+                                    <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'pending'])) }}"
+                                        class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
-                                    Pending
-                                </a>
+                                        Pending
+                                    </a>
 
-                                <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'approved'])) }}"
-                                    class="px-4 py-2  text-sm font-semibold
+                                    <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'approved'])) }}"
+                                        class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'approved' ? 'bg-emerald-500/50 text-white' : 'bg-gray-200' }}">
-                                    Approved
-                                </a>
+                                        Approved
+                                    </a>
 
-                                <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'rejected'])) }}"
-                                    class="px-4 py-2  text-sm font-semibold
+                                    <a href="{{ route('company.teachers.index', array_merge(request()->query(), ['tab' => 'rejected'])) }}"
+                                        class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'rejected' ? 'bg-red-500 text-white' : 'bg-gray-200' }}">
-                                    Rejected
-                                </a>
+                                        Rejected
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="{{ route('company.teachers.search') }}"
+                                        class="px-4 py-2 bg-gradient-to-tl from-blue-700 to-teal-400  text-white rounded text-sm">
+                                        <i class="bi bi-search"></i>
+                                        Filter Teachers</a>
+                                </div>
                             </div>
                             <div class="w-full max-w-full ">
                                 <form method="GET" action="{{ route('company.teachers.index') }}"
@@ -285,7 +293,7 @@
                                         <label class="block text-sm font-medium mb-1">Current Stage</label>
                                         <select name="current_account_stage" class="border rounded px-3 py-2 w-32">
                                             <option value="">All</option> --}}
-                                            {{-- <option value="personal information"
+                                    {{-- <option value="personal information"
                                                 {{ request('current_account_stage') == 'personal information' ? 'selected' : '' }}>
                                                 Personal Information</option>
                                             <option value="teaching information"
@@ -293,8 +301,8 @@
                                                 Teaching Information</option>
                                             <option value="cv upload"
                                                 {{ request('current_account_stage') == 'cv upload' ? 'selected' : '' }}>CV --}}
-                                            {{-- Upload</option> --}}
-                                            {{-- <option value="verification process"
+                                    {{-- Upload</option> --}}
+                                    {{-- <option value="verification process"
                                                 {{ request('current_account_stage') == 'verification process' ? 'selected' : '' }}>
                                                 Verification Process</option>
                                             <option value="schedule interview"
@@ -303,7 +311,7 @@
                                             <option value="upload demo class"
                                                 {{ request('current_account_stage') == 'upload demo class' ? 'selected' : '' }}>
                                                 Upload Demo Class</option> --}}
-                                        {{-- </select>
+                                    {{-- </select>
                                     </div> --}}
 
                                     <!-- Submit + Reset -->

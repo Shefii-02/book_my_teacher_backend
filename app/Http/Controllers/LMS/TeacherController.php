@@ -4,6 +4,7 @@ namespace App\Http\Controllers\LMS;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Grade;
 use App\Models\MediaFile;
 use App\Models\Teacher;
 use App\Models\TeacherGrade;
@@ -189,7 +190,7 @@ class TeacherController extends Controller
       ->where('company_id', $company_id)
       ->where('acc_type', 'teacher');
 
-      $tab = $request->get('tab', 'pending');
+    $tab = $request->get('tab', 'pending');
 
     if ($tab === 'approved') {
       $query->where('current_account_stage', 'account verified')
@@ -803,5 +804,89 @@ class TeacherController extends Controller
       DB::rollBack();
       return redirect()->back()->with('error', 'Failed to delete teacher' . $e->getMessage());
     }
+  }
+
+
+  public function teachersSearch(Request $request)
+  {
+
+    $grades = Grade::with([
+      'boards' => function ($q) {
+        $q->where('published', 1);
+      },
+      'boards.subjects' => function ($q) {
+        $q->where('published', 1);
+      }
+    ])->where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
+
+    $query = User::query()
+      ->with(['professionalInfo', 'subjects'])
+      ->where('company_id', auth()->user()->company_id);
+
+    /** STATUS */
+    if ($request->status) {
+      $query->where('status', $request->status);
+    }
+
+    /** GRADE + BOARD */
+    if ($request->grade_id) {
+      $query->whereHas(
+        'professionalInfo',
+        fn($q) =>
+        $q->where('grade_id', $request->grade_id)
+      );
+    }
+
+    if ($request->board_id) {
+      $query->whereHas(
+        'professionalInfo',
+        fn($q) =>
+        $q->where('board_id', $request->board_id)
+      );
+    }
+
+    /** SUBJECT */
+    if ($request->subject_id) {
+      $query->whereHas(
+        'subjects',
+        fn($q) =>
+        $q->where('subject_id', $request->subject_id)
+      );
+    }
+
+    /** MODE */
+    if ($request->mode) {
+      $query->whereHas(
+        'professionalInfo',
+        fn($q) =>
+        $q->where('mode', $request->mode)
+      );
+    }
+
+    /** DISTRICT */
+    if ($request->district) {
+      $query->whereHas(
+        'professionalInfo',
+        fn($q) =>
+        $q->where('district', 'like', "%{$request->district}%")
+      );
+    }
+
+    /** RATING (avg) */
+    if ($request->rating) {
+      $query->whereHas('reviews', function ($q) use ($request) {
+        $q->selectRaw('teacher_id, avg(rating) as avg_rating')
+          ->groupBy('teacher_id')
+          ->having('avg_rating', '>=', $request->rating);
+      });
+    }
+
+    $teachers = $query->latest()->paginate(15)->withQueryString();
+
+    return view('company.teachers.search', compact('teachers', 'grades'));
   }
 }

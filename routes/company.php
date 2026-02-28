@@ -74,6 +74,11 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::get('teachers/{id}/login-security', 'TeacherController@loginSecurity')->name('teachers.login-security');
     Route::post('teachers/{id}/login-security', 'TeacherController@loginSecurityChange')->name('teachers.login-security.change');
 
+    Route::get('teachers/{id}/grades/edit', 'TeacherController@gradeEdit')->name('teachers.grades.edit');
+    Route::post('teachers/{id}/grades/update', 'TeacherController@gradesUpdate')->name('teachers.grades.update');
+
+
+
     Route::prefix('achievements')->name('achievements.')->group(function () {
       Route::get('/', 'AchievementLevelController@index')->name('index');
       Route::get('/create', 'AchievementLevelController@create')->name('create');
@@ -148,6 +153,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('/teachers', 'LMS\TeacherController@index')->name('teachers.index');
   Route::get('teachers/search', 'LMS\TeacherController@teachersSearch')->name('teachers.search');
 
+  Route::resource('teacher-activities', 'LMS\UserActivityRatingController')->names('teacher-activities');
 
 
   Route::get('/teachers/create', 'LMS\TeacherController@create')->name('teachers.create');

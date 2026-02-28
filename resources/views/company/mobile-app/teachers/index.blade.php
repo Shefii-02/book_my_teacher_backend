@@ -114,9 +114,16 @@
                                                             class="block px-4 py-2 hover:bg-gray-100">Edit</a>
                                                     </li>
                                                     <li>
-                                                        <a data-url="{{ route('company.app.teachers.login-security', $t->user_id) }}"
+                                                        <a role="button"
+                                                            data-url="{{ route('company.app.teachers.login-security', $t->user_id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100 open-drawer dark:hover:bg-white dark:hover:text-white">Login
                                                             Security</a>
+                                                    </li>
+                                                    <li>
+                                                        <a role="button"
+                                                            data-url="{{ route('company.app.teachers.grades.edit', $t->user_id) }}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 open-drawer dark:hover:bg-white dark:hover:text-white">
+                                                            Teaching Grades</a>
                                                     </li>
                                                     <li>
                                                         <form id="form_{{ $t->id }}" method="POST"
@@ -191,3 +198,33 @@
 
     </div>
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+
+            function toggleModes(card) {
+                const subject = card.find('.subject-checkbox');
+                const modes = card.find('.online-toggle, .offline-toggle');
+
+                if (subject.is(':checked')) {
+                    modes.prop('disabled', false);
+                } else {
+                    modes.prop('disabled', true).prop('checked', false);
+                }
+            }
+
+            // On load (existing data)
+            $('.subject-checkbox').each(function() {
+                toggleModes($(this).closest('label'));
+            });
+
+            // On change
+            $('body').on('change', '.subject-checkbox', function() {
+                toggleModes($(this).closest('div'));
+            });
+
+        });
+    </script>
+@endpush

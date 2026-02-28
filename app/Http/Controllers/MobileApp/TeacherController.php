@@ -6,10 +6,12 @@ use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Teachers\StoreTeacherRequest;
 use App\Http\Requests\Teachers\UpdateTeacherRequest;
+use App\Models\Grade;
 use App\Models\Teacher;
 use App\Models\TeacherSubjectRate;
 use App\Models\Subject;
 use App\Models\TeacherCertificate;
+use App\Models\TeachersTeachingGradeDetail;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -356,6 +358,69 @@ class TeacherController extends Controller
     } catch (\Exception $e) {
       DB::rollBack();
       return redirect()->back()->with(['error', 'Failed to teacher login security updation' . $e->getMessage()]);
+    }
+  }
+
+  public function gradeEdit($teacherId)
+  {
+    $teacher = User::findOrFail($teacherId);
+
+    $grades = Grade::with([
+      'boards' => function ($q) {
+        $q->where('published', 1)
+          ->with(['subjects' => function ($q2) {
+            $q2->where('published', 1);
+          }]);
+      }
+    ])->where('published', 1)->get();
+
+    // ✅ Full teaching details for edit
+    $teacherDetails = TeachersTeachingGradeDetail::where('user_id', $teacherId)->get();
+
+    return view(
+      'company.mobile-app.teachers.teaching-grades',
+      compact('grades', 'teacher', 'teacherDetails')
+    );
+  }
+
+  // =========================
+  // SAVE / UPDATE
+  // =========================
+
+  public function gradesUpdate(Request $request, $teacherId)
+  {
+    DB::beginTransaction();
+    try {
+      $teacher = User::findOrFail($teacherId);
+
+      // delete old
+      TeachersTeachingGradeDetail::where('user_id', $teacherId)->delete();
+
+      if ($request->has('data')) {
+        foreach ($request->data as $gradeId => $boardIds) {
+          foreach ($boardIds as $board_id => $boardId) {
+            foreach ($boardId ?? [] as $subjects) {
+              foreach ($subjects ?? [] as $subject) {
+                if (isset($subject['id'])) {
+                  TeachersTeachingGradeDetail::create([
+                    'user_id'    => $teacherId,
+                    'grade_id'   => $gradeId,
+                    'board_id'   => $board_id,
+                    'subject_id' => $subject['id'],
+                    'online'     => isset($subject['online']) ? 1 : 0,
+                    'offline'    => isset($subject['offline']) ? 1 : 0,
+                  ]);
+                }
+              }
+            }
+          }
+        }
+      }
+      DB::commit();
+      return back()->with('success', 'Teaching details updated');
+    } catch (Exception $e) {
+      DB::rollBack();
+      return back()->with('error', 'Teaching details updation filed' . $e->getMessage());
     }
   }
 }

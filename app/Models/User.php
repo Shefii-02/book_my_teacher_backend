@@ -81,6 +81,12 @@ class User extends Authenticatable
     return $this->hasOne(TeacherProfessionalInfo::class, 'teacher_id');
   }
 
+  public function teachingDetails()
+  {
+    return $this->hasMany(TeachersTeachingGradeDetail::class);
+  }
+
+
 
   public function teacherGrades()
   {
@@ -211,7 +217,7 @@ class User extends Authenticatable
 
   public function wallet()
   {
-    return $this->hasOne(Wallet::class,'user_id','id');
+    return $this->hasOne(Wallet::class, 'user_id', 'id');
   }
 
   public function walletHistories()
@@ -225,10 +231,8 @@ class User extends Authenticatable
   }
 
 
-   public function top_teachers()
+  public function top_teachers()
   {
     return $this->hasMany(TopTeacher::class, 'teacher_id', 'id');
   }
-
-
 }

@@ -9,6 +9,7 @@ use App\Models\MediaFile;
 use App\Models\Teacher;
 use App\Models\TeacherGrade;
 use App\Models\TeacherProfessionalInfo;
+use App\Models\TeachersTeachingGradeDetail;
 use App\Models\TeacherWorkingDay;
 use App\Models\TeacherWorkingHour;
 use App\Models\TeachingSubject;
@@ -40,10 +41,10 @@ class TeacherController extends Controller
         'both_teachers'   => $countByMode($allTeachers, 'both'),
       ],
       'unverified' => [
-        'teachers'        => $allTeachers->where('current_account_stage', '!=', 'account verified')->count(),
-        'online_teachers' => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified'), 'online'),
-        'offline_teachers' => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified'), 'offline'),
-        'both_teachers'   => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified'), 'both'),
+        'teachers'        => $allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=' ,'rejected')->count(),
+        'online_teachers' => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=' ,'rejected'), 'online'),
+        'offline_teachers' => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=' ,'rejected'), 'offline'),
+        'both_teachers'   => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=' ,'rejected'), 'both'),
       ],
       'verified' => [
         'teachers'        => $allTeachers->where('current_account_stage', 'account verified')->count(),
@@ -807,6 +808,7 @@ class TeacherController extends Controller
   }
 
 
+
   public function teachersSearch(Request $request)
   {
 
@@ -878,11 +880,7 @@ class TeacherController extends Controller
 
     /** RATING (avg) */
     if ($request->rating) {
-      $query->whereHas('reviews', function ($q) use ($request) {
-        $q->selectRaw('teacher_id, avg(rating) as avg_rating')
-          ->groupBy('teacher_id')
-          ->having('avg_rating', '>=', $request->rating);
-      });
+      $query->where('rating', $request->rating);
     }
 
     $teachers = $query->latest()->paginate(15)->withQueryString();

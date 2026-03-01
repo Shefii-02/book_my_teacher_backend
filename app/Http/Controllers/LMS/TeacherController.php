@@ -825,7 +825,7 @@ class TeacherController extends Controller
       ->orderBy('position')
       ->get();
 
-    $teachers = User::query();
+    $teachers = User::where('acc_type','teacher')->query();
 
     // ================= BASIC FILTERS =================
 

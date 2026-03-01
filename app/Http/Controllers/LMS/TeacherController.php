@@ -569,7 +569,7 @@ class TeacherController extends Controller
 
 
 
-    Log::info($request->all());
+    // Log::info($request->all());
 
 
     try {
@@ -597,8 +597,10 @@ class TeacherController extends Controller
 
       // === RULE 1: Verification Process Completed ===
       if ($currentStage === 'verification process' && $newStatus === 'completed') {
-        $teacher->current_account_stage = 'schedule interview';
-        $teacher->account_status = 'in progress';
+        // $teacher->current_account_stage = 'schedule interview';
+        // $teacher->account_status = 'in progress';
+        $teacher->current_account_stage = 'account verified';
+        $teacher->account_status = 'completed';
       }
 
       // === RULE 2: Schedule Interview Completed ===
@@ -825,26 +827,26 @@ class TeacherController extends Controller
       ->orderBy('position')
       ->get();
 
-    $teachers = User::where('acc_type','teacher');
+    $teachers = User::where('acc_type', 'teacher');
 
     // ================= BASIC FILTERS =================
 
-      if ($request->filled('status')) {
-        if ($request->status == 'approved') {
-          $teachers->where('status', 1);
-        } else if ($request->status == 'pending') {
-          $teachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=', 'rejected');
-        } else if ($request->status == 'rejected') {
-          $teachers->where('account_status', '!=', 'rejected');
-        }
+    if ($request->filled('status')) {
+      if ($request->status == 'approved') {
+        $teachers->where('status', 1);
+      } else if ($request->status == 'pending') {
+        $teachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=', 'rejected');
+      } else if ($request->status == 'rejected') {
+        $teachers->where('account_status', '!=', 'rejected');
       }
-      if ($request->filled('district')) {
-        $teachers->where('district', $request->district);
-      }
+    }
+    if ($request->filled('district')) {
+      $teachers->where('district', $request->district);
+    }
 
-      if ($request->filled('rating')) {
-        $teachers->where('rating', '>=', $request->rating);
-      }
+    if ($request->filled('rating')) {
+      $teachers->where('rating', '>=', $request->rating);
+    }
 
 
 

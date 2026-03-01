@@ -14,5 +14,10 @@ class TeacherWorkingDay extends Model
       'day'
     ];
 
+  public function slots()
+  {
+    return $this->hasMany(TeacherWorkingHour::class, 'available_day_id', 'id');
+  }
+
 
 }

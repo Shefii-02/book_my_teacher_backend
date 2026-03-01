@@ -41,10 +41,10 @@ class TeacherController extends Controller
         'both_teachers'   => $countByMode($allTeachers, 'both'),
       ],
       'unverified' => [
-        'teachers'        => $allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=' ,'rejected')->count(),
-        'online_teachers' => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=' ,'rejected'), 'online'),
-        'offline_teachers' => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=' ,'rejected'), 'offline'),
-        'both_teachers'   => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=' ,'rejected'), 'both'),
+        'teachers'        => $allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=', 'rejected')->count(),
+        'online_teachers' => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=', 'rejected'), 'online'),
+        'offline_teachers' => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=', 'rejected'), 'offline'),
+        'both_teachers'   => $countByMode($allTeachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=', 'rejected'), 'both'),
       ],
       'verified' => [
         'teachers'        => $allTeachers->where('current_account_stage', 'account verified')->count(),
@@ -812,6 +812,7 @@ class TeacherController extends Controller
   public function teachersSearch(Request $request)
   {
 
+
     $grades = Grade::with([
       'boards' => function ($q) {
         $q->where('published', 1);
@@ -824,66 +825,70 @@ class TeacherController extends Controller
       ->orderBy('position')
       ->get();
 
+    $teachers = User::query();
 
-    $query = User::query()
-      ->with(['professionalInfo', 'subjects'])
-      ->where('company_id', auth()->user()->company_id);
+    // ================= BASIC FILTERS =================
 
-    /** STATUS */
-    if ($request->status) {
-      $query->where('status', $request->status);
+      if ($request->filled('status')) {
+        if ($request->status == 'approved') {
+          $teachers->where('status', 1);
+        } else if ($request->status == 'pending') {
+          $teachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=', 'rejected');
+        } else if ($request->status == 'rejected') {
+          $teachers->where('account_status', '!=', 'rejected');
+        }
+      }
+      if ($request->filled('district')) {
+        $teachers->where('district', $request->district);
+      }
+
+      if ($request->filled('rating')) {
+        $teachers->where('rating', '>=', $request->rating);
+      }
+
+
+
+    // ================= GRADE / BOARD / SUBJECT FILTER =================
+    if (
+      $request->filled('grade_id') ||
+      $request->filled('board_id') ||
+      $request->filled('subject_id') ||
+      $request->filled('mode')
+    ) {
+      $teachers->whereHas('teachingDetails', function ($q) use ($request) {
+
+        // Grade
+        if ($request->filled('grade_id')) {
+          $q->where('grade_id', $request->grade_id);
+        }
+
+        // Board
+        if ($request->filled('board_id')) {
+          $q->where('board_id', $request->board_id);
+        }
+
+        // MULTI SUBJECT
+        if ($request->filled('subject_id')) {
+          $q->whereIn('subject_id', $request->subject_id);
+        }
+
+        // MODE (online/offline)
+        if ($request->filled('mode')) {
+          if ($request->mode == 'online') {
+            $q->where('online', 1);
+          }
+
+          if ($request->mode == 'offline') {
+            $q->where('offline', 1);
+          }
+        }
+      });
     }
 
-    /** GRADE + BOARD */
-    if ($request->grade_id) {
-      $query->whereHas(
-        'professionalInfo',
-        fn($q) =>
-        $q->where('grade_id', $request->grade_id)
-      );
-    }
-
-    if ($request->board_id) {
-      $query->whereHas(
-        'professionalInfo',
-        fn($q) =>
-        $q->where('board_id', $request->board_id)
-      );
-    }
-
-    /** SUBJECT */
-    if ($request->subject_id) {
-      $query->whereHas(
-        'subjects',
-        fn($q) =>
-        $q->where('subject_id', $request->subject_id)
-      );
-    }
-
-    /** MODE */
-    if ($request->mode) {
-      $query->whereHas(
-        'professionalInfo',
-        fn($q) =>
-        $q->where('mode', $request->mode)
-      );
-    }
-
-    /** DISTRICT */
-    if ($request->district) {
-      $query->whereHas(
-        'professionalInfo',
-        fn($q) =>
-        $q->where('district', 'like', "%{$request->district}%")
-      );
-    }
-
-    /** RATING (avg) */
-    if ($request->rating) {
-      $query->where('rating', $request->rating);
-    }
-
-    $teachers = $query->latest()->paginate(15)->withQueryString();
+    $teachers = $teachers
+      ->latest()
+      ->paginate(12)
+      ->withQueryString();
 
     return view('company.teachers.search', compact('teachers', 'grades'));
   }

@@ -6,12 +6,15 @@ use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Teachers\StoreTeacherRequest;
 use App\Http\Requests\Teachers\UpdateTeacherRequest;
+use App\Models\Board;
 use App\Models\Grade;
 use App\Models\Teacher;
 use App\Models\TeacherSubjectRate;
 use App\Models\Subject;
 use App\Models\TeacherCertificate;
 use App\Models\TeachersTeachingGradeDetail;
+use App\Models\TeacherWorkingDay;
+use App\Models\TeacherWorkingHour;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -21,10 +24,51 @@ use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
-    $teachers = Teacher::orderBy('id', 'desc')->paginate(15);
-    return view('company.mobile-app.teachers.index', compact('teachers'));
+    $company_id = auth()->user()->company_id;
+    // $teachers = Teacher::with('courses')->orderBy('id', 'desc')->paginate(15);
+    $teachers = Teacher::with(['user', 'teachingGrades', 'teachingBoards', 'subjectRates'])
+      ->when($request->search, function ($q) use ($request) {
+        $q->where('name', 'like', '%' . $request->search . '%')
+          ->orWhereHas('user', function ($qq) use ($request) {
+            $qq->where('email', 'like', '%' . $request->search . '%')
+              ->orWhere('mobile', 'like', '%' . $request->search . '%');
+          });
+      })
+
+      ->when($request->grade, function ($q) use ($request) {
+        $q->whereHas('teachingGrades', function ($qq) use ($request) {
+          $qq->where('grade_id', $request->grade);
+        });
+      })
+
+      ->when($request->board, function ($q) use ($request) {
+        $q->whereHas('teachingBoards', function ($qq) use ($request) {
+          $qq->where('board_id', $request->board);
+        });
+      })
+
+      ->when($request->subject, function ($q) use ($request) {
+        $q->whereHas('subjectRates', function ($qq) use ($request) {
+          $qq->where('subject_id', $request->subject);
+        });
+      })
+
+      ->when($request->rating, function ($q) use ($request) {
+        $q->where('avg_rating', '>=', $request->rating);
+      })
+
+      ->latest()
+      ->paginate(15)
+      ->withQueryString();
+
+    return view('company.mobile-app.teachers.index', [
+      'teachers' => $teachers,
+      'grades' => Grade::where('company_id',$company_id)->get(),
+      'boards' => Board::where('company_id',$company_id)->get(),
+      'subjects' => Subject::where('company_id',$company_id)->get(),
+    ]);
   }
 
   public function create()
@@ -407,7 +451,7 @@ class TeacherController extends Controller
                     'grade_id'   => $gradeId,
                     'board_id'   => $board_id,
                     'subject_id' => $subject['id'],
-                    'online'     => isset($subject['online']) ? 1 : 0,
+                    'online'     => isset($subject['online']) ? 1 : 1,
                     'offline'    => isset($subject['offline']) ? 1 : 0,
                   ]);
                 }
@@ -421,6 +465,95 @@ class TeacherController extends Controller
     } catch (Exception $e) {
       DB::rollBack();
       return back()->with('error', 'Teaching details updation filed' . $e->getMessage());
+    }
+  }
+
+
+  public function teachingSlotEdit($teacherId)
+  {
+    $days = [
+      'sun' => 'Sunday',
+      'mon' => 'Monday',
+      'tue' => 'Tuesday',
+      'wed' => 'Wednesday',
+      'thu' => 'Thursday',
+      'fri' => 'Friday',
+      'sat' => 'Saturday',
+    ];
+
+
+    // generate 5AM → 11PM slots
+    $timeSlots = [];
+    $start = strtotime("05:00");
+    $end   = strtotime("23:00");
+
+    while ($start < $end) {
+      $timeSlots[] = [
+        'start' => date('H:i:s', $start),
+        'label' => date('h.i', $start) . '-' . date('h.i A', $start + 3600),
+      ];
+      $start += 3600;
+    }
+
+    // selected slots
+    $selectedSlots = [];
+
+    $existing = TeacherWorkingDay::with('slots')->where('teacher_id', $teacherId)->get();
+    $selectedSlots = [];
+
+    foreach ($existing as $dayRow) {
+
+      $dayName = $dayRow->day; // sun, mon, etc OR Sunday (depends on your column)
+
+      foreach ($dayRow->slots as $slot) {
+
+        // Convert DB time → label format (same as Blade)
+        $start = $slot->time_slot;
+        $label = $slot->time_slot;
+
+        $selectedSlots[$dayName][] = $label;
+      }
+    }
+    return view('company.mobile-app.teachers.teaching-slots', compact('days', 'timeSlots', 'selectedSlots', 'teacherId'));
+  }
+
+  public function teachingSlotUpdate(Request $request, $teacherId)
+  {
+
+    DB::beginTransaction();
+
+    try {
+
+      // 1️⃣ Delete old data
+      TeacherWorkingDay::where('teacher_id', $teacherId)->delete();
+
+      // 2️⃣ Insert new data
+      if ($request->slots) {
+        foreach ($request->slots as $dayName => $timeSlots) {
+          // Insert day
+          $day = TeacherWorkingDay::create([
+            'teacher_id' => $teacherId,
+            'day'   => $dayName,
+          ]);
+
+          foreach ($timeSlots as $slot) {
+
+            TeacherWorkingHour::create([
+              'teacher_id' => $teacherId,
+              'available_day_id' => $day->id,
+              'time_slot' => $slot,
+            ]);
+          }
+        }
+      }
+
+      DB::commit();
+
+      return back()->with('success', 'Teaching slots updated successfully');
+    } catch (\Exception $e) {
+
+      DB::rollBack();
+      return back()->with('error', $e->getMessage());
     }
   }
 }

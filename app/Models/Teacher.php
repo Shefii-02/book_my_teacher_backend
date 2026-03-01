@@ -58,6 +58,35 @@ class Teacher extends Model
     );
   }
 
+  public function workingDays()
+  {
+    return $this->hasMany(TeacherWorkingDay::class, 'teacher_id', 'user_id');
+  }
+
+
+  public function teachingGrades()
+  {
+    return $this->belongsToMany(
+      Grade::class,                       // Related model
+      'teachers_teaching_grade_details',  // Pivot table
+      'user_id',                          // Pivot column referencing Teacher
+      'grade_id',                         // Pivot column referencing Grade
+      'user_id',                          // Local key on Teacher table
+      'id'                                // Local key on Grade table
+    )->distinct();
+  }
+
+  public function teachingBoards()
+  {
+    return $this->belongsToMany(
+      Board::class,                       // Related model
+      'teachers_teaching_grade_details',  // Pivot table
+      'user_id',                          // Pivot column referencing Teacher
+      'board_id',                         // Pivot column referencing Grade
+      'user_id',                          // Local key on Teacher table
+      'id'                                // Local key on Grade table
+    )->distinct();
+  }
 
 
   public function teacherCertificates()
@@ -70,10 +99,9 @@ class Teacher extends Model
     return $this->hasOne(TopTeacher::class);
   }
 
-
-   public function user()
+  public function user()
   {
-    return $this->hasOne(User::class,'id','user_id');
+    return $this->hasOne(User::class, 'id', 'user_id');
   }
 
   public function reviews()
@@ -81,9 +109,22 @@ class Teacher extends Model
     return $this->hasMany(SubjectReview::class, 'teacher_id', 'id');
   }
 
-  public function courses()
+  // public function courses()
+  // {
+  //   return $this->hasMany(TeacherCourse::class, 'teacher_id', 'id');
+  // }
+
+   public function courses()
   {
-    return $this->hasMany(TeacherCourse::class, 'teacher_id', 'id');
+
+    return $this->belongsToMany(
+        Course::class,
+        'teacher_courses',
+        'teacher_id', // Pivot column referencing Teacher
+        'course_id',  // Pivot column referencing Course
+        'id',         // Local key on Teacher table
+        'id'          // Local key on Course table
+    );
   }
 
 
@@ -97,6 +138,11 @@ class Teacher extends Model
     );
   }
 
+
+    public function teachingDetails()
+  {
+    return $this->hasMany(TeachersTeachingGradeDetail::class,'user_id');
+  }
 
   public function thumbnailMedia()
   {

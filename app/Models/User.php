@@ -88,6 +88,46 @@ class User extends Authenticatable
 
 
 
+  public function teachingGrades()
+  {
+    return $this->belongsToMany(
+      Grade::class,                       // Related model
+      'teachers_teaching_grade_details',  // Pivot table
+      'id',                               // Pivot column referencing User
+      'grade_id',                         // Pivot column referencing Grade
+      'id',                          // Local key on User table
+      'id'                                // Local key on Grade table
+    )->distinct();
+  }
+
+  public function teachingBoards()
+  {
+    return $this->belongsToMany(
+      Board::class,                       // Related model
+      'teachers_teaching_grade_details',  // Pivot table
+      'id',                          // Pivot column referencing Teacher
+      'board_id',                         // Pivot column referencing Grade
+      'id',                          // Local key on Teacher table
+      'id'                                // Local key on Grade table
+    )->distinct();
+  }
+
+
+    public function courses()
+  {
+
+    return $this->belongsToMany(
+        Course::class,
+        'teacher_courses',
+        'id', // Pivot column referencing Teacher
+        'course_id',  // Pivot column referencing Course
+        'id',         // Local key on Teacher table
+        'id'          // Local key on Course table
+    );
+  }
+
+
+
   public function teacherGrades()
   {
     return $this->hasMany(TeacherGrade::class, 'teacher_id');

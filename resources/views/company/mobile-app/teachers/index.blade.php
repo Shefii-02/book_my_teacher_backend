@@ -34,168 +34,220 @@
                         </div>
                     </div>
 
-                    <div class="flex-auto px-3 pt-0 pb-2 overflow-x-auto">
-                        <table class="items-center w-full mb-0 text-slate-500 align-top border-collapse">
-                            <thead class="align-bottom">
-                                <tr>
-                                    <th class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">Photo</th>
-                                    <th class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">Name</th>
-                                    <th class="px-6 py-3 font-bold text-left text-xxs uppercase opacity-70">Subjects</th>
-                                    <th class="px-6 py-3 font-bold text-center text-xxs uppercase opacity-70">Rates</th>
-                                    <th class="px-6 py-3 font-bold text-center text-xxs uppercase opacity-70">Earnings</th>
-                                    <th class="px-6 py-3 font-bold text-center text-xxs uppercase opacity-70">Status</th>
-                                    <th class="px-6 py-3"></th>
-                                </tr>
-                            </thead>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-4 relative border">
 
-                            <tbody>
-                                @forelse ($teachers as $t)
-                                    <tr class="border-b">
-                                        <td class="p-2 align-middle">
-                                            <img src="{{ $t->thumbnail_url }}"
-                                                class="h-12 rounded-xl object-cover shadow-sm  ms-4" />
-                                        </td>
+                    <form method="GET" action="{{ route('company.app.teachers.index') }}">
 
-                                        <td class="p-2 align-middle">
-                                            <p class="text-sm font-semibold text-neutral-900  ms-4">
-                                                {{ $t->name }}
-                                            </p>
-                                            <p class="text-xs text-gray-500">{{ $t->email }}</p>
-                                        </td>
+                        <div class="grid grid-cols-6 md:grid-cols-6 gap-3 align-center">
 
-                                        <td class="p-2 align-middle">
-                                            <p class="text-xs">
+                            {{-- Search --}}
+                            <div class="md:col-span-2">
+                                <input type="text" name="search" value="{{ request('search') }}"
+                                    placeholder="Search name, email, mobile..."
+                                    class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-400 outline-none">
+                            </div>
 
-                                                @foreach ($t->subjectRates as $s)
-                                                    <span class="bg-gray-200 text-xs px-2 py-1 rounded-md mr-1">
-                                                        {{ $s->subject ? $s->subject->name : '' }}
-                                                    </span>
-                                                @endforeach
-                                            </p>
-                                        </td>
+                            {{-- Grade --}}
+                            <div>
+                                <select name="grade" class="w-full border rounded-lg px-3 py-2 text-sm">
+                                    <option value="">All Grades</option>
+                                    @foreach ($grades as $g)
+                                        <option value="{{ $g->id }}"
+                                            {{ request('grade') == $g->id ? 'selected' : '' }}>
+                                            {{ $g->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                        <!-- Short summary: average rate -->
-                                        <td class="p-2 text-center align-middle">
-                                            <span class="text-xs">
-                                                Avg: ₹{{ $t->avg_rate }}/hr
-                                            </span>
-                                        </td>
+                            {{-- Board --}}
+                            <div>
+                                <select name="board" class="w-full border rounded-lg px-3 py-2 text-sm">
+                                    <option value="">All Boards</option>
+                                    @foreach ($boards as $b)
+                                        <option value="{{ $b->id }}"
+                                            {{ request('board') == $b->id ? 'selected' : '' }}>
+                                            {{ $b->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                        <!-- Earnings -->
-                                        <td class="p-2 text-center align-middle">
-                                            <span
-                                                class="text-xs font-semibold">₹{{ number_format($t->earnings_total, 0) }}</span>
-                                        </td>
+                            {{-- Subject --}}
+                            <div>
+                                <select name="subject" class="w-full border rounded-lg px-3 py-2 text-sm">
+                                    <option value="">All Subjects</option>
+                                    @foreach ($subjects as $s)
+                                        <option value="{{ $s->id }}"
+                                            {{ request('subject') == $s->id ? 'selected' : '' }}>
+                                            {{ $s->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                        <td class="p-2 text-center align-middle">
-                                            @if ($t->published == '1')
-                                                <span class="bg-emerald-500/50 text-white px-3 py-1 text-xs rounded-full">
-                                                    Active
-                                                </span>
-                                            @else
-                                                <span class="bg-red-500 text-white px-3 py-1 text-xs rounded-full">
-                                                    Disabled
-                                                </span>
-                                            @endif
-                                        </td>
+                            {{-- Rating --}}
+                            <div>
+                                <select name="rating" class="w-full border rounded-lg px-3 py-2 text-sm">
+                                    <option value="">All Ratings</option>
+                                    <option value="4">4★ & Above</option>
+                                    <option value="3">3★ & Above</option>
+                                    <option value="2">2★ & Above</option>
+                                    <option value="2">1★</option>
+                                </select>
+                            </div>
+                            <div>
+                                <div class="flex justify-end  gap-2">
+                                    <a href="{{ route('company.app.teachers.index') }}"
+                                        class="p-2 text-sm bg-danger rounded text-light">
+                                        Reset
+                                    </a>
 
-                                        <td class="p-2 align-middle">
-                                            <button data-dropdown-toggle="dropdown_{{ $t->id }}">
-                                                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-width="2"
-                                                        d="M12 6h.01M12 12h.01M12 18h.01" />
-                                                </svg>
-                                            </button>
-                                            <div id="dropdown_{{ $t->id }}"
-                                                class="hidden z-10 bg-white rounded-lg shadow w-44">
-                                                <ul class="py-2 text-sm text-gray-700 shadow-blur">
-                                                    <li>
-                                                        <a href="{{ route('company.app.teachers.edit', $t->id) }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100">Edit</a>
-                                                    </li>
-                                                    <li>
-                                                        <a role="button"
-                                                            data-url="{{ route('company.app.teachers.login-security', $t->user_id) }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 open-drawer dark:hover:bg-white dark:hover:text-white">Login
-                                                            Security</a>
-                                                    </li>
-                                                    <li>
-                                                        <a role="button"
-                                                            data-url="{{ route('company.app.teachers.grades.edit', $t->user_id) }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 open-drawer dark:hover:bg-white dark:hover:text-white">
-                                                            Teaching Grades</a>
-                                                    </li>
-                                                    <li>
-                                                        <form id="form_{{ $t->id }}" method="POST"
-                                                            action="{{ route('company.app.teachers.destroy', $t->id) }}">
-                                                            @csrf @method('DELETE')
-                                                        </form>
-                                                        <a onclick="confirmDelete({{ $t->id }})"
-                                                            class="block px-4 py-2 hover:bg-gray-100"
-                                                            role="button">Delete</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center py-5">No teachers found</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        {{-- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            @foreach ($teachers as $t)
-                                <div class="bg-white p-4 rounded-xl shadow-md">
-                                    <div class="flex items-center gap-4">
-                                        <img src="{{ $t->photo_url }}" class="h-16 w-16 rounded-xl object-cover shadow" />
-                                        <div>
-                                            <h3 class="text-lg font-semibold">{{ $t->name }}</h3>
-                                            <p class="text-xs text-gray-500">{{ $t->email }}</p>
-                                        </div>
-                                    </div>
+                                    <button type="submit" class="p-2 text-sm bg-success text-light rounded">
+                                        Apply Filter
+                                    </button>
+                                </div>
+                            </div>
 
-                                    <div class="mt-4">
-                                        <p class="text-xs font-bold">Subjects</p>
-                                        <div class="flex flex-wrap gap-1 mt-1">
+                        </div>
 
-                                            @foreach ($t->subjectRates as $s)
-                                                <span
-                                                    class="bg-gray-200 text-xs px-2 py-1 rounded-md">{{ $s->subject ? $s->subject->name : '' }}</span>
-                                            @endforeach
-                                        </div>
-                                    </div>
 
-                                    <div class="mt-3 text-xs">
-                                        <p><b>Avg Rate:</b> ₹{{ $t->avg_rate }}/hr</p>
-                                        <p><b>Total Earnings:</b> ₹{{ $t->earnings_total }}</p>
-                                    </div>
 
-                                    <div class="mt-4 flex justify-between items-center">
-                                        @if ($t->status)
-                                            <span
-                                                class="bg-emerald-500/50 px-3 py-1 text-xs rounded-full text-white">Active</span>
-                                        @else
-                                            <span
-                                                class="bg-red-500 px-3 py-1 text-xs rounded-full text-white">Disabled</span>
-                                        @endif
+                    </form>
+                    {{-- </div> --}}
 
-                                        <a href="{{ route('company.teachers.edit', $t->id) }}"
-                                            class="text-sm text-blue-600 hover:underline">
-                                            Edit →
-                                        </a>
+                    <div class="space-y-4 mt-5">
+
+                        @forelse ($teachers as $t)
+                            <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-4 relative border">
+
+                                {{-- Dropdown Top Right --}}
+                                <div class="absolute top-4 right-4">
+                                    <button data-dropdown-toggle="dropdown_{{ $t->id }}"
+                                        class="p-2 rounded-lg hover:bg-gray-100">
+                                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-width="2"
+                                                d="M12 6h.01M12 12h.01M12 18h.01" />
+                                        </svg>
+                                    </button>
+
+                                    <div id="dropdown_{{ $t->id }}"
+                                        class="hidden absolute right-0 mt-2 bg-white shadow-xl rounded-xl w-44 z-10 border">
+                                        <ul class="text-sm text-gray-700">
+
+                                            <li> <a href="{{ route('company.app.teachers.edit', $t->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100">Edit</a> </li>
+                                            <li> <a role="button"
+                                                    data-url="{{ route('company.app.teachers.login-security', $t->user_id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 open-drawer dark:hover:bg-white dark:hover:text-white">Login
+                                                    Security</a> </li>
+                                            <li> <a role="button"
+                                                    data-url="{{ route('company.app.teachers.grades.edit', $t->user_id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 open-drawer dark:hover:bg-white dark:hover:text-white">
+                                                    Teaching Grades</a> </li>
+                                            <li> <a role="button"
+                                                    data-url="{{ route('company.app.teachers.slots.edit', $t->user_id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 open-drawer dark:hover:bg-white dark:hover:text-white">
+                                                    Teaching Slots</a> </li>
+                                            <li>
+                                                <form id="form_{{ $t->id }}" method="POST"
+                                                    action="{{ route('company.app.teachers.destroy', $t->id) }}"> @csrf
+                                                    @method('DELETE') </form> <a
+                                                    onclick="confirmDelete({{ $t->id }})"
+                                                    class="block px-4 py-2 hover:bg-gray-100" role="button">Delete</a>
+                                            </li>
+
+                                        </ul>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div> --}}
+
+                                {{-- Main Content --}}
+                                <div class="flex items-start gap-4">
+                                    <div class="flex flex-col gap-2 ">
+
+                                        {{-- Profile --}}
+                                        <img src="{{ $t->thumbnail_url }}"
+                                            class="h-16 w-16 rounded-xl object-cover shadow" />
+                                        @if ($t->published)
+                                            <span
+                                                class="bg-success text-center text-light px-2 py-0.5 rounded text-xxs font-semibold">
+                                                Active
+                                            </span>
+                                        @else
+                                            <span
+                                                class="bg-danger text-center text-light px-2 py-0.5 rounded text-xxs font-semibold">
+                                                Disabled
+                                            </span>
+                                        @endif
+
+                                    </div>
+                                    {{-- Details --}}
+                                    <div class="flex">
+
+                                        {{-- Name + Status --}}
+                                        <div class="flex items-center gap-3 me-3">
+                                            <div class="text-base font-semibold text-gray-900">
+                                                {{ $t->name }} <p class="text-xxs">
+                                                    {{ $t->user->email }}<br>{{ $t->user->mobile }}</p>
+                                            </div>
+
+
+                                        </div>
+
+                                        <p class="text-xs text-gray-500 mt-1">{{ $t->email }}</p>
+
+                                        {{-- Info Row --}}
+                                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-3 text-xs">
+
+                                            <div>
+                                                <p class="text-gray-400">Grades</p>
+                                                <p class="font-medium text-gray-700">
+                                                    {{ implodeComma($t->teachingGrades?->pluck('name')) ?: '-' }}
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                <p class="text-gray-400">Boards</p>
+                                                <p class="font-medium text-gray-700">
+                                                    {{ implodeComma($t->teachingBoards?->pluck('name')) ?: '-' }}
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                <p class="text-gray-400">Courses</p>
+                                                <p class="font-medium text-gray-700">
+                                                    {{ $t->courses()->count() }} Total
+                                                    • {{ $t->courses->where('ended_at', '>=', date('Y-m-d'))->count() }}
+                                                    Ongoing
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                <p class="text-gray-400">Earnings</p>
+                                                <p class="font-semibold text-gray-900">
+                                                    ₹{{ number_format($t->earnings_total, 0) }}
+                                                </p>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        @empty
+                            <div class="text-center py-10 text-gray-400 bg-white rounded-xl shadow">
+                                No teachers found
+                            </div>
+                        @endforelse
 
                     </div>
-
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
 

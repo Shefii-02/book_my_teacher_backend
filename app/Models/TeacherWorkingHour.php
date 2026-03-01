@@ -10,6 +10,11 @@ class TeacherWorkingHour extends Model
   use HasFactory;
   protected $fillable = [
     'teacher_id',
-    'time_slot'
+    'available_day_id',
+    'time_slot',
   ];
+
+
+
+
 }

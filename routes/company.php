@@ -77,7 +77,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::get('teachers/{id}/grades/edit', 'TeacherController@gradeEdit')->name('teachers.grades.edit');
     Route::post('teachers/{id}/grades/update', 'TeacherController@gradesUpdate')->name('teachers.grades.update');
 
-
+    Route::get('teachers/{id}/slots/edit', 'TeacherController@teachingSlotEdit')->name('teachers.slots.edit');
+    Route::post('teachers/{id}/slots/update', 'TeacherController@teachingSlotUpdate')->name('teachers.slots.update');
 
     Route::prefix('achievements')->name('achievements.')->group(function () {
       Route::get('/', 'AchievementLevelController@index')->name('index');

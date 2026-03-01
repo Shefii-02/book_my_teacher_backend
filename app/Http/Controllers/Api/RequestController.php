@@ -74,7 +74,6 @@ class RequestController extends Controller
       // $courseReq->attended_status =  0;
       Log::info($courseReq);
       $courseReq->save();
-
     } else {
       return response()->json(['status' => false, 'message' =>  'Course already requested.']);
     }
@@ -198,6 +197,59 @@ class RequestController extends Controller
     return response()->json([
       'success' => true,
       'data' => $items,
+    ]);
+  }
+
+  public function findingTeachers(Request $request)
+  {
+    Log::info($request->all());
+    return response()->json([
+      "status" => true,
+      "message" => "Teachers found",
+      "request" => $request->all(),
+      "data" => [
+        "multi_subject_teachers" => [
+          [
+            "id" => 1,
+            "name" => "Rahul Kumar",
+            "photo" => "https://dummyimage.com/200x200",
+            "experience" => 5,
+            "rating" => 4.5,
+            "subjects" => ["Maths", "Physics"],
+            "mode" => ["Online"],
+            "location" => "Kochi",
+            "is_premium" => true
+          ]
+        ],
+        "single_subject_teachers" => [
+          "Maths" => [
+            [
+              "id" => 2,
+              "name" => "Anjali Menon",
+              "photo" => "https://dummyimage.com/200x200",
+              "experience" => 3,
+              "rating" => 4.2,
+              "subjects" => ["Maths"],
+              "mode" => ["Online", "Offline"],
+              "location" => "Malappuram",
+              "is_premium" => false
+            ]
+          ],
+          "Physics" => [
+            [
+              "id" => 3,
+              "name" => "Anoop Das",
+              "photo" => "https://dummyimage.com/200x200",
+              "experience" => 7,
+              "rating" => 4.8,
+              "subjects" => ["Physics"],
+              "mode" => ["Online"],
+              "location" => "Thrissur",
+              "is_premium" => true
+            ]
+          ]
+        ]
+      ]
     ]);
   }
 }

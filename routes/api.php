@@ -197,6 +197,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('request-form/submit', 'RequestController@general');
     Route::post('request-teacher-class/submit', 'RequestController@teacher');
 
+
+    Route::post('finding-teacher-request-form/submit', 'RequestController@findingTeachers');
+
+
     Route::post('request-subject-class/submit', 'RequestController@subject');
     Route::post('request-course/submit', 'RequestController@course');
     Route::post('request-webinar/submit', 'RequestController@webinar');

@@ -381,7 +381,7 @@ class RequestController extends Controller
 
   public function findingTeachers(Request $request)
   {
-    $type = $request->get('type', 3); // default case 1
+    $type = $request->get('type', 4); // default case 1
 
     switch ($type) {
 

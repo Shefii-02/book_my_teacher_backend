@@ -260,6 +260,32 @@
                                         </select>
                                     </div>
 
+                                    <!-- 🎛 Teaching Grade -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Teaching Grade</label>
+                                        <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
+                                            <option value="">All</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- 🎛 Teaching Boards -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Teaching Board</label>
+                                        <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
+                                            <option value="">All</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- 🎛 Teaching Subjects -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Teaching Subjects</label>
+                                        <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
+                                            <option value="">All</option>
+                                        </select>
+                                    </div>
+
+
+
 
                                     <!-- 📌 Account Status -->
                                     {{-- <div>

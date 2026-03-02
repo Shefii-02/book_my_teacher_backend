@@ -177,7 +177,7 @@
                                         {{-- Profile --}}
                                         <img src="{{ $t->thumbnail_url }}"
                                             class="h-16 w-16 rounded-xl object-cover shadow" />
-                                        @if ($t->status == 1)
+                                        @if ($t->user->status == 1)
                                             <span
                                                 class="bg-success text-center text-light px-2 py-0.5 rounded text-xxs font-semibold">
                                                 Active

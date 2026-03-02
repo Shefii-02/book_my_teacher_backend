@@ -66,34 +66,31 @@
         <!-- table 1 -->
         <div class="flex flex-wrap -mx-3 mt-4">
             <div class="flex-none w-full max-w-full px-3">
+              <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-xl rounded-2xl">
+
+                            <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
+                                <div class="flex justify-between">
+                                    <div>
+                                        <h6>Filter Teachers </h6>
+                                    </div>
+                                    <div class="flex gap-3 items-center">
+                                        <a href="{{ route('company.app.teachers.index') }}"
+                                            class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
+                                            <i class="bi bi-arrow-left me-1 "></i>
+                                            Back
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
                 <div
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div>
-                            <div class="w-full max-w-full ">
-                                <h6 class="dark:text-white">Teachers List</h6>
-                            </div>
-                        </div>
-                    </div>
+
 
                     <div class="flex-auto px-0 pt-0 ">
-                      <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-xl rounded-2xl">
-
-                    <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
-                        <div class="flex justify-between">
-                            <div>
-                                <h6>Filter Teachers </h6>
-                            </div>
-                            <div class="flex gap-3 items-center">
-                                <a href="{{ route('company.app.teachers.index') }}" class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
-                                    <i class="bi bi-arrow-left me-1 "></i>
-                                    Back
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
 
                         <div class="p-0 overflow-x-auto">
                             <form method="GET" class="card p-3">
@@ -125,9 +122,7 @@
                                         <select name="subject_id[]" id="subjectSelect" multiple class="form-control border">
                                             <option value="">Subject</option>
                                             @foreach ($subjects as $subject)
-                                                <option
-
-                                                    value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                                <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

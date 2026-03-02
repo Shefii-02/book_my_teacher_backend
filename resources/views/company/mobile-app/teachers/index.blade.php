@@ -175,7 +175,7 @@
                                     <div class="flex flex-col gap-2 ">
 
                                         {{-- Profile --}}
-                                        <img src="{{ $t->thumbnail_url }}"
+                                        <img src="{{ $t->user->thumbnail_url }}"
                                             class="h-16 w-16 rounded-xl object-cover shadow" />
                                         @if ($t->status == 1)
                                             <span

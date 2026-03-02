@@ -723,4 +723,11 @@ class AdmissionController extends Controller
 
     return redirect()->route('company.admissions.create')->with('success', 'Payment simulated and purchase marked paid.');
   }
+
+
+  public function destroy($purchase_id)
+  {
+    Purchase::where('id', $purchase_id)->delete();
+    return redirect()->back()->with('success', 'Invoice Deleted Successfully');
+  }
 }

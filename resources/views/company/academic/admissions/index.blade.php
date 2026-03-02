@@ -488,6 +488,16 @@
 
                                                             </li>
                                                         @endif
+
+                                                        <li>
+                                                            <form id="form_{{ $transaction->id }}" class="m-0 p-0"
+                                                                action="{{ route('company.payments.destroy', $transaction->id) }}"
+                                                                method="POST" class="inline-block">
+                                                                @csrf @method('DELETE') </form>
+                                                            <a role="button" href="javascript:;"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                onclick="confirmDelete({{ $transaction->id }})">Delete</a>
+                                                        </li>
                                                     </ul>
                                                 </div>
 

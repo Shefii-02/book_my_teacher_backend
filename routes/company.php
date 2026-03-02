@@ -31,7 +31,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::resource('top-banners', 'BannerController')->names('top-banners');
     Route::resource('course-banners', 'CourseBannerController')->names('course-banners');
     Route::resource('top-teachers', 'TopTeacherController')->names('top-teachers');
-        Route::get('teachers/search', 'TeacherController@teachersSearch')->name('teachers.search');
+    Route::get('teachers/search', 'TeacherController@teachersSearch')->name('teachers.search');
 
     Route::resource('teachers', 'TeacherController')->names('teachers');
 
@@ -239,6 +239,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
   Route::prefix('payments')->name('payments.')->group(function () {
     Route::get('init/{id}', 'LMS\PurchaseController@initPayment')->name('init');
+    Route::delete('invoice/{id}', 'LMS\AdmissionController@destroy')->name('destroy');
     Route::get('invoice/download/{id}', 'LMS\AdmissionController@downloadInvoice')->name('invoice.download');
     Route::post('process/{id}', 'LMS\PurchaseController@paymentProcess')->name('process');
     Route::get('callback/{id}', 'LMS\PurchaseController@paymentCallback')->name('callback');

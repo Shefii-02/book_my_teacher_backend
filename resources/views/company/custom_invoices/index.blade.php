@@ -99,7 +99,7 @@
                                         <tr>
                                             <td
                                                 class="px-6 py-3 font-bold text-left uppercase bg-transparent border-b border-gray-200 text-xxs text-slate-400 opacity-70">
-                                                #{{ $invoice->invoice_no }}
+                                                {{ $invoice->invoice_no }}
                                             </td>
                                             <td
                                                 class="px-6 py-3 align-middle bg-transparent border-b border-gray-200 whitespace-nowrap">

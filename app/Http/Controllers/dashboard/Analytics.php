@@ -92,7 +92,7 @@ class Analytics extends Controller
 
 
     //   /** STUDENTS */
-    $data['students']['total'] = User::where('company_id', $company_id)->count();
+    $data['students']['total'] = User::where('acc_type','student')->where('company_id', $company_id)->count();
     $data['students']['last_week'] = User::where('company_id', $company_id)
       ->where('created_at', '>=', $lastWeek)
       ->count();

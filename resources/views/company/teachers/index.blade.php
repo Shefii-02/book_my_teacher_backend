@@ -241,13 +241,13 @@
                                         <label class="block text-sm font-medium mb-1">Search</label>
                                         <input type="text" name="search" value="{{ request('search') }}"
                                             placeholder="Search name, email, mobile"
-                                            class="border rounded px-3 py-2 w-64">
+                                            class="border rounded px-2 py-3 w-64">
                                     </div>
 
                                     <!-- 🎛 Teaching Mode -->
                                     <div>
                                         <label class="block text-sm font-medium mb-1">Teaching Mode</label>
-                                        <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
+                                        <select name="teaching_mode" class="border rounded px-2 py-3 w-32">
                                             <option value="">All</option>
                                             <option value="online"
                                                 {{ request('teaching_mode') == 'online' ? 'selected' : '' }}>Online
@@ -261,31 +261,42 @@
                                     </div>
 
                                     <!-- 🎛 Teaching Grade -->
-                                    <div>
+                                    <div class="w-64">
                                         <label class="block text-sm font-medium mb-1">Teaching Grade</label>
-                                        <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
+                                        <select name="teaching_grade" id="teaching_grade"
+                                            class="border rounded px-3 py-2 w-100">
                                             <option value="">All</option>
+                                            @foreach ($grades as $grade)
+                                                <option {{ request()->grade_id == $grade->name ? 'selected' : '' }}
+                                                    value="{{ $grade->name }}">{{ $grade->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
 
                                     <!-- 🎛 Teaching Boards -->
-                                    <div>
+                                    {{-- <div class="w-64">
                                         <label class="block text-sm font-medium mb-1">Teaching Board</label>
-                                        <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
+                                        <select name="teaching_board" id="teaching_board"
+                                            class="border rounded px-3 py-2 w-100">
                                             <option value="">All</option>
+                                            @foreach ($boards as $board)
+                                                <option {{ request()->board_id == $board->name ? 'selected' : '' }}
+                                                    value="{{ $board->name }}">{{ $board->name }}</option>
+                                            @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                     <!-- 🎛 Teaching Subjects -->
-                                    <div>
+                                    <div class="w-64">
                                         <label class="block text-sm font-medium mb-1">Teaching Subjects</label>
-                                        <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
+                                        <select name="teaching_subject" id="teaching_subject"
+                                            class="border rounded px-3 py-2 w-100">
                                             <option value="">All</option>
+                                            @foreach ($subjects as $subject)
+                                                <option value="{{ $subject->name }}">{{ $subject->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
-
-
-
 
                                     <!-- 📌 Account Status -->
                                     {{-- <div>
@@ -355,7 +366,14 @@
                     </div>
                     @php
                         $activeFilters = collect(
-                            request()->only(['search', 'teaching_mode', 'account_status', 'current_account_stage']),
+                            request()->only([
+                                'search',
+                                'teaching_mode',
+                                'account_status',
+                                'teaching_board',
+                                'teaching_grade',
+                                'teaching_subject',
+                            ]),
                         )->filter(fn($value) => filled($value)); // remove null/empty
                     @endphp
 
@@ -580,3 +598,43 @@
         </div>
     </div>
 @endsection
+
+
+@push('scripts')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        // Initialize TomSelect ONCE
+        $(document).ready(function() {
+            new TomSelect("#teaching_grade", {
+                plugins: ['remove_button'],
+                placeholder: "Select Grade",
+                create: false,
+                persist: false,
+                closeAfterSelect: true,
+                hideSelected: true,
+                maxOptions: 1000
+            });
+
+            // new TomSelect("#teaching_board", {
+            //     plugins: ['remove_button'],
+            //     placeholder: "Select Board",
+            //     create: false,
+            //     persist: false,
+            //     closeAfterSelect: true,
+            //     hideSelected: true,
+            //     maxOptions: 1000
+            // });
+
+            new TomSelect("#teaching_subject", {
+                plugins: ['remove_button'],
+                placeholder: "Select Subjects",
+                create: false,
+                persist: false,
+                closeAfterSelect: true,
+                hideSelected: true,
+                maxOptions: 1000
+            });
+        });
+    </script>
+@endpush

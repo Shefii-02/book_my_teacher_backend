@@ -108,6 +108,25 @@ class TeacherController extends Controller
       });
     }
 
+    if ($request->filled('teaching_grade')) {
+      $query->whereHas('teacherGrades', function ($q) use ($request) {
+        $q->where('grade', $request->teaching_grade);
+      });
+    }
+
+    if ($request->filled('teaching_board')) {
+      $query->whereHas('professionalInfo', function ($q) use ($request) {
+        $q->where('teaching_mode', $request->teaching_board);
+      });
+    }
+
+    if ($request->filled('teaching_subject')) {
+      $query->whereHas('subjects', function ($q) use ($request) {
+        $q->where('subject', $request->teaching_subject);
+      });
+    }
+
+
     // if ($request->filled('account_status')) {
     //   $query->where('account_status', $request->account_status);
     // }
@@ -116,9 +135,24 @@ class TeacherController extends Controller
     //   $query->where('current_account_stage', $request->current_account_stage);
     // }
 
+    $grades = Grade::where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
+    $boards = Board::where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
+    $subjects = Subject::where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
     $teachers = $query->paginate(50)->appends($request->query());
 
-    return view('company.teachers.index', compact('teachers', 'data'));
+    return view('company.teachers.index', compact('teachers', 'data','grades','boards','subjects'));
   }
 
   // public function exportTeachers(Request $request)
@@ -811,6 +845,4 @@ class TeacherController extends Controller
       return redirect()->back()->with('error', 'Failed to delete teacher' . $e->getMessage());
     }
   }
-
-
 }

@@ -102,7 +102,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-@dump($subjects)
                                     <!-- Subject -->
                                     <div class="col-md-12">
                                         <select name="subject_id[]" id="subjectSelect" multiple class="form-control border">
@@ -110,7 +109,7 @@
                                             @foreach ($subjects as $subject)
                                                 <option
                                                     {{ isset(request()->subject_id) && in_array(request()->subject_id, $subject->id) ? 'selected' : '' }}
-                                                    value="{{ $board->id }}">{{ $board->name }}</option>
+                                                    value="{{ $subject->id }}">{{ $subject->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

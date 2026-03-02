@@ -102,7 +102,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-
+@dump($subjects)
                                     <!-- Subject -->
                                     <div class="col-md-12">
                                         <select name="subject_id[]" id="subjectSelect" multiple class="form-control border">
@@ -137,18 +137,14 @@
                                         </select>
                                     </div>
 
-
-
                                     <!-- District -->
                                     <div class="col-md-3">
                                         <input type="text" name="district" class="form-control border"
                                             placeholder="District">
                                     </div>
-
                                     <!-- Status -->
                                     <div class="col-md-3">
                                         <select name="status" class="form-control border">
-
                                             <option {{ request()->status == 'approved' ? 'selected' : '' }}
                                                 value="approved">Approved</option>
                                             <option {{ request()->status == 'pending' ? 'selected' : '' }} value="pending">
@@ -157,10 +153,8 @@
                                                 value="rejected">Rejected</option>
                                         </select>
                                     </div>
-
                                 </div>
                                 <br>
-
                                 <div class=" text-center my-3">
                                     <button class="btn btn-primary btn-sm">Search</button>
                                     <a href="" class="btn btn-danger text-light btn-sm">Reset</a>
@@ -170,7 +164,7 @@
 
                         @if (request()->anyFilled(['grade_id', 'board_id', 'subject_id', 'mode', 'rating', 'status', 'district']))
                             <div class="card px-3 ">
-                                        <h6>Searching by :</h6>
+                                <h6>Searching by :</h6>
                                 <div class="d-flex flex-wrap gap-2">
 
                                     {{-- Grade --}}
@@ -202,7 +196,7 @@
                                                 ->pluck('subjects')
                                                 ->flatten();
                                         @endphp
-                                         Subjects:
+                                        Subjects:
                                         @foreach (request('subject_id') as $sid)
                                             <span class="badge bg-success">
                                                 {{ $allSubjects->firstWhere('id', $sid)?->name }}
@@ -227,14 +221,14 @@
                                     {{-- Status --}}
                                     @if (request('status'))
                                         <span class="badge bg-success">
-                                          Acccount Status :   {{ ucfirst(request('status')) }}
+                                            Acccount Status : {{ ucfirst(request('status')) }}
                                         </span>
                                     @endif
 
                                     {{-- District --}}
                                     @if (request('district'))
                                         <span class="badge bg-danger">
-                                           District : 📍 {{ ucfirst(request('district')) }}
+                                            District : 📍 {{ ucfirst(request('district')) }}
                                         </span>
                                     @endif
 

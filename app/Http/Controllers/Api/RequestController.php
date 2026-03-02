@@ -215,9 +215,9 @@ class RequestController extends Controller
             "qualification" => "BTech Cs,NET",
             "imageUrl" => "https://dummyimage.com/200x200",
             "experience" => 5,
-            "ranking" => 1,
+              "ranking" => 1,
             "rating" => 4.5,
-            "subjects" => ["Maths", "Physics"],
+            "subjects" => "Maths, Physics",
             "mode" => ["Online"],
             "location" => "Kochi",
             "is_premium" => true
@@ -233,7 +233,7 @@ class RequestController extends Controller
               "experience" => 3,
               "ranking" => 4,
               "rating" => 4.2,
-              "subjects" => ["Maths"],
+              "subjects" => "Maths",
               "mode" => ["Online", "Offline"],
               "location" => "Malappuram",
               "is_premium" => false
@@ -248,7 +248,7 @@ class RequestController extends Controller
               "experience" => 7,
               "ranking" => 3,
               "rating" => 4.8,
-              "subjects" => ["Physics"],
+              "subjects" => "Physics",
               "mode" => ["Online"],
               "location" => "Thrissur",
               "is_premium" => true

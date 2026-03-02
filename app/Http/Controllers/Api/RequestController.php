@@ -208,53 +208,53 @@ class RequestController extends Controller
       "message" => "Teachers found",
       "request" => $request->all(),
       "data" => [
-        "multi_subject_teachers" => [
-          [
-            "id" => '1',
-            "name" => "Rahul Kumar",
-            "qualification" => "BTech Cs,NET",
-            "imageUrl" => "https://dummyimage.com/200x200",
-            "experience" => 5,
-              "ranking" => 1,
-            "rating" => 4.5,
-            "subjects" => "Maths, Physics",
-            "mode" => ["Online"],
-            "location" => "Kochi",
-            "is_premium" => true
-          ]
-        ],
-        "single_subject_teachers" => [
-          "Maths" => [
-            [
-              "id" => '2',
-              "name" => "Anjali Menon",
-              "qualification" => "MSc Cs,NET",
-              "imageUrl" => "https://dummyimage.com/200x200",
-              "experience" => 3,
-              "ranking" => 4,
-              "rating" => 4.2,
-              "subjects" => "Maths",
-              "mode" => ["Online", "Offline"],
-              "location" => "Malappuram",
-              "is_premium" => false
-            ]
-          ],
-          "Physics" => [
-            [
-              "id" => '3',
-              "name" => "Anoop Das",
-              "qualification" => "MSc Physics,NET",
-              "imageUrl" => "https://dummyimage.com/200x200",
-              "experience" => 7,
-              "ranking" => 3,
-              "rating" => 4.8,
-              "subjects" => "Physics",
-              "mode" => ["Online"],
-              "location" => "Thrissur",
-              "is_premium" => true
-            ]
-          ]
-        ]
+        // "multi_subject_teachers" => [
+        //   [
+        //     "id" => '1',
+        //     "name" => "Rahul Kumar",
+        //     "qualification" => "BTech Cs,NET",
+        //     "imageUrl" => "https://dummyimage.com/200x200",
+        //     "experience" => 5,
+        //       "ranking" => 1,
+        //     "rating" => 4.5,
+        //     "subjects" => "Maths, Physics",
+        //     "mode" => ["Online"],
+        //     "location" => "Kochi",
+        //     "is_premium" => true
+        //   ]
+        // ],
+        // "single_subject_teachers" => [
+        //   "Maths" => [
+        //     [
+        //       "id" => '2',
+        //       "name" => "Anjali Menon",
+        //       "qualification" => "MSc Cs,NET",
+        //       "imageUrl" => "https://dummyimage.com/200x200",
+        //       "experience" => 3,
+        //       "ranking" => 4,
+        //       "rating" => 4.2,
+        //       "subjects" => "Maths",
+        //       "mode" => ["Online", "Offline"],
+        //       "location" => "Malappuram",
+        //       "is_premium" => false
+        //     ]
+        //   ],
+        //   "Physics" => [
+        //     [
+        //       "id" => '3',
+        //       "name" => "Anoop Das",
+        //       "qualification" => "MSc Physics,NET",
+        //       "imageUrl" => "https://dummyimage.com/200x200",
+        //       "experience" => 7,
+        //       "ranking" => 3,
+        //       "rating" => 4.8,
+        //       "subjects" => "Physics",
+        //       "mode" => ["Online"],
+        //       "location" => "Thrissur",
+        //       "is_premium" => true
+        //     ]
+        //   ]
+        // ]
       ]
     ]);
   }

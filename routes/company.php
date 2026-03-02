@@ -31,7 +31,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::resource('top-banners', 'BannerController')->names('top-banners');
     Route::resource('course-banners', 'CourseBannerController')->names('course-banners');
     Route::resource('top-teachers', 'TopTeacherController')->names('top-teachers');
-        Route::get('teachers/search', 'LMS\TeacherController@teachersSearch')->name('teachers.search');
+        Route::get('teachers/search', 'TeacherController@teachersSearch')->name('teachers.search');
 
     Route::resource('teachers', 'TeacherController')->names('teachers');
 

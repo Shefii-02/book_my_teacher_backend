@@ -208,7 +208,7 @@ class RequestController extends Controller
       "message" => "Teachers found",
       "request" => $request->all(),
       "data" => [
-        // "multi_subject_teachers" => [
+        "multi_subject_teachers" => [
           // [
           //   "id" => '1',
           //   "name" => "Rahul Kumar",
@@ -222,8 +222,8 @@ class RequestController extends Controller
           //   "location" => "Kochi",
           //   "is_premium" => true
           // ]
-        // ],
-        // "single_subject_teachers" => [
+        ],
+        "single_subject_teachers" => [
           // "Maths" => [
           //   [
           //     "id" => '2',
@@ -254,7 +254,7 @@ class RequestController extends Controller
           //     "is_premium" => true
           //   ]
           // ]
-        // ]
+        ]
       ]
     ]);
   }

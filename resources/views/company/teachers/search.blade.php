@@ -237,7 +237,7 @@
 
 
                         {{-- ================= TEACHER CARDS ================= --}}
-                        <div class="space-y-4 p-3">
+                        <div class="space-y-4 p-3 mt-3">
 
                             @forelse ($teachers as $t)
                                 <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-4 relative border">

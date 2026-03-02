@@ -77,6 +77,24 @@
                     </div>
 
                     <div class="flex-auto px-0 pt-0 ">
+                      <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white shadow-xl rounded-2xl">
+
+                    <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
+                        <div class="flex justify-between">
+                            <div>
+                                <h6>Filter Teachers </h6>
+                            </div>
+                            <div class="flex gap-3 items-center">
+                                <a href="{{ route('company.app.teachers.index') }}" class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
+                                    <i class="bi bi-arrow-left me-1 "></i>
+                                    Back
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
                         <div class="p-0 overflow-x-auto">
                             <form method="GET" class="card p-3">
 

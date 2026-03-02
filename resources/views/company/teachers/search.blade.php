@@ -323,8 +323,8 @@
                                 </div>
 
                             @empty
-                                <div class="text-center py-10 text-gray-400 bg-white rounded-xl shadow">
-                                    No teachers found
+                                <div class="text-center py-24 text-gray-400 bg-white rounded-xl shadow">
+                                    <p class="font-bold fw-bold">No teachers found</p>
                                 </div>
                             @endforelse
 

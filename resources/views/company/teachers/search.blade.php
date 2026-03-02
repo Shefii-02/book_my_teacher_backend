@@ -86,7 +86,8 @@
                                         <select name="grade_id" id="gradeSelect" class="form-control border">
                                             <option value="">Grade</option>
                                             @foreach ($grades as $grade)
-                                                <option {{ request()->grade_id == $grade->id ? 'selected' : '' }}  value="{{ $grade->id }}">{{ $grade->name }}</option>
+                                                <option {{ request()->grade_id == $grade->id ? 'selected' : '' }}
+                                                    value="{{ $grade->id }}">{{ $grade->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -95,6 +96,10 @@
                                     <div class="col-md-6">
                                         <select name="board_id" id="boardSelect" class="form-control border">
                                             <option value="">Board</option>
+                                            @foreach ($boards as $board)
+                                                <option {{ request()->board_id == $board->id ? 'selected' : '' }}
+                                                    value="{{ $board->id }}">{{ $board->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
 
@@ -102,6 +107,11 @@
                                     <div class="col-md-12">
                                         <select name="subject_id[]" id="subjectSelect" multiple class="form-control border">
                                             <option value="">Subject</option>
+                                            @foreach ($subjects as $subject)
+                                                <option
+                                                    {{ in_array(request()->subject_id, $subject->id) ? 'selected' : '' }}
+                                                    value="{{ $board->id }}">{{ $board->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
 
@@ -109,35 +119,43 @@
                                     <div class="col-md-3">
                                         <select name="mode" class="form-control border">
                                             <option value="">Mode</option>
-                                            <option {{ request()->mode == 'online' ? 'selected' : '' }} value="online">Online</option>
-                                            <option {{ request()->mode == 'offline' ? 'selected' : '' }}  value="offline">Offline</option>
+                                            <option {{ request()->mode == 'online' ? 'selected' : '' }} value="online">
+                                                Online</option>
+                                            <option {{ request()->mode == 'offline' ? 'selected' : '' }} value="offline">
+                                                Offline</option>
                                         </select>
                                     </div>
-
 
                                     <!-- Rating -->
                                     <div class="col-md-3">
                                         <select name="rating" class="form-control border">
                                             <option value="">All ⭐</option>
                                             @for ($i = 1; $i <= 5; $i++)
-                                                <option {{ request()->rating == $i ? 'selected' : '' }} value="{{ $i }}">{{ $i }} ⭐+</option>
+                                                <option {{ request()->rating == $i ? 'selected' : '' }}
+                                                    value="{{ $i }}">{{ $i }} ⭐+</option>
                                             @endfor
                                         </select>
+                                    </div>
+
+
+
+                                    <!-- District -->
+                                    <div class="col-md-3">
+                                        <input type="text" name="district" class="form-control border"
+                                            placeholder="District">
                                     </div>
 
                                     <!-- Status -->
                                     <div class="col-md-3">
                                         <select name="status" class="form-control border">
-                                            <option value="">Status</option>
-                                            <option  {{ request()->status == 'pending' ? 'selected' : '' }} value="pending">Pending</option>
-                                            <option  {{ request()->status == 'approved' ? 'selected' : '' }} value="approved">Approved</option>
-                                            <option  {{ request()->status == 'rejected' ? 'selected' : '' }} value="rejected">Rejected</option>
+
+                                            <option {{ request()->status == 'approved' ? 'selected' : '' }}
+                                                value="approved">Approved</option>
+                                            <option {{ request()->status == 'pending' ? 'selected' : '' }} value="pending">
+                                                Pending</option>
+                                            <option {{ request()->status == 'rejected' ? 'selected' : '' }}
+                                                value="rejected">Rejected</option>
                                         </select>
-                                    </div>
-                                    <!-- District -->
-                                    <div class="col-md-3">
-                                        <input type="text" name="district" class="form-control border"
-                                            placeholder="District">
                                     </div>
 
                                 </div>
@@ -266,22 +284,27 @@
 
 
                                                 {{-- Info Row --}}
-                                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-3 text-xs">
-
-                                                    <div>
-                                                        <p class="text-gray-400">Grades</p>
-                                                        <p class="font-medium text-gray-700">
-                                                            {{ implodeComma($t->teachingGrades?->pluck('name')) ?: '-' }}
-                                                        </p>
+                                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-3 text-xs">
+                                                    <div class="flex flex-col">
+                                                        <div class="flex gap-2">
+                                                            <p class="text-gray-400">Grades</p>
+                                                            <p class="font-medium text-gray-700">
+                                                                {{ implodeComma($t->teachingGrades?->pluck('name')) ?: '-' }}
+                                                            </p>
+                                                        </div>
+                                                        <div class="flex gap-2">
+                                                            <p class="text-gray-400">Boards</p>
+                                                            <p class="font-medium text-gray-700">
+                                                                {{ implodeComma($t->teachingBoards?->pluck('name')) ?: '-' }}
+                                                            </p>
+                                                        </div>
+                                                        <div class="flex gap-2">
+                                                            <p class="text-gray-400">Subjects</p>
+                                                            <p class="font-medium text-gray-700">
+                                                                {{ implodeComma($t->teachingSubjects?->pluck('name')) ?: '-' }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-
-                                                    <div>
-                                                        <p class="text-gray-400">Boards</p>
-                                                        <p class="font-medium text-gray-700">
-                                                            {{ implodeComma($t->teachingBoards?->pluck('name')) ?: '-' }}
-                                                        </p>
-                                                    </div>
-
                                                     <div>
                                                         <p class="text-gray-400">Courses</p>
                                                         <p class="font-medium text-gray-700">
@@ -314,9 +337,11 @@
 
                         </div>
 
-                        <div class="mt-4">
-                            {{ $teachers->links() }}
+                        <div class="d-flex justify-content-center m-4">
+                            {!! $teachers->links() !!}
                         </div>
+                        <p class="p-3">Showing {{ $teachers->firstItem() }} to {{ $teachers->lastItem() }} of
+                            {{ $teachers->total() }} users.</p>
 
                     </div>
 

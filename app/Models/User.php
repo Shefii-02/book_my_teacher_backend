@@ -113,6 +113,20 @@ class User extends Authenticatable
   }
 
 
+  public function teachingSubjects()
+  {
+    return $this->belongsToMany(
+      Subject::class,                       // Related model
+      'teachers_teaching_grade_details',  // Pivot table
+      'id',                          // Pivot column referencing Teacher
+      'subject_id',                         // Pivot column referencing Grade
+      'id',                          // Local key on Teacher table
+      'id'                                // Local key on Grade table
+    )->distinct();
+  }
+
+
+
     public function courses()
   {
 

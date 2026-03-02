@@ -4,8 +4,10 @@ namespace App\Http\Controllers\LMS;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Board;
 use App\Models\Grade;
 use App\Models\MediaFile;
+use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\TeacherGrade;
 use App\Models\TeacherProfessionalInfo;
@@ -601,6 +603,7 @@ class TeacherController extends Controller
         // $teacher->account_status = 'in progress';
         $teacher->current_account_stage = 'account verified';
         $teacher->account_status = 'completed';
+        $teacher->status = 1;
       }
 
       // === RULE 2: Schedule Interview Completed ===
@@ -620,6 +623,7 @@ class TeacherController extends Controller
       } elseif ($currentStage === 'upload demo class' && $newStatus === 'completed') {
         $teacher->current_account_stage = 'account verified';
         $teacher->account_status = 'completed';
+        $teacher->status = 1;
       }
 
 
@@ -826,7 +830,23 @@ class TeacherController extends Controller
       ->orderBy('position')
       ->get();
 
+    $boards = Board::where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
+    $subjects = Subject::where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
     $teachers = User::where('acc_type', 'teacher');
+
+    $status = !$request->filled('status') || $request->status == '' ? 'approved' : $request->status;
+
+    $request->merge([
+      'status' => $status,
+    ]);
 
     // ================= BASIC FILTERS =================
 
@@ -891,6 +911,6 @@ class TeacherController extends Controller
       ->paginate(12)
       ->withQueryString();
 
-    return view('company.teachers.search', compact('teachers', 'grades'));
+    return view('company.teachers.search', compact('teachers', 'grades', 'boards', 'subjects'));
   }
 }

@@ -224,22 +224,22 @@ class RequestController extends Controller
           // ]
         ],
         "single_subject_teachers" => [
-          // "Maths" => [
-          //   [
-          //     "id" => '2',
-          //     "name" => "Anjali Menon",
-          //     "qualification" => "MSc Cs,NET",
-          //     "imageUrl" => "https://dummyimage.com/200x200",
-          //     "experience" => 3,
-          //     "ranking" => 4,
-          //     "rating" => 4.2,
-          //     "subjects" => "Maths",
-          //     "mode" => ["Online", "Offline"],
-          //     "location" => "Malappuram",
-          //     "is_premium" => false
-          //   ]
-          // ],
-          // "Physics" => [
+          "Maths" => [
+            // [
+            //   "id" => '2',
+            //   "name" => "Anjali Menon",
+            //   "qualification" => "MSc Cs,NET",
+            //   "imageUrl" => "https://dummyimage.com/200x200",
+            //   "experience" => 3,
+            //   "ranking" => 4,
+            //   "rating" => 4.2,
+            //   "subjects" => "Maths",
+            //   "mode" => ["Online", "Offline"],
+            //   "location" => "Malappuram",
+            //   "is_premium" => false
+            // ]
+          ],
+          "Physics" => [
           //   [
           //     "id" => '3',
           //     "name" => "Anoop Das",
@@ -253,7 +253,7 @@ class RequestController extends Controller
           //     "location" => "Thrissur",
           //     "is_premium" => true
           //   ]
-          // ]
+          ]
         ]
       ]
     ]);

@@ -210,7 +210,7 @@ class RequestController extends Controller
       "data" => [
         "multi_subject_teachers" => [
           [
-            "id" => 1,
+            "id" => '1',
             "name" => "Rahul Kumar",
             "qualification" => "BTech Cs,NET",
             "imageUrl" => "https://dummyimage.com/200x200",
@@ -226,7 +226,7 @@ class RequestController extends Controller
         "single_subject_teachers" => [
           "Maths" => [
             [
-              "id" => 2,
+              "id" => '2',
               "name" => "Anjali Menon",
               "qualification" => "MSc Cs,NET",
               "imageUrl" => "https://dummyimage.com/200x200",
@@ -241,7 +241,7 @@ class RequestController extends Controller
           ],
           "Physics" => [
             [
-              "id" => 3,
+              "id" => '3',
               "name" => "Anoop Das",
               "qualification" => "MSc Physics,NET",
               "imageUrl" => "https://dummyimage.com/200x200",

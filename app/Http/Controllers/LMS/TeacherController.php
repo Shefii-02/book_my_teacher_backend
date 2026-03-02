@@ -663,7 +663,6 @@ class TeacherController extends Controller
         ]
       );
 
-
       // 3️⃣ Sync Working Days
       if ($request->filled('working_days')) {
         TeacherWorkingDay::where('teacher_id', $teacher->id)->delete();

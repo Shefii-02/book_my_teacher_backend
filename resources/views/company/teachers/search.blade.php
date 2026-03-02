@@ -171,7 +171,7 @@
                         @if (request()->anyFilled(['grade_id', 'board_id', 'subject_id', 'mode', 'rating', 'status', 'district']))
                             <div class="card px-3 ">
                                 <div class="d-flex flex-wrap gap-2">
-
+                                    <h3>Searching by :</h3>
                                     {{-- Grade --}}
                                     @if (request('grade_id'))
                                         <span class="badge bg-primary">
@@ -201,7 +201,7 @@
                                                 ->pluck('subjects')
                                                 ->flatten();
                                         @endphp
-
+                                         Subjects:
                                         @foreach (request('subject_id') as $sid)
                                             <span class="badge bg-success">
                                                 {{ $allSubjects->firstWhere('id', $sid)?->name }}
@@ -219,21 +219,21 @@
                                     {{-- Rating --}}
                                     @if (request('rating'))
                                         <span class="badge bg-dark">
-                                            ⭐ {{ request('rating') }}+
+                                            Rating: ⭐ {{ request('rating') }}+
                                         </span>
                                     @endif
 
                                     {{-- Status --}}
                                     @if (request('status'))
-                                        <span class="badge bg-secondary">
-                                            {{ ucfirst(request('status')) }}
+                                        <span class="badge bg-success">
+                                          Acccount Status :   {{ ucfirst(request('status')) }}
                                         </span>
                                     @endif
 
                                     {{-- District --}}
                                     @if (request('district'))
                                         <span class="badge bg-danger">
-                                            📍 {{ ucfirst(request('district')) }}
+                                           District : 📍 {{ ucfirst(request('district')) }}
                                         </span>
                                     @endif
 

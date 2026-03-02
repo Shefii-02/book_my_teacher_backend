@@ -109,7 +109,7 @@
                                             <option value="">Subject</option>
                                             @foreach ($subjects as $subject)
                                                 <option
-                                                    {{ in_array(request()->subject_id, $subject->id) ? 'selected' : '' }}
+                                                    {{ isset(request()->subject_id) && in_array(request()->subject_id, $subject->id) ? 'selected' : '' }}
                                                     value="{{ $board->id }}">{{ $board->name }}</option>
                                             @endforeach
                                         </select>
@@ -170,8 +170,9 @@
 
                         @if (request()->anyFilled(['grade_id', 'board_id', 'subject_id', 'mode', 'rating', 'status', 'district']))
                             <div class="card px-3 ">
+                                        <h6>Searching by :</h6>
                                 <div class="d-flex flex-wrap gap-2">
-                                    <h3>Searching by :</h3>
+
                                     {{-- Grade --}}
                                     @if (request('grade_id'))
                                         <span class="badge bg-primary">
@@ -241,7 +242,6 @@
                             </div>
                         @endif
 
-                        </>
 
                         {{-- ================= TEACHER CARDS ================= --}}
                         <div class="space-y-4 p-3">

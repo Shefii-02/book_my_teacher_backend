@@ -727,6 +727,8 @@ class AdmissionController extends Controller
 
   public function destroy($purchase_id)
   {
+    CourseRegistration::where('purchase_id', $purchase_id)
+      ->update(['purchase_id' => null]);
     PurchasePayment::where('purchase_id', $purchase_id)->delete();
     PurchaseInstallment::where('purchase_id', $purchase_id)->delete();
     Purchase::where('id', $purchase_id)->delete();

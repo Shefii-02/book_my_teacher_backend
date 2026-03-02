@@ -25,12 +25,20 @@
 
                     <div class="p-6 pb-0 mb-3 border-b border-transparent rounded-t-2xl">
                         <div class="flex justify-between">
-                            <h6>Teachers List</h6>
-                            <a href="{{ route('company.app.teachers.create') }}"
-                                class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
-                                <i class="bi bi-plus me-1 "></i>
-                                Create
-                            </a>
+                            <div>
+                                <h6>Teachers List</h6>
+                            </div>
+                            <div class="flex gap-3 items-center">
+                                <a href="{{ route('company.app.teachers.create') }}"
+                                    class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
+                                    <i class="bi bi-plus me-1 "></i>
+                                    Create
+                                </a>
+                                <a href="{{ route('company.app.teachers.search') }}"
+                                    class="bg-gradient-to-tl from-blue-700 to-teal-400  rounded text-sm text-white px-4 fw-bold py-1">
+                                    <i class="bi bi-search"></i>
+                                    Filter Teachers</a>
+                            </div>
                         </div>
                     </div>
 

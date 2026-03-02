@@ -208,7 +208,7 @@
 
 
                 {{-- SUBJECTS + RATES --}}
-                <div>
+                {{-- <div>
                     <label class="font-medium">Subjects & Hourly Rates</label>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
 
@@ -258,10 +258,10 @@
                         @endforeach
 
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- TIME SLOTS --}}
-                <div>
+                {{-- <div>
                     <h3 class="text-lg font-semibold mb-3">Available Time Slots</h3>
                     <div class="grid grid-cols-3 gap-4">
                         @foreach ($days as $day)
@@ -305,7 +305,7 @@
                             </div>
                         @endforeach
                     </div>
-                </div>
+                </div> --}}
 
 
                 <div>
@@ -321,6 +321,16 @@
                         <label class="font-medium">
                             <input type="checkbox" class="border pe-3" name="published" value="1"
                                 @checked(old('published', $teacher->published ?? false))> Publish</label>
+                    </div>
+                </div>
+
+                <div>
+                        <h6>Current Account Status : {{ $teacher->user->status == 1 ? 'Active' : 'Deactive' }} </h6>
+                    <div class="flex items-center gap-3">
+                      <h6>Account Status : </h6>
+                        <label class="font-medium">
+                            <input type="checkbox" class="border pe-3" name="status" value="1"
+                                @checked(old('status', $teacher->user->status == 1 ?? false))> Active</label>
                     </div>
                 </div>
 

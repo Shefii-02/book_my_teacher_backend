@@ -70,6 +70,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
       Route::delete('/delete/{id}', 'TransferAmountController@destroy')->name('delete');
     });
 
+    Route::get('teachers/search', 'LMS\TeacherController@teachersSearch')->name('teachers.search');
 
     Route::get('teachers/{id}/login-security', 'TeacherController@loginSecurity')->name('teachers.login-security');
     Route::post('teachers/{id}/login-security', 'TeacherController@loginSecurityChange')->name('teachers.login-security.change');
@@ -152,7 +153,6 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::post('/profile', 'dashboard\UserController@changePassword')->name('profile.changePassword');
 
   Route::get('/teachers', 'LMS\TeacherController@index')->name('teachers.index');
-  Route::get('teachers/search', 'LMS\TeacherController@teachersSearch')->name('teachers.search');
 
   Route::resource('teacher-activities', 'LMS\UserActivityRatingController')->names('teacher-activities');
 

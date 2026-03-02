@@ -65,9 +65,9 @@ class TeacherController extends Controller
 
     return view('company.mobile-app.teachers.index', [
       'teachers' => $teachers,
-      'grades' => Grade::where('company_id',$company_id)->get(),
-      'boards' => Board::where('company_id',$company_id)->get(),
-      'subjects' => Subject::where('company_id',$company_id)->get(),
+      'grades' => Grade::where('company_id', $company_id)->get(),
+      'boards' => Board::where('company_id', $company_id)->get(),
+      'subjects' => Subject::where('company_id', $company_id)->get(),
     ]);
   }
 
@@ -272,13 +272,13 @@ class TeacherController extends Controller
       // }
       // $data['time_slots'] = $timeSlots;
 
-      $timeSlots = [];
+      // $timeSlots = [];
 
-      if (!empty($data['time_slots']) && is_array($data['time_slots'])) {
-        $timeSlots = $data['time_slots'];
-      }
+      // if (!empty($data['time_slots']) && is_array($data['time_slots'])) {
+      //   $timeSlots = $data['time_slots'];
+      // }
 
-      $data['time_slots'] = json_encode($timeSlots);
+      // $data['time_slots'] = json_encode($timeSlots);
 
 
       // booleans normalization
@@ -297,20 +297,24 @@ class TeacherController extends Controller
 
       $teacher->update($data);
 
+      $user = User::where('id', $teacher->user_id)->first();
+      $user->status = $request->filled('status') && $request->status == 1 ? 1 : 0;
+      $user->save();
+
       // update rates: remove all then insert new (simple)
-      $teacher->subjectRates()->delete();
-      if ($request->filled('rates') && is_array($request->rates)) {
-        foreach ($request->rates as $subjectId => $rates) {
-          if (!in_array((int)$subjectId, $data['subjects'])) continue;
-          TeacherSubjectRate::create([
-            'teacher_id' => $teacher->id,
-            'subject_id' => $subjectId,
-            'rate_below_10' => Arr::get($rates, 'rate_below_10'),
-            'rate_10_30' => Arr::get($rates, 'rate_10_30'),
-            'rate_30_plus' => Arr::get($rates, 'rate_30_plus'),
-          ]);
-        }
-      }
+      // $teacher->subjectRates()->delete();
+      // if ($request->filled('rates') && is_array($request->rates)) {
+      //   foreach ($request->rates as $subjectId => $rates) {
+      //     if (!in_array((int)$subjectId, $data['subjects'])) continue;
+      //     TeacherSubjectRate::create([
+      //       'teacher_id' => $teacher->id,
+      //       'subject_id' => $subjectId,
+      //       'rate_below_10' => Arr::get($rates, 'rate_below_10'),
+      //       'rate_10_30' => Arr::get($rates, 'rate_10_30'),
+      //       'rate_30_plus' => Arr::get($rates, 'rate_30_plus'),
+      //     ]);
+      //   }
+      // }
 
       // certificates
       if ($request->hasFile('certificates')) {
@@ -555,5 +559,104 @@ class TeacherController extends Controller
       DB::rollBack();
       return back()->with('error', $e->getMessage());
     }
+  }
+
+  public function teachersSearch(Request $request)
+  {
+
+    $grades = Grade::with([
+      'boards' => function ($q) {
+        $q->where('published', 1);
+      },
+      'boards.subjects' => function ($q) {
+        $q->where('published', 1);
+      }
+    ])->where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
+    $boards = Board::where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
+    $subjects = Subject::where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
+    $teachers = User::where('acc_type', 'teacher');
+
+    $status = !$request->filled('status') || $request->status == '' ? 'approved' : $request->status;
+
+    $request->merge([
+      'status' => $status,
+    ]);
+
+    // ================= BASIC FILTERS =================
+
+    if ($request->filled('status')) {
+      if ($request->status == 'approved') {
+        $teachers->where('status', 1);
+      } else if ($request->status == 'pending') {
+        $teachers->where('current_account_stage', '!=', 'account verified')->where('account_status', '!=', 'rejected');
+      } else if ($request->status == 'rejected') {
+        $teachers->where('account_status', '!=', 'rejected');
+      }
+    }
+    if ($request->filled('district')) {
+      $teachers->where('district', $request->district);
+    }
+
+    if ($request->filled('rating')) {
+      $teachers->where('rating', '>=', $request->rating);
+    }
+
+
+
+    // ================= GRADE / BOARD / SUBJECT FILTER =================
+    if (
+      $request->filled('grade_id') ||
+      $request->filled('board_id') ||
+      $request->filled('subject_id') ||
+      $request->filled('mode')
+    ) {
+      $teachers->whereHas('teachingDetails', function ($q) use ($request) {
+
+        // Grade
+        if ($request->filled('grade_id')) {
+          $q->where('grade_id', $request->grade_id);
+        }
+
+        // Board
+        if ($request->filled('board_id')) {
+          $q->where('board_id', $request->board_id);
+        }
+
+        // MULTI SUBJECT
+        if ($request->filled('subject_id')) {
+          $q->whereIn('subject_id', $request->subject_id);
+        }
+
+        // MODE (online/offline)
+        if ($request->filled('mode')) {
+          if ($request->mode == 'online') {
+            $q->where('online', 1);
+          }
+
+          if ($request->mode == 'offline') {
+            $q->where('offline', 1);
+          }
+        }
+      });
+    }
+
+    $teachers = $teachers
+      ->latest()
+      ->paginate(12)
+      ->withQueryString();
+
+    return view('company.mobile-app.teachers.search', compact('teachers', 'grades', 'boards', 'subjects'));
   }
 }

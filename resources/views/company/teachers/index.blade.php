@@ -230,12 +230,7 @@
                                         Rejected
                                     </a>
                                 </div>
-                                <div>
-                                    <a href="{{ route('company.teachers.search') }}"
-                                        class="px-4 py-2 bg-gradient-to-tl from-blue-700 to-teal-400  text-white rounded text-sm">
-                                        <i class="bi bi-search"></i>
-                                        Filter Teachers</a>
-                                </div>
+
                             </div>
                             <div class="w-full max-w-full ">
                                 <form method="GET" action="{{ route('company.teachers.index') }}"

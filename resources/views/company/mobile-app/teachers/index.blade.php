@@ -245,6 +245,12 @@
                         @endforelse
 
                     </div>
+
+
+                    <div class="mt-4">
+                        {{ $teachers->links() }}
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -814,7 +814,6 @@ class TeacherController extends Controller
   public function teachersSearch(Request $request)
   {
 
-
     $grades = Grade::with([
       'boards' => function ($q) {
         $q->where('published', 1);

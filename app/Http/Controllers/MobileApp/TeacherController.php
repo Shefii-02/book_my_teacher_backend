@@ -60,7 +60,7 @@ class TeacherController extends Controller
       })
 
       ->latest()
-      ->paginate(15)
+      ->paginate(50)
       ->withQueryString();
 
     return view('company.mobile-app.teachers.index', [

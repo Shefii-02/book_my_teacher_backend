@@ -31,6 +31,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::resource('top-banners', 'BannerController')->names('top-banners');
     Route::resource('course-banners', 'CourseBannerController')->names('course-banners');
     Route::resource('top-teachers', 'TopTeacherController')->names('top-teachers');
+        Route::get('teachers/search', 'LMS\TeacherController@teachersSearch')->name('teachers.search');
+
     Route::resource('teachers', 'TeacherController')->names('teachers');
 
     Route::resource('grades', 'Academic\GradeController')->names('grades');
@@ -70,7 +72,6 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
       Route::delete('/delete/{id}', 'TransferAmountController@destroy')->name('delete');
     });
 
-    Route::get('teachers/search', 'LMS\TeacherController@teachersSearch')->name('teachers.search');
 
     Route::get('teachers/{id}/login-security', 'TeacherController@loginSecurity')->name('teachers.login-security');
     Route::post('teachers/{id}/login-security', 'TeacherController@loginSecurityChange')->name('teachers.login-security.change');

@@ -108,7 +108,7 @@
                                             <option value="">Subject</option>
                                             @foreach ($subjects as $subject)
                                                 <option
-                                                    {{ isset(request()->subject_id) && in_array(request()->subject_id, $subject->id) ? 'selected' : '' }}
+
                                                     value="{{ $subject->id }}">{{ $subject->name }}</option>
                                             @endforeach
                                         </select>

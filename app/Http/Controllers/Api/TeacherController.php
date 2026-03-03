@@ -398,6 +398,8 @@ class TeacherController extends Controller
   public function schedule(Request $request)
   {
     $user = $request->user();
+    Log::info($request->user());
+     Log::info($user);
     $teacher = Teacher::where('user_id', $user->id)->first();
 
     $month = now()->format('Y-m');

@@ -400,6 +400,7 @@ class TeacherController extends Controller
     $user = $request->user();
     Log::info($request->user());
      Log::info($user);
+     Log::info($user->id);
     $teacher = Teacher::where('user_id', $user->id)->first();
 
     $month = now()->format('Y-m');
@@ -409,7 +410,7 @@ class TeacherController extends Controller
     /* ---------------------------------
    | Course / Individual Classes
    |----------------------------------*/
-    $courses = TeacherClass::where('teacher_id', $teacher->id)
+    $courses = TeacherClass::where('teacher_id', $user->id)
       ->with(['course_classes', 'courses'])
       ->get()
       ->map(function ($teacherClass) {

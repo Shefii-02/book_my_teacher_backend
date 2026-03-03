@@ -1112,9 +1112,12 @@ class StudentController extends Controller
     //     'join_link' => '',
     //   ],
     // ];
+    $today_now = now();
+    $upcomming_classes = $course->classes->where('end_time','<=',$today_now);
+    $completed_classes = $course->classes->where('end_time','<=',$today_now);
 
-    $courseClassUpComing = CourseClassLinkResource::collection($course->classes);
-    $courseClassCompleted = CourseClassLinkResource::collection($course->classes);
+    $courseClassUpComing = CourseClassLinkResource::collection($upcomming_classes);
+    $courseClassCompleted = CourseClassLinkResource::collection($completed_classes);
 
 
 

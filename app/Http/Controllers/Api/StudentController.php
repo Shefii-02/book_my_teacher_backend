@@ -1113,7 +1113,8 @@ class StudentController extends Controller
     //   ],
     // ];
 
-    $courseClass = CourseClassLinkResource::collection($course->classes);
+    $courseClassUpComing = CourseClassLinkResource::collection($course->classes);
+    $courseClassCompleted = CourseClassLinkResource::collection($course->classes);
 
 
 
@@ -1123,7 +1124,8 @@ class StudentController extends Controller
       'data' => [
         'class_detail' => $classDetail,
         'materials' => $materials,
-        'classes' => $courseClass,
+        'up_coming_classes' => $courseClassUpComing,
+        'completed_classes' => $courseClassCompleted
       ],
     ]);
 

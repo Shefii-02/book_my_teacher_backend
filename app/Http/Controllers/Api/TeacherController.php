@@ -651,7 +651,7 @@ class TeacherController extends Controller
   public function courses(Request $request)
   {
     $user = $request->user();
-    Log::info($user);
+
 
     $courses = Course::whereHas('teacherCourses', function ($q) use ($user) {
       $q->where('teacher_id', $user->id);
@@ -659,13 +659,12 @@ class TeacherController extends Controller
       ->get()
       ->map(fn($course) => $this->formatSections($course, 'course'))
       ->values();
-   Log::info($user);
+
 
     $webinars = Webinar::where('host_id', $user->id)
       ->get()
       ->map(fn($webinars) => $this->formatSections($webinars, 'webinar'))
       ->values();
-   Log::info($user);
 
     $workshops = Workshop::where('host_id', $user->id)
       ->get()
@@ -673,7 +672,7 @@ class TeacherController extends Controller
       ->values();
     $events = collect()->merge($webinars)->merge($courses)->merge($workshops)->sortKeys();
     $now = Carbon::now();
-   Log::info($user);
+
 
     // Sort by start time ASC
     $sorted = $events
@@ -710,8 +709,6 @@ class TeacherController extends Controller
       ->values()
       ->toArray();
 
-    Log::info($upcomingOngoing);
-        Log::info($completed);
     return response()->json([
       'upcoming_ongoing' => $upcomingOngoing,
       'completed' => $completed,

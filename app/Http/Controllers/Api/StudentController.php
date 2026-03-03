@@ -1464,6 +1464,9 @@ class StudentController extends Controller
         [
           "id" => 2,
           "time" => "11:30 AM",
+           "start_time" => "2026-03-04 10:00:00",
+          "end_time" => "2026-03-04 11:00:00",
+          "platform" => "zoom",
           "subject" => "Physics",
           "course" => "Grade 9",
           "teacher_name" => "Anjali Ma'am",
@@ -1473,6 +1476,9 @@ class StudentController extends Controller
         [
           "id" => 3,
           "time" => "02:00 PM",
+           "start_time" => "2026-03-04 10:00:00",
+          "end_time" => "2026-03-04 11:00:00",
+          "platform" => "zoom",
           "subject" => "English",
           "course" => "Grade 6",
           "teacher_name" => "Joseph Sir",

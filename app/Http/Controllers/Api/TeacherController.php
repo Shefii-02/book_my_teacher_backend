@@ -651,6 +651,7 @@ class TeacherController extends Controller
   public function courses(Request $request)
   {
     $user = $request->user();
+    Log::info($user);
     $teacher = Teacher::where('user_id', $user->id)->firstOrFail();
 
     $courses = Course::whereHas('teacherCourses', function ($q) use ($teacher) {
@@ -710,7 +711,8 @@ class TeacherController extends Controller
       ->values()
       ->toArray();
 
-
+    Log::info($upcomingOngoing);
+        Log::info($completed);
     return response()->json([
       'upcoming_ongoing' => $upcomingOngoing,
       'completed' => $completed,

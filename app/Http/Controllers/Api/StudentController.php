@@ -1114,7 +1114,7 @@ class StudentController extends Controller
     // ];
     $today_now = now();
     Log::info($today_now);
-    $upcomming_classes = $course->classes->where('end_time','<=',$today_now);
+    $upcomming_classes = $course->classes->where('end_time','>=',$today_now);
     $completed_classes = $course->classes->where('end_time','<=',$today_now);
 
     $courseClassUpComing = CourseClassLinkResource::collection($upcomming_classes);

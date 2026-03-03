@@ -1459,7 +1459,7 @@ class StudentController extends Controller
           "subject" => "Mathematics",
           "course" => "Grade 8",
           "teacher_name" => "Rahul Sir",
-          "meeting_link" => "https://zoom.us/j/123456",
+          "meeting_link" => "https://meet.google.com/tqt-hfno-hcm",
           "recorded_link" => null,
           "status" => "live"
         ],

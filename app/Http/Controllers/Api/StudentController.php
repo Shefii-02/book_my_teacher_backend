@@ -1490,7 +1490,7 @@ class StudentController extends Controller
           "course" => "Grade 6",
           "teacher_name" => "Joseph Sir",
           "meeting_link" => null,
-          "recorded_link" => null,
+          "recorded_link" => "https://www.youtube.com/watch?v=YvDZDCDajik",
           "status" => "completed"
         ],
       ]

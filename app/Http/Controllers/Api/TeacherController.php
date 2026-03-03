@@ -465,9 +465,9 @@ class TeacherController extends Controller
           return $event;
         })->values();
       })
-      ->toArray();
+      ->toArray() ?? [];
 
-    Log::info($events);
+
 
     return response()->json([
       "month"      => $month,

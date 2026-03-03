@@ -113,7 +113,7 @@ class LoginController extends Controller
       }
 
       // ✅ Login existing user
-      $user->tokens()->delete();
+      // $user->tokens()->delete();
       $token = $user->createToken('auth_token')->plainTextToken;
 
       $user->email_verified_at = now();

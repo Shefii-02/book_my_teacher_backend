@@ -300,7 +300,7 @@ class OtpController extends Controller
     }
 
     // Revoke all existing tokens
-    $user->tokens()->delete();
+    // $user->tokens()->delete();
 
     // Generate token if using Sanctum
     $token = $user->createToken('auth_token')->plainTextToken;

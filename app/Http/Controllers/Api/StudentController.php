@@ -1114,8 +1114,8 @@ class StudentController extends Controller
     // ];
     $today_now = now();
 
-    $upcomming_classes = $course->classes->where('end_time','>=',$today_now);
-    $completed_classes = $course->classes->where('end_time','<=',$today_now);
+    $upcomming_classes = $course->classes->where('end_time', '>=', $today_now);
+    $completed_classes = $course->classes->where('end_time', '<=', $today_now);
 
     $courseClassUpComing = CourseClassLinkResource::collection($upcomming_classes);
     $courseClassCompleted = CourseClassLinkResource::collection($completed_classes);
@@ -1395,7 +1395,7 @@ class StudentController extends Controller
     // ->map(fn($w) => tap($w)->is_enrolled = false);
 
 
-     $democlasses = DemoClass::where('company_id', 1)
+    $democlasses = DemoClass::where('company_id', 1)
       ->whereHas('registrations', function ($q) use ($user) {
         $q->where('user_id', $user->id);
       })
@@ -1429,10 +1429,10 @@ class StudentController extends Controller
       ]
 
     ])
-    // ->filter(fn($g) => $g['items']->isNotEmpty())
+      // ->filter(fn($g) => $g['items']->isNotEmpty())
       ->values();
 
-      Log::info($data);
+    Log::info($data);
 
     return response()->json([
       'status' => true,
@@ -1440,4 +1440,89 @@ class StudentController extends Controller
       'data' => $data,
     ]);
   }
+
+
+  public function todayClasses(Request $request)
+  {
+
+    return response()->json([
+      "status" => true,
+      "message" => "Today's classes fetched successfully",
+      "data" => [
+        [
+          "id" => 1,
+          "start_time" => "2026-03-04 10:00:00",
+          "end_time" => "2026-03-04 11:00:00",
+          "platform" => "zoom",
+          "time" => "10:00 AM",
+          "subject" => "Mathematics",
+          "course" => "Grade 8",
+          "teacher_name" => "Rahul Sir",
+          "meeting_link" => "https://zoom.us/j/123456",
+          "status" => "live"
+        ],
+        [
+          "id" => 2,
+          "time" => "11:30 AM",
+          "subject" => "Physics",
+          "course" => "Grade 9",
+          "teacher_name" => "Anjali Ma'am",
+          "meeting_link" => "https://zoom.us/j/987654",
+          "status" => "upcoming"
+        ],
+        [
+          "id" => 3,
+          "time" => "02:00 PM",
+          "subject" => "English",
+          "course" => "Grade 6",
+          "teacher_name" => "Joseph Sir",
+          "meeting_link" => null,
+          "status" => "completed"
+        ],
+      ]
+    ]);
+  }
+
+
+  // public function todayClasses(Request $request)
+  // {
+  //   $userId = auth()->id(); // student id
+
+  //   $today = Carbon::today();
+
+  //   $classes = ClassSchedule::with(['subject', 'grade', 'teacher'])
+  //     ->where('student_id', $userId)
+  //     ->whereDate('class_date', $today)
+  //     ->get()
+  //     ->map(function ($class) {
+
+  //       $now = Carbon::now();
+  //       $start = Carbon::parse($class->start_time);
+  //       $end = Carbon::parse($class->end_time);
+
+  //       if ($now->between($start, $end)) {
+  //         $status = 'live';
+  //       } elseif ($now->lt($start)) {
+  //         $status = 'upcoming';
+  //       } else {
+  //         $status = 'completed';
+  //       }
+
+  //       return [
+  //         "id" => $class->id,
+  //         "time" => $start->format('h:i A'),
+  //         "subject" => $class->subject->name,
+  //         "grade" => $class->grade->name,
+  //         "teacher_name" => $class->teacher->name,
+  //         "meeting_link" => $class->meeting_link,
+  //         "status" => $status
+  //       ];
+  //     });
+
+  //   return response()->json([
+  //     "status" => true,
+  //     "message" => "Today's classes fetched",
+  //     "data" => $classes
+  //   ]);
+  // }
 }

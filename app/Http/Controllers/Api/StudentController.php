@@ -1048,7 +1048,7 @@ class StudentController extends Controller
 
   public function fetchClassDetail(Request $request): JsonResponse
   {
-    Log::info($request->all());
+
     $id = $request->course_id;
 
     $course = Course::where('id', $id)->first();

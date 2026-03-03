@@ -398,10 +398,6 @@ class TeacherController extends Controller
   public function schedule(Request $request)
   {
     $user = $request->user();
-    Log::info($request->user());
-     Log::info($user);
-     Log::info($user->id);
-    $teacher = Teacher::where('user_id', $user->id)->first();
 
     $month = now()->format('Y-m');
     $start = Carbon::parse($month)->subMonths(2)->startOfMonth();
@@ -443,9 +439,6 @@ class TeacherController extends Controller
       ->map(fn($w) => $this->formatEvent($w, 'workshop'));
 
 
-
-    Log::info($workshops);
-
     $events = collect()
       ->merge($webinars)
       ->merge($workshops)
@@ -465,7 +458,7 @@ class TeacherController extends Controller
           return $event;
         })->values();
       })
-      ->toArray() ?? [];
+      ->toArray();
 
 
 
@@ -473,7 +466,7 @@ class TeacherController extends Controller
       "month"      => $month,
       "first_day" => $start->toDateString(),
       "last_day"  => $end->toDateString(),
-      "events"    => $events,
+      "events"    => (object) $events,
     ]);
   }
 

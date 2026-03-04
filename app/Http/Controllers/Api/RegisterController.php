@@ -87,7 +87,7 @@ class RegisterController extends Controller
         if ($request->filled('availability')) {
           TeacherWorkingDay::where('teacher_id', $user->id)->delete();
           TeacherWorkingHour::where('teacher_id', $user->id)->delete();
-          foreach (json_decode($request->availability) ?? [] as $day => $times) {
+          foreach (json_decode($request->availability, true) ?? [] as $day => $times) {
             $cDay = TeacherWorkingDay::create([
               'teacher_id' => $user->id,
               'day'        => trim($day),
@@ -144,7 +144,7 @@ class RegisterController extends Controller
 
         if ($request->filled('teaching_data')) {
           TeachersTeachingGradeDetail::where('user_id', $user->id)->delete();
-          foreach (json_decode($request->teaching_data) ?? [] as $gradeId => $boards) {
+          foreach (json_decode($request->teaching_data, true) ?? [] as $gradeId => $boards) {
             foreach ($boards as $boardId => $subjects) {
               foreach ($subjects as $subjectId => $modes) {
                 TeachersTeachingGradeDetail::create([
@@ -152,8 +152,8 @@ class RegisterController extends Controller
                   'grade_id'   => $gradeId,
                   'board_id'   => $boardId,
                   'subject_id' => $subjectId,
-                  'online'     => isset($modes['online']) ? 1 : 1,
-                  'offline'    => isset($modes['offline']) ? 1 : 0,
+                  'online'     => !empty($modes['online']) && $modes['online'] == true  ? 1 : 1,
+                  'offline'    => !empty($modes['offline']) && $modes['offline'] == true ? 1 : 0,
                 ]);
               }
             }

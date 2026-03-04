@@ -432,8 +432,8 @@ class TeacherController extends Controller
      | Workshop Classes (host_id)
      |----------------------------------*/
     $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
-        $q->where('host_id', $user->id);
-      })->
+      $q->where('host_id', $user->id);
+    })->
       // whereBetween('scheduled_at', [$start, $end])->
       get()
       ->map(fn($w) => $this->formatEvent($w, 'workshop'));
@@ -474,11 +474,15 @@ class TeacherController extends Controller
   private function formatEvent($model, string $type): array
   {
 
-    $start = Carbon::parse(
-      $model->start_time
-        ?? $model->started_at
-        ?? $model->start_date_time
-    );
+    if ($type == 'workshop') {
+      $start = Carbon::parse($model->start_date_time);
+    } else {
+      $start = Carbon::parse(
+        $model->start_time
+          ?? $model->started_at
+          ?? $model->start_date_time
+      );
+    }
     $end   = Carbon::parse($model->end_time ?? $model->ended_at ?? $model->end_date_time);
     $now = Carbon::now();
 

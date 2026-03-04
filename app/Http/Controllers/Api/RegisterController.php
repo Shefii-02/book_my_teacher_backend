@@ -143,7 +143,7 @@ class RegisterController extends Controller
         // }
 
         if ($request->filled('teaching_data')) {
-          TeachersTeachingGradeDetail::where('teacher_id', $user->id)->delete();
+          TeachersTeachingGradeDetail::where('user_id', $user->id)->delete();
           foreach (json_decode($request->teaching_data) ?? [] as $gradeId => $boards) {
             foreach ($boards as $boardId => $subjects) {
               foreach ($subjects as $subjectId => $modes) {

@@ -74,7 +74,7 @@ class Course extends Model
   public function teachers()
   {
     return $this->belongsToMany(
-      Teacher::class,
+      User::class,
       'teacher_courses',   // pivot table
       'course_id',         // foreign key on pivot (for Course)
       'teacher_id'         // related key on pivot (for Teacher)

@@ -152,8 +152,8 @@ class RegisterController extends Controller
                   'grade_id'   => $gradeId,
                   'board_id'   => $boardId,
                   'subject_id' => $subjectId,
-                  'online'     => !empty($modes['online']) ? 1 : 1,
-                  'offline'    => !empty($modes['offline']) ? 1 : 0,
+                  'online'     => isset($modes['online']) ? 1 : 1,
+                  'offline'    => isset($modes['offline']) ? 1 : 0,
                 ]);
               }
             }

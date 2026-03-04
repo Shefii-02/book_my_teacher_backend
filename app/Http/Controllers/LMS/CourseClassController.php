@@ -80,6 +80,7 @@ class CourseClassController extends Controller
   {
 
     $course = Course::where('course_identity', $identity)->first() ?? abort(404);
+    dd($course->teachers);
     $class = CourseClass::with('teachers')->where('course_id', $course->id)->where('id', $course_class)->first() ?? abort(404);
 
     $teachers = User::where('acc_type', 'teacher')->get();

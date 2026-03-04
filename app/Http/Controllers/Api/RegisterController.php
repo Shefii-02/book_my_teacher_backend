@@ -18,12 +18,15 @@ use App\Models\StudentAvailableHour;
 use App\Models\StudentGrade;
 use App\Models\StudentPersonalInfo;
 use App\Models\StudentRecommendedSubject;
+use App\Models\TeachersTeachingGradeDetail;
 use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
   public function teacherSignup(Request $request)
   {
+
+    Log::info($request->all());
 
     DB::beginTransaction();
     $company_id = 1;
@@ -70,46 +73,90 @@ class RegisterController extends Controller
         );
 
         // 3️⃣ Sync Working Days
-        if ($request->filled('working_days')) {
+        // if ($request->filled('working_days')) {
+        //   TeacherWorkingDay::where('teacher_id', $user->id)->delete();
+        //   foreach (explode(',', $request->working_days) as $day) {
+        //     TeacherWorkingDay::create([
+        //       'teacher_id' => $user->id,
+        //       'day'        => trim($day),
+        //     ]);
+        //   }
+        // }
+
+
+        if ($request->filled('availability')) {
           TeacherWorkingDay::where('teacher_id', $user->id)->delete();
-          foreach (explode(',', $request->working_days) as $day) {
+          TeacherWorkingHour::where('teacher_id', $user->id)->delete();
+          foreach ($request->availability as $day => $times) {
             TeacherWorkingDay::create([
               'teacher_id' => $user->id,
               'day'        => trim($day),
             ]);
+
+            foreach ($times as $time) {
+
+              TeacherWorkingHour::create([
+                'teacher_id' => $user->id,
+                'time_slot'  => trim($time),
+              ]);
+              // TeacherAvailability::create([
+              //   'teacher_id' => $teacher->id,
+              //   'day' => $day,
+              //   'time_slot' => $time,
+              // ]);
+            }
           }
         }
 
         // 4️⃣ Sync Working Hours
-        if ($request->filled('working_hours')) {
-          TeacherWorkingHour::where('teacher_id', $user->id)->delete();
-          foreach (explode(',', $request->working_hours) as $hour) {
-            TeacherWorkingHour::create([
-              'teacher_id' => $user->id,
-              'time_slot'  => trim($hour),
-            ]);
-          }
-        }
+        // if ($request->filled('working_hours')) {
+        //   TeacherWorkingHour::where('teacher_id', $user->id)->delete();
+        //   foreach (explode(',', $request->working_hours) as $hour) {
+        //     TeacherWorkingHour::create([
+        //       'teacher_id' => $user->id,
+        //       'time_slot'  => trim($hour),
+        //     ]);
+        //   }
+        // }
 
         // 5️⃣ Sync Grades
-        if ($request->filled('teaching_grades')) {
-          TeacherGrade::where('teacher_id', $user->id)->delete();
-          foreach (explode(',', $request->teaching_grades) as $grade) {
-            TeacherGrade::create([
-              'teacher_id' => $user->id,
-              'grade'      => trim($grade),
-            ]);
-          }
-        }
+        // if ($request->filled('teaching_grades')) {
+        //   TeacherGrade::where('teacher_id', $user->id)->delete();
+        //   foreach (explode(',', $request->teaching_grades) as $grade) {
+        //     TeacherGrade::create([
+        //       'teacher_id' => $user->id,
+        //       'grade'      => trim($grade),
+        //     ]);
+        //   }
+        // }
 
-        // 6️⃣ Sync Subjects
-        if ($request->filled('teaching_subjects')) {
-          TeachingSubject::where('teacher_id', $user->id)->delete();
-          foreach (explode(',', $request->teaching_subjects) as $subject) {
-            TeachingSubject::create([
-              'teacher_id' => $user->id,
-              'subject'    => trim($subject),
-            ]);
+        // // 6️⃣ Sync Subjects
+        // if ($request->filled('teaching_subjects')) {
+        //   TeachingSubject::where('teacher_id', $user->id)->delete();
+        //   foreach (explode(',', $request->teaching_subjects) as $subject) {
+        //     TeachingSubject::create([
+        //       'teacher_id' => $user->id,
+        //       'subject'    => trim($subject),
+        //     ]);
+        //   }
+        // }
+
+        if ($request->filled('teachingData')) {
+          TeachersTeachingGradeDetail::where('teacher_id', $user->id)->delete();
+          foreach ($request->teachingData as $gradeId => $boards) {
+            foreach ($boards as $boardId => $subjects) {
+              foreach ($subjects as $subjectId => $modes) {
+
+                TeachersTeachingGradeDetail::create([
+                  'user_id'    => $user->id,
+                  'grade_id'   => $gradeId,
+                  'board_id'   => $boardId,
+                  'subject_id' => $subjectId,
+                  'online'     => isset($modes['online']) ? 1 : 1,
+                  'offline'    => isset($modes['offline']) ? 1 : 0,
+                ]);
+              }
+            }
           }
         }
 

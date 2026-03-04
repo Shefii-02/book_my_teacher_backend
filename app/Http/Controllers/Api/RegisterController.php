@@ -87,7 +87,7 @@ class RegisterController extends Controller
         if ($request->filled('availability')) {
           TeacherWorkingDay::where('teacher_id', $user->id)->delete();
           TeacherWorkingHour::where('teacher_id', $user->id)->delete();
-          foreach ($request->availability as $day => $times) {
+          foreach (json_decode($request->availability) ?? [] as $day => $times) {
             TeacherWorkingDay::create([
               'teacher_id' => $user->id,
               'day'        => trim($day),
@@ -143,7 +143,7 @@ class RegisterController extends Controller
 
         if ($request->filled('teachingData')) {
           TeachersTeachingGradeDetail::where('teacher_id', $user->id)->delete();
-          foreach ($request->teachingData as $gradeId => $boards) {
+          foreach (json_decode($request->teachingData) ?? [] as $gradeId => $boards) {
             foreach ($boards as $boardId => $subjects) {
               foreach ($subjects as $subjectId => $modes) {
 

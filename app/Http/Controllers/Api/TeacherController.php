@@ -1230,6 +1230,7 @@ class TeacherController extends Controller
 
   public function workshopDetails(Request $request)
   {
+    dd($request->all());
     // Example dummy details per course id
     // $course = [
     //   "id" => (int)$request->id,

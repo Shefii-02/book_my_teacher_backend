@@ -511,7 +511,7 @@ class TeacherController extends Controller
       "time_end" => Carbon::parse($end)->format('d-m-Y H:i'),
       "duration" => $model->duration ?? 0,
 
-      "course_id" => $model->course_id ?? null,
+      "course_id" => $type == 'course' ? $model->course_id : $model->workshop->id ?? '',
 
       "class_link" => $model->meeting_link ?? null,
       "meeting_password" => $model->meeting_password ?? null,

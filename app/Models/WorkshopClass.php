@@ -52,10 +52,10 @@ class WorkshopClass extends Model
   }
 
 
-  public function course_data()
-  {
-    return $this->hasOne(Course::class, 'id', 'course_id');
-  }
+  // public function course_data()
+  // {
+  //   return $this->hasOne(Course::class, 'id', 'course_id');
+  // }
 
   public function workshop()
   {

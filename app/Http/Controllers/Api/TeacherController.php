@@ -1247,7 +1247,9 @@ class TeacherController extends Controller
 
     $user = $request->user();
     $workshop_id = $request->id;
+    Log::info($workshop_id);
     $workshop = Workshop::where('id', $workshop_id)->first();
+    Log::info($workshop);
     $worshopDetail = [
       'id' => (int)$workshop->id,
       'title' => $workshop->title,

@@ -428,6 +428,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/teacher/course-class/create', 'TeacherController@createCourseClass');
 
+    Route::post('/teacher/course/material/upload', 'TeacherController@courseMaterialUpload');
 
 
     Route::post('/teacher/reviews', 'TeacherController@reviews');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\API\ClassLinkResource;
 use App\Http\Resources\API\CourseClassLinkResource;
@@ -2093,6 +2094,78 @@ class TeacherController extends Controller
       return response()->json([
         'status' => false,
         'message' => $e->getMessage()
+      ], 500);
+    }
+  }
+
+  public function courseMaterialUpload(Request $request)
+  {
+    // ── Validation ────────────────────────────────────────────────────────
+    $request->validate([
+      'course_id' => 'required|exists:courses,id',
+      'title'     => 'required|string|max:255',
+      'file'      => 'required|file|mimes:pdf,jpeg,jpg,png,mp3,wav,m4a,aac,ogg|max:51200',
+      'position'  => 'nullable|integer',
+      'status'    => 'nullable|in:published,draft',
+    ]);
+
+    try {
+
+      $course     = Course::findOrFail($request->course_id);
+      $company_id = 1; // or auth()->user()->company_id
+      $path       = null;
+      $file       = $request->file('file');
+
+      // ── Upload file ───────────────────────────────────────────────────
+      if ($request->hasFile('file')) {
+        $path = MediaHelper::uploadCompanyFile(
+          $company_id,
+          'courses/' . $course->course_identity . '/material',
+          $file,
+          'material'
+        );
+      }
+
+      // ── Determine file type ───────────────────────────────────────────
+      $extension = $file->getClientOriginalExtension();
+      $fileType  = match (strtolower($extension)) {
+        'pdf'               => 'pdf',
+        'jpg', 'jpeg', 'png' => 'image',
+        'mp3', 'wav', 'm4a',
+        'aac', 'ogg'        => 'voice',
+        default             => 'other',
+      };
+
+      // ── Save to DB ────────────────────────────────────────────────────
+      $material = CourseMaterial::create([
+        'course_id' => $course->id,
+        'title'     => $request->title,
+        'file_path' => $path,
+        'file_type' => $fileType,
+        'position'  => $request->position ?? 0,
+        'status'    => $request->status   ?? 'published',
+      ]);
+
+      // ── Success response ──────────────────────────────────────────────
+      return response()->json([
+        'status'   => true,
+        'message'  => 'Material uploaded successfully',
+        'data'     => [
+          'id'        => $material->id,
+          'course_id' => $material->course_id,
+          'title'     => $material->title,
+          'file_path' => $material->file_path,
+          'file_type' => $material->file_type,
+          'position'  => $material->position,
+          'status'    => $material->status,
+        ],
+      ], 201);
+    } catch (\Exception $e) {
+
+      return response()->json([
+        'status'  => false,
+        'message' => 'Failed to upload material',
+        'error'   => $e->getMessage(), // remove in production
       ], 500);
     }
   }

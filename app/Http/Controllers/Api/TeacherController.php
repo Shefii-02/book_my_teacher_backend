@@ -2043,12 +2043,13 @@ class TeacherController extends Controller
   public function createCourseClass(Request $request)
   {
     $teacher = $request->user();
-
+    Log::info($request->all());
     // Get latest class of this course that already has meeting link
     $courseClass = CourseClass::where('course_id', $request->course_id)
       ->withMeetingLink()
       ->latest('scheduled_at')
       ->first();
+    Log::info($courseClass);
 
     if (!$courseClass) {
       return response()->json([
@@ -2071,13 +2072,15 @@ class TeacherController extends Controller
       ];
 
       $class = CourseClass::create($data);
+      Log::info($class);
 
-      TeacherClass::create([
+      $classTeacher = TeacherClass::create([
         'teacher_id' => $teacher->id,
         'class_id'   => $class->id
       ]);
 
       DB::commit();
+      Log::info($classTeacher);
 
       return response()->json([
         'status' => true,
@@ -2085,7 +2088,7 @@ class TeacherController extends Controller
         'data' => $class
       ]);
     } catch (\Exception $e) {
-
+      Log::info($e);
       DB::rollBack();
 
       return response()->json([

@@ -2067,13 +2067,13 @@ class TeacherController extends Controller
         'teacher_id'   => $teacher->id,
         'type'         => 'online',
         'class_mode'   => 'gmeet',
+        'scheduled_at' => date('Y-m-d H:i:s', strtotime($request->start_time)),
         'meeting_link' => $courseClass->meeting_link,
         'start_time'   => date('Y-m-d H:i:s', strtotime($request->start_time)),
         'end_time'     => date('Y-m-d H:i:s', strtotime($request->end_time)),
       ];
 
       $class = CourseClass::create($data);
-      Log::info($class);
 
       $classTeacher = TeacherClass::create([
         'teacher_id' => $teacher->id,
@@ -2081,7 +2081,6 @@ class TeacherController extends Controller
       ]);
 
       DB::commit();
-      Log::info($classTeacher);
 
       return response()->json([
         'status' => true,
@@ -2091,7 +2090,6 @@ class TeacherController extends Controller
     } catch (\Exception $e) {
       Log::info($e);
       DB::rollBack();
-
       return response()->json([
         'status' => false,
         'message' => $e->getMessage()

@@ -11,7 +11,7 @@ return new class extends Migration {
 
 
       // Drop unique composite key
-      // $table->dropForeign(['teacher_id']);
+      $table->dropForeign(['teacher_id']);
       $table->dropColumn('teacher_id');
       $table->integer('teacher_id')->nullable()->after('id');
     });

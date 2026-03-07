@@ -2100,11 +2100,13 @@ class TeacherController extends Controller
 
   public function courseMaterialUpload(Request $request)
   {
+
+    $user = $request->user();
     // ── Validation ────────────────────────────────────────────────────────
     $request->validate([
       'course_id' => 'required|exists:courses,id',
       'title'     => 'required|string|max:255',
-      'file'      => 'required|file|mimes:pdf,jpeg,jpg,png,mp3,wav,m4a,aac,ogg|max:51200',
+      // 'file'      => 'required|file|mimes:pdf,jpeg,jpg,png,mp3,wav,m4a,aac,ogg|max:51200',
       'position'  => 'nullable|integer',
       'status'    => 'nullable|in:published,draft',
     ]);
@@ -2136,6 +2138,8 @@ class TeacherController extends Controller
         default             => 'other',
       };
 
+
+
       // ── Save to DB ────────────────────────────────────────────────────
       $material = CourseMaterial::create([
         'course_id' => $course->id,
@@ -2144,6 +2148,8 @@ class TeacherController extends Controller
         'file_type' => $fileType,
         'position'  => $request->position ?? 0,
         'status'    => $request->status   ?? 'published',
+        'created_by' => $user->id,
+
       ]);
 
       // ── Success response ──────────────────────────────────────────────

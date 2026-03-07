@@ -2175,4 +2175,99 @@ class TeacherController extends Controller
       ], 500);
     }
   }
+  public function courseClassUpdate(Request $request)
+  {
+    $request->validate([
+      'class_id'   => 'required|exists:course_classes,id',
+      'title'      => 'required|string|max:255',
+      'start_time' => 'required',
+      'end_time'   => 'required',
+    ]);
+
+    $teacher = $request->user();
+
+    // ── Find the class to update ──────────────────────────────────────────
+    $courseClass = CourseClass::where('id', $request->class_id)->first();
+
+    if (!$courseClass) {
+      return response()->json([
+        'status'  => false,
+        'message' => 'Class not found',
+      ], 404);
+    }
+
+    try {
+      DB::beginTransaction();
+
+      $courseClass->update([
+        'title'        => $request->title,
+        'scheduled_at' => date('Y-m-d H:i:s', strtotime($request->start_time)),
+        'start_time'   => date('Y-m-d H:i:s', strtotime($request->start_time)),
+        'end_time'     => date('Y-m-d H:i:s', strtotime($request->end_time)),
+      ]);
+
+      DB::commit();
+
+      return response()->json([
+        'status'  => true,
+        'message' => 'Class updated successfully',
+        'data'    => $courseClass->fresh(), // ✅ return updated data
+      ], 200);
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return response()->json([
+        'status'  => false,
+        'message' => 'Failed to update class',
+        'error'   => $e->getMessage(), // remove in production
+      ], 500);
+    }
+  }
+  public function courseClassDelete(Request $request)
+  {
+    $teacher = $request->user();
+
+    DB::beginTransaction();
+    try {
+      CourseClass::where('id', $request->id)->delete();
+      TeacherClass::where('class_id', $request->id)->delete();
+
+      DB::commit(); // ✅ missing
+
+      return response()->json([
+        'status'  => true,
+        'message' => 'Class deleted successfully', // ✅ missing
+      ], 200);
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return response()->json([
+        'status'  => false,
+        'message' => 'Failed to delete class',
+        'error'   => $e->getMessage(), // remove in production
+      ], 500);
+    }
+  }
+
+  public function courseMaterialDelete(Request $request)
+  {
+    $teacher = $request->user();
+    DB::beginTransaction();
+    try {
+      CourseMaterial::where('id', $request->id)->delete();
+      MediaHelper::removeCompanyFile($request->id);
+      DB::commit();
+      // ── Success response ──────────────────────────────────────────────
+      return response()->json([
+        'status'   => true,
+        'message'  => 'Material Deleted successfully',
+        'data'     => [],
+      ], 201);
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return response()->json([
+        'status'  => false,
+        'message' => 'Failed to upload material',
+        'error'   => $e->getMessage(), // remove in production
+      ], 500);
+    }
+  }
 }

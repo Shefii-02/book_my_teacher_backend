@@ -2177,12 +2177,12 @@ class TeacherController extends Controller
   }
   public function courseClassUpdate(Request $request)
   {
-    $request->validate([
-      'class_id'   => 'required|exists:course_classes,id',
-      'title'      => 'required|string|max:255',
-      'start_time' => 'required',
-      'end_time'   => 'required',
-    ]);
+    // $request->validate([
+    //   'class_id'   => 'required|exists:course_classes,id',
+    //   'title'      => 'required|string|max:255',
+    //   'start_time' => 'required',
+    //   'end_time'   => 'required',
+    // ]);
 
     $teacher = $request->user();
 

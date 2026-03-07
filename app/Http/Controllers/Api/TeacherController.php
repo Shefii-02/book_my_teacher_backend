@@ -2062,6 +2062,7 @@ class TeacherController extends Controller
       DB::beginTransaction();
 
       $data = [
+        'title'        => $request->title,
         'course_id'    => $request->course_id,
         'teacher_id'   => $teacher->id,
         'type'         => 'online',

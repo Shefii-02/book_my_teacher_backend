@@ -13,6 +13,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\WebinarResource;
 use App\Models\CompanyTeacher;
 use App\Models\Course;
+use App\Models\CourseClass;
 use App\Models\CourseMaterial;
 use App\Models\DemoClass;
 use App\Models\MediaFile;
@@ -2036,5 +2037,61 @@ class TeacherController extends Controller
         'values' => $dummyData[$filter]['chart'],
       ]
     ]);
+  }
+
+
+  public function createCourseClass(Request $request)
+  {
+    $teacher = $request->user();
+
+    // Get latest class of this course that already has meeting link
+    $courseClass = CourseClass::where('course_id', $request->course_id)
+      ->withMeetingLink()
+      ->latest('scheduled_at')
+      ->first();
+
+    if (!$courseClass) {
+      return response()->json([
+        'status' => false,
+        'message' => 'First class creation only possible by admin. Please contact support.'
+      ], 422);
+    }
+
+    try {
+      DB::beginTransaction();
+
+      $data = [
+        'course_id'    => $request->course_id,
+        'teacher_id'   => $teacher->id,
+        'type'         => 'online',
+        'class_mode'   => 'gmeet',
+        'meeting_link' => $courseClass->meeting_link,
+        'start_time'   => date('Y-m-d H:i:s', strtotime($request->start_time)),
+        'end_time'     => date('Y-m-d H:i:s', strtotime($request->end_time)),
+      ];
+
+      $class = CourseClass::create($data);
+
+      TeacherClass::create([
+        'teacher_id' => $teacher->id,
+        'class_id'   => $class->id
+      ]);
+
+      DB::commit();
+
+      return response()->json([
+        'status' => true,
+        'message' => 'Successfully Created',
+        'data' => $class
+      ]);
+    } catch (\Exception $e) {
+
+      DB::rollBack();
+
+      return response()->json([
+        'status' => false,
+        'message' => $e->getMessage()
+      ], 500);
+    }
   }
 }

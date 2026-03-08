@@ -273,16 +273,16 @@
                                         <tr class="border-b">
                                             <td class="p-3">
                                                 <div class="font-semibold">
-                                                    <a href="{{ route('company.student-details', $lead->user->id) }}"
+                                                    <a href="{{ route('company.student-details', $lead->user?->id) }}"
                                                         target="user-details">
-                                                        {{ $lead->user->name ?? '—' }}</a>
+                                                        {{ $lead->user?->name ?? '—' }}</a>
                                                 </div>
-                                                <div class="text-xs text-gray-500">{{ $lead->user->mobile ?? '' }}</div>
+                                                <div class="text-xs text-gray-500">{{ $lead->user?->mobile ?? '' }}</div>
                                             </td>
 
-                                            <td>{{ $lead->banner->type }}</td>
-                                            <td>{{ $lead->banner->banner_type }}</td>
-                                            <td>{{ $lead->banner->title }}</td>
+                                            <td>{{ $lead->banner?->type }}</td>
+                                            <td>{{ $lead->banner?->banner_type }}</td>
+                                            <td>{{ $lead->banner?->title }}</td>
                                             <td>{{ $lead->created_at }}</td>
 
                                             <td>

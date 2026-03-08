@@ -317,7 +317,7 @@
                                                                 data-url="{{ route('company.requests.form-class.edit', $lead->id) }}"
                                                                 class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
-                                                        @if ($lead->status == 'closed')
+                                                        {{-- @if ($lead->status == 'closed') --}}
                                                             <li>
                                                                 <form id="form_{{ $lead->id }}" class="m-0 p-0"
                                                                     action="{{ route('company.requests.form-class.destroy', $lead->id) }}"
@@ -328,7 +328,7 @@
                                                                     onclick="confirmDelete({{ $lead->id }})">Delete</a>
 
                                                             </li>
-                                                        @endif
+                                                        {{-- @endif --}}
                                                     </ul>
                                                 </div>
 

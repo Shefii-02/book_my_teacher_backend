@@ -476,7 +476,8 @@
                                                         </li>
                                                         <li> <a href="{{ route('company.students.edit', $student->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
-                                                        </li> {{-- <li> <a href="{{ route('company.students.login-security', $student->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login Security</a> </li> --}} <li>
+                                                        </li> {{-- <li> <a href="{{ route('company.students.login-security', $student->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login Security</a> </li> --}}
+                                                        <li>
                                                             <form id="form_{{ $student->id }}" class="m-0 p-0"
                                                                 action="{{ route('company.students.destroy', $student->id) }}"
                                                                 method="POST" class="inline-block"> @csrf

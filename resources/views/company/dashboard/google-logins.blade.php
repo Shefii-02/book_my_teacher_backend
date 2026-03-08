@@ -241,7 +241,7 @@
                                                 <div class="flex px-2 py-1">
                                                     <div class="flex flex-col justify-center">
                                                         <h6 class="mb-0 text-sm text-neutral-900 dark:text-white">
-                                                            {{ $login->mobile }}</h6>
+                                                            {{ $login->email }}</h6>
                                                         <div class="flex gap-3">
                                                             <a target="_blank"
                                                                 href="https://web.whatsapp.com/send/?text=&type=custom_url&app_absent=0&utm_campaign=wa_api_send_v1&phone{{ $login->mobile }}"

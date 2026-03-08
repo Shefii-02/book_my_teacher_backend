@@ -234,34 +234,45 @@ class UserController extends Controller
 
 
 
-
-
   public function googleSignInList(Request $request)
   {
-    $logins = LoginActivity::where('provider', 'google')
-      ->when(
-        $request->filled('email'),
-        fn($q) =>
-        $q->where('email', 'like', '%' . $request->email . '%')
-      )
-      ->when(
-        $request->filled('start_date'),
-        fn($q) =>
-        $q->whereDate('logged_in_at', '>=', $request->start_date)
-      )
-      ->when(
-        $request->filled('end_date'),
-        fn($q) =>
-        $q->whereDate('logged_in_at', '<=', $request->end_date)
-      )
+    $query = LoginActivity::where('provider', 'google')
+
+      ->when($request->filled('email'), function ($q) use ($request) {
+        $q->where('email', 'like', '%' . $request->email . '%');
+      })
+
+      ->when($request->filled('start_date'), function ($q) use ($request) {
+        $q->whereDate('logged_in_at', '>=', $request->start_date);
+      })
+
+      ->when($request->filled('end_date'), function ($q) use ($request) {
+        $q->whereDate('logged_in_at', '<=', $request->end_date);
+      });
+
+    /*
+    |--------------------------------
+    | Dashboard counts (before paginate)
+    |--------------------------------
+    */
+
+    $data = [
+      'total_otp'  => (clone $query)->count(),
+      'verified'   => (clone $query)->where('verified', 1)->count(),
+      'unverified' => (clone $query)->where('verified', 0)->count(),
+    ];
+
+    /*
+    |--------------------------------
+    | Paginated List
+    |--------------------------------
+    */
+
+    $logins = (clone $query)
       ->latest('logged_in_at')
       ->paginate(30)
       ->withQueryString();
-    $data = [
-      'total_otp'   => (clone $logins)->count(),
-      'verified'    => (clone $logins)->where('verified', 1)->count(),
-      'unverified'  => (clone $logins)->where('verified', 0)->count(),
-    ];
+
     return view('company.dashboard.google-logins', compact('logins', 'data'));
   }
 

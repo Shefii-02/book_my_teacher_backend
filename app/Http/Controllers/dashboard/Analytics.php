@@ -283,7 +283,7 @@ class Analytics extends Controller
 
 
     $generalRequests = GeneralRequest::where('company_id', $company_id)->where('status', '!=', 'converted_to_admission')->where('status', '!=', 'closed')->limit(10)->get();
-    $teacherRequests = TeacherClassRequest::where('company_id', $company_id)->where('status', '!=', 'converted_to_admission')->where('status', '!=', '')->limit(10)->get();
+    $teacherRequests = TeacherClassRequest::where('company_id', $company_id)->where('status', '!=', 'converted_to_admission')->where('status', '!=', 'closed')->limit(10)->get();
     $courseRequests  = BannerRequest::where('company_id', $company_id)->where('status', '!=', 'converted_to_admission')->where('status', '!=', 'closed')->limit(10)->get();
 
     // $source_analytics = [

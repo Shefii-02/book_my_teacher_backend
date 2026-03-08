@@ -207,7 +207,7 @@
             <div class="p-4 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                 <div class="flex">
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                        <h6 class="dark:text-white">Transaltion List</h6>
+                        <h6 class="dark:text-white">Admissions List</h6>
                     </div>
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 
@@ -231,93 +231,68 @@
                         <div class="flex1">
 
                             <div class="w-full max-w-full ">
-                                {{--                   <form method="GET" action="{{ route('company.transactions') }}"
-                                    class="mb-4 flex flex-wrap gap-3 items-end"> --}}
+                                <form method="GET" action="" class="mb-6 flex flex-wrap gap-4 items-end">
 
-                                <!-- 🔍 Search (name, email, mobile) -->
-                                {{-- <div>
-                                    <label class="block text-sm font-medium mb-1">Search</label>
-                                    <input type="text" name="search" value="{{ request('search') }}"
-                                        placeholder="Search name, email, mobile" class="border rounded px-3 py-2 w-64">
-                                </div> --}}
+                                    <!-- SEARCH -->
+                                    <div>
+                                        <label class="block text-sm font-semibold mb-1">Search</label>
+                                        <input type="text" name="search" value="{{ request('search') }}"
+                                            placeholder="Name / Email / Mobile" class="border rounded px-3 py-2 w-56">
+                                    </div>
 
-                                <!-- 🎛 Teaching Mode -->
-                                {{-- <div>
-                                    <label class="block text-sm font-medium mb-1">Transaction Type</label>
-                                    <select name="teaching_mode" class="border rounded px-3 py-2 w-32">
-                                        <option value="">All</option>
-                                        <option value="online"
-                                            {{ request('teaching_mode') == 'online' ? 'selected' : '' }}>Online
-                                        </option>
-                                        <option value="offline"
-                                            {{ request('teaching_mode') == 'offline' ? 'selected' : '' }}>Offline
-                                        </option>
-                                        <option value="both" {{ request('teaching_mode') == 'both' ? 'selected' : '' }}>
-                                            Both</option>
-                                    </select>
-                                </div> --}}
+                                    <!-- STATUS -->
+                                    <div>
+                                        <label class="block text-sm font-semibold mb-1">Status</label>
+                                        <select name="type" class="border rounded px-3 py-2 w-40">
+                                            <option value="all">All</option>
+                                            <option value="paid" {{ request('type') == 'paid' ? 'selected' : '' }}>Paid
+                                            </option>
+                                            <option value="pending" {{ request('type') == 'pending' ? 'selected' : '' }}>
+                                                Unpaid
+                                            </option>
+                                            <option value="rejected"
+                                                {{ request('type') == 'rejected' ? 'selected' : '' }}>
+                                                Rejected</option>
+                                        </select>
+                                    </div>
 
-                                <!-- 📌 Account Status -->
-                                {{-- <div>
-                                    <label class="block text-sm font-medium mb-1">Account Status</label>
-                                    <select name="account_status" class="border rounded px-3 py-2 w-32">
-                                        <option value="">All</option>
-                                        <option value="in progress"
-                                            {{ request('account_status') == 'in progress' ? 'selected' : '' }}>In
-                                            Progress</option>
-                                        <option value="completed"
-                                            {{ request('account_status') == 'completed' ? 'selected' : '' }}>Completed
-                                        </option>
-                                        <option value="rejected"
-                                            {{ request('account_status') == 'rejected' ? 'selected' : '' }}>Rejected
-                                        </option>
-                                        <option value="scheduled"
-                                            {{ request('account_status') == 'scheduled' ? 'selected' : '' }}>Scheduled
-                                        </option>
-                                    </select>
-                                </div> --}}
+                                    <!-- START DATE -->
+                                    <div>
+                                        <label class="block text-sm font-semibold mb-1">Start Date</label>
+                                        <input type="date" name="start_date" value="{{ request('start_date') }}"
+                                            class="border rounded px-3 py-2">
+                                    </div>
 
-                                <!-- 📍 Current Account Stage -->
-                                {{-- <div>
-                                    <label class="block text-sm font-medium mb-1">Current Stage</label>
-                                    <select name="current_account_stage" class="border rounded px-3 py-2 w-32">
-                                        <option value="">All</option>
-                                        <option value="verification process"
-                                            {{ request('current_account_stage') == 'verification process' ? 'selected' : '' }}>
-                                            Verification Process</option>
-                                        <option value="schedule interview"
-                                            {{ request('current_account_stage') == 'schedule interview' ? 'selected' : '' }}>
-                                            Schedule Interview</option>
-                                        <option value="upload demo class"
-                                            {{ request('current_account_stage') == 'upload demo class' ? 'selected' : '' }}>
-                                            Upload Demo Class</option>
-                                    </select>
-                                </div> --}}
+                                    <!-- END DATE -->
+                                    <div>
+                                        <label class="block text-sm font-semibold mb-1">End Date</label>
+                                        <input type="date" name="end_date" value="{{ request('end_date') }}"
+                                            class="border rounded px-3 py-2">
+                                    </div>
 
-                                <!-- Submit + Reset -->
-                                {{--  <div class="flex gap-2">
+                                    <!-- BUTTONS -->
+                                    <div class="flex gap-2">
+
                                         <button type="submit"
-                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
-                                                class="bi bi-search"></i> Apply</button>
-                                        <a href="{{ route('company.transactions') }}"
-                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded text-white text-sm"><i
-                                                class="bi bi-arrow-clockwise"></i> Reset </a>
-                                        <a href="{{ route('company.transactions.export', request()->query()) }}"
-                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                            Export Excel
+                                            class="px-4 py-2 bg-emerald-500/50 text-white rounded text-sm">
+                                            Search
+                                        </button>
+
+                                        <a href="{{ route('company.admissions.index') }}"
+                                            class="px-4 py-2 bg-gray-500 text-white rounded text-sm">
+                                            Reset
                                         </a>
 
                                     </div>
-                                </form> --}}
 
+                                </form>
                             </div>
                         </div>
                     </div>
                     @php
-                        $activeFilters = collect(
-                            request()->only(['search', 'teaching_mode', 'account_status', 'current_account_stage']),
-                        )->filter(fn($value) => filled($value)); // remove null/empty
+                        $activeFilters = collect(request()->only(['search', 'type', 'start_date', 'end_date']))->filter(
+                            fn($value) => filled($value),
+                        ); // remove null/empty
                     @endphp
 
                     @if ($activeFilters->isNotEmpty())
@@ -495,7 +470,7 @@
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
                                                             <a role="button" href="javascript:;"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                class="block px-4 py-2 hover:bg-gray-100 capitalize dark:hover:bg-white dark:hover:text-white"
                                                                 onclick="confirmDelete({{ $transaction->id }})">Delete</a>
                                                         </li>
                                                     </ul>

@@ -19,10 +19,76 @@ use Illuminate\Support\Facades\DB;
 class CustomInvoiceController extends Controller
 {
 
-  public function index()
+  public function index(Request $request)
   {
-    $invoices = CustomInvoice::latest()->paginate(20);
-    return view('company.custom_invoices.index', compact('invoices'));
+    $query = CustomInvoice::query();
+
+    /* ========= SEARCH ========= */
+
+    if ($request->filled('search')) {
+
+      $search = $request->search;
+
+      $query->where(function ($q) use ($search) {
+        $q->where('invoice_no', 'like', "%$search%")
+          ->orWhere('customer_name', 'like', "%$search%")
+          ->orWhere('customer_mobile', 'like', "%$search%");
+      });
+    }
+
+    /* ========= STATUS FILTER ========= */
+
+    if ($request->filled('status') && $request->status != 'all') {
+      $query->where('status', $request->status);
+    }
+
+    /* ========= DATE FILTER ========= */
+
+    if ($request->filled('start_date')) {
+      $query->whereDate('created_at', '>=', $request->start_date);
+    }
+
+    if ($request->filled('end_date')) {
+      $query->whereDate('created_at', '<=', $request->end_date);
+    }
+
+    /* ========= PAGINATION ========= */
+
+    $invoices = $query
+      ->latest()
+      ->paginate(20)
+      ->withQueryString();
+
+    /* ========= DASHBOARD STATS ========= */
+
+    $stats = [
+
+      'total' => [
+        'count' => CustomInvoice::count(),
+        'amount' => CustomInvoice::sum('grand_total')
+      ],
+
+      'paid' => [
+        'count' => CustomInvoice::where('status', 'paid')->count(),
+        'amount' => CustomInvoice::where('status', 'paid')->sum('grand_total')
+      ],
+
+      'unpaid' => [
+        'count' => CustomInvoice::where('status', 'unpaid')->count(),
+        'amount' => CustomInvoice::where('status', 'unpaid')->sum('grand_total')
+      ],
+
+      'cancelled' => [
+        'count' => CustomInvoice::where('status', 'cancelled')->count(),
+        'amount' => CustomInvoice::where('status', 'cancelled')->sum('grand_total')
+      ],
+
+    ];
+
+    return view(
+      'company.custom_invoices.index',
+      compact('invoices', 'stats')
+    );
   }
 
   public function create()
@@ -127,8 +193,8 @@ class CustomInvoiceController extends Controller
 
   public function destroy($id)
   {
-       CustomInvoice::where('id', $id)->delete();
-           return redirect()
+    CustomInvoice::where('id', $id)->delete();
+    return redirect()
       ->back()
       ->with('success', 'Invoice deleted successfully');
   }

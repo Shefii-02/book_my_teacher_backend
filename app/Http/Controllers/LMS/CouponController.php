@@ -10,11 +10,66 @@ use Illuminate\Support\Facades\Auth;
 
 class CouponController extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
-    $coupons = Coupon::latest()->paginate('10');
 
-    return view('company.coupons.index', compact('coupons'));
+    $query = Coupon::query();
+
+    /* SEARCH */
+
+    if ($request->search) {
+
+      $query->where(function ($q) use ($request) {
+
+        $q->where('offer_name', 'like', '%' . $request->search . '%')
+          ->orWhere('offer_code', 'like', '%' . $request->search . '%');
+      });
+    }
+
+    /* DATE FILTER */
+
+    if ($request->start_date) {
+      $query->whereDate('start_date_time', '>=', $request->start_date);
+    }
+
+    if ($request->end_date) {
+      $query->whereDate('end_date_time', '<=', $request->end_date);
+    }
+
+    /* STATUS FILTER */
+
+    if ($request->status == 'active') {
+      $query->where('start_date_time', '<=', now())
+        ->where('end_date_time', '>=', now());
+    }
+
+    if ($request->status == 'expired') {
+      $query->where('end_date_time', '<', now());
+    }
+
+    if ($request->status == 'upcoming') {
+      $query->where('start_date_time', '>', now());
+    }
+
+    $coupons = $query->latest()->paginate(10)->withQueryString();
+
+    /* STATS */
+
+    $stats = [
+
+      'total' => Coupon::count(),
+
+      'active' => Coupon::where('start_date_time', '<=', now())
+        ->where('end_date_time', '>=', now())
+        ->count(),
+
+      'expired' => Coupon::where('end_date_time', '<', now())->count(),
+
+      'upcoming' => Coupon::where('start_date_time', '>', now())->count()
+
+    ];
+
+    return view('company.coupons.index', compact('coupons', 'stats'));
   }
 
   public function create()
@@ -63,9 +118,9 @@ class CouponController extends Controller
 
   public function edit(Coupon $coupon)
   {
-        $courses = Course::get();
-        $couponCourses = $coupon->courses->pluck('id')->toArray();
-    return view('company.coupons.form', compact('coupon','courses','couponCourses'));
+    $courses = Course::get();
+    $couponCourses = $coupon->courses->pluck('id')->toArray();
+    return view('company.coupons.form', compact('coupon', 'courses', 'couponCourses'));
   }
 
   public function update(Request $request, Coupon $coupon)

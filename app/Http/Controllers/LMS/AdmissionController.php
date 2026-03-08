@@ -22,34 +22,36 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class AdmissionController extends Controller
 {
 
-
   public function index(Request $request)
   {
     $query = Purchase::with([
-      // 'student:id,name,email,mobile',
-      // 'course:id,title',
-      // 'payments'
+      'student:id,name,email,mobile',
+      'course:id,title',
+      'payments'
     ]);
 
-    /* ================= FILTERS ================= */
+    /* ========= STATUS FILTER ========= */
 
-    // Status filter
-    if ($request->filled('type')) {
-      if ($request->type !== 'all') {
-        $query->where('status', $request->type);
-      }
+    if ($request->filled('type') && $request->type !== 'all') {
+      $query->where('status', $request->type);
     }
 
-    // Search (name / email / mobile)
+    /* ========= SEARCH FILTER ========= */
+
     if ($request->filled('search')) {
-      $query->whereHas('student', function ($q) use ($request) {
-        $q->where('name', 'like', "%{$request->search}%")
-          ->orWhere('email', 'like', "%{$request->search}%")
-          ->orWhere('mobile', 'like', "%{$request->search}%");
+
+      $search = $request->search;
+
+      $query->whereHas('student', function ($q) use ($search) {
+
+        $q->where('name', 'like', "%$search%")
+          ->orWhere('email', 'like', "%$search%")
+          ->orWhere('mobile', 'like', "%$search%");
       });
     }
 
-    // Date filter
+    /* ========= DATE FILTER ========= */
+
     if ($request->filled('start_date')) {
       $query->whereDate('created_at', '>=', $request->start_date);
     }
@@ -58,9 +60,14 @@ class AdmissionController extends Controller
       $query->whereDate('created_at', '<=', $request->end_date);
     }
 
-    $transactions = $query->latest()->paginate(15);
+    /* ========= PAGINATION ========= */
 
-    /* ================= CARDS DATA ================= */
+    $transactions = $query
+      ->latest()
+      ->paginate(15)
+      ->withQueryString();
+
+    /* ========= DASHBOARD STATS ========= */
 
     $stats = [
       'total'    => $this->statsByStatus(),
@@ -74,6 +81,57 @@ class AdmissionController extends Controller
       'stats'
     ));
   }
+  // public function index(Request $request)
+  // {
+  //   $query = Purchase::with([
+  //     // 'student:id,name,email,mobile',
+  //     // 'course:id,title',
+  //     // 'payments'
+  //   ]);
+
+  //   /* ================= FILTERS ================= */
+
+  //   // Status filter
+  //   if ($request->filled('type')) {
+  //     if ($request->type !== 'all') {
+  //       $query->where('status', $request->type);
+  //     }
+  //   }
+
+  //   // Search (name / email / mobile)
+  //   if ($request->filled('search')) {
+  //     $query->whereHas('student', function ($q) use ($request) {
+  //       $q->where('name', 'like', "%{$request->search}%")
+  //         ->orWhere('email', 'like', "%{$request->search}%")
+  //         ->orWhere('mobile', 'like', "%{$request->search}%");
+  //     });
+  //   }
+
+  //   // Date filter
+  //   if ($request->filled('start_date')) {
+  //     $query->whereDate('created_at', '>=', $request->start_date);
+  //   }
+
+  //   if ($request->filled('end_date')) {
+  //     $query->whereDate('created_at', '<=', $request->end_date);
+  //   }
+
+  //   $transactions = $query->latest()->paginate(15);
+
+  //   /* ================= CARDS DATA ================= */
+
+  //   $stats = [
+  //     'total'    => $this->statsByStatus(),
+  //     'paid'     => $this->statsByStatus('paid'),
+  //     'pending'  => $this->statsByStatus('pending'),
+  //     'rejected' => $this->statsByStatus('rejected'),
+  //   ];
+
+  //   return view('company.academic.admissions.index', compact(
+  //     'transactions',
+  //     'stats'
+  //   ));
+  // }
 
   private function statsByStatus($status = null)
   {

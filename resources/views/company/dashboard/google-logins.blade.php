@@ -254,7 +254,7 @@
                                                 </div>
                                             </td>
                                             <td
-                                                class="p-2 align-middle capitalize bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                class="p-2 text-center align-middle capitalize bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 {{ $login->user?->acc_type }}
 
                                             </td>

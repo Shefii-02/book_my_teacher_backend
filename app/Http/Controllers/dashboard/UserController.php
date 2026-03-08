@@ -258,8 +258,8 @@ class UserController extends Controller
 
     $data = [
       'total_otp'  => (clone $query)->count(),
-      'verified'   => (clone $query)->where('verified', 1)->count(),
-      'unverified' => (clone $query)->where('verified', 0)->count(),
+      'verified'   => (clone $query)->whereNotNull('logged_in_at')->count(),
+      'unverified' => (clone $query)->whereNull('logged_in_at')->count(),
     ];
 
     /*

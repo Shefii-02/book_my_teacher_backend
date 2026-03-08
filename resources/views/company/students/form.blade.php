@@ -19,9 +19,11 @@
         $subjects = $user->recommendedSubjects->pluck('subject')->toArray();
         $preferred_days = $user->preferredDays->pluck('day')->toArray();
         $preferred_hours = $user->preferredHours->pluck('time_slot')->toArray();
+        $mode = $user->studentPersonalInfo?->study_mode;
     }
 
     $timeSlot = [
+        '05.00-06.00 AM',
         '06.00-07.00 AM',
         '07.00-08.00 AM',
         '08.00-09.00 AM',
@@ -63,15 +65,22 @@
 @section('content')
     <div class="container">
         <div class="card bg-white rounded-3 mb-3">
-            <div class="card-title p-2 m-2">
+            <div class="card-title p-2 m-2 flex justify-between">
                 <h5 class="font-bold">
                     {{ isset($user) ? 'Edit' : 'Create' }} a Student</h5>
+                <a href="{{ route('company.students.index') }}"
+                    class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
+                    <i class="bi bi-arrow-left me-1"></i>
+                    Back
+                </a>
             </div>
         </div>
-        <div class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+        <div
+            class="form-container relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
 
             <!-- ✅ Form -->
-            <form action="{{ isset($user) ? route('company.students.update', $user->id) : route('company.students.store') }}"
+            <form
+                action="{{ isset($user) ? route('company.students.update', $user->id) : route('company.students.store') }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
                 @if (isset($user))
@@ -202,7 +211,7 @@
                 @endphp
 
                 <!-- Step 2: Professional Information -->
-                {{-- <div class="form-step">
+                <div class="form-step">
                     <h2 class="text-lg font-bold mb-4">Study Details</h2>
 
                     <!-- Mode of Interest -->
@@ -255,11 +264,9 @@
                             if (isset($user)) {
                                 $allSubjects = $dataSubject->pluck('value')->toArray(); // DB list
                                 $selectedSubjects = $subjects; // user selected (from form)
-                                $otherSubjects = implode(',',array_diff($selectedSubjects, $allSubjects) ?? []);
-
-                            }
-                            else{
-                              $otherSubjects = '';
+                                $otherSubjects = implode(',', array_diff($selectedSubjects, $allSubjects) ?? []);
+                            } else {
+                                $otherSubjects = '';
                             }
                         @endphp
 
@@ -267,14 +274,13 @@
                         <div class="mt-3">
                             <label class="block mb-2 text-sm font-medium">Other Subject</label>
 
-                            <input type="text" name="other_subject"
-                                placeholder="Other subject..."
+                            <input type="text" name="other_subject" placeholder="Other subject..."
                                 class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
                                 value="{{ old('other_subject', $otherSubjects ?? '') }}">
                         </div>
                     </div>
 
-                    <!-- Working Days -->
+                    {{--   <!-- Working Days -->
                     <div class="mb-4">
                         <p class="mb-2 text-sm font-medium">Preferred Working Days</p>
                         @php $working_days = old('preferred_days', $preferred_days ?? []) @endphp
@@ -300,8 +306,8 @@
                                     {{ in_array($slot, $preferred_hours) ? 'checked' : '' }}> {{ $slot }}
                             </label>
                         @endforeach
-                    </div>
-                </div> --}}
+                    </div> --}}
+                </div>
 
                 <!-- Buttons -->
                 <div class="button-group mt-4 flex justify-center">

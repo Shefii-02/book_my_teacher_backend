@@ -4,12 +4,15 @@ namespace App\Http\Controllers\LMS;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Board;
+use App\Models\Grade;
 use App\Models\MediaFile;
 use App\Models\StudentAvailableDay;
 use App\Models\StudentAvailableHour;
 use App\Models\StudentGrade;
 use App\Models\StudentPersonalInfo;
 use App\Models\StudentRecommendedSubject;
+use App\Models\Subject;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,47 +22,135 @@ use Illuminate\Support\Facades\Log;
 class StudentController extends Controller
 {
 
-  public function index()
+  public function index(Request $request)
   {
     $company_id = auth()->user()->company_id;
-    $students = User::with('professionalInfo')
+
+    $query = User::with([
+      'studentPersonalInfo',
+      'recommendedSubjects',
+      'studentGrades'
+    ])
+      ->where('company_id', $company_id)
+      ->where('acc_type', 'student');
+
+    /*
+    |----------------------------------
+    | Search
+    |----------------------------------
+    */
+    if ($request->search) {
+      $query->where(function ($q) use ($request) {
+        $q->where('name', 'like', "%{$request->search}%")
+          ->orWhere('email', 'like', "%{$request->search}%")
+          ->orWhere('mobile', 'like', "%{$request->search}%");
+      });
+    }
+
+
+
+    /*
+    |----------------------------------
+    | Teaching Mode
+    |----------------------------------
+    */
+    if ($request->class_mode) {
+      $query->whereHas('studentPersonalInfo', function ($q) use ($request) {
+        $q->where('study_mode', $request->teaching_mode);
+      });
+    }
+
+    /*
+    |----------------------------------
+    | Grade
+    |----------------------------------
+    */
+    if ($request->learn_grade) {
+      $query->whereHas('studentGrades', function ($q) use ($request) {
+        $q->where('grade', $request->teaching_grade);
+      });
+    }
+
+    /*
+    |----------------------------------
+    | Subject
+    |----------------------------------
+    */
+    if ($request->learn_subject) {
+      $query->whereHas('recommendedSubjects', function ($q) use ($request) {
+        $q->where('subject', $request->teaching_subject);
+      });
+    }
+
+    /*
+    |----------------------------------
+    | Admission Status
+    |----------------------------------
+    */
+
+    if ($request->admisison_status == 'on-going') {
+      $query->where('account_status', 'verified');
+    }
+
+    if ($request->admisison_status == 'un-purchased') {
+      $query->where('account_status', 'in progress');
+    }
+
+    /*
+    |----------------------------------
+    | Pagination
+    |----------------------------------
+    */
+
+    $students = $query->latest()->paginate(10)->withQueryString();
+
+
+    /*
+    |----------------------------------
+    | Dashboard Stats
+    |----------------------------------
+    */
+
+    $allStudents = User::with('studentPersonalInfo')
       ->where('company_id', $company_id)
       ->where('acc_type', 'student')
       ->get();
 
-    // Group by status
-    $verifiedstudents    = $students->where('account_status', 'verified');
-    $unverifiedstudents  = $students->where('account_status', 'in progress');
-    $rejectedstudents    = $students->where('account_status', 'rejected');
+    $verifiedstudents   = $allStudents->where('account_status', 'verified');
+    $unverifiedstudents = $allStudents->where('account_status', 'in progress');
 
     $threeWeeksAgo = Carbon::now()->subWeeks(3);
 
-    $unActive = User::where('acc_type','student')->where('last_activation', '<', $threeWeeksAgo)->get();
+    $unActive = $allStudents->filter(function ($student) use ($threeWeeksAgo) {
+      return $student->last_activation < $threeWeeksAgo;
+    });
 
-    // Helper to count by teaching mode
     $countByMode = function ($collection, $mode) {
       return $collection->filter(fn($t) => $t->studentPersonalInfo?->study_mode === $mode)->count();
     };
 
     $data = [
       'total' => [
-        'students'        => $students->count(),
-        'online_students' => $countByMode($students, 'online'),
-        'offline_students' => $countByMode($students, 'offline'),
-        'both_students'   => $countByMode($students, 'both'),
+        'students'        => $allStudents->count(),
+        'online_students' => $countByMode($allStudents, 'online'),
+        'offline_students' => $countByMode($allStudents, 'offline'),
+        'both_students'   => $countByMode($allStudents, 'both'),
       ],
+
       'joined' => [
         'students'        => $verifiedstudents->count(),
         'online_students' => $countByMode($verifiedstudents, 'online'),
         'offline_students' => $countByMode($verifiedstudents, 'offline'),
         'both_students'   => $countByMode($verifiedstudents, 'both'),
       ],
+
       'unjoined' => [
         'students'        => $unverifiedstudents->count(),
         'online_students' => $countByMode($unverifiedstudents, 'online'),
         'offline_students' => $countByMode($unverifiedstudents, 'offline'),
         'both_students'   => $countByMode($unverifiedstudents, 'both'),
       ],
+
       'unactive' => [
         'students'        => $unActive->count(),
         'online_students' => $countByMode($unActive, 'online'),
@@ -68,9 +159,22 @@ class StudentController extends Controller
       ],
     ];
 
-    $students = User::where('acc_type', 'student')->where('company_id', 1)->paginate('10');
+      $grades = Grade::where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
 
-    return view('company.students.index', compact('data', 'students'));
+    $boards = Board::where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
+    $subjects = Subject::where('company_id', auth()->user()->company_id)
+      ->where('published', 1)
+      ->orderBy('position')
+      ->get();
+
+    return view('company.students.index', compact('students', 'data','grades','boards','subjects'));
   }
 
   public function overview($id)
@@ -214,11 +318,10 @@ class StudentController extends Controller
       $student->profile_fill = 1;
       $student->save();
 
-      Log::info($student);
 
       DB::commit();
 
-      return redirect()->back()->with('success', 'student created successfully!');
+      return redirect()->route('company.students.index')->with('success', 'student created successfully!');
     } catch (\Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', 'student creation failed! ' . $e->getMessage());
@@ -364,11 +467,10 @@ class StudentController extends Controller
       $student->profile_fill = 1;
       $student->save();
 
-      Log::info($student);
 
       DB::commit();
 
-      return redirect()->back()->with('success', 'student updated successfully!');
+      return redirect()->route('company.students.index')->with('success', 'student updated successfully!');
     } catch (\Exception $e) {
       DB::rollBack();
       return redirect()->back()->with('error', 'student updation failed! ' . $e->getMessage());

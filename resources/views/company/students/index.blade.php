@@ -206,191 +206,314 @@
                             <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
                                 <h6 class="dark:text-white">Students List</h6>
                             </div>
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 
-                            </div>
-                            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 
-                            </div>
-                            <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                        </div>
+                        <div class="w-full max-w-full ">
+                            @php
+                                $activeTab = request('tab', 'pending');
+                            @endphp
 
-                            </div>
+                            <!-- Filters -->
+                            <form method="GET" action="{{ route('company.students.index') }}"
+                                class="flex flex-wrap gap-4 mb-6 items-end">
+
+                                <!-- Search -->
+                                <div>
+                                    <label class="text-sm block mb-1">Search</label>
+                                    <input type="text" name="search" value="{{ request('search') }}"
+                                        placeholder="Name / Email / Mobile" class="border rounded-lg px-3 py-2 w-60">
+                                </div>
+
+                                <!-- Study Mode -->
+                                <div>
+                                    <label class="text-sm block mb-1">Class Mode</label>
+                                    <select name="class_mode" class="border rounded-lg px-3 py-2">
+                                        <option value="">All</option>
+                                        <option value="online" {{ request('class_mode') == 'online' ? 'selected' : '' }}>
+                                            Online
+                                        </option>
+                                        <option value="offline"
+                                            {{ request('class_mode') == 'offline' ? 'selected' : '' }}>
+                                            Offline</option>
+                                        <option value="both" {{ request('teaching_mode') == 'both' ? 'selected' : '' }}>
+                                            Both
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <!-- Grade -->
+                                <div>
+                                    <label class="text-sm block mb-1">Grade</label>
+                                    <select name="learn_grade" class="border rounded-lg px-3 py-2">
+                                        <option value="">All</option>
+                                        @foreach ($grades ?? [] as $grade)
+                                            <option value="{{ $grade->name }}"
+                                                {{ request('learn_grade') == $grade->name ? 'selected' : '' }}>
+                                                {{ $grade->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Subject -->
+                                <div>
+                                    <label class="text-sm block mb-1">Subject</label>
+                                    <select name="learn_subject" class="border rounded-lg px-3 py-2">
+                                        <option value="">All</option>
+                                        @foreach ($subjects ?? [] as $subject)
+                                            <option value="{{ $subject->name }}"
+                                                {{ request('learn_subject') == $subject->name ? 'selected' : '' }}>
+                                                {{ $subject->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Admission Status -->
+                                {{-- <div>
+                                    <label class="text-sm block mb-1">Admission</label>
+                                    <select name="admisison_status" class="border rounded-lg px-3 py-2">
+                                        <option value="">All</option>
+                                        <option value="on-going"
+                                            {{ request('admisison_status') == 'on-going' ? 'selected' : '' }}>
+                                            On Going</option>
+                                        <option value="compelted-expried"
+                                            {{ request('admisison_status') == 'compelted-expried' ? 'selected' : '' }}>
+                                            Completed
+                                        </option>
+                                        <option value="un-purchased"
+                                            {{ request('admisison_status') == 'un-purchased' ? 'selected' : '' }}>
+                                            Unpurchased
+                                        </option>
+                                    </select>
+                                </div> --}}
+
+                                <!-- Submit + Reset -->
+                                <div class="flex gap-2 items-baseline ">
+                                  <div class="flex gap-2">
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
+                                            class="bi bi-search"></i> Apply</button>
+                                    <a href="{{ route('company.students.index') }}"
+                                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded text-white text-sm"><i
+                                            class="bi bi-arrow-clockwise"></i> Reset </a>
+                                    {{-- <a href="{{ route('company.students.export', request()->query()) }}"
+                                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
+                                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                                        Export Excel
+                                    </a> --}}
+
+                                  </div>
+                                    @php
+                                        $activeFilters = collect(
+                                            request()->only([
+                                                'search',
+                                                'class_mode',
+                                                'learn_grade',
+                                                'learn_subject',
+                                                'teaching_grade',
+                                                'teaching_subject',
+                                            ]),
+                                        )->filter(fn($value) => filled($value)); // remove null/empty
+                                    @endphp
+
+                                    @if ($activeFilters->isNotEmpty())
+                                        <div class="mb-4 pl-9 flex flex-wrap gap-2">
+                                            @foreach ($activeFilters as $key => $value)
+                                                <div
+                                                    class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
+                                                    <span class="mr-2 capitalize">{{ str_replace('_', ' ', $key) }}:
+                                                        {{ $value }}</span>
+                                                    <a href="{{ request()->fullUrlWithQuery([$key => null]) }}"
+                                                        class="text-red-500 hover:text-red-700 font-bold">×</a>
+                                                </div>
+                                            @endforeach
+                                            <a href="{{ route('company.teachers.index') }}"
+                                                class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                                                All</a>
+                                        </div>
+                                    @endif
+                                </div>
+
+                            </form>
+
+
                         </div>
                     </div>
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table
-                                class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
-                                <thead class="align-bottom">
+                    <div class="p-6">
+
+
+                        <!-- Table -->
+                        <div class="overflow-x-auto">
+
+                            <table class="w-full text-sm">
+
+                                <thead class="bg-gray-100 text-gray-600">
                                     <tr>
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Name</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Address</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Grades</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Subject</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Mode</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Created At</th>
-                                        {{-- <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Account Status</th> --}}
-                                        <th
-                                            class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none dark:border-white/40 dark:text-white tracking-none  text-slate-400 opacity-70">
-                                        </th>
+                                        <th class="p-3 text-left">Student</th>
+                                        <th class="p-3 text-left">Parent</th>
+                                        <th class="p-3 text-left">Grade</th>
+                                        <th class="p-3 text-left">Mode</th>
+                                        <th class="p-3 text-center">Status</th>
+                                        <th class="p-3 text-center">Created</th>
+                                        <th class="p-3 text-center">Action</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
-                                    @foreach ($students ?? [] as $key => $student)
+
+                                    @forelse($students as $key => $student)
                                         @php
-                                            $studentsubjects = $student->recommendedSubjects
-                                                ->pluck('subject')
-                                                ->toArray();
-                                            $studentGrades = $student->studentGrades->pluck('grade')->toArray();
-                                            $studentPersonalInfo = $student->studentPersonalInfo;
+                                            $subjects = $student->recommendedSubjects->pluck('subject')->toArray();
+                                            $grades = $student->studentGrades->pluck('grade')->toArray();
+                                            $grades_val = implode(',', $grades);
+                                            $sub_val = implode(',', $subjects);
+                                            $mode = $student->studentPersonalInfo?->study_mode;
                                         @endphp
 
-                                        <tr>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                <div class="flex px-2 py-1">
+                                        <tr class="border-b">
+
+                                            <!-- Student -->
+                                            <td class="p-3">
+                                                <div class="flex items-center gap-3">
+
+                                                    <img src="{{ $student->avatar_url }}" class="w-10 h-10 rounded-lg">
+
                                                     <div>
-                                                        <img src="{{ $student->avatar_url }}"
-                                                            class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl"
-                                                            alt="user1" />
+                                                        <p class="font-semibold">{{ $student->name }}</p>
+                                                        <p class="text-xs text-gray-500">{{ $student->email }}</p>
+                                                        <p class="text-xs text-gray-500">{{ $student->mobile }}</p>
                                                     </div>
-                                                    <div class="flex flex-col justify-center">
-                                                        <h6 class="mb-0 text-sm text-neutral-900 dark:text-white">
-                                                            {{ $student->name }}</h6>
-                                                        <p
-                                                            class="my-1 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                            <a href="#"
-                                                                class="__cf_email__">{{ $student->email }}</a>
-                                                        </p>
-                                                        <p
-                                                            class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                            <a href="#"
-                                                                class="__cf_email__">{{ $student->mobile }}</a>
-                                                        </p>
-                                                    </div>
+
                                                 </div>
                                             </td>
 
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                <p
-                                                    class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                    {{ Str::limit($student->address . ', ' . $student->city . ', ' . $student->postal_code . ', ' . $student->district . ', ' . $student->state . ', ' . $student->country, 20) }}
 
-                                                </p>
+                                            <!-- Address -->
+                                            <td class="p-3 text-xs text-gray-600">
+                                                {{ $student->studentPersonalInfo->parent_name }}
                                             </td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                <p
-                                                    class="mb-0 capitalize text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                    {{ implode(',', $studentGrades) }}
-                                                </p>
-                                            </td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                <p
-                                                    class="mb-0 capitalize text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                    {{ implode(',', $studentsubjects) }}
-                                                </p>
-                                            </td>
-                                            <td
-                                                class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                @if ($studentPersonalInfo)
-                                                    @if ($studentPersonalInfo->study_mode == 'online')
-                                                        <span
-                                                            class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold uppercase leading-none text-white">Online</span>
-                                                    @elseif($studentPersonalInfo->study_mode == 'offline')
-                                                        <span
-                                                            class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold uppercase leading-none text-white">Offline</span>
-                                                    @elseif($studentPersonalInfo->study_mode == 'both')
-                                                        <span
-                                                            class="bg-gradient-to-tl from-blue-700 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold uppercase leading-none text-white">Both</span>
+
+
+                                            <!-- Grade -->
+                                            <td class="p-3 capitalize" role="button"
+                                                title="{{ $grades_val . '(' . $sub_val . ')' }}">
+                                                <p class="text-sm">
+                                                    @if ($grades_val)
+                                                        {{ Str::limit($grades_val, 20) }}<br>
+                                                        ({{ Str::limit($sub_val, 20) }})
+                                                    @else
+                                                        Please update
                                                     @endif
+                                                </p>
+                                            </td>
+
+
+                                            <!-- Subjects -->
+                                            <td class="p-3">
+
+                                                @if ($mode == 'online')
+                                                    <span class="bg-primary text-white px-2 py-1 text-xs rounded">
+                                                        Online
+                                                    </span>
+                                                @elseif($mode == 'offline')
+                                                    <span class="bg-info text-white px-2 py-1 text-xs rounded">
+                                                        Offline
+                                                    </span>
+                                                @elseif($mode == 'both')
+                                                    <span class="bg-blue-500 text-white px-2 py-1 text-xs rounded">
+                                                        Both
+                                                    </span>
+                                                @else
                                                 @endif
                                             </td>
-                                            <td
-                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $student->created_at }}</span>
-                                            </td>
-                                            {{-- <td
-                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                @if ($student->account_status == 'in progress')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-lime-200 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold uppercase leading-none text-white">In
-                                                        progress</span>
-                                                @elseif($student->account_status == 'verified')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold uppercase leading-none text-white">Verified</span>
+
+                                            <!-- Status -->
+                                            <td class="p-3 text-center">
+
+                                                @if ($student->status == '1')
+                                                    <span class="bg-success text-white px-2 py-1 text-xs rounded">
+                                                        Active
+                                                    </span>
+                                                @elseif($student->status == '0')
+                                                    <span class="bg-gray-500 text-white px-2 py-1 text-xs rounded">
+                                                        In Active
+                                                    </span>
+                                                @else
+                                                    <span class="bg-blue-500 text-white px-2 py-1 text-xs rounded">
+                                                        --
+                                                    </span>
                                                 @endif
-                                            </td> --}}
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+
+                                            </td>
+
+
+                                            <!-- Created -->
+                                            <td class="p-3 text-center text-xs">
+                                                {{ $student->created_at->format('d M Y') }}
+                                            </td>
+
+
+                                            <!-- Actions -->
+                                            <td class="p-3 ">
                                                 <button id="dropdownBottomButton"
                                                     data-dropdown-toggle="dropdownBottom_{{ $key }}"
-                                                    data-dropdown-placement="bottom" class="" type="button">
-                                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        fill="none" viewBox="0 0 24 24">
+                                                    data-dropdown-placement="bottom" class="" type="button"> <svg
+                                                        class="w-6 h-6 text-gray-800 dark:text-white text-right"
+                                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                        width="24" height="24" fill="none"
+                                                        viewBox="0 0 24 24">
                                                         <path stroke="currentColor" stroke-linecap="round"
                                                             stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01" />
-                                                    </svg>
-
-
-                                                </button>
-
-                                                <!-- Dropdown menu -->
+                                                    </svg> </button> <!-- Dropdown menu -->
                                                 <div id="dropdownBottom_{{ $key }}"
                                                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
-                                                        <li>
-                                                            <a href="{{ route('company.students.overview', $student->id) }}"
+                                                        <li> <a href="{{ route('company.students.overview', $student->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
                                                         </li>
-                                                        <li>
-                                                            <a href="{{ route('company.students.edit', $student->id) }}"
+                                                        <li> <a href="{{ route('company.students.edit', $student->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
-                                                        </li>
-                                                        {{-- <li>
-                                                            <a href="{{ route('company.students.login-security', $student->id) }}"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login
-                                                                Security</a>
-                                                        </li> --}}
-                                                        <li>
-                                                          <form id="form_{{ $student->id }}" class="m-0 p-0"
+                                                        </li> {{-- <li> <a href="{{ route('company.students.login-security', $student->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login Security</a> </li> --}} <li>
+                                                            <form id="form_{{ $student->id }}" class="m-0 p-0"
                                                                 action="{{ route('company.students.destroy', $student->id) }}"
-                                                                method="POST" class="inline-block">
-                                                                @csrf @method('DELETE') </form>
-                                                                <a role="button" href="javascript:;"
-                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
-                                                                    onclick="confirmDelete({{ $student->id }})">Delete</a>
+                                                                method="POST" class="inline-block"> @csrf
+                                                                @method('DELETE') </form> <a role="button"
+                                                                href="javascript:;"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                onclick="confirmDelete({{ $student->id }})">Delete</a>
                                                         </li>
                                                     </ul>
                                                 </div>
                                             </td>
+
+
+
                                         </tr>
-                                    @endforeach
+
+                                    @empty
+
+                                        <tr>
+                                            <td colspan="7" class="text-center p-6 text-gray-500">
+                                                No students found
+                                            </td>
+                                        </tr>
+                                    @endforelse
+
                                 </tbody>
+
                             </table>
+
                         </div>
-                        <div class="d-flex justify-content-center m-4">
-                            {!! $students->links() !!}
+
+
+                        <!-- Pagination -->
+                        <div class="mt-6">
+                            {{ $students->links() }}
                         </div>
+
                     </div>
                 </div>
             </div>

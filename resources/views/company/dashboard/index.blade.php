@@ -324,7 +324,7 @@
                                                         <td
                                                             class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                                             <button id="dropdownBottomButton"
-                                                                data-dropdown-toggle="dropdownBottom_{{ $key }}"
+                                                                data-dropdown-toggle="dropdownBottom_{{ $key }}001"
                                                                 data-dropdown-placement="bottom" class=""
                                                                 type="button">
                                                                 <svg class="w-6 h-6 text-gray-800 dark:text-white"
@@ -338,7 +338,7 @@
                                                             </button>
 
                                                             <!-- Dropdown menu -->
-                                                            <div id="dropdownBottom_{{ $key }}"
+                                                            <div id="dropdownBottom_{{ $key }}001"
                                                                 class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
                                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                                     aria-labelledby="dropdownBottomButton">
@@ -440,7 +440,7 @@
                                                         <td
                                                             class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                                             <button id="dropdownBottomButton"
-                                                                data-dropdown-toggle="dropdownBottom_{{ $key2 }}"
+                                                                data-dropdown-toggle="dropdownBottom_{{ $key2 }}002"
                                                                 data-dropdown-placement="bottom" class=""
                                                                 type="button">
                                                                 <svg class="w-6 h-6 text-gray-800 dark:text-white"
@@ -454,7 +454,7 @@
                                                             </button>
 
                                                             <!-- Dropdown menu -->
-                                                            <div id="dropdownBottom_{{ $key2 }}"
+                                                            <div id="dropdownBottom_{{ $key2 }}002"
                                                                 class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
                                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                                     aria-labelledby="dropdownBottomButton">
@@ -557,7 +557,7 @@
                                                         <td
                                                             class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
                                                             <button id="dropdownBottomButton"
-                                                                data-dropdown-toggle="dropdownBottom_{{ $key3 }}"
+                                                                data-dropdown-toggle="dropdownBottom_{{ $key3 }}003"
                                                                 data-dropdown-placement="bottom" class=""
                                                                 type="button">
                                                                 <svg class="w-6 h-6 text-gray-800 dark:text-white"
@@ -571,7 +571,7 @@
                                                             </button>
 
                                                             <!-- Dropdown menu -->
-                                                            <div id="dropdownBottom_{{ $key3 }}"
+                                                            <div id="dropdownBottom_{{ $key3 }}003"
                                                                 class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
                                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                                     aria-labelledby="dropdownBottomButton">

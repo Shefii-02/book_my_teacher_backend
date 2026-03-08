@@ -216,8 +216,7 @@
                                         class="text-red-500 hover:text-red-700 font-bold">×</a>
                                 </div>
                             @endforeach
-                            <a href="{{ route('company.teachers.index') }}"
-                                class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                            <a href="{{ route('company.teachers.index') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
                                 All</a>
                         </div>
                     @endif
@@ -301,30 +300,34 @@
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
                                                         <li>
-                                                            <a target="_new" href="{{ route('company.student-details', $lead->user->id) }}"
+                                                            <a target="_new"
+                                                                href="{{ route('company.student-details', $lead->user->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Student
                                                                 View</a>
                                                         </li>
                                                         <li>
-                                                            <a role="button" data-url="{{ route('company.requests.form-class.show', $lead->id) }}"
-                                                                class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Lead View</a>
+                                                            <a role="button"
+                                                                data-url="{{ route('company.requests.form-class.show', $lead->id) }}"
+                                                                class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Lead
+                                                                View</a>
                                                         </li>
 
                                                         <li>
-                                                            <a role="button" data-url="{{ route('company.requests.form-class.edit', $lead->id) }}"
+                                                            <a role="button"
+                                                                data-url="{{ route('company.requests.form-class.edit', $lead->id) }}"
                                                                 class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
-                                                        @if($lead->status == 'closed')
-                                                        <li>
-                                                            <form id="form_{{ $lead->id }}" class="m-0 p-0"
-                                                                action="{{ route('company.requests.form-class.destroy', $lead->id) }}"
-                                                                method="POST" class="inline-block">
-                                                                @csrf @method('DELETE') </form>
-                                                            <a role="button" href="javascript:;"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
-                                                                onclick="confirmDelete({{ $lead->id }})">Delete</a>
+                                                        @if ($lead->status == 'closed')
+                                                            <li>
+                                                                <form id="form_{{ $lead->id }}" class="m-0 p-0"
+                                                                    action="{{ route('company.requests.form-class.destroy', $lead->id) }}"
+                                                                    method="POST" class="inline-block">
+                                                                    @csrf @method('DELETE') </form>
+                                                                <a role="button" href="javascript:;"
+                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                    onclick="confirmDelete({{ $lead->id }})">Delete</a>
 
-                                                        </li>
+                                                            </li>
                                                         @endif
                                                     </ul>
                                                 </div>
@@ -332,8 +335,6 @@
                                             </td>
 
                                         </tr>
-
-
                                     @endforeach
                                 </tbody>
                             </table>

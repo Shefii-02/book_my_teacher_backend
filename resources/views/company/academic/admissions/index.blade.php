@@ -12,9 +12,9 @@
                 <a class="text-white" href="javascript:;">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Admission Transactions List</li>
+                aria-current="page">Admissions List</li>
         </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Admission Transactions List</h6>
+        <h6 class="mb-0 font-bold text-white capitalize">Admissions List</h6>
     </nav>
 @endsection
 
@@ -36,7 +36,7 @@
                                 <div class="">
                                     <p
                                         class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        Transaltions</p>
+                                        Admissions</p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $stats['total']['count'] }}</h5>
 
                                 </div>

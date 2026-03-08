@@ -236,7 +236,7 @@ class UserController extends Controller
 
   public function googleSignInList(Request $request)
   {
-    $query = LoginActivity::where('provider', 'google')
+    $query = LoginActivity::with('user')->where('provider', 'google')
 
       ->when($request->filled('email'), function ($q) use ($request) {
         $q->where('email', 'like', '%' . $request->email . '%');

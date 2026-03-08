@@ -162,35 +162,396 @@
                 </div>
             </div>
 
-            <div class="w-full max-w-full px-3 lg:w-5/12 lg:flex-none">
-                <div data-slider class="relative w-full h-full overflow-hidden rounded-2xl">
+            <div
+                class="w-full max-w-full px-3 lg:w-5/12 lg:flex-none bg-white  border-black/12.5 dark:bg-slate-850 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col break-words rounded-2xl border-solid bg-white bg-clip-border">
+                <div
+                    class="border-black/12.5 dark:bg-slate-850  relative z-20 flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid  bg-clip-border">
+                    <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid p-4 pb-0">
+                        <h6 class="capitalize dark:text-white">Lead Requests</h6>
 
-                    <!-- slide 1 -->
-                    <div data-slide class="absolute inset-0 transition-all duration-500">
-                        <img class="object-cover w-full h-full"
-                            src="https://demos.creative-tim.com/argon-dashboard-tailwind/assets/img/carousel-1.jpg">
+                    </div>
+                    <div class="flex-auto">
+                        <div class="relative w-full h-full overflow-hidden rounded-2xl">
+                            <div class="max-w-5xl mx-auto mx-2">
+
+                                <!-- Tabs -->
+                                <div class="flex  border-b bg-black justify-content-between">
+                                    <button onclick="openTab('general')"
+                                        class="tab-btn px-4 py-2 font-semibold text-light bg-emerald-500/50">
+                                        General <span
+                                            class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full ml-1">{{ $generalRequests->count() }}</span>
+                                    </button>
+
+                                    <button onclick="openTab('teacher')" class="tab-btn px-4 py-2 font-semibold text-light">
+                                        Teacher Class
+                                        <span
+                                            class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full ml-1">{{ $teacherRequests->count() }}</span>
+                                    </button>
+
+                                    <button onclick="openTab('course')" class="tab-btn px-4 py-2 font-semibold text-light">
+                                        Course
+                                        <span
+                                            class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full ml-1">{{ $courseRequests->count() }}</span>
+                                    </button>
+                                </div>
+
+                                <!-- GENERAL TAB -->
+                                <div id="general" class="tab-content">
+                                    <div class="">
+                                        <table
+                                            class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
+
+                                            <thead class="align-bottom">
+                                                <tr>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Student</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Grade</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Status</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Created At</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Action</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @forelse ($generalRequests ?? [] as $key => $lead)
+                                                    <tr class="border-b">
+                                                        <td class="p-3">
+                                                            <div class="font-semibold">
+                                                                <a href="{{ route('company.student-details', $lead->user->id) }}"
+                                                                    target="user-details">
+                                                                    {{ $lead->user->name ?? '—' }}</a>
+                                                            </div>
+                                                            <div class="text-xs text-gray-500">
+                                                                {{ $lead->user->mobile ?? '' }}</div>
+                                                        </td>
+                                                        <td>{{ $lead->grade }}</td>
+                                                        <td>
+                                                            {!! $lead->status_badge !!}
+                                                        </td>
+
+                                                        <td class="max-w-xs text-xs">
+                                                            {{ $lead->created_at ?? '—' }}
+                                                        </td>
+                                                        <td
+                                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                            <button id="dropdownBottomButton"
+                                                                data-dropdown-toggle="dropdownBottom_{{ $key }}"
+                                                                data-dropdown-placement="bottom" class=""
+                                                                type="button">
+                                                                <svg class="w-6 h-6 text-gray-800 dark:text-white"
+                                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                                    width="24" height="24" fill="none"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                                        stroke-width="2"
+                                                                        d="M12 6h.01M12 12h.01M12 18h.01" />
+                                                                </svg>
+                                                            </button>
+
+                                                            <!-- Dropdown menu -->
+                                                            <div id="dropdownBottom_{{ $key }}"
+                                                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                                    aria-labelledby="dropdownBottomButton">
+                                                                    <li>
+                                                                        <a target="_new"
+                                                                            href="{{ route('company.student-details', $lead->user->id) }}"
+                                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Student
+                                                                            View</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a role="button"
+                                                                            data-url="{{ route('company.requests.form-class.show', $lead->id) }}"
+                                                                            class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Lead
+                                                                            View</a>
+                                                                    </li>
+
+                                                                    <li>
+                                                                        <a role="button"
+                                                                            data-url="{{ route('company.requests.form-class.edit', $lead->id) }}"
+                                                                            class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
+                                                                    </li>
+                                                                    @if ($lead->status == 'closed')
+                                                                        <li>
+                                                                            <form id="form_{{ $lead->id }}"
+                                                                                class="m-0 p-0"
+                                                                                action="{{ route('company.requests.form-class.destroy', $lead->id) }}"
+                                                                                method="POST" class="inline-block">
+                                                                                @csrf @method('DELETE') </form>
+                                                                            <a role="button" href="javascript:;"
+                                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                                onclick="confirmDelete({{ $lead->id }})">Delete</a>
+
+                                                                        </li>
+                                                                    @endif
+                                                                </ul>
+                                                            </div>
+
+                                                        </td>
+
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="5">
+                                                            <h6 class="text-center py-4">No Lead Found</h6>
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- TEACHER REQUESTS -->
+                                <div id="teacher" class="tab-content hidden">
+
+                                    <div class=" ">
+                                        <table
+                                            class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
+
+                                            <thead class="align-bottom">
+                                                <tr>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Student</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Teacher</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Status</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Created At</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($teacherRequests ?? [] as $key2 => $lead)
+                                                    <tr class="border-b">
+                                                        <td class="p-3">
+                                                            <div class="font-semibold">
+                                                                <a href="{{ route('company.student-details', $lead->user->id) }}"
+                                                                    target="user-details">
+                                                                    {{ $lead->user->name ?? '—' }}</a>
+                                                            </div>
+                                                            <div class="text-xs text-gray-500">
+                                                                {{ $lead->user->mobile ?? '' }}</div>
+                                                        </td>
+                                                        <td>{{ $lead->grade }}</td>
+                                                        <td>
+                                                            {!! $lead->status_badge !!}
+                                                        </td>
+
+                                                        <td class="max-w-xs text-xs">
+                                                            {{ $lead->created_at ?? '—' }}
+                                                        </td>
+                                                        <td
+                                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                            <button id="dropdownBottomButton"
+                                                                data-dropdown-toggle="dropdownBottom_{{ $key2 }}"
+                                                                data-dropdown-placement="bottom" class=""
+                                                                type="button">
+                                                                <svg class="w-6 h-6 text-gray-800 dark:text-white"
+                                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                                    width="24" height="24" fill="none"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                                        stroke-width="2"
+                                                                        d="M12 6h.01M12 12h.01M12 18h.01" />
+                                                                </svg>
+                                                            </button>
+
+                                                            <!-- Dropdown menu -->
+                                                            <div id="dropdownBottom_{{ $key2 }}"
+                                                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                                    aria-labelledby="dropdownBottomButton">
+                                                                    <li>
+                                                                        <a target="_new"
+                                                                            href="{{ route('company.student-details', $lead->user->id) }}"
+                                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Student
+                                                                            View</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a role="button"
+                                                                            data-url="{{ route('company.requests.form-class.show', $lead->id) }}"
+                                                                            class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Lead
+                                                                            View</a>
+                                                                    </li>
+
+                                                                    <li>
+                                                                        <a role="button"
+                                                                            data-url="{{ route('company.requests.form-class.edit', $lead->id) }}"
+                                                                            class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
+                                                                    </li>
+                                                                    @if ($lead->status == 'closed')
+                                                                        <li>
+                                                                            <form id="form_{{ $lead->id }}"
+                                                                                class="m-0 p-0"
+                                                                                action="{{ route('company.requests.form-class.destroy', $lead->id) }}"
+                                                                                method="POST" class="inline-block">
+                                                                                @csrf @method('DELETE') </form>
+                                                                            <a role="button" href="javascript:;"
+                                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                                onclick="confirmDelete({{ $lead->id }})">Delete</a>
+
+                                                                        </li>
+                                                                    @endif
+                                                                </ul>
+                                                            </div>
+
+                                                        </td>
+
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="5">
+                                                            <h6 class="text-center py-4">No Lead Found</h6>
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- COURSE REQUESTS -->
+                                <div id="course" class="tab-content hidden">
+
+                                    <div class="">
+                                        <table
+                                            class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
+
+                                            <thead class="align-bottom">
+                                                <tr>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Student</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Course/Section</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Status</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Created At</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Action</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @forelse ($courseRequests ?? [] as $key3 => $lead)
+                                                    <tr class="border-b">
+                                                        <td class="p-3">
+                                                            <div class="font-semibold">
+                                                                <a href="{{ route('company.student-details', $lead->user->id) }}"
+                                                                    target="user-details">
+                                                                    {{ $lead->user->name ?? '—' }}</a>
+                                                            </div>
+                                                            <div class="text-xs text-gray-500">
+                                                                {{ $lead->user->mobile ?? '' }}</div>
+                                                        </td>
+                                                        <td>{{ $lead->grade }}</td>
+                                                        <td>
+                                                            {!! $lead->status_badge !!}
+                                                        </td>
+
+                                                        <td class="max-w-xs text-xs">
+                                                            {{ $lead->created_at ?? '—' }}
+                                                        </td>
+                                                        <td
+                                                            class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
+                                                            <button id="dropdownBottomButton"
+                                                                data-dropdown-toggle="dropdownBottom_{{ $key3 }}"
+                                                                data-dropdown-placement="bottom" class=""
+                                                                type="button">
+                                                                <svg class="w-6 h-6 text-gray-800 dark:text-white"
+                                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                                    width="24" height="24" fill="none"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                                        stroke-width="2"
+                                                                        d="M12 6h.01M12 12h.01M12 18h.01" />
+                                                                </svg>
+                                                            </button>
+
+                                                            <!-- Dropdown menu -->
+                                                            <div id="dropdownBottom_{{ $key3 }}"
+                                                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                                    aria-labelledby="dropdownBottomButton">
+                                                                    <li>
+                                                                        <a target="_new"
+                                                                            href="{{ route('company.student-details', $lead->user->id) }}"
+                                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Student
+                                                                            View</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a role="button"
+                                                                            data-url="{{ route('company.requests.form-class.show', $lead->id) }}"
+                                                                            class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Lead
+                                                                            View</a>
+                                                                    </li>
+
+                                                                    <li>
+                                                                        <a role="button"
+                                                                            data-url="{{ route('company.requests.form-class.edit', $lead->id) }}"
+                                                                            class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
+                                                                    </li>
+                                                                    @if ($lead->status == 'closed')
+                                                                        <li>
+                                                                            <form id="form_{{ $lead->id }}"
+                                                                                class="m-0 p-0"
+                                                                                action="{{ route('company.requests.form-class.destroy', $lead->id) }}"
+                                                                                method="POST" class="inline-block">
+                                                                                @csrf @method('DELETE') </form>
+                                                                            <a role="button" href="javascript:;"
+                                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                                onclick="confirmDelete({{ $lead->id }})">Delete</a>
+
+                                                                        </li>
+                                                                    @endif
+                                                                </ul>
+                                                            </div>
+
+                                                        </td>
+
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="5">
+                                                            <h6 class="text-center py-4">No Lead Found</h6>
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
                     </div>
 
-                    <!-- slide 2 -->
-                    <div data-slide class="absolute inset-0 transition-all duration-500 opacity-0">
-                        <img class="object-cover w-full h-full"
-                            src="https://demos.creative-tim.com/argon-dashboard-tailwind/assets/img/carousel-2.jpg">
-                    </div>
-
-                    <!-- slide 3 -->
-                    <div data-slide class="absolute inset-0 transition-all duration-500 opacity-0">
-                        <img class="object-cover w-full h-full"
-                            src="https://demos.creative-tim.com/argon-dashboard-tailwind/assets/img/carousel-3.jpg">
-                    </div>
-
-                    <!-- Controls -->
-                    <button data-prev
-                        class="absolute z-10 w-10 h-10 text-white bg-black/40 rounded-full top-6 right-16">‹</button>
-
-                    <button data-next
-                        class="absolute z-10 w-10 h-10 text-white bg-black/40 rounded-full top-6 right-4">›</button>
                 </div>
-
             </div>
         </div>
 
@@ -514,5 +875,22 @@
             // Init
             showSlide(current);
         });
+    </script>
+
+    <script>
+        function openTab(tabName) {
+
+            const tabs = document.querySelectorAll(".tab-content");
+            tabs.forEach(tab => tab.classList.add("hidden"));
+
+            document.getElementById(tabName).classList.remove("hidden");
+
+            const buttons = document.querySelectorAll(".tab-btn");
+            buttons.forEach(btn => {
+                btn.classList.remove("bg-emerald-500/50");
+            });
+
+            event.target.classList.add("bg-emerald-500/50");
+        }
     </script>
 @endpush

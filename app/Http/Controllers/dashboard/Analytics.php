@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\BannerRequest;
 use App\Models\CourseClass;
+use App\Models\GeneralRequest;
 use App\Models\Purchase;
 use App\Models\Teacher;
+use App\Models\TeacherClassRequest;
 use App\Models\User;
 use App\Models\Webinar;
 use App\Models\WorkshopClass;
@@ -92,8 +95,8 @@ class Analytics extends Controller
 
 
     //   /** STUDENTS */
-    $data['students']['total'] = User::where('acc_type','student')->where('company_id', $company_id)->count();
-    $data['students']['last_week'] = User::where('company_id', $company_id)->where('acc_type','student')
+    $data['students']['total'] = User::where('acc_type', 'student')->where('company_id', $company_id)->count();
+    $data['students']['last_week'] = User::where('company_id', $company_id)->where('acc_type', 'student')
       ->where('created_at', '>=', $lastWeek)
       ->count();
 
@@ -185,7 +188,7 @@ class Analytics extends Controller
       ->leftJoin('purchases', 'purchases.course_id', '=', 'teacher_courses.course_id')
       ->leftJoin('course_classes', 'course_classes.course_id', '=', 'teacher_courses.course_id')
       ->where('users.company_id', $company_id)
-      ->where('acc_type','teacher')
+      ->where('acc_type', 'teacher')
       // ->where('purchases.status', 'paid')
       ->groupBy('users.id', 'users.name')
       ->orderByDesc('revenue')
@@ -279,6 +282,9 @@ class Analytics extends Controller
     ];
 
 
+    $generalRequests = GeneralRequest::where('company_id', $company_id)->where('status', '!=', 'converted_to_admission')->where('status', '!=', 'closed')->get();
+    $teacherRequests = TeacherClassRequest::where('company_id', $company_id)->where('status', '!=', 'converted_to_admission')->where('status', '!=', '')->get();
+    $courseRequests  = BannerRequest::where('company_id', $company_id)->where('status', '!=', 'converted_to_admission')->where('status', '!=', 'closed')->get();
 
     // $source_analytics = [
     //   'web' => [
@@ -310,6 +316,6 @@ class Analytics extends Controller
     //   ],
     // ];
 
-    return view('company.dashboard.index', compact('data', 'analytics'));
+    return view('company.dashboard.index', compact('data', 'analytics','generalRequests','teacherRequests','courseRequests'));
   }
 }

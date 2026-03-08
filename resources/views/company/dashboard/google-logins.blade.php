@@ -223,14 +223,6 @@
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Account Status</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Status
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Action
-                                        </th>
 
                                     </tr>
                                 </thead>
@@ -292,25 +284,6 @@
                                                         class="bg-red-600 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold capitalize leading-none text-white">Not
                                                         Created</span>
                                                 @endif
-                                            </td>
-                                            <td
-                                                class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                @if ($login->verified == '1')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Verified</span>
-                                                @elseif($login->verified == '0')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Unverifed</span>
-                                                @endif
-                                            </td>
-                                            <td
-                                                class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                <button type="button" data-drawer-target="drawer-right-example"
-                                                    data-drawer-show="drawer-right-example" data-drawer-placement="right"
-                                                    aria-controls="drawer-right-example"
-                                                    class="editOtpBtn px-3 py-1 text-xs font-bold text-white bg-orange-300 rounded-full hover:bg-blue-600"
-                                                    data-id="{{ $login->id }}">
-                                                    <i class="bi bi-pencil" </button>
                                             </td>
                                         </tr>
                                     @endforeach

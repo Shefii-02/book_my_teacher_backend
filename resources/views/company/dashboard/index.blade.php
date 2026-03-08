@@ -160,6 +160,84 @@
                         </div>
                     </div>
                 </div>
+                <div class="w-full max-w-full mt-4 mb-6 lg:mb-0  lg:flex-none">
+                    <div
+                        class="relative flex flex-col min-w-0 break-words bg-white border-0 border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl dark:bg-gray-950 border-black-125 rounded-2xl bg-clip-border">
+                        <div class="p-4 pb-0 mb-0 rounded-t-4">
+                            <div class="flex justify-between">
+                                <h6 class="mb-2 dark:text-white">Analystics</h6>
+                                <p>Last 5 Weeks</p>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-2 mx-3">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th class="text-capitalize font-monospace">Web</th>
+                                            <th class="text-capitalize font-monospace">Android</th>
+                                            <th class="text-capitalize font-monospace">iOS</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="p-3 border">
+
+                                        <tr>
+                                            <td class="font-weight-bold">Visitors</td>
+                                            <td>{{ $analytics['web']['visitors_count'] }}</td>
+                                            <td>{{ $analytics['android']['visitors_count'] }}</td>
+                                            <td>{{ $analytics['ios']['visitors_count'] }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="font-weight-bold">Buy Now Clicks</td>
+                                            <td>{{ $analytics['web']['buy_now_click_count'] }}</td>
+                                            <td>{{ $analytics['android']['buy_now_click_count'] }}</td>
+                                            <td>{{ $analytics['ios']['buy_now_click_count'] }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="font-weight-bold">New Students</td>
+                                            <td>{{ $analytics['web']['new_students_count'] }}</td>
+                                            <td>{{ $analytics['android']['new_students_count'] }}</td>
+                                            <td>{{ $analytics['ios']['new_students_count'] }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="font-weight-bold">New Teachers</td>
+                                            <td>{{ $analytics['web']['new_teachers_count'] }}</td>
+                                            <td>{{ $analytics['android']['new_teachers_count'] }}</td>
+                                            <td>{{ $analytics['ios']['new_teachers_count'] }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="font-weight-bold">Purchases</td>
+                                            <td>{{ $analytics['web']['total_purchases_count'] }}</td>
+                                            <td>{{ $analytics['android']['total_purchases_count'] }}</td>
+                                            <td>{{ $analytics['ios']['total_purchases_count'] }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="font-weight-bold">Total Revenue (₹)</td>
+                                            <td class="text-success font-weight-bold">
+                                                ₹{{ number_format($analytics['web']['total_revenue']) }}
+                                            </td>
+                                            <td class="text-success font-weight-bold">
+                                                ₹{{ number_format($analytics['android']['total_revenue']) }}
+                                            </td>
+                                            <td class="text-success font-weight-bold">
+                                                ₹{{ number_format($analytics['ios']['total_revenue']) }}
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div
@@ -182,13 +260,15 @@
                                             class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full ml-1">{{ $generalRequests->count() }}</span>
                                     </button>
 
-                                    <button onclick="openTab('teacher')" class="tab-btn px-4 py-2 font-semibold text-light">
+                                    <button onclick="openTab('teacher')"
+                                        class="tab-btn px-4 py-2 font-semibold text-light">
                                         Teacher Class
                                         <span
                                             class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full ml-1">{{ $teacherRequests->count() }}</span>
                                     </button>
 
-                                    <button onclick="openTab('course')" class="tab-btn px-4 py-2 font-semibold text-light">
+                                    <button onclick="openTab('course')"
+                                        class="tab-btn px-4 py-2 font-semibold text-light">
                                         Course
                                         <span
                                             class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full ml-1">{{ $courseRequests->count() }}</span>
@@ -555,89 +635,10 @@
             </div>
         </div>
 
-        <!-- cards row 3 -->
 
         <div class="flex flex-wrap mt-6 -mx-3">
 
-            <div class="w-full max-w-full px-3 mt-0 mb-6 lg:mb-0 lg:w-7/12 lg:flex-none">
-                <div
-                    class="relative flex flex-col min-w-0 break-words bg-white border-0 border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl dark:bg-gray-950 border-black-125 rounded-2xl bg-clip-border">
-                    <div class="p-4 pb-0 mb-0 rounded-t-4">
-                        <div class="flex justify-between">
-                            <h6 class="mb-2 dark:text-white">Analystics</h6>
-                            <p>Last 5 Weeks</p>
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-2 mx-3">
-                                <thead>
-                                    <tr>
-                                        <th>Metric</th>
-                                        <th class="text-capitalize font-monospace">Web</th>
-                                        <th class="text-capitalize font-monospace">Android</th>
-                                        <th class="text-capitalize font-monospace">iOS</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody class="p-3 border">
-
-                                    <tr>
-                                        <td class="font-weight-bold">Visitors</td>
-                                        <td>{{ $analytics['web']['visitors_count'] }}</td>
-                                        <td>{{ $analytics['android']['visitors_count'] }}</td>
-                                        <td>{{ $analytics['ios']['visitors_count'] }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="font-weight-bold">Buy Now Clicks</td>
-                                        <td>{{ $analytics['web']['buy_now_click_count'] }}</td>
-                                        <td>{{ $analytics['android']['buy_now_click_count'] }}</td>
-                                        <td>{{ $analytics['ios']['buy_now_click_count'] }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="font-weight-bold">New Students</td>
-                                        <td>{{ $analytics['web']['new_students_count'] }}</td>
-                                        <td>{{ $analytics['android']['new_students_count'] }}</td>
-                                        <td>{{ $analytics['ios']['new_students_count'] }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="font-weight-bold">New Teachers</td>
-                                        <td>{{ $analytics['web']['new_teachers_count'] }}</td>
-                                        <td>{{ $analytics['android']['new_teachers_count'] }}</td>
-                                        <td>{{ $analytics['ios']['new_teachers_count'] }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="font-weight-bold">Purchases</td>
-                                        <td>{{ $analytics['web']['total_purchases_count'] }}</td>
-                                        <td>{{ $analytics['android']['total_purchases_count'] }}</td>
-                                        <td>{{ $analytics['ios']['total_purchases_count'] }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="font-weight-bold">Total Revenue (₹)</td>
-                                        <td class="text-success font-weight-bold">
-                                            ₹{{ number_format($analytics['web']['total_revenue']) }}
-                                        </td>
-                                        <td class="text-success font-weight-bold">
-                                            ₹{{ number_format($analytics['android']['total_revenue']) }}
-                                        </td>
-                                        <td class="text-success font-weight-bold">
-                                            ₹{{ number_format($analytics['ios']['total_revenue']) }}
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="w-full max-w-full px-3 mt-0 lg:w-5/12 lg:flex-none">
+            <div class="w-full max-w-full px-3 mt-0 w-1/2 lg:flex-none">
                 <div
                     class="border-black/12.5 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                     <div class="p-4 pb-0 rounded-t-4">
@@ -679,10 +680,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="flex flex-wrap mt-6 -mx-3">
-            <div class="w-full max-w-full px-3 mt-0 mb-6 lg:mb-0 lg:w-4/12 lg:flex-none">
+            <div class="w-full max-w-full px-3 mt-0 mb-6 w-1/2 lg:flex-none">
                 <div
                     class="border-black/12.5 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                     <div class="p-4 pb-0 rounded-t-4">
@@ -716,7 +714,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full max-w-full px-3 mt-0 lg:w-4/12 lg:flex-none">
+            <div class="w-full max-w-full px-3 mt-0 w-1/2 lg:flex-none">
                 <div
                     class="border-black/12.5 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                     <div class="p-4 pb-0 rounded-t-4">
@@ -748,7 +746,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full max-w-full px-3 mt-0 lg:w-4/12 lg:flex-none">
+            <div class="w-full max-w-full px-3 mt-0 w-1/2 lg:flex-none">
                 <div
                     class="border-black/12.5 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                     <div class="p-4 pb-0 rounded-t-4">

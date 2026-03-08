@@ -17,6 +17,6 @@ class LoginActivity extends Model
 
   public function user()
   {
-    return $this->hasOne(User::class, 'email');
+    return $this->hasOne(User::class, 'email', 'email');
   }
 }

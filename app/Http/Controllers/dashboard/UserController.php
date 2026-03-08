@@ -273,7 +273,14 @@ class UserController extends Controller
       ->paginate(30)
       ->withQueryString();
 
-    return view('company.dashboard.google-logins', compact('logins', 'data'));
+
+    $duplicates = LoginActivity::select('email')
+      ->groupBy('email')
+      ->havingRaw('COUNT(*) > 1')
+      ->pluck('email')
+      ->toArray();
+
+    return view('company.dashboard.google-logins', compact('logins', 'data','duplicates'));
   }
 
   public function editOtp($id)

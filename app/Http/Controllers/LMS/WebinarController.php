@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\StreamProvider;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Models\WebinarRegistration;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -81,7 +82,7 @@ class WebinarController extends Controller
       'title' => 'required|string|max:255',
       'slug' => 'nullable|string|unique:webinars,slug',
       'description' => 'nullable|string',
-      'host_id' => 'nullable|exists:users,id',
+      'host_id' => 'required|exists:users,id',
       'stream_provider_id' => 'nullable|exists:stream_providers,id',
       'thumbnail_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
       'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
@@ -183,7 +184,7 @@ class WebinarController extends Controller
       'title' => 'required|string|max:255',
       'slug' => 'nullable|string|unique:webinars,slug,' . $webinar->id,
       'description' => 'nullable|string',
-      'host_id' => 'nullable|exists:users,id',
+      'host_id' => 'required|exists:users,id',
       'stream_provider_id' => 'nullable|exists:stream_providers,id',
       'thumbnail_image' => 'nullable|image',
       'main_image' => 'nullable|image',
@@ -321,4 +322,73 @@ class WebinarController extends Controller
 
     return response()->stream($callback, 200, $headers);
   }
+
+
+  public function admissions(Request $request, $webinarId)
+  {
+    $status = $request->status ?? 'confirmed';
+    $search = $request->search;
+
+    $query = WebinarRegistration::with('user')
+      ->where('webinar_id', $webinarId);
+
+    // SEARCH
+    if ($search) {
+      $query->where(function ($q) use ($search) {
+        $q->where('name', 'like', '%' . $search . '%')
+          ->orWhere('email', 'like', '%' . $search . '%')
+          ->orWhere('phone', 'like', '%' . $search . '%');
+      });
+    }
+
+    // STATUS FILTER
+    if ($status == 'confirmed') {
+      $query->where('checked_in', 1)->whereNull('deleted_at');
+    }
+
+    if ($status == 'unconfirmed') {
+      $query->where('checked_in', 0)->whereNull('deleted_at');
+    }
+
+    if ($status == 'removed') {
+      $query->onlyTrashed();
+    }
+
+    $registrations = $query->latest()->paginate(20);
+
+    // COUNTS
+    $data['total'] = WebinarRegistration::where('webinar_id', $webinarId)->count();
+
+    $data['confirmed'] = WebinarRegistration::where('webinar_id', $webinarId)
+      ->where('checked_in', 1)->count();
+
+    $data['unconfirmed'] = WebinarRegistration::where('webinar_id', $webinarId)
+      ->where('checked_in', 0)->count();
+
+    $data['removed'] = WebinarRegistration::onlyTrashed()
+      ->where('webinar_id', $webinarId)->count();
+
+    return view('company.webinars.registrations', compact(
+      'registrations',
+      'status',
+      'search',
+      'data'
+    ));
+  }
+
+  public function confirmRegistration(Request $request)
+{
+    WebinarRegistration::where('id',$request->id)
+        ->update(['checked_in'=>1]);
+
+    return response()->json(['success'=>true]);
+}
+
+
+public function removeRegistration($id)
+{
+    WebinarRegistration::findOrFail($id)->delete();
+
+    return response()->json(['success'=>true]);
+}
 }

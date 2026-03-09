@@ -61,8 +61,8 @@
                         <h6 class="leading-tight dark:text-white dark:opacity-80 text-slate-400">Workshops List</h6>
                         <a href="{{ route('company.workshops.create') }}"
                             class="px-4 py-2 bg-gradient-to-tl from-emerald-500 mb-4 to-teal-400  text-white rounded text-sm">
-                              <i class="bi bi-plus"></i>
-                              Create Workshop</a>
+                            <i class="bi bi-plus"></i>
+                            Create Workshop</a>
                     </div>
 
                     <div class="flex-auto px-0 pt-0 pb-2">
@@ -107,16 +107,19 @@
                                 <tbody>
                                     @foreach ($workshops as $key => $workshop)
                                         <tr>
-                                            <td class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">{{ $key + 1 }}</td>
-                                            <td class="px-6 py-3 text-left font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
+                                            <td
+                                                class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
+                                                {{ $key + 1 }}</td>
+                                            <td
+                                                class="px-6 py-3 text-left font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
                                                 <div class="flex items-left">
                                                     @if ($workshop->thumbnail_image)
                                                         <img src="{{ asset('storage/' . $workshop->thumbnail_image) }}"
                                                             class="h-9 w-9 rounded mr-2" alt="thumb">
                                                     @endif
                                                 </div>
-                                                  <span
-                                                        class="text-sm leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $workshop->title }}</span>
+                                                <span
+                                                    class="text-sm leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $workshop->title }}</span>
                                             </td>
                                             <td
                                                 class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
@@ -148,8 +151,8 @@
                                                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         fill="none" viewBox="0 0 24 24">
-                                                        <path stroke="currentColor" stroke-linecap="round"
-                                                            stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01" />
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                                            d="M12 6h.01M12 12h.01M12 18h.01" />
                                                     </svg>
                                                 </button>
 
@@ -158,10 +161,15 @@
                                                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                         aria-labelledby="dropdownBottomButton">
-                                                         <li>
+                                                        <li>
                                                             <a href="{{ route('company.workshops.schedule-class.index', $workshop->id) }}"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Scheduled Class</a>
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Scheduled
+                                                                Class</a>
                                                         </li>
+                                                        <a href="{{ route('company.workshops.admissions', $workshop->id) }}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
+                                                            Admission Users
+                                                        </a>
                                                         <li>
                                                             <a href="{{ route('company.workshops.show', $workshop->id) }}"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
@@ -175,9 +183,9 @@
                                                                 action="{{ route('company.workshops.destroy', $workshop->id) }}"
                                                                 method="POST" class="inline-block">
                                                                 @csrf @method('DELETE') </form>
-                                                                <a role="button" href="javascript:;"
-                                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
-                                                                    onclick="confirmDelete({{ $workshop->id }})">Delete</a>
+                                                            <a role="button" href="javascript:;"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
+                                                                onclick="confirmDelete({{ $workshop->id }})">Delete</a>
 
                                                         </li>
                                                     </ul>

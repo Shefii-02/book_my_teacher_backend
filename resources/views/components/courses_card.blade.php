@@ -49,6 +49,14 @@
                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
                     Materials
                 </a>
+                  <a role="button" data-url="{{ route('company.courses.addon-teacher-edit', $course->course_identity) }}"
+                    class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-slate-700">
+                    Addon Teacher
+                </a>
+                 <a href="{{ route('company.courses.admissions', $course->course_identity) }}"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
+                    Admission Users
+                </a>
             @endif
 
             <a href="{{ route('company.courses.create', ['draft' => $course->course_identity]) }}"

@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Workshop extends Model
 {
+  // use SoftDeletes;
   use HasFactory;
 
   protected $fillable = [
@@ -82,9 +84,10 @@ class Workshop extends Model
     };
   }
 
-  public function providerApp() {
-        return $this->belongsTo(ProviderCredential::class, 'provider_app_id');
-    }
+  public function providerApp()
+  {
+    return $this->belongsTo(ProviderCredential::class, 'provider_app_id');
+  }
 
   public function registrations()
   {
@@ -92,7 +95,8 @@ class Workshop extends Model
   }
 
 
-  public function classes(){
-        return $this->hasMany(WorkshopClass::class)->orderBy('priority');
+  public function classes()
+  {
+    return $this->hasMany(WorkshopClass::class)->orderBy('priority');
   }
 }

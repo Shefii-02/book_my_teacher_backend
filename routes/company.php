@@ -211,6 +211,17 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   // /admin/courses/load-step-form/${step}?course_id=${courseId}
   Route::get('courses/load-step-form/{step}', 'LMS\CourseController@loadStepForm')->name('courses.load-step-form');
   Route::prefix('courses/{identity}')->group(function () {
+    Route::get('addon-teacher/edit', 'LMS\CourseController@addonTeacherEdit')
+      ->name('courses.addon-teacher-edit');
+    Route::post('addon-teacher/update', 'LMS\CourseController@addonTeacherUpdate')
+      ->name('courses.addonTeachersSave');
+    Route::get('admissions', 'LMS\CourseController@admissionUsers')
+      ->name('courses.admissions');
+
+    Route::post('/admission/suspend', 'LMS\CourseController@suspendEnrollment');
+    Route::delete('/admission/{id}', 'LMS\CourseController@emoveEnrollment');
+
+
     Route::resource('schedule-class', 'LMS\CourseClassController')
       ->names('courses.schedule-class');
     Route::resource('materials', 'LMS\CourseMaterialController')
@@ -309,8 +320,9 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::resource('livestreams', LivestreamClassController::class)->names('livestreams');
   Route::resource('class-permissions', CourseClassPermissionController::class);
 
-
+  Route::get('webinars/{webinar}/admissions', 'LMS\WebinarController@admissions')->name('webinars.admissions');
   Route::resource('webinars', 'LMS\WebinarController')->names('webinars');
+
   Route::get('webinars/start', 'dashboard\UserController@otp')->name('webinars.start');
   Route::get('webinars/{webinar}/registrations/download-csv', 'LMS\WebinarController@downloadCsv')
     ->name('webinars.registrations.download-csv');
@@ -323,12 +335,15 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::delete('demo-classes/{demo_class}/participant/{id}/delete', 'LMS\DemoClassController@participantDelete')->name('demo-classes.participant.delete');
 
 
-
   Route::resource('workshops', 'LMS\WorkshopController')->names('workshops');
   Route::prefix('workshops/{id}')->group(function () {
+    Route::get('admissions', 'LMS\WorkshopController@admissions')->name('workshops.admissions');
+
     Route::resource('schedule-class', 'LMS\WorkshopClassController')->names('workshops.schedule-class');
     Route::resource('materials', 'LMS\WorkshopMaterialController')->names('workshops.materials');
   });
+
+
 
   Route::get('workshops/start', 'dashboard\UserController@otp')->name('workshops.start');
   Route::get('workshops/{webinar}/registrations/download-csv', 'LMS\WebinarController@downloadCsv')

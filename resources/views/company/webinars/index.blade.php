@@ -170,9 +170,14 @@
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ $webinar->meeting_url }}"
+                                                            <a href="{{ $webinar->meeting_url }}" target="_blank"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Start
                                                                 Streaming</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ route('company.webinars.admissions', $webinar->id) }}"
+                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">
+                                                              Admission Users</a>
                                                         </li>
                                                         <li>
                                                             <form id="form_{{ $webinar->id }}" class="m-0 p-0"

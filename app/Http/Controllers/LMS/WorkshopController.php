@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\StreamProvider;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Models\WebinarRegistration;
+use App\Models\WorkshopRegistration;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -146,7 +148,7 @@ class WorkshopController extends Controller
   {
     $company_id = auth()->user()->company_id;
     // $users = User::all();
-     $teachers = Teacher::with('user')->whereHas('user')
+    $teachers = Teacher::with('user')->whereHas('user')
       ->where('company_id', $company_id)
       ->get()
       ->map(function ($teacher) {
@@ -318,5 +320,63 @@ class WorkshopController extends Controller
     };
 
     return response()->stream($callback, 200, $headers);
+  }
+
+  public function admissions(Request $request, $webinarId)
+  {
+    $status = $request->status ?? 'confirmed';
+    $search = $request->search;
+
+    $query = WebinarRegistration::where('webinar_id', $webinarId);
+
+    // SEARCH
+    if ($search) {
+      $query->where(function ($q) use ($search) {
+        $q->where('name', 'like', "%$search%")
+          ->orWhere('email', 'like', "%$search%")
+          ->orWhere('phone', 'like', "%$search%");
+      });
+    }
+
+    // STATUS FILTER
+    if ($status == 'confirmed') {
+      $query->where('checked_in', 1)
+        ->whereNull('deleted_at');
+    }
+
+    if ($status == 'unconfirmed') {
+      $query->where('checked_in', 0)
+        ->whereNull('deleted_at');
+    }
+
+    if ($status == 'removed') {
+      $query->onlyTrashed();
+    }
+
+    $registrations = $query->latest()->paginate(20);
+
+    // CARD COUNTS
+    $data['total_webinar'] = WebinarRegistration::where('webinar_id', $webinarId)->count();
+
+    $data['confirmed'] = WebinarRegistration::where('webinar_id', $webinarId)
+      ->where('checked_in', 1)
+      ->whereNull('deleted_at')
+      ->count();
+
+    $data['unconfirmed'] = WebinarRegistration::where('webinar_id', $webinarId)
+      ->where('checked_in', 0)
+      ->whereNull('deleted_at')
+      ->count();
+
+    $data['removed'] = WebinarRegistration::onlyTrashed()
+      ->where('webinar_id', $webinarId)
+      ->count();
+
+    return view('company.webinars.registrations', compact(
+      'registrations',
+      'data',
+      'status',
+      'search'
+    ));
   }
 }

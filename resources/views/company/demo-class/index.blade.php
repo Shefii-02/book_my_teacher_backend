@@ -170,7 +170,7 @@
                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white open-drawer">Add
                                                           Participant</a>
                                                         <li>
-                                                            <a href="{{ route('company.demo-classes.start', $demo_class->id) }}"
+                                                            <a href="{{ $demo_class->meeting_url }}" target="_blank"
                                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Start Streaming</a>
                                                         </li>
                                                         <li>

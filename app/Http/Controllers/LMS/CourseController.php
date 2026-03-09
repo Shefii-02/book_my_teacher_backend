@@ -6,15 +6,18 @@ use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseCategory;
+use App\Models\CourseEnrollment;
 use App\Models\CourseSubCategory;
 use App\Models\Institute;
 use App\Models\Teacher;
 use App\Models\TeacherCourse;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Builder\Function_;
 use PHPUnit\Framework\MockObject\Builder\Identity;
 
 class CourseController extends Controller
@@ -442,5 +445,129 @@ class CourseController extends Controller
   {
     $subcategories = CourseSubCategory::where('category_id', $id)->select('id', 'title')->get();
     return response()->json($subcategories);
+  }
+
+  public function addonTeacherEdit($courseId)
+  {
+    $company_id = auth()->user()->comapny_id;
+    $course = Course::where('course_identity', $courseId)->first() ?? abort(404);
+    $teachers = User::with('teacher')->whereHas('teacher')->
+      // where('company_id', $company_id)->
+      get();
+    return view('company.courses.addon-teachers', compact('course', 'teachers'));
+  }
+
+  public function addonTeacherUpdate($courseId, Request $request)
+  {
+    DB::beginTransaction();
+    try {
+      $course = Course::where('course_identity', $courseId)->first() ?? abort(404);
+      TeacherCourse::where('course_id', $course->id)->delete();
+      foreach ($request->teachers ?? [] as $teacher) {
+        $new = new TeacherCourse();
+        $new->course_id = $course->id;
+        $new->teacher_id = $teacher;
+        $new->save();
+      }
+      DB::commit();
+      return redirect()->back()->with('success', 'Teachers add-ons sucessfully');
+    } catch (Exception $e) {
+      DB::rollBack();
+      return redirect()->back()->with('error', $e->getMessage());
+    }
+  }
+
+  public function admissionUsers(Request $request, $courseId)
+  {
+    $course = Course::where('course_identity', $courseId)->firstOrFail();
+
+    $status = $request->status ?? 'active';
+    $search = $request->search;
+
+    $query = CourseEnrollment::with('user')
+      ->where('course_id', $course->id);
+
+    // SEARCH
+    if ($search) {
+      $query->whereHas('user', function ($q) use ($search) {
+        $q->where('name', 'like', '%' . $search . '%')
+          ->orWhere('email', 'like', '%' . $search . '%')
+          ->orWhere('mobile', 'like', '%' . $search . '%');
+      });
+    }
+
+    // STATUS FILTER
+    if ($status == 'active') {
+      $query->where('status', 'active');
+    }
+
+    if ($status == 'expiring') {
+      $query->where('status', 'active')
+        ->whereDate('expiry_date', '<=', now()->addDays(7));
+    }
+
+    if ($status == 'inactive') {
+      $query->where('status', 'expired');
+    }
+
+    if ($status == 'suspended') {
+      $query->where('status', 'suspended');
+    }
+
+    if ($status == 'removed') {
+      $query->where('status', 'removed');
+    }
+
+    $enrollments = $query->latest()->paginate(20);
+
+
+    // CARD COUNTS
+
+    $data['total_courses'] = CourseEnrollment::where('course_id', $course->id)->count();
+
+    $data['active'] = CourseEnrollment::where('course_id', $course->id)
+      ->where('status', 'active')->count();
+
+    $data['expiring'] = CourseEnrollment::where('course_id', $course->id)
+      ->where('status', 'active')
+      ->whereDate('expiry_date', '<=', now()->addDays(7))
+      ->count();
+
+    $data['inactive'] = CourseEnrollment::where('course_id', $course->id)
+      ->where('status', 'expired')->count();
+
+    $data['suspended'] = CourseEnrollment::where('course_id', $course->id)
+      ->where('status', 'suspended')->count();
+
+    $data['removed'] = CourseEnrollment::where('course_id', $course->id)
+      ->where('status', 'removed')->count();
+
+    return view('company.courses.enrollments', compact(
+      'course',
+      'enrollments',
+      'data',
+      'status',
+      'search'
+    ));
+  }
+
+  public function suspendAdmission(Request $request)
+  {
+    $enrollment = CourseEnrollment::findOrFail($request->id);
+
+    $enrollment->update([
+      'status' => 'suspended',
+      'suspend_reason' => $request->reason,
+      'suspended_at' => now()
+    ]);
+
+    return response()->json(['success' => true]);
+  }
+
+  public function removeAdmission($id)
+  {
+    CourseEnrollment::where('id', $id)->delete();
+
+    return response()->json(['success' => true]);
   }
 }

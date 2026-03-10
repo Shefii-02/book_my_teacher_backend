@@ -700,7 +700,7 @@ class UserController extends Controller
           });
         })
         ->values();
-Log::info(DemoClassRegistration::get());
+      Log::info(DemoClassRegistration::where('user_id', $user->id)->get());
       // ✅ Demos (registered)
       $demos = DemoClassRegistration::where('user_id', $user->id)->where('checked_in', 1)
         ->with(['demoClass'])

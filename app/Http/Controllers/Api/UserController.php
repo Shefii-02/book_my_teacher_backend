@@ -656,67 +656,67 @@ class UserController extends Controller
   // }
 
   public function todayClasses(Request $request)
-{
+  {
     $user = $request->user();
     $today = now()->toDateString();
 
     $courses = TeacherClass::where('teacher_id', $user->id)
-        ->with(['course_classes', 'courses'])
-        ->get()
-        ->map(function ($teacherClass) {
-            if (!$teacherClass->course_classes) return null;
-            return $this->formatEvent($teacherClass->course_classes, 'Course'); // ✅ Capitalized
-        })
-        ->filter()
-        ->values();
+      ->with(['course_classes', 'courses'])
+      ->get()
+      ->map(function ($teacherClass) {
+        if (!$teacherClass->course_classes) return null;
+        return $this->formatEvent($teacherClass->course_classes, 'Course'); // ✅ Capitalized
+      })
+      ->filter()
+      ->values();
 
     $webinars = Webinar::where('host_id', $user->id)
-        ->get()
-        ->map(fn($w) => $this->formatEvent($w, 'Webinar')); // ✅ Capitalized
+      ->get()
+      ->map(fn($w) => $this->formatEvent($w, 'Webinar')); // ✅ Capitalized
 
     $demos = DemoClass::where('host_id', $user->id)
-        ->get()
-        ->map(fn($w) => $this->formatEvent($w, 'Demo')); // ✅ Capitalized
+      ->get()
+      ->map(fn($w) => $this->formatEvent($w, 'Demo')); // ✅ Capitalized
 
     $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
-        $q->where('host_id', $user->id);
+      $q->where('host_id', $user->id);
     })->get()
-        ->map(fn($w) => $this->formatEvent($w, 'Workshop')); // ✅ Capitalized
+      ->map(fn($w) => $this->formatEvent($w, 'Workshop')); // ✅ Capitalized
 
     $todayClasses = collect()
-        ->merge($demos)
-        ->merge($webinars)
-        ->merge($workshops)
-        ->merge($courses)
-        ->filter(fn($event) => isset($event['date']) && $event['date'] === $today)
-        ->sortBy(fn($event) => Carbon::parse($event['_start_datetime']))
-        ->map(function ($event) {
-            unset($event['_start_datetime']); // ✅ remove helper keys
-            unset($event['date']);
-            return $event;
-        })
-        ->values();
+      ->merge($demos)
+      ->merge($webinars)
+      ->merge($workshops)
+      ->merge($courses)
+      ->filter(fn($event) => isset($event['date']) && $event['date'] === $today)
+      ->sortBy(fn($event) => Carbon::parse($event['_start_datetime']))
+      ->map(function ($event) {
+        unset($event['_start_datetime']); // ✅ remove helper keys
+        unset($event['date']);
+        return $event;
+      })
+      ->values();
 
 
-
+    Log::info($todayClasses);
 
     return response()->json([
-        "status"  => true,
-        "message" => "Today's classes fetched successfully",
-        "data"    => $todayClasses,
+      "status"  => true,
+      "message" => "Today's classes fetched successfully",
+      "data"    => $todayClasses,
     ]);
-}
+  }
 
-private function formatEvent($model, string $type): array
-{
+  private function formatEvent($model, string $type): array
+  {
     if ($type == 'Workshop') {
-        $start = Carbon::parse($model->start_date_time);
+      $start = Carbon::parse($model->start_date_time);
     } else {
-        $start = Carbon::parse(
-            $model->start_time
-                ?? $model->started_at
-                ?? $model->start_date_time
-        );
+      $start = Carbon::parse(
+        $model->start_time
+          ?? $model->started_at
+          ?? $model->start_date_time
+      );
     }
 
     $end = Carbon::parse($model->end_time ?? $model->ended_at ?? $model->end_date_time);
@@ -724,50 +724,50 @@ private function formatEvent($model, string $type): array
 
     $classStatus = 'pending';
     if ($model->status == '1') {
-        if ($now->lt($start)) {
-            $classStatus = 'upcoming';
-        } elseif ($now->between($start, $end)) {
-            $classStatus = 'ongoing';
-        } elseif ($now->gt($end)) {
-            $classStatus = 'completed';
-        }
+      if ($now->lt($start)) {
+        $classStatus = 'upcoming';
+      } elseif ($now->between($start, $end)) {
+        $classStatus = 'ongoing';
+      } elseif ($now->gt($end)) {
+        $classStatus = 'completed';
+      }
     }
 
     // ✅ Fix: $model IS the course_class already when type is Course
     if ($type == 'Course') {
-        $parent = $model->course;
-        $title  = $model->title ?? $parent?->title ?? '';
+      $parent = $model->course;
+      $title  = $model->title ?? $parent?->title ?? '';
     } elseif ($type == 'Webinar') {
-        $parent = $model;
-        $title  = $model->title ?? '';
+      $parent = $model;
+      $title  = $model->title ?? '';
     } elseif ($type == 'Workshop') {
-        $parent = $model->workshop;
-        $title  = $model->title ?? $parent?->title ?? '';
+      $parent = $model->workshop;
+      $title  = $model->title ?? $parent?->title ?? '';
     } elseif ($type == 'Demo') {
-        $parent = $model;
-        $title  = $model->title ?? '';
+      $parent = $model;
+      $title  = $model->title ?? '';
     } else {
-        $parent = null;
-        $title  = '';
+      $parent = null;
+      $title  = '';
     }
 
     return [
-        "date"            => $start->toDateString(),       // used for filtering
-        "_start_datetime" => $start->toDateTimeString(),   // used for sorting
+      "date"            => $start->toDateString(),       // used for filtering
+      "_start_datetime" => $start->toDateTimeString(),   // used for sorting
 
-        "id"           => $model->id,
-        "title"        => $title,
-        "type"         => $type,
-        "time"         => $start->format('h:i a'),
-        "start_time"   => $start->format('d-m-Y h:i a'),
-        "end_time"     => $end->format('d-m-Y h:i a'),
-        "platform"     => $model->provider?->source ?? $model->class_mode ?? null,
-        "subject"      => $model->notes ?? 'null',
-        "course"       => $parent?->title ?? '',
-        "teacher_name" => $model->host?->name ?? '',
-        "meeting_link" => $model->meeting_link ?? '',
-        "recorded_link"=> $model->recording_url ?? '',
-        "status"       => $classStatus,
+      "id"           => $model->id,
+      "title"        => $title,
+      "type"         => $type,
+      "time"         => $start->format('h:i a'),
+      "start_time"   => $start->format('d-m-Y h:i a'),
+      "end_time"     => $end->format('d-m-Y h:i a'),
+      "platform"     => $model->provider?->source ?? $model->class_mode ?? '',
+      "subject"      => $model->notes ?? '',
+      "course"       => $parent?->title ?? '',
+      "teacher_name" => $model->host?->name ?? '',
+      "meeting_link" => $model->meeting_link ?? '',
+      "recorded_link" => $model->recording_url ?? '',
+      "status"       => $classStatus,
     ];
-}
+  }
 }

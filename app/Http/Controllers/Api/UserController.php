@@ -715,10 +715,10 @@ class UserController extends Controller
       // ✅ Workshops (checked_in = 1)
       $workshops = WorkshopRegistration::where('user_id', $user->id)
         ->where('checked_in', 1)
-        ->with(['workshop.workshopClasses'])
+        ->with(['workshop.classes'])
         ->get()
         ->flatMap(function ($reg) {
-          return $reg->workshop->workshopClasses->map(function ($workshopClass) {
+          return $reg->workshop->classes->map(function ($workshopClass) {
             return $this->formatEvent($workshopClass, 'Workshop');
           });
         })

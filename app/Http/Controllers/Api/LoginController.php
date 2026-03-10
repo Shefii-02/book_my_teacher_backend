@@ -176,7 +176,7 @@ class LoginController extends Controller
         return response()->json([
           'status' => false,
           'message' => 'Account not found. Please sign up normally.',
-        ], 404);
+        ], 200);
       }
 
       // ✅ Login existing user

@@ -719,6 +719,7 @@ class UserController extends Controller
       );
     }
 
+    Log::info($model->course_classes->course_data);
     $end = Carbon::parse($model->end_time ?? $model->ended_at ?? $model->end_date_time);
     $now = Carbon::now();
 

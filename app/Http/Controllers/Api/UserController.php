@@ -736,10 +736,10 @@ class UserController extends Controller
 
     // ✅ Fix: $model IS the course_class already when type is Course
     if ($type == 'Course') {
-       Log::info($model->course_data);
+       Log::info($model->course);
       $parent = $model->course_classes;
       $title  = $model->title ?? $parent?->title ?? '';
-      $course = $model->course_classes;
+      $course = $model->course;
     } elseif ($type == 'Webinar') {
       $parent = $model;
       $title  = $model->title ?? '';

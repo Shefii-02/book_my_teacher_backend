@@ -661,7 +661,7 @@ class UserController extends Controller
     $today = now()->toDateString();
 
     $courses = TeacherClass::where('teacher_id', $user->id)
-      ->with(['course_classes','course_classes.course','course'])
+      ->with(['course_classes','course'])
       ->get()
       ->map(function ($teacherClass) {
         if (!$teacherClass->course_classes) return null;

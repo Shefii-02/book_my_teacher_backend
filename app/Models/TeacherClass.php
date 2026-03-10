@@ -18,7 +18,14 @@ class TeacherClass extends Model
 
   public function course()
   {
-    return $this->hasOne(Course::class, 'id', 'course_id');
+    return $this->hasOneThrough(
+      Course::class,      // Final model
+      CourseClass::class, // Intermediate model
+      'id',               // Foreign key on course_classes (matches teacher_classes.class_id)
+      'id',               // Foreign key on courses (matches course_classes.course_id)
+      'class_id',         // Local key on teacher_classes
+      'course_id'         // Local key on course_classes
+    );
   }
 
   public function teacher()
@@ -36,6 +43,4 @@ class TeacherClass extends Model
   {
     return $this->hasOne(CourseClass::class, 'id', 'class_id');
   }
-
-
 }

@@ -700,20 +700,21 @@ class UserController extends Controller
           });
         })
         ->values();
-
+Log::info(DemoClassRegistration::get());
       // ✅ Demos (registered)
-      $demos = DemoClassRegistration::where('user_id', $user->id)
+      $demos = DemoClassRegistration::where('user_id', $user->id)->where('checked_in', 1)
         ->with(['demoClass'])
         ->get()
         ->map(function ($reg) {
           if (!$reg->demoClass) return null;
           return $this->formatEvent($reg->demoClass, 'Demo');
         })
+
         ->filter()
         ->values();
 
       // ✅ Workshops (checked_in = 1)
-      $workshops = WorkshopRegistration::where('user_id', $user->id)
+      $workshops = WorkshopRegistration::where('user_id', $user->id)->where('checked_in', 1)
         ->where('checked_in', 1)
         ->with(['workshop.classes'])
         ->get()
@@ -725,7 +726,7 @@ class UserController extends Controller
         ->values();
 
       // ✅ Webinars (checked_in = 1)
-      $webinars = WebinarRegistration::where('user_id', $user->id)
+      $webinars = WebinarRegistration::where('user_id', $user->id)->where('checked_in', 1)
         ->where('checked_in', 1)
         ->with(['webinar'])
         ->get()

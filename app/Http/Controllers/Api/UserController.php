@@ -696,6 +696,18 @@ class UserController extends Controller
             return $event;
         })
         ->values();
+        Log::info('Course');
+    Log::info($courses);
+    Log::info('webinars');
+    Log::info($webinars);
+    Log::info('demos');
+    Log::info($demos);
+    Log::info('workshops');
+    Log::info($workshops);
+        Log::info('todayClasses');
+    Log::info($todayClasses);
+
+
 
     return response()->json([
         "status"  => true,

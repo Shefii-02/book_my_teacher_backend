@@ -11,8 +11,10 @@ use App\Http\Resources\WalletResource;
 use App\Models\AppReferral;
 use App\Models\CompanyContact;
 use App\Models\CompanyTeacher;
+use App\Models\CourseEnrollment;
 use App\Models\DeleteAccountRequest;
 use App\Models\DemoClass;
+use App\Models\DemoClassRegistration;
 use App\Models\SocialLink;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
@@ -22,7 +24,9 @@ use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletHistory;
 use App\Models\Webinar;
+use App\Models\WebinarRegistration;
 use App\Models\WorkshopClass;
+use App\Models\WorkshopRegistration;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Hash;
@@ -660,28 +664,84 @@ class UserController extends Controller
     $user = $request->user();
     $today = now()->toDateString();
 
-    $courses = TeacherClass::where('teacher_id', $user->id)
-      ->with(['course_classes','course'])
-      ->get()
-      ->map(function ($teacherClass) {
-        if (!$teacherClass->course_classes) return null;
-        return $this->formatEvent($teacherClass->course_classes, 'Course'); // ✅ Capitalized
-      })
-      ->filter()
-      ->values();
+    if ($user->acc_type == 'teacher') {
+      $courses = TeacherClass::where('teacher_id', $user->id)
+        ->with(['course_classes', 'course'])
+        ->get()
+        ->map(function ($teacherClass) {
+          if (!$teacherClass->course_classes) return null;
+          return $this->formatEvent($teacherClass->course_classes, 'Course'); // ✅ Capitalized
+        })
+        ->filter()
+        ->values();
 
-    $webinars = Webinar::where('host_id', $user->id)
-      ->get()
-      ->map(fn($w) => $this->formatEvent($w, 'Webinar')); // ✅ Capitalized
+      $webinars = Webinar::where('host_id', $user->id)
+        ->get()
+        ->map(fn($w) => $this->formatEvent($w, 'Webinar')); // ✅ Capitalized
 
-    $demos = DemoClass::where('host_id', $user->id)
-      ->get()
-      ->map(fn($w) => $this->formatEvent($w, 'Demo')); // ✅ Capitalized
+      $demos = DemoClass::where('host_id', $user->id)
+        ->get()
+        ->map(fn($w) => $this->formatEvent($w, 'Demo')); // ✅ Capitalized
 
-    $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
-      $q->where('host_id', $user->id);
-    })->get()
-      ->map(fn($w) => $this->formatEvent($w, 'Workshop')); // ✅ Capitalized
+      $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
+        $q->where('host_id', $user->id);
+      })->get()
+        ->map(fn($w) => $this->formatEvent($w, 'Workshop')); // ✅ Capitalized
+    } else if ($user->acc_type == 'student') {
+
+      // ✅ Courses (enrolled)
+      $courses = CourseEnrollment::where('user_id', $user->id)
+        ->where('status', 1)
+        ->with(['course.courseClasses'])
+        ->get()
+        ->flatMap(function ($enrollment) {
+          return $enrollment->course->courseClasses->map(function ($courseClass) {
+            return $this->formatEvent($courseClass, 'Course');
+          });
+        })
+        ->values();
+
+      // ✅ Demos (registered)
+      $demos = DemoClassRegistration::where('user_id', $user->id)
+        ->with(['demoClass'])
+        ->get()
+        ->map(function ($reg) {
+          if (!$reg->demoClass) return null;
+          return $this->formatEvent($reg->demoClass, 'Demo');
+        })
+        ->filter()
+        ->values();
+
+      // ✅ Workshops (checked_in = 1)
+      $workshops = WorkshopRegistration::where('user_id', $user->id)
+        ->where('checked_in', 1)
+        ->with(['workshop.workshopClasses'])
+        ->get()
+        ->flatMap(function ($reg) {
+          return $reg->workshop->workshopClasses->map(function ($workshopClass) {
+            return $this->formatEvent($workshopClass, 'Workshop');
+          });
+        })
+        ->values();
+
+      // ✅ Webinars (checked_in = 1)
+      $webinars = WebinarRegistration::where('user_id', $user->id)
+        ->where('checked_in', 1)
+        ->with(['webinar'])
+        ->get()
+        ->map(function ($reg) {
+          if (!$reg->webinar) return null;
+          return $this->formatEvent($reg->webinar, 'Webinar');
+        })
+        ->filter()
+        ->values();
+    } else {
+      return response()->json([
+        "status"  => true,
+        "message" => "Today's classes fetched successfully",
+        "data"    => [],
+      ]);
+    }
 
     $todayClasses = collect()
       ->merge($demos)
@@ -696,8 +756,6 @@ class UserController extends Controller
         return $event;
       })
       ->values();
-
-
 
     return response()->json([
       "status"  => true,
@@ -749,7 +807,7 @@ class UserController extends Controller
     } elseif ($type == 'Demo') {
       $parent = $model;
       $title  = $model->title ?? '';
-       $course = $model;
+      $course = $model;
     } else {
       $parent = null;
       $title  = '';

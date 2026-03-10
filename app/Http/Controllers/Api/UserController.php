@@ -762,7 +762,7 @@ class UserController extends Controller
       "start_time"   => $start->format('d-m-Y h:i a'),
       "end_time"     => $end->format('d-m-Y h:i a'),
       "platform"     => $model->provider?->source ?? $model->class_mode ?? '',
-      "subject"      => $model->notes ?? '',
+      "subject"      => $model->description ?? '',
       "course"       => $parent?->title ?? '',
       "teacher_name" => $model->host?->name ?? '',
       "meeting_link" => $model->meeting_link ?? '',

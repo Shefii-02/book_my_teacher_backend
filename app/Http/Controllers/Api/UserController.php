@@ -739,7 +739,7 @@ class UserController extends Controller
        Log::info($model->course_data);
       $parent = $model->course_classes;
       $title  = $model->title ?? $parent?->title ?? '';
-      $course = $model->course;
+      $course = $model->course_classes;
     } elseif ($type == 'Webinar') {
       $parent = $model;
       $title  = $model->title ?? '';

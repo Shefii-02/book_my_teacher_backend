@@ -750,9 +750,10 @@ class UserController extends Controller
         $classStatus = 'completed';
       }
     }
-
+    $title = $model->title ?? '';
     if ($type == 'Course') {
       $parent =  $model->course;
+         $title = $model->course_classes->title;
     } else if ($type == 'Webinar') {
       $parent =  $model;
     } else if ($type == 'Workshop') {
@@ -764,13 +765,15 @@ class UserController extends Controller
     }
 
 
+
+
     return [
       // ✅ Add these two for filtering & sorting (removed after)
       "date"             => $start->toDateString(),
       "_start_datetime"  => $start->toDateTimeString(),
 
       "id"            => $model->id,
-      "title"         => $model->title,
+      "title"         => $title,
       "type"          => $type,
       "time"          => $start->format('h:i a'),
       "start_time"    => $start->format('d-m-Y h:i a'),

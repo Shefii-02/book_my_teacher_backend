@@ -85,7 +85,7 @@
                                 <div>
                                     <p
                                         class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                      unverified </p>
+                                        unverified </p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $data['unverified'] }}</h5>
 
                                 </div>
@@ -181,11 +181,11 @@
 
                         </div>
                     </div>
-                @php
-                    $activeFilters = collect(
-                        request()->only(['mobile', 'status', 'start_date', 'end_date'])
-                    )->filter(fn ($value) => filled($value));
-                @endphp
+                    @php
+                        $activeFilters = collect(
+                            request()->only(['mobile', 'status', 'start_date', 'end_date']),
+                        )->filter(fn($value) => filled($value));
+                    @endphp
 
                     @if ($activeFilters->isNotEmpty())
                         <div class="mb-4 pl-9 flex flex-wrap gap-2">
@@ -210,26 +210,19 @@
                                         <th
                                             class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Email id</th>
+
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Account Type</th>
                                         <th
                                             class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Source</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                           Logged in At</th>
+                                            Logged in At</th>
                                         <th
                                             class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                             Created At</th>
+                                            Created At</th>
                                         <th
                                             class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Account Status</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Status
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Action
-                                        </th>
 
                                     </tr>
                                 </thead>
@@ -241,7 +234,7 @@
                                                 <div class="flex px-2 py-1">
                                                     <div class="flex flex-col justify-center">
                                                         <h6 class="mb-0 text-sm text-neutral-900 dark:text-white">
-                                                            {{ $login->mobile }}</h6>
+                                                            {{ $login->email }}</h6>
                                                         <div class="flex gap-3">
                                                             <a target="_blank"
                                                                 href="https://web.whatsapp.com/send/?text=&type=custom_url&app_absent=0&utm_campaign=wa_api_send_v1&phone{{ $login->mobile }}"
@@ -251,7 +244,7 @@
                                                                 class="mb-0 text-sm text-neutral-900 dark:text-white">
                                                                 <i class="bi bi-telephone text-blue-400"></i></a>
                                                         </div>
-                                                        @if (in_array($login->mobile, $duplicates))
+                                                        @if (in_array($login->email, $duplicates))
                                                             <span
                                                                 class="bg-red-800 mt-2 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold capitalize leading-none text-white">
                                                                 Repeated
@@ -261,12 +254,18 @@
                                                 </div>
                                             </td>
                                             <td
+                                                class="p-2 text-center align-middle capitalize bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                {{ $login->user?->acc_type }}
+
+                                            </td>
+                                            <td
                                                 class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 <p
                                                     class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                    {{ $login->otp }}
+                                                    {{ $login->logged_in_at }}
                                                 </p>
                                             </td>
+
                                             <td
                                                 class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 <p
@@ -274,13 +273,7 @@
                                                     {{ $login->created_at }}
                                                 </p>
                                             </td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                <p
-                                                    class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                    {{ $login->expires_at }}
-                                                </p>
-                                            </td>
+
                                             <td
                                                 class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                 @if ($login->user)
@@ -291,25 +284,6 @@
                                                         class="bg-red-600 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold capitalize leading-none text-white">Not
                                                         Created</span>
                                                 @endif
-                                            </td>
-                                            <td
-                                                class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                @if ($login->verified == '1')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Verified</span>
-                                                @elseif($login->verified == '0')
-                                                    <span
-                                                        class="bg-gradient-to-tl from-slate-600 to-slate-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">Unverifed</span>
-                                                @endif
-                                            </td>
-                                            <td
-                                                class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                <button type="button" data-drawer-target="drawer-right-example"
-                                                    data-drawer-show="drawer-right-example" data-drawer-placement="right"
-                                                    aria-controls="drawer-right-example"
-                                                    class="editOtpBtn px-3 py-1 text-xs font-bold text-white bg-orange-300 rounded-full hover:bg-blue-600"
-                                                    data-id="{{ $login->id }}">
-                                                    <i class="bi bi-pencil" </button>
                                             </td>
                                         </tr>
                                     @endforeach

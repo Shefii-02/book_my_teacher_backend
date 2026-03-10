@@ -34,7 +34,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/re-send-otp', 'OtpController@reSendOtp');
 
 
-    Route::post('/apple-sign-in', 'OtpController@AppleLoginCheck');
+    Route::post('/apple-sign-in', 'LoginController@AppleLoginCheck');
 
 
   Route::post('/user-details', 'UserController@index');

@@ -735,9 +735,9 @@ class UserController extends Controller
         })
         ->filter()
         ->values();
-      Log::info($demos);
+
       Log::info($workshops);
-      Log::info($webinars);
+
     } else {
       return response()->json([
         "status"  => true,

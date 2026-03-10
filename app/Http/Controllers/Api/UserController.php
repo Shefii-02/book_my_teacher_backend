@@ -696,16 +696,7 @@ class UserController extends Controller
             return $event;
         })
         ->values();
-        Log::info('Course');
-    Log::info($courses);
-    Log::info('webinars');
-    Log::info($webinars);
-    Log::info('demos');
-    Log::info($demos);
-    Log::info('workshops');
-    Log::info($workshops);
-        Log::info('todayClasses');
-    Log::info($todayClasses);
+
 
 
 
@@ -771,11 +762,11 @@ private function formatEvent($model, string $type): array
         "start_time"   => $start->format('d-m-Y h:i a'),
         "end_time"     => $end->format('d-m-Y h:i a'),
         "platform"     => $model->provider?->source ?? $model->class_mode ?? null,
-        "subject"      => $model->notes ?? null,
+        "subject"      => $model->notes ?? 'null',
         "course"       => $parent?->title ?? '',
         "teacher_name" => $model->host?->name ?? '',
-        "meeting_link" => $model->meeting_link ?? null,
-        "recorded_link"=> $model->recording_url ?? null,
+        "meeting_link" => $model->meeting_link ?? '',
+        "recorded_link"=> $model->recording_url ?? '',
         "status"       => $classStatus,
     ];
 }

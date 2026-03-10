@@ -750,16 +750,17 @@ class UserController extends Controller
         $classStatus = 'completed';
       }
     }
-    $title = $model->title ?? '';
+    $title = '';
+
     if ($type == 'Course') {
       $parent =  $model->course;
          $title = $model->course_classes->title;
     } else if ($type == 'Webinar') {
-      $parent =  $model;
+      $parent =  $model;    $title = $model->title ?? '';
     } else if ($type == 'Workshop') {
-      $parent =  $model->workshop;
+      $parent =  $model->workshop;    $title = $model->title ?? '';
     } else if ($type == 'Demo') {
-      $parent =  $model;
+      $parent =  $model;    $title = $model->title ?? '';
     } else {
       $parent = collect();
     }

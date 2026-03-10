@@ -139,6 +139,74 @@ class LoginController extends Controller
     }
   }
 
+  public function AppleLoginCheck(Request $request)
+  {
+    Log::info($request->all());
+    Log::info('Apple Details');
+    try {
+      $authUser = $request->user(); // may be null
+      $idToken  = $request->input('idToken');
+      $emailID  = $request->input('email');
+
+      if (!$emailID) {
+        return response()->json([
+          'status' => false,
+          'message' => 'Missing email',
+        ], 400);
+      }
+
+      $email = $emailID;
+
+
+      if (!$email) {
+        return response()->json([
+          'status' => false,
+          'message' => 'Email not found',
+        ], 400);
+      }
+
+      Log::info("Google login email: {$email}");
+
+      // ✅ Find existing user
+      $user = User::where('email', $email)
+        ->where('company_id', 1)
+        ->first();
+
+      if (!$user) {
+        return response()->json([
+          'status' => false,
+          'message' => 'Account not found. Please sign up normally.',
+        ], 404);
+      }
+
+      // ✅ Login existing user
+      // $user->tokens()->delete();
+      $token = $user->createToken('auth_token')->plainTextToken;
+
+      $user->email_verified_at = now();
+      $user->save();
+
+      $this->LoginActivityStore($user, $request, 'apple');
+
+      return response()->json([
+        'success' => true,
+        'message' => 'Login successfully',
+        'user'    => $user,
+        'token'   => $token,
+      ], 200);
+    } catch (\Throwable $e) {
+      Log::error('Apple login failed', [
+        'error' => $e->getMessage(),
+      ]);
+
+      return response()->json([
+        'status' => false,
+        'message' => 'Apple login failed',
+      ], 500);
+    }
+  }
+
+
   // public function googleLoginCheck(Request $request)
   // {
   //   try {
@@ -336,12 +404,12 @@ class LoginController extends Controller
   }
 
 
-  private function LoginActivityStore($user, Request $request)
+  private function LoginActivityStore($user, Request $request, $provider = 'google')
   {
     LoginActivity::create([
       'company_id'   => $user->company_id,
       'user_id'      => $user->id,
-      'provider'     => 'google',
+      'provider'     => $provider,
       'source'       => $request->header('X-APP-SOURCE', 'android'),
       'email'        => $user->email,
       'ip_address'   => $request->ip(),

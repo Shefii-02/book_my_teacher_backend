@@ -33,7 +33,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/verify-email-otp', 'OtpController@verifyEmailOtp');
   Route::post('/re-send-otp', 'OtpController@reSendOtp');
 
-  Route::post('/user-details', 'UserController@index');
+
+    Route::post('/apple-sign-in', 'OtpController@reSendOtp');
+
+
+  Route::post('/user-details', 'LoginController@AppleLoginCheck');
 
   Route::post('/user-login-email', 'LoginController@googleLoginCheck');
   Route::post('user-exist-not', 'LoginController@userExistNot')->name('user-exist-no');

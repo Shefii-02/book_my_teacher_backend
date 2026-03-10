@@ -708,6 +708,14 @@ class UserController extends Controller
       })
       ->values();
 
+    Log::info('todayClasses');
+    Log::info($todayClasses);
+    return response()->json([
+      "status" => true,
+      "message" => "Today's classes fetched successfully",
+      "data" => []
+    ]);
+
     return response()->json([
       "status"  => true,
       "message" => "Today's classes fetched successfully",

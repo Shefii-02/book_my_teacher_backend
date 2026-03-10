@@ -11,10 +11,10 @@ class TeacherClass extends Model
     'class_id'
   ];
 
-  public function courses()
-  {
-    return $this->hasOne(Course::class, 'id', 'course_id');
-  }
+  // public function courses()
+  // {
+  //   return $this->hasOne(Course::class, 'id', 'course_id');
+  // }
 
   public function teacher()
   {
@@ -30,5 +30,17 @@ class TeacherClass extends Model
   public function course_classes()
   {
     return $this->hasOne(CourseClass::class, 'id', 'class_id');
+  }
+
+  public function courses()
+  {
+    return $this->belongsToMany(
+      Course::class,
+      'teacher_classes',
+      'id', // Pivot column referencing Teacher
+      'course_id',  // Pivot column referencing Course
+      'id',         // Local key on Teacher table
+      'id'          // Local key on Course table
+    );
   }
 }

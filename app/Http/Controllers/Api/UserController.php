@@ -735,17 +735,21 @@ class UserController extends Controller
 
     // ✅ Fix: $model IS the course_class already when type is Course
     if ($type == 'Course') {
-      $parent = $model->course_classes?->course;
+      $parent = $model->course_classes;
       $title  = $model->title ?? $parent?->title ?? '';
+      $course = $model->course_classes?->course_data;
     } elseif ($type == 'Webinar') {
       $parent = $model;
       $title  = $model->title ?? '';
+      $course = $model;
     } elseif ($type == 'Workshop') {
       $parent = $model->workshop;
       $title  = $model->title ?? $parent?->title ?? '';
+      $course = $model->workshop;
     } elseif ($type == 'Demo') {
       $parent = $model;
       $title  = $model->title ?? '';
+       $course = $model;
     } else {
       $parent = null;
       $title  = '';
@@ -763,7 +767,7 @@ class UserController extends Controller
       "end_time"     => $end->format('d-m-Y h:i a'),
       "platform"     => $model->provider?->source ?? $model->class_mode ?? '',
       "subject"      => $model->description ?? '',
-      "course"       => $parent?->title ?? '',
+      "course"       => $course?->title ?? '',
       "teacher_name" => $model->host?->name ?? '',
       "meeting_link" => $model->meeting_link ?? '',
       "recorded_link" => $model->recording_url ?? '',

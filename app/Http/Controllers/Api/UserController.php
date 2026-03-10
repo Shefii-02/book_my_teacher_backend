@@ -698,7 +698,6 @@ class UserController extends Controller
       ->values();
 
 
-    Log::info($todayClasses);
 
     return response()->json([
       "status"  => true,
@@ -736,7 +735,6 @@ class UserController extends Controller
 
     // ✅ Fix: $model IS the course_class already when type is Course
     if ($type == 'Course') {
-       Log::info($model->course);
       $parent = $model->course_classes;
       $title  = $model->title ?? $parent?->title ?? '';
       $course = $model->course;

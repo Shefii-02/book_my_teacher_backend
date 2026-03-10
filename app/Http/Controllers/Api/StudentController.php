@@ -1442,60 +1442,6 @@ class StudentController extends Controller
   }
 
 
-  public function todayClasses(Request $request)
-  {
-    return response()->json([
-      "status" => true,
-      "message" => "Today's classes fetched successfully",
-      "data" => [
-        // [
-        //   "id" => 1,
-        //   "title" => 'Test 1',
-        //   "type" => 'Course',
-        //   "start_time" => "2026-03-04 10:00:00",
-        //   "end_time" => "2026-03-04 11:00:00",
-        //   "platform" => "gmeet",
-        //   "time" => "10:00 AM",
-        //   "subject" => "Mathematics",
-        //   "course" => "Grade 8",
-        //   "teacher_name" => "Rahul Sir",
-        //   "meeting_link" => "https://meet.google.com/tqt-hfno-hcm",
-        //   "recorded_link" => null,
-        //   "status" => "live"
-        // ],
-        // [
-        //   "id" => 2,
-        //   "time" => "11:30 AM",
-        //   "title" => 'Test 1',
-        //   "type" => 'Course',
-        //   "start_time" => "2026-03-04 10:00:00",
-        //   "end_time" => "2026-03-04 11:00:00",
-        //   "platform" => "gmeet",
-        //   "subject" => "Physics",
-        //   "course" => "Grade 9",
-        //   "teacher_name" => "Anjali Ma'am",
-        //   "meeting_link" => "https://meet.google.com/tqt-hfno-hcm",
-        //   "recorded_link" => null,
-        //   "status" => "upcoming"
-        // ],
-        // [
-        //   "id" => 3,
-        //   "title" => 'Test 1',
-        //   "type" => 'Course',
-        //   "time" => "02:00 PM",
-        //   "start_time" => "2026-03-04 10:00:00",
-        //   "end_time" => "2026-03-04 11:00:00",
-        //   "platform" => "gmeet",
-        //   "subject" => "English",
-        //   "course" => "Grade 6",
-        //   "teacher_name" => "Joseph Sir",
-        //   "meeting_link" => null,
-        //   "recorded_link" => "https://www.youtube.com/watch?v=Vn3J4ophS8M",
-        //   "status" => "completed"
-        // ],
-      ]
-    ]);
-  }
 
 
   // public function todayClasses(Request $request)

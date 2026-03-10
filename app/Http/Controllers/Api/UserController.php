@@ -12,13 +12,18 @@ use App\Models\AppReferral;
 use App\Models\CompanyContact;
 use App\Models\CompanyTeacher;
 use App\Models\DeleteAccountRequest;
+use App\Models\DemoClass;
 use App\Models\SocialLink;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use App\Models\TeacherClass;
 use App\Models\TransferRequest;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletHistory;
+use App\Models\Webinar;
+use App\Models\WorkshopClass;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
@@ -594,4 +599,181 @@ class UserController extends Controller
     ]);
   }
 
+
+  // public function todayClasses(Request $request)
+  // {
+  //   return response()->json([
+  //     "status" => true,
+  //     "message" => "Today's classes fetched successfully",
+  //     "data" => [
+  //       // [
+  //       //   "id" => 1,
+  //       //   "title" => 'Test 1',
+  //       //   "type" => 'Course',
+  //       //   "start_time" => "2026-03-04 10:00:00",
+  //       //   "end_time" => "2026-03-04 11:00:00",
+  //       //   "platform" => "gmeet",
+  //       //   "time" => "10:00 AM",
+  //       //   "subject" => "Mathematics",
+  //       //   "course" => "Grade 8",
+  //       //   "teacher_name" => "Rahul Sir",
+  //       //   "meeting_link" => "https://meet.google.com/tqt-hfno-hcm",
+  //       //   "recorded_link" => null,
+  //       //   "status" => "live"
+  //       // ],
+  //       // [
+  //       //   "id" => 2,
+  //       //   "time" => "11:30 AM",
+  //       //   "title" => 'Test 1',
+  //       //   "type" => 'Course',
+  //       //   "start_time" => "2026-03-04 10:00:00",
+  //       //   "end_time" => "2026-03-04 11:00:00",
+  //       //   "platform" => "gmeet",
+  //       //   "subject" => "Physics",
+  //       //   "course" => "Grade 9",
+  //       //   "teacher_name" => "Anjali Ma'am",
+  //       //   "meeting_link" => "https://meet.google.com/tqt-hfno-hcm",
+  //       //   "recorded_link" => null,
+  //       //   "status" => "upcoming"
+  //       // ],
+  //       // [
+  //       //   "id" => 3,
+  //       //   "title" => 'Test 1',
+  //       //   "type" => 'Course',
+  //       //   "time" => "02:00 PM",
+  //       //   "start_time" => "2026-03-04 10:00:00",
+  //       //   "end_time" => "2026-03-04 11:00:00",
+  //       //   "platform" => "gmeet",
+  //       //   "subject" => "English",
+  //       //   "course" => "Grade 6",
+  //       //   "teacher_name" => "Joseph Sir",
+  //       //   "meeting_link" => null,
+  //       //   "recorded_link" => "https://www.youtube.com/watch?v=Vn3J4ophS8M",
+  //       //   "status" => "completed"
+  //       // ],
+  //     ]
+  //   ]);
+  // }
+
+  public function todayClasses(Request $request)
+  {
+    $user = $request->user();
+    $today = now()->toDateString(); // "2026-03-10"
+
+    // Course / Individual Classes
+    $courses = TeacherClass::where('teacher_id', $user->id)
+      ->with(['course_classes', 'courses'])
+      ->get()
+      ->map(function ($teacherClass) {
+        if (!$teacherClass->course_classes) {
+          return null;
+        }
+        return $this->formatEvent($teacherClass->course_classes, 'course');
+      })
+      ->filter()
+      ->values();
+
+    $webinars = Webinar::where('host_id', $user->id)
+      ->get()
+      ->map(fn($w) => $this->formatEvent($w, 'webinar'));
+
+    $demos = DemoClass::where('host_id', $user->id)
+      ->get()
+      ->map(fn($w) => $this->formatEvent($w, 'demo'));
+
+    $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
+      $q->where('host_id', $user->id);
+    })->get()
+      ->map(fn($w) => $this->formatEvent($w, 'workshop'));
+    Log::info('Course');
+    Log::info($courses);
+    Log::info('webinars');
+    Log::info($webinars);
+    Log::info('demos');
+    Log::info($demos);
+    Log::info('workshops');
+    Log::info($workshops);
+
+    // Merge all, filter to TODAY only, sort by time
+    $todayClasses = collect()
+      ->merge($demos)
+      ->merge($webinars)
+      ->merge($workshops)
+      ->merge($courses)
+      ->filter(fn($event) => isset($event['date']) && $event['date'] === $today)
+      ->sortBy(fn($event) => Carbon::parse($event['_start_datetime']))
+      ->map(function ($event) {
+        unset($event['_start_datetime']);
+        return $event;
+      })
+      ->values();
+
+    return response()->json([
+      "status"  => true,
+      "message" => "Today's classes fetched successfully",
+      "data"    => $todayClasses,
+    ]);
+  }
+
+  private function formatEvent($model, string $type): array
+  {
+
+    if ($type == 'workshop') {
+      $start = Carbon::parse($model->start_date_time);
+    } else {
+      $start = Carbon::parse(
+        $model->start_time
+          ?? $model->started_at
+          ?? $model->start_date_time
+      );
+    }
+    $end   = Carbon::parse($model->end_time ?? $model->ended_at ?? $model->end_date_time);
+    $now = Carbon::now();
+
+    // Default status
+    $classStatus = 'pending';
+
+    if ($model->status == '1') {
+      if ($now->lt($start)) {
+        $classStatus = 'upcoming';
+      } elseif ($now->between($start, $end)) {
+        $classStatus = 'ongoing';
+      } elseif ($now->gt($end)) {
+        $classStatus = 'completed';
+      }
+    }
+
+    if ($type == 'Course') {
+      $parent =  $model->course;
+    } else if ($type == 'Webinar') {
+      $parent =  $model;
+    } else if ($type == 'Workshop') {
+      $parent =  $model->workshop;
+    } else if ($type == 'Demo') {
+      $parent =  $model;
+    } else {
+      $parent = collect();
+    }
+
+
+    return [
+      // ✅ Add these two for filtering & sorting (removed after)
+      "date"             => $start->toDateString(),
+      "_start_datetime"  => $start->toDateTimeString(),
+
+      "id"            => $model->id,
+      "title"         => $model->title,
+      "type"          => $type,
+      "time"          => $start->format('h:i a'),
+      "start_time"    => $start->format('d-m-Y h:i a'),
+      "end_time"      => $end->format('d-m-Y h:i a'),
+      "platform"      => $model->provider?->source ?? $model->class_mode,
+      "subject"       => $model->notes,
+      "course"        => $parent?->title ?? '',
+      "teacher_name"  => $model->host->name,
+      "meeting_link"  => $model->meeting_link,
+      "recorded_link" => $model->recording_url,
+      "status"        => $classStatus,
+    ];
+  }
 }

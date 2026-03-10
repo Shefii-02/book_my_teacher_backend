@@ -16,12 +16,19 @@ class TeacherClass extends Model
     return $this->hasOne(Course::class, 'id', 'course_id');
   }
 
-  public function teacher(){
+  public function teacher()
+  {
     return $this->hasOne(Teacher::class, 'id', 'teacher_id');
   }
 
-  public function course_classes(){
-    return $this->hasOne(CourseClass::class,'id','class_id');
+  public function host()
+  {
+    return $this->hasOne(Teacher::class, 'id', 'teacher_id');
   }
 
+
+  public function course_classes()
+  {
+    return $this->hasOne(CourseClass::class, 'id', 'class_id');
+  }
 }

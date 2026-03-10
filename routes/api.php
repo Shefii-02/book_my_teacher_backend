@@ -385,7 +385,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/student-home', 'StudentController@home');
     Route::post('/my-classes', 'StudentController@myClasses');
-    Route::post('/today-classes', 'StudentController@todayClasses');
     Route::post('/class-detail', 'StudentController@fetchClassDetail');
 
     Route::post('/webinar-detail', 'StudentController@fetchWebinarDetail');
@@ -415,6 +414,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/student/performance', 'StudentController@performance');
 
+    Route::post('/today-classes', 'UserController@todayClasses');
 
     ////////////////////////////////Teacher Section///////////////////////////////////////
     Route::post('/teacher/schedule', 'TeacherController@schedule');

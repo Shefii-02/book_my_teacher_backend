@@ -229,7 +229,13 @@ class UserController extends Controller
       'unverified'  => (clone $logins)->where('verified', 0)->count(),
     ];
 
-    return view('company.dashboard.apple-logins', compact('logins', 'data'));
+    $duplicates = LoginActivity::select('email')->where('provider', 'apple')
+      ->groupBy('email')
+      ->havingRaw('COUNT(*) > 1')
+      ->pluck('email')
+      ->toArray();
+
+    return view('company.dashboard.apple-logins', compact('logins', 'data','duplicates'));
   }
 
 
@@ -274,7 +280,7 @@ class UserController extends Controller
       ->withQueryString();
 
 
-    $duplicates = LoginActivity::select('email')
+    $duplicates = LoginActivity::select('email')->where('provider', 'google')
       ->groupBy('email')
       ->havingRaw('COUNT(*) > 1')
       ->pluck('email')

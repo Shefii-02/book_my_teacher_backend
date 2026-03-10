@@ -11,10 +11,10 @@ class TeacherClass extends Model
     'class_id'
   ];
 
-  // public function courses()
-  // {
-  //   return $this->hasOne(Course::class, 'id', 'course_id');
-  // }
+  public function courses()
+  {
+    return $this->hasOne(Course::class, 'id', 'course_id');
+  }
 
   public function teacher()
   {

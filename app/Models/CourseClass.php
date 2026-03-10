@@ -34,6 +34,10 @@ class CourseClass extends Model
       ->where('meeting_link', '!=', '');
   }
 
+    public function course()
+  {
+    return $this->hasOne(Course::class, 'id', 'course_id');
+  }
 
   public function course_data()
   {

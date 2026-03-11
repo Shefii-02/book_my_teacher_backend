@@ -345,6 +345,7 @@ class AdmissionController extends Controller
     ]);
 
     $company_id = auth()->user()->company_id;
+    $user = User::where('id', $req->student_id)->where('company_id', auth()->user()->company_id)->first();
 
     $extingEnroll = CourseEnrollment::where('course_id', $req->course_id)->where('company_id', $company_id)->where('user_id', $user->id)->first();
 
@@ -372,7 +373,6 @@ class AdmissionController extends Controller
         ->with('error', 'Student already purchased');
     }
 
-    $user = User::where('id', $req->student_id)->where('company_id', auth()->user()->company_id)->first();
 
     DB::beginTransaction();
     try {

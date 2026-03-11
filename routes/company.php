@@ -1,7 +1,13 @@
 <?php
 
 use App\Http\Controllers\dashboard\Analytics;
+use Google\Service\Storage;
 use Illuminate\Support\Facades\Route;
+use Google\Client as GoogleClient;
+use Illuminate\Support\Facades\Http;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth', 'company_panel'], 'namespace' => 'App\Http\Controllers'], function () {
 
@@ -383,5 +389,31 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::get('/', 'DashboardController@index')->name('dashboard.index');
     Route::resource('roles', RoleController::class)->names('roles');
     Route::resource('teams', TeamController::class)->names('teams');
+  });
+
+
+  Route::get('/fcm-sample', function () {
+    $token = "dPvyIPaG1k4nj_Em7zzUtG:APA91bF_PiiheEMlagDMFAQRBH36JPdT5GKc7IyhT73KEGQMagqasqiiT1zial_2qX4Da2kP3R8bEjZ0falXOYwsL_c_a_xD87r2omOmrj3YKjNn-AdW4Tk";
+
+    try {
+      $factory = (new Factory)->withServiceAccount(storage_path('app/json/fcm-file.json'));
+      $messaging = $factory->createMessaging();
+
+      $message = CloudMessage::withTarget('token', $token)
+        ->withNotification(
+          Notification::create('BookMyTeacher', 'Explore our Service')
+        );
+
+      $response = $messaging->send($message);
+
+      return response()->json([
+        'message' => 'Notification sent!',
+        'response' => $response
+      ]);
+    } catch (\Exception $e) {
+      return response()->json([
+        'error' => $e->getMessage()
+      ], 500);
+    }
   });
 });

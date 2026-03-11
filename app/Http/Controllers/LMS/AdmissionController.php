@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Student;
 use App\Models\Course;
 use App\Models\Coupon;
+use App\Models\CourseEnrollment;
 use App\Models\CourseRegistration;
 use App\Models\Purchase;
 use App\Models\PurchaseInstallment;
@@ -345,6 +346,12 @@ class AdmissionController extends Controller
 
     $company_id = auth()->user()->company_id;
 
+    $extingEnroll = CourseEnrollment::where('course_id', $req->course_id)->where('company_id', $company_id)->where('user_id', $user->id)->first();
+
+    if ($extingEnroll) {
+      return redirect()->back()->with('errror', 'This Course already entrolled');
+    }
+
     $purchaseDetails   = $this->calculatePurchaseDetails($req);
 
     //check installment_grand_total == grand_total;
@@ -431,10 +438,24 @@ class AdmissionController extends Controller
         $courseReg->save();
       }
 
+      $newEntroll  = new CourseEnrollment();
+      $newEntroll->company_id = $company_id;
+      $newEntroll->user_id = $user->id;
+      $newEntroll->course_id = $req->course_id;
+      $newEntroll->price = $purchaseDetails['course_price'];
+      $newEntroll->discount = $purchaseDetails['discount_amount'] ?? 0;
+      $newEntroll->final_price = $purchaseDetails['grand_total'];
+      $newEntroll->start_date = $purchaseDetails['course']['started_at'];
+      $newEntroll->expiry_date =  $purchaseDetails['course']['ended_at'];
+      $newEntroll->status = 'suspended';
+      $newEntroll->payment_status = 'unpaid';
+      $newEntroll->suspended_at = null;
+      $newEntroll->suspend_reason = null;
+      $newEntroll->save();
 
       DB::commit();
 
-      return $this->redirectToPaymentGateway($purchase, $payment, $courseReg);
+      return $this->redirectToPaymentGateway($purchase, $payment, $courseReg, $newEntroll);
     } catch (\Throwable $ex) {
       DB::rollBack();
       return back()->withErrors(['error' => $ex->getMessage()]);
@@ -447,7 +468,7 @@ class AdmissionController extends Controller
     return 'ORDRBMT' . date('ymd') . sprintf('%04d', $ordercount + 1);
   }
 
-  protected function redirectToPaymentGateway(Purchase $purchase, PurchasePayment $payment, CourseRegistration $courseReg)
+  protected function redirectToPaymentGateway(Purchase $purchase, PurchasePayment $payment, CourseRegistration $courseReg, CourseEnrollment $courseEntroll)
   {
     switch ($payment->gateway) {
 
@@ -457,6 +478,7 @@ class AdmissionController extends Controller
         $purchase->update(['status' => 'paid']);
         $payment->update(['status' => 'success']);
         $courseReg->update(['status' => 'completed']);
+        $courseEntroll->update(['status' => 'active', 'payment_status' => 'paid']);
 
         return redirect()
           ->route('company.payments.success', $payment->order_id)
@@ -466,6 +488,7 @@ class AdmissionController extends Controller
         $purchase->update(['status' => 'paid']);
         $payment->update(['status' => 'success']);
         $courseReg->update(['status' => 'completed']);
+        $courseEntroll->update(['status' => 'active', 'payment_status' => 'paid']);
 
         return redirect()
           ->route('company.payments.success', $payment->order_id)
@@ -475,6 +498,7 @@ class AdmissionController extends Controller
         $purchase->update(['status' => 'paid']);
         $payment->update(['status' => 'success']);
         $courseReg->update(['status' => 'completed']);
+        $courseEntroll->update(['status' => 'active', 'payment_status' => 'paid']);
 
         return redirect()
           ->route('company.payments.success', $payment->order_id);

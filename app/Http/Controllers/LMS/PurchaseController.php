@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\LMS;
 
 use App\Http\Controllers\Controller;
+use App\Models\CourseEnrollment;
 use App\Models\Purchase;
 use App\Models\PurchasePayment;
 use Illuminate\Http\Request;
@@ -103,7 +104,8 @@ class PurchaseController extends Controller
   }
 
 
-  public function bankProcess($orderId){
+  public function bankProcess($orderId)
+  {
 
     $payment = PurchasePayment::where('order_id', $orderId)->firstOrFail();
 
@@ -120,49 +122,45 @@ class PurchaseController extends Controller
         'status' => 'paid'
       ]);
 
-          // 2️⃣ INSTALLMENT LOGIC
-        if ($payment->purchase->is_installment) {
+      // 2️⃣ INSTALLMENT LOGIC
+      if ($payment->purchase->is_installment) {
 
-            $installment = $payment->purchase->installments()
-                ->where('is_paid', 0)
-                ->orderBy('due_date')
-                ->first();
+        $installment = $payment->purchase->installments()
+          ->where('is_paid', 0)
+          ->orderBy('due_date')
+          ->first();
 
-            if ($installment) {
-                $installment->update([
-                    'paid_amount'   => $installment->amount,
-                    'paid_date'     => now(),
-                    'paid_by'       => 'manual',
-                    'payment_method'=> 'bank',
-                    'payment_source'=> 'web',
-                    'is_paid'       => 1,
-                ]);
-            }
+        if ($installment) {
+          $installment->update([
+            'paid_amount'   => $installment->amount,
+            'paid_date'     => now(),
+            'paid_by'       => 'manual',
+            'payment_method' => 'bank',
+            'payment_source' => 'web',
+            'is_paid'       => 1,
+          ]);
+        }
 
-            // Check if all installments paid
-            // $pendingCount = $payment->purchase->installments()
-            //     ->where('is_paid', 0)
-            //     ->count();
+        // Check if all installments paid
+        // $pendingCount = $payment->purchase->installments()
+        //     ->where('is_paid', 0)
+        //     ->count();
 
-            // if ($pendingCount === 0) {
-            //     $payment->purchase->update(['status' => 'paid']);
-            // }
-          }
+        // if ($pendingCount === 0) {
+        //     $payment->purchase->update(['status' => 'paid']);
+        // }
+      }
     });
 
     if (method_exists($payment->purchase->student, 'courses')) {
       $payment->purchase->student->courses()->attach($payment->purchase->course_id);
     }
 
-        return redirect()->route('company.payments.success', $orderId);
-
-
+    return redirect()->route('company.payments.success', $orderId);
   }
 
 
-  public function cashProcess($orderId){
-
-  }
+  public function cashProcess($orderId) {}
 
 
 
@@ -189,35 +187,41 @@ class PurchaseController extends Controller
       $payment->purchase->update([
         'status' => 'paid'
       ]);
+      $company_id = auth()->user()->company_id;
+      $courseEntroll = CourseEnrollment::where('course_id', $payment->purchase?->course_id)->where('company_id', $company_id)->where('user_id', $payment->purchase?->student_id)->first();
 
-          // 2️⃣ INSTALLMENT LOGIC
-        if ($payment->purchase->is_installment) {
+      if ($courseEntroll) {
+        $courseEntroll->update(['status' => 'active', 'payment_status' => 'paid']);
+      }
 
-            $installment = $payment->purchase->installments()
-                ->where('is_paid', 0)
-                ->orderBy('due_date')
-                ->first();
+      // 2️⃣ INSTALLMENT LOGIC
+      if ($payment->purchase->is_installment) {
 
-            if ($installment) {
-                $installment->update([
-                    'paid_amount'   => $installment->amount,
-                    'paid_date'     => now(),
-                    'paid_by'       => 'online',
-                    'payment_method'=> 'online',
-                    'payment_source'=> 'web',
-                    'is_paid'       => 1,
-                ]);
-            }
+        $installment = $payment->purchase->installments()
+          ->where('is_paid', 0)
+          ->orderBy('due_date')
+          ->first();
 
-            // Check if all installments paid
-            // $pendingCount = $payment->purchase->installments()
-            //     ->where('is_paid', 0)
-            //     ->count();
+        if ($installment) {
+          $installment->update([
+            'paid_amount'   => $installment->amount,
+            'paid_date'     => now(),
+            'paid_by'       => 'online',
+            'payment_method' => 'online',
+            'payment_source' => 'web',
+            'is_paid'       => 1,
+          ]);
+        }
 
-            // if ($pendingCount === 0) {
-            //     $payment->purchase->update(['status' => 'paid']);
-            // }
-          }
+        // Check if all installments paid
+        // $pendingCount = $payment->purchase->installments()
+        //     ->where('is_paid', 0)
+        //     ->count();
+
+        // if ($pendingCount === 0) {
+        //     $payment->purchase->update(['status' => 'paid']);
+        // }
+      }
     });
 
     if (method_exists($payment->purchase->student, 'courses')) {
@@ -281,7 +285,7 @@ class PurchaseController extends Controller
 
   public function successPage($orderId)
   {
-      $payment= PurchasePayment::where('order_id', $orderId)->firstOrFail();
+    $payment = PurchasePayment::where('order_id', $orderId)->firstOrFail();
     $purchase = $payment->purchase;
 
     return view('company.academic.payments.success', compact('purchase'));
@@ -291,7 +295,7 @@ class PurchaseController extends Controller
 
   public function verify($orderId)
   {
-    $payment= PurchasePayment::where('order_id', $orderId)->firstOrFail();
+    $payment = PurchasePayment::where('order_id', $orderId)->firstOrFail();
     $purchase = $payment->purchase;
 
     if ($purchase->status !== 'paid') {

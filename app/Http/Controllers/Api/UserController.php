@@ -736,7 +736,6 @@ class UserController extends Controller
         ->filter()
         ->values();
 
-      Log::info($workshops);
 
     } else {
       return response()->json([

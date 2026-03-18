@@ -125,4 +125,8 @@ return [
 
   'status' => env('APP_STATUS', 'production'),
 
+
+  'api_allowed_domain' => env('APP_API_ALLOWED_DOMAIN', 'localhost'),
+
+
 ];

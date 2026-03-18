@@ -69,8 +69,8 @@
         <div class="h-19">
             <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer bi bi-times dark:text-white text-slate-400 xl:hidden"
                 sidenav-close></i>
-            <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700"
-                href="/company/app" target="_blank">
+            <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700" href="/company/app"
+                target="_blank">
                 <img src="/assets/images/logo/BookMyTeacher-black.png"
                     class="inline h-full max-w-full transition-all duration-200 dark:hidden ease-nav-brand max-h-8"
                     alt="main_logo" />
@@ -468,9 +468,12 @@
                                 class="text-sm ease leading-5.6 absolute z-50 -ml-px flex h-full items-center whitespace-nowrap rounded-lg rounded-tr-none rounded-br-none border border-r-0 border-transparent bg-transparent py-2 px-2.5 text-center font-normal text-slate-500 transition-all">
                                 <i class="bi bi-search"></i>
                             </span>
-                            <input type="text"
+                             <input type="search" autocomplete="off" id="globalSearch"
                                 class="pl-9 text-sm focus:shadow-primary-outline ease w-1/100 leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
                                 placeholder="Type here..." />
+                            <div id="searchResults"
+                                class="absolute mt-10 left-0 w-full bg-white rounded-xl shadow-lg hidden z-50 max-h-96 overflow-y-auto">
+                            </div>
                         </div>
                     </div>
                     <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
@@ -652,7 +655,7 @@
         @yield('content')
         @include('components.drawer-right')
     </main>
-     <footer class="pt-4">
+    <footer class="pt-4">
         <div class="w-full px-6 mx-auto fixed-bottom flex justify-content-center whitespace-nowrap bg-green-300 ">
             <div class="flex flex-wrap items-center -mx-3 lg:justify-between">
                 <div class="w-full max-w-full px-3 mt-0 mb-6 shrink-0 lg:mb-0 lg:w-1/2 lg:flex-none">
@@ -840,6 +843,99 @@
                 'checklist', 'typography',
             ],
             toolbar: 'fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent | forecolor backcolor',
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            let timer;
+
+            $('body').on('input', '#globalSearch', function() {
+
+                clearTimeout(timer);
+
+                let q = $(this).val().trim();
+
+                if (q.length < 2) {
+                    $('#searchResults').addClass('hidden').html('');
+                    return;
+                }
+
+                timer = setTimeout(function() {
+
+                    $.ajax({
+                        url: "/company/global-search",
+                        type: "GET",
+                        data: {
+                            q: q
+                        },
+                        success: function(data) {
+                            renderResults(data);
+                        },
+                        error: function() {
+                            console.log("Search error");
+                        }
+                    });
+
+                }, 300);
+
+            });
+
+            function renderResults(data) {
+
+                let html = '';
+
+                const buildSection = (title, items) => {
+                    if (!items || items.length === 0) return ''; // 🔥 hide empty
+
+                    let section = `
+            <div class="p-2 border-b">
+                <div class="text-xs font-bold text-gray-400 mb-1"> ${title} (${items.length})
+</div>
+        `;
+
+                    $.each(items, function(index, item) {
+                        section += `
+                <a href="${item.url}" class="block px-3 py-2 hover:bg-gray-100 rounded">
+                    <div class="font-semibold text-sm">${item.name}</div>
+                    ${item.mobile ? `<div class="text-xs text-gray-500">(${item.mobile})</div>` : ''}
+                    <div class="text-xs text-gray-500">${item.sub ?? ''}</div>
+                </a>
+            `;
+                    });
+
+                    section += `</div>`;
+                    return section;
+                };
+
+                // 🔥 Loop dynamically (cleaner)
+                const sections = {
+                    Students: data.students,
+                    Teachers: data.teachers,
+                    Staff: data.staff,
+                    "Quick Links": data.links
+                };
+
+                $.each(sections, function(title, items) {
+                    html += buildSection(title, items);
+                });
+
+                // Empty state
+                if (!html.trim()) {
+                    html = `<div class="p-3 text-sm text-gray-400">No results found</div>`;
+                }
+
+                $('#searchResults')
+                    .html(html)
+                    .removeClass('hidden');
+            }
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#globalSearch, #searchResults').length) {
+                    $('#searchResults').addClass('hidden');
+                }
+            });
 
         });
     </script>

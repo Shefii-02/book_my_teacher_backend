@@ -11,6 +11,7 @@ use App\Models\DemoClassRegistration;
 use App\Models\StreamProvider;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Notifications\NotificationActions;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -128,7 +129,8 @@ class DemoClassController extends Controller
       $data['company_id'] = auth()->user()->company_id;
 
       // Create webinar
-      DemoClass::create($data);
+      $demoClass = DemoClass::create($data);
+      app(NotificationActions::class)->demoClassCreated($demoClass);
 
       DB::commit();
 
@@ -233,7 +235,7 @@ class DemoClassController extends Controller
       $data['slug'] = $data['slug'] ?? Str::slug($data['title']);
 
       $demoClass->update($data);
-
+      app(NotificationActions::class)->demoClassUpdated($demoClass);
       DB::commit();
       return redirect()->route('company.demo-classes.index')->with('success', 'Demo Class updated successfully.');
     } catch (\Exception $e) {

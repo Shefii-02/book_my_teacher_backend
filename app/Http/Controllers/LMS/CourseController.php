@@ -12,6 +12,7 @@ use App\Models\Institute;
 use App\Models\Teacher;
 use App\Models\TeacherCourse;
 use App\Models\User;
+use App\Notifications\NotificationActions;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -342,6 +343,11 @@ class CourseController extends Controller
           $course->step_completed         = 4;
         }
         $course->save();
+
+        if ($course->status == 'published' && $course->step_completed >= 4) {
+          app(NotificationActions::class)->courseCreated($course);
+        }
+
         DB::commit();
         return redirect()->route('company.courses.index', ['draft' => $course->course_identity])->with('success', 'Course created successfully.');
       }
@@ -468,7 +474,11 @@ class CourseController extends Controller
         $new->course_id = $course->id;
         $new->teacher_id = $teacher;
         $new->save();
+        app(NotificationActions::class)->courseTeacherAdded($course, $teacher);
       }
+
+
+
       DB::commit();
       return redirect()->back()->with('success', 'Teachers add-ons sucessfully');
     } catch (Exception $e) {

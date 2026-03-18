@@ -93,6 +93,13 @@ class TeacherController extends Controller
     return view('company.mobile-app.teachers.form', compact('subjects', 'languages'));
   }
 
+  public function show($id)
+  {
+    $company_id = auth()->user()->company_id;
+    $teacher = Teacher::where('user_id', $id)->where('company_id', $company_id)->first() ?? abort(404);
+
+    return view('company.mobile-app.teachers.show', compact('teacher'));
+  }
 
   public function store(StoreTeacherRequest $request)
   {

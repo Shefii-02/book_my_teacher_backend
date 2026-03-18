@@ -57,7 +57,28 @@ class GlobalSearchController extends Controller
           'name' => $t->name,
           'sub'  => $t->email,
           'mobile' => $t->mobile,
-          'url'  => route('company.teachers.index', $t->id)
+          'url'  => route('company.teachers.show', $t->id)
+        ];
+      });
+
+    // ============================
+    // SelectedTEACHERS
+    // ============================
+    $selectedTeachers = User::with('teacher')->whereHas('teacher')->where('acc_type', 'teacher')
+      ->where(function ($query) use ($q) {
+        $query->where('name', 'like', "%$q%")
+          ->orWhere('email', 'like', "%$q%")
+          ->orWhere('mobile', 'like', "%$q%");
+      })
+      ->limit(5)
+      ->get()
+      ->map(function ($t) {
+        return [
+          'type' => 'Teacher',
+          'name' => $t->name,
+          'sub'  => $t->email,
+          'mobile' => $t->mobile,
+          'url'  => route('company.app.teachers.show', $t->id)
         ];
       });
 
@@ -92,6 +113,7 @@ class GlobalSearchController extends Controller
       ['type' => 'Page', 'name' => 'Courses', 'sub' => 'Manage', 'url' => route('company.courses.index')],
     ]);
 
+    $teachers = $teachers->merge($selectedTeachers);
     return response()->json([
       'students' => $students,
       'teachers' => $teachers,

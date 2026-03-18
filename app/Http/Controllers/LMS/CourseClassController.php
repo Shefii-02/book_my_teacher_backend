@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\TeacherClass;
 use App\Models\User;
+use App\Notifications\NotificationActions;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -67,6 +68,7 @@ class CourseClassController extends Controller
       $class = CourseClass::create($data);
 
       TeacherClass::create(['teacher_id' => $request->teacher_id, 'class_id' => $class->id]);
+      app(NotificationActions::class)->courseClassStarted($class);
 
       DB::commit();
       return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class created successfully.');

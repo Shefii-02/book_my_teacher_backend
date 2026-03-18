@@ -1421,3 +1421,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
 });
+
+
+
+
+Route::middleware(['restrict.api.access'])->group(function () {
+  Route::get('/user', function (Request $request) {
+    return $request->user();
+  });
+});

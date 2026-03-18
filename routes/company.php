@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Http;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
+use App\Http\Controllers\NotificationController;
+use Google\Auth\Credentials\ServiceAccountCredentials;
+
 
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth', 'company_panel'], 'namespace' => 'App\Http\Controllers'], function () {
 
@@ -172,6 +175,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::put('teachers/{id}/edit', 'LMS\TeacherController@update')->name('teachers.update');  // Edit
   Route::delete('teachers/{id}', 'LMS\TeacherController@delete')->name('teachers.destroy');  // Delete
 
+  Route::resource('teachers', 'LMS\TeacherController')->names('teachers');
 
 
   Route::get('/company-settings/{company_id}', 'LMS\CompanySettingController@index');
@@ -392,28 +396,173 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   });
 
 
+  // Route::get('/fcm-sample', function () {
+  //   $token = "dPvyIPaG1k4nj_Em7zzUtG:APA91bF_PiiheEMlagDMFAQRBH36JPdT5GKc7IyhT73KEGQMagqasqiiT1zial_2qX4Da2kP3R8bEjZ0falXOYwsL_c_a_xD87r2omOmrj3YKjNn-AdW4Tk";
+
+  //   try {
+  //     $factory = (new Factory)->withServiceAccount(storage_path('app/json/fcm-file.json'));
+  //     $messaging = $factory->createMessaging();
+
+  //     $message = CloudMessage::withTarget('token', $token)
+  //       ->withNotification(
+  //         Notification::create('BookMyTeacher', 'Explore our Service')
+  //       );
+
+  //     $response = $messaging->send($message);
+
+  //     return response()->json([
+  //       'message' => 'Notification sent!',
+  //       'response' => $response
+  //     ]);
+  //   } catch (\Exception $e) {
+  //     return response()->json([
+  //       'error' => $e->getMessage()
+  //     ], 500);
+  //   }
+  // });
+
+
+
   Route::get('/fcm-sample', function () {
-    $token = "dPvyIPaG1k4nj_Em7zzUtG:APA91bF_PiiheEMlagDMFAQRBH36JPdT5GKc7IyhT73KEGQMagqasqiiT1zial_2qX4Da2kP3R8bEjZ0falXOYwsL_c_a_xD87r2omOmrj3YKjNn-AdW4Tk";
+    $fcmToken = "dPvyIPaG1k4nj_Em7zzUtG:APA91bF_PiiheEMlagDMFAQRBH36JPdT5GKc7IyhT73KEGQMagqasqiiT1zial_2qX4Da2kP3R8bEjZ0falXOYwsL_c_a_xD87r2omOmrj3YKjNn-AdW4Tk";
 
     try {
-      $factory = (new Factory)->withServiceAccount(storage_path('app/json/fcm-file.json'));
-      $messaging = $factory->createMessaging();
 
-      $message = CloudMessage::withTarget('token', $token)
-        ->withNotification(
-          Notification::create('BookMyTeacher', 'Explore our Service')
-        );
 
-      $response = $messaging->send($message);
+      $fcmToken = "dPvyIPaG1k4nj_Em7zzUtG:APA91bF_PiiheEMlagDMFAQRBH36JPdT5GKc7IyhT73KEGQMagqasqiiT1zial_2qX4Da2kP3R8bEjZ0falXOYwsL_c_a_xD87r2omOmrj3YKjNn-AdW4Tk";
+
+      $projectId = env('FIREBASE_PROJECT_ID'); // bktmobileapp-642da
+      // Step 1: Generate Access Token
+      $credentialsFilePath = storage_path('app/json/fcm-file.json');
+      $jsonContents = json_decode(file_get_contents($credentialsFilePath), true);
+
+
+      // ✅ Use ServiceAccountCredentials directly
+      $scopes      = ['https://www.googleapis.com/auth/firebase.messaging'];
+      $credentials = new ServiceAccountCredentials($scopes, $credentialsFilePath);
+      $tokenData   = $credentials->fetchAuthToken();
+      $accessToken = $tokenData['access_token'];
+
+      // ✅ Send FCM
+      $response = Http::withHeaders([
+        'Authorization' => 'Bearer ' . $accessToken,
+        'Content-Type'  => 'application/json',
+      ])->post("https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send", [
+        'message' => [
+          'token'        => $fcmToken,
+          'notification' => [
+            'title' => 'BookMyTeacher',
+            'body'  => 'Explore our Service',
+          ],
+          'android' => [
+            'priority' => 'high',
+          ],
+          'data' => [
+            'route' => '/home',
+          ],
+        ],
+      ]);
+
+      dd([
+        'status'   => $response->status(),
+        'response' => $response->json(),
+      ]);
+
+      // ✅ Directly use ServiceAccountCredentials instead of GoogleClient
+      $scopes      = ['https://www.googleapis.com/auth/firebase.messaging'];
+      $credentials = new ServiceAccountCredentials($scopes, $credentialsFilePath);
+      $tokenData   = $credentials->fetchAuthToken();
+      $accessToken = $tokenData['access_token'];
+
+      dd([
+        'access_token' => $accessToken,
+        'token_data'   => $tokenData,
+      ]);
+      // Generate token
+      $client = new GoogleClient();
+      $client->setAuthConfig($credentialsFilePath);
+      $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
+      $tokenData    = $client->fetchAccessTokenWithAssertion();
+      $accessToken  = $tokenData['access_token'];
+
+      // Validate token first
+      $tokenInfo = Http::get('https://oauth2.googleapis.com/tokeninfo', [
+        'access_token' => $accessToken
+      ])->json();
+
+      // Try FCM with verbose response
+      $fcmResponse = Http::withHeaders([
+        'Authorization' => 'Bearer ' . $accessToken,
+        'Content-Type'  => 'application/json',
+      ])->post("https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send", [
+        'message' => [
+          'token'        => $fcmToken,
+          'notification' => [
+            'title' => 'Test',
+            'body'  => 'Test',
+          ],
+        ],
+      ]);
+
+      dd([
+        'token_info'      => $tokenInfo,
+        'token_email'     => $tokenInfo['email'] ?? 'NO EMAIL IN TOKEN',
+        'expected_email'  => 'firebase-adminsdk-fbsvc@bktmobileapp-642da.iam.gserviceaccount.com',
+        'emails_match'    => ($tokenInfo['email'] ?? '') === 'firebase-adminsdk-fbsvc@bktmobileapp-642da.iam.gserviceaccount.com',
+        'fcm_status'      => $fcmResponse->status(),
+        'fcm_response'    => $fcmResponse->json(),
+        'request_headers' => [
+          'Authorization' => 'Bearer ' . substr($accessToken, 0, 20) . '...',
+        ],
+      ]);
+      // $client = new GoogleClient();
+      // $client->setAuthConfig($credentialsFilePath);
+      // $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
+      // $tokenData = $client->fetchAccessTokenWithAssertion();
+      // $accessToken = $tokenData['access_token'];
+
+      // // Step 2: Send Notification
+      // $response = Http::withHeaders([
+      //   'Authorization' => 'Bearer ' . $accessToken,
+      //   'Content-Type'  => 'application/json',
+      // ])->post("https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send", [
+      //   'message' => [
+      //     'token' => $fcmToken,
+      //     'notification' => [
+      //       'title' => 'BookMyTeacher',
+      //       'body'  => 'Explore our Service',
+      //     ],
+      //     'android' => [
+      //       'priority' => 'high',
+      //       'notification' => [
+      //         'sound'        => 'default',
+      //         'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
+      //       ],
+      //     ],
+      //     'apns' => [
+      //       'payload' => [
+      //         'aps' => [
+      //           'sound' => 'default',
+      //         ],
+      //       ],
+      //     ],
+      //     'data' => [
+      //       'route'   => '/home',
+      //       'payload' => json_encode(['key' => 'value']),
+      //     ],
+      //   ],
+      // ]);
 
       return response()->json([
-        'message' => 'Notification sent!',
-        'response' => $response
+        'message'  => 'Notification sent!',
+        'response' => $response->json()
       ]);
     } catch (\Exception $e) {
-      return response()->json([
-        'error' => $e->getMessage()
-      ], 500);
+      return response()->json(['error' => $e->getMessage()], 500);
     }
   });
+
+  Route::get('/send-notification', [NotificationController::class, 'sendPush']);
+  Route::get('/send-notification-to-user', [NotificationController::class, 'sendToUser']);
+  Route::get('/send-notification-to-topic', [NotificationController::class, 'sendToTopic']);
 });

@@ -144,6 +144,9 @@
                                         class="hidden absolute right-0 mt-2 bg-white shadow-xl rounded-xl w-44 z-10 border">
                                         <ul class="text-sm text-gray-700">
 
+                                            <li> <a href="{{ route('company.app.teachers.show', $t->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100">View</a> </li>
+
                                             <li> <a href="{{ route('company.app.teachers.edit', $t->id) }}"
                                                     class="block px-4 py-2 hover:bg-gray-100">Edit</a> </li>
                                             <li> <a role="button"

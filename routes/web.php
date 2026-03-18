@@ -29,15 +29,22 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
   });
 
 
+  Route::domain('bookmyteacher.co.in')->group(function () {
+    Route::get('/', function () {
+      return dd(123);
+    });
+  });
 
-Route::get('/pay', [PhonePePaymentController::class, 'checkout'])->name('phonepe.checkout');
 
-Route::post('/phonepe/pay', [PhonePePaymentController::class, 'pay'])->name('phonepe.pay');
 
-Route::any('/phonepe/callback', [PhonePePaymentController::class, 'callback'])->name('phonepe.callback');
+  Route::get('/pay', [PhonePePaymentController::class, 'checkout'])->name('phonepe.checkout');
 
-Route::get('/payment/success', [PhonePePaymentController::class, 'success'])->name('payment.success');
-Route::get('/payment/failed', [PhonePePaymentController::class, 'failed'])->name('payment.failed');
+  Route::post('/phonepe/pay', [PhonePePaymentController::class, 'pay'])->name('phonepe.pay');
+
+  Route::any('/phonepe/callback', [PhonePePaymentController::class, 'callback'])->name('phonepe.callback');
+
+  Route::get('/payment/success', [PhonePePaymentController::class, 'success'])->name('payment.success');
+  Route::get('/payment/failed', [PhonePePaymentController::class, 'failed'])->name('payment.failed');
 
 
   // authentication

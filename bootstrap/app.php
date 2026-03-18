@@ -34,7 +34,11 @@ return Application::configure(basePath: dirname(__DIR__))
       // 'owner_panel' => \App\Http\Middleware\OwnerPanel::class,
       // 'maintainer_panel' => \App\Http\Middleware\MaintainerPanel::class,
       // 'check.plan.expiry' => \App\Http\Middleware\CheckPlanExpiry::class,
+      'restrict.api.access' => \App\Http\Middleware\RestrictApiAccess::class,
 
+    ]);
+    $middleware->api(append: [
+      \App\Http\Middleware\RestrictApiAccess::class,
     ]);
     $middleware->web(append: [
       VerifyCsrfToken::class,

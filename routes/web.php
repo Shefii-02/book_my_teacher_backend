@@ -24,16 +24,18 @@ use App\Http\Controllers\Web\PhonePePaymentController;
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
-  Route::get('/', function () {
-    return view('web.index');
-  });
-
-
   Route::domain('bookmyteacher.co.in')->group(function () {
     Route::get('/', function () {
       return dd(123);
     });
   });
+
+
+  Route::get('/', function () {
+    return view('web.index');
+  });
+
+
 
 
 

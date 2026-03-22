@@ -21,35 +21,41 @@ use App\Http\Controllers\PhonePeController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Web\PhonePePaymentController;
+use App\Http\Controllers\Web\HomeController;
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
-  Route::domain(env('APP_API_ALLOWED_DOMAIN', 'localhost'))->group(function () {
-    Route::get('/', function () {
-      return view('home.index');
-    })->name('home.index');
-    Route::get('/about-us', function () {
-      return view('home.about-us');
-    })->name('home.about-us');
-    Route::get('/contact-us', function () {
-      return view('home.contact-us');
-    })->name('home.contact-us');
-    Route::get('/blogs', function () {
-      return view('home.blogs');
-    })->name('home.blogs');
-    Route::get('/blog/single', function () {
-      return view('home.blog-single');
-    })->name('home.blog.single');
-    Route::get('/teachers', function () {
-      return view('home.teachers');
-    })->name('home.teachers');
-    Route::get('/teacher/single', function () {
-      return view('home.teacher-profile');
-    })->name('home.teacher-single');
-     Route::get('/fee-estimate', function () {
-      return view('home.fee-estimate');
-    })->name('home.fee-estimate');
-  });
+  Route::domain(env('APP_API_ALLOWED_DOMAIN'))
+    ->group(
+      function () {
+        Route::get('/', [HomeController::class, 'index'])->name('home.index');
+        Route::get('/about-us', function () {
+          return view('home.about-us');
+        })->name('home.about-us');
+        Route::get('/contact-us', function () {
+          return view('home.contact-us');
+        })->name('home.contact-us');
+        Route::get('/blogs', function () {
+          return view('home.blogs');
+        })->name('home.blogs');
+        Route::get('/blog/single', function () {
+          return view('home.blog-single');
+        })->name('home.blog.single');
+        Route::get('/teachers', function () {
+          return view('home.teachers');
+        })->name('home.teachers');
+        Route::get('/teacher/single', function () {
+          return view('home.teacher-profile');
+        })->name('home.teacher-single');
+        Route::get('/fee-estimate', function () {
+          return view('home.fee-estimate');
+        })->name('home.fee-estimate');
+
+        Route::get('request-account-delete.html', function () {
+          return;
+        });
+      }
+    );
 
 
   // Route::get('/', function () {

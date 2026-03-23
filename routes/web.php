@@ -58,9 +58,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     );
 
 
-  // Route::get('/', function () {
-  //   return view('web.index');
-  // });
+  Route::get('/', function () {
+    return view('web.index');
+  });
 
 
 

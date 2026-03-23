@@ -10,10 +10,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Board;
 use App\Models\Grade;
 use App\Models\Subject;
+use App\Models\SubjectReview;
 use App\Models\Teacher;
-use Google\Service\AndroidPublisher\Review;
-use Google\Service\Classroom\Student;
-use Google\Service\Dfareporting\Country;
+use App\Models\User;
+use App\Models\AppReview;
+use App\Models\VideoTestimonial;
 
 class HomeController extends Controller
 {
@@ -21,22 +22,22 @@ class HomeController extends Controller
   public function index()
   {
     // Summary stats
-    $total_students = Student::count();
+    $total_students = User::where('acc_type','student')->count();
     $expert_teachers = Teacher::where('is_expert', 1)->count();
-    $avg_rating = Review::avg('rating');
-    $available_countries = Country::count();
+    $avg_rating = AppReview::avg('rating');
+    $available_countries = 3;
 
     // App reviews
-    $app_reviews = Review::latest()->take(10)->get();
+    $app_reviews = AppReview::latest()->take(10)->get();
 
     // Subjects with teachers
     $subjects = Subject::with(['teachers'])->get();
 
     // Countries with teachers
-    $countries = Country::with(['teachers'])->get();
+    $countries = collect();
 
     // Video testimonials
-    $video_testimonials = Testimonial::where('type', 'video')->get();
+    $video_testimonials = VideoTestimonial::where('type', 'video')->get();
 
     // Top teachers
     $top_teachers = Teacher::withAvg('reviews', 'rating')
@@ -45,7 +46,7 @@ class HomeController extends Controller
       ->get();
 
     // Teacher class reviews
-    $teacher_reviews = Review::with(['teacher', 'student'])->latest()->get();
+    $teacher_reviews = SubjectReview::with(['teacher', 'student'])->latest()->get();
 
     // Grades with boards and subjects
     $grades = Grade::with(['boards.subjects'])->get();

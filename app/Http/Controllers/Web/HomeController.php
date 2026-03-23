@@ -23,7 +23,7 @@ class HomeController extends Controller
   {
     // Summary stats
     $total_students = User::where('acc_type','student')->count();
-    $expert_teachers = Teacher::where('is_expert', 1)->count();
+    $expert_teachers = Teacher::count();
     $avg_rating = AppReview::avg('rating');
     $available_countries = 3;
 

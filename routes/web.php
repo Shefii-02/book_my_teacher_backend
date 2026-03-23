@@ -57,14 +57,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
       }
     );
 
-
-  Route::domain(env('APP_PRIMARY_URL'))
+ Route::domain(env('APP_PRIMARY_URL'))
     ->group(
       function () {
 
-        Route::get('/', function () {
-          return view('web.index');
-        });
+  Route::get('/', function () {
+    return view('web.index');
+  });
+
+
+
 
 
   Route::get('/pay', [PhonePePaymentController::class, 'checkout'])->name('phonepe.checkout');
@@ -94,6 +96,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 });
 
 
+
+});
 
 Route::get('/get-error', function () {
   $find = App\Models\User::find(100000)->id;

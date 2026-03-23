@@ -58,12 +58,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     );
 
 
-  Route::get('/', function () {
-    return view('web.index');
-  });
+  Route::domain(env('APP_PRIMARY_URL'))
+    ->group(
+      function () {
 
-
-
+        Route::get('/', function () {
+          return view('web.index');
+        });
 
 
   Route::get('/pay', [PhonePePaymentController::class, 'checkout'])->name('phonepe.checkout');

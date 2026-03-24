@@ -25,7 +25,7 @@ use App\Http\Controllers\Web\HomeController;
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
-  Route::domain(env('APP_API_ALLOWED_DOMAIN'))
+  Route::domain(env('APP_CLIENT_ALLOWED_DOMAIN'))
     ->group(
       function () {
         Route::get('/', [HomeController::class, 'index'])->name('home.index');

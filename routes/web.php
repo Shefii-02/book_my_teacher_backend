@@ -57,67 +57,65 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
       }
     );
 
- Route::domain(env('APP_PRIMARY_URL'))
+  Route::domain(env('APP_PRIMARY_URL'))
     ->group(
       function () {
 
-  Route::get('/', function () {
-    return view('web.index');
+        Route::get('/', function () {
+          return view('web.index');
+        });
+
+
+
+
+
+        Route::get('/pay', [PhonePePaymentController::class, 'checkout'])->name('phonepe.checkout');
+
+        Route::post('/phonepe/pay', [PhonePePaymentController::class, 'pay'])->name('phonepe.pay');
+
+        Route::any('/phonepe/callback', [PhonePePaymentController::class, 'callback'])->name('phonepe.callback');
+
+        Route::get('/payment/success', [PhonePePaymentController::class, 'success'])->name('payment.success');
+        Route::get('/payment/failed', [PhonePePaymentController::class, 'failed'])->name('payment.failed');
+
+
+        // authentication
+        // Route::get('/', 'auth\LoginController@index')->name('login');
+        Route::get('/login', 'auth\LoginController@index')->name('login');
+        Route::post('/', 'auth\LoginController@loginPost')->name('auth-login-post');
+
+        Route::post('/logout', 'dashboard\UserController@logout')->name('logout');
+        Route::get('admin/phonepe/pay', 'PhonePeController@initPayment');
+        Route::get('admin/phonepe/callback', 'PhonePeController@callback')->name('phonepe.callback');
+        Route::get('privacy-policy', function () {
+          return view('privacy-policy');
+        });
+        Route::get('terms-conditions', function () {
+          return view('terms-conditions');
+        });
+      }
+    );
+
+
+
+  Route::get('/get-error', function () {
+    $find = App\Models\User::find(100000)->id;
+    return view('welcome');
+  });
+
+  Route::get('admin/webinar', function () {
+    $app_id          = env('ZEGO_APP_ID');
+    $secret_id       = env('ZEGO_SERVER_SECRET');
+
+    return view('company.webinar.index', compact('app_id', 'secret_id'));
   });
 
 
 
+  //////////////////////////////////////////////////////////////////////////
 
-
-  Route::get('/pay', [PhonePePaymentController::class, 'checkout'])->name('phonepe.checkout');
-
-  Route::post('/phonepe/pay', [PhonePePaymentController::class, 'pay'])->name('phonepe.pay');
-
-  Route::any('/phonepe/callback', [PhonePePaymentController::class, 'callback'])->name('phonepe.callback');
-
-  Route::get('/payment/success', [PhonePePaymentController::class, 'success'])->name('payment.success');
-  Route::get('/payment/failed', [PhonePePaymentController::class, 'failed'])->name('payment.failed');
-
-
-  // authentication
-  // Route::get('/', 'auth\LoginController@index')->name('login');
-  Route::get('/login', 'auth\LoginController@index')->name('login');
-  Route::post('/', 'auth\LoginController@loginPost')->name('auth-login-post');
-
-  Route::post('/logout', 'dashboard\UserController@logout')->name('logout');
-  Route::get('admin/phonepe/pay', 'PhonePeController@initPayment');
-  Route::get('admin/phonepe/callback', 'PhonePeController@callback')->name('phonepe.callback');
-  Route::get('privacy-policy', function () {
-    return view('privacy-policy');
-  });
-  Route::get('terms-conditions', function () {
-    return view('terms-conditions');
-  });
+  Route::get('/invite', [ReferralController::class, 'trackReferral']);
 });
-
-
-
-});
-
-Route::get('/get-error', function () {
-  $find = App\Models\User::find(100000)->id;
-  return view('welcome');
-});
-
-Route::get('admin/webinar', function () {
-  $app_id          = env('ZEGO_APP_ID');
-  $secret_id       = env('ZEGO_SERVER_SECRET');
-
-  return view('company.webinar.index', compact('app_id', 'secret_id'));
-});
-
-
-
-//////////////////////////////////////////////////////////////////////////
-
-Route::get('/invite', [ReferralController::class, 'trackReferral']);
-
-
 
 require __DIR__ . '/admin.php';
 require __DIR__ . '/company.php';

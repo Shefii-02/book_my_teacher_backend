@@ -38,7 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
     ]);
     $middleware->api(append: [
-      \App\Http\Middleware\RestrictApiAccess::class,
+      // \App\Http\Middleware\RestrictApiAccess::class,
     ]);
     $middleware->web(append: [
       VerifyCsrfToken::class,

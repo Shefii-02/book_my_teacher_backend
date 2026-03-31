@@ -171,7 +171,7 @@
                 name: "Rahul Menon",
                 role: "Mathematics & Physics",
                 subjects: ["Mathematics", "Physics", "JEE Prep", "Science"],
-                emoji: "👨‍🏫",
+                emoji: "/assets/mobile-app/asit-t.png",
                 rating: 4.9,
                 exp: 8,
                 mode: "Home & Online"
@@ -181,7 +181,7 @@
                 name: "Priya Krishnan",
                 role: "Chemistry & Biology",
                 subjects: ["Chemistry", "Biology", "NEET Prep", "Science"],
-                emoji: "👩‍🏫",
+                emoji: "/assets/mobile-app/asit-t.png",
                 rating: 4.8,
                 exp: 6,
                 mode: "Home & Online"
@@ -191,7 +191,7 @@
                 name: "Arjun Nair",
                 role: "English & Social Studies",
                 subjects: ["English", "History", "Social Studies", "Civics"],
-                emoji: "🧑‍🏫",
+                emoji: "/assets/mobile-app/asit-t.png",
                 rating: 4.9,
                 exp: 5,
                 mode: "Online"
@@ -201,7 +201,7 @@
                 name: "Sneha Pillai",
                 role: "Computer Science",
                 subjects: ["Computer Science", "Mathematics", "Physics"],
-                emoji: "👩‍💻",
+                emoji: "/assets/mobile-app/asit-t.png",
                 rating: 5.0,
                 exp: 7,
                 mode: "Home & Online"
@@ -211,7 +211,7 @@
                 name: "Anil Kumar",
                 role: "Mathematics Specialist",
                 subjects: ["Mathematics", "Accountancy", "Economics"],
-                emoji: "👨‍💼",
+                emoji: "/assets/mobile-app/asit-t.png",
                 rating: 4.7,
                 exp: 10,
                 mode: "Home & Online"
@@ -221,7 +221,7 @@
                 name: "Meera Suresh",
                 role: "Malayalam & Hindi",
                 subjects: ["Malayalam", "Hindi", "English"],
-                emoji: "👩‍🎨",
+                emoji: "/assets/mobile-app/asit-t.png",
                 rating: 4.9,
                 exp: 4,
                 mode: "Home & Online"
@@ -231,7 +231,7 @@
                 name: "Deepak Varma",
                 role: "Social Science Expert",
                 subjects: ["Social Studies", "History", "Geography", "Economics"],
-                emoji: "🧑‍🏫",
+                emoji: "/assets/mobile-app/asit-t.png",
                 rating: 4.8,
                 exp: 6,
                 mode: "Home & Online"
@@ -241,7 +241,7 @@
                 name: "Fathima Anwar",
                 role: "Science & Biology",
                 subjects: ["Biology", "Chemistry", "Science"],
-                emoji: "👩‍🔬",
+                emoji: "/assets/mobile-app/asit-t.png",
                 rating: 4.9,
                 exp: 7,
                 mode: "Online"
@@ -290,7 +290,7 @@
             }
             d.innerHTML = results.map(function(r) {
                 var icon = r.type === 'teacher' ? 'user-graduate' : 'book';
-                var href = r.type === 'teacher' ? 'teacher-profile.html?id=' + r.id : '';
+                var href = r.type === 'teacher' ? 'teacher-profile?id=' + r.id : '';
                 return '<div class="sd-item" onclick="selectResult(\'' + r.type + '\',\'' + r.name.replace(/'/g,
                         "\\'") + '\',' + (r.id || 0) + ')">' +
                     '<i class="fas fa-' + icon + '"></i>' +
@@ -321,7 +321,7 @@
 
         function doSearch() {
             var v = document.getElementById('searchInput').value;
-            if (v) location.href = 'teachers.html?q=' + encodeURIComponent(v);
+            if (v) location.href = 'teachers?q=' + encodeURIComponent(v);
         }
 
         function searchPill(s) {
@@ -356,9 +356,9 @@
                     '<a href="#enquiry" style="color:var(--green);font-weight:600">Enquire and we\'ll find one!</a></p>';
             } else {
                 grid.innerHTML = matched.map(function(t) {
-                    return '<div class="mini-card" onclick="location.href=\'teacher-profile.html?id=' + t.id +
+                    return '<div class="mini-card" onclick="location.href=\'teacher-profile?id=' + t.id +
                         '\'">' +
-                        '<div class="mini-avatar">' + t.emoji + '</div>' +
+                        '<div class="mini-avatar"><img  src="' + t.emoji + '" /></div>' +
                         '<div>' +
                         '<div class="mini-name">' + t.name + '</div>' +
                         '<div class="mini-role">' + t.role + '</div>' +

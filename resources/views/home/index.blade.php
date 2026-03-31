@@ -557,8 +557,9 @@
             </div>
             <div class="tutors-grid">
                 <div class="tutor-card" onclick="location.href='teacher-profile?id=1'">
-                    <div class="tutor-cover" style="background:linear-gradient(135deg,#0f7a3c,#1db954)"></div>
-                    <div class="tutor-avatar">👨‍🏫</div>
+                    <div class="tutor-cover" style="background:linear-gradient(135deg,#0f7a3c,#1db954)">
+                        <img src="/assets/mobile-app/asit-t.png" class=" mx-auto">
+                    </div>
                     <div class="tutor-body">
                         <div class="tutor-name">Rahul Menon</div>
                         <div class="tutor-role">Mathematics &amp; Physics Expert</div>
@@ -576,8 +577,9 @@
                     </div>
                 </div>
                 <div class="tutor-card" onclick="location.href='teacher-profile?id=2'">
-                    <div class="tutor-cover" style="background:linear-gradient(135deg,#6c63ff,#a855f7)"></div>
-                    <div class="tutor-avatar">👩‍🏫</div>
+                    <div class="tutor-cover" style="background:linear-gradient(135deg,#6c63ff,#a855f7)">
+                        <img src="/assets/mobile-app/asit-t.png" class=" mx-auto">
+                    </div>
                     <div class="tutor-body">
                         <div class="tutor-name">Priya Krishnan</div>
                         <div class="tutor-role">Chemistry &amp; Biology Specialist</div>
@@ -595,8 +597,9 @@
                     </div>
                 </div>
                 <div class="tutor-card" onclick="location.href='teacher-profile?id=3'">
-                    <div class="tutor-cover" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"></div>
-                    <div class="tutor-avatar">🧑‍🏫</div>
+                    <div class="tutor-cover" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">
+                        <img src="/assets/mobile-app/asit-t.png" class=" mx-auto">
+                    </div>
                     <div class="tutor-body">
                         <div class="tutor-name">Arjun Nair</div>
                         <div class="tutor-role">English &amp; Social Studies</div>
@@ -614,8 +617,9 @@
                     </div>
                 </div>
                 <div class="tutor-card" onclick="location.href='teacher-profile?id=4'">
-                    <div class="tutor-cover" style="background:linear-gradient(135deg,#0ea5e9,#0f7a3c)"></div>
-                    <div class="tutor-avatar">👩‍💻</div>
+                    <div class="tutor-cover" style="background:linear-gradient(135deg,#0ea5e9,#0f7a3c)">
+                        <img src="/assets/mobile-app/asit-t.png" class=" mx-auto">
+                    </div>
                     <div class="tutor-body">
                         <div class="tutor-name">Sneha Pillai</div>
                         <div class="tutor-role">Computer Science &amp; Coding</div>
@@ -730,64 +734,64 @@
 
     <!-- PRICING -->
     <!-- <section style="background:var(--bg)" id="pricing">
-        <div style="max-width:1000px;margin:0 auto">
-          <div class="center" style="margin-bottom:3.5rem">
-            <span class="section-tag">Simple Pricing</span>
-            <h2 class="section-title">Transparent Plans, No Hidden Fees</h2>
-            <p class="section-sub" style="margin-inline:auto">All plans include a free first demo session. No registration
-              fee.</p>
-          </div>
-          <div class="pricing-grid">
-            <div class="price-card">
-              <div class="price-name">Starter</div>
-              <p style="font-size:.82rem;color:var(--muted);margin-bottom:.4rem">Try it out</p>
-              <div class="price-amount"><sup>₹</sup>499<span style="font-size:.9rem;font-weight:400">/mo</span></div>
-              <p class="price-period">4 sessions · 1 subject</p>
-              <ul class="price-features">
-                <li><i class="fas fa-check"></i> 4 Sessions/month</li>
-                <li><i class="fas fa-check"></i> 1 Subject</li>
-                <li><i class="fas fa-check"></i> Session recordings</li>
-                <li><i class="fas fa-check"></i> Basic progress report</li>
-                <li style="opacity:.35"><i class="fas fa-times"></i> Priority matching</li>
-              </ul>
-              <a href="contact" class="btn btn-outline" style="width:100%;justify-content:center">Get Started</a>
+            <div style="max-width:1000px;margin:0 auto">
+              <div class="center" style="margin-bottom:3.5rem">
+                <span class="section-tag">Simple Pricing</span>
+                <h2 class="section-title">Transparent Plans, No Hidden Fees</h2>
+                <p class="section-sub" style="margin-inline:auto">All plans include a free first demo session. No registration
+                  fee.</p>
+              </div>
+              <div class="pricing-grid">
+                <div class="price-card">
+                  <div class="price-name">Starter</div>
+                  <p style="font-size:.82rem;color:var(--muted);margin-bottom:.4rem">Try it out</p>
+                  <div class="price-amount"><sup>₹</sup>499<span style="font-size:.9rem;font-weight:400">/mo</span></div>
+                  <p class="price-period">4 sessions · 1 subject</p>
+                  <ul class="price-features">
+                    <li><i class="fas fa-check"></i> 4 Sessions/month</li>
+                    <li><i class="fas fa-check"></i> 1 Subject</li>
+                    <li><i class="fas fa-check"></i> Session recordings</li>
+                    <li><i class="fas fa-check"></i> Basic progress report</li>
+                    <li style="opacity:.35"><i class="fas fa-times"></i> Priority matching</li>
+                  </ul>
+                  <a href="contact" class="btn btn-outline" style="width:100%;justify-content:center">Get Started</a>
+                </div>
+                <div class="price-card featured">
+                  <div class="popular-badge">Most Popular</div>
+                  <div class="price-name" style="color:#fff">Pro Learner</div>
+                  <p style="font-size:.82rem;color:rgba(255,255,255,.55);margin-bottom:.4rem">Best for serious learners</p>
+                  <div class="price-amount"><sup>₹</sup>999<span
+                      style="font-size:.9rem;font-weight:400;color:rgba(255,255,255,.55)">/mo</span></div>
+                  <p class="price-period">12 sessions · 3 subjects</p>
+                  <ul class="price-features" style="color:#fff">
+                    <li><i class="fas fa-check"></i> 12 Sessions/month</li>
+                    <li><i class="fas fa-check"></i> Up to 3 Subjects</li>
+                    <li><i class="fas fa-check"></i> Home or Online</li>
+                    <li><i class="fas fa-check"></i> Detailed reports</li>
+                    <li><i class="fas fa-check"></i> Priority matching</li>
+                  </ul>
+                  <a href="contact" class="btn btn-accent btn-lg" style="width:100%;justify-content:center">Get Started</a>
+                </div>
+                <div class="price-card">
+                  <div class="price-name">Family Plan</div>
+                  <p style="font-size:.82rem;color:var(--muted);margin-bottom:.4rem">Up to 3 children</p>
+                  <div class="price-amount"><sup>₹</sup>1,799<span style="font-size:.9rem;font-weight:400">/mo</span></div>
+                  <p class="price-period">Unlimited · all subjects</p>
+                  <ul class="price-features">
+                    <li><i class="fas fa-check"></i> Unlimited sessions</li>
+                    <li><i class="fas fa-check"></i> All Subjects</li>
+                    <li><i class="fas fa-check"></i> Home &amp; Online</li>
+                    <li><i class="fas fa-check"></i> Premium reports</li>
+                    <li><i class="fas fa-check"></i> Dedicated tutor</li>
+                  </ul>
+                  <a href="contact" class="btn btn-primary" style="width:100%;justify-content:center">Get Started</a>
+                </div>
+              </div>
+              <p style="text-align:center;font-size:.82rem;color:var(--muted);margin-top:1.5rem"><i class="fas fa-info-circle"
+                  style="color:var(--green)"></i> Want a custom quote? <a href="fee-estimate"
+                  style="color:var(--green);font-weight:600">Try our Fee Estimator →</a></p>
             </div>
-            <div class="price-card featured">
-              <div class="popular-badge">Most Popular</div>
-              <div class="price-name" style="color:#fff">Pro Learner</div>
-              <p style="font-size:.82rem;color:rgba(255,255,255,.55);margin-bottom:.4rem">Best for serious learners</p>
-              <div class="price-amount"><sup>₹</sup>999<span
-                  style="font-size:.9rem;font-weight:400;color:rgba(255,255,255,.55)">/mo</span></div>
-              <p class="price-period">12 sessions · 3 subjects</p>
-              <ul class="price-features" style="color:#fff">
-                <li><i class="fas fa-check"></i> 12 Sessions/month</li>
-                <li><i class="fas fa-check"></i> Up to 3 Subjects</li>
-                <li><i class="fas fa-check"></i> Home or Online</li>
-                <li><i class="fas fa-check"></i> Detailed reports</li>
-                <li><i class="fas fa-check"></i> Priority matching</li>
-              </ul>
-              <a href="contact" class="btn btn-accent btn-lg" style="width:100%;justify-content:center">Get Started</a>
-            </div>
-            <div class="price-card">
-              <div class="price-name">Family Plan</div>
-              <p style="font-size:.82rem;color:var(--muted);margin-bottom:.4rem">Up to 3 children</p>
-              <div class="price-amount"><sup>₹</sup>1,799<span style="font-size:.9rem;font-weight:400">/mo</span></div>
-              <p class="price-period">Unlimited · all subjects</p>
-              <ul class="price-features">
-                <li><i class="fas fa-check"></i> Unlimited sessions</li>
-                <li><i class="fas fa-check"></i> All Subjects</li>
-                <li><i class="fas fa-check"></i> Home &amp; Online</li>
-                <li><i class="fas fa-check"></i> Premium reports</li>
-                <li><i class="fas fa-check"></i> Dedicated tutor</li>
-              </ul>
-              <a href="contact" class="btn btn-primary" style="width:100%;justify-content:center">Get Started</a>
-            </div>
-          </div>
-          <p style="text-align:center;font-size:.82rem;color:var(--muted);margin-top:1.5rem"><i class="fas fa-info-circle"
-              style="color:var(--green)"></i> Want a custom quote? <a href="fee-estimate"
-              style="color:var(--green);font-weight:600">Try our Fee Estimator →</a></p>
-        </div>
-      </section> -->
+          </section> -->
 
     <!-- APP -->
     <section class="app-section" style="padding:5rem 5%">
@@ -802,13 +806,13 @@
                 <p>Book sessions, join live classes, track progress, and connect with tutors — all from our free mobile app.
                 </p>
                 <div class="app-btns">
-                    <a href="#" class="store-btn"><i class="fab fa-apple"></i>
+                    <a href="https://apps.apple.com/cl/app/book-my-teacher/id6757139924" target="_blank" class="store-btn"><i class="fab fa-apple"></i>
                         <div class="store-btn-text">
                             <div class="small">Download on</div>
                             <div class="big">App Store</div>
                         </div>
                     </a>
-                    <a href="#" class="store-btn"><i class="fab fa-google-play"></i>
+                    <a target="_blank"  href="https://play.google.com/store/apps/details?id=coin.bookmyteacher.app&pcampaignid=web_share" class="store-btn"><i class="fab fa-google-play"></i>
                         <div class="store-btn-text">
                             <div class="small">Get it on</div>
                             <div class="big">Google Play</div>

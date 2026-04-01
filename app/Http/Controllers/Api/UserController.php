@@ -9,6 +9,7 @@ use App\Http\Resources\SocialLinkResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
 use App\Models\AppReferral;
+use App\Models\AppReview;
 use App\Models\CompanyContact;
 use App\Models\CompanyTeacher;
 use App\Models\CourseEnrollment;
@@ -735,8 +736,6 @@ class UserController extends Controller
         })
         ->filter()
         ->values();
-
-
     } else {
       return response()->json([
         "status"  => true,
@@ -833,5 +832,57 @@ class UserController extends Controller
       "recorded_link" => $model->recording_url ?? '',
       "status"       => $classStatus,
     ];
+  }
+
+
+
+  public function myReview(Request $request)
+  {
+    $user = $request->user();
+
+    $review = AppReview::where('user_id', $user->id)
+      ->first();
+
+    $total = AppReview::where('status', 'approved')->count();
+
+    if (!$review) {
+      return response()->json([
+        'status' => true,
+        'data' => null,
+        'total_reviews' => $total
+      ]);
+    }
+
+    return response()->json([
+      'status' => true,
+      'data' => [
+        'rating' => $review->rating,
+        'feedback' => $review->feedback,
+        'total_reviews' => $total
+      ]
+    ]);
+  }
+
+  /// ✅ CREATE / UPDATE REVIEW
+  public function writeReview(Request $request)
+  {
+
+    $user = $request->user();
+
+    $review = AppReview::updateOrCreate(
+      [
+        'user_id' => $user->id,
+      ],
+      [
+        'rating' => $request->rating,
+        'feedback' => $request->feedback
+      ]
+    );
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Review saved successfully',
+      'data' => $review
+    ]);
   }
 }

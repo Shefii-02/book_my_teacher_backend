@@ -55,6 +55,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/student-reviews', 'UserController@fetchingReviews');
 
 
+  Route::post('/my-review', 'UserController@fetchMyReview');
+
+  Route::post('/write-review', 'UserController@writeReview');
+
   // Route::get('/bottom-social-links', function () {
   //   $socials = [
   //     [

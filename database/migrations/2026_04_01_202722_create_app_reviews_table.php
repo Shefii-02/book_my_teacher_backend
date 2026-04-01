@@ -21,7 +21,7 @@ return new class extends Migration
       $table->boolean('show_dispaly')->default('0')->nullable();
       $table->timestamps();
 
-      $table->unique(['user_id', 'teacher_id']); // one review per user per teacher
+      $table->unique(['user_id']); // one review per user per teacher
     });
   }
 

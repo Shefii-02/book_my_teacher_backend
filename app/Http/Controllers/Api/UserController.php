@@ -835,7 +835,6 @@ class UserController extends Controller
   }
 
 
-
   public function myReview(Request $request)
   {
     $user = $request->user();

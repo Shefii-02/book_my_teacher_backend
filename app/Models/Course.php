@@ -105,6 +105,10 @@ class Course extends Model
     return $this->belongsTo(CourseSubCategory::class);
   }
 
+  public function courseClasses(){
+        return $this->hasMany(CourseClass::class, 'course_id')->orderBy('scheduled_at')->orderBy('priority', 'asc');;
+
+  }
 
   public function classes()
   {

@@ -849,7 +849,7 @@ class UserController extends Controller
 
     $total = AppReview::where('status', 'approved')->count();
 
-    Log::info($total);
+
 
     if (!$review) {
       return response()->json([
@@ -858,6 +858,7 @@ class UserController extends Controller
         'total_reviews' => $total
       ]);
     }
+    Log::info($total);
 
     return response()->json([
       'status' => true,

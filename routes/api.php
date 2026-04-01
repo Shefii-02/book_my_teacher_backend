@@ -55,9 +55,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::post('/student-reviews', 'UserController@fetchingReviews');
 
 
-  Route::post('/my-review', 'UserController@myReview');
-
-  Route::post('/write-review', 'UserController@writeReview');
 
   // Route::get('/bottom-social-links', function () {
   //   $socials = [
@@ -176,6 +173,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
   Route::group(['middleware' => ['auth:sanctum']], function () {
+
+
+  Route::post('/my-review', 'UserController@myReview');
+
+  Route::post('/write-review', 'UserController@writeReview');
 
     Route::post('/guest-signup', 'RegisterController@guestSignup');
     Route::post('/teacher-signup', 'RegisterController@teacherSignup');

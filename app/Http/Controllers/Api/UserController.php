@@ -839,10 +839,17 @@ class UserController extends Controller
   {
     $user = $request->user();
 
+    Log::info($user);
+
+
     $review = AppReview::where('user_id', $user->id)
       ->first();
 
+    Log::info($review);
+
     $total = AppReview::where('status', 'approved')->count();
+
+    Log::info($total);
 
     if (!$review) {
       return response()->json([

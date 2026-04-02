@@ -23,9 +23,9 @@ class RestrictApiAccess
     $userAgent = $request->header('User-Agent');
 
     // Block common tool identifiers
-    if (preg_match('/(PostmanRuntime|curl|Wget)/i', $userAgent)) {
-      return response()->json(['error' => 'Direct API access is disabled.'], 403);
-    }
+    // if (preg_match('/(PostmanRuntime|curl|Wget)/i', $userAgent)) {
+    //   return response()->json(['error' => 'Direct API access is disabled.'], 403);
+    // }
 
     // if (!$request->ajax()) {
     //     return response()->json(['error' => 'Only AJAX requests allowed.'], 403);

@@ -186,7 +186,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/take-referral', 'ReferralController@takeReferral');
     Route::post('/apply-referral', 'ReferralController@applyReferral');
 
-    Route::get('/user', function (Request $request) {
+    Route::post('/user', function (Request $request) {
       return $request->user();
     });
 

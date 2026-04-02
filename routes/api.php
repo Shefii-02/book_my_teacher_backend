@@ -175,9 +175,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
-  Route::post('/my-review', 'UserController@myReview');
+    Route::post('/my-review', 'UserController@myReview');
 
-  Route::post('/write-review', 'UserController@writeReview');
+    Route::post('/write-review', 'UserController@writeReview');
 
     Route::post('/guest-signup', 'RegisterController@guestSignup');
     Route::post('/teacher-signup', 'RegisterController@teacherSignup');
@@ -186,7 +186,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/take-referral', 'ReferralController@takeReferral');
     Route::post('/apply-referral', 'ReferralController@applyReferral');
 
-
+    Route::get('/user', function (Request $request) {
+      return $request->user();
+    });
 
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
     Route::post('/user-verify-email', 'LoginController@userVerifyEmail');

@@ -1433,8 +1433,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-Route::middleware(['restrict.api.access'])->group(function () {
-  Route::get('/user', function (Request $request) {
-    return $request->user();
-  });
-});
+// Route::middleware(['restrict.api.access'])->group(function () {
+//   Route::get('/user', function (Request $request) {
+//     return $request->user();
+//   });
+// });

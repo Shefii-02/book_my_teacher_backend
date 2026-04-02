@@ -17,9 +17,9 @@ class RestrictApiAccess
   {
     $allowedDomain = config('app.api_allowed_domain');
 
-    if ($request->getHost() !== $allowedDomain) {
-      return response()->json(['error' => 'Unauthorized domain access'], 403);
-    }
+    // if ($request->getHost() !== $allowedDomain) {
+    //   return response()->json(['error' => 'Unauthorized domain access'], 403);
+    // }
     $userAgent = $request->header('User-Agent');
 
     // Block common tool identifiers

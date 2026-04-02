@@ -186,10 +186,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/take-referral', 'ReferralController@takeReferral');
     Route::post('/apply-referral', 'ReferralController@applyReferral');
 
-    // Route::any('/user', function (Request $request) {
-    //   Log::info(1000000000000);
-    //   return $request->user();
-    // });
+    Route::any('/user', function (Request $request) {
+      $user = $request->user();
+      Log::info(1000000000000);
+      return response()->json([
+        'data'             => $user
+      ]);
+    });
 
     Route::post('/google-login-check', 'LoginController@googleLoginCheck');
     Route::post('/user-verify-email', 'LoginController@userVerifyEmail');
@@ -1434,12 +1437,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-Route::middleware(['restrict.api.access'])->group(function () {
-  Route::get('/user', function (Request $request) {
-    $user = $request->user();
-    Log::info('00000001111110000000');
-    Log::info($user);
-    Log::info('00000001111110000000');
-    return $user;
-  });
-});
+// Route::middleware(['restrict.api.access'])->group(function () {
+//   Route::get('/user', function (Request $request) {
+//     $user = $request->user();
+//     Log::info('00000001111110000000');
+//     Log::info($user);
+//     Log::info('00000001111110000000');
+//     return $user;
+//   });
+// });

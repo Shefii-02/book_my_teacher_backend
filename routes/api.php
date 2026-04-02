@@ -187,6 +187,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/apply-referral', 'ReferralController@applyReferral');
 
     Route::any('/user', function (Request $request) {
+      Log::info(1000000000000);
       return $request->user();
     });
 

@@ -25,7 +25,7 @@ return new class extends Migration
     });
     Schema::connection('mysql2')->table('conversation_members', function (Blueprint $table) {
 
-      $table->timestamp('created_at');   $table->timestamp('updated_at');
+      $table->timestamp('created_at')->nullable();   $table->timestamp('updated_at')->nullable();
     });
   }
 

@@ -148,9 +148,9 @@ class ChatController extends Controller
           'id'           => $c->conversation_id,
           'name'         => $c->user?->name ?? 'Chat',
           'avatar'       => $c->user?->avatar_url ?? 'https://ui-avatars.com/api/' . trim($c->user?->name) ?? 'Chat',
-          'acc_type'     => $c->user?->role ?? 'user',
+          'acc_type'     => $c->user?->role ?? 'user112',
           'last_message' => $last?->content ?? '',
-          'last_time'    => $last?->created_at?->diffForHumans() ?? '',
+          'last_time'    => $c->user?->last_seen ?? '',
 
           'is_read'      => $isRead,
           'unread_count' => $unreadCount,

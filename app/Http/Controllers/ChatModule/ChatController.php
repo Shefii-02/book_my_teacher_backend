@@ -145,7 +145,7 @@ class ChatController extends Controller
         $otherUser = $c->users->firstWhere('id', '!=', $userId);
 
         return [
-          'id'           => $c->id,
+          'id'           => $c->conversation_id,
           'name'         => $c->user?->name ?? 'Chat',
           'avatar'       => $c->user?->avatar_url ?? 'https://ui-avatars.com/api/' . trim($c->user?->name) ?? 'Chat',
 

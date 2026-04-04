@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChatModule\Conversation;
+use App\Models\ChatModule\ConversationMember;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -208,6 +210,26 @@ class RegisterController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        $companyId          = User::where('company_id', $company_id)->where('acc_type', 'company')->first();
+
+        $conversation       =  new Conversation();
+        $conversation->type = 'direct';
+        $conversation->name = 'Chat With Admin';
+        $conversation->avatar_url = NULL;
+        $conversation->created_by = $user->id;
+        $conversation->save();
+
+        $conversationMember                  = new ConversationMember();
+        $conversationMember->conversation_id = $conversation->id;
+        $conversationMember->user_id         = $user->id;
+        $conversationMember->save();
+
+
+        $conversationMemberAdmin                  = new ConversationMember();
+        $conversationMemberAdmin->conversation_id = $conversation->id;
+        $conversationMemberAdmin->user_id         = $companyId->id;
+        $conversationMemberAdmin->save();
+
         return response()->json([
           'message'           => 'Teacher registered successfully',
           'user'              => $user,
@@ -340,6 +362,27 @@ class RegisterController extends Controller
         Log::info($user);
 
         $token = $user->createToken('auth_token')->plainTextToken;
+
+
+        $companyId          = User::where('company_id', $company_id)->where('acc_type', 'company')->first();
+
+        $conversation       =  new Conversation();
+        $conversation->type = 'direct';
+        $conversation->name = 'Chat With Admin';
+        $conversation->avatar_url = NULL;
+        $conversation->created_by = $user->id;
+        $conversation->save();
+
+        $conversationMember                  = new ConversationMember();
+        $conversationMember->conversation_id = $conversation->id;
+        $conversationMember->user_id         = $user->id;
+        $conversationMember->save();
+
+
+        $conversationMemberAdmin                  = new ConversationMember();
+        $conversationMemberAdmin->conversation_id = $conversation->id;
+        $conversationMemberAdmin->user_id         = $companyId->id;
+        $conversationMemberAdmin->save();
 
         return response()->json([
           'message'           => 'Student registered successfully',

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ChatModule\Conversation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -143,6 +144,13 @@ class Course extends Model
   }
 
 
+  public function conversation()
+  {
+    return $this->hasMany(Conversation::class,'course_id','id');
+  }
+
+
+
 
   public function getValidityAttribute()
   {
@@ -156,4 +164,7 @@ class Course extends Model
 
     return $start . ' - ' . $end;
   }
+
+
+
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\LMS;
 
 use App\Helpers\MediaHelper;
 use App\Http\Controllers\Controller;
+use App\Models\ChatModule\Conversation;
+use App\Models\ChatModule\ConversationMember;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\CourseEnrollment;
@@ -579,5 +581,89 @@ class CourseController extends Controller
     CourseEnrollment::where('id', $id)->delete();
 
     return response()->json(['success' => true]);
+  }
+
+
+  public function searchUsers(Request $request)
+{
+    $query = $request->q;
+
+    $users = User::where('company_id', auth()->user()->company_id)
+        ->where('profile_fill', 1)
+        ->where(function ($q2) use ($query) {
+            $q2->where('name', 'LIKE', "%$query%")
+               ->orWhere('email', 'LIKE', "%$query%");
+        })
+        ->limit(10)
+        ->get();
+
+    return response()->json($users);
+}
+
+  public function manageConversation($id)
+  {
+    $course = Course::where('course_identity', $id)->firstOrFail();
+
+    // Get conversation with members
+  $conversation = Conversation::with('members.user')
+    ->where('course_id', $course->id)
+    ->first();
+
+    // Get teachers
+    $users = User::where('profile_fill', 1)
+      ->where('company_id', auth()->user()->company_id)
+      ->get();
+
+    return view('company.courses.manage-conversation', compact(
+      'course',
+      'conversation',
+      'users'
+    ));
+  }
+
+  public function addonMembersToGroupSave(Request $request, $id)
+  {
+
+
+    $course = Course::where('course_identity', $id)->firstOrFail();
+
+    $users = $request->users ?? [];
+
+    if (empty($users)) {
+      return back()->with('error', 'Please select at least one teacher');
+    }
+
+    // 1️⃣ Create conversation if not exists
+    $conversation = Conversation::updateOrCreate(
+      ['course_id' => $course->id],
+      [
+        'type' => 'group',
+        'name' => $request->title
+      ]
+    );
+
+    // 2️⃣ Existing members
+    $existing = ConversationMember::where('conversation_id', $conversation->id)
+      ->pluck('user_id')
+      ->toArray();
+
+    // 3️⃣ Add new teachers
+    $toAdd = array_diff($users, $existing);
+
+    foreach ($toAdd as $userId) {
+      ConversationMember::create([
+        'conversation_id' => $conversation->id,
+        'user_id' => $userId
+      ]);
+    }
+
+    // 4️⃣ Remove unselected teachers
+    $toRemove = array_diff($existing, $users);
+
+    ConversationMember::where('conversation_id', $conversation->id)
+      ->whereIn('user_id', $toRemove)
+      ->delete();
+
+    return back()->with('success', 'Group updated successfully');
   }
 }

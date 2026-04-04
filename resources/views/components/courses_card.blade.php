@@ -33,42 +33,47 @@
             <i class="bi bi-three-dots-vertical text-dark"></i>
         </button>
 
-        <div id="dropdown_{{ $course->id }}"
-            class="hidden absolute right-0 mt-2 w-28 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded-lg shadow-lg text-sm">
 
-            @if ($course->status === 'published')
-                <a href="{{ route('company.courses.show', $course->course_identity) }}"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
-                    View
-                </a>
-                <a href="{{ route('company.courses.schedule-class.index', $course->course_identity) }}"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
-                    Classes
-                </a>
-                <a href="{{ route('company.courses.materials.index', $course->course_identity) }}"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
-                    Materials
-                </a>
-                  <a role="button" data-url="{{ route('company.courses.addon-teacher-edit', $course->course_identity) }}"
-                    class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-slate-700">
-                    Addon Teacher
-                </a>
-                 <a href="{{ route('company.courses.admissions', $course->course_identity) }}"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
-                    Admission Users
-                </a>
-            @endif
+    </div>
+    <div id="dropdown_{{ $course->id }}"
+        class="hidden absolute right-0 mt-2 w-28 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded-lg shadow-lg text-sm">
 
-            <a href="{{ route('company.courses.create', ['draft' => $course->course_identity]) }}"
+        @if ($course->status === 'published')
+            <a href="{{ route('company.courses.show', $course->course_identity) }}"
                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
-                Edit
+                View
             </a>
+            <a href="{{ route('company.courses.schedule-class.index', $course->course_identity) }}"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
+                Classes
+            </a>
+            <a href="{{ route('company.courses.materials.index', $course->course_identity) }}"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
+                Materials
+            </a>
+            <a role="button" data-url="{{ route('company.courses.addon-teacher-edit', $course->course_identity) }}"
+                class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-slate-700">
+                Addon Teacher
+            </a>
+            <a href="{{ route('company.courses.admissions', $course->course_identity) }}"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
+                Admission Users
+            </a>
+             <a role="button" data-url="{{ route('company.courses.manage-conversation', $course->course_identity) }}"
+                class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-slate-700">
+                {{ $course->conversation->count() ? 'Edit' : 'Create' }} Group Chat
+            </a>
+        @endif
 
-            <button onclick="confirmDelete({{ $course->id }})"
-                class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
-                Delete
-            </button>
-        </div>
+        <a href="{{ route('company.courses.create', ['draft' => $course->course_identity]) }}"
+            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
+            Edit
+        </a>
+
+        <button onclick="confirmDelete({{ $course->id }})"
+            class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
+            Delete
+        </button>
     </div>
     {{-- CONTENT --}}
     <div class="p-4 flex flex-col h-[230px]">

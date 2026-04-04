@@ -239,6 +239,9 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::resource('courses/subcategories', 'LMS\CourseSubCategoryController')->names('subcategories');
   Route::get('/categories/{id}/subcategories', 'LMS\CourseController@getSubcategories');
 
+      Route::get('/conversation-search-users', 'LMS\CourseController@searchUsers')
+      ->name('conversation.search.users');
+
   // /admin/courses/load-step-form/${step}?course_id=${courseId}
   Route::get('courses/load-step-form/{step}', 'LMS\CourseController@loadStepForm')->name('courses.load-step-form');
   Route::prefix('courses/{identity}')->group(function () {
@@ -248,6 +251,16 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
       ->name('courses.addonTeachersSave');
     Route::get('admissions', 'LMS\CourseController@admissionUsers')
       ->name('courses.admissions');
+
+    Route::get('manage-conversation', 'LMS\CourseController@manageConversation')
+      ->name('courses.manage-conversation');
+    Route::post('manage-conversation/update', 'LMS\CourseController@addonMembersToGroupSave')
+      ->name('courses.manage-conversation-update');
+
+
+    Route::get('search-conversation-user', 'LMS\CourseController@searchConversationUser')
+      ->name('courses.search-conversation-user');
+
 
     Route::post('/admission/suspend', 'LMS\CourseController@suspendEnrollment');
     Route::delete('/admission/{id}', 'LMS\CourseController@emoveEnrollment');
@@ -350,6 +363,10 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   // Route::resource('schedule-class/{identity}', CourseClassController::class)->names('courses.schedule-class');
   Route::resource('livestreams', LivestreamClassController::class)->names('livestreams');
   Route::resource('class-permissions', CourseClassPermissionController::class);
+
+
+  Route::post('webinar/registration/confirm', 'dashboard\WebinarController@confirmRegistration')->name('webinars.registration.confirm');
+  Route::post('webinar/registration/remove', 'dashboard\WebinarController@removeRegistration')->name('webinars.registration.remove');
 
   Route::get('webinars/{webinar}/admissions', 'LMS\WebinarController@admissions')->name('webinars.admissions');
   Route::resource('webinars', 'LMS\WebinarController')->names('webinars');

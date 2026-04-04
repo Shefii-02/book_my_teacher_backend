@@ -261,7 +261,7 @@
 
                 let id = this.dataset.id;
 
-                fetch('/webinar-registration/confirm', {
+                fetch('/company/webinar/registration/confirm', {
 
                         method: 'POST',
 
@@ -299,7 +299,7 @@
 
                 if (!confirm('Remove this registration?')) return;
 
-                fetch('/webinar-registration/' + id, {
+                fetch('/company/webinar/registration/remove' + id, {
 
                         method: 'DELETE',
 

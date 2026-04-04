@@ -10,15 +10,22 @@ class ConversationMember extends Model
   protected $connection = 'mysql2';
   protected $table = 'conversation_members';
 
+   protected $fillable = [
+    'conversation_id',
+    'user_id',
+    'joined_at'
+  ];
+
+
     public function messages()
   {
     return $this->hasMany(Message::class, 'conversation_id');
   }
 
-  public function user()
-  {
-    return $this->hasOne(User::class, 'user_id','user_id');
-  }
+public function user()
+{
+    return $this->hasOne(User::class,'user_id','user_id');
+}
 
   public function users()
   {

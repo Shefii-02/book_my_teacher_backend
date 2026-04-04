@@ -59,6 +59,14 @@ return [
       ]) : [],
     ],
 
+    'mysql2' => [
+        'driver' => 'mysql',
+        'host' => env('DB_SECOND_HOST'),
+        'database' => env('DB_SECOND_DATABASE'),
+        'username' => env('DB_SECOND_USERNAME'),
+        'password' => env('DB_SECOND_PASSWORD'),
+    ],
+
     'mariadb' => [
       'driver' => 'mariadb',
       'url' => env('DB_URL'),

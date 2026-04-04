@@ -11,8 +11,28 @@ use Kreait\Firebase\Messaging\Notification;
 use App\Http\Controllers\NotificationController;
 use Google\Auth\Credentials\ServiceAccountCredentials;
 
+use App\Http\Controllers\ChatModule\ChatController;
+use App\Http\Controllers\ChatModule\MessageController;
+use App\Http\Controllers\ChatModule\LabelController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth', 'company_panel'], 'namespace' => 'App\Http\Controllers'], function () {
+
+  Route::group(['prefix' => 'chat', 'as' => 'chat.'], function () {
+    Route::get('/', [ChatController::class, 'index'])->name('index');
+    Route::get('/conversations', [ChatController::class, 'getConversations']);
+    Route::get('/messages/{id}', [ChatController::class, 'messages']);
+
+    Route::post('/send', [MessageController::class, 'send']);
+    Route::post('/delete/{id}', [MessageController::class, 'delete']);
+    Route::post('/report/{id}', [MessageController::class, 'report']);
+
+
+    Route::post('/chat/add-label', [ChatController::class, 'addLabel']);
+    Route::get('/chat/labels', [ChatController::class, 'labels']);
+  });
+
 
   Route::get('global-search', 'GlobalSearchController@search')
     ->name('global.search');
@@ -151,6 +171,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::post('/top-teachers/toggle', 'TopTeacherController@toggle');
     Route::post('/top-teachers/reorder', 'TopTeacherController@reorder');
   });
+
 
 
 
@@ -565,4 +586,72 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('/send-notification', [NotificationController::class, 'sendPush']);
   Route::get('/send-notification-to-user', [NotificationController::class, 'sendToUser']);
   Route::get('/send-notification-to-topic', [NotificationController::class, 'sendToTopic']);
+
+  Route::get('/chat-init', function () {
+
+    $users = DB::table('users')
+      ->where('company_id', '1')
+      ->where('profile_fill', 1)
+      ->get();
+
+    foreach ($users as $user) {
+
+      // ✅ 1. Insert into db2.users (if not exists)
+      $exists = DB::connection('mysql2')
+        ->table('users')
+        ->where('user_id', $user->id)
+        ->exists();
+
+      if (!$exists) {
+
+        DB::connection('mysql2')->table('users')->insert([
+          'user_id'    => $user->id,
+          'name'       => $user->name,
+          'email'      => $user->email,
+          'mobile'     => $user->mobile,
+          'company_id' => $user->company_id,
+          'role'       => $user->acc_type ?? 'student',
+          'avatar_url' => $user->avatar_url ?? null,
+          'created_at' => now(),
+        ]);
+      }
+      if ($user->id != auth()->user()->id) {
+        // ✅ 2. Check conversation already exists
+        $conversationExists = DB::connection('mysql2')
+          ->table('conversation_members as cm1')
+          ->join('conversation_members as cm2', 'cm1.conversation_id', '=', 'cm2.conversation_id')
+          ->where('cm1.user_id', $user->id)
+          ->where('cm2.user_id', 1) // admin
+          ->exists();
+
+        if ($conversationExists) {
+          continue;
+        }
+
+        // ✅ 3. Create conversation
+        $convId = DB::connection('mysql2')->table('conversations')->insertGetId([
+          'type'       => 'direct',
+          'name'       => 'Chat with Admin',
+          'created_by' => auth()->user()->id,
+          'created_at' => now(),
+        ]);
+
+
+        // ✅ 4. Add members
+        DB::connection('mysql2')->table('conversation_members')->insert([
+          [
+            'conversation_id' => $convId,
+            'user_id'         => $user->id
+          ],
+          [
+            'conversation_id' => $convId,
+            'user_id'         => auth()->user()->id // admin
+          ]
+        ]);
+      }
+      Log::info("Conversation created for User ID: {$user->id}");
+    }
+
+    Log::alert('Successully completed');
+  });
 });

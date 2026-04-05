@@ -1102,12 +1102,16 @@ class TeacherController extends Controller
 // Log::info($courseDetail);
 Log::info($classes);
 // Log::info($courseMaterial);
-
-    return response()->json([
+  return response()->json([
       "course" => $courseDetail,
-      "classes" => $classes,
-      "materials" => $courseMaterial,
+      "classes" =>  collect(),
+      "materials" => collect(),
     ]);
+    // return response()->json([
+    //   "course" => $courseDetail,
+    //   "classes" => $classes,
+    //   "materials" => $courseMaterial,
+    // ]);
   }
 
 

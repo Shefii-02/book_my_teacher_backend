@@ -75,6 +75,7 @@ class CourseClassController extends Controller
       DB::commit();
       return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class created successfully.');
     } catch (Exception $e) {
+      Log::info($e->getMessage());
       DB::rollBack();
       return redirect()->back()->with('error', $e->getMessage());
     }

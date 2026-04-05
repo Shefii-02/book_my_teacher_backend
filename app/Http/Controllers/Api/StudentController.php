@@ -677,7 +677,7 @@ class StudentController extends Controller
         }
       });
 
-    Log::info($sections);
+
 
     return response()->json([
       'status'  => true,
@@ -1157,7 +1157,7 @@ class StudentController extends Controller
 
   public function fetchWebinarDetail(Request $request): JsonResponse
   {
-    Log::info($request->all());
+
     $id = $request->webinar_id;
 
     $course = Webinar::where('id', $id)->first();
@@ -1218,7 +1218,7 @@ class StudentController extends Controller
 
 
     $materials = MaterialResource::collection($course->materials ?? []);
-    Log::info($course->classes);
+
     $courseClass = ClassLinkResource::collection($course->classes);
 
     return response()->json([
@@ -1236,7 +1236,7 @@ class StudentController extends Controller
 
   public function performance(Request $request)
   {
-    Log::info($request->user());
+
     // Dummy response (you can replace with DB values later)
     $data = [
       "total_classes" => 0,
@@ -1264,10 +1264,10 @@ class StudentController extends Controller
     $company_id = 1;
     $student = $request->user();
     $student_id = $student->id;
-    Log::info($request->all());
+
 
     $user = User::where('id', $student_id)->where('company_id', $company_id)->first();
-    Log::info($user);
+
 
     try {
       if ($user) {
@@ -1317,7 +1317,7 @@ class StudentController extends Controller
         $user->save();
         DB::commit();
         $user->refresh();
-        Log::info($user);
+
 
         return response()->json([
           'status'            => true,
@@ -1432,7 +1432,7 @@ class StudentController extends Controller
       // ->filter(fn($g) => $g['items']->isNotEmpty())
       ->values();
 
-    Log::info($data);
+
 
     return response()->json([
       'status' => true,

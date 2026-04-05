@@ -20,7 +20,7 @@ class RequestController extends Controller
   // -------------------------
   public function general(Request $request)
   {
-    Log::info("📝 Request Form Submitted:", $request->all());
+
     $user = $request->user();
     $company_id = 1;
     GeneralRequest::create([
@@ -42,7 +42,7 @@ class RequestController extends Controller
   public function banner(Request $request)
   {
     $company_id = 1;
-    Log::info("📢 Top Banner Request:", $request->all());
+
     $user = $request->user();
     BannerRequest::create([
       'banner_id' => $request->banner_id,
@@ -57,8 +57,7 @@ class RequestController extends Controller
   public function course(Request $request)
   {
     $company_id = 1;
-    Log::info("📢 course Request-1:", $request->all());
-    Log::info("-----");
+
     $user = $request->user();
     $user                     = $request->user();
     $courseReq = CourseRegistration::where('user_id', $user->id)->where('course_id', $request->course_id)->where('company_id', $company_id)->first();
@@ -72,7 +71,7 @@ class RequestController extends Controller
       $courseReq->checked_in   = 0;
       $courseReq->company_id   = 1;
       // $courseReq->attended_status =  0;
-      Log::info($courseReq);
+
       $courseReq->save();
     } else {
       return response()->json(['status' => false, 'message' =>  'Course already requested.']);
@@ -84,7 +83,7 @@ class RequestController extends Controller
   public function webinar(Request $request)
   {
     $company_id = 1;
-    Log::info("📢 webinar Request:", $request->all());
+
     $user                     = $request->user();
     $webinarReq = WebinarRegistration::where('user_id', $user->id)->where('webinar_id', $request->webinar_id)->where('company_id', $company_id)->first();
     if (!$webinarReq) {
@@ -108,7 +107,7 @@ class RequestController extends Controller
   public function workshop(Request $request)
   {
     $company_id = 1;
-    Log::info("📢 workshop Request:", $request->all());
+
 
     $user                     = $request->user();
     $workshopReq = WorkshopRegistration::where('user_id', $user->id)->where('workshop_id', $request->workshop_id)->where('company_id', $company_id)->first();
@@ -139,7 +138,7 @@ class RequestController extends Controller
   // -------------------------
   public function teacher(Request $request)
   {
-    Log::info("👨‍🏫 Teacher Class Request:", $request->all());
+
     $user = $request->user();
     $company_id = 1;
     TeacherClassRequest::create([
@@ -159,7 +158,7 @@ class RequestController extends Controller
 
   public function subject(Request $request)
   {
-    Log::info("👨‍🏫 Subject Class Request:", $request->all());
+
     $user = $request->user();
     $company_id = 1;
     $subject = Subject::where('id', $request->subject_id)->first();
@@ -202,7 +201,7 @@ class RequestController extends Controller
 
   // public function findingTeachers(Request $request)
   // {
-  //   Log::info($request->all());
+
   //   return response()->json([
   //     "status" => true,
   //     "message" => "Teachers found",
@@ -260,7 +259,7 @@ class RequestController extends Controller
   // }
   // public function findingTeachers(Request $request)
   // {
-  //   Log::info($request->all());
+
 
   //   // 🔎 Example Filters
   //   $grade = $request->grade;

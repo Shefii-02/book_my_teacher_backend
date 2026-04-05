@@ -53,7 +53,7 @@ class LoginController extends Controller
 
       // ✅ Verify Google ID Token (ONLY if token exists)
       if ($idToken) {
-        Log::info('Google idToken received (partial): ' . substr($idToken, 0, 40) . '...');
+
 
         $client = new \Google_Client([
           'client_id' => config('services.google.client_id'), // WEB CLIENT ID
@@ -86,7 +86,6 @@ class LoginController extends Controller
         ], 400);
       }
 
-      Log::info("Google login email: {$email}");
 
       // ✅ If already authenticated user (link Google)
       if ($authUser) {
@@ -165,7 +164,6 @@ class LoginController extends Controller
         ], 400);
       }
 
-      Log::info("Google login email: {$email}");
 
       // ✅ Find existing user
       $user = User::where('email', $email)
@@ -212,14 +210,12 @@ class LoginController extends Controller
   //   try {
 
   //     $user = $request->user();
-  //     Log::info('user: ' . $user);
+
 
   //     $idToken = $request->input('idToken');
   //     $emialID = $request->input('email');
-  //     Log::info('idToken: ' . substr($idToken, 0, 50) . '...'); // log partial token for safety
 
   //     if (!$idToken && !$emialID) {
-  //       Log::info('Missing idToken');
   //       return response()->json([
   //         'status' => 'error',
   //         'message' => 'Missing idToken'
@@ -233,32 +229,26 @@ class LoginController extends Controller
 
 
   //     if (!$payload && !$emialID) {
-  //       Log::info('Invalid Google token');
   //       return response()->json([
   //         'status' => 'error',
   //         'message' => 'Invalid Google token'
   //       ]);
   //     }
 
-  //     Log::info('Google payload: ' . json_encode($payload, JSON_PRETTY_PRINT));
 
   //     $email = $payload['email'] ?? $emialID;
 
   //     if (!$email) {
-  //       Log::info('Email not found in token');
   //       return response()->json([
   //         'status' => 'error',
   //         'message' => 'Email not found in token'
   //       ]);
   //     }
 
-  //     Log::info("Checking user with email: {$email}");
 
   //     // ✅ Check if email exists in your users table
   //     $userEx = User::where('email', $email)->where('company_id', 1)->first();
-  //     Log::info($userEx);
   //     if ($user) {
-  //       Log::info("User found: {$user->id}");
   //       $user->email = $email;
   //       $user->email_verified_at = now();
   //       $user->save();
@@ -268,7 +258,6 @@ class LoginController extends Controller
   //       ]);
   //     } else if ($userEx) {
   //       //login user
-  //       Log::info("createToken");
   //       // Revoke all existing tokens
   //       $userEx->tokens()->delete();
 
@@ -284,14 +273,12 @@ class LoginController extends Controller
   //         'token'   => $token,
   //       ], 200);
   //     } else {
-  //       Log::info("User not found for email: {$email}");
   //       return response()->json([
   //         'status' => 'error',
   //         'message' => 'Account not found. Please sign up normally.',
   //       ]);
   //     }
   //   } catch (\Exception $e) {
-  //     Log::error('Google login check failed: ' . $e->getMessage());
   //     return response()->json([
   //       'status' => 'error',
   //       'message' => $e->getMessage(),
@@ -345,7 +332,6 @@ class LoginController extends Controller
 
       // ✅ Verify Google ID token if provided
       if ($idToken) {
-        Log::info('Google idToken received (partial): ' . substr($idToken, 0, 40) . '...');
 
         $client = new \Google_Client([
           'client_id' => config('services.google.client_id'), // WEB CLIENT ID
@@ -360,10 +346,7 @@ class LoginController extends Controller
           ], 401);
         }
 
-        Log::info('Google token verified', [
-          'email' => $payload['email'] ?? null,
-          'aud'   => $payload['aud'] ?? null,
-        ]);
+
 
         $email = $payload['email'] ?? null;
       }
@@ -385,7 +368,7 @@ class LoginController extends Controller
       $user->email_verified_at = now();
       $user->save();
 
-      Log::info('User email verified successfully', ['user_id' => $user->id]);
+
 
       return response()->json([
         'success' => true,
@@ -472,7 +455,6 @@ class LoginController extends Controller
 
   //     $idToken = $request->input('idToken');
   //     $emailID = $request->input('email');
-  //     Log::info('idToken: ' . substr($idToken, 0, 50) . '...'); // log partial token for safety
 
   //     if (!$idToken && !$emailID) {
   //       return response()->json([
@@ -491,8 +473,6 @@ class LoginController extends Controller
   //         'message' => 'Invalid Google token'
   //       ]);
   //     }
-
-  //     Log::info('Google payload: ' . json_encode($payload, JSON_PRETTY_PRINT));
 
   //     $email = $payload['email'] ?? $emailID;
 

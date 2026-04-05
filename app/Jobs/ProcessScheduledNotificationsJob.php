@@ -29,7 +29,6 @@ class ProcessScheduledNotificationsJob implements ShouldQueue
             return;
         }
 
-        Log::info("Processing {$notifications->count()} scheduled notifications");
 
         foreach ($notifications as $notification) {
             try {
@@ -95,10 +94,7 @@ class ProcessScheduledNotificationsJob implements ShouldQueue
         // Mark as sent
         $notification->update(['sent_at' => now()]);
 
-        Log::info('Notification dispatched', [
-            'notification_id' => $notification->id,
-            'user_count'      => $users->count(),
-        ]);
+
     }
 
     private function resolveUsers(Notification $notification)

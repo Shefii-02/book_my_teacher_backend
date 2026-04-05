@@ -86,20 +86,11 @@ class UserController extends Controller
   public function getUserDetails(Request $request)
   {
 
-    // Log::info($request->header());
-    //     Log::info($request->all());
-    // $token = $request->input('token');
 
-    // if (!$token) {
-    //   return response()->json([
-    //     'status' => 'error',
-    //     'message' => 'Token is required'
-    //   ], 400);
-    // }
 
     $user = $request->user();
 
-    // Log::info($user);
+
 
     if (!$user) {
       return response()->json([
@@ -180,8 +171,7 @@ class UserController extends Controller
   public function userLogout(Request $request)
   {
     $user = $request->user();
-    Log::info($user);
-    Log::info("Logouted");
+
     return response()->json([
       'success' => true,
       'message' => 'Logout successfully'
@@ -216,27 +206,18 @@ class UserController extends Controller
       'data' => $deleteReq
     ]);
 
-    // Log::info($user);
-    // Log::info("Delete Account Request Received");
-    // return response()->json([
-    //   'success' => true,
-    //   'message' => 'Account Deletion Request Received'
-    // ], 200);
+
   }
 
   public function  userDataRetrieve(Request $request)
   {
     try {
       $user = $request->user();
-      if (!$user) {
-        Log::info("user founded");
-      }
+
       $accountStatusResponse = accountStatus($user);
       $accountMsg = $accountStatusResponse['accountMsg'];
       $steps = $accountStatusResponse['steps'];
-      // Log::info('User data retrieved', [
-      //   'user' => (new UserResource($user, $accountMsg, $steps))->toArray(request()),
-      // ]);
+
 
       return response()->json([
         'success' => true,
@@ -343,7 +324,7 @@ class UserController extends Controller
         ]);
       }
     } catch (Exception $e) {
-      Log::info($e);
+
       DB::rollBack();
       return response()->json([
         'success' => false,
@@ -370,7 +351,6 @@ class UserController extends Controller
     $transReq->status = 'pending';
     $transReq->save();
 
-    Log::info('👨‍🏫 Transfer to Bank Account:', $request->all());
 
     return response()->json([
       'success' => true,
@@ -839,13 +819,13 @@ class UserController extends Controller
   {
     $user = $request->user();
 
-    Log::info($user);
+
 
 
     $review = AppReview::where('user_id', $user->id)
       ->first();
 
-    Log::info($review);
+
 
     $total = AppReview::where('status', 'approved')->count();
 
@@ -858,7 +838,6 @@ class UserController extends Controller
         'total_reviews' => $total
       ]);
     }
-    Log::info($total);
 
     return response()->json([
       'status' => true,

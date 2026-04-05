@@ -54,7 +54,7 @@ class SettingsController extends Controller
 
   public function feedbackStore(Request $request)
   {
-    Log::info($request->all());
+
     return redirect()->back()->with('success', 'Your feedback saved successfully');
   }
 }

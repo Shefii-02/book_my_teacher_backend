@@ -70,9 +70,6 @@ class TeacherController extends Controller
     $accountMsg = $accountStatusResponse['accountMsg'];
     $steps = $accountStatusResponse['steps'];
 
-    Log::info('User data retrieved', [
-      'user' => (new UserResource($teacher, $accountMsg, $steps))->toArray(request()),
-    ]);
 
 
     return response()->json([
@@ -97,11 +94,11 @@ class TeacherController extends Controller
     $company_id = 1;
     $teacher = $request->user();
     $teacher_id = $teacher->id;
-    Log::info($request->all());
+
 
 
     $user = User::where('id', $teacher_id)->where('company_id', $company_id)->first();
-    Log::info($user);
+
 
     try {
       if ($user) {
@@ -151,7 +148,7 @@ class TeacherController extends Controller
         $user->save();
         DB::commit();
         $user->refresh();
-        Log::info($user);
+
 
         return response()->json([
           'status'            => true,
@@ -239,7 +236,7 @@ class TeacherController extends Controller
       $user->save();
       DB::commit();
       $user->refresh();
-      Log::info($user);
+
 
       return response()->json([
         'status'            => true,
@@ -257,10 +254,10 @@ class TeacherController extends Controller
 
   public function teacherUpdateCv(Request $request)
   {
-    Log::info("CV Updating");
+
     $user = $request->user();
     $company_id = 1;
-    Log::info($request->all());
+
     try {
       if ($request->hasFile('cv_file')) {
 
@@ -276,7 +273,7 @@ class TeacherController extends Controller
           time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension(),
           'public'
         );
-        Log::info($cvPath);
+
 
         MediaFile::create([
           'user_id' => $user->id,
@@ -287,7 +284,7 @@ class TeacherController extends Controller
           'mime_type'  => $file->getMimeType(),
         ]);
 
-        Log::info($cvPath);
+
         $user->save();
         DB::commit();
       }
@@ -315,10 +312,10 @@ class TeacherController extends Controller
   //   $end   = Carbon::parse($month)->addMonths(2)->endOfMonth();
 
   //   $user = $request->user();
-  //   Log::info($user);
+
   //   $teacher = Teacher::where('user_id', $user->id)->first();
   //   $start = Carbon::today();
-  //   Log::info($teacher);
+
 
   //   /* ---------------------------------
   //    | Webinar Classes (host_id)
@@ -367,7 +364,7 @@ class TeacherController extends Controller
   //     ->groupBy('date')
   //     ->sortKeys();
 
-  //     Log::info($events);
+
 
 
   //   $events = $events->sortBy(fn($item) => Carbon::parse($item['_start_datetime']))
@@ -380,7 +377,7 @@ class TeacherController extends Controller
   //     })
   //     ->toArray();
 
-  //   Log::info($events);
+
 
   //   return response()->json([
   //     "month"      => $month,
@@ -774,10 +771,10 @@ class TeacherController extends Controller
 
 
     $user = $request->user();
-    Log::info($user);
+
     $teacher = Teacher::where('user_id', $user->id)->first();
     $start = Carbon::today();
-    Log::info($teacher);
+
     /* ------------------------------
          | Webinars
          |------------------------------*/
@@ -817,7 +814,7 @@ class TeacherController extends Controller
 
     //
 
-    // Log::info($courses);
+
     /* ------------------------------
          | Demo Classes
          |------------------------------*/
@@ -857,7 +854,7 @@ class TeacherController extends Controller
     //   'upcoming_ongoing' => $upcomingOngoing,
     //   'completed' => [],
     // ]);
-    Log::info($upcoming);
+
     // 1️⃣ Fetch course classes (HAS ONE relation)
     $courses = TeacherClass::where('teacher_id', $teacher->id)
       ->with(['course_classes', 'courses'])
@@ -923,8 +920,7 @@ class TeacherController extends Controller
     //   'completed' => $completed,
     // ]);
 
-    Log::info($upcoming);
-    Log::info($sortedClasses);
+
 
 
     // *///////////////////////////////////////////*
@@ -1021,7 +1017,7 @@ class TeacherController extends Controller
 
     $courseClass = $course->classes;
     $materials      = CourseMaterial::where('course_id', $course->id)->get();
-    Log::info($materials);
+
     $courseMaterial = MaterialResource::collection($materials);
 
 
@@ -1232,7 +1228,7 @@ class TeacherController extends Controller
 
   public function workshopDetails(Request $request)
   {
-    Log::info($request->all());
+
     // Example dummy details per course id
     // $course = [
     //   "id" => (int)$request->id,
@@ -1365,15 +1361,7 @@ class TeacherController extends Controller
 
     $dummyData = $this->getDummyStatistics();
 
-    Log::info('Class Time Summary', [
-      'range'      => $range,
-      'spend_time' => $dummyData['spend'],
-      'watch_time' => $dummyData['watch'],
-      'summary'    => [
-        'total_spend' => '0 hrs',
-        'total_watch' => '0 hrs',
-      ],
-    ]);
+
 
 
     return response()->json([
@@ -2044,13 +2032,13 @@ class TeacherController extends Controller
   public function createCourseClass(Request $request)
   {
     $teacher = $request->user();
-    Log::info($request->all());
+
     // Get latest class of this course that already has meeting link
     $courseClass = CourseClass::where('course_id', $request->course_id)
       ->withMeetingLink()
       ->latest('scheduled_at')
       ->first();
-    Log::info($courseClass);
+
 
     if (!$courseClass) {
       return response()->json([
@@ -2089,7 +2077,7 @@ class TeacherController extends Controller
         'data' => $class
       ]);
     } catch (\Exception $e) {
-      Log::info($e);
+
       DB::rollBack();
       return response()->json([
         'status' => false,

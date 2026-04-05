@@ -366,7 +366,7 @@ class OtpController extends Controller
   //     'mobile' => 'required',
   //     'otp'    => 'required',
   //   ]);
-  //   Log::info($request->all());
+
   //   $mobile = '91' . $request->mobile;
   //   $otpInput  = $request->otp;
   //   $company_id = 1;
@@ -544,7 +544,7 @@ class OtpController extends Controller
         'EntityId'      => config('services.smsgatewayhub.entity_id'),
         'dlttemplateid' => config('services.smsgatewayhub.template_id'),
       ]);
-      Log::info($response);
+
       return $response;
     }
     return false;

@@ -28,19 +28,19 @@ class RegisterController extends Controller
   public function teacherSignup(Request $request)
   {
 
-    Log::info($request->all());
+
 
     DB::beginTransaction();
     $company_id = 1;
     $teacher_id = $request->teacher_id;
 
-    Log::info($request->all());
+
     // )->
     $source = $request->header('X-Request-Source', 'Unknown');
 
 
     $user = User::where('id', $teacher_id)->where('company_id', $company_id)->first();
-    Log::info($user);
+
     try {
       if ($user) {
         // 1️⃣ Create or Update User
@@ -206,7 +206,7 @@ class RegisterController extends Controller
         $user->save();
         DB::commit();
         $user->refresh();
-        Log::info($user);
+
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -259,7 +259,7 @@ class RegisterController extends Controller
     $company_id = 1;
     $student_id = $request->student_id;
 
-    Log::info($request->all());
+
 
     $user = User::where('id', $student_id)->where('company_id', $company_id)->first();
     $source = $request->header('X-Request-Source', 'Unknown');
@@ -359,7 +359,7 @@ class RegisterController extends Controller
 
         DB::commit();
         $user->refresh();
-        Log::info($user);
+
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -407,8 +407,7 @@ class RegisterController extends Controller
 
   public function guestSignup(Request $request)
   {
-    // Log::info($request->header());
-    // Log::info($request->all());
+
 
     DB::beginTransaction();
     $company_id = 1;

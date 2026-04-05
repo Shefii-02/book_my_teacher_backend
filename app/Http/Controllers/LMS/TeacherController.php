@@ -406,7 +406,7 @@ class TeacherController extends Controller
       ));
     }
 
-    Log::info($request->all());
+
     try {
       // 1️⃣ Create or Update User
       $user = User::create(
@@ -539,7 +539,7 @@ class TeacherController extends Controller
       $user->profile_fill = 1;
       $user->save();
 
-      Log::info($user);
+
 
       DB::commit();
 
@@ -605,7 +605,6 @@ class TeacherController extends Controller
 
 
 
-    // Log::info($request->all());
 
 
     try {
@@ -802,7 +801,7 @@ class TeacherController extends Controller
       $teacher->profile_fill = 1;
       $teacher->save();
 
-      Log::info($teacher);
+
 
       DB::commit();
 

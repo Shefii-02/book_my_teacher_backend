@@ -188,7 +188,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::any('/user', function (Request $request) {
       $user = $request->user();
-      Log::info(1000000000000);
       return response()->json([
         'data'             => $user
       ]);
@@ -232,168 +231,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::get('/provide-courses', 'StudentController@courseStore');
 
-    // Route::post('top-banner/submit', function (Request $request) {
-    //   Log::info('📢 Top Banner Request:', $request->all());
-    //   return response()->json([
-    //     'status' => true,
-    //     'data' => "Your request has been submitted successfully!",
-    //   ]);
-    // });
-    // Route::post('request-teacher-class/submit', function (Request $request) {
-    //   Log::info('👨‍🏫 Teacher Class Request:', $request->all());
-
-    //   return response()->json([
-    //     'status' => true,
-    //     'data' => "Your request has been submitted successfully!",
-    //   ]);
-    // });
-    // Route::post('request-form/submit', function (Request $request) {
-    //   Log::info('📝 Request Form Submitted:', $request->all());
-
-    //   return response()->json([
-    //     'status' => true,
-    //     'data' => "Your request has been submitted successfully!",
-    //   ]);
-    // });
-
-    // Route::post('request-subject-class/submit', function (Request $request) {
-    //   Log::info('📝 Request Form Submitted:', $request->all());
-
-    //   return response()->json([
-    //     'status' => true,
-    //     'data' => "Your request has been submitted successfully!",
-    //   ]);
-    // });
-    // Route::post('request-course/submit', function (Request $request) {
-    //   Log::info('📝 Request Form Submitted:', $request->all());
-
-    //   return response()->json([
-    //     'status' => true,
-    //     'data' => "Your request has been submitted successfully!",
-    //   ]);
-    // });
-
-    // Route::post('requested-classes', function (Request $request) {
-
-    //   return response()->json([
-    //     'success' => true,
-    //     'data' => [
-    //       [
-    //         'id' => 1,
-    //         'title' => 'Math - Algebra Basics',
-    //         'grade' => '8th Grade',
-    //         'board' => 'CBSE',
-    //         'subject' => 'Mathematics',
-    //         'note' => 'Need special focus on equations.',
-    //         'status' => 'Pending',
-    //         'created_at' => '2025-10-31',
-    //       ],
-    //       [
-    //         'id' => 2,
-    //         'title' => 'Math - Algebra Basics-2',
-    //         'grade' => '8th Grade',
-    //         'board' => 'CBSE',
-    //         'subject' => 'Mathematics',
-    //         'note' => 'Need special focus on equations.',
-    //         'status' => 'Pending',
-    //         'created_at' => '2025-10-31',
-    //       ],
-    //       [
-    //         'id' => 3,
-    //         'title' => 'Math - Algebra Basics-3',
-    //         'grade' => '8th Grade',
-    //         'board' => 'CBSE',
-    //         'subject' => 'Mathematics',
-    //         'note' => 'Need special focus on equations.',
-    //         'status' => 'Pending',
-    //         'created_at' => '2025-10-31',
-    //       ],
-    //       [
-    //         'id' => 4,
-    //         'title' => 'Math - Algebra Basics-4',
-    //         'grade' => '8th Grade',
-    //         'board' => 'CBSE',
-    //         'subject' => 'Mathematics',
-    //         'note' => 'Need special focus on equations.',
-    //         'status' => 'Pending',
-    //         'created_at' => '2025-10-31',
-    //       ],
-    //       [
-    //         'id' => 5,
-    //         'title' => 'Math - Algebra Basics',
-    //         'grade' => '8th Grade',
-    //         'board' => 'CBSE',
-    //         'subject' => 'Mathematics',
-    //         'note' => 'Need special focus on equations.',
-    //         'status' => 'Pending',
-    //         'created_at' => '2025-10-31',
-    //       ],
-    //       [
-    //         'id' => 6,
-    //         'title' => 'Math - Algebra Basics-2',
-    //         'grade' => '8th Grade',
-    //         'board' => 'CBSE',
-    //         'subject' => 'Mathematics',
-    //         'note' => 'Need special focus on equations.',
-    //         'status' => 'Pending',
-    //         'created_at' => '2025-10-31',
-    //       ],
-    //       [
-    //         'id' => 7,
-    //         'title' => 'Math - Algebra Basics-3',
-    //         'grade' => '8th Grade',
-    //         'board' => 'CBSE',
-    //         'subject' => 'Mathematics',
-    //         'note' => 'Need special focus on equations.',
-    //         'status' => 'Pending',
-    //         'created_at' => '2025-10-31',
-    //       ],
-    //       [
-    //         'id' => 8,
-    //         'title' => 'Math - Algebra Basics-4',
-    //         'grade' => '8th Grade',
-    //         'board' => 'CBSE',
-    //         'subject' => 'Mathematics',
-    //         'note' => 'Need special focus on equations.',
-    //         'status' => 'Pending',
-    //         'created_at' => '2025-10-31',
-    //       ],
-    //       // More items...
-    //     ]
-    //   ]);
-    // });
-
-
-
-
-    // Route::post('/referral/share', function (Request $r) {
-    //   // log share event for analytics
-    //   Log::info('Referral share', ['code' => $r->code, 'method' => $r->method, 'user_id' => $r->user_id ?? null, 'ip' => $r->ip()]);
-    //   return response()->json(['status' => true, 'message' => 'Share recorded']);
-    // });
-
-    // Route::post('/referral/click', function (Request $r) {
-    //   // when user clicks link (open webview or app), record
-    //   $code = $r->input('code');
-    //   Log::info('Referral click', ['code' => $code, 'ip' => $r->ip(), 'ua' => $r->userAgent()]);
-    //   return response()->json(['status' => true, 'message' => 'Click recorded']);
-    // });
-
-    // Route::post('/referral/send-invites', function (Request $r) {
-    //   $payload = $r->input('contacts'); // array of contacts
-    //   // validate and queue SMS/emails via gateway (not implemented)
-    //   Log::info('Send invites', ['payload' => $payload, 'by' => $r->user()]);
-    //   return response()->json(['status' => true, 'message' => 'Invites received. Will be sent (simulated).']);
-    // });
-
-    // // called when new user registers with ?ref=CODE or code in payload
-    // Route::post('/referral/register', function (Request $r) {
-    //   $code = $r->input('referral_code');
-    //   $newUserId = rand(1000, 9999); // simulate
-    //   // store referral record
-    //   Log::info('Referral register', ['code' => $code, 'new_user' => $newUserId, 'ip' => $r->ip()]);
-    //   return response()->json(['status' => true, 'message' => 'Referral recorded', 'awarded' => 100]);
-    // });
 
     Route::post('/student-home', 'StudentController@home');
     Route::post('/my-classes', 'StudentController@myClasses');
@@ -941,46 +778,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   // });
 
 
-  // Route::post('/teacher-profile', 'TeacherController@home');
-
-  // Route::post('/teacher-mycourses', 'TeacherController@home');
-
-  // Route::post('/student-profile', 'StudentController@home');
-
-  // Route::post('/notifications', 'UserController@notifications');
 
 
-
-  // Route::any('upload', function (Request $request) {
-  //   Log::info($request->all());
-  //   $source = $request->header('X-Request-Source', 'Unknown');
-
-  //   // if ($request->hasFile('avatar')) {
-  //   //     $avatarPath = $request->file('avatar')->store('avatars', 'public');
-  //   // }
-
-  //   // if ($request->hasFile('cv')) {
-  //   //     $cvPath = $request->file('cv')->store('cvs', 'public');
-  //   // }
-  //   return response()->json([
-  //     'message' => 'Files uploaded successfully',
-  //     'source' => $source,
-  //     'avatar' => "avatarPath" ?? null,
-  //     'cv' => "cvPath" ?? null,
-  //   ]);
-  // });
-
-
-  // Route::middleware('auth:sanctum')->group(function () {
-  // Route::any('webinars-list', function (Request $request) {
-
-  //   $data = Webinar::get();
-  //   Log::info($data);
-  //   return response()->json([
-  //     'status' => true,
-  //     'data' => WebinarResource::collection($data),
-  //   ]);
-  // })->middleware('auth:sanctum');
 
   Route::post('/webinars', 'WebinarApiController@index')->middleware('auth:sanctum');
   Route::post('/webinars/{id}', 'WebinarApiController@show');
@@ -1396,28 +1195,27 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   //   $idToken = $request->idToken;
 
 
-  //   Log::info($idToken);
 
   //   $client = new GoogleClient(['client_id' => env('GOOGLE_CLIENT_ID')]);
   //   $payload = $client->verifyIdToken($idToken);
 
   //   if (!$payload) {
-  //     Log::info($payload);
+
   //     return response()->json(['status' => 'error', 'message' => 'Invalid ID token'], 401);
   //   }
 
-  //   Log::info('payload' . $payload);
+
   //   $email = $payload['email'];
   //   $user = User::where('email', $email)->first();
 
   //   if (!$user) {
-  //     Log::info('status error' . $email);
+
   //     return response()->json(['status' => 'error', 'message' => 'User not found'], 404);
   //   }
 
   //   // Optionally create your own JWT / sanctum token
   //   // $token = $user->createToken('google_login')->plainTextToken;
-  //   // Log::info('token' . $token);
+
   //   return response()->json([
   //     'status' => 'success',
   //     // 'token'  => $token,
@@ -1434,15 +1232,3 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
 });
 
-
-
-
-// Route::middleware(['restrict.api.access'])->group(function () {
-//   Route::get('/user', function (Request $request) {
-//     $user = $request->user();
-//     Log::info('00000001111110000000');
-//     Log::info($user);
-//     Log::info('00000001111110000000');
-//     return $user;
-//   });
-// });

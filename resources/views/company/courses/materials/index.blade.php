@@ -98,7 +98,7 @@
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                                 <a target="_blank" class="text-sm" href="{{ $material->file_url }}"><i class="bi bi-eye"></i></a>
                                                 <form
-                                                    action="{{ route('company.courses.materials.destroy', ['identity' => $course->course_identity, 'material_id' => $material->id]) }}"
+                                                    action="{{ route('company.courses.materials.destroy', ['identity' => $course->course_identity, 'material' => $material->id]) }}"
                                                     method="POST" class="inline-block"
                                                     onsubmit="return confirm('Are you sure?')">
                                                     @csrf

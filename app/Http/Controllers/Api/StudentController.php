@@ -1432,7 +1432,6 @@ class StudentController extends Controller
       // ->filter(fn($g) => $g['items']->isNotEmpty())
       ->values();
 
-Log::info($data);
 
     return response()->json([
       'status' => true,

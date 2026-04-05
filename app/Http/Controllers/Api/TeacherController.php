@@ -1099,13 +1099,10 @@ class TeacherController extends Controller
     //   ],
     // ];
 
-// Log::info($courseDetail);
-Log::info($classes);
-// Log::info($courseMaterial);
   return response()->json([
       "course" => $courseDetail,
-      "classes" =>  collect(),
-      "materials" => collect(),
+      "classes" =>  [],
+      "materials" => [],
     ]);
     // return response()->json([
     //   "course" => $courseDetail,

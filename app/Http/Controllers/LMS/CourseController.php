@@ -476,7 +476,7 @@ class CourseController extends Controller
         $new->course_id = $course->id;
         $new->teacher_id = $teacher;
         $new->save();
-        app(NotificationActions::class)->courseTeacherAdded($course, $teacher);
+        // app(NotificationActions::class)->courseTeacherAdded($course, $teacher);
       }
 
 

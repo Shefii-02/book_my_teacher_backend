@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Log;
 
 class CourseClassController extends Controller
 {
+
+    public function __construct(
+        protected NotificationActions $notificationActions
+    ) {}
+
+
   public function index($identity)
   {
     $course = Course::with('classes')->where('course_identity', $identity)->first() ?? abort(404);
@@ -69,8 +75,9 @@ class CourseClassController extends Controller
 
       TeacherClass::create(['teacher_id' => $request->teacher_id, 'class_id' => $class->id]);
 
-      app(\App\Notifications\NotificationActions::class)
-    ->courseClassStarted($class);
+      $this->notificationActions->courseClassStarted($class);
+
+      // app(\App\Notifications\NotificationActions::class)->courseClassStarted($class);
 
       DB::commit();
       return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class created successfully.');

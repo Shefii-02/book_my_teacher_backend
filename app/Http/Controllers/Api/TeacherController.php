@@ -1099,16 +1099,16 @@ class TeacherController extends Controller
     //   ],
     // ];
 
-  return response()->json([
+  // return response()->json([
+  //     "course" => $courseDetail,
+  //     "classes" =>  [],
+  //     "materials" => [],
+  //   ]);
+    return response()->json([
       "course" => $courseDetail,
-      "classes" =>  [],
-      "materials" => [],
+      "classes" => $classes,
+      "materials" => $courseMaterial,
     ]);
-    // return response()->json([
-    //   "course" => $courseDetail,
-    //   "classes" => $classes,
-    //   "materials" => $courseMaterial,
-    // ]);
   }
 
 

@@ -111,6 +111,7 @@ class CourseMaterialController extends Controller
 
   public function destroy($courseId, $id)
   {
+    $course = Course::where('course_identity', $courseId)->first() ?? abort(404);
     $material =   CourseMaterial::find($id);
 
     if ($material->file_path) {

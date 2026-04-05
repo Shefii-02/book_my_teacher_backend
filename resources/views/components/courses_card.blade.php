@@ -36,7 +36,7 @@
 
     </div>
     <div id="dropdown_{{ $course->id }}"
-        class="hidden absolute right-0 mt-2 w-28 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded-lg shadow-lg text-sm">
+        class="hidden absolute right-0 top-5 mt-2 w-28 bg-white dark:bg-slate-800 border dark:border-slate-700 rounded-lg shadow-lg text-sm">
 
         @if ($course->status === 'published')
             <a href="{{ route('company.courses.show', $course->course_identity) }}"

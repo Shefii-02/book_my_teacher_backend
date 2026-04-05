@@ -97,7 +97,16 @@
                                             <td
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                                 <a target="_blank" class="text-sm" href="{{ $material->file_url }}"><i class="bi bi-eye"></i></a>
-                                                <a target="_blank" class="text-sm ms-2" href="{{ $material->file_url }}"><i class="bi bi-trash"></i></a>
+                                                <form
+                                                    action="{{ route('company.courses.materials.destroy', ['identity' => $material->course->course_identity, 'material_id' => $material->id]) }}"
+                                                    method="POST" class="inline-block"
+                                                    onsubmit="return confirm('Are you sure?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="px-3 py-1  text-red rounded text-xs">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @empty

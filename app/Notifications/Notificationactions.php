@@ -8,6 +8,8 @@ use App\Services\NotificationService;
 
 class NotificationActions
 {
+
+
   public function __construct(
     protected NotificationService $service
   ) {}

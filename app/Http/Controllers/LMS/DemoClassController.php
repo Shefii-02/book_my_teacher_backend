@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\Storage;
 
 class DemoClassController extends Controller
 {
+
+    // public function __construct(
+    //     protected NotificationActions $notificationActions
+    // ) {}
+    //         $this->notificationActions->courseClassStarted($class);
+
+
   public function index()
   {
     $webinarList = DemoClass::get();
@@ -130,7 +137,7 @@ class DemoClassController extends Controller
 
       // Create webinar
       $demoClass = DemoClass::create($data);
-      app(NotificationActions::class)->demoClassCreated($demoClass);
+      app(\App\Notifications\NotificationActions::class)->demoClassCreated($demoClass);
 
       DB::commit();
 
@@ -235,7 +242,7 @@ class DemoClassController extends Controller
       $data['slug'] = $data['slug'] ?? Str::slug($data['title']);
 
       $demoClass->update($data);
-      app(NotificationActions::class)->demoClassUpdated($demoClass);
+      app(\App\Notifications\NotificationActions::class)->demoClassUpdated($demoClass);
       DB::commit();
       return redirect()->route('company.demo-classes.index')->with('success', 'Demo Class updated successfully.');
     } catch (\Exception $e) {

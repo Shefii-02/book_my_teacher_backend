@@ -68,7 +68,9 @@ class CourseClassController extends Controller
       $class = CourseClass::create($data);
 
       TeacherClass::create(['teacher_id' => $request->teacher_id, 'class_id' => $class->id]);
-      app(NotificationActions::class)->courseClassStarted($class);
+
+      app(\App\Notifications\NotificationActions::class)
+    ->courseClassStarted($class);
 
       DB::commit();
       return redirect()->route('company.courses.schedule-class.index', $course->course_identity)->with('success', 'Course class created successfully.');

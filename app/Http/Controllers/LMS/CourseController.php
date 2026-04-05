@@ -347,7 +347,7 @@ class CourseController extends Controller
         $course->save();
 
         if ($course->status == 'published' && $course->step_completed >= 4) {
-          app(NotificationActions::class)->courseCreated($course);
+          app(\App\Notifications\NotificationActions::class)->courseCreated($course);
         }
 
         DB::commit();
@@ -476,7 +476,7 @@ class CourseController extends Controller
         $new->course_id = $course->id;
         $new->teacher_id = $teacher;
         $new->save();
-        // app(NotificationActions::class)->courseTeacherAdded($course, $teacher);
+        app(\App\Notifications\NotificationActions::class)->courseTeacherAdded($course, $teacher);
       }
 
 

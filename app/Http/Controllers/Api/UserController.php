@@ -773,6 +773,7 @@ class UserController extends Controller
       }
     }
 
+    Log::info($classStatus);
     // ✅ Fix: $model IS the course_class already when type is Course
     if ($type == 'Course') {
       $parent = $model->course_classes;

@@ -810,7 +810,7 @@ class UserController extends Controller
       "subject"      => $model->description ?? '',
       "course"       => $course?->title ?? '',
       "teacher_name" => $model->host?->name ?? '',
-      "meeting_link" => $model->meeting_link ?? '',
+      "meeting_link" => $model->meeting_link ?? $model->meeting_url,
       "recorded_link" => $model->recording_url ?? '',
       "status"       => $classStatus,
     ];

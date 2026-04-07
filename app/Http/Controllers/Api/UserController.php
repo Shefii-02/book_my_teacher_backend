@@ -806,8 +806,8 @@ class UserController extends Controller
         ->flatMap(function ($reg) use ($today) {
           return $reg->workshop->classes
             ->filter(function ($cls) {
-              return $cls->started_at <= now()->endOfDay() &&
-                $cls->ended_at   >= now()->startOfDay();
+              return $cls->start_date_time <= now()->endOfDay() &&
+                $cls->end_date_time   >= now()->startOfDay();
             })
             ->map(fn($cls) => $this->formatEvent($cls, 'Workshop'));
         });
@@ -875,8 +875,8 @@ class UserController extends Controller
       $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
         $q->where('host_id', $user->id);
       })
-        ->where('started_at', '<=', now()->endOfDay())
-        ->where('ended_at', '>=', now()->startOfDay())
+        ->where('start_date_time', '<=', now()->endOfDay())
+        ->where('end_date_time', '>=', now()->startOfDay())
         ->get()
         ->map(fn($w) => $this->formatEvent($w, 'Workshop'));
 

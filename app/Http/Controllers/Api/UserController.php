@@ -822,8 +822,8 @@ class UserController extends Controller
           if (!$w) return null;
 
           if (
-            $w->start_time <= now()->endOfDay() &&
-            $w->end_time   >= now()->startOfDay()
+            $w->started_at <= now()->endOfDay() &&
+            $w->ended_at   >= now()->startOfDay()
           ) {
             return $this->formatEvent($w, 'Webinar');
           }
@@ -859,8 +859,8 @@ class UserController extends Controller
 
       // ✅ Webinars
       $webinars = Webinar::where('host_id', $user->id)
-        ->where('start_time', '<=', now()->endOfDay())
-        ->where('end_time', '>=', now()->startOfDay())
+        ->where('started_at', '<=', now()->endOfDay())
+        ->where('ended_at', '>=', now()->startOfDay())
         ->get()
         ->map(fn($w) => $this->formatEvent($w, 'Webinar'));
 

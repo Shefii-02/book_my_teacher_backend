@@ -330,7 +330,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::any('/teacher/achievements', 'TeacherController@achievements');
 
-  Route::get('/chat/report', function (Request $req) {
+  Route::post('/chat/report', function (Request $req) {
     Log::info($req->all());
     return response()->json([
       'status' => true,
@@ -338,7 +338,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     ]);
   });
 
-  Route::get('/chat/exit-group', function (Request $req) {
+  Route::post('/chat/exit-group', function (Request $req) {
     Log::info($req->all());
     return response()->json([
       'status' => true,
@@ -348,7 +348,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
 
 
-  Route::get('/chat/clear/{id}', function (Request $req, $id) {
+  Route::post('/chat/clear/{id}', function (Request $req, $id) {
     Log::info($req->all());
     Log::info($id);
         return response()->json([

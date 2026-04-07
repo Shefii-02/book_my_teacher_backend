@@ -681,40 +681,40 @@ class UserController extends Controller
         })
         ->values();
       // // ✅ Demos (registered)
-      // $demos2 = DemoClassRegistration::where('user_id', $user->id)->where('checked_in', 1)
-      //   ->with(['demoClass'])
-      //   ->get()
-      //   ->map(function ($reg) {
-      //     if (!$reg->demoClass) return null;
-      //     return $this->formatEvent($reg->demoClass, 'Demo');
-      //   })
+      $demos2 = DemoClassRegistration::where('user_id', $user->id)->where('checked_in', 1)
+        ->with(['demoClass'])
+        ->get()
+        ->map(function ($reg) {
+          if (!$reg->demoClass) return null;
+          return $this->formatEvent($reg->demoClass, 'Demo');
+        })
 
-      //   ->filter()
-      //   ->values();
+        ->filter()
+        ->values();
 
       // // ✅ Workshops (checked_in = 1)
-      // $workshops2 = WorkshopRegistration::where('user_id', $user->id)->where('checked_in', 1)
-      //   ->where('checked_in', 1)
-      //   ->with(['workshop.classes'])
-      //   ->get()
-      //   ->flatMap(function ($reg) {
-      //     return $reg->workshop->classes->map(function ($workshopClass) {
-      //       return $this->formatEvent($workshopClass, 'Workshop');
-      //     });
-      //   })
-      //   ->values();
+      $workshops2 = WorkshopRegistration::where('user_id', $user->id)->where('checked_in', 1)
+        ->where('checked_in', 1)
+        ->with(['workshop.classes'])
+        ->get()
+        ->flatMap(function ($reg) {
+          return $reg->workshop->classes->map(function ($workshopClass) {
+            return $this->formatEvent($workshopClass, 'Workshop');
+          });
+        })
+        ->values();
 
       // // ✅ Webinars (checked_in = 1)
-      // $webinars2 = WebinarRegistration::where('user_id', $user->id)->where('checked_in', 1)
-      //   ->where('checked_in', 1)
-      //   ->with(['webinar'])
-      //   ->get()
-      //   ->map(function ($reg) {
-      //     if (!$reg->webinar) return null;
-      //     return $this->formatEvent($reg->webinar, 'Webinar');
-      //   })
-      //   ->filter()
-      //   ->values();
+      $webinars2 = WebinarRegistration::where('user_id', $user->id)->where('checked_in', 1)
+        ->where('checked_in', 1)
+        ->with(['webinar'])
+        ->get()
+        ->map(function ($reg) {
+          if (!$reg->webinar) return null;
+          return $this->formatEvent($reg->webinar, 'Webinar');
+        })
+        ->filter()
+        ->values();
 
       // $courses = $courses->merge($courses2);
       // $demos = $demos->merge($demos2);

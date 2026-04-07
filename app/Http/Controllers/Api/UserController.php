@@ -638,99 +638,340 @@ class UserController extends Controller
   //   ]);
   // }
 
+  // public function todayClasses(Request $request)
+  // {
+  //   $user = $request->user();
+  //   $today = now()->toDateString();
+
+  //   // if ($user->acc_type == 'student') {
+
+  //     // ✅ Courses (enrolled)
+  //     $courses = CourseEnrollment::where('user_id', $user->id)
+  //       ->where('status', 1)
+  //       ->with(['course.courseClasses'])
+  //       ->get()
+  //       ->flatMap(function ($enrollment) {
+  //         return $enrollment->course->courseClasses->map(function ($courseClass) {
+  //           return $this->formatEvent($courseClass, 'Course');
+  //         });
+  //       })
+  //       ->values();
+  //     // ✅ Demos (registered)
+  //     $demos = DemoClassRegistration::where('user_id', $user->id)->where('checked_in', 1)
+  //       ->with(['demoClass'])
+  //       ->get()
+  //       ->map(function ($reg) {
+  //         if (!$reg->demoClass) return null;
+  //         return $this->formatEvent($reg->demoClass, 'Demo');
+  //       })
+
+  //       ->filter()
+  //       ->values();
+
+  //     // ✅ Workshops (checked_in = 1)
+  //     $workshops = WorkshopRegistration::where('user_id', $user->id)->where('checked_in', 1)
+  //       ->where('checked_in', 1)
+  //       ->with(['workshop.classes'])
+  //       ->get()
+  //       ->flatMap(function ($reg) {
+  //         return $reg->workshop->classes->map(function ($workshopClass) {
+  //           return $this->formatEvent($workshopClass, 'Workshop');
+  //         });
+  //       })
+  //       ->values();
+
+  //     // ✅ Webinars (checked_in = 1)
+  //     $webinars = WebinarRegistration::where('user_id', $user->id)->where('checked_in', 1)
+  //       ->where('checked_in', 1)
+  //       ->with(['webinar'])
+  //       ->get()
+  //       ->map(function ($reg) {
+  //         if (!$reg->webinar) return null;
+  //         return $this->formatEvent($reg->webinar, 'Webinar');
+  //       })
+  //       ->filter()
+  //       ->values();
+  //   // } else
+  //   if ($user->acc_type == 'teacher') {
+  //     $courses = TeacherClass::where('teacher_id', $user->id)
+  //       ->with(['course_classes', 'course'])
+  //       ->get()
+  //       ->map(function ($teacherClass) {
+  //         if (!$teacherClass->course_classes) return null;
+  //         return $this->formatEvent($teacherClass->course_classes, 'Course'); // ✅ Capitalized
+  //       })
+  //       ->filter()
+  //       ->values();
+
+  //     $webinars = Webinar::where('host_id', $user->id)
+  //       ->get()
+  //       ->map(fn($w) => $this->formatEvent($w, 'Webinar')); // ✅ Capitalized
+
+  //     $demos = DemoClass::where('host_id', $user->id)
+  //       ->get()
+  //       ->map(fn($w) => $this->formatEvent($w, 'Demo')); // ✅ Capitalized
+
+  //     $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
+  //       $q->where('host_id', $user->id);
+  //     })->get()
+  //       ->map(fn($w) => $this->formatEvent($w, 'Workshop')); // ✅ Capitalized
+
+
+
+  //   }
+  //   // else {
+  //   //   return response()->json([
+  //   //     "status"  => true,
+  //   //     "message" => "Today's classes fetched successfully",
+  //   //     "data"    => [],
+  //   //   ]);
+  //   // }
+
+  //   $todayClasses = collect()
+  //     ->merge($demos)
+  //     ->merge($webinars)
+  //     ->merge($workshops)
+  //     ->merge($courses)
+  //     ->filter(fn($event) => isset($event['date']) && $event['date'] === $today)
+  //     ->sortBy(fn($event) => Carbon::parse($event['_start_datetime']))
+  //     ->map(function ($event) {
+  //       unset($event['_start_datetime']); // ✅ remove helper keys
+  //       unset($event['date']);
+  //       return $event;
+  //     })
+  //     ->values();
+
+  //   return response()->json([
+  //     "status"  => true,
+  //     "message" => "Today's classes fetched successfully",
+  //     "data"    => $todayClasses,
+  //   ]);
+  // }
+  use Carbon\Carbon;
+
   public function todayClasses(Request $request)
   {
-    $user = $request->user();
+    $user  = $request->user();
     $today = now()->toDateString();
 
-    if ($user->acc_type == 'teacher') {
-      $courses = TeacherClass::where('teacher_id', $user->id)
-        ->with(['course_classes', 'course'])
-        ->get()
-        ->map(function ($teacherClass) {
-          if (!$teacherClass->course_classes) return null;
-          return $this->formatEvent($teacherClass->course_classes, 'Course'); // ✅ Capitalized
-        })
-        ->filter()
-        ->values();
+    // ✅ Always initialize
+    $courses   = collect();
+    $demos     = collect();
+    $workshops = collect();
+    $webinars  = collect();
 
-      $webinars = Webinar::where('host_id', $user->id)
-        ->get()
-        ->map(fn($w) => $this->formatEvent($w, 'Webinar')); // ✅ Capitalized
+    // ===========================
+    // 🎓 STUDENT
+    // ===========================
+    if ($user->acc_type == 'student') {
 
-      $demos = DemoClass::where('host_id', $user->id)
-        ->get()
-        ->map(fn($w) => $this->formatEvent($w, 'Demo')); // ✅ Capitalized
-
-      $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
-        $q->where('host_id', $user->id);
-      })->get()
-        ->map(fn($w) => $this->formatEvent($w, 'Workshop')); // ✅ Capitalized
-    } else if ($user->acc_type == 'student') {
-
-      // ✅ Courses (enrolled)
+      // ✅ Courses
       $courses = CourseEnrollment::where('user_id', $user->id)
         ->where('status', 1)
         ->with(['course.courseClasses'])
         ->get()
-        ->flatMap(function ($enrollment) {
-          return $enrollment->course->courseClasses->map(function ($courseClass) {
-            return $this->formatEvent($courseClass, 'Course');
-          });
-        })
-        ->values();
-      // ✅ Demos (registered)
-      $demos = DemoClassRegistration::where('user_id', $user->id)->where('checked_in', 1)
+        ->flatMap(function ($enrollment) use ($today) {
+          return $enrollment->course->courseClasses
+            ->filter(function ($cls) use ($today) {
+              return $cls->start_time <= now()->endOfDay() &&
+                $cls->end_time   >= now()->startOfDay();
+            })
+            ->map(fn($cls) => $this->formatEvent($cls, 'Course'));
+        });
+
+      // ✅ Demos
+      $demos = DemoClassRegistration::where('user_id', $user->id)
+        ->where('checked_in', 1)
         ->with(['demoClass'])
         ->get()
-        ->map(function ($reg) {
-          if (!$reg->demoClass) return null;
-          return $this->formatEvent($reg->demoClass, 'Demo');
+        ->map(function ($reg) use ($today) {
+          $cls = $reg->demoClass;
+          if (!$cls) return null;
+
+          if (
+            $cls->start_time <= now()->endOfDay() &&
+            $cls->end_time   >= now()->startOfDay()
+          ) {
+            return $this->formatEvent($cls, 'Demo');
+          }
+
+          return null;
         })
+        ->filter();
 
-        ->filter()
-        ->values();
-
-      // ✅ Workshops (checked_in = 1)
-      $workshops = WorkshopRegistration::where('user_id', $user->id)->where('checked_in', 1)
+      // ✅ Workshops
+      $workshops = WorkshopRegistration::where('user_id', $user->id)
         ->where('checked_in', 1)
         ->with(['workshop.classes'])
         ->get()
-        ->flatMap(function ($reg) {
-          return $reg->workshop->classes->map(function ($workshopClass) {
-            return $this->formatEvent($workshopClass, 'Workshop');
-          });
-        })
-        ->values();
+        ->flatMap(function ($reg) use ($today) {
+          return $reg->workshop->classes
+            ->filter(function ($cls) {
+              return $cls->start_time <= now()->endOfDay() &&
+                $cls->end_time   >= now()->startOfDay();
+            })
+            ->map(fn($cls) => $this->formatEvent($cls, 'Workshop'));
+        });
 
-      // ✅ Webinars (checked_in = 1)
-      $webinars = WebinarRegistration::where('user_id', $user->id)->where('checked_in', 1)
+      // ✅ Webinars
+      $webinars = WebinarRegistration::where('user_id', $user->id)
         ->where('checked_in', 1)
         ->with(['webinar'])
         ->get()
         ->map(function ($reg) {
-          if (!$reg->webinar) return null;
-          return $this->formatEvent($reg->webinar, 'Webinar');
+          $w = $reg->webinar;
+          if (!$w) return null;
+
+          if (
+            $w->start_time <= now()->endOfDay() &&
+            $w->end_time   >= now()->startOfDay()
+          ) {
+            return $this->formatEvent($w, 'Webinar');
+          }
+
+          return null;
         })
-        ->filter()
-        ->values();
-    } else {
-      return response()->json([
-        "status"  => true,
-        "message" => "Today's classes fetched successfully",
-        "data"    => [],
-      ]);
+        ->filter();
     }
 
+    // ===========================
+    // 👨‍🏫 TEACHER
+    // ===========================
+    elseif ($user->acc_type == 'teacher') {
+
+      // ✅ Courses
+      $courses = TeacherClass::where('teacher_id', $user->id)
+        ->with(['course_classes'])
+        ->get()
+        ->map(function ($tc) {
+          $cls = $tc->course_classes;
+          if (!$cls) return null;
+
+          if (
+            $cls->start_time <= now()->endOfDay() &&
+            $cls->end_time   >= now()->startOfDay()
+          ) {
+            return $this->formatEvent($cls, 'Course');
+          }
+
+          return null;
+        })
+        ->filter();
+
+      // ✅ Webinars
+      $webinars = Webinar::where('host_id', $user->id)
+        ->where('start_time', '<=', now()->endOfDay())
+        ->where('end_time', '>=', now()->startOfDay())
+        ->get()
+        ->map(fn($w) => $this->formatEvent($w, 'Webinar'));
+
+      // ✅ Demos
+      $demos = DemoClass::where('host_id', $user->id)
+        ->where('start_time', '<=', now()->endOfDay())
+        ->where('end_time', '>=', now()->startOfDay())
+        ->get()
+        ->map(fn($d) => $this->formatEvent($d, 'Demo'));
+
+      // ✅ Workshops
+      $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
+        $q->where('host_id', $user->id);
+      })
+        ->where('start_time', '<=', now()->endOfDay())
+        ->where('end_time', '>=', now()->startOfDay())
+        ->get()
+        ->map(fn($w) => $this->formatEvent($w, 'Workshop'));
+
+
+
+      /////////////------------////////////////////////
+
+      // ✅ Courses
+      $courses2 = CourseEnrollment::where('user_id', $user->id)
+        ->where('status', 1)
+        ->with(['course.courseClasses'])
+        ->get()
+        ->flatMap(function ($enrollment) use ($today) {
+          return $enrollment->course->courseClasses
+            ->filter(function ($cls) use ($today) {
+              return $cls->start_time <= now()->endOfDay() &&
+                $cls->end_time   >= now()->startOfDay();
+            })
+            ->map(fn($cls) => $this->formatEvent($cls, 'Course'));
+        });
+
+      // ✅ Demos
+      $demos2 = DemoClassRegistration::where('user_id', $user->id)
+        ->where('checked_in', 1)
+        ->with(['demoClass'])
+        ->get()
+        ->map(function ($reg) use ($today) {
+          $cls = $reg->demoClass;
+          if (!$cls) return null;
+
+          if (
+            $cls->start_time <= now()->endOfDay() &&
+            $cls->end_time   >= now()->startOfDay()
+          ) {
+            return $this->formatEvent($cls, 'Demo');
+          }
+
+          return null;
+        })
+        ->filter();
+
+      // ✅ Workshops
+      $workshops2 = WorkshopRegistration::where('user_id', $user->id)
+        ->where('checked_in', 1)
+        ->with(['workshop.classes'])
+        ->get()
+        ->flatMap(function ($reg) use ($today) {
+          return $reg->workshop->classes
+            ->filter(function ($cls) {
+              return $cls->start_time <= now()->endOfDay() &&
+                $cls->end_time   >= now()->startOfDay();
+            })
+            ->map(fn($cls) => $this->formatEvent($cls, 'Workshop'));
+        });
+
+      // ✅ Webinars
+      $webinars2 = WebinarRegistration::where('user_id', $user->id)
+        ->where('checked_in', 1)
+        ->with(['webinar'])
+        ->get()
+        ->map(function ($reg) {
+          $w = $reg->webinar;
+          if (!$w) return null;
+
+          if (
+            $w->start_time <= now()->endOfDay() &&
+            $w->end_time   >= now()->startOfDay()
+          ) {
+            return $this->formatEvent($w, 'Webinar');
+          }
+
+          return null;
+        })
+        ->filter();
+
+
+      $courses = $courses->merge($courses2);
+      $demos = $demos->merge($demos2);
+      $workshops = $workshops->merge($workshops2);
+      $webinars = $webinars->merge($webinars2);
+    }
+
+    // ===========================
+    // 🔥 MERGE + SORT
+    // ===========================
     $todayClasses = collect()
+      ->merge($courses)
       ->merge($demos)
       ->merge($webinars)
       ->merge($workshops)
-      ->merge($courses)
-      ->filter(fn($event) => isset($event['date']) && $event['date'] === $today)
+      ->filter(fn($event) => !is_null($event))
       ->sortBy(fn($event) => Carbon::parse($event['_start_datetime']))
       ->map(function ($event) {
-        unset($event['_start_datetime']); // ✅ remove helper keys
+        unset($event['_start_datetime']);
         unset($event['date']);
         return $event;
       })

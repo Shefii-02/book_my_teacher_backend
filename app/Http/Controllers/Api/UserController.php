@@ -759,8 +759,7 @@ class UserController extends Controller
     $end = Carbon::parse($model->end_time ?? $model->ended_at ?? $model->end_date_time);
     $now = Carbon::now();
 
-    Log::info($start);
-    Log::info($end);
+
 
     $classStatus = 'pending';
     if ($model->status == '1' || $model->status == 'scheduled' || $model->status == 'live') {
@@ -773,7 +772,7 @@ class UserController extends Controller
       }
     }
 
-    Log::info($classStatus);
+    Log::info($model->provider);
     // ✅ Fix: $model IS the course_class already when type is Course
     if ($type == 'Course') {
       $parent = $model->course_classes;

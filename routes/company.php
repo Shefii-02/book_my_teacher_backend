@@ -365,8 +365,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::resource('class-permissions', CourseClassPermissionController::class);
 
 
-  Route::post('webinar/registration/confirm', 'dashboard\WebinarController@confirmRegistration')->name('webinars.registration.confirm');
-  Route::post('webinar/registration/remove', 'dashboard\WebinarController@removeRegistration')->name('webinars.registration.remove');
+  Route::post('webinar/registration/confirm', 'LMS\WebinarController@confirmRegistration')->name('webinars.registration.confirm');
+  Route::post('webinar/registration/remove', 'LMS\WebinarController@removeRegistration')->name('webinars.registration.remove');
 
   Route::get('webinars/{webinar}/admissions', 'LMS\WebinarController@admissions')->name('webinars.admissions');
   Route::resource('webinars', 'LMS\WebinarController')->names('webinars');

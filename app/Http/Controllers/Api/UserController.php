@@ -926,8 +926,8 @@ class UserController extends Controller
         ->flatMap(function ($reg) use ($today) {
           return $reg->workshop->classes
             ->filter(function ($cls) {
-              return $cls->started_at <= now()->endOfDay() &&
-                $cls->ended_at   >= now()->startOfDay();
+              return $cls->start_date_time <= now()->endOfDay() &&
+                $cls->end_date_time   >= now()->startOfDay();
             })
             ->map(fn($cls) => $this->formatEvent($cls, 'Workshop'));
         });

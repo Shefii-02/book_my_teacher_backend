@@ -716,11 +716,10 @@ class UserController extends Controller
         ->filter()
         ->values();
 
-      // $courses = $courses->merge($courses2);
-      // $demos = $demos->merge($demos2);
-      // $workshops = $workshops->merge($workshops2);
-      // $webinars = $webinars->merge($webinars2);
-
+      $courses   = $courses->concat($courses2);
+      $demos     = $demos->concat($demos2);
+      $workshops = $workshops->concat($workshops2);
+      $webinars  = $webinars->concat($webinars2);
     } else if ($user->acc_type == 'student') {
 
       // ✅ Courses (enrolled)

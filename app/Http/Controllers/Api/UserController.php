@@ -747,7 +747,6 @@ class UserController extends Controller
   //     "data"    => $todayClasses,
   //   ]);
   // }
-  use Carbon\Carbon;
 
   public function todayClasses(Request $request)
   {

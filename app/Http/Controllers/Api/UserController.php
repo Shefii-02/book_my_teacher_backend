@@ -763,7 +763,7 @@ class UserController extends Controller
     Log::info($end);
 
     $classStatus = 'pending';
-    if ($model->status == '1') {
+    if ($model->status == '1' || $model->status == 'scheduled' || $model->status == 'live') {
       if ($now->lt($start)) {
         $classStatus = 'upcoming';
       } elseif ($now->between($start, $end)) {

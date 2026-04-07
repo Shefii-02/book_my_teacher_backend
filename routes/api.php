@@ -332,10 +332,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/chat/report', function (Request $req) {
     Log::info($req->all());
+    return response()->json([
+      'status' => true,
+      'message' => 'successfully reported chat',
+    ]);
   });
 
   Route::get('/chat/exit-group', function (Request $req) {
     Log::info($req->all());
+    return response()->json([
+      'status' => true,
+      'message' => 'successfully exited from group',
+    ]);
   });
 
 
@@ -343,6 +351,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
   Route::get('/chat/clear/{id}', function (Request $req, $id) {
     Log::info($req->all());
     Log::info($id);
+        return response()->json([
+      'status' => true,
+      'message' => 'successfully cleared chat',
+    ]);
   });
 
 

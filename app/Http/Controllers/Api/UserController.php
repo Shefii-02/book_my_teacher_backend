@@ -805,10 +805,10 @@ class UserController extends Controller
         ->get()
         ->flatMap(function ($reg) use ($today) {
           return $reg->workshop->classes
-            ->filter(function ($cls) {
-              return $cls->start_date_time <= now()->endOfDay() &&
-                $cls->end_date_time   >= now()->startOfDay();
-            })
+            // ->filter(function ($cls) {
+            //   return $cls->start_date_time <= now()->endOfDay() &&
+            //     $cls->end_date_time   >= now()->startOfDay();
+            // })
             ->map(fn($cls) => $this->formatEvent($cls, 'Workshop'));
         });
 
@@ -925,10 +925,10 @@ class UserController extends Controller
         ->get()
         ->flatMap(function ($reg) use ($today) {
           return $reg->workshop->classes
-            ->filter(function ($cls) {
-              return $cls->start_date_time <= now()->endOfDay() &&
-                $cls->end_date_time   >= now()->startOfDay();
-            })
+            // ->filter(function ($cls) {
+            //   return $cls->start_date_time <= now()->endOfDay() &&
+            //     $cls->end_date_time   >= now()->startOfDay();
+            // })
             ->map(fn($cls) => $this->formatEvent($cls, 'Workshop'));
         });
 

@@ -330,6 +330,22 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::any('/teacher/achievements', 'TeacherController@achievements');
 
+  Route::get('/chat/report', function (Request $req) {
+    Log::info($req->all());
+  });
+
+  Route::get('/chat/exit-group', function (Request $req) {
+    Log::info($req->all());
+  });
+
+
+
+  Route::get('/chat/clear/{id}', function (Request $req, $id) {
+    Log::info($req->all());
+    Log::info($id);
+  });
+
+
   // Route::get('/ref/{code}', function(Request $req, $code) {
 
   //     $ip = $req->ip();
@@ -1231,4 +1247,3 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::get('/provide-subjects', 'StudentController@provideSubjects');
 });
-

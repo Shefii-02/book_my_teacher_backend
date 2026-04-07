@@ -805,7 +805,7 @@ class UserController extends Controller
       "time"         => $start->format('h:i a'),
       "start_time"   => $start->format('d-m-Y h:i a'),
       "end_time"     => $end->format('d-m-Y h:i a'),
-      "platform"     => $model->provider?->source ?? $model->class_mode ?? '',
+      "platform"     => $model->provider?->name ?? $model->class_mode ?? '',
       "subject"      => $model->description ?? '',
       "course"       => $course?->title ?? '',
       "teacher_name" => $model->host?->name ?? '',

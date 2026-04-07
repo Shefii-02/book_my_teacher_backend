@@ -788,8 +788,8 @@ class UserController extends Controller
           if (!$cls) return null;
 
           if (
-            $cls->start_time <= now()->endOfDay() &&
-            $cls->end_time   >= now()->startOfDay()
+            $cls->started_at <= now()->endOfDay() &&
+            $cls->ended_at   >= now()->startOfDay()
           ) {
             return $this->formatEvent($cls, 'Demo');
           }
@@ -866,8 +866,8 @@ class UserController extends Controller
 
       // ✅ Demos
       $demos = DemoClass::where('host_id', $user->id)
-        ->where('start_time', '<=', now()->endOfDay())
-        ->where('end_time', '>=', now()->startOfDay())
+        ->where('started_at', '<=', now()->endOfDay())
+        ->where('ended_at', '>=', now()->startOfDay())
         ->get()
         ->map(fn($d) => $this->formatEvent($d, 'Demo'));
 
@@ -908,8 +908,8 @@ class UserController extends Controller
           if (!$cls) return null;
 
           if (
-            $cls->start_time <= now()->endOfDay() &&
-            $cls->end_time   >= now()->startOfDay()
+            $cls->started_at <= now()->endOfDay() &&
+            $cls->ended_at   >= now()->startOfDay()
           ) {
             return $this->formatEvent($cls, 'Demo');
           }
@@ -926,8 +926,8 @@ class UserController extends Controller
         ->flatMap(function ($reg) use ($today) {
           return $reg->workshop->classes
             ->filter(function ($cls) {
-              return $cls->start_time <= now()->endOfDay() &&
-                $cls->end_time   >= now()->startOfDay();
+              return $cls->started_at <= now()->endOfDay() &&
+                $cls->ended_at   >= now()->startOfDay();
             })
             ->map(fn($cls) => $this->formatEvent($cls, 'Workshop'));
         });
@@ -942,8 +942,8 @@ class UserController extends Controller
           if (!$w) return null;
 
           if (
-            $w->start_time <= now()->endOfDay() &&
-            $w->end_time   >= now()->startOfDay()
+            $w->started_at <= now()->endOfDay() &&
+            $w->ended_at   >= now()->startOfDay()
           ) {
             return $this->formatEvent($w, 'Webinar');
           }

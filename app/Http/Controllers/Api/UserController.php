@@ -875,8 +875,8 @@ class UserController extends Controller
       $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
         $q->where('host_id', $user->id);
       })
-        ->where('start_date_time', '<=', now()->endOfDay())
-        ->where('end_date_time', '>=', now()->startOfDay())
+        // ->where('start_date_time', '<=', now()->endOfDay())
+        // ->where('end_date_time', '>=', now()->startOfDay())
         ->get()
         ->map(fn($w) => $this->formatEvent($w, 'Workshop'));
 

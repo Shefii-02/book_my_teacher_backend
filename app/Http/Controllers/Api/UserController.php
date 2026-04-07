@@ -670,16 +670,16 @@ class UserController extends Controller
 
 
       // // ✅ Courses (enrolled)
-      // $courses2 = CourseEnrollment::where('user_id', $user->id)
-      //   ->where('status', 1)
-      //   ->with(['course.courseClasses'])
-      //   ->get()
-      //   ->flatMap(function ($enrollment) {
-      //     return $enrollment->course->courseClasses->map(function ($courseClass) {
-      //       return $this->formatEvent($courseClass, 'Course');
-      //     });
-      //   })
-      //   ->values();
+      $courses2 = CourseEnrollment::where('user_id', $user->id)
+        ->where('status', 1)
+        ->with(['course.courseClasses'])
+        ->get()
+        ->flatMap(function ($enrollment) {
+          return $enrollment->course->courseClasses->map(function ($courseClass) {
+            return $this->formatEvent($courseClass, 'Course');
+          });
+        })
+        ->values();
       // // ✅ Demos (registered)
       // $demos2 = DemoClassRegistration::where('user_id', $user->id)->where('checked_in', 1)
       //   ->with(['demoClass'])

@@ -205,8 +205,6 @@ class UserController extends Controller
       'message' => 'Delete account request submitted successfully.',
       'data' => $deleteReq
     ]);
-
-
   }
 
   public function  userDataRetrieve(Request $request)
@@ -760,6 +758,9 @@ class UserController extends Controller
 
     $end = Carbon::parse($model->end_time ?? $model->ended_at ?? $model->end_date_time);
     $now = Carbon::now();
+
+    Log::info($start);
+    Log::info($end);
 
     $classStatus = 'pending';
     if ($model->status == '1') {

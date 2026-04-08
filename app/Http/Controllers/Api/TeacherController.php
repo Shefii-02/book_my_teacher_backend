@@ -2448,4 +2448,5 @@ class TeacherController extends Controller
       "message" => "Dummy duration saved successfully"
     ]);
   }
+
 }

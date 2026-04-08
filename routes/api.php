@@ -365,8 +365,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::any('/teacher/achievements', 'TeacherController@achievements');
 
-    Route::post('/teacher/classes/students-attendance', 'TeacherController@studentsAttendance');
-    Route::post('/teacher/classes/{$classId}/attendance', 'TeacherController@saveAttendance');
+    Route::post('/teacher/classes/{classId}/students-attendance', 'TeacherController@studentsAttendance');
+    Route::post('/teacher/classes/{classId}/attendance', 'TeacherController@saveAttendance');
 
 
   // Route::get('/ref/{code}', function(Request $req, $code) {

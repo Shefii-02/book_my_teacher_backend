@@ -11,11 +11,11 @@
                 @php
                     $tabs = [
                         'profile'  => ['Profile', 'person'],
-                        'security' => ['Security', 'lock'],
-                        'activity' => ['Activity Logs', 'clock'],
-                        'support'  => ['Support', 'chat'],
-                        'delete'   => ['Account Delete', 'trash'],
-                        'feedback' => ['Feedback & Suggestions', 'ui-checks-grid'],
+                        // 'security' => ['Security', 'lock'],
+                        // 'activity' => ['Activity Logs', 'clock'],
+                        // 'support'  => ['Support', 'chat'],
+                        // 'delete'   => ['Account Delete', 'trash'],
+                        // 'feedback' => ['Feedback & Suggestions', 'ui-checks-grid'],
                     ];
                 @endphp
 
@@ -40,7 +40,7 @@
                     @include('teacher.settings.tabs.profile')
                 </div>
 
-                <div id="security" class="tab-content hidden">
+                {{-- <div id="security" class="tab-content hidden">
                     @include('teacher.settings.tabs.security')
                 </div>
 
@@ -54,12 +54,12 @@
 
                 <div id="delete" class="tab-content hidden">
                     @include('teacher.settings.tabs.account-delete')
-                </div>
+                </div> --}}
 
 
-                <div id="feedback" class="tab-content hidden">
+                {{-- <div id="feedback" class="tab-content hidden">
                     @include('teacher.settings.tabs.feedback')
-                </div>
+                </div> --}}
 
             </div>
         </div>

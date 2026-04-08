@@ -2299,6 +2299,46 @@ class TeacherController extends Controller
         "avatar_color" => "#0984E3",
         "attendance_status" => null, // not marked yet
       ],
+      [
+        "student_id" => 5,
+        "name" => "Aman Khan",
+        "roll_number" => "STU-004",
+        "initials" => "AK",
+        "avatar_color" => "#0984E3",
+        "attendance_status" => null, // not marked yet
+      ],
+      [
+        "student_id" => 6,
+        "name" => "Aman Khan",
+        "roll_number" => "STU-004",
+        "initials" => "AK",
+        "avatar_color" => "#0984E3",
+        "attendance_status" => null, // not marked yet
+      ],
+      [
+        "student_id" => 7,
+        "name" => "Aman Khan",
+        "roll_number" => "STU-004",
+        "initials" => "AK",
+        "avatar_color" => "#0984E3",
+        "attendance_status" => null, // not marked yet
+      ],
+      [
+        "student_id" => 8,
+        "name" => "Aman Khan",
+        "roll_number" => "STU-004",
+        "initials" => "AK",
+        "avatar_color" => "#0984E3",
+        "attendance_status" => null, // not marked yet
+      ],
+      [
+        "student_id" => 9,
+        "name" => "Aman Khan",
+        "roll_number" => "STU-004",
+        "initials" => "AK",
+        "avatar_color" => "#0984E3",
+        "attendance_status" => null, // not marked yet
+      ],
     ]);
 
     return response()->json([

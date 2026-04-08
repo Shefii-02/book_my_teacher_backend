@@ -356,7 +356,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/teacher/classes/{classId}/students-attendance', 'TeacherController@studentsAttendance');
     Route::post('/teacher/classes/{classId}/attendance', 'TeacherController@saveAttendance');
     Route::post('/teacher/classes/{classId}/duration', 'TeacherController@saveClassDuration');
-    Route::post('/teacher/courses/{courseId}', 'TeacherController@courseDetails');
+    // Route::post('/teacher/courses/{courseId}', 'TeacherController@courseDetails');
 
 
 

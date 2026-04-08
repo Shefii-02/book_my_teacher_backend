@@ -20,7 +20,7 @@
                         </button>
                     </li>
 
-                    <li>
+                    {{-- <li>
                         <button @click="tab='branding'"
                             :class="tab == 'branding' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
                             class="w-full text-left px-4 py-2 rounded-lg">
@@ -42,15 +42,15 @@
                             class="w-full text-left px-4 py-2 rounded-lg">
                             Payment Settings
                         </button>
-                    </li>
+                    </li> --}}
 
-                    <li>
+                    {{-- <li>
                         <button @click="tab='security'"
                             :class="tab == 'security' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
                             class="w-full text-left px-4 py-2 rounded-lg">
                             Security
                         </button>
-                    </li>
+                    </li> --}}
 
                 </ul>
 
@@ -106,7 +106,7 @@
                     </div>
 
                     {{-- BRANDING --}}
-                    <div x-show="tab=='branding'" x-transition>
+                    {{-- <div x-show="tab=='branding'" x-transition>
                         <h3 class="text-xl font-bold mb-4">Branding</h3>
 
                         <form method="POST" enctype="multipart/form-data"
@@ -196,11 +196,11 @@
 
                             <button class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Save</button>
                         </form>
-                    </div>
+                    </div> --}}
 
 
                     {{-- SOCIAL --}}
-                    <div x-show="tab=='social'" x-transition>
+                    {{-- <div x-show="tab=='social'" x-transition>
                         <h3 class="text-xl font-bold mb-4">Social Links</h3>
 
                         <form method="POST" enctype="multipart/form-data"
@@ -328,12 +328,12 @@
 
                             <button class="mt-6 bg-blue-600 text-white text-center px-6 py-2 rounded-lg">Save</button>
                         </form>
-                    </div>
+                    </div> --}}
 
 
 
                     {{-- PAYMENT --}}
-                    <div x-show="tab=='payment'" x-transition>
+                    {{-- <div x-show="tab=='payment'" x-transition>
                         <h3 class="text-xl font-bold mb-4">Payment Settings</h3>
 
                         <form method="POST" action="{{ route('company.company.settings.payment.update') }}">
@@ -363,10 +363,10 @@
 
                             <button class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Save</button>
                         </form>
-                    </div>
+                    </div> --}}
 
                     {{-- SECURITY --}}
-                    <div x-show="tab=='security'" x-transition>
+                    {{-- <div x-show="tab=='security'" x-transition>
                         <h3 class="text-xl font-bold mb-4">Security Settings</h3>
 
                         <form method="POST" action="{{ route('company.company.settings.security.update') }}">
@@ -390,7 +390,7 @@
 
                             <button class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Save</button>
                         </form>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

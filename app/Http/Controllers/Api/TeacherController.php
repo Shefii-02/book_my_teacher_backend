@@ -2431,11 +2431,21 @@ class TeacherController extends Controller
   public function saveAttendance(Request $request, $classId)
   {
     // Just return what frontend sent (for testing)
-Log::info($request->all());
+    Log::info($request->all());
     return response()->json([
       "status" => true,
       "message" => "Dummy attendance saved successfully",
       "received_data" => $request->records
+    ]);
+  }
+  public function saveClassDuration(Request $request, $classId)
+  {
+
+    // Just return what frontend sent (for testing)
+    Log::info($request->all());
+    return response()->json([
+      "status" => true,
+      "message" => "Dummy duration saved successfully"
     ]);
   }
 }

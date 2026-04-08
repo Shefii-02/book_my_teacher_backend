@@ -2267,7 +2267,7 @@ class TeacherController extends Controller
   {
     $students = collect([
       [
-        "student_id" => 1,
+        "student_id" => intValue(1),
         "name" => "Arjun Kumar",
         "roll_number" => "STU-001",
         "initials" => "AK",
@@ -2275,7 +2275,7 @@ class TeacherController extends Controller
         "attendance_status" => "present",
       ],
       [
-        "student_id" => 2,
+        "student_id" => intValue(2),
         "name" => "Rahul Nair",
         "roll_number" => "STU-002",
         "initials" => "RN",
@@ -2283,7 +2283,7 @@ class TeacherController extends Controller
         "attendance_status" => "absent",
       ],
       [
-        "student_id" => 3,
+        "student_id" => intValue(3),
         "name" => "Sneha Das",
         "roll_number" => "STU-003",
         "initials" => "SD",
@@ -2291,7 +2291,7 @@ class TeacherController extends Controller
         "attendance_status" => "late",
       ],
       [
-        "student_id" => 4,
+        "student_id" => intValue(4),
         "name" => "Aman Khan",
         "roll_number" => "STU-004",
         "initials" => "AK",

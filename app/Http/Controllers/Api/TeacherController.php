@@ -2265,6 +2265,7 @@ class TeacherController extends Controller
 
   public function studentsAttendance(Request $request, $classId)
   {
+    Log::info('lll');
     $students = collect([
       [
         "student_id" => intValue(1),

@@ -321,9 +321,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/student-update-personal', 'StudentController@UpdatePersonal');
 
-
-    Route::post('/teacher/classes/$classId/students-attendance', 'TeacherController@studentsAttendance');
-    Route::post('/teacher/classes/$classId/attendance', 'TeacherController@saveAttendance');
+    Route::post('/teacher/classes/{$classId}/students-attendance', 'TeacherController@studentsAttendance');
+    Route::post('/teacher/classes/{$classId}/attendance', 'TeacherController@saveAttendance');
 
 
 

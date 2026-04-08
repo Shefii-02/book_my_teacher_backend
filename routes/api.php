@@ -320,6 +320,43 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/fetch-enrolled-courses', 'StudentController@enrolledCourses');
 
     Route::post('/student-update-personal', 'StudentController@UpdatePersonal');
+
+
+    Route::post('/teacher/classes/$classId/students-attendance', 'TeacherController@studentsAttendance');
+    Route::post('/teacher/classes/$classId/attendance', 'TeacherController@saveAttendance');
+
+
+
+    Route::post('/chat/report', function (Request $req) {
+      Log::info($req->all());
+      return response()->json([
+        'status' => true,
+        'message' => 'successfully reported chat',
+      ]);
+    });
+
+    Route::post('/chat/exit-group', function (Request $req) {
+      Log::info($req->all());
+      return response()->json([
+        'status' => true,
+        'message' => 'successfully exited from group',
+      ]);
+    });
+
+
+
+    Route::post('/chat/clear/{id}', function (Request $req, $id) {
+      Log::info($req->all());
+      Log::info($id);
+      return response()->json([
+        'status' => true,
+        'message' => 'successfully cleared chat',
+      ]);
+    });
+
+
+
+
     ///////////////////////////////////////////////////////////////////////
 
   });
@@ -330,32 +367,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
   Route::any('/teacher/achievements', 'TeacherController@achievements');
 
-  Route::post('/chat/report', function (Request $req) {
-    Log::info($req->all());
-    return response()->json([
-      'status' => true,
-      'message' => 'successfully reported chat',
-    ]);
-  });
 
-  Route::post('/chat/exit-group', function (Request $req) {
-    Log::info($req->all());
-    return response()->json([
-      'status' => true,
-      'message' => 'successfully exited from group',
-    ]);
-  });
-
-
-
-  Route::post('/chat/clear/{id}', function (Request $req, $id) {
-    Log::info($req->all());
-    Log::info($id);
-        return response()->json([
-      'status' => true,
-      'message' => 'successfully cleared chat',
-    ]);
-  });
 
 
   // Route::get('/ref/{code}', function(Request $req, $code) {

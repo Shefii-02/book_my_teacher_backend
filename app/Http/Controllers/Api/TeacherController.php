@@ -1099,11 +1099,11 @@ class TeacherController extends Controller
     //   ],
     // ];
 
-  // return response()->json([
-  //     "course" => $courseDetail,
-  //     "classes" =>  [],
-  //     "materials" => [],
-  //   ]);
+    // return response()->json([
+    //     "course" => $courseDetail,
+    //     "classes" =>  [],
+    //     "materials" => [],
+    //   ]);
     return response()->json([
       "course" => $courseDetail,
       "classes" => $classes,
@@ -2260,5 +2260,60 @@ class TeacherController extends Controller
         'error'   => $e->getMessage(), // remove in production
       ], 500);
     }
+  }
+
+
+  public function studentsAttendance(Request $request, $classId)
+  {
+    $students = collect([
+      [
+        "student_id" => 1,
+        "name" => "Arjun Kumar",
+        "roll_number" => "STU-001",
+        "initials" => "AK",
+        "avatar_color" => "#4A47B0",
+        "attendance_status" => "present",
+      ],
+      [
+        "student_id" => 2,
+        "name" => "Rahul Nair",
+        "roll_number" => "STU-002",
+        "initials" => "RN",
+        "avatar_color" => "#FF6B6B",
+        "attendance_status" => "absent",
+      ],
+      [
+        "student_id" => 3,
+        "name" => "Sneha Das",
+        "roll_number" => "STU-003",
+        "initials" => "SD",
+        "avatar_color" => "#00B894",
+        "attendance_status" => "late",
+      ],
+      [
+        "student_id" => 4,
+        "name" => "Aman Khan",
+        "roll_number" => "STU-004",
+        "initials" => "AK",
+        "avatar_color" => "#0984E3",
+        "attendance_status" => null, // not marked yet
+      ],
+    ]);
+
+    return response()->json([
+      "students" => $students
+    ]);
+  }
+
+
+  public function saveAttendance(Request $request, $classId)
+  {
+    // Just return what frontend sent (for testing)
+
+    return response()->json([
+      "status" => true,
+      "message" => "Dummy attendance saved successfully",
+      "received_data" => $request->records
+    ]);
   }
 }

@@ -988,11 +988,11 @@ class TeacherController extends Controller
   }
 
 
-  public function courseDetails(Request $request)
+  public function courseDetails(Request $request,$courseId)
   {
     // Example dummy details per course id
 
-    $id = $request->id;
+    $id = $request->id ?? $courseId;
 
     $course = Course::where('id', $id)->first();
 

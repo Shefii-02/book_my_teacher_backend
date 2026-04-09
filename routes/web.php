@@ -54,6 +54,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('request-account-delete.html', function () {
           return;
         });
+            Route::get('privacy-policy.html', function () {
+          return;
+        });
+
+          Route::get('terms-condition.html', function () {
+          return;
+        });
       }
     );
 

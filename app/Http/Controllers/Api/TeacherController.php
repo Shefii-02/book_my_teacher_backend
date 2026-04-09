@@ -1017,7 +1017,8 @@ class TeacherController extends Controller
       'actual_price' => "0",
       'price' => "0",
       'course_type' => "0",
-      'instructors' => [json_encode(['id' => 1,'avatar'=>'','name'=>'aKM','specialization'=>'SM,LS,MS'])],
+      'instructors' => [],
+      // json_encode(['id' => 1,'avatar'=>'','name'=>'aKM','specialization'=>'SM,LS,MS'])
       'started_at' => "10-01-2026 12:00:00 AM",
       'ended_at' => "12-10-2026 11:59:00 PM",
       'counselling_section' => true,

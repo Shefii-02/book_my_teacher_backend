@@ -1012,6 +1012,16 @@ class TeacherController extends Controller
       'language'    => '',
       'total_classes' => 0,
       'completed_classes' => 0,
+      'mode' => 0,
+      'type_class' => 0,
+      'actual_price' => 0,
+      'price' => 0,
+      'course_type' => 0,
+      'instructors' => [],
+      'started_at' => 0,
+      'ended_at' => 0,
+      'counselling_section' => 0,
+      'career_guidance' => 0,
     ];
 
 
@@ -2448,5 +2458,4 @@ class TeacherController extends Controller
       "message" => "Dummy duration saved successfully"
     ]);
   }
-
 }

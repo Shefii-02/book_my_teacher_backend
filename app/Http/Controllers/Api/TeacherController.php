@@ -1017,7 +1017,7 @@ class TeacherController extends Controller
       'actual_price' => 0,
       'price' => 0,
       'course_type' => 0,
-      'instructors' => [],
+      'instructors' => ['shefii','shefii3'],
       'started_at' => 0,
       'ended_at' => 0,
       'counselling_section' => 0,

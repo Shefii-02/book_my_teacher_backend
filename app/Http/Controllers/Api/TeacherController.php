@@ -1010,8 +1010,8 @@ class TeacherController extends Controller
       'duration' => $course->duration . ' ' . $course->duration_type,
       'level'      => $course->level,
       'language'    => '',
-      'total_classes' => "0",
-      'completed_classes' => "0",
+      'total_classes' => 0,
+      'completed_classes' => 0,
       'mode' => "0",
       'type_class' => "0",
       'actual_price' => "0",
@@ -1020,8 +1020,8 @@ class TeacherController extends Controller
       'instructors' => ['shefii','shefii3'],
       'started_at' => "0",
       'ended_at' => "0",
-      'counselling_section' => "0",
-      'career_guidance' => "0",
+      'counselling_section' => true,
+      'career_guidance' => false,
     ];
 
 

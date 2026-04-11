@@ -875,8 +875,6 @@ class UserController extends Controller
     $user = $request->user();
 
 
-
-
     $review = AppReview::where('user_id', $user->id)
       ->first();
 
@@ -909,7 +907,7 @@ class UserController extends Controller
   /// ✅ CREATE / UPDATE REVIEW
   public function writeReview(Request $request)
   {
-
+    $company_id = 1;
     $user = $request->user();
 
     $review = AppReview::updateOrCreate(
@@ -918,7 +916,8 @@ class UserController extends Controller
       ],
       [
         'rating' => $request->rating,
-        'feedback' => $request->feedback
+        'feedback' => $request->feedback,
+        'company_id' => $company_id,
       ]
     );
 

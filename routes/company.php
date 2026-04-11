@@ -17,21 +17,26 @@ use App\Http\Controllers\ChatModule\LabelController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+
+
+// use App\Http\Controllers\ChatModule\ChatController;
+// use App\Http\Controllers\ChatModule\MessageController;
+
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth', 'company_panel'], 'namespace' => 'App\Http\Controllers'], function () {
 
-  Route::group(['prefix' => 'chat', 'as' => 'chat.'], function () {
-    Route::get('/', [ChatController::class, 'index'])->name('index');
-    Route::get('/conversations', [ChatController::class, 'getConversations']);
-    Route::get('/messages/{id}', [ChatController::class, 'messages']);
+  // Route::group(['prefix' => 'chat', 'as' => 'chat.'], function () {
+  //   Route::get('/', [ChatController::class, 'index'])->name('index');
+  //   Route::get('/conversations', [ChatController::class, 'getConversations']);
+  //   Route::get('/messages/{id}', [ChatController::class, 'messages']);
 
-    Route::post('/send', [MessageController::class, 'send']);
-    Route::post('/delete/{id}', [MessageController::class, 'delete']);
-    Route::post('/report/{id}', [MessageController::class, 'report']);
+  //   Route::post('/send', [MessageController::class, 'send']);
+  //   Route::post('/delete/{id}', [MessageController::class, 'delete']);
+  //   Route::post('/report/{id}', [MessageController::class, 'report']);
 
 
-    Route::post('/chat/add-label', [ChatController::class, 'addLabel']);
-    Route::get('/chat/labels', [ChatController::class, 'labels']);
-  });
+  //   Route::post('/chat/add-label', [ChatController::class, 'addLabel']);
+  //   Route::get('/chat/labels', [ChatController::class, 'labels']);
+  // });
 
 
   Route::get('global-search', 'GlobalSearchController@search')
@@ -80,11 +85,14 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::post('referral/{ref_id}/credited', 'ReferralController@pointApprove')->name('referral.credit');
     Route::resource('referral', 'ReferralController')->names('referral');
 
-    Route::get('reviews/student/details/{id}', 'SubjectReviewController@studentDetails')->name('reviews.student.details');
-    Route::get('reviews/course/details/{id}', 'SubjectReviewController@courseDetails')->name('reviews.course.details');
-    Route::get('reviews/course/subject/details/{id}', 'SubjectReviewController@courseSubjects')->name('reviews.course.subject.details');
+    Route::post('app-reviews/reorder', 'AppReviewController@reorder')->name('app-reviews.reorder');
+    Route::resource('app-reviews', 'AppReviewController')->names('app-reviews');
 
-    Route::resource('reviews', 'SubjectReviewController')->names('reviews');
+    Route::get('course-reviews/student/details/{id}', 'SubjectReviewController@studentDetails')->name('reviews.student.details');
+    Route::get('course-reviews/course/details/{id}', 'SubjectReviewController@courseDetails')->name('reviews.course.details');
+    Route::get('course-reviews/course/subject/details/{id}', 'SubjectReviewController@courseSubjects')->name('reviews.course.subject.details');
+
+    Route::resource('course-reviews', 'SubjectReviewController')->names('reviews');
     Route::resource('community-links', 'CommunityLinkController')->names('community-links');
     // Route::resource('achivements', 'AchivementsController')->names('achivements');
 
@@ -671,4 +679,42 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
     Log::alert('Successully completed');
   });
+});
+
+
+Route::middleware(['auth'])->prefix('company')->group(function () {
+
+    // ── Chat UI ───────────────────────────────────────────────────────────────
+    Route::get('/chat',                  [ChatController::class, 'index'])
+         ->name('company.chat.index');
+
+    // ── Conversation list (sidebar) ───────────────────────────────────────────
+    Route::get('/chat/conversations',    [ChatController::class, 'getConversations'])
+         ->name('company.chat.conversations');
+
+    // ── Messages for a conversation ───────────────────────────────────────────
+    Route::get('/chat/messages/{conversationId}', [MessageController::class, 'messages'])
+         ->name('company.chat.messages')
+         ->where('conversationId', '[0-9]+');
+
+    // ── Send a message ────────────────────────────────────────────────────────
+    Route::post('/chat/send',            [MessageController::class, 'send'])
+         ->name('company.chat.send');
+
+    // ── Delete a message (soft-delete) ────────────────────────────────────────
+    Route::post('/chat/delete/{id}',     [MessageController::class, 'delete'])
+         ->name('company.chat.delete')
+         ->where('id', '[0-9]+');
+
+    // ── Report a message ──────────────────────────────────────────────────────
+    Route::post('/chat/report/{id}',     [MessageController::class, 'report'])
+         ->name('company.chat.report')
+         ->where('id', '[0-9]+');
+
+    // ── Labels (optional) ─────────────────────────────────────────────────────
+    Route::get('/chat/labels',           [ChatController::class, 'labels'])
+         ->name('company.chat.labels');
+
+    Route::post('/chat/label',           [ChatController::class, 'addLabel'])
+         ->name('company.chat.addLabel');
 });

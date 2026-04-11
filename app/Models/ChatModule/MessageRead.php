@@ -12,6 +12,8 @@ class MessageRead extends Model
   protected $table = 'message_reads';
 
   protected $dates = ['read_at'];
+  
+  protected $fillable = ['message_id'];
 
   public function message()
   {

@@ -11,7 +11,7 @@
     {{-- IMAGE --}}
     <div class="relative h-40 overflow-hidden">
         <img src="{{ $course->thumbnail_url ?? ($course->main_image_url ?? asset('images/placeholder.png')) }}"
-            alt="{{ $course->title }}" loading="lazy"
+            alt="{{ $course->title }}" loading="lazy" style="min-height: 200px"
             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
 
         {{-- STATUS BADGE --}}
@@ -59,7 +59,7 @@
                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700">
                 Admission Users
             </a>
-             <a role="button" data-url="{{ route('company.courses.manage-conversation', $course->course_identity) }}"
+            <a role="button" data-url="{{ route('company.courses.manage-conversation', $course->course_identity) }}"
                 class="block px-4 py-2 open-drawer hover:bg-gray-100 dark:hover:bg-slate-700">
                 {{ $course->conversation->count() ? 'Edit' : 'Create' }} Group Chat
             </a>

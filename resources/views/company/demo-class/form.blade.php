@@ -6,6 +6,40 @@
 
 @section('title', $isEdit ? 'Edit Webinar' : 'Create Webinar')
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        .select2-container .select2-selection--single {
+            padding-top: 6px !important;
+            height: 40px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            border: 1px solid #dee2e6 !important;
+            border-radius: 5px !important;
+        }
+
+        span.select2-results__option[aria-selected=true] {
+            background-color: #e9ecef !important;
+        }
+
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            background: #d8d8d8 !important;
+            border: 1px solid #dee2e6 !important;
+            border-radius: 5px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            padding-top: 0px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+
+            line-height: 40px;
+        }
+    </style>
+@endpush
 @section('nav-options')
     <nav>
         <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
@@ -73,7 +107,7 @@
 
                     <div>
                         <label class="block mb-1 font-semibold">Host</label>
-                        <select name="host_id"
+                        <select name="host_id" id="hostSelect"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('host_id') border-red-500 @enderror">
                             <option value="">-- Select Host --</option>
                             @foreach ($users ?? [] as $user)
@@ -127,7 +161,7 @@
                     </div>
 
                     <!-- Max Participants -->
-                    <div>
+                    {{-- <div>
                         <label class="block mb-1 font-semibold">Max Participants</label>
                         <select name="max_participants"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('max_participants') border-red-500 @enderror">
@@ -140,10 +174,10 @@
                         @error('max_participants')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <!-- Features -->
-                    <div>
+                    {{-- <div>
                         <label class="block mb-1 font-semibold">Enable Features</label>
                         <div class="flex flex-wrap space-x-4">
                             @foreach (['record', 'chat', 'screen_share', 'whiteboard', 'camera', 'audio_only'] as $feature)
@@ -158,23 +192,9 @@
                                 @enderror
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <!-- Status -->
-                    <div>
-                        <label class="block mb-1 font-semibold">Status</label>
-                        <select name="status"
-                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('status') border-red-500 @enderror">
-                            @foreach (['draft', 'scheduled', 'live', 'ended'] as $status)
-                                <option value="{{ $status }}"
-                                    {{ old('status', $isEdit ? $demoClass->status : '') == $status ? 'selected' : '' }}>
-                                    {{ ucfirst($status) }}</option>
-                            @endforeach
-                        </select>
-                        @error('status')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+
 
                     <!-- Tags -->
                     <div class="md:col-span-2">
@@ -199,39 +219,69 @@
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
+                    <!-- Status -->
+                    <div>
+                        <label class="block mb-1 font-semibold">Status</label>
+                        <select name="status"
+                            class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('status') border-red-500 @enderror">
+                            @foreach (['draft', 'scheduled', 'live', 'ended'] as $status)
+                                <option value="{{ $status }}"
+                                    {{ old('status', $isEdit ? $demoClass->status : '') == $status ? 'selected' : '' }}>
+                                    {{ ucfirst($status) }}</option>
+                            @endforeach
+                        </select>
+                        @error('status')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
 
                     <!-- Tags -->
-                    <div class="md:col-span-2">
+                    {{-- <div class="md:col-span-2">
                         <label class="block mb-1 font-semibold">Tags (comma separated)</label>
                         <input type="text" name="tags" value="{{ old('tags', $isEdit ? $demoClass->tags : '') }}"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('tags') border-red-500 @enderror">
                         @error('tags')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <!-- Meta -->
-                    <div class="md:col-span-2">
+                    {{-- <div class="md:col-span-2">
                         <label class="block mb-1 font-semibold">Meta</label>
                         <textarea name="meta"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('meta') border-red-500 @enderror">{{ old('meta', $isEdit ? $demoClass->meta : '') }}</textarea>
                         @error('meta')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
 
                 </div>
+                <div class="text-center">
+                    <button type="submit"
+                        class="bg-emerald-500/50 text-white px-4 py-2 rounded hover:bg-emerald-600">{{ $isEdit ? 'Update Demo class' : 'Create Demo class' }}</button>
 
-                <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{{ $isEdit ? 'Update Demo class' : 'Create Demo class' }}</button>
+                </div>
             </form>
         </div>
     </div>
 @endsection
 
 @push('scripts')
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#hostSelect').select2({
+                placeholder: "-- Select Host --",
+                width: '100%',
+            });
+
+        });
+    </script>
     <script>
         $(document).ready(function() {
             function readURL(input, previewId) {

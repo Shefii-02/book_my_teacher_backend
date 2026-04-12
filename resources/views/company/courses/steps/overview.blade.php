@@ -154,21 +154,21 @@
                     <p class="text-gray-500">Class Type</p>
                     <p class="font-medium text-gray-900">{{ ucfirst($course->class_type ?? '—') }}</p>
                 </div>
-                <div>
+                {{-- <div>
                     <p class="text-gray-500">Has Material</p>
                     <p class="font-medium text-gray-900">{{ $course->has_material ? 'Yes' : 'No' }}</p>
-                </div>
+                </div> --}}
                 @if ($course->has_material)
-                    <div>
+                    {{-- <div>
                         <p class="text-gray-500">Material Download</p>
                         <p class="font-medium text-gray-900">
                             {{ $course->has_material_download ? 'Allowed' : 'Not Allowed' }}</p>
-                    </div>
+                    </div> --}}
                 @endif
-                <div>
+                {{-- <div>
                     <p class="text-gray-500">Has Exam</p>
                     <p class="font-medium text-gray-900">{{ $course->has_exam ? 'Yes' : 'No' }}</p>
-                </div>
+                </div> --}}
                 <div>
                     <p class="text-gray-500">Career Guidance</p>
                     <p class="font-medium text-gray-900">{{ $course->is_career_guidance ? 'Yes' : 'No' }}</p>

@@ -5,6 +5,28 @@
     );
 @endphp
 
+<style>
+    .select2-container .select2-selection--single {
+        padding-top: 6px !important;
+        height: 40px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        border: 1px solid #dee2e6 !important;
+        border-radius: 5px !important;
+    }
+
+    span.select2-results__option[aria-selected=true] {
+        background-color: #e9ecef !important;
+    }
+
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        background: #d8d8d8 !important;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 5px !important;
+    }
+</style>
+
 
 <form action="{{ route('company.courses.store') }}" method="POST" id="advancedSettingsForm" class="space-y-6">
     @csrf
@@ -95,13 +117,13 @@
 
 
             {{-- Has Material --}}
-            <div>
+            {{-- <div>
                 <div class="form-check form-switch mb-3">
                     <input class="form-check-input border" {{ $course && $course->has_material == 1 ? 'checked' : '' }}
                         type="checkbox" name="has_material" id="isMaterialCheckBox" checked>
                     <label class="form-check-label" for="isMaterialCheckBox">Has Material?</label>
                 </div>
-            </div>
+            </div> --}}
             {{-- <div>
                 <label class="block text-sm font-medium text-gray-700">Has Material?</label>
                 <select name="has_material" id="has_material"
@@ -113,14 +135,14 @@
 
             {{-- Has Material Download (only if has_material = 1) --}}
 
-            <div id="material_download_wrapper" class="hidden">
+            {{-- <div id="material_download_wrapper" class="hidden">
                 <div class="form-check form-switch mb-3">
                     <input class="form-check-input border"
                         {{ $course && $course->has_material_download == 1 ? 'checked' : '' }} type="checkbox"
                         name="has_material_download" id="isMaterialDownloadCheckBox" checked>
                     <label class="form-check-label" for="isMaterialDownloadCheckBox">Allow Material Download?</label>
                 </div>
-            </div>
+            </div> --}}
 
             {{-- <div >
                 <label class="block text-sm font-medium text-gray-700">Allow Material Download?</label>
@@ -134,26 +156,27 @@
             </div> --}}
 
             {{-- Has Exam --}}
-            <div>
-                <div class="form-check form-switch mb-3">
+            {{-- <div> --}}
+            {{-- <div class="form-check form-switch mb-3">
                     <input class="form-check-input border" {{ $course && $course->has_exam == 1 ? 'checked' : '' }}
                         type="checkbox" name="has_exam" id="HasExamCheckBox" checked>
                     <label class="form-check-label" for="HasExamCheckBox">Has Exam?</label>
-                </div>
+                </div> --}}
 
-                {{-- <label class="block text-sm font-medium text-gray-700"></label>
+            {{-- <label class="block text-sm font-medium text-gray-700"></label>
                 <select name="has_exam" id="has_exam"
                     class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option {{ $course && $course->has_exam == 0 ? 'selected' : '' }} value="0">No</option>
                     <option {{ $course && $course->has_exam == 1 ? 'selected' : '' }} value="1">Yes</option>
                 </select> --}}
-            </div>
+            {{-- </div> --}}
 
             {{-- Counselling --}}
             <div>
                 <div class="form-check form-switch mb-3">
-                    <input class="form-check-input border" {{ $course && $course->is_counselling == 1 ? 'checked' : '' }}
-                        type="checkbox" name="is_counselling" id="HasCounsellingCheckBox" checked>
+                    <input class="form-check-input border"
+                        {{ $course && $course->is_counselling == 1 ? 'checked' : '' }} type="checkbox"
+                        name="is_counselling" id="HasCounsellingCheckBox" checked>
                     <label class="form-check-label" for="HasCounsellingCheckBox">Counselling Session Available?</label>
                 </div>
 
@@ -168,8 +191,9 @@
             {{-- Career Guidance --}}
             <div>
                 <div class="form-check form-switch mb-3">
-                    <input class="form-check-input border" {{ $course && $course->is_career_guidance == 1 ? 'checked' : '' }}
-                        type="checkbox" name="is_career_guidance" id="HasCareerCheckBox" checked>
+                    <input class="form-check-input border"
+                        {{ $course && $course->is_career_guidance == 1 ? 'checked' : '' }} type="checkbox"
+                        name="is_career_guidance" id="HasCareerCheckBox" checked>
                     <label class="form-check-label" for="HasCareerCheckBox">Career Guidance Included?</label>
                 </div>
 
@@ -194,7 +218,7 @@
                 <label class="block text-sm font-medium text-gray-700 my-2">Teachers <span
                         class="text-red-500">*</span></label>
                 <div class="pb-1">
-                    <select name="teachers" class="form-control border w-full">
+                    <select name="teachers" id="teachersSelect" class="form-control border w-full">
                         <option value="">Select Teacher</option>
                         @foreach ($teachers as $teacher)
                             <option value="{{ $teacher->user_id }}" @selected(old('teachers', $teacherIds ?? '') == $teacher->user_id)>
@@ -209,37 +233,37 @@
 
         <div class="grid md:grid-cols-2 gap-6 items-center">
             <!-- Commission Based -->
-            <div class="mb-4">
+            {{-- <div class="mb-4">
                 <label class="flex items-center gap-1">
                     <input type="checkbox" class="border" id="is_commission" name="is_commission"
                         {{ old('is_commission', $course->commission_percentage ?? false) ? 'checked' : '' }}>
                     <span class="text-sm">Commission Based</span>
                 </label>
-            </div>
+            </div> --}}
 
             <!-- Commission Percentage -->
-            <div id="commission_box" class="mb-4 hidden">
+            {{-- <div id="commission_box" class="mb-4 hidden">
                 <label class="block mb-2 text-sm font-medium">Commission Percentage</label>
                 <input type="number" name="commission_percentage"
                     value="{{ old('commission_percentage', $course->commission_percentage ?? '') }}"
                     class="w-full border rounded-lg p-2 text-sm">
-            </div>
+            </div> --}}
 
         </div>
 
         <div class="grid md:grid-cols-2 gap-6 items-center">
             <!-- Institute Based -->
 
-            <div class="mb-4">
+            {{-- <div class="mb-4">
                 <label class="flex items-center gap-1">
                     <input type="checkbox" class="border" id="is_institute" name="is_institute"
                         {{ old('is_institute', $course->institute_id ?? false) ? 'checked' : '' }}>
                     <span class="text-sm">Institute Based</span>
                 </label>
-            </div>
+            </div> --}}
 
             <!-- Institute Dropdown -->
-            <div id="institute_box" class="mb-4 hidden">
+            {{-- <div id="institute_box" class="mb-4 hidden">
                 <label class="block text-sm font-medium my-2">
                     Institute
                 </label>
@@ -251,11 +275,12 @@
                         </option>
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
         </div>
 
         <div class="form-check form-switch mb-3">
-            <input class="form-check-input border" type="checkbox" name="is_public" {{ old('is_public', $course->is_public ?? false) ? 'checked' : '' }} id="isPublicCheckBox" >
+            <input class="form-check-input border" type="checkbox" name="is_public"
+                {{ old('is_public', $course->is_public ?? false) ? 'checked' : '' }} id="isPublicCheckBox">
             <label class="form-check-label" for="isPublicCheckBox">Show on Public</label>
         </div>
 
@@ -268,74 +293,19 @@
     </div>
 </form>
 
-
-{{-- @push('scripts') --}}
-
-<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
-<script>
-    $(document).ready(function() {
-        new TomSelect("#select-tags", {
-            plugins: ['remove_button'],
-            create: true,
-            onItemAdd: function() {
-                this.setTextboxValue('');
-                this.refreshOptions();
-            },
-            render: {
-                option: function(data, escape) {
-                    return `<div class="d-flex"><img src="` + escape(data.date) +
-                        `" class="ms-auto text-muted"><span>` + escape(data.name) +
-                        `</span></div>`;
-                },
-                item: function(data, escape) {
-                    return '<div>' + escape(data.name) + '</div>';
-                }
-            }
-        });
-    });
-</script>
-{{-- @endpush --}}
-
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
 <script>
     $(document).ready(function() {
 
-        // function formatTeacher(option) {
-        //     if (!option.id) return option.text;
+        $('#teachersSelect').select2({
+            placeholder: "",
+            // allowClear: true,
+            // closeOnSelect: false,
+            width: '100%'
+        });
 
-        //     let img = $(option.element).data('img');
-        //     return $(`
-        //     <div class="flex items-center gap-2">
-        //         <img src="${img}" class="teacher-img" />
-        //         <span>${option.text}</span>
-        //     </div>
-        // `);
-        // }
-
-        // function formatSelected(option) {
-        //     let img = $(option.element).data('img');
-        //     return $(`
-        //     <span class="flex items-center gap-1">
-        //         <img src="${img}" class="teacher-img" />
-        //         ${option.text}
-        //     </span>
-        // `);
-        // }
-
-        // $('#teachersSelect').select2({
-        //     placeholder: "",
-        //     allowClear: true,
-        //     templateResult: formatTeacher,
-        //     templateSelection: formatSelected,
-        //     closeOnSelect: false,
-        //     width: '100%'
-        // });
-    });
-
-    $(document).ready(function() {
 
         // INITIAL LOAD — Show/hide based on existing values
         toggleCommission();
@@ -367,14 +337,14 @@
             }
         }
 
-        // SELECT2 INITIALIZE
-        $('#select2-teachers').select2({
-            placeholder: "Select institute teacher",
-            allowClear: true,
-            width: "100%"
-        });
+        // // SELECT2 INITIALIZE
+        // $('#select2-teachers').select2({
+        //     placeholder: "Select institute teacher",
+        //     allowClear: true,
+        //     width: "100%"
+        // });
 
-        $('.select2.select2-container').addClass('border p-1.5 rounded');
+        // $('.select2.select2-container').addClass('border p-1.5 rounded');
 
 
     });

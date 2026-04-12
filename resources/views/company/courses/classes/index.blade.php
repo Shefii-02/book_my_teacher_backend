@@ -251,7 +251,7 @@
 
 @push('scripts')
 
-<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+{{-- <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
 <script>
     new TomSelect("#select-tags", {
@@ -272,7 +272,7 @@
             }
         }
     });
-</script>
+</script> --}}
 
 
 @endpush

@@ -92,9 +92,9 @@
                                         <th
                                             class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
                                             Ended At</th>
-                                        <th
+                                        {{-- <th
                                             class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
-                                            Max Participants</th>
+                                            Max Participants</th> --}}
                                         <th
                                             class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
                                             Status</th>
@@ -136,9 +136,9 @@
                                             <td
                                                 class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
                                                 {{ $workshop->ended_at?->format('d M Y H:i') ?? '-' }}</td>
-                                            <td
+                                            {{-- <td
                                                 class="px-6 py-3 text-center font-bold text-xs uppercase align-middle bg-transparent border-b border-solid tracking-none text-slate-400 opacity-70">
-                                                {{ $workshop->max_participants ?? '-' }}</td>
+                                                {{ $workshop->max_participants ?? '-' }}</td> --}}
                                             <td class="p-2 text-center">
                                                 <span
                                                     class="{{ $statusColors[$workshop->status] ?? 'bg-emerald-500/50' }} px-2.5 py-1.5 text-xs rounded text-white">{{ ucfirst($workshop->status) }}</span>

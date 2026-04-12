@@ -6,6 +6,40 @@
 
 @section('title', $isEdit ? 'Edit Workshop' : 'Create Workshop')
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        .select2-container .select2-selection--single {
+            padding-top: 6px !important;
+            height: 40px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            border: 1px solid #dee2e6 !important;
+            border-radius: 5px !important;
+        }
+
+        span.select2-results__option[aria-selected=true] {
+            background-color: #e9ecef !important;
+        }
+
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            background: #d8d8d8 !important;
+            border: 1px solid #dee2e6 !important;
+            border-radius: 5px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            padding-top: 0px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+
+            line-height: 40px;
+        }
+    </style>
+@endpush
 @section('nav-options')
     <nav>
         <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
@@ -83,9 +117,9 @@
 
                 <!-- Description -->
 
-                <div class="mt-5">
+                <div class="mt-2 mb-4">
                     <label class="block mb-1 font-semibold">Description</label>
-                    <textarea name="description">{{ old('description', $isEdit ? $workshop->description : '') }}</textarea>
+                    <textarea class="form-control border p-3" name="description">{{ old('description', $isEdit ? $workshop->description : '') }}</textarea>
                     @error('description')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
@@ -95,7 +129,7 @@
                     <!-- Host -->
                     <div>
                         <label class="block mb-1 font-semibold">Host</label>
-                        <select name="host_id"
+                        <select name="host_id" id="hostSelect"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('host_id') border-red-500 @enderror">
                             <option value="">-- Select Host --</option>
                             @foreach ($users ?? [] as $user)
@@ -160,7 +194,7 @@
                     </div>
 
                     <!-- Who can join -->
-                    <div>
+                    {{-- <div>
                         <label class="block mb-1 font-semibold">Who can Join</label>
                         <div class="flex space-x-4">
                             @foreach (['teacher', 'student', 'guest'] as $role)
@@ -181,10 +215,10 @@
                         @error('is_guest_allowed')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <!-- Max Participants -->
-                    <div>
+                    {{-- <div>
                         <label class="block mb-1 font-semibold">Max Participants</label>
                         <select name="max_participants"
                             class="pl-3 text-sm focus:shadow-primary-outline ease w-full leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow @error('max_participants') border-red-500 @enderror">
@@ -197,10 +231,10 @@
                         @error('max_participants')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <!-- Features -->
-                    <div>
+                    {{-- <div>
                         <label class="block mb-1 font-semibold">Enable Features</label>
                         <div class="flex flex-wrap space-x-4">
                             @foreach (['record', 'chat', 'screen_share', 'whiteboard', 'camera', 'audio_only'] as $feature)
@@ -215,7 +249,7 @@
                                 @enderror
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- Status -->
                     <div>
@@ -234,15 +268,30 @@
                     </div>
 
                 </div>
+                <div class="text-center">
+                    <button type="submit"
+                        class="bg-emerald-500/50 text-white px-4 py-2 rounded hover:bg-emerald-600">{{ $isEdit ? 'Update Workshop' : 'Create Workshop' }}</button>
 
-                <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{{ $isEdit ? 'Update Workshop' : 'Create Workshop' }}</button>
+                </div>
             </form>
         </div>
     </div>
 @endsection
 
 @push('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#hostSelect').select2({
+                placeholder: "-- Select Host --",
+                width: '100%',
+            });
+
+        });
+    </script>
     <script>
         $(document).ready(function() {
             function readURL(input, previewId) {

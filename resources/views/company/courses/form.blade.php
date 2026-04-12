@@ -281,10 +281,9 @@
             </ol>
         </div>
     </div>
-
-
 @endsection
 @push('scripts')
+
     <script>
         $(document).ready(function() {
             $(document).on('click', '.open-step', function(e) {

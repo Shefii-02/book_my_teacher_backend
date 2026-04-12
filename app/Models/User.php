@@ -187,6 +187,43 @@ class User extends Authenticatable
     return $this->cv && file_exists(storage_path('app/' . $this->cv->file_path)) ? asset('storage/' . $this->cv->file_path) : 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
   }
 
+
+  public function getPerformanceScoreAttribute()
+  {
+    return 0; // Placeholder for actual performance score calculation
+  }
+
+  public function getPerformanceAttribute()
+  {
+    return 'Medium'; // Placeholder for actual performance level calculation
+
+  }
+
+  public function getRankingAttribute()
+  {
+    return '---'; // Placeholder for actual ranking calculation
+  }
+
+  public function getTotalWatchHoursAttribute()
+  {
+    return $this->total_watch_hours ?? 0;
+  }
+
+  public function getTotalTeachingHoursAttribute()
+  {
+    return $this->total_teaching_hours ?? 0;
+  }
+
+  public function getWalletBalanceAttribute()
+  {
+    return $this->wallet_balance ?? 0;
+  }
+
+  public function getCoursesLaunchedCountAttribute()
+  {
+    return $this->courses_count ?? 0;
+  }
+
   public function additionalInfo()
   {
     return $this->hasMany(UserAdditionalInfo::class);

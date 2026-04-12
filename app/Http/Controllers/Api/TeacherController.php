@@ -1012,17 +1012,17 @@ class TeacherController extends Controller
       'language'    => '',
       'total_classes' => 0,
       'completed_classes' => 0,
-      'mode' => "0",
-      'type_class' => "0",
-      'actual_price' => "0",
-      'price' => "0",
-      'course_type' => "0",
+      'mode' => $course->mode ?? 'online',
+      'type_class' => $course->class_type ?? 'recorded',
+      'actual_price' => $course->actual_price ?? "0",
+      'price' => $course->net_price ?? "0",
+      'course_type' => $course->course_type ?? 'online',
       'instructors' => [],
       // json_encode(['id' => 1,'avatar'=>'','name'=>'aKM','specialization'=>'SM,LS,MS'])
-      'started_at' => "10-01-2026 12:00:00 AM",
-      'ended_at' => "12-10-2026 11:59:00 PM",
-      'counselling_section' => true,
-      'career_guidance' => false,
+      'started_at' => $course->start_time ? formatDateTime($course->start_time) : Carbon::parse($course->started_at)->format('d-m-Y h:i A'),
+      'ended_at' => $course->end_time ? formatDateTime($course->end_time) : Carbon::parse($course->ended_at)->format('d-m-Y h:i A'),
+      'counselling_section' => $course->is_counselling ?? false,
+      'career_guidance' => $course->is_career_guidance ?? false,
     ];
 
 
@@ -2278,159 +2278,159 @@ class TeacherController extends Controller
   {
 
     $students = collect([
-      [
-        "student_id" => 1,
-        "name" => "Arjun Kumar",
-        "roll_number" => "STU-001",
-        "initials" => "AK",
-        "avatar_color" => "#4A47B0",
-        "attendance_status" => "present",
-      ],
-      [
-        "student_id" => 2,
-        "name" => "Rahul Nair",
-        "roll_number" => "STU-002",
-        "initials" => "RN",
-        "avatar_color" => "#FF6B6B",
-        "attendance_status" => "absent",
-      ],
-      [
-        "student_id" => 3,
-        "name" => "Sneha Das",
-        "roll_number" => "STU-003",
-        "initials" => "SD",
-        "avatar_color" => "#00B894",
-        "attendance_status" => "late",
-      ],
-      [
-        "student_id" => 4,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 5,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 6,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 7,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 8,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 9,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 10,
-        "name" => "Arjun Kumar",
-        "roll_number" => "STU-001",
-        "initials" => "AK",
-        "avatar_color" => "#4A47B0",
-        "attendance_status" => "present",
-      ],
+      // [
+      //   "student_id" => 1,
+      //   "name" => "Arjun Kumar",
+      //   "roll_number" => "STU-001",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#4A47B0",
+      //   "attendance_status" => "present",
+      // ],
+      // [
+      //   "student_id" => 2,
+      //   "name" => "Rahul Nair",
+      //   "roll_number" => "STU-002",
+      //   "initials" => "RN",
+      //   "avatar_color" => "#FF6B6B",
+      //   "attendance_status" => "absent",
+      // ],
+      // [
+      //   "student_id" => 3,
+      //   "name" => "Sneha Das",
+      //   "roll_number" => "STU-003",
+      //   "initials" => "SD",
+      //   "avatar_color" => "#00B894",
+      //   "attendance_status" => "late",
+      // ],
+      // [
+      //   "student_id" => 4,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 5,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 6,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 7,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 8,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 9,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 10,
+      //   "name" => "Arjun Kumar",
+      //   "roll_number" => "STU-001",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#4A47B0",
+      //   "attendance_status" => "present",
+      // ],
 
-      [
-        "student_id" => 11,
-        "name" => "Arjun Kumar",
-        "roll_number" => "STU-001",
-        "initials" => "AK",
-        "avatar_color" => "#4A47B0",
-        "attendance_status" => "present",
-      ],
-      [
-        "student_id" => 12,
-        "name" => "Rahul Nair",
-        "roll_number" => "STU-002",
-        "initials" => "RN",
-        "avatar_color" => "#FF6B6B",
-        "attendance_status" => "absent",
-      ],
-      [
-        "student_id" => 13,
-        "name" => "Sneha Das",
-        "roll_number" => "STU-003",
-        "initials" => "SD",
-        "avatar_color" => "#00B894",
-        "attendance_status" => "late",
-      ],
-      [
-        "student_id" => 14,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 15,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 16,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 17,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 18,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
-      [
-        "student_id" => 19,
-        "name" => "Aman Khan",
-        "roll_number" => "STU-004",
-        "initials" => "AK",
-        "avatar_color" => "#0984E3",
-        "attendance_status" => null, // not marked yet
-      ],
+      // [
+      //   "student_id" => 11,
+      //   "name" => "Arjun Kumar",
+      //   "roll_number" => "STU-001",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#4A47B0",
+      //   "attendance_status" => "present",
+      // ],
+      // [
+      //   "student_id" => 12,
+      //   "name" => "Rahul Nair",
+      //   "roll_number" => "STU-002",
+      //   "initials" => "RN",
+      //   "avatar_color" => "#FF6B6B",
+      //   "attendance_status" => "absent",
+      // ],
+      // [
+      //   "student_id" => 13,
+      //   "name" => "Sneha Das",
+      //   "roll_number" => "STU-003",
+      //   "initials" => "SD",
+      //   "avatar_color" => "#00B894",
+      //   "attendance_status" => "late",
+      // ],
+      // [
+      //   "student_id" => 14,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 15,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 16,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 17,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 18,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
+      // [
+      //   "student_id" => 19,
+      //   "name" => "Aman Khan",
+      //   "roll_number" => "STU-004",
+      //   "initials" => "AK",
+      //   "avatar_color" => "#0984E3",
+      //   "attendance_status" => null, // not marked yet
+      // ],
     ]);
 
     return response()->json([

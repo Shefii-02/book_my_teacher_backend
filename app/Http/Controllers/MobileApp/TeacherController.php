@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Teachers\StoreTeacherRequest;
 use App\Http\Requests\Teachers\UpdateTeacherRequest;
 use App\Models\Board;
+use App\Models\Course;
 use App\Models\Grade;
 use App\Models\Teacher;
 use App\Models\TeacherSubjectRate;
@@ -96,9 +97,45 @@ class TeacherController extends Controller
   public function show($id)
   {
     $company_id = auth()->user()->company_id;
-    $teacher = Teacher::where('user_id', $id)->where('company_id', $company_id)->first() ?? abort(404);
+    $teacher = Teacher::where('id', $id)->where('company_id', $company_id)->first() ?? abort(404);
 
-    return view('company.mobile-app.teachers.show', compact('teacher'));
+    $courses = Course::with(['registrations', 'classes', 'earnings'])
+      ->whereHas('teachers', function ($q) use ($teacher) {
+        $q->where('teacher_id', $teacher->user_id);
+      })
+      ->get()
+      ->map(function ($course) {
+
+        $studentsCount = $course->registrations->count();
+
+        $completedClasses = $course->classes->where('status', 'completed')->count();
+        $pendingClasses = $course->classes->where('status', 'pending')->count();
+
+        return (object) [
+          'title' => $course->title,
+          'subject' => $course->subject->name ?? '',
+          'type' => ucfirst($course->class_type) . '<br> (' . ucfirst($course->course_type) . ')',
+          'is_renewable' => $course->is_renewable,
+
+          'students_count' => $studentsCount,
+          'price' => $course->net_price,
+
+          'revenue' =>   0,
+          'company_profit' => 0,
+          'teacher_earning' => 0,
+
+          'status' => $course->status,
+
+          'classes_completed' => $completedClasses,
+          'classes_pending' => $pendingClasses,
+          'classes_total' => $course->classes->count(),
+
+          'start_date' => $course->start_date,
+          'end_date' => $course->end_date,
+        ];
+      });
+
+    return view('company.mobile-app.teachers.show', compact('teacher', 'courses'));
   }
 
   public function store(StoreTeacherRequest $request)

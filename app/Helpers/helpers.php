@@ -26,14 +26,14 @@ use Illuminate\Support\Facades\Log;
 
 if (!function_exists('implodeComma')) {
 
-    function implodeComma($data)
-    {
-        if ($data instanceof \Illuminate\Support\Collection) {
-            $data = $data->toArray();
-        }
-
-        return is_array($data) ? implode(', ', $data) : '';
+  function implodeComma($data)
+  {
+    if ($data instanceof \Illuminate\Support\Collection) {
+      $data = $data->toArray();
     }
+
+    return is_array($data) ? implode(', ', $data) : '';
+  }
 }
 
 
@@ -194,6 +194,21 @@ function getPrice($price)
 }
 
 
+function timeAgo($date)
+{
+  return Carbon::parse($date)->diffForHumans();
+}
+
+function formatDate($date)
+{
+  return Carbon::parse($date)->format('d M Y');
+}
+
+
+function formatDateTime($date)
+{
+  return Carbon::parse($date)->format('d M Y, h:i A');
+}
 
 
 if (!function_exists('shorten_price')) {

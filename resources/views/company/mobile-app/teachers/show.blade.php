@@ -58,42 +58,7 @@
 @endpush
 
 @php
-    $courses = collect([
-        (object) [
-            'title' => 'Algebra Mastery',
-            'subject' => 'Mathematics',
-            'type' => 'Live',
-            'is_renewable' => true,
-            'students_count' => 120,
-            'price' => 2000,
-            'revenue' => 240000,
-            'company_profit' => 60000,
-            'teacher_earning' => 180000,
-            'status' => 'ongoing',
-            'classes_completed' => 18,
-            'classes_pending' => 7,
-            'classes_total' => 25,
-            'start_date' => '2026-01-10',
-            'end_date' => '2026-04-30',
-        ],
-        (object) [
-            'title' => 'Physics Crash Course',
-            'subject' => 'Physics',
-            'type' => 'Recorded',
-            'is_renewable' => false,
-            'students_count' => 80,
-            'price' => 1500,
-            'revenue' => 120000,
-            'company_profit' => 30000,
-            'teacher_earning' => 90000,
-            'status' => 'completed',
-            'classes_completed' => 20,
-            'classes_pending' => 0,
-            'classes_total' => 20,
-            'start_date' => '2025-10-01',
-            'end_date' => '2025-12-01',
-        ],
-    ]);
+
     $performance = (object) [
         'avg_rating' => 4.6,
         'completion_rate' => 84,
@@ -365,8 +330,10 @@
                         <span
                             class="badge {{ $teacher->user->status == 1 ? 'bg-success' : 'bg-danger' }}">{{ $teacher->user->status == 1 ? 'Active' : 'Deactive' }}</span>
 
-                        <button class="text-primary"><b>Last Active:</b> 2 days ago</button>
-                        <button class="text-success"><b>Registered On:</b> 15 Jan 2024</button>
+                        <button class="text-primary"><b>Last Active:</b>
+                            {{ timeAgo($teacher->user->last_activation) }}</button>
+                        <button class="text-success"><b>Registered On:</b>
+                            {{ formatDateTime($teacher->user->created_at) }}</button>
                     </div>
                     {{-- <a href="{{ route('company.app.teachers.edit', $teacher->id) }}"
                         class="bg-emerald-500/50 rounded-1.8  text-white px-3 py-2"><i class="bi bi-pencil"></i>
@@ -380,11 +347,16 @@
             <div class="ai-box mt-4">
                 <h6 class="fw-bold">AI Insights</h6>
                 <div class="row g-3">
-                    <div class="col-md-3"><b>Engagement Score:</b> --%</div>
-                    <div class="col-md-3"><b>Performance:</b> Medium</div>
+                    <div class="col-md-3"><b>Engagement Score:</b> <span
+                            class="badge bg-success">{{ $teacher->user->performance_score }}%</span></div>
+                    <div class="col-md-3"><b>Performance:</b> <span
+                            class="badge bg-primary">{{ $teacher->user->performance }}</span></div>
                     <div class="col-md-3 text-capitalize"><b>Learning Style:</b>
-                        {{ $teacher->professionalInfo->teaching_mode }}</div>
-                    <div class="col-md-3"><b>Ranking:</b> ---</div>
+                        <span class="badge bg-info">{{ $teacher->professionalInfo->teaching_mode }}</span>
+                    </div>
+                    <div class="col-md-3"><b>Ranking:</b>
+                        <span class="badge bg-secondary">{{ $teacher->user->ranking }}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -392,7 +364,6 @@
     </div>
 
     <div class="my-5">
-
 
         <!-- ================= TABS ================= -->
         <ul class="nav nav-tabs enterprise-tabs mt-4 border-bottom" id="studentTabs">
@@ -423,7 +394,7 @@
             </li>
         </ul>
 
-        <div class="tab-content mt-4 px-4">
+        <div class="tab-content mt-4 px-4 mb-5">
 
             <!-- ================= OVERVIEW ================= -->
             <div class="tab-pane fade show active" id="overview">
@@ -432,31 +403,28 @@
                     <div class="col-lg-3">
                         <div class="metric-card">
                             <p>Total Watch Time</p>
-                            <h3>{{ $teacher->total_watch_hours ?? 0 }} hrs</h3>
+                            <h3>{{ $teacher->user->total_watch_hours ?? 0 }} hrs</h3>
                         </div>
                     </div>
-
-
-
 
                     <div class="col-lg-3">
                         <div class="metric-card success">
                             <p>Total Spend Time</p>
-                            <h3>{{ $teacher->total_teaching_hours ?? 0 }} hrs</h3>
+                            <h3>{{ $teacher->user->total_teaching_hours ?? 0 }} hrs</h3>
                         </div>
                     </div>
 
                     <div class="col-lg-3">
                         <div class="metric-card warning">
                             <p>Wallet Balance</p>
-                            <h3>₹{{ number_format($teacher->wallet_balance ?? 0) }}</h3>
+                            <h3>₹{{ number_format($teacher->user->wallet_balance ?? 0) }}</h3>
                         </div>
                     </div>
 
                     <div class="col-lg-3">
                         <div class="metric-card info">
-                            <p>Courses Enrolled</p>
-                            <h3>{{ $teacher->courses_count ?? 0 }}</h3>
+                            <p>Courses Launched</p>
+                            <h3>{{ $teacher->user->courses_launched_count ?? 0 }}</h3>
                         </div>
                     </div>
 
@@ -503,6 +471,91 @@
                 </div>
             </div>
 
+            <!-- ================= Personal ================= -->
+            <div class="tab-pane fade" id="personal">
+
+                <!-- 🔥 HEADER ACTION -->
+                <div class="d-flex justify-content-end mb-3">
+                    <button class="btn btn-primary btn-sm">Edit Profile</button>
+                </div>
+
+
+                <div class="row g-4">
+
+                    <!-- BASIC INFO -->
+                    <div class="col-md-6">
+                        <div class="wallet-card">
+                            <h6 class="fw-bold mb-3">Basic Information</h6>
+
+                            <p><b>Full Name:</b> {{ $teacher->user->name }}</p>
+                            <p><b>Email:</b> {{ $teacher->user->email }}</p>
+                            <p><b>Mobile:</b> {{ $teacher->user->mobile }}</p>
+                            <p><b>Referral Code:</b> {{ $teacher->user->referral_code }}</p>
+                            <p><b>Status:</b>
+                                <span class="badge {{ $teacher->user->status ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $teacher->user->status ? 'Active' : 'Inactive' }}
+                                </span>
+                            </p>
+                            <p><b>Profile Completion:</b>
+                                <span class="badge bg-success">85%</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- PERSONAL INFO -->
+                    <div class="col-md-6">
+                        <div class="wallet-card">
+                            <h6 class="fw-bold mb-3">Personal Information</h6>
+
+                            <p><b>Date of Birth:</b> {{ $teacher->dob ?? 'N/A' }}</p>
+                            <p><b>Gender:</b> {{ ucfirst($teacher->gender ?? 'N/A') }}</p>
+                            <p><b>Blood Group:</b> {{ $teacher->blood_group ?? 'N/A' }}</p>
+                            <p><b>Nationality:</b> {{ $teacher->nationality ?? 'Indian' }}</p>
+                            <p><b>Languages Known:</b>
+                                {{ implode(', ', $teacher->speaking_languages ?? ['English', 'Malayalam']) }}</p>
+                        </div>
+                    </div>
+
+                    <!-- ADDRESS -->
+                    <div class="col-md-6">
+                        <div class="wallet-card">
+                            <h6 class="fw-bold mb-3">Address Details</h6>
+
+                            <p><b>Address:</b> {{ $teacher->user->address ?? 'N/A' }}</p>
+                            <p><b>City:</b> {{ $teacher->user->city ?? 'N/A' }}</p>
+                            <p><b>State:</b> {{ $teacher->user->state ?? 'Kerala' }}</p>
+                            <p><b>Country:</b> {{ $teacher->user->country ?? 'India' }}</p>
+                            <p><b>Pincode:</b> {{ $teacher->user->postal_code ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+                    <!-- PROFESSIONAL SNAPSHOT -->
+                    <div class="col-md-6">
+                        <div class="wallet-card">
+                            <h6 class="fw-bold mb-3">Professional Snapshot</h6>
+
+                            <p><b>Qualification:</b> {{ $teacher->qualifications ?? 'N/A' }}</p>
+                            <p><b>Experience:</b>
+                                <span>Offline :{{ $teacher->professionalInfo->offline_exp ?? 0 }} Years</span>,
+                                <span>Online :{{ $teacher->professionalInfo->online_exp ?? 0 }} Years</span>,
+                                <span>Home :{{ $teacher->professionalInfo->home_exp ?? 0 }} Years</span>
+                            </p>
+                            <p><b>Profession:</b> {{ $teacher->professionalInfo->profession ?? 'N/A' }}</p>
+                            <p><b>Ready to Work:</b> {{ $teacher->ready_to_work ?? 'N/A' }}</p>
+                            <p><b>Teaching Mode:</b>
+                                <span class="badge bg-info text-dark">
+                                    {{ ucfirst($teacher->professionalInfo->teaching_mode ?? 'Online') }}
+                                </span>
+                            </p>
+                            <p><b>Price Per Hour:</b> ₹{{ number_format($teacher->price_per_hour ?? 0) }}</p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
             <!-- ================= Academics ================= -->
             <div class="tab-pane fade" id="academics">
                 <div class="table-responsive">
@@ -516,10 +569,8 @@
                                 <th>Revenue</th>
                                 <th>Company Profit</th>
                                 <th>Teacher Earnings</th>
-                                <th>Status</th>
                                 <th>Classes</th>
-                                <th>Start</th>
-                                <th>End</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -528,11 +579,15 @@
                                     <td>
                                         <b>{{ $course->title }}</b><br>
                                         <small class="text-muted">{{ $course->subject }}</small>
+                                        <br>
+                                        <small>Start
+                                            :{{ \Carbon\Carbon::parse($course->start_date)->format('d M Y') }}</small><br>
+                                        <small>End :{{ \Carbon\Carbon::parse($course->end_date)->format('d M Y') }}</small>
                                     </td>
 
-                                    <td>
-                                        <span class="badge bg-info text-dark">
-                                            {{ $course->type }} {{-- Live / Recorded --}}
+                                    <td class="text-start">
+                                        <span class="badge bg-success text-light">
+                                            {!! $course->type !!}
                                         </span><br>
                                         <small>
                                             {{ $course->is_renewable ? 'Renewable' : 'One Time' }}
@@ -555,6 +610,16 @@
                                         ₹{{ number_format($course->teacher_earning) }}
                                     </td>
 
+
+                                    <td>
+                                        <small>
+                                            ✔ Completed: {{ $course->classes_completed }} <br>
+                                            ⏳ Pending: {{ $course->classes_pending }} <br>
+                                            📅 Total: {{ $course->classes_total }}
+                                        </small>
+                                    </td>
+
+
                                     <td>
                                         <span
                                             class="badge
@@ -567,16 +632,6 @@
                                         </span>
                                     </td>
 
-                                    <td>
-                                        <small>
-                                            ✔ Completed: {{ $course->classes_completed }} <br>
-                                            ⏳ Pending: {{ $course->classes_pending }} <br>
-                                            📅 Total: {{ $course->classes_total }}
-                                        </small>
-                                    </td>
-
-                                    <td>{{ \Carbon\Carbon::parse($course->start_date)->format('d M Y') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($course->end_date)->format('d M Y') }}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -590,91 +645,6 @@
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="personal">
-
-                <!-- 🔥 HEADER ACTION -->
-                <div class="d-flex justify-content-between mb-3">
-                    <h5 class="fw-bold">Personal Details</h5>
-                    <button class="btn btn-primary btn-sm">Edit Profile</button>
-                </div>
-
-                <div class="row g-4">
-
-                    <!-- BASIC INFO -->
-                    <div class="col-md-6">
-                        <div class="wallet-card">
-                            <h6 class="fw-bold mb-3">Basic Information</h6>
-
-                            <p><b>Full Name:</b> {{ $teacher->user->name }}</p>
-                            <p><b>Email:</b> {{ $teacher->user->email }}</p>
-                            <p><b>Mobile:</b> {{ $teacher->user->mobile }}</p>
-                            <p><b>Referral Code:</b> {{ $teacher->user->referral_code }}</p>
-                            <p><b>Status:</b>
-                                <span class="badge {{ $teacher->user->status ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $teacher->user->status ? 'Active' : 'Inactive' }}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- PERSONAL INFO -->
-                    <div class="col-md-6">
-                        <div class="wallet-card">
-                            <h6 class="fw-bold mb-3">Personal Information</h6>
-
-                            <p><b>Date of Birth:</b> {{ $teacher->dob ?? 'N/A' }}</p>
-                            <p><b>Gender:</b> {{ ucfirst($teacher->gender ?? 'N/A') }}</p>
-                            <p><b>Blood Group:</b> {{ $teacher->blood_group ?? 'N/A' }}</p>
-                            <p><b>Nationality:</b> {{ $teacher->nationality ?? 'Indian' }}</p>
-                            <p><b>Languages Known:</b> {{ $teacher->languages ?? 'English, Malayalam' }}</p>
-                        </div>
-                    </div>
-
-                    <!-- ADDRESS -->
-                    <div class="col-md-6">
-                        <div class="wallet-card">
-                            <h6 class="fw-bold mb-3">Address Details</h6>
-
-                            <p><b>Address:</b> {{ $teacher->address ?? 'N/A' }}</p>
-                            <p><b>City:</b> {{ $teacher->city ?? 'N/A' }}</p>
-                            <p><b>State:</b> {{ $teacher->state ?? 'Kerala' }}</p>
-                            <p><b>Country:</b> {{ $teacher->country ?? 'India' }}</p>
-                            <p><b>Pincode:</b> {{ $teacher->pincode ?? 'N/A' }}</p>
-                        </div>
-                    </div>
-
-                    <!-- PROFESSIONAL SNAPSHOT -->
-                    <div class="col-md-6">
-                        <div class="wallet-card">
-                            <h6 class="fw-bold mb-3">Professional Snapshot</h6>
-
-                            <p><b>Qualification:</b> {{ $teacher->qualification ?? 'N/A' }}</p>
-                            <p><b>Experience:</b> {{ $teacher->experience ?? 0 }} Years</p>
-                            <p><b>Specialization:</b> {{ $teacher->specialization ?? 'N/A' }}</p>
-                            <p><b>Teaching Mode:</b>
-                                <span class="badge bg-info text-dark">
-                                    {{ ucfirst($teacher->professionalInfo->teaching_mode ?? 'Online') }}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- 🔥 EXTRA DETAILS -->
-                <div class="mt-4">
-                    <div class="wallet-card">
-                        <h6 class="fw-bold mb-3">Additional Information</h6>
-
-                        <p><b>Joined On:</b> {{ $teacher->created_at->format('d M Y') }}</p>
-                        <p><b>Last Updated:</b> {{ $teacher->updated_at->diffForHumans() }}</p>
-                        <p><b>Profile Completion:</b>
-                            <span class="badge bg-success">85%</span>
-                        </p>
-                    </div>
-                </div>
-
-            </div>
 
             <!-- ================= PERFORMANCE ================= -->
             <div class="tab-pane fade" id="performance">
@@ -1193,7 +1163,6 @@
 
                 <!-- 🔥 PERSONAL INFO -->
                 <div class="mb-4">
-                    <h5 class="fw-bold">Personal Details</h5>
 
                     <div class="wallet-card">
                         <p><b>Name:</b> {{ $teacher->user->name }}</p>
@@ -1280,7 +1249,7 @@
                     },
                     series: [{
                         name: 'Watch Time',
-                        data: [12, 18, 25, 40, 32, 50, 65]
+                        data: [0, 0, 0, 0, 0, 0, 0]
                     }],
                     xaxis: {
                         categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -1296,7 +1265,7 @@
                     },
                     series: [{
                         name: 'Teaching Time',
-                        data: [10, 15, 20, 30, 28, 45, 55]
+                        data: [0, 0, 0, 0, 0, 0, 0]
                     }],
                     xaxis: {
                         categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -1312,7 +1281,7 @@
                     },
                     series: [{
                         name: 'Watch',
-                        data: [120, 200, 150, 300, 280, 400]
+                        data: [0, 0, 0, 0, 0, 0, 0]
                     }],
                     xaxis: {
                         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
@@ -1324,11 +1293,11 @@
                 new ApexCharts(document.querySelector("#spendChartAnalytics"), {
                     chart: {
                         type: 'line',
-                        height: 300
+                        height: 200
                     },
                     series: [{
                         name: 'Spend',
-                        data: [100, 180, 140, 260, 240, 320]
+                        data: [0, 0, 0, 0, 0, 0]
                     }]
                 }).render();
 
@@ -1339,7 +1308,7 @@
                         type: 'pie',
                         height: 300
                     },
-                    series: [40, 30, 20, 10],
+                    series: [0, 0, 0, 0],
                     labels: ['Math', 'Science', 'English', 'Physics']
                 }).render();
 
@@ -1351,7 +1320,7 @@
                     },
                     series: [{
                         name: 'Payments',
-                        data: [2000, 3500, 3000, 5000, 4200, 6000]
+                        data: [0, 0, 0, 0, 0, 0]
                     }],
                     xaxis: {
                         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']

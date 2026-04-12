@@ -143,6 +143,10 @@ class Course extends Model
     return $this->hasMany(CourseRegistration::class);
   }
 
+  public function earnings()
+  {
+    return $this->hasMany(Purchase::class,'course_id')->selectRaw('course_id, SUM(grand_total) as total_revenue')->groupBy('course_id')->where('status','paid');
+  }
 
   public function conversation()
   {

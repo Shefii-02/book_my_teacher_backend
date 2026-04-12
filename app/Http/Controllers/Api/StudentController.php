@@ -526,13 +526,14 @@ class StudentController extends Controller
 
 
     $data = collect([
-      [
-        'category' => 'Workshop',
-        'items'    => WorkshopResource::collection($workshops),
-      ],
+
       [
         'category' => 'Course',
         'items'    => CourseResource::collection($courses),
+      ],
+      [
+        'category' => 'Workshop',
+        'items'    => WorkshopResource::collection($workshops),
       ],
       [
         'category' => 'Webinar',

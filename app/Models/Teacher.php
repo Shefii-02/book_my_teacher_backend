@@ -89,6 +89,19 @@ class Teacher extends Model
   }
 
 
+  public function teachingSubjects()
+  {
+    return $this->belongsToMany(
+      Subject::class,                       // Related model
+      'teachers_teaching_grade_details',  // Pivot table
+      'user_id',                          // Pivot column referencing Teacher
+      'subject_id',                         // Pivot column referencing Grade
+      'user_id',                          // Local key on Teacher table
+      'id'                                // Local key on Grade table
+    )->distinct();
+  }
+
+
   public function teacherCertificates()
   {
     return $this->hasMany(\App\Models\TeacherCertificate::class, 'teacher_id', 'id');
@@ -162,5 +175,10 @@ class Teacher extends Model
   public function getMainImageUrlAttribute()
   {
     return $this->mainImageMedia ? asset('storage/' . $this->mainImageMedia->file_path) : null;
+  }
+
+    public function professionalInfo()
+  {
+    return $this->hasOne(TeacherProfessionalInfo::class, 'teacher_id','user_id');
   }
 }

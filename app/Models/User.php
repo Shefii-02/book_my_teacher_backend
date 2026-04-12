@@ -174,7 +174,7 @@ class User extends Authenticatable
 
   public function getAvatarUrlAttribute()
   {
-    return $this->avatar ? asset('storage/' . $this->avatar->file_path) : asset('default-avatar.png');
+    return $this->avatar && file_exists(storage_path('app/' . $this->avatar->file_path)) ? asset('storage/' . $this->avatar->file_path) : 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
   }
 
   public function cv()
@@ -184,7 +184,7 @@ class User extends Authenticatable
 
   public function getCvUrlAttribute()
   {
-    return $this->cv ? asset('storage/' . $this->cv->file_path) : asset('default-avatar.png');
+    return $this->cv && file_exists(storage_path('app/' . $this->cv->file_path)) ? asset('storage/' . $this->cv->file_path) : 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
   }
 
   public function additionalInfo()

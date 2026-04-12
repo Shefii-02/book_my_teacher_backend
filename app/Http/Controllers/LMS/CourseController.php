@@ -346,9 +346,9 @@ class CourseController extends Controller
         }
         $course->save();
 
-        if ($course->status == 'published' && $course->step_completed >= 4) {
-          app(\App\Notifications\NotificationActions::class)->courseCreated($course);
-        }
+        // if ($course->status == 'published' && $course->step_completed >= 4) {
+        //   app(\App\Notifications\NotificationActions::class)->courseCreated($course);
+        // }
 
         DB::commit();
         return redirect()->route('company.courses.index', ['draft' => $course->course_identity])->with('success', 'Course created successfully.');

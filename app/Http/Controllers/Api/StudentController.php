@@ -1358,6 +1358,7 @@ class StudentController extends Controller
       ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
       }])
+      ->orderBy('created_at', 'desc')
       ->get()
       // ->map(fn($c) => tap($c)->is_enrolled = false);
       ->map(function ($item) use ($user) {
@@ -1375,6 +1376,7 @@ class StudentController extends Controller
       ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
       }])
+      ->orderBy('created_at', 'desc')
       ->get()
       ->map(function ($item) use ($user) {
         $item->is_enrolled = $item->registrations->isNotEmpty();
@@ -1391,6 +1393,7 @@ class StudentController extends Controller
       ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
       }])
+      ->orderBy('created_at', 'desc')
       ->get()
       ->map(function ($item) use ($user) {
         $item->is_enrolled = $item->registrations->isNotEmpty();
@@ -1407,6 +1410,7 @@ class StudentController extends Controller
       ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
       }])
+      ->orderBy('created_at', 'desc')
       ->get()
       ->map(function ($item) use ($user) {
         $item->is_enrolled = $item->registrations->isNotEmpty();

@@ -1013,7 +1013,7 @@ class TeacherController extends Controller
       'total_classes' => 0,
       'completed_classes' => 0,
       'mode' => $course->mode ?? 'online',
-      'type_class' => $course->class_type ?? 'recorded',
+      'type_class' => $course->class ?? 'course',
       'actual_price' => $course->actual_price ?? "0",
       'price' => $course->net_price ?? "0",
       'course_type' => $course->course_type ?? 'online',
@@ -1021,8 +1021,8 @@ class TeacherController extends Controller
       // json_encode(['id' => 1,'avatar'=>'','name'=>'aKM','specialization'=>'SM,LS,MS'])
       'started_at' => $course->start_time ? formatDateTime($course->start_time) : Carbon::parse($course->started_at)->format('d-m-Y h:i A'),
       'ended_at' => $course->end_time ? formatDateTime($course->end_time) : Carbon::parse($course->ended_at)->format('d-m-Y h:i A'),
-      'counselling_section' => $course->is_counselling ?? false,
-      'career_guidance' => $course->is_career_guidance ?? false,
+      'counselling_section' => $course->is_counselling ? true : false,
+      'career_guidance' => $course->is_career_guidance ? true : false,
     ];
 
 

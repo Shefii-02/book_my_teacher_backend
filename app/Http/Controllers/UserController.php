@@ -54,6 +54,7 @@ class UserController extends Controller
       ->where('profile_fill', 1)
       ->where(function ($q2) use ($query) {
         $q2->where('name', 'LIKE', "%$query%")
+          ->orWhere('mobile', 'LIKE', "%$query%")
           ->orWhere('email', 'LIKE', "%$query%");
       })
       ->limit(10)

@@ -106,20 +106,17 @@
 </form>
 <script>
     let selectedTeachers = {
-
         @foreach ($course->teachers as $teacher)
             "{{ $teacher->id }}": true,
         @endforeach
-
-    }
-
+    };
 
     const searchInput = document.getElementById('teacherSearch');
     const teacherResults = document.getElementById('teacherResults');
+    const selectedContainer = document.getElementById('selectedTeachers');
 
-    // 🔍 AJAX SEARCH
-    searchInput.addEventListener('keyup', function() {
-
+    // 🔍 SEARCH
+    searchInput.addEventListener('keyup', function () {
         let value = this.value.trim();
 
         if (value.length < 1) {
@@ -134,7 +131,7 @@
 
                 teacherResults.innerHTML = '';
 
-                if (data.length === 0) {
+                if (!data.length) {
                     teacherResults.classList.add('hidden');
                     return;
                 }
@@ -143,80 +140,74 @@
 
                 data.forEach(teacher => {
 
-                    // prevent duplicate
+                    // 🚫 prevent duplicate
                     if (selectedTeachers[teacher.id]) return;
 
                     let html = `
-                <div class="user-item flex justify-between p-3 border-b cursor-pointer"
-                    onclick="addUser(${user.id}, '${user.name}', '${user.email}', '${user.profile_image ?? ''}')">
+                        <div class="flex items-center justify-between p-3 border-b cursor-pointer hover:bg-gray-50"
+                            onclick="addTeacher(${teacher.id}, '${teacher.name}', '${teacher.email}', '${teacher.profile_image ?? ''}', '${teacher.mobile ?? ''}')">
 
-                    <div class="flex gap-2">
-                        <img src="${user.profile_image ?? '/default-user.png'}"
-                            class="w-8 h-8 rounded-full">
+                            <div class="flex items-center gap-3">
+                                <img src="${teacher.profile_image || '/default-user.png'}"
+                                    class="w-8 h-8 rounded-full">
 
-                        <div>
-                            <p>${user.name}</p>
-                            <p class="text-xs">${user.email}</p>
+                                <div>
+                                    <p class="font-semibold text-sm">${teacher.name}</p>
+                                    <p class="text-xs text-gray-500">${teacher.email}</p>
+                                    <p class="text-xs text-gray-500">${teacher.mobile ?? ''}</p>
+                                </div>
+                            </div>
+
+                            <span class="text-blue-500">Select</span>
                         </div>
-                    </div>
+                    `;
 
-                    <span class="text-blue-500">Select</span>
-                </div>
-                `;
-
-                    userResults.insertAdjacentHTML('beforeend', html);
-
+                    teacherResults.insertAdjacentHTML('beforeend', html);
                 });
-
             });
-
     });
 
-     // ❌ REMOVE USER
-    function removeUser(id) {
+    // ➕ ADD TEACHER
+    function addTeacher(id, name, email, image, mobile) {
 
-        delete selectedUsers[id];
+        if (selectedTeachers[id]) return;
 
-        let el = document.getElementById('user_' + id);
-        if (el) el.remove();
-
-    }
-
-    // ➕ ADD USER
-    function addUser(id, name, email, image) {
-
-        if (selectedUsers[id]) return;
-
-        selectedUsers[id] = true;
+        selectedTeachers[id] = true;
 
         let html = `
-    <div class="border p-2 flex gap-2 bg-gray-50" id="user_${id}">
+            <div class="flex items-center gap-3 border rounded p-2 bg-gray-50" id="teacher_${id}">
 
-        <input type="hidden" name="teachers[]" value="${id}">
+                <input type="hidden" name="teachers[]" value="${id}">
 
-        <img src="${image || '/default-user.png'}"
-            class="w-8 h-8 rounded-full">
+                <img src="${image || '/default-user.png'}"
+                    class="w-8 h-8 rounded-full">
 
-        <div>
-            <p class="font-semibold">${name}</p>
-            <p class="text-xs">${email}</p>
-        </div>
+                <div class="text-xs">
+                    <p class="font-semibold">${name}</p>
+                    <p>${email}</p>
+                    <p>${mobile ?? ''}</p>
+                </div>
 
-        <button type="button"
-            onclick="removeUser(${id})"
-            class="text-red-500 ml-2">×</button>
+                <button type="button"
+                    onclick="removeTeacher(${id})"
+                    class="text-red-500 text-lg ml-2">×</button>
+            </div>
+        `;
 
-    </div>
-    `;
+        selectedContainer.insertAdjacentHTML('beforeend', html);
 
-        document.getElementById('selectedUsers')
-            .insertAdjacentHTML('beforeend', html);
-
+        // reset UI
         searchInput.value = '';
-        userResults.innerHTML = '';
-        userResults.classList.add('hidden');
+        teacherResults.innerHTML = '';
+        teacherResults.classList.add('hidden');
     }
 
+    // ❌ REMOVE TEACHER
+    function removeTeacher(id) {
 
+        delete selectedTeachers[id];
 
+        let el = document.getElementById('teacher_' + id);
+        if (el) el.remove();
+    }
 </script>

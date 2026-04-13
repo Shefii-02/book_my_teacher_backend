@@ -332,7 +332,7 @@ class AdmissionController extends Controller
   public function admissionStore(Request $req)
   {
 
-  dd($req->all());
+
     $req->validate([
       'student_id' => 'required|exists:users,id',
       'course_id' => 'required|exists:courses,id',
@@ -351,6 +351,7 @@ class AdmissionController extends Controller
     $extingEnroll = CourseEnrollment::where('course_id', $req->course_id)->where('company_id', $company_id)->where('user_id', $user->id)->first();
 
     if ($extingEnroll) {
+        dd($req->all());
       return redirect()->back()->with('errror', 'This Course already entrolled');
     }
 

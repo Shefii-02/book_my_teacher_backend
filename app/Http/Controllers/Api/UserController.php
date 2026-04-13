@@ -776,20 +776,57 @@ class UserController extends Controller
       ]);
     }
 
+    // $todayClasses = collect()
+    //   ->merge($demos)
+    //   ->merge($webinars)
+    //   ->merge($workshops)
+    //   ->merge($courses)
+    //   ->filter(fn($event) => isset($event['date']) && $event['date'] === $today)
+    //   ->sortBy(fn($event) => Carbon::parse($event['_start_datetime']),descending:true)
+    //   ->map(function ($event) {
+    //     unset($event['_start_datetime']); // ✅ remove helper keys
+    //     unset($event['date']);
+    //     return $event;
+    //   })
+    //   ->values();
+
     $todayClasses = collect()
       ->merge($demos)
       ->merge($webinars)
       ->merge($workshops)
       ->merge($courses)
       ->filter(fn($event) => isset($event['date']) && $event['date'] === $today)
-      ->sortBy(fn($event) => Carbon::parse($event['_start_datetime']),descending:true)
+
+      // 🔥 GROUP BY STATUS
+      ->groupBy('status')
+
+      // 🔥 SORT INSIDE EACH GROUP
+      ->map(function ($group, $status) {
+
+        if ($status === 'completed') {
+          // latest completed first
+          return $group->sortByDesc('_start_datetime')->values();
+        }
+
+        // ongoing + upcoming → earliest first
+        return $group->sortBy('_start_datetime')->values();
+      })
+
+      // 🔥 ORDER GROUPS (IMPORTANT)
+      ->only(['ongoing', 'upcoming', 'completed'])
+
+      // 🔥 FLATTEN BACK TO SINGLE LIST
+      ->flatten(1)
+
+      // 🔥 CLEAN DATA
       ->map(function ($event) {
-        unset($event['_start_datetime']); // ✅ remove helper keys
+        unset($event['_start_datetime']);
+        unset($event['_end_datetime']);
         unset($event['date']);
         return $event;
       })
       ->values();
-Log::info("Today's classes for user {$user->id}: " . $todayClasses->toJson());
+
     return response()->json([
       "status"  => true,
       "message" => "Today's classes fetched successfully",

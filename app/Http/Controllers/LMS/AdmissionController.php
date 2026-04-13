@@ -18,7 +18,7 @@ use Carbon\Carbon;
 use Google\Service\Adsense\Payment;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Illuminate\Support\Facades\Log;
 
 class AdmissionController extends Controller
 {
@@ -458,6 +458,7 @@ class AdmissionController extends Controller
       return $this->redirectToPaymentGateway($purchase, $payment, $courseReg, $newEntroll);
     } catch (\Throwable $ex) {
       DB::rollBack();
+      Log::info("Admission creation failed: " . $ex->getMessage());
       return back()->withErrors(['error' => $ex->getMessage()]);
     }
   }

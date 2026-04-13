@@ -246,7 +246,7 @@
                         <label class="block text-sm mb-2 px-6">Payment Method</label>
 
                         <div class="flex flex-row px-6 gap-4">
-                            <div class="flex items-center mb-4">
+                            {{-- <div class="flex items-center mb-4">
                                 <input id="online-radio-1" type="radio" value="online" checked name="payment_method"
                                     class="w-4 h-4 text-neutral-primary border-default-medium bg-neutral-secondary-medium rounded-full checked:border-brand focus:ring-2 focus:outline-none focus:ring-brand-subtle border border-default appearance-none">
                                 <label for="online-radio-1"
@@ -257,7 +257,7 @@
                                     class="w-4 h-4 text-neutral-primary border-default-medium bg-neutral-secondary-medium rounded-full checked:border-brand focus:ring-2 focus:outline-none focus:ring-brand-subtle border border-default appearance-none">
                                 <label for="manually-radio-1"
                                     class="select-none ms-2 text-sm font-medium text-heading">Manually Payment</label>
-                            </div>
+                            </div> --}}
                             <div class="flex items-center mb-4">
                                 <input id="in-cash-radio-1" type="radio" value="in-cash" name="payment_method"
                                     class="w-4 h-4 text-neutral-primary border-default-medium bg-neutral-secondary-medium rounded-full checked:border-brand focus:ring-2 focus:outline-none focus:ring-brand-subtle border border-default appearance-none">

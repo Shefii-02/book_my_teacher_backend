@@ -894,6 +894,7 @@ class UserController extends Controller
       "title"        => $title,
       "type"         => $type,
       "time"         => $start->format('h:i a'),
+      "time_end"     => $end->format('h:i a'),
       "start_time"   => $start->format('d-m-Y h:i a'),
       "end_time"     => $end->format('d-m-Y h:i a'),
       "platform"     => $model->provider?->slug ?? $model->class_mode ?? '',

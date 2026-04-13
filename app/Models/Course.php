@@ -137,6 +137,11 @@ class Course extends Model
   }
 
 
+  public function studentEnrolled()
+  {
+    return $this->hasOne(CourseEnrollment::class)->where('payment_status', 'paid')->where('status', 'active');
+  }
+
 
   public function registrations()
   {

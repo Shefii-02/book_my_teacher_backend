@@ -12,9 +12,9 @@
                 <a class="text-white" href="javascript:;">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Admissions List</li>
+                aria-current="page">Transaction List</li>
         </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Admissions List</h6>
+        <h6 class="mb-0 font-bold text-white capitalize">Transaction List</h6>
     </nav>
 @endsection
 
@@ -36,7 +36,7 @@
                                 <div class="">
                                     <p
                                         class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        Admissions</p>
+                                        Transactions</p>
                                     <h5 class="mb-2 font-bold dark:text-white">{{ $stats['total']['count'] }}</h5>
 
                                 </div>
@@ -207,7 +207,7 @@
             <div class="p-4 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                 <div class="flex">
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                        <h6 class="dark:text-white">Admissions List</h6>
+                        <h6 class="dark:text-white">Transaction Lists</h6>
                     </div>
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 
@@ -216,7 +216,7 @@
 
                         <a href="{{ route('company.admissions.create') }}"
                             class="px-4 py-2 bg-gradient-to-tl  from-emerald-500 to-teal-400  text-white  text-sm">
-                            <i class="bi bi-plus me-1"></i> Create</a>
+                            <i class="bi bi-plus me-1"></i> Create Admission</a>
                     </div>
                 </div>
             </div>

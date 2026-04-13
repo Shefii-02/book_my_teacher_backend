@@ -1350,7 +1350,9 @@ class StudentController extends Controller
   {
     $user = $request->user();
     $courses = Course::with('institute')
-      ->whereHas('registrations', function ($q) use ($user) {
+      ->whereHas('studentEnrolled', function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      })->whereHas('registrations', function ($q) use ($user) {
         $q->where('user_id', $user->id);
       })
       ->where('company_id', 1)
@@ -1358,11 +1360,15 @@ class StudentController extends Controller
       ->with(['registrations' => function ($q) use ($user) {
         $q->where('user_id', $user->id);
       }])
+      ->with(['studentEnrolled' => function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+      }])
       ->orderBy('created_at', 'desc')
       ->get()
       // ->map(fn($c) => tap($c)->is_enrolled = false);
       ->map(function ($item) use ($user) {
-        $item->is_enrolled = $item->registrations->isNotEmpty();
+        $item->is_registered = $item->registrations->isNotEmpty();
+        $item->is_enrolled = $item->studentEnrolled->isNotEmpty();
         return $item;
       });
 

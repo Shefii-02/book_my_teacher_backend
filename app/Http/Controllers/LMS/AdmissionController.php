@@ -351,8 +351,7 @@ class AdmissionController extends Controller
     $extingEnroll = CourseEnrollment::where('course_id', $req->course_id)->where('company_id', $company_id)->where('user_id', $user->id)->first();
 
     if ($extingEnroll) {
-        dd($req->all());
-      return redirect()->back()->with('errror', 'This Course already entrolled');
+      return redirect()->back()->with('error', 'This Course already entrolled');
     }
 
     $purchaseDetails   = $this->calculatePurchaseDetails($req);

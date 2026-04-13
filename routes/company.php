@@ -247,8 +247,11 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::resource('courses/subcategories', 'LMS\CourseSubCategoryController')->names('subcategories');
   Route::get('/categories/{id}/subcategories', 'LMS\CourseController@getSubcategories');
 
-      Route::get('/conversation-search-users', 'LMS\CourseController@searchUsers')
-      ->name('conversation.search.users');
+  Route::get('/conversation-search-users', 'LMS\CourseController@searchUsers')
+    ->name('conversation.search.users');
+
+  Route::get('/teacher-search', 'LMS\UserController@searchTeachers')
+    ->name('teacher.search');
 
   // /admin/courses/load-step-form/${step}?course_id=${courseId}
   Route::get('courses/load-step-form/{step}', 'LMS\CourseController@loadStepForm')->name('courses.load-step-form');
@@ -684,37 +687,37 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
 Route::middleware(['auth'])->prefix('company')->group(function () {
 
-    // ── Chat UI ───────────────────────────────────────────────────────────────
-    Route::get('/chat',                  [ChatController::class, 'index'])
-         ->name('company.chat.index');
+  // ── Chat UI ───────────────────────────────────────────────────────────────
+  Route::get('/chat',                  [ChatController::class, 'index'])
+    ->name('company.chat.index');
 
-    // ── Conversation list (sidebar) ───────────────────────────────────────────
-    Route::get('/chat/conversations',    [ChatController::class, 'getConversations'])
-         ->name('company.chat.conversations');
+  // ── Conversation list (sidebar) ───────────────────────────────────────────
+  Route::get('/chat/conversations',    [ChatController::class, 'getConversations'])
+    ->name('company.chat.conversations');
 
-    // ── Messages for a conversation ───────────────────────────────────────────
-    Route::get('/chat/messages/{conversationId}', [MessageController::class, 'messages'])
-         ->name('company.chat.messages')
-         ->where('conversationId', '[0-9]+');
+  // ── Messages for a conversation ───────────────────────────────────────────
+  Route::get('/chat/messages/{conversationId}', [MessageController::class, 'messages'])
+    ->name('company.chat.messages')
+    ->where('conversationId', '[0-9]+');
 
-    // ── Send a message ────────────────────────────────────────────────────────
-    Route::post('/chat/send',            [MessageController::class, 'send'])
-         ->name('company.chat.send');
+  // ── Send a message ────────────────────────────────────────────────────────
+  Route::post('/chat/send',            [MessageController::class, 'send'])
+    ->name('company.chat.send');
 
-    // ── Delete a message (soft-delete) ────────────────────────────────────────
-    Route::post('/chat/delete/{id}',     [MessageController::class, 'delete'])
-         ->name('company.chat.delete')
-         ->where('id', '[0-9]+');
+  // ── Delete a message (soft-delete) ────────────────────────────────────────
+  Route::post('/chat/delete/{id}',     [MessageController::class, 'delete'])
+    ->name('company.chat.delete')
+    ->where('id', '[0-9]+');
 
-    // ── Report a message ──────────────────────────────────────────────────────
-    Route::post('/chat/report/{id}',     [MessageController::class, 'report'])
-         ->name('company.chat.report')
-         ->where('id', '[0-9]+');
+  // ── Report a message ──────────────────────────────────────────────────────
+  Route::post('/chat/report/{id}',     [MessageController::class, 'report'])
+    ->name('company.chat.report')
+    ->where('id', '[0-9]+');
 
-    // ── Labels (optional) ─────────────────────────────────────────────────────
-    Route::get('/chat/labels',           [ChatController::class, 'labels'])
-         ->name('company.chat.labels');
+  // ── Labels (optional) ─────────────────────────────────────────────────────
+  Route::get('/chat/labels',           [ChatController::class, 'labels'])
+    ->name('company.chat.labels');
 
-    Route::post('/chat/label',           [ChatController::class, 'addLabel'])
-         ->name('company.chat.addLabel');
+  Route::post('/chat/label',           [ChatController::class, 'addLabel'])
+    ->name('company.chat.addLabel');
 });

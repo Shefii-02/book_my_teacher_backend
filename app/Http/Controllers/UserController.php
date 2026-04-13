@@ -46,6 +46,22 @@ class UserController extends Controller
   }
 
 
+  public function searchTeachers(Request $request)
+  {
+    $query = $request->q;
+
+    $users = User::where('company_id', auth()->user()->company_id)->where('acc_type', 'teacher')
+      ->where('profile_fill', 1)
+      ->where(function ($q2) use ($query) {
+        $q2->where('name', 'LIKE', "%$query%")
+          ->orWhere('email', 'LIKE', "%$query%");
+      })
+      ->limit(10)
+      ->get();
+
+    return response()->json($users);
+  }
+
   public function courses($id)
   {
     $user = User::findOrFail($id);
@@ -75,5 +91,4 @@ class UserController extends Controller
 
     return view('company.students.detailed-information', compact('user'));
   }
-
 }

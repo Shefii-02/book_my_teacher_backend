@@ -118,28 +118,21 @@
 
 
 
-    searchInput.addEventListener('keyup', function() {
+    searchInput.addEventListener('input', function() {
+    let value = this.value.toLowerCase().trim()
 
-        let value = this.value.toLowerCase()
+    if (value.length < 1) {
+        teacherResults.classList.add('hidden')
+        return
+    }
 
-        if (value.length < 1) {
-            teacherResults.classList.add('hidden')
-            return
-        }
+    teacherResults.classList.remove('hidden')
 
-        teacherResults.classList.remove('hidden')
-
-        document.querySelectorAll('.teacher-item')
-            .forEach(item => {
-
-                let name = item.dataset.name
-
-                item.style.display =
-                    name.includes(value) ? 'flex' : 'none'
-
-            })
-
+    document.querySelectorAll('.teacher-item').forEach(item => {
+        let name = item.dataset.name
+        item.style.display = name.includes(value) ? 'flex' : 'none'
     })
+})
 
 
 

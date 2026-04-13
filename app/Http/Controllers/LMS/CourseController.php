@@ -582,7 +582,7 @@ class CourseController extends Controller
   {
     CourseEnrollment::where('id', $id)->delete();
 
-    return response()->json(['success' => true]);
+    return redirect()->back()->with('success', 'Admission removed successfully');
   }
 
 

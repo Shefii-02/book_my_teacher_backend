@@ -332,6 +332,7 @@ class AdmissionController extends Controller
   public function admissionStore(Request $req)
   {
 
+  dd($req->all());
     $req->validate([
       'student_id' => 'required|exists:users,id',
       'course_id' => 'required|exists:courses,id',

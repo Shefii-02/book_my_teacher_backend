@@ -789,7 +789,7 @@ class UserController extends Controller
         return $event;
       })
       ->values();
-
+Log::info("Today's classes for user {$user->id}: " . $todayClasses->toJson());
     return response()->json([
       "status"  => true,
       "message" => "Today's classes fetched successfully",

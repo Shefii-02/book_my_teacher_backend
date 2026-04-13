@@ -782,7 +782,7 @@ class UserController extends Controller
       ->merge($workshops)
       ->merge($courses)
       ->filter(fn($event) => isset($event['date']) && $event['date'] === $today)
-      ->sortBy(fn($event) => Carbon::parse($event['_start_datetime']))
+      ->sortBy(fn($event) => Carbon::parse($event['_start_datetime']),descending:true)
       ->map(function ($event) {
         unset($event['_start_datetime']); // ✅ remove helper keys
         unset($event['date']);

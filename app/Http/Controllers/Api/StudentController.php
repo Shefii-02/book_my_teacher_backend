@@ -1358,7 +1358,7 @@ class StudentController extends Controller
       ->where('company_id', 1)
       // ->where('is_public', 1)
       ->with([
-        'studentEnrollments' => function ($q) use ($user) {
+        'studentEnrolled' => function ($q) use ($user) {
           $q->where('user_id', $user->id)
             ->latest(); // latest enrollment first
         },

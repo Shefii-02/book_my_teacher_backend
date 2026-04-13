@@ -140,7 +140,7 @@ class Course extends Model
 
   public function registrations()
   {
-    return $this->hasMany(CourseRegistration::class);
+    return $this->hasMany(CourseRegistration::class)->whereNotNull('payment_id');
   }
 
   public function earnings()

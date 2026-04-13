@@ -1,42 +1,35 @@
-<h5 class="font-bold mb-6">Manage Group Conversation</h5>
+<h5 class="font-bold mb-6">Assign Teachers</h5>
 
 <form method="POST" action="{{ route('company.courses.addonTeachersSave', $course->course_identity) }}">
     @csrf
 
     {{-- Course details --}}
-    <div class="p-4 border bg-white rounded mb-4">
+    <div id="courseDetails" class="p-4 border bg-white rounded rounded mb-4 ">
         <div class="flex gap-2">
-            Course Name :
-            <div class="font-semibold text-lg">{{ $course->title }}</div>
-        </div>
 
+            Course Name : <div id="cd_title" class="font-semibold text-lg">{{ $course->title }}</div>
+        </div>
         <div class="flex gap-2">
-            Description :
-            <p class="text-sm text-gray-600 mt-1">{{ $course->description }}</p>
+            Description : <p id="cd_desc" class="text-sm text-gray-600 mt-1">{{ $course->description }}</p>
         </div>
-
         <div class="mt-2 text-sm text-gray-700">
-            Created at: {{ $course->created_at }} &nbsp;
-            Updated at: {{ $course->updated_at }}
+            Created at: <span id="">{{ $course->created_at }}</span> &nbsp;
+            Updated at: <span id="cd_net_price">{{ $course->updated_at }}</span> &nbsp;
         </div>
     </div>
-    <div class="mb-3">
-        <label>Group Name</label>
-        <input type="text" value="{{ $conversation ? $conversation->name : $course->title }}" name="title" class="border px-4 py-2 rounded w-full mb-4" />
+    {{-- SEARCH BOX --}}
+
+    <div class="mb-4">
+        <input type="text" id="teacherSearch" placeholder="Search teacher by name..."
+            class="border px-4 py-2 rounded w-full">
     </div>
 
-    {{-- SEARCH BOX --}}
-    <input type="text" id="userSearch" placeholder="Search user..." class="border px-4 py-2 rounded w-full mb-4">
 
     {{-- SEARCH RESULTS --}}
-    <div id="userResults" class="border rounded mb-6 hidden max-h-60 overflow-y-auto"></div>
 
-    {{-- SELECTED USERS --}}
-    <h6 class="font-semibold mb-2">Selected Members</h6>
+    <div id="teacherResults" class="border rounded mb-6 hidden max-h-60 overflow-y-auto">
 
-    <div id="selectedUsers" class="flex flex-wrap gap-3 mb-6">
-
-      @foreach ($teachers as $teacher)
+        {{-- @foreach ($teachers as $teacher)
             <div class="teacher-item flex items-center justify-between p-3 border-b cursor-pointer hover:bg-gray-50"
                 data-name="{{ strtolower($teacher->name) }}" data-id="{{ $teacher->id }}"
                 data-image="{{ $teacher->profile_image ?? asset('default-user.png') }}"
@@ -66,28 +59,63 @@
                 <span class="text-sm text-blue-500">Select</span>
 
             </div>
+        @endforeach --}}
+
+    </div>
+
+
+
+    {{-- SELECTED TEACHERS --}}
+
+    <h6 class="font-semibold mb-2">Selected Teachers</h6>
+
+    <div id="selectedTeachers" class="flex flex-wrap gap-3 mb-6">
+
+        @foreach ($course->teachers as $teacher)
+            <div class="flex items-center gap-3 border rounded p-2 bg-gray-50" id="teacher_{{ $teacher->id }}">
+
+                <input type="hidden" name="teachers[]" value="{{ $teacher->id }}">
+
+                <img src="{{ $teacher->profile_image ?? asset('default-user.png') }}" class="w-8 h-8 rounded-full">
+
+                <div class="text-xs">
+
+                    <p class="font-semibold">{{ $teacher->name }}</p>
+
+                    <p>{{ $teacher->email }}</p>
+
+                    <p>{{ $teacher->teacher->mobile ?? '' }}</p>
+
+                </div>
+
+                <button type="button" onclick="removeTeacher({{ $teacher->id }})" class="text-red-500 text-lg ml-2">
+                    ×
+                </button>
+
+            </div>
         @endforeach
 
     </div>
 
-    <div class="text-center">
-        <button class="bg-emerald-500/50 text-white px-6 py-2 rounded">
-            Save Members
-        </button>
-    </div>
 
+
+    <button class="bg-emerald-500/50 text-white px-6 py-2 rounded">
+        Save Teachers
+    </button>
 
 </form>
-
 <script>
-    let selectedUsers = {
-        @foreach ($conversation?->members ?? [] as $member)
-            "{{ $member->user->id }}": true,
-        @endforeach
-    };
+    let selectedTeachers = {
 
-    const searchInput = document.getElementById('userSearch');
-    const userResults = document.getElementById('userResults');
+        @foreach ($course->teachers as $teacher)
+            "{{ $teacher->id }}": true,
+        @endforeach
+
+    }
+
+
+    const searchInput = document.getElementById('teacherSearch');
+    const teacherResults = document.getElementById('teacherResults');
 
     // 🔍 AJAX SEARCH
     searchInput.addEventListener('keyup', function() {
@@ -95,8 +123,8 @@
         let value = this.value.trim();
 
         if (value.length < 1) {
-            userResults.classList.add('hidden');
-            userResults.innerHTML = '';
+            teacherResults.classList.add('hidden');
+            teacherResults.innerHTML = '';
             return;
         }
 
@@ -104,19 +132,19 @@
             .then(res => res.json())
             .then(data => {
 
-                userResults.innerHTML = '';
+                teacherResults.innerHTML = '';
 
                 if (data.length === 0) {
-                    userResults.classList.add('hidden');
+                    teacherResults.classList.add('hidden');
                     return;
                 }
 
-                userResults.classList.remove('hidden');
+                teacherResults.classList.remove('hidden');
 
-                data.forEach(user => {
+                data.forEach(teacher => {
 
                     // prevent duplicate
-                    if (selectedUsers[user.id]) return;
+                    if (selectedTeachers[teacher.id]) return;
 
                     let html = `
                 <div class="user-item flex justify-between p-3 border-b cursor-pointer"
@@ -164,7 +192,7 @@
         let html = `
     <div class="border p-2 flex gap-2 bg-gray-50" id="user_${id}">
 
-        <input type="hidden" name="users[]" value="${id}">
+        <input type="hidden" name="teachers[]" value="${id}">
 
         <img src="${image || '/default-user.png'}"
             class="w-8 h-8 rounded-full">

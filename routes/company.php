@@ -250,7 +250,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('/conversation-search-users', 'LMS\CourseController@searchUsers')
     ->name('conversation.search.users');
 
-  Route::get('/teacher-search', 'LMS\UserController@searchTeachers')
+  Route::get('/teacher-search', 'UserController@searchTeachers')
     ->name('teacher.search');
 
   // /admin/courses/load-step-form/${step}?course_id=${courseId}

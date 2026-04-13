@@ -139,7 +139,7 @@ class Course extends Model
 
   public function studentEnrolled()
   {
-    return $this->hasOne(CourseEnrollment::class)->where('payment_status', 'paid')->where('status', 'active');
+    return $this->hasMany(CourseEnrollment::class, 'course_id')->where('payment_status', 'paid')->where('status', 'active');
   }
 
 

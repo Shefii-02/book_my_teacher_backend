@@ -1357,12 +1357,15 @@ class StudentController extends Controller
       })
       ->where('company_id', 1)
       // ->where('is_public', 1)
-      ->with(['registrations' => function ($q) use ($user) {
-        $q->where('user_id', $user->id);
-      }])
-      ->with(['studentEnrolled' => function ($q) use ($user) {
-        $q->where('user_id', $user->id);
-      }])
+      ->with([
+        'studentEnrollments' => function ($q) use ($user) {
+          $q->where('user_id', $user->id)
+            ->latest(); // latest enrollment first
+        },
+        'registrations' => function ($q) use ($user) {
+          $q->where('user_id', $user->id);
+        }
+      ])
       ->orderBy('created_at', 'desc')
       ->get()
       // ->map(fn($c) => tap($c)->is_enrolled = false);

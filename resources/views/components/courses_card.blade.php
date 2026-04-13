@@ -70,10 +70,19 @@
             Edit
         </a>
 
-        <button onclick="confirmDelete({{ $course->id }})"
+        {{-- <button onclick="confirmDelete({{ $course->id }})"
             class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
             Delete
-        </button>
+        </button> --}}
+        <form action="{{ route('company.courses.destroy', $course->course_identity) }}" method="POST"
+            id="form_{{ $course->id }}">
+            @csrf
+            @method('DELETE')
+            <button type="button" onclick="confirmDelete({{ $course->id }})"
+                class="w-full text-left px-4 py-2 text-xxs">
+                Delete
+            </button>
+        </form>
     </div>
     {{-- CONTENT --}}
     <div class="p-4 flex flex-col h-[230px]">

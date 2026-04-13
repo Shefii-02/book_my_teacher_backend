@@ -407,8 +407,10 @@ class CourseController extends Controller
   //   return redirect()->route('company.courses.index')->with('success', 'Course updated successfully.');
   // }
 
-  public function destroy(Course $course)
+  public function destroy($course)
   {
+
+  $course = Course::where('course_identity', $course)->firstOrFail();
     DB::beginTransaction();
     // if ($course->thumbnail && Storage::disk('public')->exists($course->thumbnail)) {
     //   Storage::disk('public')->delete($course->thumbnail);

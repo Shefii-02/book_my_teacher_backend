@@ -340,13 +340,10 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::post('/company/settings/security', 'LMS\CompanySettingController@updateSecurity')
     ->name('company.settings.security.update');
 
-
-
   Route::resource('courses', 'LMS\CourseController')->names('courses');
 
   Route::get('coupons/trashed', 'LMS\CouponController@trashed')->name('coupons.trashed');
   Route::post('coupons/{id}/restore', 'LMS\CouponController@restore')->name('coupons.restore');
-
 
   Route::resource('coupons', 'LMS\CouponController');
 

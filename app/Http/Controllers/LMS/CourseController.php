@@ -578,7 +578,7 @@ class CourseController extends Controller
     return response()->json(['success' => true]);
   }
 
-  public function removeAdmission($id)
+  public function removeAdmission($identity,$id)
   {
     CourseEnrollment::where('id', $id)->delete();
 

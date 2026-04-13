@@ -273,8 +273,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
       ->name('courses.search-conversation-user');
 
 
-    Route::post('/admission/suspend', 'LMS\CourseController@suspendEnrollment');
-    Route::delete('/admission/{id}', 'LMS\CourseController@emoveEnrollment');
+    Route::post('admission/suspend/{id}', 'LMS\CourseController@suspendAdmission')->name('courses.admissions.suspend');
+    Route::delete('admission/{id}', 'LMS\CourseController@removeAdmission')->name('courses.enrollments.destroy');
 
 
     Route::resource('schedule-class', 'LMS\CourseClassController')

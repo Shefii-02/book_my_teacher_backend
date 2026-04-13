@@ -273,14 +273,19 @@
                                 <td class="p-3 space-x-1">
 
                                     <button class="px-2 py-1 text-xs bg-yellow-500 text-white rounded suspendBtn"
-                                        data-id="{{ $enroll->id }}">
+                                        data-id="{{ $enroll->id }}" data-url="{{ route('company.courses.admissions.suspend', ['identity' => $enroll->course->course_identity, 'id' => $enroll->id]) }}">
                                         Suspend
                                     </button>
 
-                                    <button class="px-2 py-1 text-xs bg-red-500 text-white rounded removeBtn"
-                                        data-id="{{ $enroll->id }}">
-                                        Remove
-                                    </button>
+                                    <form action="{{ route('company.courses.enrollments.destroy', ['identity' => $enroll->course->course_identity, 'id' => $enroll->id]) }}"
+                                        method="POST" id="form_{{ $enroll->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" onclick="confirmDelete({{ $enroll->id }})"
+                                            class="w-full text-left px-2 py-1 text-xxs bg-red-500 text-white rounded">
+                                            Remove
+                                        </button>
+                                    </form>
 
                                 </td>
 
@@ -322,13 +327,14 @@
 
             btn.addEventListener('click', function() {
 
+                let url = this.dataset.url;
                 let id = this.dataset.id;
 
                 let reason = prompt("Enter suspension reason");
 
                 if (!reason) return;
 
-                fetch('/admission/suspend', {
+                fetch(url, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

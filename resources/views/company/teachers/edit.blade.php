@@ -209,16 +209,16 @@
                     </div>
 
                     @php
-                        $dataGrade = \App\Models\Grade::all();
+                        // $dataGrade = \App\Models\Grade::all();
 
-                        $dataSubject = \App\Models\Subject::all();
+                        // $dataSubject = \App\Models\Subject::all();
 
-                        $grades = old('teaching_grades', $grades ?? []);
-                        $subjects = old('teaching_subjects', $subjects ?? []);
+                        // $grades = old('teaching_grades', $grades ?? []);
+                        // $subjects = old('teaching_subjects', $subjects ?? []);
                     @endphp
 
                     <!-- Teaching Grades -->
-                    <div class="mb-4">
+                    {{-- <div class="mb-4">
                         <p class="mb-2 text-sm font-medium">Teaching Grades</p>
                         <div class="flex gap-2 flex-wrap">
                             @foreach ($dataGrade as $gradeItem)
@@ -230,19 +230,19 @@
                                 </label>
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
                     @php
-                        if (isset($user)) {
-                            $allSubjects = $dataSubject->pluck('value')->toArray(); // DB list
+                        // if (isset($user)) {
+                        //     $allSubjects = $dataSubject->pluck('value')->toArray(); // DB list
 
-                            $selectedSubjects = $subjects; // user selected (from form)
-                            $otherSubjects = implode(',', array_diff($selectedSubjects, $allSubjects) ?? []);
-                        } else {
-                            $otherSubjects = '';
-                        }
+                        //     $selectedSubjects = $subjects; // user selected (from form)
+                        //     $otherSubjects = implode(',', array_diff($selectedSubjects, $allSubjects) ?? []);
+                        // } else {
+                        //     $otherSubjects = '';
+                        // }
                     @endphp
                     <!-- Teaching Subjects -->
-                    <div class="mb-4" x-data="{ otherSubject: '{{ old('other_subject', $profInfo->other_subject ?? '') }}' }">
+                    {{-- <div class="mb-4" x-data="{ otherSubject: '{{ old('other_subject', $profInfo->other_subject ?? '') }}' }">
                         <p class="mb-2 text-sm font-medium">Teaching Subjects</p>
                         <div class="flex gap-2 flex-wrap">
                             @foreach ($dataSubject as $subjectItem)
@@ -263,7 +263,7 @@
                                 value="{{ old('other_subject', $otherSubjects ?? '') }}">
                         </div>
 
-                    </div>
+                    </div> --}}
 
 
                     <!-- Experience -->
@@ -316,7 +316,7 @@
                     </div>
 
                     <!-- Working Days -->
-                    <div class="mb-4">
+                    {{-- <div class="mb-4">
                         <p class="mb-2 text-sm font-medium">Preferred Working Days</p>
                         @php $working_days = old('working_days', $working_days ?? []) @endphp
                         @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day)
@@ -326,10 +326,10 @@
                                     {{ in_array($day, $working_days) ? 'checked' : '' }}> {{ substr($day, 0, 3) }}
                             </label>
                         @endforeach
-                    </div>
+                    </div> --}}
 
                     <!-- Working Hours -->
-                    <div class="mb-4">
+                    {{-- <div class="mb-4">
                         <p class="mb-2 text-sm font-medium">Preferred Working Hours</p>
                         @php $working_hours = old('working_hours', $working_hours ?? []) @endphp
                         @foreach ($timeSlot as $slot)
@@ -339,7 +339,7 @@
                                     {{ in_array($slot, $working_hours) ? 'checked' : '' }}> {{ $slot }}
                             </label>
                         @endforeach
-                    </div>
+                    </div> --}}
                 </div>
 
                 <!-- Step 3: CV Upload -->
@@ -368,7 +368,7 @@
                                 class="capitalize text-blue-800 text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
                         @endif
                         <br>
-                        @if ($user->current_account_stage == 'account verified' || $account_status == 'rejected')
+                        @if ($user->current_account_stage == 'account verified')
                         @else
                             <label class="mt-3">
                                 <input type="radio" name="account_status" value="in progress" required
@@ -383,11 +383,14 @@
                                     {{ $account_status == 'completed' ? 'checked' : '' }}> Completed
                             </label>
 
-                            <label class="ml-4">
-                                <input type="radio" name="account_status" value="rejected" required x-model="status"
-                                    class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                                    {{ $account_status == 'rejected' ? 'checked' : '' }}> Rejected
-                            </label>
+
+                                <label class="ml-4">
+                                    <input type="radio" name="account_status" value="rejected" required
+                                        x-model="status"
+                                        class="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                                        {{ $account_status == 'rejected' ? 'checked' : '' }}> Rejected
+                                </label>
+
                             @if ($user->current_account_stage == 'schedule interview')
                                 <label class="ml-4">
                                     <input type="radio" name="account_status" value="scheduled" required

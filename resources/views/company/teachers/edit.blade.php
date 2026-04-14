@@ -368,8 +368,7 @@
                                 class="capitalize text-blue-800 text-lg fw-bold mb-5">{{ $user->current_account_stage }}</strong>
                         @endif
                         <br>
-                        @if ($user->current_account_stage == 'account verified')
-                        @else
+
                             <label class="mt-3">
                                 <input type="radio" name="account_status" value="in progress" required
                                     x-model="status"
@@ -399,7 +398,7 @@
                                         {{ $account_status == 'scheduled' ? 'checked' : '' }}> Scheduled
                                 </label>
                             @endif
-                        @endif
+
                         <!-- Extra fields for Scheduled -->
                         <div class="mt-4 space-y-3" x-show="status === 'scheduled'" x-cloak>
                             <!-- Interview DateTime -->

@@ -185,7 +185,8 @@ class User extends Authenticatable
 
   public function getCvUrlAttribute()
   {
-    return $this->cv && file_exists(asset('storage/' . $this->cv->file_path)) ? asset('storage/' . $this->cv->file_path) : 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
+    // && file_exists(asset('storage/' . $this->cv->file_path))
+    return $this->cv  ? asset('storage/' . $this->cv->file_path) : 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
   }
 
 

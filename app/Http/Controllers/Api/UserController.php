@@ -889,7 +889,6 @@ class UserController extends Controller
     return [
       "date"            => $start->toDateString(),       // used for filtering
       "_start_datetime" => $start->toDateTimeString(),   // used for sorting
-
       "id"           => $model->id,
       "title"        => $title,
       "type"         => $type,

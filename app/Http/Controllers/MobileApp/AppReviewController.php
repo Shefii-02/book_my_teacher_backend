@@ -17,7 +17,7 @@ class AppReviewController extends Controller
 
         $reviews = AppReview::query()
             ->with('user')
-            ->where('company_id', $companyId)
+            // ->where('company_id', $companyId)
             ->where('status', $status)
             ->when($request->filled('search'), function ($query) use ($request) {
                 $search = trim($request->search);

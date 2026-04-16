@@ -308,21 +308,21 @@
                 </div> --}}
 
 
-                <div>
+                {{-- <div>
                     <div class="flex items-center gap-3">
                         <label class="font-medium">
                             <input type="checkbox" class="border pe-3" name="is_top" value="1"
                                 @checked(old('is_top', $teacher->include_top_teachers ?? false))> Include in Top</label>
                     </div>
-                </div>
+                </div> --}}
 
-                {{-- <div>
+                <div>
                     <div class="flex items-center gap-3">
                         <label class="font-medium">
                             <input type="checkbox" class="border pe-3" name="published" value="1"
                                 @checked(old('published', $teacher->published ?? false))> Publish</label>
                     </div>
-                </div> --}}
+                </div>
 
                 <div>
                         <h6>Current Account Status : {{ $teacher->user->status == 1 ? 'Active' : 'Deactive' }} </h6>

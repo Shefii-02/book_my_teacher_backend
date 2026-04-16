@@ -1,4 +1,4 @@
-@extends('layouts.mobile-layout')
+@extends('layouts.layout')
 
 @section('nav-options')
     <nav>

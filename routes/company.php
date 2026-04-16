@@ -47,7 +47,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('/courses/{id}/subjects', 'CourseController@subjects');
   Route::get('/courses/{id}/teachers', 'CourseController@teachers');
 
-  Route::get('/student-details/{id}', 'UserController@studentDetails')->name('student-details');
+  Route::get('/student-details/{id}', 'LMS\StudentController@studentDetails')->name('student-details');
 
 
   Route::prefix('analytics')->name('analytics.')->group(function () {

@@ -32,14 +32,7 @@
 
 @php
     // ================= STUDENT =================
-    $student = (object) [
-        'id' => 1,
-        'name' => 'Rahul Kumar',
-        'email' => 'rahul@gmail.com',
-        'mobile' => '9876543210',
-        'referral_code' => 'STU12345',
-        'avatar' => 'https://i.pravatar.cc/150?img=12',
-    ];
+
 
     // ================= OVERVIEW =================
     $overview = (object) [

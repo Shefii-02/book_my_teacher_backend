@@ -85,11 +85,5 @@ class UserController extends Controller
   }
 
 
-  public function studentDetails($id)
-  {
-    $company_id = auth()->user()->company_id;
-    $user = User::where('id', $id)->where('company_id', $company_id)->first();
 
-    return view('company.students.detailed-information', compact('user'));
-  }
 }

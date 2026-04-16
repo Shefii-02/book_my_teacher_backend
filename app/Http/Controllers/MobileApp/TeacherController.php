@@ -135,7 +135,234 @@ class TeacherController extends Controller
         ];
       });
 
-    return view('company.mobile-app.teachers.show', compact('teacher', 'courses'));
+    $performance = (object) [
+      'avg_rating' => 4.6,
+      'completion_rate' => 84,
+      'retention_rate' => 78,
+      'conversion_rate' => 65,
+    ];
+
+    $coursePerformance = [
+      (object) [
+        'title' => 'Algebra Mastery',
+        'rating' => 4.7,
+        'students' => 120,
+        'completion' => 85,
+        'revenue' => 240000,
+      ],
+      (object) [
+        'title' => 'Physics Crash Course',
+        'rating' => 4.4,
+        'students' => 80,
+        'completion' => 75,
+        'revenue' => 120000,
+      ],
+    ];
+
+    $wallet = (object) [
+      'total_earned' => 52000,
+      'balance' => 18000,
+      'withdrawn' => 30000,
+      'pending' => 4000,
+      'class_earnings' => 40000,
+      'referral_earnings' => 8000,
+      'bonus' => 4000,
+    ];
+
+    $transactions = [
+      (object) [
+        'date' => '10 Apr',
+        'type' => 'credit',
+        'category' => 'class',
+        'sub_type' => 'live_class',
+        'description' => 'Math Live Class Earnings',
+        'amount' => 3000,
+        'status' => 'completed',
+      ],
+      (object) [
+        'date' => '09 Apr',
+        'type' => 'credit',
+        'category' => 'referral',
+        'sub_type' => 'student_referral',
+        'description' => 'Referral Bonus',
+        'amount' => 500,
+        'status' => 'completed',
+      ],
+      (object) [
+        'date' => '08 Apr',
+        'type' => 'credit',
+        'category' => 'bonus',
+        'sub_type' => 'performance',
+        'description' => 'Top Performer Bonus',
+        'amount' => 2000,
+        'status' => 'completed',
+      ],
+      (object) [
+        'date' => '07 Apr',
+        'type' => 'debit',
+        'category' => 'withdrawal',
+        'sub_type' => 'bank_transfer',
+        'description' => 'Withdrawal Request',
+        'amount' => 4000,
+        'status' => 'pending',
+      ],
+    ];
+
+    $paymentsSummary = (object) [
+      'total_paid' => 45000,
+      'pending' => 8000,
+      'failed' => 2000,
+      'last_payout_date' => '05 Apr 2026',
+    ];
+
+    $bank = (object) [
+      'name' => 'Mohammed Shafeeque',
+      'bank_name' => 'HDFC Bank',
+      'account_number' => '123456789012',
+      'ifsc' => 'HDFC0001234',
+    ];
+
+    $payouts = [
+      (object) [
+        'date' => '10 Apr',
+        'amount' => 5000,
+        'method' => 'Bank Transfer',
+        'status' => 'pending',
+        'reference' => 'PO12345',
+      ],
+      (object) [
+        'date' => '05 Apr',
+        'amount' => 8000,
+        'method' => 'UPI',
+        'status' => 'completed',
+        'reference' => 'PO12344',
+      ],
+    ];
+
+    $payments = [
+      (object) [
+        'date' => '05 Apr',
+        'amount' => 8000,
+        'type' => 'Payout',
+        'status' => 'Success',
+        'txn_id' => 'TXN999',
+      ],
+    ];
+
+    $activities = [
+      (object) [
+        'title' => 'Logged in from mobile',
+        'description' => 'Android device - Kerala',
+        'type' => 'login',
+        'time' => 'Today, 10:30 AM',
+      ],
+      (object) [
+        'title' => 'Completed Algebra Class',
+        'description' => 'Duration: 60 mins',
+        'type' => 'class',
+        'time' => 'Yesterday',
+      ],
+      (object) [
+        'title' => 'Received Payment',
+        'description' => '₹5000 credited',
+        'type' => 'payment',
+        'time' => '08 Apr 2026',
+      ],
+      (object) [
+        'title' => 'Referred a student',
+        'description' => 'Bonus ₹500 earned',
+        'type' => 'referral',
+        'time' => '07 Apr 2026',
+      ],
+    ];
+
+    $lastLogin = $teacher->user->last_login_at ? $teacher->user->last_login_at->format('d M Y, h:i A') : 'N/A'  ;
+
+    $logins = [
+      (object) [
+        'date' => '12 Apr 2026, 10:30 AM',
+        'ip' => '103.45.22.10',
+        'device' => 'Android - Chrome',
+        'location' => 'Kerala, India',
+        'status' => 'safe',
+      ],
+      (object) [
+        'date' => '11 Apr 2026, 08:15 PM',
+        'ip' => '192.168.1.1',
+        'device' => 'Windows - Chrome',
+        'location' => 'Kerala, India',
+        'status' => 'safe',
+      ],
+      (object) [
+        'date' => '10 Apr 2026, 02:00 AM',
+        'ip' => '85.23.11.9',
+        'device' => 'Unknown Device',
+        'location' => 'Unknown',
+        'status' => 'suspicious',
+      ],
+    ];
+
+    $documents = [
+      (object) [
+        'name' => 'Aadhar Card',
+        'type' => 'ID Proof',
+        'status' => 'approved',
+        'file_url' => '#',
+      ],
+      (object) [
+        'name' => 'Degree Certificate',
+        'type' => 'Education',
+        'status' => 'pending',
+        'file_url' => '#',
+      ],
+    ];
+    $reviewStats = (object) [
+      'avg_rating' => 4.6,
+      'total_reviews' => 120,
+      'distribution' => [
+        5 => 80,
+        4 => 25,
+        3 => 10,
+        2 => 3,
+        1 => 2,
+      ],
+    ];
+
+    $reviews = [
+      (object) [
+        'student' => 'Rahul',
+        'rating' => 5,
+        'comment' => 'Excellent teaching style!',
+        'course' => 'Algebra',
+        'date' => '10 Apr 2026',
+      ],
+      (object) [
+        'student' => 'Aisha',
+        'rating' => 4,
+        'comment' => 'Very helpful sessions',
+        'course' => 'Physics',
+        'date' => '08 Apr 2026',
+      ],
+    ];
+
+    return view('company.mobile-app.teachers.show', compact(
+      'teacher',
+      'courses',
+      'performance',
+      'coursePerformance',
+      'wallet',
+      'transactions',
+      'paymentsSummary',
+      'bank',
+      'payouts',
+      'payments',
+      'activities',
+      'lastLogin',
+      'logins',
+      'documents',
+      'reviewStats',
+      'reviews'
+    ));
   }
 
   public function store(StoreTeacherRequest $request)

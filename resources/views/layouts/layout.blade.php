@@ -170,21 +170,18 @@
                             </a>
                         </li>
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.teachers') || Request::routeIs('company.students') || Request::routeIs('company.guest.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
-                                href="#">
+                            <a class=" dark:text-white {{ Request::routeIs('company.students.*') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('company.students.index') }}">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
                                     <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-r-circle"></i>
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-person-fill"></i>
                                 </div>
 
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Users</span>
-
-                                <!-- Right aligned caret -->
-                                <span class="bi bi-caret-down ml-auto mr-4"></span>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Students</span>
                             </a>
 
-                            <ul
+                            {{-- <ul
                                 class="submenu pl-6 {{ Request::routeIs('company.teachers.*') || Request::routeIs('company.students.*') ? '' : 'hidden' }} ">
                                 <li class="w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.teachers.*') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
@@ -210,7 +207,7 @@
                                             class="ml-1 duration-300 opacity-100 pointer-events-none ease">Students</span>
                                     </a>
                                 </li>
-                                {{-- <li class=" w-full">
+                                <li class=" w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.guest.*') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.guest.index') }}">
                                         <div
@@ -221,64 +218,114 @@
                                         <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guest
                                             User </span>
                                     </a>
-                                </li> --}}
-                            </ul>
+                                </li>
+                            </ul> --}}
                         </li>
                         <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.otp-list') || Request::routeIs('company.otp-list') || Request::routeIs('company.google-signIn') || Request::routeIs('company.apple-signIn') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                            <a class=" dark:text-white {{ Request::routeIs('company.teachers.*') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('company.teachers.index') }}">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
+                                    <i
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-person-lines-fill"></i>
+                                </div>
+
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Reg:Teachers</span>
+                            </a>
+                        </li>
+                        <li class="mt-0.5 w-full">
+                            <a class=" dark:text-white {{ Request::routeIs('company.app.teachers.*') ? 'bg-blue-100' : '' }} dark:opacity-80 py-1 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                href="{{ route('company.app.teachers.index') }}">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
+                                    <i
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-person-rolodex"></i>
+                                </div>
+
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">App:Teachers</span>
+                            </a>
+                        </li>
+                        <li class="mt-0.5 w-full">
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
                                 <div
                                     class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
                                     <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-fingerprint"></i>
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-person-video3"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Login &
-                                    Security</span>
+
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Academic</span>
 
                                 <!-- Right aligned caret -->
                                 <span class="bi bi-caret-down ml-auto mr-4"></span>
                             </a>
 
                             <ul
-                                class="submenu pl-6 {{ Request::routeIs('company.otp-list') || Request::routeIs('company.otp-list') || Request::routeIs('company.google-signIn') || Request::routeIs('company.apple-signIn') ? '' : 'hidden' }}">
+                                class="submenu pl-6 {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') ? '' : 'hidden' }}">
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.otp-list') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.otp-list') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.admissions.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.admissions.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-key"></i>
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
                                         </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">OTP
-                                            List</span>
+                                        <span
+                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Admissions</span>
                                     </a>
                                 </li>
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.google-signIn') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.google-signIn') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.custom.invoices.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.custom.invoices.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-google"></i>
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
                                         </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Google
-                                            Sign In</span>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Custom
+                                            Invoice</span>
+                                    </a>
+                                </li>
+                                {{-- <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.course-swap.index') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
+                                        </div>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Course
+                                            Extend</span>
                                     </a>
                                 </li>
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.apple-signIn') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.apple-signIn') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.course-swap.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-apple"></i>
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
                                         </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Apple
-                                            Sign In</span>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Course
+                                            Swap</span>
+                                    </a>
+                                </li> --}}
+
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.coupons.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.coupons.index') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-pip"></i>
+                                        </div>
+                                        <span
+                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Coupons</span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+
                         <li class="mt-0.5 w-full">
                             <a class="menu-toggle justify-content-between {{ Request::routeIs('company.courses.*') || Request::routeIs('company.webinars.*') || Request::routeIs('company.workshops.*') || Request::routeIs('company.categories.*') || Request::routeIs('company.subcategories.*') || Request::routeIs('company.demo-classes.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
@@ -461,6 +508,63 @@
 
                             </ul>
                         </li> --}}
+
+                        <li class="mt-0.5 w-full">
+                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.otp-list') || Request::routeIs('company.otp-list') || Request::routeIs('company.google-signIn') || Request::routeIs('company.apple-signIn') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
+                                href="#">
+                                <div
+                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
+                                    <i
+                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-fingerprint"></i>
+                                </div>
+                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Login &
+                                    Security</span>
+
+                                <!-- Right aligned caret -->
+                                <span class="bi bi-caret-down ml-auto mr-4"></span>
+                            </a>
+
+                            <ul
+                                class="submenu pl-6 {{ Request::routeIs('company.otp-list') || Request::routeIs('company.otp-list') || Request::routeIs('company.google-signIn') || Request::routeIs('company.apple-signIn') ? '' : 'hidden' }}">
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.otp-list') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.otp-list') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-key"></i>
+                                        </div>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">OTP
+                                            List</span>
+                                    </a>
+                                </li>
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.google-signIn') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.google-signIn') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-google"></i>
+                                        </div>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Google
+                                            Sign In</span>
+                                    </a>
+                                </li>
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.apple-signIn') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.apple-signIn') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-apple"></i>
+                                        </div>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Apple
+                                            Sign In</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li class="mt-0.5 w-full">
                             <a class="menu-toggle justify-content-between {{ Request::routeIs('company.requests.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
                                 href="#">
@@ -547,89 +651,7 @@
                             </a>
                         </li> --}}
 
-                        <li class="mt-0.5 w-full">
-                            <a class="menu-toggle justify-content-between {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 flex items-center whitespace-nowrap transition-colors"
-                                href="#">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 text-lg bi bi-person-video3"></i>
-                                </div>
 
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Academic</span>
-
-                                <!-- Right aligned caret -->
-                                <span class="bi bi-caret-down ml-auto mr-4"></span>
-                            </a>
-
-                            <ul
-                                class="submenu pl-6 {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') ? '' : 'hidden' }}">
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.admissions.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.admissions.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Admissions</span>
-                                    </a>
-                                </li>
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.custom.invoices.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.custom.invoices.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Custom
-                                            Invoice</span>
-                                    </a>
-                                </li>
-                                {{-- <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.course-swap.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Course
-                                            Extend</span>
-                                    </a>
-                                </li>
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.course-swap.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
-                                        </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Course
-                                            Swap</span>
-                                    </a>
-                                </li> --}}
-
-                                <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.coupons.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.coupons.index') }}">
-                                        <div
-                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                            <i
-                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-pip"></i>
-                                        </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Coupons</span>
-                                    </a>
-                                </li>
-
-
-
-                            </ul>
-                        </li>
                         {{-- <li class="mt-0.5 w-full">
                             <a class=" dark:text-white {{ Request::routeIs('company.coupons.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                 href="{{ route('company.coupons.index') }}">

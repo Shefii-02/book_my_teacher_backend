@@ -545,4 +545,12 @@ class StudentController extends Controller
       return redirect()->back()->with(['error', 'Failed to delete student' . $e->getMessage()]);
     }
   }
+
+   public function studentDetails($id)
+  {
+    $company_id = auth()->user()->company_id;
+    $student = User::where('id', $id)->where('company_id', $company_id)->first();
+
+    return view('company.students.detailed-information', compact('student'));
+  }
 }

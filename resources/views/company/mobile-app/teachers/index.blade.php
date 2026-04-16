@@ -29,11 +29,11 @@
                                 <h6>Teachers List</h6>
                             </div>
                             <div class="flex gap-3 items-center">
-                                <a href="{{ route('company.app.teachers.create') }}"
+                                {{-- <a href="{{ route('company.app.teachers.create') }}"
                                     class="bg-emerald-500/50 rounded text-sm text-white px-4 fw-bold py-1">
                                     <i class="bi bi-plus me-1 "></i>
                                     Create
-                                </a>
+                                </a> --}}
                                 <a href="{{ route('company.app.teachers.search') }}"
                                     class="bg-gradient-to-tl from-blue-700 to-teal-400  rounded text-sm text-white px-4 fw-bold py-1">
                                     <i class="bi bi-search"></i>

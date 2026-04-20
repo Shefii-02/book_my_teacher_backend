@@ -6,6 +6,13 @@ window.initInfiniteTable = function (config) {
   let autoLoadCount = 0;
   let maxAutoLoad = config.maxAutoLoad || 2;
 
+  // ─── Re-init Flowbite after DOM changes ──────────────────────────────
+    function reinitDropdowns() {
+        if (typeof initFlowbite === 'function') {
+            initFlowbite();
+        }
+    }
+
   const container = $(config.container);
   const form = $(config.form);
   const loader = $(config.loader || '#scrollLoader');
@@ -48,6 +55,7 @@ window.initInfiniteTable = function (config) {
 
         loading = false;
         loader.addClass('hidden');
+            reinitDropdowns();
 
         // if (!isManual) {
         //     autoLoadCount++;
@@ -77,6 +85,7 @@ window.initInfiniteTable = function (config) {
       data: form.serialize(),
       success: function (data) {
         container.html(data);
+        reinitDropdowns();
       }
     });
   }

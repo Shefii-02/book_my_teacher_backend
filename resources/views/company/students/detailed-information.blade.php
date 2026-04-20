@@ -180,8 +180,8 @@
 
                     <div class="col-lg-3">
                         <div class="metric-card info">
-                            <p>Courses Launched</p>
-                            <h3>{{ $student->courses_launched_count ?? 0 }}</h3>
+                            <p>Courses Entrolled</p>
+                            <h3>{{ $student->courseEnrolled->count() ?? 0 }}</h3>
                         </div>
                     </div>
 

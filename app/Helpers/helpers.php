@@ -196,17 +196,26 @@ function getPrice($price)
 
 function timeAgo($date)
 {
+  if(empty($date)){
+    return '--';
+  }
   return Carbon::parse($date)->diffForHumans();
 }
 
 function formatDate($date)
 {
+  if(empty($date)){
+    return '--';
+  }
   return Carbon::parse($date)->format('d M Y');
 }
 
 
 function formatDateTime($date)
 {
+  if(empty($date)){
+    return '--';
+  }
   return Carbon::parse($date)->format('d M Y, h:i A');
 }
 
@@ -278,6 +287,9 @@ if (!function_exists('dateTimeFormat')) {
 
   function dateTimeFormat($date)
   {
+    if(empty($date)){
+      return '--';
+    }
     $date = date('d M,Y', strtotime($date));
     $time = date('h:i a', strtotime($date));
     return  $date . ',' . $time;

@@ -143,105 +143,154 @@
 
         <!-- cards row 2 -->
         <div class="flex flex-wrap mt-6 -mx-3">
-            <div class="w-full max-w-full px-3 mt-0 lg:w-7/12 lg:flex-none">
+            <div class="w-full max-w-full px-3 mt-0 mb-6 lg:mb-0  lg:flex-none">
                 <div
                     class="border-black/12.5 dark:bg-slate-850 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
-                    <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid p-6 pt-4 pb-0">
+                    <div
+                        class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid p-6 pt-4 pb-0 flex justify-between">
                         <h6 class="capitalize dark:text-white">Overall overview</h6>
-                        <p class="mb-0 leading-normal dark:text-white dark:opacity-60 text-sm">
-                            <i class="fa fa-arrow-up text-emerald-500"></i>
-                            <span class="font-semibold">Last 5 Week</span>
-                        </p>
+                        <div class="mb-0 leading-normal dark:text-white dark:opacity-60 text-sm">
+                            <select id="analyticsFilter" class="border rounded text-dark px-2 py-1 text-sm">
+                                <option value="7_days" selected>Last 7 Days</option>
+                                <option value="5_weeks">Last 5 Weeks</option>
+                                <option value="5_months">Last 5 Months</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="flex-auto p-4">
                         <div>
-                            <canvas id="weeklyAnalyticsChart" height="300"></canvas>
+                            <canvas id="overallAnalyticsChart" height="300">
+                                  No data available
+                            </canvas>
 
                         </div>
                     </div>
                 </div>
-                <div class="w-full max-w-full mt-4 mb-6 lg:mb-0  lg:flex-none">
-                    <div
-                        class="relative flex flex-col min-w-0 break-words bg-white border-0 border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl dark:bg-gray-950 border-black-125 rounded-2xl bg-clip-border">
-                        <div class="p-4 pb-0 mb-0 rounded-t-4">
-                            <div class="flex justify-between">
-                                <h6 class="mb-2 dark:text-white">Analystics</h6>
-                                <p>Last 5 Weeks</p>
-                            </div>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-2 mx-3">
-                                    <thead>
-                                        <tr>
-                                            <th>Metric</th>
-                                            <th class="text-capitalize font-monospace">Web</th>
-                                            <th class="text-capitalize font-monospace">Android</th>
-                                            <th class="text-capitalize font-monospace">iOS</th>
-                                        </tr>
-                                    </thead>
+            </div>
+            <div class="w-full max-w-full px-3 my-5 lg:w-7/12 lg:flex-none">
+                <div
+                    class="relative flex flex-col min-w-0 break-words bg-white border-0 border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl dark:bg-gray-950 border-black-125 rounded-2xl bg-clip-border">
+                    <div class="flex p-3 justify-between items-center">
+                        <h6 class="mb-2 dark:text-white">Analytics</h6>
 
-                                    <tbody class="p-3 border">
+                        <select id="tableFilter" class="border rounded px-2 py-1 text-sm">
+                            <option value="7_days" selected>Last 7 Days</option>
+                            <option value="5_weeks">Last 5 Weeks</option>
+                            <option value="5_months">Last 5 Months</option>
+                        </select>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-2 mx-3">
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th class="text-capitalize font-monospace">Web</th>
+                                        <th class="text-capitalize font-monospace">Android</th>
+                                        <th class="text-capitalize font-monospace">iOS</th>
+                                    </tr>
+                                </thead>
 
-                                        <tr>
-                                            <td class="font-weight-bold">Visitors</td>
-                                            <td>{{ $analytics['web']['visitors_count'] }}</td>
-                                            <td>{{ $analytics['android']['visitors_count'] }}</td>
-                                            <td>{{ $analytics['ios']['visitors_count'] }}</td>
-                                        </tr>
+                                <tbody class="p-3 border">
+                                    <tr>
+                                        <td class="font-weight-bold">Visitors</td>
+                                        <td id="web_visitors"></td>
+                                        <td id="android_visitors"></td>
+                                        <td id="ios_visitors"></td>
+                                    </tr>
 
-                                        <tr>
-                                            <td class="font-weight-bold">Buy Now Clicks</td>
-                                            <td>{{ $analytics['web']['buy_now_click_count'] }}</td>
-                                            <td>{{ $analytics['android']['buy_now_click_count'] }}</td>
-                                            <td>{{ $analytics['ios']['buy_now_click_count'] }}</td>
-                                        </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Buy Now Clicks</td>
+                                        <td id="web_buy"></td>
+                                        <td id="android_buy"></td>
+                                        <td id="ios_buy"></td>
+                                    </tr>
 
-                                        <tr>
-                                            <td class="font-weight-bold">New Students</td>
-                                            <td>{{ $analytics['web']['new_students_count'] }}</td>
-                                            <td>{{ $analytics['android']['new_students_count'] }}</td>
-                                            <td>{{ $analytics['ios']['new_students_count'] }}</td>
-                                        </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">New Students</td>
+                                        <td id="web_students"></td>
+                                        <td id="android_students"></td>
+                                        <td id="ios_students"></td>
+                                    </tr>
 
-                                        <tr>
-                                            <td class="font-weight-bold">New Teachers</td>
-                                            <td>{{ $analytics['web']['new_teachers_count'] }}</td>
-                                            <td>{{ $analytics['android']['new_teachers_count'] }}</td>
-                                            <td>{{ $analytics['ios']['new_teachers_count'] }}</td>
-                                        </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">New Teachers</td>
+                                        <td id="web_teachers"></td>
+                                        <td id="android_teachers"></td>
+                                        <td id="ios_teachers"></td>
+                                    </tr>
 
-                                        <tr>
-                                            <td class="font-weight-bold">Purchases</td>
-                                            <td>{{ $analytics['web']['total_purchases_count'] }}</td>
-                                            <td>{{ $analytics['android']['total_purchases_count'] }}</td>
-                                            <td>{{ $analytics['ios']['total_purchases_count'] }}</td>
-                                        </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Purchases</td>
+                                        <td id="web_purchases"></td>
+                                        <td id="android_purchases"></td>
+                                        <td id="ios_purchases"></td>
+                                    </tr>
 
-                                        <tr>
-                                            <td class="font-weight-bold">Total Revenue (₹)</td>
-                                            <td class="text-success font-weight-bold">
-                                                ₹{{ number_format($analytics['web']['total_revenue']) }}
-                                            </td>
-                                            <td class="text-success font-weight-bold">
-                                                ₹{{ number_format($analytics['android']['total_revenue']) }}
-                                            </td>
-                                            <td class="text-success font-weight-bold">
-                                                ₹{{ number_format($analytics['ios']['total_revenue']) }}
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Total Revenue (₹)</td>
+                                        <td id="web_revenue" class="text-success font-weight-bold"></td>
+                                        <td id="android_revenue" class="text-success font-weight-bold"></td>
+                                        <td id="ios_revenue" class="text-success font-weight-bold"></td>
+                                    </tr>
+                                    {{-- <tr>
+                                        <td class="font-weight-bold">Visitors</td>
+                                        <td>{{ $analytics['web']['visitors_count'] }}</td>
+                                        <td>{{ $analytics['android']['visitors_count'] }}</td>
+                                        <td>{{ $analytics['ios']['visitors_count'] }}</td>
+                                    </tr>
 
-                                    </tbody>
-                                </table>
+                                    <tr>
+                                        <td class="font-weight-bold">Buy Now Clicks</td>
+                                        <td>{{ $analytics['web']['buy_now_click_count'] }}</td>
+                                        <td>{{ $analytics['android']['buy_now_click_count'] }}</td>
+                                        <td>{{ $analytics['ios']['buy_now_click_count'] }}</td>
+                                    </tr>
 
-                            </div>
+                                    <tr>
+                                        <td class="font-weight-bold">New Students</td>
+                                        <td>{{ $analytics['web']['new_students_count'] }}</td>
+                                        <td>{{ $analytics['android']['new_students_count'] }}</td>
+                                        <td>{{ $analytics['ios']['new_students_count'] }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="font-weight-bold">New Teachers</td>
+                                        <td>{{ $analytics['web']['new_teachers_count'] }}</td>
+                                        <td>{{ $analytics['android']['new_teachers_count'] }}</td>
+                                        <td>{{ $analytics['ios']['new_teachers_count'] }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="font-weight-bold">Purchases</td>
+                                        <td>{{ $analytics['web']['total_purchases_count'] }}</td>
+                                        <td>{{ $analytics['android']['total_purchases_count'] }}</td>
+                                        <td>{{ $analytics['ios']['total_purchases_count'] }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="font-weight-bold">Total Revenue (₹)</td>
+                                        <td class="text-success font-weight-bold">
+                                            ₹{{ number_format($analytics['web']['total_revenue']) }}
+                                        </td>
+                                        <td class="text-success font-weight-bold">
+                                            ₹{{ number_format($analytics['android']['total_revenue']) }}
+                                        </td>
+                                        <td class="text-success font-weight-bold">
+                                            ₹{{ number_format($analytics['ios']['total_revenue']) }}
+                                        </td>
+                                    </tr> --}}
+
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>
             </div>
 
             <div
-                class="w-full max-w-full px-3 lg:w-5/12 lg:flex-none bg-white  border-black/12.5 dark:bg-slate-850 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col break-words rounded-2xl border-solid bg-white bg-clip-border">
+                class="w-full max-w-full px-3 lg:w-5/12 my-5 lg:flex-none bg-white  border-black/12.5 dark:bg-slate-850 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col break-words rounded-2xl border-solid bg-white bg-clip-border">
                 <div
                     class="border-black/12.5 dark:bg-slate-850  relative z-20 flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid  bg-clip-border">
                     <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid p-4 pb-0">
@@ -638,7 +687,7 @@
 
         <div class="flex flex-wrap mt-6 -mx-3">
 
-            <div class="w-full max-w-full px-3 mt-0 w-1/2 lg:flex-none">
+            <div class="w-full max-w-full px-3 mt-3 w-1/2 lg:flex-none">
                 <div
                     class="border-black/12.5 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                     <div class="p-4 pb-0 rounded-t-4">
@@ -680,41 +729,24 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full max-w-full px-3 mt-0 mb-6 w-1/2 lg:flex-none">
+            <div class="w-full max-w-full px-3 mt-3 mb-6 w-1/2 lg:flex-none">
                 <div
                     class="border-black/12.5 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
-                    <div class="p-4 pb-0 rounded-t-4">
-                        <h6 class="mb-0 dark:text-white">Used Devices</h6>
+                    <div class="p-4 pb-0 rounded-t-4 flex items-center justify-between">
+                        <h6 class="mb-0 dark:text-white">Active Devices</h6>
+                        <select id="activeDevicesFilter" class="border rounded px-2 py-1 text-sm">
+                            <option value="7_days" selected>Last 7 Days</option>
+                            <option value="5_weeks">Last 5 Weeks</option>
+                            <option value="5_months">Last 5 Months</option>
+                        </select>
                     </div>
                     {{-- device details  depending count --}}
-                    <div class="flex-auto p-4">
-                        <ul class="flex flex-col pl-0 mb-0 rounded-lg">
-                            @foreach ($data['devices'] as $device)
-                                <li class="flex justify-between py-3 pr-4 mb-2 rounded-xl bg-gray-50 dark:bg-slate-800">
-                                    <div class="flex items-center">
-                                        <div
-                                            class="inline-flex items-center justify-center w-9 h-9 mr-4 text-white bg-gradient-to-tl from-slate-700 to-slate-900 rounded-xl">
-                                            <i class="ni ni-mobile-button text-xs"></i>
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0 text-sm dark:text-white">{{ $device['name'] }}</h6>
-                                            <p class="mb-0 text-xs text-gray-500 dark:text-gray-300">
-                                                {{ number_format($device['users']) }} Users
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <span class="text-sm font-semibold text-indigo-500">
-                                        {{ $device['percent'] }}%
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
-
+                    <div class="p-4">
+                        <canvas id="activeDevicesChart" ></canvas>
                     </div>
                 </div>
             </div>
-            <div class="w-full max-w-full px-3 mt-0 w-1/2 lg:flex-none">
+            <div class="w-full max-w-full px-3 mt-3 w-1/2 lg:flex-none">
                 <div
                     class="border-black/12.5 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                     <div class="p-4 pb-0 rounded-t-4">
@@ -746,7 +778,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full max-w-full px-3 mt-0 w-1/2 lg:flex-none">
+            <div class="w-full max-w-full px-3 mt-3 w-1/2 lg:flex-none">
                 <div
                     class="border-black/12.5 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
                     <div class="p-4 pb-0 rounded-t-4">
@@ -789,91 +821,83 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        const chartData = @json($data['chart']);
+        let chartInstance = null;
 
-        const ctx = document.getElementById('weeklyAnalyticsChart').getContext('2d');
+        function loadChart(filter = '7_days') {
+            $.ajax({
+                url: "{{ route('company.dashboard.overall-analytics') }}",
+                type: "GET",
+                data: {
+                    filter: filter
+                },
+                success: function(res) {
+                    const chartData = res.chart;
 
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: chartData.labels,
-                datasets: [{
-                        label: 'New Students',
-                        data: chartData.students,
-                    },
-                    {
-                        label: 'New Teachers',
-                        data: chartData.teachers,
-                    },
-                    {
-                        label: 'Revenue',
-                        data: chartData.revenue,
-                        yAxisID: 'y1'
+                    const ctx = document.getElementById('overallAnalyticsChart').getContext('2d');
+
+                    // Destroy old chart before redraw
+                    if (chartInstance) {
+                        chartInstance.destroy();
                     }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Count'
-                        }
-                    },
-                    y1: {
-                        beginAtZero: true,
-                        position: 'right',
-                        title: {
-                            display: true,
-                            text: 'Revenue (₹)'
+
+                    chartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: chartData.labels,
+                            datasets: [{
+                                    label: 'New Students',
+                                    data: chartData.students,
+                                },
+                                {
+                                    label: 'New Teachers',
+                                    data: chartData.teachers,
+                                },
+                                {
+                                    label: 'Revenue',
+                                    data: chartData.revenue,
+                                    yAxisID: 'y1'
+                                }
+                            ]
                         },
-                        grid: {
-                            drawOnChartArea: false
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Count'
+                                    }
+                                },
+                                y1: {
+                                    beginAtZero: true,
+                                    position: 'right',
+                                    title: {
+                                        display: true,
+                                        text: 'Revenue (₹)'
+                                    },
+                                    grid: {
+                                        drawOnChartArea: false
+                                    }
+                                }
+                            }
                         }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Last 5 Weeks'
-                        }
-                    }
+                    });
                 }
-            }
+            });
+        }
+
+        // Initial load
+        loadChart();
+
+        // On dropdown change
+        $('#analyticsFilter').on('change', function() {
+            let filter = $(this).val();
+            loadChart(filter);
         });
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const slider = document.querySelector('[data-slider]');
-            const slides = slider.querySelectorAll('[data-slide]');
-            const nextBtn = slider.querySelector('[data-next]');
-            const prevBtn = slider.querySelector('[data-prev]');
 
-            let current = 0;
-
-            function showSlide(index) {
-                slides.forEach((slide, i) => {
-                    slide.classList.toggle('opacity-0', i !== index);
-                    slide.classList.toggle('opacity-100', i === index);
-                });
-            }
-
-            nextBtn.addEventListener('click', () => {
-                current = (current + 1) % slides.length;
-                showSlide(current);
-            });
-
-            prevBtn.addEventListener('click', () => {
-                current = (current - 1 + slides.length) % slides.length;
-                showSlide(current);
-            });
-
-            // Init
-            showSlide(current);
-        });
-    </script>
 
     <script>
         function openTab(tabName) {
@@ -891,4 +915,120 @@
             event.target.classList.add("bg-emerald-500/50");
         }
     </script>
+    <script>
+        function loadTable(filter = '7_days') {
+            $.ajax({
+                url: "{{ route('company.dashboard.table-analytics') }}",
+                type: "GET",
+                data: {
+                    filter: filter
+                },
+                success: function(res) {
+
+                    let data = res.analytics;
+
+                    // WEB
+                    $('#web_visitors').text(data.web.visitors_count);
+                    $('#web_buy').text(data.web.buy_now_click_count);
+                    $('#web_students').text(data.web.new_students_count);
+                    $('#web_teachers').text(data.web.new_teachers_count);
+                    $('#web_purchases').text(data.web.total_purchases_count);
+                    $('#web_revenue').text('₹' + numberFormat(data.web.total_revenue));
+
+                    // ANDROID
+                    $('#android_visitors').text(data.android.visitors_count);
+                    $('#android_buy').text(data.android.buy_now_click_count);
+                    $('#android_students').text(data.android.new_students_count);
+                    $('#android_teachers').text(data.android.new_teachers_count);
+                    $('#android_purchases').text(data.android.total_purchases_count);
+                    $('#android_revenue').text('₹' + numberFormat(data.android.total_revenue));
+
+                    // IOS
+                    $('#ios_visitors').text(data.ios.visitors_count);
+                    $('#ios_buy').text(data.ios.buy_now_click_count);
+                    $('#ios_students').text(data.ios.new_students_count);
+                    $('#ios_teachers').text(data.ios.new_teachers_count);
+                    $('#ios_purchases').text(data.ios.total_purchases_count);
+                    $('#ios_revenue').text('₹' + numberFormat(data.ios.total_revenue));
+                }
+            });
+        }
+
+        function numberFormat(num) {
+            return new Intl.NumberFormat('en-IN').format(num);
+        }
+
+        // Load initially
+        loadTable();
+
+        // On filter change
+        $('#tableFilter').on('change', function() {
+            loadTable($(this).val());
+        });
+    </script>
+
+  <script>
+    let deviceChart = null;
+
+    function loadDevicesChart(filter = '7_days') {
+        $.ajax({
+            url: "{{ route('company.dashboard.devices-analytics') }}",
+            type: "GET",
+            data: { filter: filter },
+            success: function(res) {
+
+                let labels = res.chart.labels;
+                let data = res.chart.data;
+
+                const ctx = document.getElementById('activeDevicesChart').getContext('2d');
+
+                if (deviceChart) {
+                    deviceChart.destroy();
+                }
+
+                deviceChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: [
+                                '#4F46E5', // web
+                                '#10B981', // android
+                                '#F59E0B', // ios
+                                '#EF4444', // windows
+                                '#3B82F6', // macos
+                                '#6B7280'  // others
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let value = context.raw;
+                                        let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        let percent = ((value / total) * 100).toFixed(1);
+                                        return context.label + ': ' + value + ' (' + percent + '%)';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    loadDevicesChart();
+
+    $('#activeDevicesFilter').on('change', function() {
+        loadDevicesChart($(this).val());
+    });
+</script>
 @endpush

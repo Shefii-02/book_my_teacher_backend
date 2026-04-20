@@ -24,6 +24,15 @@ use Illuminate\Support\Facades\Log;
 
 Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth', 'company_panel'], 'namespace' => 'App\Http\Controllers'], function () {
 
+
+
+  // Main Page Route
+  Route::get('/', 'dashboard\Analytics@index')->name('dashboard.index');
+  Route::get('/dashboard', 'dashboard\Analytics@index')->name('dashboard');
+  Route::get('/dashboard/analytics', 'dashboard\Analytics@overallAnalytics')->name('dashboard.overall-analytics');
+  Route::get('/dashboard/table-analytics', 'dashboard\Analytics@tableAnalytics')->name('dashboard.table-analytics');
+  Route::get('/dashboard/analytics/devices', 'dashboard\Analytics@activeDevices')->name('dashboard.devices-analytics');
+
   // Route::group(['prefix' => 'chat', 'as' => 'chat.'], function () {
   //   Route::get('/', [ChatController::class, 'index'])->name('index');
   //   Route::get('/conversations', [ChatController::class, 'getConversations']);
@@ -37,6 +46,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   //   Route::post('/chat/add-label', [ChatController::class, 'addLabel']);
   //   Route::get('/chat/labels', [ChatController::class, 'labels']);
   // });
+
 
 
   Route::get('global-search', 'GlobalSearchController@search')
@@ -183,9 +193,6 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
 
 
-  // Main Page Route
-  Route::get('/', 'dashboard\Analytics@index')->name('dashboard.index');
-  Route::get('/dashboard', 'dashboard\Analytics@index')->name('dashboard');
   Route::get('/profile', 'dashboard\UserController@profile')->name('profile');
 
   Route::put('/profile', 'dashboard\UserController@update')->name('profile.update');

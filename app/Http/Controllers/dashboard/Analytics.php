@@ -133,12 +133,12 @@ class Analytics extends Controller
 
 
     //   /** REVENUE */
-    $data['revenue']['total'] = Purchase::where('company_id', $company_id)
+    $data['revenue']['total'] = Purchase::where('purchases.company_id', $company_id)
       ->join('courses', 'courses.id', '=', 'purchases.course_id')
       ->where('purchases.status', 'paid')
       ->sum('grand_total');
 
-    $data['revenue']['last_week'] = Purchase::where('company_id', $company_id)
+    $data['revenue']['last_week'] = Purchase::where('purchases.company_id', $company_id)
       ->join('courses', 'courses.id', '=', 'purchases.course_id')
       ->where('purchases.status', 'paid')
       ->where('purchases.created_at', '>=', $lastWeek)
@@ -316,6 +316,236 @@ class Analytics extends Controller
     //   ],
     // ];
 
-    return view('company.dashboard.index', compact('data', 'analytics','generalRequests','teacherRequests','courseRequests'));
+    return view('company.dashboard.index', compact('data', 'analytics', 'generalRequests', 'teacherRequests', 'courseRequests'));
+  }
+
+  public function overallAnalytics(Request $request)
+  {
+    $company_id = auth()->user()->company_id;
+    $filter = $request->get('filter', '7_days');
+
+    $labels = [];
+    $students = [];
+    $teachers = [];
+    $revenue = [];
+
+    /** ===============================
+     * 🔹 LAST 7 DAYS
+     * =============================== */
+    if ($filter === '7_days') {
+
+      $days = collect(range(0, 6))
+        ->map(fn($i) => now()->subDays(6 - $i)->startOfDay());
+
+      foreach ($days as $day) {
+
+        $labels[] = $day->format('D');
+
+        $students[] = User::whereDate('created_at', $day)
+          ->where('acc_type', 'student')
+          ->where('company_id', $company_id)
+          ->count();
+
+        $teachers[] = User::whereDate('created_at', $day)
+          ->where('acc_type', 'teacher')
+          ->where('company_id', $company_id)
+          ->count();
+
+        $revenue[] = Purchase::whereDate('created_at', $day)
+          ->where('status', 'paid')
+          ->sum('grand_total');
+      }
+    }
+
+    /** ===============================
+     * 🔹 LAST 5 MONTHS
+     * =============================== */
+    elseif ($filter === '5_months') {
+
+      $months = collect(range(0, 4))
+        ->map(fn($i) => now()->subMonths(4 - $i)->startOfMonth());
+
+      foreach ($months as $month) {
+
+        $labels[] = $month->format('M');
+
+        $students[] = User::whereMonth('created_at', $month->month)
+          ->whereYear('created_at', $month->year)
+          ->where('acc_type', 'student')
+          ->where('company_id', $company_id)
+          ->count();
+
+        $teachers[] = User::whereMonth('created_at', $month->month)
+          ->whereYear('created_at', $month->year)
+          ->where('acc_type', 'teacher')
+          ->where('company_id', $company_id)
+          ->count();
+
+        $revenue[] = Purchase::whereMonth('created_at', $month->month)
+          ->whereYear('created_at', $month->year)
+          ->where('status', 'paid')
+          ->sum('grand_total');
+      }
+    }
+
+    /** ===============================
+     * 🔹 LAST 5 WEEKS (DEFAULT)
+     * =============================== */
+    else {
+
+      $weeks = collect(range(0, 4))
+        ->map(fn($i) => now()->subWeeks(4 - $i)->startOfWeek());
+
+      foreach ($weeks as $weekStart) {
+
+        $weekEnd = $weekStart->copy()->endOfWeek();
+
+        $labels[] = $weekStart->format('d M');
+
+        $students[] = User::whereBetween('created_at', [$weekStart, $weekEnd])
+          ->where('acc_type', 'student')
+          ->where('company_id', $company_id)
+          ->count();
+
+        $teachers[] = User::whereBetween('created_at', [$weekStart, $weekEnd])
+          ->where('acc_type', 'teacher')
+          ->where('company_id', $company_id)
+          ->count();
+
+        $revenue[] = Purchase::whereBetween('created_at', [$weekStart, $weekEnd])
+          ->where('status', 'paid')
+          ->sum('grand_total');
+      }
+    }
+
+    return response()->json([
+      'chart' => compact('labels', 'students', 'teachers', 'revenue')
+    ]);
+  }
+
+
+  public function tableAnalytics(Request $request)
+  {
+
+    $company_id = auth()->user()->company_id;
+    $filter = $request->get('filter', '5_weeks');
+
+    // Date range logic
+    if ($filter === '7_days') {
+      $start = now()->subDays(6)->startOfDay();
+      $end = now()->endOfDay();
+    } elseif ($filter === '5_months') {
+      $start = now()->subMonths(4)->startOfMonth();
+      $end = now()->endOfMonth();
+    } else {
+      $start = now()->subWeeks(4)->startOfWeek();
+      $end = now()->endOfWeek();
+    }
+
+    $platforms = ['web', 'android', 'ios', 'windows', 'macos', 'others'];
+    $analytics = [];
+
+    foreach ($platforms as $platform) {
+
+      $analytics[$platform] = [
+
+        'visitors_count' => DB::table('visitors')
+          ->where('platform', $platform)
+          ->whereBetween('created_at', [$start, $end])
+          ->count(),
+
+        'buy_now_click_count' => DB::table('activity_events')
+          ->where('platform', $platform)
+          ->where('event', 'buy_now')
+          ->whereBetween('created_at', [$start, $end])
+          ->count(),
+
+        'new_students_count' => User::with('userPlatforms')
+          ->WhereHas('userPlatforms', function ($query) use ($platform) {
+            $query->where('platform', $platform);
+          })
+          ->where('acc_type', 'student')
+          ->where('company_id', $company_id)
+          ->whereBetween('created_at', [$start, $end])
+          ->count(),
+
+        'new_teachers_count' => User::with('userPlatforms')
+          ->WhereHas('userPlatforms', function ($query) use ($platform) {
+            $query->where('platform', $platform);
+          })
+          ->where('acc_type', 'teacher')
+          ->where('company_id', $company_id)
+          ->whereBetween('created_at', [$start, $end])
+          ->count(),
+
+        'total_purchases_count' => Purchase::where('platform', $platform)
+          ->where('status', 'paid')
+          ->whereBetween('created_at', [$start, $end])
+          ->count(),
+
+        'total_revenue' => Purchase::where('platform', $platform)
+          ->where('status', 'paid')
+          ->whereBetween('created_at', [$start, $end])
+          ->sum('grand_total'),
+      ];
+    }
+
+
+    return response()->json([
+      'analytics' => $analytics
+    ]);
+  }
+
+  public function activeDevices(Request $request)
+  {
+    $company_id = auth()->user()->company_id;
+    $filter = $request->get('filter', '7_days');
+
+    // ✅ Date range
+    if ($filter === '7_days') {
+      $start = now()->subDays(6)->startOfDay();
+      $end = now()->endOfDay();
+    } elseif ($filter === '5_months') {
+      $start = now()->subMonths(4)->startOfMonth();
+      $end = now()->endOfMonth();
+    } else {
+      $start = now()->subWeeks(4)->startOfWeek();
+      $end = now()->endOfWeek();
+    }
+
+    // ✅ Fetch device counts
+    $devices = DB::table('visitors')
+      ->select('platform', DB::raw('COUNT(*) as total'))
+      ->where('company_id', $company_id)
+      ->whereBetween('created_at', [$start, $end])
+      ->groupBy('platform')
+      ->pluck('total', 'platform')
+      ->toArray();
+
+    // ✅ Supported platforms
+    $platforms = ['web', 'android', 'ios', 'windows', 'macos', 'others'];
+
+    $labels = [];
+    $data = [];
+    $totalUsers = array_sum($devices);
+
+    foreach ($platforms as $platform) {
+
+      $count = $devices[$platform] ?? 0;
+
+      // 👉 Skip zero values (clean chart)
+      if ($count == 0) continue;
+
+      $labels[] = ucfirst($platform);
+      $data[] = $count;
+    }
+
+    return response()->json([
+      'chart' => [
+        'labels' => $labels,
+        'data' => $data,
+        'total' => $totalUsers
+      ]
+    ]);
   }
 }

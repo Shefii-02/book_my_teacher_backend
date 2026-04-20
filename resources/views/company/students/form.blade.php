@@ -309,6 +309,39 @@
                     </div> --}}
                 </div>
 
+                <!-- Status -->
+
+                <div class="mb-4">
+                    <p class="mb-2 text-sm font-medium">Status</p>
+
+                    @php $status = old('status', $user->status ?? '1') @endphp
+
+                    <label class="mr-4">
+                        <input type="radio" name="status" value="1"
+                            class="mr-2 w-4 h-4 text-green-600 border border-dark focus:ring-green-500"
+                            {{ $status == '1' ? 'checked' : '' }}>
+                        Active
+                    </label>
+
+                    <label class="mr-4">
+                        <input type="radio" name="status" value="0"
+                            class="mr-2 w-4 h-4 text-gray-600 border border-dark focus:ring-gray-500"
+                            {{ $status == '0' ? 'checked' : '' }}>
+                        Inactive
+                    </label>
+
+                    <label>
+                        <input type="radio" name="status" value="-1"
+                            class="mr-2 w-4 h-4 text-red-600 border border-dark focus:ring-red-500"
+                            {{ $status == '-1' ? 'checked' : '' }}>
+                        Suspend
+                    </label>
+
+                    @error('status')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <!-- Buttons -->
                 <div class="button-group mt-4 flex justify-center">
                     <button type="submit"

@@ -127,16 +127,16 @@ class User extends Authenticatable
 
 
 
-    public function courses()
+  public function courses()
   {
 
     return $this->belongsToMany(
-        Course::class,
-        'teacher_courses',
-        'id', // Pivot column referencing Teacher
-        'course_id',  // Pivot column referencing Course
-        'id',         // Local key on Teacher table
-        'id'          // Local key on Course table
+      Course::class,
+      'teacher_courses',
+      'id', // Pivot column referencing Teacher
+      'course_id',  // Pivot column referencing Course
+      'id',         // Local key on Teacher table
+      'id'          // Local key on Course table
     );
   }
 
@@ -238,7 +238,7 @@ class User extends Authenticatable
   }
 
 
-   public function teacher()
+  public function teacher()
   {
     return $this->hasOne(Teacher::class, 'user_id', 'id');
   }
@@ -332,5 +332,55 @@ class User extends Authenticatable
   public function top_teachers()
   {
     return $this->hasMany(TopTeacher::class, 'teacher_id', 'id');
+  }
+
+  public function userPlatforms()
+  {
+    return $this->hasMany(UserPlatform::class, 'user_id', 'id');
+  }
+
+  public function courseEnrolled()
+  {
+    return $this->hasMany(CourseEnrollment::class, 'user_id', 'id');
+  }
+
+  public function attendance()
+  {
+    return $this->hasMany(Attendance::class, 'student_id', 'id');
+  }
+
+  public function payments()
+  {
+    return $this->hasMany(Purchase::class, 'student_id', 'id');
+  }
+
+  public function myScore()
+  {
+    return $this->hasMany(Purchase::class, 'student_id', 'id');
+  }
+
+  public function assignments()
+  {
+    return $this->hasMany(Purchase::class, 'student_id', 'id');
+  }
+
+  public function tests()
+  {
+    return $this->hasMany(Purchase::class, 'student_id', 'id');
+  }
+
+  public function referrals()
+  {
+    return $this->hasMany(AppReferral::class, 'ref_user_id', 'id');
+  }
+
+  public function referredBy()
+  {
+    return $this->belongsTo(AppReferral::class, 'id', 'referred_user_id');
+  }
+
+  public function reviews()
+  {
+    return $this->hasMany(AppReview::class, 'user_id', 'id');
   }
 }

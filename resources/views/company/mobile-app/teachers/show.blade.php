@@ -172,14 +172,11 @@
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#wallet">Wallet</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#payments">Payments</button>
             </li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#activity">Activity
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#activity_log">Activity
                     Log</button>
             </li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#reviews">Reviews
                 </button>
-            </li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
-                    data-bs-target="#documents">Documents</button>
             </li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#security">Login
                     Devices</button>
@@ -783,7 +780,7 @@
             </div>
 
             <!-- ================= ACTIVITY ================= -->
-            <div class="tab-pane fade" id="activity">
+            <div class="tab-pane fade" id="activity_log">
 
                 <!-- 🔥 FILTER -->
                 <div class="d-flex justify-content-between mb-3">

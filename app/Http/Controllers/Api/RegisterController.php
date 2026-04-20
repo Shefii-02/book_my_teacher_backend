@@ -259,8 +259,6 @@ class RegisterController extends Controller
     $company_id = 1;
     $student_id = $request->student_id;
 
-
-
     $user = User::where('id', $student_id)->where('company_id', $company_id)->first();
     $source = $request->header('X-Request-Source', 'Unknown');
     try {
@@ -302,6 +300,7 @@ class RegisterController extends Controller
         }
 
         $user->profile_fill = 1;
+        $user->status = 1;
         $user->save();
 
         $personal = new StudentPersonalInfo();

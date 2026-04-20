@@ -215,13 +215,13 @@
                             @endphp
 
                             <!-- Filters -->
-                            <form method="GET" action="{{ route('company.students.index') }}"
+                            <form method="GET" action="{{ route('company.students.index') }}" id="filterForm"
                                 class="flex flex-wrap gap-4 mb-6 items-end">
 
                                 <!-- Search -->
                                 <div>
                                     <label class="text-sm block mb-1">Search</label>
-                                    <input type="text" name="search" value="{{ request('search') }}"
+                                    <input type="text" name="search" value="{{ request('search') }}" autocomplete="off"
                                         placeholder="Name / Email / Mobile" class="border rounded-lg px-3 py-2 w-60">
                                 </div>
 
@@ -270,6 +270,39 @@
                                     </select>
                                 </div>
 
+                                <!-- Course -->
+                                <div>
+                                    <label class="text-sm block mb-1">Course</label>
+                                    <select name="course_filter" class="border rounded-lg px-3 py-2">
+                                        <option value="">All</option>
+                                        <option value="joined">Joined</option>
+                                        <option value="unjoined">UnJoined</option>
+                                        <option value="non-active">Non Active</option>
+                                    </select>
+                                </div>
+
+                                <!-- Join Date -->
+                                <div>
+                                    <label class="text-sm block mb-1">Join From</label>
+                                    <input type="date" name="join_from" class="border px-2 py-2 rounded">
+                                </div>
+
+                                <div>
+                                    <label class="text-sm block mb-1">Join To</label>
+                                    <input type="date" name="join_to" class="border px-2 py-2 rounded">
+                                </div>
+
+                                <!-- Active Date -->
+                                <div>
+                                    <label class="text-sm block mb-1">Active From</label>
+                                    <input type="date" name="active_from" class="border px-2 py-2 rounded">
+                                </div>
+
+                                <div>
+                                    <label class="text-sm block mb-1">Active To</label>
+                                    <input type="date" name="active_to" class="border px-2 py-2 rounded">
+                                </div>
+
                                 <!-- Admission Status -->
                                 {{-- <div>
                                     <label class="text-sm block mb-1">Admission</label>
@@ -291,49 +324,22 @@
 
                                 <!-- Submit + Reset -->
                                 <div class="flex gap-2 items-baseline ">
-                                  <div class="flex gap-2">
-                                    <button type="submit"
-                                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
-                                            class="bi bi-search"></i> Apply</button>
-                                    <a href="{{ route('company.students.index') }}"
-                                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded text-white text-sm"><i
-                                            class="bi bi-arrow-clockwise"></i> Reset </a>
-                                    {{-- <a href="{{ route('company.students.export', request()->query()) }}"
-                                        class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        Export Excel
-                                    </a> --}}
+                                    <div class="flex gap-2">
+                                        <button type="submit"
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
+                                                class="bi bi-search"></i> Apply</button>
+                                        <a href="{{ route('company.students.index') }}"
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded text-white text-sm"><i
+                                                class="bi bi-arrow-clockwise"></i> Reset </a>
+                                        <a href="{{ route('company.students.export', request()->query()) }}"
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
+                                            <i class="bi bi-file-earmark-spreadsheet"></i>
+                                            Export Excel
+                                        </a>
 
-                                  </div>
-                                    @php
-                                        $activeFilters = collect(
-                                            request()->only([
-                                                'search',
-                                                'class_mode',
-                                                'learn_grade',
-                                                'learn_subject',
-                                                'teaching_grade',
-                                                'teaching_subject',
-                                            ]),
-                                        )->filter(fn($value) => filled($value)); // remove null/empty
-                                    @endphp
+                                    </div>
 
-                                    @if ($activeFilters->isNotEmpty())
-                                        <div class="mb-4 pl-9 flex flex-wrap gap-2">
-                                            @foreach ($activeFilters as $key => $value)
-                                                <div
-                                                    class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
-                                                    <span class="mr-2 capitalize">{{ str_replace('_', ' ', $key) }}:
-                                                        {{ $value }}</span>
-                                                    <a href="{{ request()->fullUrlWithQuery([$key => null]) }}"
-                                                        class="text-red-500 hover:text-red-700 font-bold">×</a>
-                                                </div>
-                                            @endforeach
-                                            <a href="{{ route('company.teachers.index') }}"
-                                                class="ml-3 mt-2.5 text-sm text-red-600">Clear
-                                                All</a>
-                                        </div>
-                                    @endif
+
                                 </div>
 
                             </form>
@@ -341,183 +347,32 @@
 
                         </div>
                     </div>
-                    <div class="p-6">
+                    <div class="">
 
 
                         <!-- Table -->
-                        <div class="overflow-x-auto">
-
-                            <table class="w-full text-sm">
-
-                                <thead class="bg-gray-100 text-gray-600">
-                                    <tr>
-                                        <th class="p-3 text-left">Student</th>
-                                        <th class="p-3 text-left">Parent</th>
-                                        <th class="p-3 text-left">Grade</th>
-                                        <th class="p-3 text-left">Mode</th>
-                                        <th class="p-3 text-center">Status</th>
-                                        <th class="p-3 text-center">Created</th>
-                                        <th class="p-3 text-center">Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    @forelse($students as $key => $student)
-                                        @php
-                                            $subjects = $student->recommendedSubjects->pluck('subject')->toArray();
-                                            $grades = $student->studentGrades->pluck('grade')->toArray();
-                                            $grades_val = implode(',', $grades);
-                                            $sub_val = implode(',', $subjects);
-                                            $mode = $student->studentPersonalInfo?->study_mode;
-                                        @endphp
-
-                                        <tr class="border-b">
-
-                                            <!-- Student -->
-                                            <td class="p-3">
-                                                <div class="flex items-center gap-3">
-
-                                                    <img src="{{ $student->avatar_url }}" class="w-10 h-10 rounded-lg">
-
-                                                    <div>
-                                                        <p class="font-semibold">{{ $student->name }}</p>
-                                                        <p class="text-xs text-gray-500">{{ $student->email }}</p>
-                                                        <p class="text-xs text-gray-500">{{ $student->mobile }}</p>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-
-
-                                            <!-- Address -->
-                                            <td class="p-3 text-xs text-gray-600">
-                                                {{ $student->studentPersonalInfo->parent_name }}
-                                            </td>
-
-
-                                            <!-- Grade -->
-                                            <td class="p-3 capitalize" role="button"
-                                                title="{{ $grades_val . '(' . $sub_val . ')' }}">
-                                                <p class="text-sm">
-                                                    @if ($grades_val)
-                                                        {{ Str::limit($grades_val, 20) }}<br>
-                                                        ({{ Str::limit($sub_val, 20) }})
-                                                    @else
-                                                        Please update
-                                                    @endif
-                                                </p>
-                                            </td>
-
-
-                                            <!-- Subjects -->
-                                            <td class="p-3">
-
-                                                @if ($mode == 'online')
-                                                    <span class="bg-primary text-white px-2 py-1 text-xs rounded">
-                                                        Online
-                                                    </span>
-                                                @elseif($mode == 'offline')
-                                                    <span class="bg-info text-white px-2 py-1 text-xs rounded">
-                                                        Offline
-                                                    </span>
-                                                @elseif($mode == 'both')
-                                                    <span class="bg-blue-500 text-white px-2 py-1 text-xs rounded">
-                                                        Both
-                                                    </span>
-                                                @else
-                                                @endif
-                                            </td>
-
-                                            <!-- Status -->
-                                            <td class="p-3 text-center">
-
-                                                @if ($student->status == '1')
-                                                    <span class="bg-success text-white px-2 py-1 text-xs rounded">
-                                                        Active
-                                                    </span>
-                                                @elseif($student->status == '0')
-                                                    <span class="bg-gray-500 text-white px-2 py-1 text-xs rounded">
-                                                        In Active
-                                                    </span>
-                                                @else
-                                                    <span class="bg-blue-500 text-white px-2 py-1 text-xs rounded">
-                                                        --
-                                                    </span>
-                                                @endif
-
-                                            </td>
-
-
-                                            <!-- Created -->
-                                            <td class="p-3 text-center text-xs">
-                                                {{ $student->created_at->format('d M Y') }}
-                                            </td>
-
-
-                                            <!-- Actions -->
-                                            <td class="p-3 ">
-                                                <button id="dropdownBottomButton"
-                                                    data-dropdown-toggle="dropdownBottom_{{ $key }}"
-                                                    data-dropdown-placement="bottom" class="" type="button"> <svg
-                                                        class="w-6 h-6 text-gray-800 dark:text-white text-right"
-                                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                        width="24" height="24" fill="none"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke="currentColor" stroke-linecap="round"
-                                                            stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01" />
-                                                    </svg> </button> <!-- Dropdown menu -->
-                                                <div id="dropdownBottom_{{ $key }}"
-                                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
-                                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                        aria-labelledby="dropdownBottomButton">
-                                                        <li> <a href="{{ route('company.students.overview', $student->id) }}"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">View</a>
-                                                        </li>
-                                                        <li> <a href="{{ route('company.students.edit', $student->id) }}"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Edit</a>
-                                                        </li> {{-- <li> <a href="{{ route('company.students.login-security', $student->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">Login Security</a> </li> --}}
-                                                        <li>
-                                                            <form id="form_{{ $student->id }}" class="m-0 p-0"
-                                                                action="{{ route('company.students.destroy', $student->id) }}"
-                                                                method="POST" class="inline-block"> @csrf
-                                                                @method('DELETE') </form> <a role="button"
-                                                                href="javascript:;"
-                                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white"
-                                                                onclick="confirmDelete({{ $student->id }})">Delete</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-
-
-
-                                        </tr>
-
-                                    @empty
-
-                                        <tr>
-                                            <td colspan="7" class="text-center p-6 text-gray-500">
-                                                No students found
-                                            </td>
-                                        </tr>
-                                    @endforelse
-
-                                </tbody>
-
-                            </table>
-
+                        <div id="studentTable">
+                            @include('company.students.table')
                         </div>
-
-
-                        <!-- Pagination -->
-                        <div class="mt-6">
-                            {{ $students->links() }}
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/infinite-table.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            initInfiniteTable({
+                container: '#studentTable',
+                form: '#filterForm',
+                url: "{{ route('company.students.index') }}",
+                liveSearch: true,
+
+            });
+        });
+    </script>
+@endpush
+

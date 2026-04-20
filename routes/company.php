@@ -223,7 +223,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::post('/students/store', 'LMS\StudentController@store')->name('students.store');
   Route::get('students/export', 'LMS\StudentController@exportTeachers')->name('students.export');
 
-  Route::get('students/{id}', 'LMS\StudentController@overview')->name('students.overview');   // Overview
+  Route::get('students/{id}', 'LMS\StudentController@studentDetails')->name('students.overview');   // Overview
   Route::get('students/{id}/edit', 'LMS\StudentController@edit')->name('students.edit');
   Route::put('students/{id}/edit', 'LMS\StudentController@update')->name('students.update');  // Edit
   Route::delete('students/{id}', 'LMS\StudentController@delete')->name('students.destroy');  // Delete

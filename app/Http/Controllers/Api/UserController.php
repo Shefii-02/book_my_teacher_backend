@@ -1129,11 +1129,28 @@ class UserController extends Controller
       $review->save();
     }
 
-    $review = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->first();
+    $ExReview = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->first();
+
+    Log::info($ExReview);
+
+
+    if($ratingText == '5')
+    $rating = 'Happy';
+  else if($ratingText == '4')
+    $rating = 'Good';
+  else if($ratingText == '3')
+        $rating = 'Average';
+  else if($ratingText == '2')
+        $rating = 'Below Average';
+  else if($ratingText == '2')
+        $rating = 'Very Bad';
+  else
+    $rating = '';
+
     return response()->json([
       'status' => true,
       'data' => [
-        'rating' => $review->rating,
+        'rating' => $rating,
         'feedback' => $review->comments,
       ]
     ]);

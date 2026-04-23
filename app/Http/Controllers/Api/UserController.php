@@ -1077,10 +1077,26 @@ class UserController extends Controller
       ]);
     }
 
+    $ratingNumber = $review->rating;
+
+    if ($ratingNumber == '5')
+      $rating = 'Happy';
+    else if ($ratingNumber == '4')
+      $rating = 'Good';
+    else if ($ratingNumber == '3')
+      $rating = 'Average';
+    else if ($ratingNumber == '2')
+      $rating = 'Below Average';
+    else if ($ratingNumber == '2')
+      $rating = 'Very Bad';
+    else
+      $rating = '';
+
+
     return response()->json([
       'status' => true,
       'data' => [
-        'rating' => $review->rating,
+        'rating' => $rating,
         'feedback' => $review->comments,
       ]
     ]);
@@ -1095,20 +1111,20 @@ class UserController extends Controller
 
     $ratingText  = $request->rating;
 
-  if($ratingText == 'Happy')
-    $rating = 5;
-  else if($ratingText == 'Good')
-    $rating = 4;
-  else if($ratingText == 'Average')
-        $rating = 3;
-  else if($ratingText == 'Below Average')
-        $rating = 2;
-  else if($ratingText == 'Very Bad')
-        $rating = 1;
-  else
-    $rating = 0;
+    if ($ratingText == 'Happy')
+      $rating = 5;
+    else if ($ratingText == 'Good')
+      $rating = 4;
+    else if ($ratingText == 'Average')
+      $rating = 3;
+    else if ($ratingText == 'Below Average')
+      $rating = 2;
+    else if ($ratingText == 'Very Bad')
+      $rating = 1;
+    else
+      $rating = 0;
 
-  Log::info($rating);
+
 
     foreach ($courseTeachers ?? [] as $teacher) {
 
@@ -1132,21 +1148,23 @@ class UserController extends Controller
 
     $ExReview = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->first();
 
-    Log::info($ExReview);
 
 
-    if($ratingText == '5')
-    $rating = 'Happy';
-  else if($ratingText == '4')
-    $rating = 'Good';
-  else if($ratingText == '3')
-        $rating = 'Average';
-  else if($ratingText == '2')
-        $rating = 'Below Average';
-  else if($ratingText == '2')
-        $rating = 'Very Bad';
-  else
-    $rating = '';
+
+    $ratingNumber = $ExReview->rating;
+
+    if ($ratingNumber == '5')
+      $rating = 'Happy';
+    else if ($ratingNumber == '4')
+      $rating = 'Good';
+    else if ($ratingNumber == '3')
+      $rating = 'Average';
+    else if ($ratingNumber == '2')
+      $rating = 'Below Average';
+    else if ($ratingNumber == '2')
+      $rating = 'Very Bad';
+    else
+      $rating = '';
 
     return response()->json([
       'status' => true,

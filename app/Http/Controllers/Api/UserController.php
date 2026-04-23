@@ -18,9 +18,11 @@ use App\Models\DeleteAccountRequest;
 use App\Models\DemoClass;
 use App\Models\DemoClassRegistration;
 use App\Models\SocialLink;
+use App\Models\SubjectReview;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\TeacherClass;
+use App\Models\TeacherCourse;
 use App\Models\TransferRequest;
 use App\Models\User;
 use App\Models\UserPlatform;
@@ -32,6 +34,7 @@ use App\Models\WorkshopClass;
 use App\Models\WorkshopRegistration;
 use Carbon\Carbon;
 use Exception;
+use Google\Service\Classroom\Resource\CoursesTeachers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -559,7 +562,7 @@ class UserController extends Controller
       ->orderBy('position')->latest()
       ->get();
 
-      Log::info($reviews);
+    Log::info($reviews);
 
     return response()->json([
       'status' => true,
@@ -1050,6 +1053,68 @@ class UserController extends Controller
     return response()->json([
       'status' => true,
       'message' => 'Time Updated'
+    ]);
+  }
+
+
+  public function myCourseReview(Request $request)
+  {
+
+    $user = $request->user();
+    $course_id = $request->course_id;
+
+
+    $review = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->first();
+
+    // id	subject_id	user_id	course_id	comments	rating	created_at	updated_at	teacher_id
+
+
+
+    if (!$review) {
+      return response()->json([
+        'status' => true,
+        'data' => null
+      ]);
+    }
+
+    return response()->json([
+      'status' => true,
+      'data' => [
+        'rating' => $review->rating,
+        'feedback' => $review->comments,
+      ]
+    ]);
+  }
+
+  public function writeCourseReview(Request $request)
+  {
+    $user = $request->user();
+    $course_id = $request->course_id;
+
+    foreach ($courseTeachers ?? [] as $teacher) {
+      $courseTeachers = TeacherCourse::where('course_id', $course_id)->get();
+      $review = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->where('teacher_id', $teacher->teacher_id)->first();
+
+      if (!$review) {
+        $review = new SubjectReview();
+        $review->rating = $request->rating;
+        $review->comments = $request->feedback;
+        $review->teacher_id = $request->teacher_id;
+      } else {
+        $review->rating = $request->rating;
+        $review->comments = $request->feedback;
+      }
+
+      $review->save();
+    }
+
+    $review = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->first();
+    return response()->json([
+      'status' => true,
+      'data' => [
+        'rating' => $review->rating,
+        'feedback' => $review->comments,
+      ]
     ]);
   }
 }

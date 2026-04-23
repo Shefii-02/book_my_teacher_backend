@@ -180,6 +180,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('/visitor/store', 'UserController@visitorStore');
 
     Route::post('/my-review', 'UserController@myReview');
+    Route::post('/my-course-review', 'UserController@myCourseReview');
+    Route::post('/write-course-review', 'UserController@writeCourseReview');
+
+
 
     Route::post('/write-review', 'UserController@writeReview');
 

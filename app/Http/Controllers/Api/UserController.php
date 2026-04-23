@@ -1092,17 +1092,34 @@ class UserController extends Controller
     $user = $request->user();
     $course_id = $request->course_id;
     $courseTeachers = TeacherCourse::where('course_id', $course_id)->get();
+
+    $ratingText  = $request->rating;
+
+  if($ratingText == 'Happy')
+    $rating = 5;
+  else if($ratingText == 'Good')
+    $rating = 4;
+  else if($ratingText == 'Average')
+        $rating = 3;
+  else if($ratingText == 'Below Average')
+        $rating = 2;
+  else if($ratingText == 'Very Bad')
+        $rating = 1;
+  else
+    $rating = 0;
+
+
     foreach ($courseTeachers ?? [] as $teacher) {
 
       $review = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->where('teacher_id', $teacher->teacher_id)->first();
 
       if (!$review) {
         $review = new SubjectReview();
-        $review->rating = $request->rating;
+        $review->rating = $rating;
         $review->comments = $request->feedback;
         $review->teacher_id = $request->teacher_id;
       } else {
-        $review->rating = $request->rating;
+        $review->rating = $rating;
         $review->comments = $request->feedback;
       }
 

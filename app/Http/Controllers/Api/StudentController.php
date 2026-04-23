@@ -139,6 +139,9 @@ class StudentController extends Controller
         ->orderBy('priority')
         ->get();
 
+
+      Log::info($banners);
+
     return response()->json([
         'status' => true,
         'message' => 'Top banners fetched successfully',

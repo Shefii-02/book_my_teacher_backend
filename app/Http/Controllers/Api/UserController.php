@@ -1108,8 +1108,10 @@ class UserController extends Controller
   else
     $rating = 0;
 
+  Log::info($courseTeachers);
 
     foreach ($courseTeachers ?? [] as $teacher) {
+
 
       $review = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->where('teacher_id', $teacher->teacher_id)->first();
 

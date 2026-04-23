@@ -1088,6 +1088,8 @@ class UserController extends Controller
 
   public function writeCourseReview(Request $request)
   {
+
+  Log::info($request->all());
     $user = $request->user();
     $course_id = $request->course_id;
 

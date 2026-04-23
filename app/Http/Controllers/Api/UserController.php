@@ -971,6 +971,8 @@ class UserController extends Controller
     $company_id = 1;
     $user = $request->user();
 
+    Log::info($user);
+
     UserPlatform::updateOrCreate(
       ['device_id' => $request->device_id, 'user_id' => $user->id],
       [

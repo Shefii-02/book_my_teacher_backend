@@ -549,7 +549,7 @@ class UserController extends Controller
 
 
 
-  public function appReviews()
+  public function fetchingReviews()
   {
     $company_id = 1;
 

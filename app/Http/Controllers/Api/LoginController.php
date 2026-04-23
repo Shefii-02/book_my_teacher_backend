@@ -116,6 +116,7 @@ class LoginController extends Controller
       $token = $user->createToken('auth_token')->plainTextToken;
 
       $user->email_verified_at = now();
+      $user->last_login = now();
       $user->save();
 
       $this->LoginActivityStore($user, $request);
@@ -182,6 +183,7 @@ class LoginController extends Controller
       $token = $user->createToken('auth_token')->plainTextToken;
 
       $user->email_verified_at = now();
+      $user->last_login = now();
       $user->save();
 
       $this->LoginActivityStore($user, $request, 'apple');

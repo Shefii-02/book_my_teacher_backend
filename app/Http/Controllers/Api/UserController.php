@@ -22,6 +22,7 @@ use App\Models\Teacher;
 use App\Models\TeacherClass;
 use App\Models\TransferRequest;
 use App\Models\User;
+use App\Models\UserPlatform;
 use App\Models\Wallet;
 use App\Models\WalletHistory;
 use App\Models\Webinar;
@@ -970,11 +971,61 @@ class UserController extends Controller
     $company_id = 1;
     $user = $request->user();
 
+    UserPlatform::updateOrCreate(
+      ['device_id' => $request->device_id, 'user_id' => $user->id],
+      [
+        'company_id' => $company_id,
+        'fcm_token' => $request->fcm_token,
+        'platform' => $request->platform,
+        'ip_address' => $request->ip(),
+        'device_info' => $request->device_info,
+        'app_version' => $request->app_version,
+        'last_active_at' => $request->last_active_at,
+        'latitude' => $request->latitude,
+        'longitude' => $request->longitude,
+        'district' => $request->district,
+        'city'    => $request->city,
+        'status' => 'active'
+      ]
+    );
+
+
     Log::info($request->all());
     return response()->json([
       'status' => true,
-      'message' => 'Device Registred',
-      'data' => null
+      'message' => 'Device Registered'
+    ]);
+  }
+
+
+  public function visitorStore(Request $request)
+  {
+    $currentUser = $request->user();
+
+    UserPlatform::updateOrCreate(
+      [
+        'device_id' => $request->device_id,
+        'user_id'   => $currentUser->id
+      ],
+      [
+        'last_active_at' => now(),
+        'status'         => 'active'
+      ]
+    );
+
+    $user = User::find($currentUser->id);
+
+    $user->last_activation = now();
+
+    if (!$user->last_login) {
+      $user->last_login = now();
+    }
+
+    $user->save();
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Time Updated'
     ]);
   }
 }

@@ -294,9 +294,10 @@ class OtpController extends Controller
       $user->mobile_verified = true;
       $user->company_id      = 1;
       $user->profile_fill    = 0;
+      $user->last_login = now();
       $user->save();
     } else {
-      $user->update(['mobile_verified' => true]);
+      $user->update(['mobile_verified' => true,'last_login' => now()]);
     }
 
     // Revoke all existing tokens
@@ -346,6 +347,7 @@ class OtpController extends Controller
       [
         'mobile_verified' => true,
         'profile_fill'    => 0,
+        'last_login'      => now(),
       ]
     );
 

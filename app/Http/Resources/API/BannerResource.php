@@ -23,7 +23,7 @@ class BannerResource extends JsonResource
                                 ? $this->thumbnail_url
                                 : null,
 
-            'priority_order' => $this->priority_order,
+            'priority_order' => null,
             'banner_type'    => $this->banner_type,
 
             'cta_label'      => $this->cta_label,

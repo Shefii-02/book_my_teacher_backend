@@ -559,6 +559,8 @@ class UserController extends Controller
       ->orderBy('position')->latest()
       ->get();
 
+      Log::info($reviews);
+
     return response()->json([
       'status' => true,
       'reviews' => AppReviewResource::collection($reviews)

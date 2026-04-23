@@ -29,7 +29,10 @@ class TeacherController extends Controller
   {
     $company_id = auth()->user()->company_id;
     // $teachers = Teacher::with('courses')->orderBy('id', 'desc')->paginate(15);
-    $teachers = Teacher::with(['user', 'teachingGrades', 'teachingBoards', 'subjectRates'])
+    $tab = $request->get('tab', 'pending');
+
+
+    $query = Teacher::with(['user', 'teachingGrades', 'teachingBoards', 'subjectRates'])
       ->when($request->search, function ($q) use ($request) {
         $q->where('name', 'like', '%' . $request->search . '%')
           ->orWhereHas('user', function ($qq) use ($request) {
@@ -60,9 +63,27 @@ class TeacherController extends Controller
         $q->where('avg_rating', '>=', $request->rating);
       })
 
-      ->latest()
-      ->paginate(50)
+      ->latest();
+
+    if ($tab === 'active') {
+      $query->where('published', 1);
+    }
+
+    if ($tab === 'suspended') {
+      $query->where('published', '-1');
+    }
+
+    if ($tab === 'inactive') {
+      $query->where('published', 0);
+    }
+
+
+    $teachers = $query->paginate(50)
       ->withQueryString();
+
+    if ($request->ajax()) {
+      return view('company.mobile-app.teachers.table', compact('teachers'))->render();
+    }
 
     return view('company.mobile-app.teachers.index', [
       'teachers' => $teachers,
@@ -276,7 +297,7 @@ class TeacherController extends Controller
       ],
     ];
 
-    $lastLogin = $teacher->user->last_login_at ? $teacher->user->last_login_at->format('d M Y, h:i A') : 'N/A'  ;
+    $lastLogin = $teacher->user->last_login_at ? $teacher->user->last_login_at->format('d M Y, h:i A') : 'N/A';
 
     $logins = [
       (object) [

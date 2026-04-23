@@ -965,4 +965,16 @@ class UserController extends Controller
     ]);
   }
 
+  public function RegisterDevice(Request $request)
+  {
+    $company_id = 1;
+    $user = $request->user();
+
+    Log::info($request->all());
+    return response()->json([
+      'status' => true,
+      'message' => 'Device Registred',
+      'data' => null
+    ]);
+  }
 }

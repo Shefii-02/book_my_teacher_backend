@@ -5,6 +5,7 @@ window.initInfiniteTable = function (config) {
   let lastPage = false;
   let autoLoadCount = 0;
   let maxAutoLoad = config.maxAutoLoad || 2;
+  let tab = config.tab || null;
 
   // ─── Re-init Flowbite after DOM changes ──────────────────────────────
     function reinitDropdowns() {
@@ -19,7 +20,7 @@ window.initInfiniteTable = function (config) {
   const loadMoreBtn = $(config.loadMoreBtn || '#loadMoreBtn');
 
   function getUrl() {
-    return config.url + "?page=" + page;
+    return config.url + "?page=" + page + (tab ? "&tab=" + tab : "");
   }
 
   function loadData(isManual = false) {
@@ -150,3 +151,5 @@ window.initInfiniteTable = function (config) {
 
 
 };
+
+

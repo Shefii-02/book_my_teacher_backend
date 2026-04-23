@@ -1057,6 +1057,8 @@
         @endif
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets/js/infinite-table.js') }}"></script>
+
     <script>
         function confirmDelete(Idd) {
             Swal.fire({
@@ -1406,6 +1408,27 @@
         });
     </script> --}}
 
+    <script>
+        function getUrl() {
+            let baseUrl = config.url;
+
+            // get current URL params (tab=pending etc)
+            let urlParams = new URLSearchParams(window.location.search);
+
+            // also include form params
+            let formParams = new URLSearchParams(form.serialize());
+
+            // merge both
+            formParams.forEach((value, key) => {
+                urlParams.set(key, value);
+            });
+
+            // set page
+            urlParams.set('page', page);
+
+            return baseUrl + '?' + urlParams.toString();
+        }
+    </script>
 </body>
 
 </html>

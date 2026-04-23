@@ -221,8 +221,9 @@
                                 <!-- Search -->
                                 <div>
                                     <label class="text-sm block mb-1">Search</label>
-                                    <input type="text" name="search" value="{{ request('search') }}" autocomplete="off"
-                                        placeholder="Name / Email / Mobile" class="border rounded-lg px-3 py-2 w-60">
+                                    <input type="text" name="search" value="{{ request('search') }}"
+                                        autocomplete="off" placeholder="Name / Email / Mobile"
+                                        class="border rounded-lg px-3 py-2 w-60">
                                 </div>
 
                                 <!-- Study Mode -->
@@ -362,17 +363,18 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/js/infinite-table.js') }}"></script>
     <script>
+
         $(document).ready(function() {
+             alert(getUrl());
             initInfiniteTable({
                 container: '#studentTable',
                 form: '#filterForm',
-                url: "{{ route('company.students.index') }}",
+                // url: "{{ route('company.students.index') }}",
+                url: getUrl(),
                 liveSearch: true,
 
             });
         });
     </script>
 @endpush
-

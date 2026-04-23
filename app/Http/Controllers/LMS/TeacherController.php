@@ -75,6 +75,8 @@ class TeacherController extends Controller
     // 🧭 Tabs logic
     $tab = $request->get('tab', 'pending');
 
+
+
     if ($tab === 'approved') {
       $query->where('current_account_stage', 'account verified')
         ->where('account_status', '!=', 'rejected');
@@ -152,7 +154,12 @@ class TeacherController extends Controller
 
     $teachers = $query->paginate(50)->appends($request->query());
 
-    return view('company.teachers.index', compact('teachers', 'data','grades','boards','subjects'));
+    if ($request->ajax()) {
+      return view('company.teachers.table', compact('teachers'))->render();
+    }
+
+
+    return view('company.teachers.index', compact('teachers', 'data', 'grades', 'boards', 'subjects'));
   }
 
   // public function exportTeachers(Request $request)

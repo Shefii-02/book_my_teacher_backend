@@ -4321,3 +4321,11 @@ h6 {
   }
 
 }
+
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Set number of lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

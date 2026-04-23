@@ -1108,7 +1108,7 @@ class UserController extends Controller
   else
     $rating = 0;
 
-  Log::info($courseTeachers);
+  Log::info($rating);
 
     foreach ($courseTeachers ?? [] as $teacher) {
 

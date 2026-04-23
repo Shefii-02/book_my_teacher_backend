@@ -136,7 +136,7 @@ class StudentController extends Controller
         ])
 
         ->where('banner_type', 'top-banner')
-        // ->orderBy('priority_order')
+        ->orderBy('priority')
         ->get();
 
     return response()->json([

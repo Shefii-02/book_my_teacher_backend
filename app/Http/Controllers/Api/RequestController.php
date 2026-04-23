@@ -144,7 +144,7 @@ class RequestController extends Controller
     TeacherClassRequest::create([
       'teacher_id'     => $request->teacher_id,
       'type'           => $request->type,
-      'selected_items' => $request->selected_items,
+      'selected_items' => is_array($request->selected_items) ? implode(',',$request->selected_items) : $request->selected_items,
       'class_type'     => $request->class_type,
       'days_needed'    => $request->days_needed,
       'notes'          => $request->notes,

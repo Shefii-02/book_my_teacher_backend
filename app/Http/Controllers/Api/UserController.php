@@ -555,7 +555,7 @@ class UserController extends Controller
 
     $reviews = AppReview::with('user')
       ->where('company_id', $company_id)
-      ->where('status', 1)
+      ->where('status', 'approved')
       ->orderBy('position')->latest()
       ->get();
 

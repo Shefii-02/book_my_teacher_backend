@@ -1119,7 +1119,7 @@ class UserController extends Controller
         $review = new SubjectReview();
         $review->rating = $rating;
         $review->comments = $request->feedback;
-        $review->teacher_id = $request->teacher_id;
+        $review->teacher_id = $teacher->teacher_id;
       } else {
         $review->rating = $rating;
         $review->comments = $request->feedback;

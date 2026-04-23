@@ -119,16 +119,13 @@ class BannerResource extends JsonResource
     switch ($this->type) {
 
       case 'course':
-        return $this->courseEntolled
-          && $this->courseEntolled->count() > 0;
+        return $this->is_enrolled;
 
       case 'webinar':
-        return $this->webinarRegistration
-          && $this->webinarRegistration->count() > 0;
+        return $this->is_webinar_registered;
 
       case 'workshop':
-        return $this->workshopRegistration
-          && $this->workshopRegistration->count() > 0;
+        return $this->is_workshop_registered;
 
       default:
         return false;
@@ -140,16 +137,13 @@ class BannerResource extends JsonResource
     switch ($this->type) {
 
       case 'course':
-        return $this->courseRegistration
-          && $this->courseRegistration->count() > 0;
+        return $this->is_course_registered;
 
       case 'webinar':
-        return $this->webinarRegistration
-          && $this->webinarRegistration->count() > 0;
+        return $this->is_webinar_registered;
 
       case 'workshop':
-        return $this->workshopRegistration
-          && $this->workshopRegistration->count() > 0;
+        return $this->is_workshop_registered;
 
       default:
         return false;

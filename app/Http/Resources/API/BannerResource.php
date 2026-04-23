@@ -11,7 +11,7 @@ class BannerResource extends JsonResource
         $userBooking = $this->whenLoaded('requestBanner');
 
         return [
-            'id'             => (int)$this->id,
+            'id'             => (int)$this->section_id,
             'title'          => $this->title,
             'description'    => $this->description,
 

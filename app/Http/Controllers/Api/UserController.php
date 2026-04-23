@@ -1120,6 +1120,7 @@ class UserController extends Controller
         $review->rating = $rating;
         $review->comments = $request->feedback;
         $review->user_id = $user->id;
+        $review->course_id = $course_id;
         $review->teacher_id = $teacher->teacher_id;
       } else {
         $review->rating = $rating;

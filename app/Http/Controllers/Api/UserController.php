@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\API\AppReviewResource;
 use App\Http\Resources\CompanyContactResource;
 use App\Http\Resources\ReferralFriendResource;
 use App\Http\Resources\SocialLinkResource;
@@ -547,41 +548,61 @@ class UserController extends Controller
   }
 
 
-  public function fetchingReviews(Request $request)
+
+  public function appReviews()
   {
-    $reviews = [
-      [
-        "name" => "Aisha Patel",
-        "review" => "Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.",
-        "image" => "https://i.pravatar.cc/150?img=5",
-        "rating" => 4.5,
-      ],
-      [
-        "name" => "Rahul Sharma",
-        "review" => "Helpful and patient during sessions.",
-        "image" => "https://i.pravatar.cc/150?img=12",
-        "rating" => 5.0,
-      ],
-      [
-        "name" => "Sneha R.",
-        "review" => "Good teaching but classes sometimes run late.",
-        "image" => "https://i.pravatar.cc/150?img=8",
-        "rating" => 3.5,
-      ],
-      [
-        "name" => "Kevin Thomas",
-        "review" => "Very friendly and made learning fun!",
-        "image" => "https://i.pravatar.cc/150?img=14",
-        "rating" => 4.0,
-      ],
-      // Add the rest...
-    ];
+    $company_id = 1;
+
+    $reviews = AppReview::with('user')
+      ->where('company_id', $company_id)
+      ->where('status', 1)
+      ->orderBy('position')->latest()
+      ->get();
 
     return response()->json([
-      "status" => true,
-      "reviews" => $reviews
+      'status' => true,
+      'reviews' => AppReviewResource::collection($reviews)
     ]);
   }
+
+  // public function fetchingReviews(Request $request)
+  // {
+  //   $company_id = 1;
+  //   $appReviews = AppReview::where('company_id', $company_id)->get();
+
+  //   $reviews = [
+  //     [
+  //       "name" => "Aisha Patel",
+  //       "review" => "Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.Great teacher! Explained concepts very clearly.",
+  //       "image" => "https://i.pravatar.cc/150?img=5",
+  //       "rating" => 4.5,
+  //     ],
+  //     [
+  //       "name" => "Rahul Sharma",
+  //       "review" => "Helpful and patient during sessions.",
+  //       "image" => "https://i.pravatar.cc/150?img=12",
+  //       "rating" => 5.0,
+  //     ],
+  //     [
+  //       "name" => "Sneha R.",
+  //       "review" => "Good teaching but classes sometimes run late.",
+  //       "image" => "https://i.pravatar.cc/150?img=8",
+  //       "rating" => 3.5,
+  //     ],
+  //     [
+  //       "name" => "Kevin Thomas",
+  //       "review" => "Very friendly and made learning fun!",
+  //       "image" => "https://i.pravatar.cc/150?img=14",
+  //       "rating" => 4.0,
+  //     ],
+  //     // Add the rest...
+  //   ];
+
+  //   return response()->json([
+  //     "status" => true,
+  //     "reviews" => $reviews
+  //   ]);
+  // }
 
 
   // public function todayClasses(Request $request)

@@ -96,30 +96,55 @@ class StudentController extends Controller
   }
 
   public function topBanners(Request $request): JsonResponse
-  {
+{
     $user = $request->user();
-    // $banners = TopBanner::with(['requestBanner' => function ($q) use ($user) {
-    //   $q->where('user_id', $user->id);
-    // }])->where('banner_type', 'top-banner')->get();
 
-    $banners = TopBanner::with([
-      'requestBanner' => function ($q) use ($user) {
-        $q->where('user_id', $user->id);
-      },
-      'course',
-      'workshop',
-      'webinar'
-    ])->where('banner_type', 'top-banner')->get();
+    $banners = TopBanner::query()
 
+        ->with([
+            'requestBanner' => function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            },
+
+            'course',
+            'workshop',
+            'webinar',
+        ])
+
+        ->withExists([
+
+            // course enrolled
+            'courseEntolled as is_enrolled' => function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            },
+
+            // course registered
+            'courseRegistration as is_course_registered' => function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            },
+
+            // webinar registered
+            'webinarRegistration as is_webinar_registered' => function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            },
+
+            // workshop registered
+            'workshopRegistration as is_workshop_registered' => function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            },
+
+        ])
+
+        ->where('banner_type', 'top-banner')
+        ->orderBy('priority_order')
+        ->get();
 
     return response()->json([
-      'status' => true,
-      'message' => 'Top banners fetched successfully',
-      'data' => BannerResource::collection($banners)->additional([
-        'user_id' => $user->id
-      ])
+        'status' => true,
+        'message' => 'Top banners fetched successfully',
+        'data' => BannerResource::collection($banners),
     ]);
-  }
+}
 
   public function courseBanners(Request $request): JsonResponse
   {

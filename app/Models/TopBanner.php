@@ -72,4 +72,24 @@ class TopBanner extends Model
   {
     return $this->hasOne(BannerRequest::class, 'banner_id', 'id');
   }
+
+  public function courseEntolled()
+  {
+    return $this->hasMany(CourseEnrollment::class, 'course_id', 'section_id');
+  }
+
+  public function courseRegistration()
+  {
+    return $this->hasMany(CourseRegistration::class, 'course_id', 'section_id');
+  }
+
+  public function webinarRegistration()
+  {
+    return $this->hasMany(WebinarRegistration::class, 'webinar_id', 'section_id');
+  }
+
+  public function workshopRegistration()
+  {
+    return $this->hasMany(WorkshopRegistration::class, 'workshop_id', 'section_id');
+  }
 }

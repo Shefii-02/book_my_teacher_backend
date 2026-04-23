@@ -1089,12 +1089,11 @@ class UserController extends Controller
   public function writeCourseReview(Request $request)
   {
 
-  Log::info($request->all());
     $user = $request->user();
     $course_id = $request->course_id;
-
+    $courseTeachers = TeacherCourse::where('course_id', $course_id)->get();
     foreach ($courseTeachers ?? [] as $teacher) {
-      $courseTeachers = TeacherCourse::where('course_id', $course_id)->get();
+
       $review = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->where('teacher_id', $teacher->teacher_id)->first();
 
       if (!$review) {

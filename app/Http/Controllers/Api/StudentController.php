@@ -1152,7 +1152,7 @@ class StudentController extends Controller
     $courseClassUpComing = CourseClassLinkResource::collection($upcomming_classes);
     $courseClassCompleted = CourseClassLinkResource::collection($completed_classes);
 
-Log::info($classDetail);
+
 
     return response()->json([
       'status' => true,

@@ -1023,6 +1023,7 @@ class TeacherController extends Controller
       'ended_at' => $course->end_time ? formatDateTime($course->end_time) : Carbon::parse($course->ended_at)->format('d-m-Y h:i A'),
       'counselling_section' => $course->is_counselling ? true : false,
       'career_guidance' => $course->is_career_guidance ? true : false,
+      'has_review' => true,
     ];
 
 

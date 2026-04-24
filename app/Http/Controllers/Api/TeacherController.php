@@ -1129,7 +1129,7 @@ class TeacherController extends Controller
     $user = $request->user();
     $webinar_id = $request->id;
     $webinars = Webinar::where('id', $webinar_id)->first();
-    Log::info($request->all());
+
     // Example dummy details per course id
     $webinarDetail = [
       'id' => (int)$webinars->id,

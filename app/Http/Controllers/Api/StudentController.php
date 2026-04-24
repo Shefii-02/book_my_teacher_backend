@@ -1276,9 +1276,9 @@ class StudentController extends Controller
       "missed" => 0,
       "performance_percentage" => 0,
       "month_wise" => [
-        ["month" => "Jan", "attended" => 0, "missed" => 0],
-        ["month" => "Feb", "attended" => 0, "missed" => 0],
-        ["month" => "Mar", "attended" => 0, "missed" => 0],
+        // ["month" => "Jan", "attended" => 0, "missed" => 0],
+        // ["month" => "Feb", "attended" => 0, "missed" => 0],
+        // ["month" => "Mar", "attended" => 0, "missed" => 0],
       ]
     ];
 

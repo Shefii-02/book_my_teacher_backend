@@ -140,7 +140,6 @@ class StudentController extends Controller
         ->get();
 
 
-      Log::info($banners);
 
     return response()->json([
         'status' => true,
@@ -1098,6 +1097,7 @@ class StudentController extends Controller
       'duration' => $course->duration . ' ' . $course->duration_type,
       'thumbnail' => $course->main_image_url,
       'main_image' => $course->main_image_url,
+      'has_review' => false,
     ];
 
 

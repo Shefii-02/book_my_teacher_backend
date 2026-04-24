@@ -1066,10 +1066,6 @@ class UserController extends Controller
 
     $review = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->first();
 
-    // id	subject_id	user_id	course_id	comments	rating	created_at	updated_at	teacher_id
-
-
-
     if (!$review) {
       return response()->json([
         'status' => true,

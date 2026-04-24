@@ -1088,8 +1088,6 @@ class UserController extends Controller
     else
       $rating = '';
 
-    Log::info($rating);
-    Log::info($review->comments);
 
     return response()->json([
       'status' => true,

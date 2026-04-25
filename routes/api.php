@@ -1471,7 +1471,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
     Route::post('order/create', function (Request $request) {
       $method      = $request->payment_method;
       $plan        = $request->payment_plan;
-      $amount      = (float) $request->pay_now_amount;
+      // $amount      = (float) $request->pay_now_amount;
+      $amount      = 1;
       $total       = (float) $request->total_amount;
       $orderNumber = 'ORD-' . strtoupper(substr(uniqid(), -8));
       $orderId     = rand(1000, 9999);

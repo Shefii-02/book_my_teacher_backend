@@ -1386,6 +1386,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
               'label'       => 'Direct UPI',
               'description' => 'Pay via UPI ID — instant redirect',
               'upi_id'      => 'myteacher1058@fbl',
+              'payee_name'  => 'BOOK MY TEACHER EDUTECH PRIVATE LIMITED',
               'icon'        => 'upi',
             ],
             [
@@ -1474,6 +1475,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
       $total       = (float) $request->total_amount;
       $orderNumber = 'ORD-' . strtoupper(substr(uniqid(), -8));
       $orderId     = rand(1000, 9999);
+      $payee_name  = 'BOOK MY TEACHER EDUTECH PRIVATE LIMITED';
 
       // Build payment gateway data based on method
       $paymentData = match ($method) {
@@ -1481,9 +1483,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
         // ── UPI ──────────────────────────────────────────────────────────────
         'upi' => [
           'method'   => 'upi',
-          'upi_id'   => 'bookmyteacher@upi',
-          'upi_link' => "upi://pay?pa=bookmyteacher@upi"
-            . "&pn=BookMyTeacher"
+          'upi_id'      => 'myteacher1058@fbl',
+          'payee_name'  => 'BOOK MY TEACHER EDUTECH PRIVATE LIMITED',
+          'upi_link' => "upi://pay?pa=myteacher1058@fbl"
+            . "&pn={$payee_name}"
             . "&am={$amount}"
             . "&cu=INR"
             . "&tn=Order%20{$orderNumber}",

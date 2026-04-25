@@ -51,6 +51,7 @@ class CourseResource extends JsonResource
       'is_counselling'            => (bool) $this->is_counselling,
       'is_career_guidance'        => (bool) $this->is_career_guidance,
       'allow_installment'         => (bool) $this->allow_installment,
+      'has_payment'               => false,
 
       // 🏫 Institute (Relationship)
       'institute' => $this->whenLoaded('institute', function () {

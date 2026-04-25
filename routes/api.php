@@ -1385,7 +1385,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
               'key'         => 'upi',
               'label'       => 'Direct UPI',
               'description' => 'Pay via UPI ID — instant redirect',
-              'upi_id'      => 'snehasankar01-1@okicici',
+              'upi_id'      => 'myteacher1058@fbl',
               'icon'        => 'upi',
             ],
             [

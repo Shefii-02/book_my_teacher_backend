@@ -93,11 +93,13 @@ class OurCourseController extends Controller
 
     foreach ($members as $student) {
 
-      Attendance::create([
+
+      Attendance::firstOrCreate([
         'course_id' => $class->course_id,
         'class_id' => $class->id,
-        'student_id' => $student->id,
-        'status' => 'none', // default
+        'student_id' => $student->id
+      ], [
+        'status' => 'none'
       ]);
     }
 

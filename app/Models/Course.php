@@ -106,9 +106,9 @@ class Course extends Model
     return $this->belongsTo(CourseSubCategory::class);
   }
 
-  public function courseClasses(){
-        return $this->hasMany(CourseClass::class, 'course_id')->orderBy('scheduled_at')->orderBy('priority', 'asc');;
-
+  public function courseClasses()
+  {
+    return $this->hasMany(CourseClass::class, 'course_id')->orderBy('scheduled_at')->orderBy('priority', 'asc');;
   }
 
   public function classes()
@@ -151,15 +151,23 @@ class Course extends Model
 
   public function earnings()
   {
-    return $this->hasMany(Purchase::class,'course_id')->selectRaw('course_id, SUM(grand_total) as total_revenue')->groupBy('course_id')->where('status','paid');
+    return $this->hasMany(Purchase::class, 'course_id')->selectRaw('course_id, SUM(grand_total) as total_revenue')->groupBy('course_id')->where('status', 'paid');
   }
 
   public function conversation()
   {
-    return $this->hasMany(Conversation::class,'course_id','id');
+    return $this->hasMany(Conversation::class, 'course_id', 'id');
   }
 
-
+  public function students()
+  {
+    return $this->belongsToMany(
+      User::class,
+      'course_enrollments',
+      'course_id',
+      'user_id'
+    );
+  }
 
 
   public function getValidityAttribute()
@@ -174,7 +182,4 @@ class Course extends Model
 
     return $start . ' - ' . $end;
   }
-
-
-
 }

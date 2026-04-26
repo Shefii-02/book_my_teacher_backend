@@ -34,7 +34,7 @@ class CourseClass extends Model
       ->where('meeting_link', '!=', '');
   }
 
-    public function course()
+  public function course()
   {
     return $this->hasOne(Course::class, 'id', 'course_id');
   }
@@ -68,4 +68,11 @@ class CourseClass extends Model
   {
     return $this->hasOne(CourseClassPermission::class, 'class_id');
   }
+
+  public function attendance()
+  {
+    return $this->hasMany(Attendance::class, 'class_id', 'id');
+  }
+
+
 }

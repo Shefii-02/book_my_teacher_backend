@@ -330,7 +330,7 @@ Helper
           'student_id' => $student['student_id'],
         ],
         [
-          'status' => $student['attendance_status'],
+          'status' => $student['status'],
           'attendance_date' => now(), // optional column
           'marked_by' => $user->id, // optional
         ]

@@ -236,6 +236,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], fun
 
     Route::post('/notifications', 'NotificationController@notifications');
     Route::post('/notifications/mark-read/{id}', 'NotificationController@markRead');
+    Route::post('/notifications/mark-all-read', 'NotificationController@markAllRead');
+
+
 
     Route::get('/provide-courses', 'StudentController@courseStore');
 

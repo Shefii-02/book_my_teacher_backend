@@ -12,6 +12,7 @@ use App\Http\Resources\API\WebinarClassLinkResource;
 use App\Http\Resources\API\WorkshopResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WebinarResource;
+use App\Models\Attendance;
 use App\Models\CompanyTeacher;
 use App\Models\Course;
 use App\Models\CourseClass;

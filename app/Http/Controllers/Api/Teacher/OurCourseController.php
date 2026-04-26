@@ -415,6 +415,8 @@ Helper
       ]
     );
 
+    Log::info($duration);
+
     return response()->json([
       'success' => true,
       'message' => 'Class duration updated',

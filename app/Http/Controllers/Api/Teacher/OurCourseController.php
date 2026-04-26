@@ -357,12 +357,9 @@ Helper
   }
   public function updateClassDuration(Request $request, $classId)
   {
+    Log::info($request->all());
 
-    $request->validate([
-      'actual_start' => 'required|date',
-      'actual_end'   => 'required|date|after:actual_start',
-      'note'         => 'nullable|string'
-    ]);
+    $user = $request->user();
 
     $class = CourseClass::findOrFail($classId);
 
@@ -411,7 +408,7 @@ Helper
 
         'note' => $request->note,
 
-        'verified_by' => auth()->id(),
+        'verified_by' => $user->id,
         'verified_at' => now(),
 
         'status' => 1

@@ -58,8 +58,8 @@ class CourseClassLinkResource extends JsonResource
       $attendance->where('status', 'present')->count(),
 
       'actual_duration' => $this->classDuration?->actual_duration ?? "",
-      'actual_started' => $this->classDuration?->actual_duration ?? "",
-      'actual_ended' => $this->classDuration?->actual_duration ?? "",
+      'actual_started' => $this->classDuration?->started_at ?? "",
+      'actual_ended' => $this->classDuration?->ended_at ?? "",
       'notes' => $this->classDuration?->notes ?? "",
 
 

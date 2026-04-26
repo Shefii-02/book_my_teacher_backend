@@ -15,7 +15,7 @@ class NotificationController extends Controller
   public function notifications(Request $request)
   {
     $user = $request->user();
-    Log::info($user);
+
     $userId = $user->id;
 
     $rows = NotificationRecipient::with('notification')
@@ -69,7 +69,8 @@ class NotificationController extends Controller
     return response()->json([
       'status' => 200,
       'count' => $count,
-      'notifications' => $notifications
+      'notifications' => $notifications,
+      'chat_count' => 0,
     ]);
   }
 

@@ -308,16 +308,48 @@ Helper
   // }
 
 
-  public function saveAttendance(Request $request, $classId)
-  {
-    // Just return what frontend sent (for testing)
-    Log::info($request->all());
+public function saveAttendance(Request $request, $classId)
+{
+    // $request->validate([
+    //     'students' => 'required|array',
+    //     'students.*.student_id' => 'required|exists:users,id',
+    //     'students.*.attendance_status' => 'required|in:present,absent,late,pending',
+    // ]);
+
+    $class = CourseClass::findOrFail($classId);
+
+    foreach ($request->students as $student) {
+
+        Attendance::updateOrCreate(
+            [
+                'class_id'   => $class->id,
+                'student_id' => $student['student_id'],
+            ],
+            [
+                'status' => $student['attendance_status'],
+                'marked_at' => now(), // optional column
+                // 'marked_by' => auth()->id(), // optional
+            ]
+        );
+    }
+
+    $class->load('attendance.user');
+
+    $students = $class->attendance->map(function ($item) {
+
+        return [
+            "student_id" => $item->student_id,
+            "name" => $item->user->name ?? '',
+            "attendance_status" => $item->status
+        ];
+    });
+
     return response()->json([
-      "status" => true,
-      "message" => "Dummy attendance saved successfully",
-      "received_data" => $request->records
+        'success' => true,
+        'message' => 'Attendance saved successfully',
+        'students' => $students
     ]);
-  }
+}
   public function saveClassDuration(Request $request, $classId)
   {
 

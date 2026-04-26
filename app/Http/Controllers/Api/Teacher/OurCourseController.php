@@ -91,7 +91,7 @@ class OurCourseController extends Controller
       Course -> belongsToMany(User::class,'course_students','course_id','student_id')
     */
 
-    foreach ($members as $student) {
+    foreach ($members ?? [] as $student) {
 
 
       Attendance::firstOrCreate([
@@ -318,12 +318,11 @@ Helper
     //     'students.*.attendance_status' => 'required|in:present,absent,late,pending',
     // ]);
 
-    Log::info($request->records);
-        Log::info($request->all());
+
 
     $class = CourseClass::findOrFail($classId);
 
-    foreach ($request->students as $student) {
+    foreach ($request->records ?? [] as $student) {
 
       Attendance::updateOrCreate(
         [

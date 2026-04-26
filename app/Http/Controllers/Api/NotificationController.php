@@ -20,6 +20,7 @@ class NotificationController extends Controller
 
     $rows = NotificationRecipient::with('notification')
       ->where('user_id', $userId)
+      ->where('is_read','!=',1)
       ->latest('id')
       ->get();
 

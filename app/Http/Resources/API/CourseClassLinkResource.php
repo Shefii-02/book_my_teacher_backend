@@ -44,7 +44,7 @@ class CourseClassLinkResource extends JsonResource
       'attendance_taken' => false,
       'total_students' => 4,
       'present_count' => 4,
-      'actual_duration' => 4,
+      'actual_duration' => '4',
 
     ];
   }

@@ -1146,8 +1146,8 @@ class StudentController extends Controller
     // ];
     $today_now = now();
 
-    $upcomming_classes = $course->classes->where('end_time', '>=', $today_now);
-    $completed_classes = $course->classes->where('end_time', '<=', $today_now)->orderBy('end_time','desc');
+    $upcomming_classes = $course->classes->where('end_time', '>=', $today_now)->orderBy('start_time','asc');
+    $completed_classes = $course->classes->where('end_time', '<=', $today_now)->orderBy('start_time','desc');
 
     $courseClassUpComing = CourseClassLinkResource::collection($upcomming_classes);
     $courseClassCompleted = CourseClassLinkResource::collection($completed_classes);

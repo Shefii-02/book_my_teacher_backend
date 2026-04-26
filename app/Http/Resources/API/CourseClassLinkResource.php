@@ -12,21 +12,22 @@ class CourseClassLinkResource extends JsonResource
   {
 
 
-        $now = Carbon::now();
+    $now = Carbon::now();
 
-        // Default status
-        $classStatus = 'pending';
+    // Default status
+    $classStatus = 'pending';
 
-        if ($this->status == '1') {
-            if ($now->lt($this->start_time)) {
-                $classStatus = 'upcoming';
-            } elseif ($now->between($this->start_time, $this->end_time)) {
-                $classStatus = 'ongoing';
-            } elseif ($now->gt($this->end_time)) {
-                $classStatus = 'completed';
-            }
-        }
+    if ($this->status == '1') {
+      if ($now->lt($this->start_time)) {
+        $classStatus = 'upcoming';
+      } elseif ($now->between($this->start_time, $this->end_time)) {
+        $classStatus = 'ongoing';
+      } elseif ($now->gt($this->end_time)) {
+        $classStatus = 'completed';
+      }
+    }
 
+    $attendance = $this->attendance ?? collect();
 
     return [
       'id' => (string)$this->id,
@@ -42,10 +43,22 @@ class CourseClassLinkResource extends JsonResource
       'end_date_time' => $this->end_time,
       'recorded_video' => $this->recording_url,
       'join_link' => $this->meeting_link,
-      'attendance_taken' => true,
-      'total_students' => 4,
-      'present_count' => 4,
-      'actual_duration' => '4',
+      // 'attendance_taken' => true,
+      // 'total_students' => $this->course?->studentEnrolled->count() ?? 0,
+      // 'present_count' => $this->attendance->where('status', 'present')->count() ?? 0,
+      // 'actual_duration' => '',
+
+      // Dynamic
+      'attendance_taken' => $attendance->count() > 0,
+
+      'total_students' =>
+      $this->course?->studentEnrolled->count() ?? 0,
+
+      'present_count' =>
+      $attendance->where('status', 'present')->count(),
+
+      'actual_duration' => '',
+
 
     ];
   }

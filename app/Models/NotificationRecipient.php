@@ -7,18 +7,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class NotificationRecipient extends Model
 {
-    protected $fillable = [
-        'notification_id', 'user_id',
-        'is_read', 'is_push_sent', 'is_push_failed',
-        'push_error', 'read_at', 'push_sent_at',
+     protected $fillable = [
+        'notification_id',
+        'user_id',
+        'is_read',
+        'is_push_sent',
+        'is_push_failed',
+        'push_error',
+        'read_at',
+        'push_sent_at'
     ];
 
     protected $casts = [
-        'is_read'        => 'boolean',
-        'is_push_sent'   => 'boolean',
+        'is_read' => 'boolean',
+        'is_push_sent' => 'boolean',
         'is_push_failed' => 'boolean',
-        'read_at'        => 'datetime',
-        'push_sent_at'   => 'datetime',
+        'read_at' => 'datetime',
+        'push_sent_at' => 'datetime',
     ];
 
     // =============================================

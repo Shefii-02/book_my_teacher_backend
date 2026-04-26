@@ -3,58 +3,141 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\NotificationRecipient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class NotificationController extends Controller
 {
-    private $dummyNotifications = [
-        [
-            "id" => 1,
-            "title" => "New Student Joined!",
-            "message" => "A student has enrolled in your Mathematics class.",
-            "is_read" => false,
-            "time" => "2025-11-19 10:20 AM"
-        ],
-        [
-            "id" => 2,
-            "title" => "Profile Approved",
-            "message" => "Your teacher profile has been successfully approved.",
-            "is_read" => false,
-            "time" => "2025-11-18 3:15 PM"
-        ],
-        [
-            "id" => 3,
-            "title" => "Demo Class Booked",
-            "message" => "Parent has booked a demo class with you.",
-            "is_read" => true,
-            "time" => "2025-11-17 2:12 PM"
-        ]
-    ];
+  /*
+      GET /notifications
+    */
+  public function notifications(Request $request)
+  {
+    $user = $request->user();
+    $userId = $user->id;
 
-    // 🔹 GET /notifications/unread-count
-    public function notifications()
-    {
-        $count = collect($this->dummyNotifications)
-            ->where('is_read', false)
-            ->count();
+    $rows = NotificationRecipient::with('notification')
+      ->where('user_id', $userId)
+      ->latest('id')
+      ->get();
 
-        return response()->json([
-            'status' => 200,
-            'count' => 0,
-            'notifications' => [], //$this->dummyNotifications
-        ]);
+    $count = NotificationRecipient::where(
+      'user_id',
+      $userId
+    )->where(
+      'is_read',
+      0
+    )->count();
+
+    $notifications = $rows->map(function ($row) {
+
+      return [
+        'id' => $row->id, // recipient row id
+        'notification_id' => $row->notification_id,
+
+        'title' => optional(
+          $row->notification
+        )->title,
+
+        'message' => optional(
+          $row->notification
+        )->body,
+
+        'is_read' => (bool)$row->is_read,
+
+        'time' => optional(
+          $row->created_at
+        )?->format('Y-m-d h:i A'),
+
+        'screen' => optional(
+          $row->notification
+        )->screen,
+
+        'screen_id' => optional(
+          $row->notification
+        )->screen_id,
+
+        'extra_data' => optional(
+          $row->notification
+        )->extra_data,
+      ];
+    });
+
+    return response()->json([
+      'status' => 200,
+      'count' => $count,
+      'notifications' => $notifications
+    ]);
+  }
+
+
+  /*
+      POST /notifications/mark-read/{id}
+      id = notification_recipients.id
+    */
+  public function markRead(Request $request,$id)
+  {
+    $user = $request->user();
+    $userId = $user->id;
+
+    $recipient = NotificationRecipient::where(
+      'id',
+      $id
+    )
+      ->where(
+        'user_id',
+        $userId
+      )
+      ->firstOrFail();
+
+    if (!$recipient->is_read) {
+
+      $recipient->update([
+        'is_read' => 1,
+        'read_at' => now()
+      ]);
+
+      /*
+             optional:
+             increment parent read count
+            */
+      if ($recipient->notification) {
+        $recipient->notification
+          ->increment('read_count');
+      }
     }
 
-    // 🔹 POST /notifications/mark-read/{id}
-    public function markRead($id)
-    {
-      Log::alert('readed notification:');
-      Log::info($id);
-        // No DB → fake success
-        return response()->json([
-            'status' => 200,
-            'message' => "Notification #$id marked as read"
-        ]);
-    }
+    return response()->json([
+      'status' => 200,
+      'message' => 'Marked as read'
+    ]);
+  }
+
+
+  /*
+      POST /notifications/mark-all-read
+    */
+  public function markAllRead(Request $request)
+  {
+    $user = $request->user();
+    $userId = $user->id;
+
+    NotificationRecipient::where(
+      'user_id',
+      $userId
+    )
+      ->where(
+        'is_read',
+        0
+      )
+      ->update([
+        'is_read' => 1,
+        'read_at' => now()
+      ]);
+
+    return response()->json([
+      'status' => 200,
+      'message' => 'All notifications marked read'
+    ]);
+  }
 }

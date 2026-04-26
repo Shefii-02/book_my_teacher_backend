@@ -318,7 +318,7 @@ Helper
     //     'students.*.attendance_status' => 'required|in:present,absent,late,pending',
     // ]);
 
-    Log::info($request->all());
+    Log::info($request->records);
 
     $class = CourseClass::findOrFail($classId);
 

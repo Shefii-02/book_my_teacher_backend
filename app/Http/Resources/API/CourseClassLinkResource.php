@@ -57,7 +57,7 @@ class CourseClassLinkResource extends JsonResource
       'present_count' =>
       $attendance->where('status', 'present')->count(),
 
-      'actual_duration' => '',
+      'actual_duration' => optional($this->classDuration)->actual_duration,
 
 
     ];

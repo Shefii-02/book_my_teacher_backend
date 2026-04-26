@@ -13,6 +13,7 @@ use App\Http\Resources\API\WorkshopResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WebinarResource;
 use App\Models\Attendance;
+use App\Models\ClassDuration;
 use App\Models\CompanyTeacher;
 use App\Models\Course;
 use App\Models\CourseClass;
@@ -354,14 +355,73 @@ Helper
       'students' => $students
     ]);
   }
-  public function saveClassDuration(Request $request, $classId)
+  public function updateClassDuration(Request $request, $classId)
   {
 
-    // Just return what frontend sent (for testing)
-    Log::info($request->all());
+    $request->validate([
+      'actual_start' => 'required|date',
+      'actual_end'   => 'required|date|after:actual_start',
+      'note'         => 'nullable|string'
+    ]);
+
+    $class = CourseClass::findOrFail($classId);
+
+    $startedAt = Carbon::parse($request->actual_start);
+    $endedAt   = Carbon::parse($request->actual_end);
+
+    // actual conducted minutes
+    $actualMinutes = $startedAt->diffInMinutes($endedAt);
+
+    /*
+      Planned class duration
+      based on scheduled start_time and end_time
+    */
+    $plannedMinutes = 0;
+
+    if ($class->start_time && $class->end_time) {
+      $plannedMinutes =
+        Carbon::parse($class->start_time)
+        ->diffInMinutes(
+          Carbon::parse($class->end_time)
+        );
+    }
+
+    /*
+      Extra minutes beyond planned duration
+    */
+    $extraMinutes = max(
+      $actualMinutes - $plannedMinutes,
+      0
+    );
+
+    $duration = ClassDuration::updateOrCreate(
+      [
+        'class_id' => $class->id
+      ],
+      [
+        'course_id' => $class->course_id,
+        'started_at' => $startedAt,
+        'ended_at' => $endedAt,
+
+        'duration' => $plannedMinutes,
+
+        'actual_duration' => $actualMinutes,
+
+        'extra_minutes' => $extraMinutes,
+
+        'note' => $request->note,
+
+        'verified_by' => auth()->id(),
+        'verified_at' => now(),
+
+        'status' => 1
+      ]
+    );
+
     return response()->json([
-      "status" => true,
-      "message" => "Dummy duration saved successfully"
+      'success' => true,
+      'message' => 'Class duration updated',
+      'data' => $duration
     ]);
   }
 }

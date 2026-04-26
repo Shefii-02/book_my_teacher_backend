@@ -74,5 +74,11 @@ class CourseClass extends Model
     return $this->hasMany(Attendance::class, 'class_id', 'id');
   }
 
-
+  public function classDuration()
+  {
+    return $this->hasOne(
+      ClassDuration::class,
+      'class_id'
+    );
+  }
 }

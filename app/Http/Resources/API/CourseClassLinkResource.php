@@ -60,7 +60,7 @@ class CourseClassLinkResource extends JsonResource
       'actual_duration' => $this->classDuration?->actual_duration ?? "",
       'actual_started' => $this->classDuration?->started_at ?? "",
       'actual_ended' => $this->classDuration?->ended_at ?? "",
-      'notes' => $this->classDuration?->notes ?? "",
+      'notes' => $this->classDuration?->note ?? "",
 
 
     ];

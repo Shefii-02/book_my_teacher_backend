@@ -357,7 +357,6 @@ Helper
   }
   public function updateClassDuration(Request $request, $classId)
   {
-    Log::info($request->all());
 
     $user = $request->user();
 
@@ -415,7 +414,6 @@ Helper
       ]
     );
 
-    Log::info($duration);
 
     return response()->json([
       'success' => true,

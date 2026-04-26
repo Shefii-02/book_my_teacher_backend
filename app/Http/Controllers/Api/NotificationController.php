@@ -14,6 +14,7 @@ class NotificationController extends Controller
   public function notifications(Request $request)
   {
     $user = $request->user();
+    Log::info($user);
     $userId = $user->id;
 
     $rows = NotificationRecipient::with('notification')
@@ -28,6 +29,7 @@ class NotificationController extends Controller
       'is_read',
       0
     )->count();
+
 
     $notifications = $rows->map(function ($row) {
 

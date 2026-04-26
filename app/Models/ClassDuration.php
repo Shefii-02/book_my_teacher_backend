@@ -5,6 +5,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClassDuration extends Model
 {
+
+protected $casts = [
+    'actual_duration' => 'string',
+];
+
     protected $fillable = [
         'class_id',
         'course_id',

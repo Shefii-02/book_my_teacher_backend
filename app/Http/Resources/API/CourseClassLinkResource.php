@@ -41,6 +41,11 @@ class CourseClassLinkResource extends JsonResource
       'end_date_time' => $this->end_time,
       'recorded_video' => $this->recording_url,
       'join_link' => $this->meeting_link,
+      'attendance_taken' => false,
+      'total_students' => 4,
+      'present_count' => 4,
+      'actual_duration' => 4,
+
     ];
   }
 }

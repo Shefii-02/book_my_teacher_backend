@@ -94,6 +94,7 @@ class OurCourseController extends Controller
     foreach ($members as $student) {
 
       Attendance::create([
+        'course_id' => $class->course_id,
         'class_id' => $class->id,
         'student_id' => $student->id,
         'status' => 'none', // default

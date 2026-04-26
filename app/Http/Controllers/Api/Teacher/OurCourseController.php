@@ -319,6 +319,7 @@ Helper
     // ]);
 
     Log::info($request->records);
+        Log::info($request->all());
 
     $class = CourseClass::findOrFail($classId);
 

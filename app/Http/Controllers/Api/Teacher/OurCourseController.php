@@ -96,7 +96,7 @@ class OurCourseController extends Controller
       Attendance::create([
         'class_id' => $class->id,
         'student_id' => $student->id,
-        'status' => 'pending', // default
+        'status' => 'none', // default
       ]);
     }
 
@@ -114,7 +114,7 @@ class OurCourseController extends Controller
         "roll_number" => $item->user->roll_number ?? '',
         "initials" => $this->getInitials($item->user->name ?? ''),
         "avatar_color" => "#4A47B0",
-        "attendance_status" => $item->status ?? "pending",
+        "attendance_status" => $item->status ?? "none",
       ];
     });
 

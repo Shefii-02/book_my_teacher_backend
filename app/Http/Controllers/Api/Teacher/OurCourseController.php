@@ -308,48 +308,52 @@ Helper
   // }
 
 
-public function saveAttendance(Request $request, $classId)
-{
+  public function saveAttendance(Request $request, $classId)
+  {
+
+    $user = $request->user();
     // $request->validate([
     //     'students' => 'required|array',
     //     'students.*.student_id' => 'required|exists:users,id',
     //     'students.*.attendance_status' => 'required|in:present,absent,late,pending',
     // ]);
 
+    Log::info($request->all());
+
     $class = CourseClass::findOrFail($classId);
 
     foreach ($request->students as $student) {
 
-        Attendance::updateOrCreate(
-            [
-                'class_id'   => $class->id,
-                'student_id' => $student['student_id'],
-            ],
-            [
-                'status' => $student['attendance_status'],
-                'marked_at' => now(), // optional column
-                // 'marked_by' => auth()->id(), // optional
-            ]
-        );
+      Attendance::updateOrCreate(
+        [
+          'class_id'   => $class->id,
+          'student_id' => $student['student_id'],
+        ],
+        [
+          'status' => $student['attendance_status'],
+          'attendance_date' => now(), // optional column
+          'marked_by' => $user->id, // optional
+        ]
+      );
     }
 
     $class->load('attendance.user');
 
     $students = $class->attendance->map(function ($item) {
 
-        return [
-            "student_id" => $item->student_id,
-            "name" => $item->user->name ?? '',
-            "attendance_status" => $item->status
-        ];
+      return [
+        "student_id" => $item->student_id,
+        "name" => $item->user->name ?? '',
+        "attendance_status" => $item->status
+      ];
     });
 
     return response()->json([
-        'success' => true,
-        'message' => 'Attendance saved successfully',
-        'students' => $students
+      'success' => true,
+      'message' => 'Attendance saved successfully',
+      'students' => $students
     ]);
-}
+  }
   public function saveClassDuration(Request $request, $classId)
   {
 

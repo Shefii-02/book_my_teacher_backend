@@ -65,7 +65,7 @@ class OurCourseController extends Controller
           "roll_number" => $item->user->roll_number ?? '',
           "initials" => $this->getInitials($item->user->name ?? ''),
           "avatar_color" => "#4A47B0",
-          "attendance_status" => $item->status ?? "pending",
+          "attendance_status" => $item->status ?? "none",
         ];
       });
 

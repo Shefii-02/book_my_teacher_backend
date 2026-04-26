@@ -96,57 +96,57 @@ class StudentController extends Controller
   }
 
   public function topBanners(Request $request): JsonResponse
-{
+  {
     $user = $request->user();
 
     $banners = TopBanner::query()
 
-        ->with([
-            'requestBanner' => function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            },
+      ->with([
+        'requestBanner' => function ($q) use ($user) {
+          $q->where('user_id', $user->id);
+        },
 
-            'course',
-            'workshop',
-            'webinar',
-        ])
+        'course',
+        'workshop',
+        'webinar',
+      ])
 
-        ->withExists([
+      ->withExists([
 
-            // course enrolled
-            'courseEntolled as is_enrolled' => function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            },
+        // course enrolled
+        'courseEntolled as is_enrolled' => function ($q) use ($user) {
+          $q->where('user_id', $user->id);
+        },
 
-            // course registered
-            'courseRegistration as is_course_registered' => function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            },
+        // course registered
+        'courseRegistration as is_course_registered' => function ($q) use ($user) {
+          $q->where('user_id', $user->id);
+        },
 
-            // webinar registered
-            'webinarRegistration as is_webinar_registered' => function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            },
+        // webinar registered
+        'webinarRegistration as is_webinar_registered' => function ($q) use ($user) {
+          $q->where('user_id', $user->id);
+        },
 
-            // workshop registered
-            'workshopRegistration as is_workshop_registered' => function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            },
+        // workshop registered
+        'workshopRegistration as is_workshop_registered' => function ($q) use ($user) {
+          $q->where('user_id', $user->id);
+        },
 
-        ])
+      ])
 
-        ->where('banner_type', 'top-banner')
-        ->orderBy('priority')
-        ->get();
+      ->where('banner_type', 'top-banner')
+      ->orderBy('priority')
+      ->get();
 
 
 
     return response()->json([
-        'status' => true,
-        'message' => 'Top banners fetched successfully',
-        'data' => BannerResource::collection($banners),
+      'status' => true,
+      'message' => 'Top banners fetched successfully',
+      'data' => BannerResource::collection($banners),
     ]);
-}
+  }
 
   public function courseBanners(Request $request): JsonResponse
   {
@@ -1149,15 +1149,17 @@ class StudentController extends Controller
     // $upcomming_classes = $course->classes->where('end_time', '>=', $today_now)->orderBy('start_time','asc');
     // $completed_classes = $course->classes->where('end_time', '<=', $today_now)->orderBy('start_time','desc');
 
-$upcomming_classes = $course->classes()
-    ->where('end_time', '>=', $today_now)
-    ->orderBy('start_time', 'asc')
-    ->get();
+    $upcomming_classes = $course->classes()
+      ->where('end_time', '>=', $today_now)
+      ->orderBy('start_time', 'asc')
+      ->get();
 
-$completed_classes = $course->classes()
-    ->where('end_time', '<=', $today_now)
-    ->orderBy('start_time', 'desc')
-    ->get();
+    $completed_classes = $course->classes()
+      ->where('end_time', '<=', $today_now)
+      ->orderBy('start_time', 'desc')
+      ->get();
+
+      Log::info($upcomming_classes);
 
     $courseClassUpComing = CourseClassLinkResource::collection($upcomming_classes);
     $courseClassCompleted = CourseClassLinkResource::collection($completed_classes);

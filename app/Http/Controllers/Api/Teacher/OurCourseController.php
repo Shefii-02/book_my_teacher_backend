@@ -411,7 +411,7 @@ Helper
         'verified_by' => $user->id,
         'verified_at' => now(),
 
-        'status' => 1
+        'status' => 'completed'
       ]
     );
 

@@ -1075,7 +1075,7 @@ class TeacherController extends Controller
 
         $item['class_status'] = $start->gte($now) ? 'upcoming' : 'ongoing';
         return $item;
-      })
+      })->sortBy('start_time')
       ->values()
       ->toArray();
 
@@ -1087,7 +1087,7 @@ class TeacherController extends Controller
       ->map(function ($item) {
         $item['class_status'] = 'completed';
         return $item;
-      })
+      })->sortByDesc('start_time')
       ->values()
       ->toArray();
     $classes = [
@@ -2274,6 +2274,4 @@ class TeacherController extends Controller
       ], 500);
     }
   }
-
-
 }

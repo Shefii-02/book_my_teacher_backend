@@ -312,7 +312,7 @@ class CompanySettingController extends Controller
     $response = $this->SmsApiFunction($mobile, $otp, $expTime);
 
     if ($response && $response->successful()) {
-      return redirect()->back()->with('error', "OTP sent Error mobile = $mobile");
+      return redirect()->back()->with('success', "OTP sent Successfully mobile = $mobile");
     } else if (!env('SMSOTP', false)) {
       return redirect()->back()->with('error', "OTP sent Error (Debug Mode)= $mobile");
     }

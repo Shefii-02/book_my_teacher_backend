@@ -14,6 +14,7 @@ use Google\Auth\Credentials\ServiceAccountCredentials;
 use App\Http\Controllers\ChatModule\ChatController;
 use App\Http\Controllers\ChatModule\MessageController;
 use App\Http\Controllers\ChatModule\LabelController;
+use App\Http\Controllers\PushNotificationController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -638,9 +639,9 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     }
   });
 
-  Route::get('/send-notification', [NotificationController::class, 'sendPush']);
-  Route::get('/send-notification-to-user', [NotificationController::class, 'sendToUser']);
-  Route::get('/send-notification-to-topic', [NotificationController::class, 'sendToTopic']);
+  Route::get('/send-notification', [PushNotificationController::class, 'sendPush']);
+  Route::get('/send-notification-to-user', [PushNotificationController::class, 'sendToUser']);
+  Route::get('/send-notification-to-topic', [PushNotificationController::class, 'sendToTopic']);
 
   Route::get('/chat-init', function () {
 

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log; // Or inject LoggerInterface directly
 use Illuminate\Support\Facades\Cache;
 
-class NotificationController extends Controller
+class PushNotificationController extends Controller
 {
   protected $notificationService;
   protected $fcmTokenIos;

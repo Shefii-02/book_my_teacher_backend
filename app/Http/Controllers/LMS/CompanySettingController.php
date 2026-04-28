@@ -242,6 +242,9 @@ class CompanySettingController extends Controller
       ->whereNotNull('fcm_token')
       ->get();
 
+
+    dd($devices);
+
     if ($devices->isEmpty()) {
       return back()->with(
         'error',

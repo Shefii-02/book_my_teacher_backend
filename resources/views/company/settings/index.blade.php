@@ -514,32 +514,33 @@
 
                             @csrf
 
-                            <div x-data="userSearchPush()" class="space-y-4">
+                            <div x-data="userSearchPush()" class="space-y-5">
 
+                                <!-- SEARCH -->
                                 <div>
-
-                                    <label>
+                                    <label class="font-semibold">
                                         Find User
                                     </label>
 
                                     <input type="text" x-model="keyword" @keyup.debounce.500="searchUsers()"
-                                        class="w-full border rounded px-3 py-2">
-
+                                        placeholder="Search name or mobile" class="w-full border rounded px-3 py-2">
                                 </div>
 
 
+                                <!-- SEARCH RESULTS -->
                                 <template x-if="results.length">
 
-                                    <div class="border rounded">
+                                    <div class="border rounded bg-white">
 
                                         <template x-for="user in results" :key="user.id">
 
                                             <div @click="selectUser(user)"
                                                 class="p-3 border-b hover:bg-gray-50 cursor-pointer">
 
-                                                <span x-text="user.name"></span>
+                                                <strong x-text="user.name"></strong>
                                                 -
                                                 <span x-text="user.mobile"></span>
+
                                             </div>
 
                                         </template>
@@ -549,63 +550,103 @@
                                 </template>
 
 
-                                <input type="hidden" name="user_id" x-model="selectedUserId">
 
+                                <!-- SELECTED USER -->
+                                <template x-if="selectedUserId">
 
-                                <div x-show="devices.length">
+                                    <div class="border rounded p-4 bg-green-50">
 
-                                    <h4 class="font-semibold">
-                                        User Devices
-                                    </h4>
-
-                                    <template x-for="device in devices" :key="device.id">
-
-                                        <div class="border p-3 rounded mb-2">
-
-                                            <div>
-                                                Platform:
-                                                <span x-text="device.platform"></span>
-                                            </div>
-
-                                            <div>
-                                                City:
-                                                <span x-text="device.city"></span>
-                                            </div>
-
-                                            <div>
-                                                Version:
-                                                <span x-text="device.app_version"></span>
-                                            </div>
-
-                                            <div>
-                                                Token:
-                                                <small x-text="device.fcm_token"></small>
-                                            </div>
-
+                                        <div class="font-semibold">
+                                            Selected User
                                         </div>
 
-                                    </template>
+                                        <div x-text="selectedName"></div>
 
-                                </div>
+                                        <input type="hidden" name="user_id" x-model="selectedUserId">
+
+                                    </div>
+
+                                </template>
 
 
+
+                                <!-- DEVICES -->
+                                <template x-if="devices.length">
+
+                                    <div>
+
+                                        <h4 class="font-semibold mb-3">
+                                            Active Devices
+                                        </h4>
+
+                                        <template x-for="device in devices" :key="device.id">
+
+                                            <label class="border p-4 rounded mb-3 block cursor-pointer">
+
+                                                <div class="flex items-start gap-3">
+
+                                                    <input type="checkbox" name="device_ids[]" :checked="device.checked"
+                                                        :value="device.id" x-model="selectedDevices">
+
+                                                    <div>
+
+                                                        <div>
+                                                            Platform:
+                                                            <b x-text="device.platform"></b>
+                                                        </div>
+
+                                                        <div>
+                                                            City:
+                                                            <span x-text="device.city"></span>
+                                                        </div>
+
+                                                        <div>
+                                                            Version:
+                                                            <span x-text="device.app_version"></span>
+                                                        </div>
+
+                                                        <div class="text-xs break-all">
+                                                            Token:
+                                                            <span x-text="device.fcm_token"></span>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </label>
+
+                                        </template>
+
+                                    </div>
+
+                                </template>
+
+
+
+                                <!-- TITLE -->
                                 <div>
 
-                                    <label>Title</label>
+                                    <label class="font-semibold">
+                                        Title
+                                    </label>
 
                                     <input name="title" class="w-full border rounded px-3 py-2">
 
                                 </div>
 
 
+                                <!-- BODY -->
                                 <div>
 
-                                    <label>Message</label>
+                                    <label class="font-semibold">
+                                        Message
+                                    </label>
 
-                                    <textarea name="message" class="w-full border rounded px-3 py-2">
-</textarea>
+                                    <textarea name="message" class="w-full border rounded px-3 py-2"></textarea>
 
                                 </div>
+
 
                                 <button class="bg-blue-600 text-white px-6 py-2 rounded">
 
@@ -668,9 +709,8 @@
 
             }
         }
-
-
-
+    </script>
+    <script>
         function userSearchPush() {
 
             return {
@@ -678,19 +718,29 @@
                 keyword: '',
                 results: [],
                 devices: [],
+
                 selectedUserId: '',
+                selectedName: '',
+
+                selectedDevices: [],
 
                 searchUsers() {
+
+                    if (
+                        this.keyword.length < 2
+                    ) {
+                        return;
+                    }
 
                     fetch(
                             '/company/ajax/users/search?key=' +
                             this.keyword
                         )
-
                         .then(r => r.json())
-
                         .then(data => {
+
                             this.results = data;
+
                         });
 
                 },
@@ -700,6 +750,9 @@
                     this.selectedUserId =
                         user.id;
 
+                    this.selectedName =
+                        user.name + `- (` + user.mobile + `)`;
+
                     this.results = [];
 
                     fetch(
@@ -707,16 +760,28 @@
                             user.id +
                             '/devices'
                         )
-
                         .then(r => r.json())
-
                         .then(data => {
-                            this.devices = data;
+
+                            this.devices =
+                                data.map(
+                                    d => ({
+                                        ...d,
+                                        checked: true
+                                    })
+                                );
+
+                            this.selectedDevices =
+                                data.map(
+                                    d => d.id
+                                );
+
                         });
 
                 }
 
             }
+
         }
     </script>
 @endpush

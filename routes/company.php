@@ -348,26 +348,26 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
 
 
-  Route::get('/company/settings', 'LMS\CompanySettingController@index')
+  Route::get('/company-settings', 'LMS\CompanySettingController@index')
     ->name('company.settings');
 
   Route::post('/company-settings', 'LMS\CompanySettingController@companySettingsStore')
     ->name('company-settings-store');
 
 
-  Route::post('/company/settings/general', 'LMS\CompanySettingController@updateGeneral')
+  Route::post('/company-settings/general', 'LMS\CompanySettingController@updateGeneral')
     ->name('company.settings.general.update');
 
-  Route::post('/company/settings/branding', 'LMS\CompanySettingController@updateBranding')
+  Route::post('/company-settings/branding', 'LMS\CompanySettingController@updateBranding')
     ->name('company.settings.branding.update');
 
   Route::post('/company/settings/social', 'LMS\CompanySettingController@updateSocial')
     ->name('company.settings.social.update');
 
-  Route::post('/company/settings/payment', 'LMS\CompanySettingController@updatePayment')
+  Route::post('/company-settings/payment', 'LMS\CompanySettingController@updatePayment')
     ->name('company.settings.payment.update');
 
-  Route::post('/company/settings/security', 'LMS\CompanySettingController@updateSecurity')
+  Route::post('/company-settings/security', 'LMS\CompanySettingController@updateSecurity')
     ->name('company.settings.security.update');
 
   Route::resource('courses', 'LMS\CourseController')->names('courses');

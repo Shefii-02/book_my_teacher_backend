@@ -226,32 +226,164 @@ class CompanySettingController extends Controller
       ->get();
   }
 
-  public function sendTestPush(
-    Request $request
-  ) {
+  public function sendTestPush(Request $request)
+  {
+    $request->validate([
+      'title' => 'required',
+      'message' => 'required',
+      'device_ids' => 'required|array'
+    ]);
 
-    $tokens =
-      UserPlatform::where(
-        'user_id',
-        $request->user_id
-      )
-      ->pluck('fcm_token')
-      ->filter()
-      ->toArray();
+    $devices = \App\Models\UserPlatform::whereIn(
+      'id',
+      $request->device_ids
+    )
+      ->whereNotNull('fcm_token')
+      ->get();
 
-    foreach (
-      $tokens as $token
-    ) {
-
-      // call FCM send here
-
+    if ($devices->isEmpty()) {
+      return back()->with(
+        'error',
+        'No valid device tokens found'
+      );
     }
 
-    return back()
-      ->with(
-        'success',
-        'Push sent'
+    try {
+
+      $jsonPath = storage_path(
+        'app/json/fcm-file.json'
       );
+
+      $scopes = [
+        'https://www.googleapis.com/auth/firebase.messaging'
+      ];
+
+      $credentials =
+        new \Google\Auth\Credentials\ServiceAccountCredentials(
+          $scopes,
+          $jsonPath
+        );
+
+      $tokenArray =
+        $credentials->fetchAuthToken();
+
+      $accessToken =
+        $tokenArray['access_token'];
+
+      if (!$accessToken) {
+        return back()->with(
+          'error',
+          'Access token failed'
+        );
+      }
+
+      $config =
+        json_decode(
+          file_get_contents($jsonPath),
+          true
+        );
+
+      $projectId =
+        $config['project_id'];
+
+      $url =
+        "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
+
+      $client =
+        new \GuzzleHttp\Client();
+
+      $success = 0;
+      $failed = 0;
+
+      foreach (
+        $devices as $device
+      ) {
+
+        try {
+
+          $payload = [
+
+            'message' => [
+
+              'token' =>
+              $device->fcm_token,
+
+              'notification' => [
+                'title' =>
+                $request->title,
+
+                'body' =>
+                $request->message
+              ],
+
+              'data' => [
+                'click_action' =>
+                'FLUTTER_NOTIFICATION_CLICK',
+
+                'type' =>
+                'admin_test'
+              ],
+
+              'android' => [
+                'priority' => 'high'
+              ],
+
+              'apns' => [
+                'payload' => [
+                  'aps' => [
+                    'sound' => 'default'
+                  ]
+                ]
+              ]
+
+            ]
+
+          ];
+
+
+          $client->post(
+            $url,
+            [
+              'headers' => [
+                'Authorization' =>
+                "Bearer {$accessToken}",
+
+                'Content-Type' =>
+                'application/json'
+              ],
+
+              'json' => $payload
+            ]
+          );
+
+          $success++;
+        } catch (\Exception $e) {
+
+          \Log::error(
+            'Push failed: ' .
+              $e->getMessage()
+          );
+
+          $failed++;
+        }
+      }
+
+      return back()->with(
+        'success',
+        "{$success} sent, {$failed} failed"
+      );
+    } catch (\Exception $e) {
+
+      \Log::error(
+        'FCM error: ' .
+          $e->getMessage()
+      );
+
+      return back()->with(
+        'error',
+        $e->getMessage()
+      );
+    }
   }
 
 

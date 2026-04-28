@@ -61,7 +61,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
 
 
   Route::get(
-    '/admin/users/{id}/devices',
+    '/users/{id}/devices',
     'LMS\CompanySettingController@userDevices'
   );
 

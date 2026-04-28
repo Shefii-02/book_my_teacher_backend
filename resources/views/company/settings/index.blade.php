@@ -538,7 +538,8 @@
                                                 class="p-3 border-b hover:bg-gray-50 cursor-pointer">
 
                                                 <span x-text="user.name"></span>
-
+                                                -
+                                                <span x-text="user.mobile"></span>
                                             </div>
 
                                         </template>
@@ -659,7 +660,7 @@
                         user.id;
 
                     this.selectedName =
-                        user.name + `- (`+ user.mobile+ `)`;
+                        user.name + `- (` + user.mobile + `)`;
 
                     this.results = [];
 
@@ -702,7 +703,7 @@
                     this.results = [];
 
                     fetch(
-                            '/admin/users/' +
+                            '/company/users/' +
                             user.id +
                             '/devices'
                         )

@@ -163,7 +163,8 @@ class PushNotificationController extends Controller
 
   public function sendToUser(Request $request)
   {
-    $fcmToken = 'dPvyIPaG1k4nj_Em7zzUtG:APA91bF_PiiheEMlagDMFAQRBH36JPdT5GKc7IyhT73KEGQMagqasqiiT1zial_2qX4Da2kP3R8bEjZ0falXOYwsL_c_a_xD87r2omOmrj3YKjNn-AdW4Tk'; // Get this from your DB
+    // $fcmToken = 'dPvyIPaG1k4nj_Em7zzUtG:APA91bF_PiiheEMlagDMFAQRBH36JPdT5GKc7IyhT73KEGQMagqasqiiT1zial_2qX4Da2kP3R8bEjZ0falXOYwsL_c_a_xD87r2omOmrj3YKjNn-AdW4Tk'; // Get this from your DB
+    $fcmToken = 'flcgmm-dSeq9LxvWJSnC3A:APA91bGJK4fMvBop6iUazt9WX4R45vutKd-pyTMw4QCxkK9yI02AmbXKLNZBY48Q6Uh_XD6tr5KS5Pq5WCHKXe6fUQuCcn5hsONmpieeQiHouhqBNQY9uJA';
 
     // 1. Setup Configuration
     $serviceAccountPath = storage_path('app/json/fcm-file.json'); // Ensure file exists here

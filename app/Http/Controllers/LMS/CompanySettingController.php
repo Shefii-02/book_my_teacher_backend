@@ -234,12 +234,11 @@ class CompanySettingController extends Controller
       'device_ids' => 'required|array'
     ]);
 
-    dd($request->all());
 
     $devices = \App\Models\UserPlatform::whereIn(
       'id',
       $request->device_ids
-    )
+    )->where('user_id', $request->user_id)
       ->whereNotNull('fcm_token')
       ->get();
 

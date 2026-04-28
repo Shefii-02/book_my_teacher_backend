@@ -234,6 +234,8 @@ class CompanySettingController extends Controller
       'device_ids' => 'required|array'
     ]);
 
+    dd($request->all());
+
     $devices = \App\Models\UserPlatform::whereIn(
       'id',
       $request->device_ids

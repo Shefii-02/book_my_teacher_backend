@@ -60,6 +60,29 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('/student-details/{id}', 'LMS\StudentController@studentDetails')->name('student-details');
 
 
+  Route::get(
+    '/admin/users/{id}/devices',
+    'LMS\CompanySettingController@userDevices'
+  );
+
+  Route::post(
+    '/settings/test-otp',
+    'LMS\CompanySettingController@sendTestOtp'
+  )->name(
+    'settings.test.otp'
+  );
+
+  Route::post(
+    '/settings/test-push',
+    'LMS\CompanySettingController@sendTestPush'
+  )->name(
+    'settings.test.push'
+  );
+
+
+
+
+
   Route::prefix('analytics')->name('analytics.')->group(function () {
     Route::resource('admissions', 'LMS\Analytics\AdmissionAnalyticsController')->names('admissions');
     Route::resource('registrations', 'LMS\Analytics\RegistrationAnalyticsController')->names('registrations');

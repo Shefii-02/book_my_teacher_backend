@@ -10,7 +10,7 @@ class TopTeacherController extends Controller
 {
     public function index()
     {
-        $teachers = Teacher::with('topTeacher')
+        $teachers = Teacher::with('topTeacher')->Where('published',1)
             ->orderByRaw('ISNULL(top_teachers.position), top_teachers.position ASC')
             ->leftJoin('top_teachers', 'teachers.id', '=', 'top_teachers.teacher_id')
             ->select('teachers.*', 'top_teachers.position')

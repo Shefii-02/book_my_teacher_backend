@@ -5,10 +5,10 @@
 
         <h2 class="text-2xl font-bold mb-6">Company Settings</h2>
 
-        <div x-data="{ tab: 'general' }" class="flex">
+        <div x-data="{ tab: 'general' }" class="flex gap-6">
 
-            {{-- LEFT SIDE - VERTICAL TABS --}}
-            <div class="w-64 bg-white shadow rounded-lg p-4 h-full">
+            <!-- LEFT TABS -->
+            <div class="w-64 bg-white shadow rounded-lg p-4">
 
                 <ul class="space-y-2">
 
@@ -20,7 +20,7 @@
                         </button>
                     </li>
 
-                    {{-- <li>
+                    <li>
                         <button @click="tab='branding'"
                             :class="tab == 'branding' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
                             class="w-full text-left px-4 py-2 rounded-lg">
@@ -32,183 +32,220 @@
                         <button @click="tab='social'"
                             :class="tab == 'social' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
                             class="w-full text-left px-4 py-2 rounded-lg">
-                            Social Links
+                            Social Media
                         </button>
                     </li>
 
                     <li>
-                        <button @click="tab='payment'"
-                            :class="tab == 'payment' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
+                        <button @click="tab='community'"
+                            :class="tab == 'community' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
                             class="w-full text-left px-4 py-2 rounded-lg">
-                            Payment Settings
+                            Community Links
                         </button>
-                    </li> --}}
+                    </li>
 
-                    {{-- <li>
-                        <button @click="tab='security'"
-                            :class="tab == 'security' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
+                    <li>
+                        <button @click="tab='otp'"
+                            :class="tab == 'otp' ?
+                                'bg-blue-600 text-white' :
+                                'bg-gray-100 text-gray-700'"
                             class="w-full text-left px-4 py-2 rounded-lg">
-                            Security
+
+                            Test OTP
+
                         </button>
-                    </li> --}}
+                    </li>
+
+
+                    <li>
+                        <button @click="tab='push'"
+                            :class="tab == 'push' ?
+                                'bg-blue-600 text-white' :
+                                'bg-gray-100 text-gray-700'"
+                            class="w-full text-left px-4 py-2 rounded-lg">
+
+                            Test Push Notification
+
+                        </button>
+                    </li>
 
                 </ul>
-
             </div>
 
-            {{-- RIGHT SIDE CONTENT --}}
-            <div class="flex-1 ml-6">
+            <!-- RIGHT CONTENT -->
+            <div class="flex-1">
 
                 <div class="bg-white shadow-lg p-6 rounded-xl">
 
-                    {{-- GENERAL --}}
+                    <!-- ================= GENERAL ================= -->
                     <div x-show="tab=='general'" x-transition>
-                        <h3 class="text-xl font-bold mb-4">General Information</h3>
+
+                        <h3 class="text-xl font-bold mb-5">
+                            General Information
+                        </h3>
 
                         <form method="POST" action="{{ route('company.company.settings.general.update') }}">
+
                             @csrf
 
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid md:grid-cols-2 gap-5">
 
                                 <div>
-                                    <label class="font-semibold">Company Email</label>
-                                    <input type="text" name="email" value="{{ $general?->email }}"
+                                    <label class="font-semibold">
+                                        Company Email
+                                    </label>
+
+                                    <input name="email" value="{{ $general?->email }}"
                                         class="w-full border rounded px-3 py-2">
                                 </div>
 
                                 <div>
-                                    <label class="font-semibold">Phone</label>
-                                    <input type="text" name="phone" value="{{ $general?->phone }}"
+                                    <label class="font-semibold">
+                                        Phone
+                                    </label>
+
+                                    <input name="phone" value="{{ $general?->phone }}"
                                         class="w-full border rounded px-3 py-2">
                                 </div>
 
                                 <div>
-                                    <label class="font-semibold">Website</label>
-                                    <input type="text" name="website" value="{{ $general?->website }}"
+                                    <label class="font-semibold">
+                                        Website
+                                    </label>
+
+                                    <input name="website" value="{{ $general?->website }}"
                                         class="w-full border rounded px-3 py-2">
                                 </div>
 
                                 <div>
-                                    <label class="font-semibold">Whatsapp</label>
-                                    <input type="text" name="whatsapp" value="{{ $general?->whatsapp }}"
+                                    <label class="font-semibold">
+                                        Whatsapp
+                                    </label>
+
+                                    <input name="whatsapp" value="{{ $general?->whatsapp }}"
                                         class="w-full border rounded px-3 py-2">
                                 </div>
 
-                                <div class="col-span-2">
-                                    <label class="font-semibold">Address</label>
+                                <div class="md:col-span-2">
+                                    <label class="font-semibold">
+                                        Address
+                                    </label>
+
                                     <textarea name="address" class="w-full border rounded px-3 py-2">{{ $general?->address }}</textarea>
                                 </div>
 
                             </div>
 
-                            <button class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Save</button>
+                            <button class="mt-5 bg-blue-600 text-white px-6 py-2 rounded-lg">
+                                Save
+                            </button>
+
                         </form>
                     </div>
 
-                    {{-- BRANDING --}}
-                    {{-- <div x-show="tab=='branding'" x-transition>
-                        <h3 class="text-xl font-bold mb-4">Branding</h3>
+
+                    <!-- ================= BRANDING ================= -->
+                    <div x-show="tab=='branding'" x-transition>
+
+                        <h3 class="text-xl font-bold mb-5">
+                            Branding
+                        </h3>
 
                         <form method="POST" enctype="multipart/form-data"
                             action="{{ route('company.company.settings.branding.update') }}">
+
                             @csrf
 
-                            <div class="grid grid-cols-2 gap-4">
-                                <div x-data="{
-                                    blackLogoPreview: '{{ $company->black_logo ? asset($company->black_logo) : '' }}',
-                                    whiteLogoPreview: '{{ $company->white_logo ? asset($company->white_logo) : '' }}',
-                                    faviconPreview: '{{ $company->favicon ? asset($company->favicon) : '' }}'
-                                }">
+                            <div x-data="{
+                                blackLogoPreview: '{{ $company->black_logo ? asset($company->black_logo) : '' }}',
+                                whiteLogoPreview: '{{ $company->white_logo ? asset($company->white_logo) : '' }}',
+                                faviconPreview: '{{ $company->favicon ? asset($company->favicon) : '' }}'
+                            }" class="grid md:grid-cols-2 gap-6">
 
-                                    <!-- Black Logo -->
-                                    <div class="mb-4">
-                                        <label class="font-semibold block mb-1">Black Logo</label>
+                                <div>
 
-                                        <!-- Preview -->
-                                        <div
-                                            class="mb-2 w-32 h-32 flex items-center justify-center border rounded shadow-sm bg-gray-50">
-                                            <template x-if="blackLogoPreview">
-                                                <img :src="blackLogoPreview" class="object-contain w-full h-full">
-                                            </template>
-                                            <template x-if="!blackLogoPreview">
-                                                <span class="text-gray-400">No Image</span>
-                                            </template>
-                                        </div>
+                                    <label class="font-semibold block mb-2">
+                                        Black Logo
+                                    </label>
 
-                                        <!-- Input -->
-                                        <input type="file" name="black_logo"
-                                            @change="blackLogoPreview = URL.createObjectURL($event.target.files[0])"
-                                            class="w-full border rounded px-3 py-2">
+                                    <div class="w-32 h-32 border rounded flex items-center justify-center mb-2">
+                                        <template x-if="blackLogoPreview">
+                                            <img :src="blackLogoPreview" class="w-full h-full object-contain">
+                                        </template>
                                     </div>
 
-                                    <!-- White Logo -->
-                                    <div class="mb-4">
-                                        <label class="font-semibold block mb-1">White Logo</label>
+                                    <input type="file" name="black_logo"
+                                        @change="blackLogoPreview = URL.createObjectURL($event.target.files[0])">
 
-                                        <!-- Preview -->
-                                        <div
-                                            class="mb-2 w-32 h-32 flex items-center justify-center border rounded shadow-sm bg-gray-50">
-                                            <template x-if="whiteLogoPreview">
-                                                <img :src="whiteLogoPreview" class="object-contain w-full h-full">
-                                            </template>
-                                            <template x-if="!whiteLogoPreview">
-                                                <span class="text-gray-400">No Image</span>
-                                            </template>
-                                        </div>
 
-                                        <!-- Input -->
-                                        <input type="file" name="white_logo"
-                                            @change="whiteLogoPreview = URL.createObjectURL($event.target.files[0])"
-                                            class="w-full border rounded px-3 py-2">
+                                    <label class="font-semibold block mt-6 mb-2">
+                                        White Logo
+                                    </label>
+
+                                    <div class="w-32 h-32 border rounded flex items-center justify-center mb-2">
+                                        <template x-if="whiteLogoPreview">
+                                            <img :src="whiteLogoPreview" class="w-full h-full object-contain">
+                                        </template>
                                     </div>
 
-                                    <!-- Favicon -->
-                                    <div class="mb-4">
-                                        <label class="font-semibold block mb-1">Favicon</label>
-
-                                        <!-- Preview -->
-                                        <div
-                                            class="mb-2 w-16 h-16 flex items-center justify-center border rounded shadow-sm bg-gray-50">
-                                            <template x-if="faviconPreview">
-                                                <img :src="faviconPreview" class="object-contain w-full h-full">
-                                            </template>
-                                            <template x-if="!faviconPreview">
-                                                <span class="text-gray-400">No Image</span>
-                                            </template>
-                                        </div>
-
-                                        <!-- Input -->
-                                        <input type="file" name="favicon"
-                                            @change="faviconPreview = URL.createObjectURL($event.target.files[0])"
-                                            class="w-full border rounded px-3 py-2">
-                                    </div>
+                                    <input type="file" name="white_logo"
+                                        @change="whiteLogoPreview = URL.createObjectURL($event.target.files[0])">
 
                                 </div>
 
 
                                 <div>
-                                    <label class="font-semibold">Theme Color</label>
+
+                                    <label class="font-semibold block mb-2">
+                                        Favicon
+                                    </label>
+
+                                    <div class="w-16 h-16 border rounded flex items-center justify-center mb-2">
+                                        <template x-if="faviconPreview">
+                                            <img :src="faviconPreview" class="w-full h-full object-contain">
+                                        </template>
+                                    </div>
+
+                                    <input type="file" name="favicon"
+                                        @change="faviconPreview = URL.createObjectURL($event.target.files[0])">
+
+
+                                    <label class="font-semibold block mt-6 mb-2">
+                                        Theme Color
+                                    </label>
+
                                     <input type="color" name="theme_color"
-                                        value="{{ $branding?->theme_color ?? '#000' }}"
-                                        class="w-full border rounded px-3 py-2">
+                                        value="{{ $branding?->theme_color ?? '#000000' }}">
+
                                 </div>
+
                             </div>
 
-                            <button class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Save</button>
+                            <button class="mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg">
+                                Save Branding
+                            </button>
+
                         </form>
-                    </div> --}}
+                    </div>
 
 
-                    {{-- SOCIAL --}}
-                    {{-- <div x-show="tab=='social'" x-transition>
-                        <h3 class="text-xl font-bold mb-4">Social Links</h3>
+                    <!-- ================= SOCIAL MEDIA ================= -->
+                    <div x-show="tab=='social'" x-transition>
+
+                        <h3 class="text-xl font-bold mb-5">
+                            Social Media Links
+                        </h3>
 
                         <form method="POST" enctype="multipart/form-data"
                             action="{{ route('company.company.settings.social.update') }}">
+
                             @csrf
+
+                            <input type="hidden" name="category" value="socialmedia">
 
                             <div x-data="{
                                 rows: {{ $socialLinks->toJson() }},
+
                                 addRow() {
                                     this.rows.push({
                                         id: 0,
@@ -217,185 +254,468 @@
                                         sort_order: 0,
                                         icon: null,
                                         preview: null
-                                    });
+                                    })
                                 },
+
                                 removeRow(index) {
-                                    this.rows.splice(index, 1);
+                                    this.rows.splice(index, 1)
                                 }
                             }" class="space-y-4">
 
-                                <template x-for="(row, index) in rows" :key="index">
-                                    <div class="border p-4 rounded-lg shadow-sm bg-gray-50">
+                                <template x-for="(row,index) in rows" :key="index">
 
-                                        <!-- Delete Button -->
-                                        <div class=" text-right">
-                                            <button type="button" @click="removeRow(index)"
-                                                class="text-red-600 font-semibold hover:underline">
+                                    <div class="border p-4 rounded bg-gray-50">
+
+                                        <div class="text-right mb-3">
+                                            <button type="button" @click="removeRow(index)" class="text-red-600">
                                                 Remove
                                             </button>
                                         </div>
-                                        <div class="grid md:grid-cols-4 gap-6">
 
-                                            <div class="flex items-center gap-4">
+                                        <div class="grid md:grid-cols-4 gap-5">
 
-                                                <!-- IMAGE PREVIEW -->
-                                                <div
-                                                    class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 border shadow-sm">
+                                            <div>
 
+                                                <div class="w-12 h-12 rounded-full border mb-2 overflow-hidden">
                                                     <template x-if="row.preview || row.icon">
-                                                        <img :src="row.preview ? row.preview : '' + row.icon"
-                                                            class="w-12 h-12 rounded-full object-cover">
+                                                        <img :src="row.preview ? row.preview : row.icon"
+                                                            class="w-full h-full object-cover">
                                                     </template>
-
-                                                    <template x-if="!row.preview && !row.icon">
-                                                        <svg class="w-6 h-6 text-gray-400" fill="none"
-                                                            stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12v9m0-9l3-3m-3 3L9 9" />
-                                                        </svg>
-                                                    </template>
-
                                                 </div>
 
-                                                <!-- CUSTOM UPLOAD BUTTON -->
-                                                <div>
-                                                    <label
-                                                        class="block text-sm font-semibold mb-1 text-gray-700">Icon</label>
+                                                <input type="file" class="hidden" :id="'social_icon_' + index"
+                                                    :name="'links[' + row.id + '][icon]'"
+                                                    @change="row.preview=URL.createObjectURL($event.target.files[0])">
 
-                                                    <button type="button"
-                                                        @click="document.getElementById('icon_input_' + row.id).click()"
-                                                        class="px-2 text-xxs py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition flex items-center gap-2">
-
-                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                            viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12v9m0-9l3-3m-3 3L9 9" />
-                                                        </svg>
-
-                                                        Upload Icon
-                                                    </button>
-
-                                                    <!-- UNIQUE FILE INPUT PER ROW -->
-                                                    <input type="file" class="hidden" :id="'icon_input_' + row.id"
-                                                        :name="'links[' + row.id + '][icon]'"
-                                                        @change="row.preview = URL.createObjectURL($event.target.files[0])">
-                                                </div>
-
+                                                <button type="button"
+                                                    @click="document.getElementById('social_icon_'+index).click()"
+                                                    class="bg-gray-700 text-white px-3 py-2 rounded">
+                                                    Upload
+                                                </button>
                                             </div>
 
-
-
-                                            <!-- Name -->
                                             <div>
-                                                <label class="font-semibold">Name</label>
-                                                <input type="text" :name="'links[' + row.id + '][name]'"
-                                                    x-model="row.name" class="w-full border rounded px-3 py-2"
-                                                    placeholder="Facebook">
+                                                <label>Name</label>
+                                                <input x-model="row.name" :name="'links[' + row.id + '][name]'"
+                                                    class="w-full border rounded px-3 py-2">
                                             </div>
 
-
-                                            <!-- Link -->
                                             <div>
-                                                <label class="font-semibold">Link</label>
-                                                <input type="text" :name="'links[' + row.id + '][link]'"
-                                                    x-model="row.link" class="w-full border rounded px-3 py-2"
-                                                    placeholder="https://facebook.com">
+                                                <label>Link</label>
+                                                <input x-model="row.link" :name="'links[' + row.id + '][link]'"
+                                                    class="w-full border rounded px-3 py-2">
                                             </div>
 
-                                            <!-- Sort Order -->
                                             <div>
-                                                <label class="font-semibold">Sort Order</label>
-                                                <input type="number" :name="'links[' + row.id + '][sort_order]'"
-                                                    x-model="row.sort_order" class="w-full border rounded px-3 py-2">
+                                                <label>Sort</label>
+                                                <input type="number" x-model="row.sort_order"
+                                                    :name="'links[' + row.id + '][sort_order]'"
+                                                    class="w-full border rounded px-3 py-2">
                                             </div>
-
-
-
 
                                         </div>
-
                                     </div>
+
                                 </template>
 
-                                <button type="button" @click="addRow"
-                                    class="mt-4 float-right text-xxs bg-gray-600 text-white px-4 py-2 rounded-lg">
-                                    + Add More
+                                <button type="button" @click="addRow" class="bg-gray-600 text-white px-4 py-2 rounded">
+                                    + Add Social Link
                                 </button>
 
                             </div>
 
-                            <button class="mt-6 bg-blue-600 text-white text-center px-6 py-2 rounded-lg">Save</button>
+                            <button class="mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg">
+                                Save Social Links
+                            </button>
+
                         </form>
-                    </div> --}}
+                    </div>
 
 
+                    <!-- ================= COMMUNITY ================= -->
+                    <div x-show="tab=='community'" x-transition>
 
-                    {{-- PAYMENT --}}
-                    {{-- <div x-show="tab=='payment'" x-transition>
-                        <h3 class="text-xl font-bold mb-4">Payment Settings</h3>
+                        <h3 class="text-xl font-bold mb-5">
+                            Community Links
+                        </h3>
 
-                        <form method="POST" action="{{ route('company.company.settings.payment.update') }}">
+                        <form method="POST" enctype="multipart/form-data"
+                            action="{{ route('company.company.settings.social.update') }}">
+
                             @csrf
 
-                            <div class="grid grid-cols-2 gap-4">
+                            <input type="hidden" name="category" value="community">
 
-                                <div>
-                                    <label class="font-semibold">Merchant ID</label>
-                                    <input type="text" name="merchant_id" value="{{ $payment?->merchant_id }}"
-                                        class="w-full border rounded px-3 py-2">
-                                </div>
+                            <div x-data="{
+                                rows: {{ $communityLinks->toJson() }},
 
-                                <div>
-                                    <label class="font-semibold">Salt Key</label>
-                                    <input type="text" name="salt_key" value="{{ $payment?->salt_key }}"
-                                        class="w-full border rounded px-3 py-2">
-                                </div>
+                                addRow() {
+                                    this.rows.push({
+                                        id: 0,
+                                        name: '',
+                                        link: '',
+                                        sort_order: 0,
+                                        icon: null,
+                                        preview: null
+                                    })
+                                },
 
-                                <div>
-                                    <label class="font-semibold">Salt Index</label>
-                                    <input type="text" name="salt_index" value="{{ $payment?->salt_index }}"
-                                        class="w-full border rounded px-3 py-2">
-                                </div>
+                                removeRow(index) {
+                                    this.rows.splice(index, 1)
+                                }
+                            }" class="space-y-4">
+
+                                <template x-for="(row,index) in rows" :key="index">
+
+                                    <div class="border p-4 rounded bg-gray-50">
+
+                                        <div class="text-right mb-3">
+                                            <button type="button" @click="removeRow(index)" class="text-red-600">
+                                                Remove
+                                            </button>
+                                        </div>
+
+                                        <div class="grid md:grid-cols-4 gap-5">
+
+                                            <div>
+
+                                                <div class="w-12 h-12 rounded-full border mb-2 overflow-hidden">
+                                                    <template x-if="row.preview || row.icon">
+                                                        <img :src="row.preview ? row.preview : row.icon"
+                                                            class="w-full h-full object-cover">
+                                                    </template>
+                                                </div>
+
+                                                <input type="file" class="hidden" :id="'community_icon_' + index"
+                                                    :name="'links[' + row.id + '][icon]'"
+                                                    @change="row.preview=URL.createObjectURL($event.target.files[0])">
+
+                                                <button type="button"
+                                                    @click="document.getElementById('community_icon_'+index).click()"
+                                                    class="bg-gray-700 text-white px-3 py-2 rounded">
+                                                    Upload
+                                                </button>
+                                            </div>
+
+                                            <div>
+                                                <label>Name</label>
+                                                <input x-model="row.name" :name="'links[' + row.id + '][name]'"
+                                                    class="w-full border rounded px-3 py-2">
+                                            </div>
+
+                                            <div>
+                                                <label>Link</label>
+                                                <input x-model="row.link" :name="'links[' + row.id + '][link]'"
+                                                    class="w-full border rounded px-3 py-2">
+                                            </div>
+
+                                            <div>
+                                                <label>Sort</label>
+                                                <input type="number" x-model="row.sort_order"
+                                                    :name="'links[' + row.id + '][sort_order]'"
+                                                    class="w-full border rounded px-3 py-2">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </template>
+
+                                <button type="button" @click="addRow" class="bg-gray-600 text-white px-4 py-2 rounded">
+                                    + Add Community Link
+                                </button>
 
                             </div>
 
-                            <button class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Save</button>
+                            <button class="mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg">
+                                Save Community Links
+                            </button>
+
                         </form>
-                    </div> --}}
+                    </div>
 
-                    {{-- SECURITY --}}
-                    {{-- <div x-show="tab=='security'" x-transition>
-                        <h3 class="text-xl font-bold mb-4">Security Settings</h3>
+                    <div x-show="tab=='otp'" x-transition>
 
-                        <form method="POST" action="{{ route('company.company.settings.security.update') }}">
+                        <h3 class="text-xl font-bold mb-4">
+                            Test OTP
+                        </h3>
+
+                        <form method="POST" action="{{ route('company.settings.test.otp') }}">
+
                             @csrf
 
-                            <div class="space-y-4">
+                            <div x-data="userSearchOtp()" class="space-y-4">
 
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="border" name="two_factor_enabled"
-                                        @checked($security?->two_factor_enabled)>
-                                    <span>Enable Two-Factor Authentication</span>
-                                </label>
+                                <div>
 
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="border" name="maintenance_mode"
-                                        @checked($security?->maintenance_mode)>
-                                    <span>Enable Maintenance Mode</span>
-                                </label>
+                                    <label class="font-semibold">
+                                        Find User
+                                    </label>
+
+                                    <input type="text" x-model="keyword" @keyup.debounce.500="searchUsers()"
+                                        placeholder="Type name / phone / email" class="w-full border rounded px-3 py-2">
+
+                                </div>
+
+
+                                <template x-if="results.length">
+
+                                    <div class="border rounded">
+
+                                        <template x-for="user in results" :key="user.id">
+
+                                            <div class="p-3 border-b hover:bg-gray-50 cursor-pointer"
+                                                @click="selectUser(user)">
+
+                                                <span x-text="user.name"></span>
+
+                                                -
+                                                <span x-text="user.mobile"></span>
+
+                                            </div>
+
+                                        </template>
+
+                                    </div>
+
+                                </template>
+
+
+                                <div>
+
+                                    <label>
+                                        Selected User
+                                    </label>
+
+                                    <input readonly x-model="selectedName" class="w-full border rounded px-3 py-2">
+
+                                    <input type="hidden" name="user_id" x-model="selectedUserId">
+
+                                </div>
+
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded">
+                                    Send Test OTP
+                                </button>
 
                             </div>
 
-                            <button class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Save</button>
                         </form>
-                    </div> --}}
+
+                    </div>
+
+
+                    <div x-show="tab=='push'" x-transition>
+
+                        <h3 class="text-xl font-bold mb-4">
+                            Test Push Notification
+                        </h3>
+
+                        <form method="POST" action="{{ route('company.settings.test.push') }}">
+
+                            @csrf
+
+                            <div x-data="userSearchPush()" class="space-y-4">
+
+                                <div>
+
+                                    <label>
+                                        Find User
+                                    </label>
+
+                                    <input type="text" x-model="keyword" @keyup.debounce.500="searchUsers()"
+                                        class="w-full border rounded px-3 py-2">
+
+                                </div>
+
+
+                                <template x-if="results.length">
+
+                                    <div class="border rounded">
+
+                                        <template x-for="user in results" :key="user.id">
+
+                                            <div @click="selectUser(user)"
+                                                class="p-3 border-b hover:bg-gray-50 cursor-pointer">
+
+                                                <span x-text="user.name"></span>
+
+                                            </div>
+
+                                        </template>
+
+                                    </div>
+
+                                </template>
+
+
+                                <input type="hidden" name="user_id" x-model="selectedUserId">
+
+
+                                <div x-show="devices.length">
+
+                                    <h4 class="font-semibold">
+                                        User Devices
+                                    </h4>
+
+                                    <template x-for="device in devices" :key="device.id">
+
+                                        <div class="border p-3 rounded mb-2">
+
+                                            <div>
+                                                Platform:
+                                                <span x-text="device.platform"></span>
+                                            </div>
+
+                                            <div>
+                                                City:
+                                                <span x-text="device.city"></span>
+                                            </div>
+
+                                            <div>
+                                                Version:
+                                                <span x-text="device.app_version"></span>
+                                            </div>
+
+                                            <div>
+                                                Token:
+                                                <small x-text="device.fcm_token"></small>
+                                            </div>
+
+                                        </div>
+
+                                    </template>
+
+                                </div>
+
+
+                                <div>
+
+                                    <label>Title</label>
+
+                                    <input name="title" class="w-full border rounded px-3 py-2">
+
+                                </div>
+
+
+                                <div>
+
+                                    <label>Message</label>
+
+                                    <textarea name="message" class="w-full border rounded px-3 py-2">
+</textarea>
+
+                                </div>
+
+                                <button class="bg-blue-600 text-white px-6 py-2 rounded">
+
+                                    Send Test Push
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
             </div>
 
         </div>
-
     </div>
 @endsection
+
+
+
+@push('scripts')
+    <script>
+        function userSearchOtp() {
+
+            return {
+
+                keyword: '',
+                results: [],
+                selectedUserId: '',
+                selectedName: '',
+
+                searchUsers() {
+
+                    fetch(
+                            '/company/ajax/users/search?key=' +
+                            this.keyword
+                        )
+
+                        .then(r => r.json())
+
+                        .then(data => {
+                            this.results = data;
+                        });
+
+                },
+
+                selectUser(user) {
+
+                    this.selectedUserId =
+                        user.id;
+
+                    this.selectedName =
+                        user.name + `- (`+ user.mobile+ `)`;
+
+                    this.results = [];
+
+                }
+
+            }
+        }
+
+
+
+        function userSearchPush() {
+
+            return {
+
+                keyword: '',
+                results: [],
+                devices: [],
+                selectedUserId: '',
+
+                searchUsers() {
+
+                    fetch(
+                            '/company/ajax/users/search?key=' +
+                            this.keyword
+                        )
+
+                        .then(r => r.json())
+
+                        .then(data => {
+                            this.results = data;
+                        });
+
+                },
+
+                selectUser(user) {
+
+                    this.selectedUserId =
+                        user.id;
+
+                    this.results = [];
+
+                    fetch(
+                            '/admin/users/' +
+                            user.id +
+                            '/devices'
+                        )
+
+                        .then(r => r.json())
+
+                        .then(data => {
+                            this.devices = data;
+                        });
+
+                }
+
+            }
+        }
+    </script>
+@endpush

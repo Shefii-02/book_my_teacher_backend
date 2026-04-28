@@ -46,6 +46,8 @@
                                         Title</th>
                                     <th class="px-6 py-3 font-bold text-left text-xxs uppercase text-slate-400 opacity-70">
                                         Type</th>
+                                    <th class="px-6 py-3 font-bold text-left text-xxs uppercase text-slate-400 opacity-70">
+                                        Registrations</th>
                                     <th
                                         class="px-6 py-3 font-bold text-center text-xxs uppercase text-slate-400 opacity-70">
                                         Priority</th>
@@ -87,6 +89,19 @@
                                         <td class="p-2 align-middle">
                                             <p class="text-sm font-semibold capitalize text-neutral-900 dark:text-white">
                                                 {{ $banner->type }}
+                                            </p>
+                                        </td>
+
+                                        <!-- Reg Count -->
+                                        <td class="p-2 align-middle text-center">
+                                            <p class="text-sm font-semibold capitalize text-neutral-900 dark:text-white">
+                                                @if ($banner->type == 'workshop')
+                                                    {{ $banner->workshopRegistration?->count() }}
+                                                @elseif($banner->type == 'webinar')
+                                                    {{ $banner->webinarRegistration?->count() }}
+                                                @elseif($banner->type == 'course')
+                                                    {{ $banner->courseRegistration?->count() }}
+                                                @endif
                                             </p>
                                         </td>
                                         <!-- Priority -->

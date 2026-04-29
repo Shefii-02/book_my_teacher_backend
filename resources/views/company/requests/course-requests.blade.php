@@ -1,3 +1,4 @@
+@extends('layouts.layout')
 @php
     $statusColors = [
         'PENDING' => 'bg-gray-200 text-gray-800',
@@ -9,111 +10,151 @@
         'CLOSED' => 'bg-slate-200 text-slate-700',
     ];
 @endphp
-@extends('layouts.layout')
-
 @section('content')
-<div class="w-full px-6 py-6 mx-auto">
+    <div class="container-fluid px-6 py-4">
 
-    <div class="bg-white rounded-2xl shadow-xl p-5">
-        <h2 class="text-xl font-bold mb-4">📋 Class Requests (Leads)</h2>
 
-        <div class="overflow-x-auto">
-            <table class="min-w-full text-sm">
-                <thead class="bg-gray-100 text-left">
-                    <tr>
-                        <th class="p-3">Student</th>
-                        <th>Location</th>
-                        <th>Grade</th>
-                        <th>Board</th>
-                        <th>Subject</th>
-                        <th>Status</th>
-                        <th>Note</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+        <div class="w-full px-6  mx-auto">
 
-                <tbody>
-                @foreach ($requests as $lead)
-                    <tr class="border-b">
-                        <td class="p-3">
-                            <div class="font-semibold">{{ $lead->user->name ?? '—' }}</div>
-                            <div class="text-xs text-gray-500">{{ $lead->user->phone ?? '' }}</div>
-                        </td>
+            <div class="flex flex-wrap -mx-3 mt-4">
 
-                        <td>{{ $lead->from_location }}</td>
-                        <td>{{ $lead->grade }}</td>
-                        <td>{{ $lead->board }}</td>
-                        <td>{{ $lead->subject }}</td>
+                <div class="flex-none w-full max-w-full px-3">
 
-                        <td>
-                            <span class="px-3 py-1 rounded-full text-xs
-                                {{ $statusColors[$lead->status] ?? 'bg-gray-200' }}">
-                                {{ str_replace('_',' ', $lead->status) }}
-                            </span>
-                        </td>
+                    {{-- Table --}}
+                    <div
+                        class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
 
-                        <td class="max-w-xs text-xs">
-                            {{ $lead->note ?? '—' }}
-                        </td>
-
-                        <td>
-                            <button onclick="openModal({{ $lead->id }})"
-                                class="px-3 py-1 text-xs bg-indigo-600 text-white rounded">
-                                Update
-                            </button>
-                        </td>
-                    </tr>
-
-                    {{-- MODAL --}}
-                    <div id="modal_{{ $lead->id }}" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                        <div class="bg-white rounded-xl p-5 w-96">
-                            <h3 class="font-semibold mb-3">Update Lead</h3>
-
-                            <form method="POST" action="{{ route('company.requests.course-banner.update', $lead->id) }}">
-                                @csrf
-
-                                <label class="block text-sm mb-1">Status</label>
-                                <select name="status" class="w-full border rounded px-3 py-2 mb-3">
-                                    @foreach (array_keys($statusColors) as $status)
-                                        <option value="{{ $status }}" {{ $lead->status === $status ? 'selected' : '' }}>
-                                            {{ str_replace('_',' ', $status) }}
-                                        </option>
-                                    @endforeach
-                                </select>
-
-                                <label class="block text-sm mb-1">Note</label>
-                                <textarea name="note" class="w-full border rounded px-3 py-2"
-                                    rows="3">{{ $lead->note }}</textarea>
-
-                                <div class="flex justify-end gap-2 mt-4">
-                                    <button type="button" onclick="closeModal({{ $lead->id }})"
-                                        class="px-4 py-2 bg-gray-200 rounded">
-                                        Cancel
-                                    </button>
-                                    <button class="px-4 py-2 bg-green-600 text-white rounded">
-                                        Save
-                                    </button>
+                        <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                            <div class="flex flex-col border-bottom mb-2">
+                                <div class="w-full max-w-full mb-3 flex justify-between">
+                                    <h6 class="dark:text-white">Course Requests (Leads)</h6>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                        <div class="flex-auto px-0 pt-0 pb-2">
+                            <div class="p-4 overflow-x-auto">
+                                <table
+                                    class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
+                                    <thead class="align-bottom">
+                                        <tr>
+                                            <th
+                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                #</th>
+                                            <th
+                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Course</th>
+                                            <th
+                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                User</th>
+                                            <th
+                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Requested At</th>
+                                            <th
+                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Status</th>
+                                            <th
+                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Action</th>
+                                        </tr>
+                                    </thead>
 
-        <div class="mt-4">
-            {{ $requests->links() }}
+                                    <tbody class="divide-y">
+                                        @forelse ($requests ?? [] as $key => $request)
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-2">
+                                                    {{ $requests->firstItem() + $key }}
+                                                </td>
+
+                                                <td class="px-4 py-2">
+                                                    {{ $request->course->title ?? 'N/A' }}
+                                                </td>
+
+                                                <td class="px-4 py-2 capitalize">
+                                                    {{ $request->name }}/{{ $request->phone }}
+                                                </td>
+
+                                                <td class="px-4 py-2 text-gray-500">
+                                                    {{ $request->created_at }}
+                                                </td>
+                                                <td class="px-4 py-2 text-gray-500">
+                                                    {{ $request->status }}
+                                                </td>
+
+                                                <td>
+                                                    <button onclick="openModal({{ $request->id }})"
+                                                        class="px-3 py-1 text-xs bg-indigo-600 text-white rounded">
+                                                        Update
+                                                    </button>
+                                                </td>
+
+                                            </tr>
+
+                                            {{-- MODAL --}}
+                                            <div id="modal_{{ $request->id }}"
+                                                class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                                                <div class="bg-white rounded-xl p-5 w-96">
+                                                    <h3 class="font-semibold mb-3">Update Lead</h3>
+
+                                                    <form method="POST"
+                                                        action="{{ route('company.requests.courses.update', $request->id) }}">
+                                                        @csrf
+
+                                                        <label class="block text-sm mb-1">Status</label>
+                                                        <select name="status" class="w-full border rounded px-3 py-2 mb-3">
+                                                            @foreach (array_keys($statusColors) as $status)
+                                                                <option value="{{ $status }}"
+                                                                    {{ $request->status === $status ? 'selected' : '' }}>
+                                                                    {{ str_replace('_', ' ', $status) }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+
+                                                        <label class="block text-sm mb-1">Note</label>
+                                                        <textarea name="note" class="w-full border rounded px-3 py-2" rows="3">{{ $request->note }}</textarea>
+
+                                                        <div class="flex justify-end gap-2 mt-4">
+                                                            <button type="button"
+                                                                onclick="closeModal({{ $request->id }})"
+                                                                class="px-4 py-2 bg-gray-200 rounded">
+                                                                Cancel
+                                                            </button>
+                                                            <button class="px-4 py-2 bg-green-600 text-white rounded">
+                                                                Save
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <tr>
+                                                <td colspan="9" class="text-center py-6 text-gray-500">
+                                                    No teacher class requests found
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {{-- Pagination --}}
+                    <div class="mt-4">
+                        {{ $requests->links() }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-function openModal(id){
-    document.getElementById('modal_'+id).classList.remove('hidden');
-}
-function closeModal(id){
-    document.getElementById('modal_'+id).classList.add('hidden');
-}
-</script>
+    <script>
+        function openModal(id) {
+            document.getElementById('modal_' + id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById('modal_' + id).classList.add('hidden');
+        }
+    </script>
 @endsection

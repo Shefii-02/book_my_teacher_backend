@@ -243,7 +243,6 @@ class CompanySettingController extends Controller
       ->get();
 
 
-    dd($devices);
 
     if ($devices->isEmpty()) {
       return back()->with(

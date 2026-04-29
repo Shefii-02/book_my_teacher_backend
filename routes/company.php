@@ -320,6 +320,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::resource('banner', 'LMS\BannerRequestController')->names('banner');
 
     Route::resource('teacher-class', 'LMS\TeacherClassRequestController')->names('teacher-class');
+
+    Route::resource('courses', 'LMS\CourseRequestController')->names('courses');
   });
 
   Route::get('custom-invoices', 'LMS\CustomInvoiceController@index')->name('custom.invoices.index');

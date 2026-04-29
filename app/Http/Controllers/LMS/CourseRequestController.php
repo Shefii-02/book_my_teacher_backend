@@ -1,0 +1,113 @@
+<?php
+
+namespace App\Http\Controllers\LMS;
+
+use App\Http\Controllers\Controller;
+use App\Models\CourseRegistration;
+use App\Models\TeacherClassRequest;
+use App\Models\LivestreamClass;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
+
+class CourseRequestController extends Controller
+{
+
+
+  public function index(Request $request)
+  {
+    $query = CourseRegistration::with('user')->latest();
+
+    // 🔎 SEARCH (name / phone)
+    if ($request->filled('search')) {
+      $search = $request->search;
+
+      $query->whereHas('user', function ($q) use ($search) {
+        $q->where('name', 'LIKE', "%$search%")
+          ->orWhere('mobile', 'LIKE', "%$search%");
+      });
+    }
+
+    // // // 📊 TAB FILTER
+    $tab = $request->get('tab', 'pending');
+
+    if ($tab === 'pending') {
+      $query->where('status', '!=', 'converted_to_admission',)->where('status', '!=', 'closed');
+    } elseif ($tab === 'approved') {
+      $query->where('status', 'converted_to_admission');
+    } elseif ($tab === 'rejected') {
+      $query->where('status', 'closed');
+    }
+
+    $requests = $query->paginate(15)->withQueryString();
+
+    return view('company.requests.course-requests', compact('requests'));
+  }
+
+
+
+  public function edit($form_class)
+  {
+    $company_id = auth()->user()->company_id;
+
+    $form_class = TeacherClassRequest::with('user')
+      ->where('id', $form_class)
+      ->where('company_id', $company_id)
+      ->firstOrFail();
+    // Security check
+    if (!$form_class) {
+      abort(403);
+    }
+
+    return view('company.requests.teacher-class-requests-edit', compact('form_class'));
+  }
+
+  public function show($form_class)
+  {
+    $company_id = auth()->user()->company_id;
+
+    $form_class = TeacherClassRequest::with('user')
+      ->where('id', $form_class)
+      ->where('company_id', $company_id)
+      ->firstOrFail();
+    // Security check
+    if (!$form_class) {
+      abort(403);
+    }
+
+    return view('company.requests.teacher-class-requests-show', compact('form_class'));
+  }
+
+  /**
+   * ✏️ Update Lead Status
+   */
+
+
+  public function update(Request $request, $id)
+  {
+
+    $request->validate([
+      'status' => 'required|string',
+      'lead_notes'   => 'nullable|string|max:1000',
+    ]);
+
+    $lead = TeacherClassRequest::findOrFail($id);
+
+    $lead->update([
+      'status' => $request->status,
+      'lead_notes'   => $request->lead_notes,
+    ]);
+
+    return back()->with('success', 'Lead updated successfully');
+  }
+
+
+  public function destroy($form_class)
+  {
+    $company_id = auth()->user()->company_id;
+    TeacherClassRequest::where('id', $form_class)->where('company_id', $company_id)->delete();
+    return back()->with('success', 'Lead deleted successfully');
+  }
+
+}

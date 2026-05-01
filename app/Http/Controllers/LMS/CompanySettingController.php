@@ -320,15 +320,20 @@ class CompanySettingController extends Controller
               ],
 
               'data' => [
-                'click_action' =>
-                'FLUTTER_NOTIFICATION_CLICK',
+                'route' =>
+                '/',
 
                 'type' =>
                 'admin_test'
               ],
 
               'android' => [
-                'priority' => 'high'
+                'priority' => 'high',
+                'notification' => [
+                  'channel_id'         => 'high_importance_channel',
+                  'sound'              => 'default',
+                  'default_vibrate_timings' => true,
+                ],
               ],
 
               'apns' => [

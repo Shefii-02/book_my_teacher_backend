@@ -263,19 +263,31 @@
                             <ul
                                 class="submenu pl-6 {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') ? '' : 'hidden' }}">
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.admissions.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.admissions.index') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.admissions.create') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.admissions.create') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
                                                 class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
                                         </div>
-                                        <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Course Enroll</span>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Course
+                                            Enroll</span>
                                     </a>
                                 </li>
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.admissions.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                    <a class=" dark:text-white {{ Request::routeIs('company.admissions.index') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.admissions.index') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
+                                        </div>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Recent
+                                            Enroll</span>
+                                    </a>
+                                </li>
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.admissions.index') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.admissions.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
@@ -283,7 +295,7 @@
                                                 class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video"></i>
                                         </div>
                                         <span
-                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Admissions</span>
+                                            class="ml-1 duration-300 opacity-100 pointer-events-none ease">Transactions</span>
                                     </a>
                                 </li>
                                 <li class="mt-0.5 w-full">
@@ -298,7 +310,7 @@
                                             Invoice</span>
                                     </a>
                                 </li>
-                                {{-- <li class="mt-0.5 w-full">
+                                <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.course-swap.index') }}">
                                         <div
@@ -321,7 +333,19 @@
                                         <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Course
                                             Swap</span>
                                     </a>
-                                </li> --}}
+                                </li>
+                                <li class="mt-0.5 w-full">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.course-swap.index') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-person-video2"></i>
+                                        </div>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease"> Collect Payment
+                                        </span>
+                                    </a>
+                                </li>
 
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.coupons.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
@@ -635,7 +659,7 @@
                                     </a>
                                 </li>
 
-                                 <li class="mt-0.5 w-full">
+                                <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.requests.courses.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.requests.courses.index') }}">
                                         <div
@@ -643,7 +667,8 @@
                                             <i
                                                 class="relative top-0 leading-normal text-cyan-500 text-lg  bi bi-pip"></i>
                                         </div>
-                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Course Requests </span>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Course
+                                            Requests </span>
                                     </a>
                                 </li>
 

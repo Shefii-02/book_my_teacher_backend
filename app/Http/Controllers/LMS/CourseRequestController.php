@@ -51,7 +51,7 @@ class CourseRequestController extends Controller
   {
     $company_id = auth()->user()->company_id;
 
-    $form_class = TeacherClassRequest::with('user')
+    $form_class = CourseRegistration::with('user')
       ->where('id', $form_class)
       ->where('company_id', $company_id)
       ->firstOrFail();
@@ -67,7 +67,7 @@ class CourseRequestController extends Controller
   {
     $company_id = auth()->user()->company_id;
 
-    $form_class = TeacherClassRequest::with('user')
+    $form_class = CourseRegistration::with('user')
       ->where('id', $form_class)
       ->where('company_id', $company_id)
       ->firstOrFail();
@@ -87,12 +87,13 @@ class CourseRequestController extends Controller
   public function update(Request $request, $id)
   {
 
+
     $request->validate([
       'status' => 'required|string',
       'lead_notes'   => 'nullable|string|max:1000',
     ]);
 
-    $lead = TeacherClassRequest::findOrFail($id);
+    $lead = CourseRegistration::findOrFail($id);
 
     $lead->update([
       'status' => $request->status,
@@ -106,7 +107,7 @@ class CourseRequestController extends Controller
   public function destroy($form_class)
   {
     $company_id = auth()->user()->company_id;
-    TeacherClassRequest::where('id', $form_class)->where('company_id', $company_id)->delete();
+    CourseRegistration::where('id', $form_class)->where('company_id', $company_id)->delete();
     return back()->with('success', 'Lead deleted successfully');
   }
 

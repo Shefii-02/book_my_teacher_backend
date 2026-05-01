@@ -25,6 +25,10 @@ use Illuminate\Support\Facades\DB;
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'prifix' => 'api'], function () {
 
 
+Route::post('/test/store',function(Request $request){
+  Log::info($request->all());
+});
+
   Route::post('/send-otp-signIn', 'OtpController@sendOtpSignIn');
   Route::post('/verify-otp-signIn', 'OtpController@verifyOtpSignIn');
   Route::post('/send-otp-signUp', 'OtpController@sendOtpSignUp');

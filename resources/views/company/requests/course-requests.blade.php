@@ -11,142 +11,339 @@
     ];
 @endphp
 @section('content')
-    <div class="container-fluid px-6 py-4">
 
+    <!-- cards -->
+    <div class="w-full px-6 py-6 mx-auto">
+        <!-- row 1 -->
+        <div class="flex flex-wrap -mx-3">
+            <!-- card1 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div
+                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div class="">
+                                    <p
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        Total Leads</p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['total']['teachers'] ?? 0 }}</h5>
 
-        <div class="w-full px-6  mx-auto">
-
-            <div class="flex flex-wrap -mx-3 mt-4">
-
-                <div class="flex-none w-full max-w-full px-3">
-
-                    {{-- Table --}}
-                    <div
-                        class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-
-                        <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                            <div class="flex flex-col border-bottom mb-2">
-                                <div class="w-full max-w-full mb-3 flex justify-between">
-                                    <h6 class="dark:text-white">Course Requests (Leads)</h6>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-blue-500 to-violet-500">
+                                    <i class="ni ni-money-coins text-lg relative top-3.5 text-white"></i>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex-auto px-0 pt-0 pb-2">
-                            <div class="p-4 overflow-x-auto">
-                                <table
-                                    class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
-                                    <thead class="align-bottom">
-                                        <tr>
-                                            <th
-                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                #</th>
-                                            <th
-                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                Course</th>
-                                            <th
-                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                User</th>
-                                            <th
-                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                Requested At</th>
-                                            <th
-                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                Status</th>
-                                            <th
-                                                class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                Action</th>
-                                        </tr>
-                                    </thead>
+                    </div>
+                </div>
+            </div>
 
-                                    <tbody class="divide-y">
-                                        @forelse ($requests ?? [] as $key => $request)
-                                            <tr class="hover:bg-gray-50">
-                                                <td class="px-4 py-2">
-                                                    {{ $requests->firstItem() + $key }}
-                                                </td>
+            <!-- card2 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div
+                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        Pending </p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['unverified']['teachers'] ?? 0 }}
+                                    </h5>
 
-                                                <td class="px-4 py-2">
-                                                    {{ $request->course->title ?? 'N/A' }}
-                                                </td>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-red-600 to-orange-600">
+                                    <i class="ni ni-world text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                                <td class="px-4 py-2 capitalize">
-                                                    {{ $request->name }}/{{ $request->phone }}
-                                                </td>
+            <!-- card3 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div
+                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        Converted </p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['verified']['teachers'] ?? 0 }}</h5>
 
-                                                <td class="px-4 py-2 text-gray-500">
-                                                    {{ $request->created_at }}
-                                                </td>
-                                                <td class="px-4 py-2 text-gray-500">
-                                                    {{ $request->status }}
-                                                </td>
-
-                                                <td>
-                                                    <button onclick="openModal({{ $request->id }})"
-                                                        class="px-3 py-1 text-xs bg-indigo-600 text-white rounded">
-                                                        Update
-                                                    </button>
-                                                </td>
-
-                                            </tr>
-
-                                            {{-- MODAL --}}
-                                            <div id="modal_{{ $request->id }}"
-                                                class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                                                <div class="bg-white rounded-xl p-5 w-96">
-                                                    <h3 class="font-semibold mb-3">Update Lead</h3>
-
-                                                    <form method="POST"
-                                                        action="{{ route('company.requests.courses.update', $request->id) }}">
-                                                        @csrf
-
-                                                        <label class="block text-sm mb-1">Status</label>
-                                                        <select name="status" class="w-full border rounded px-3 py-2 mb-3">
-                                                            @foreach (array_keys($statusColors) as $status)
-                                                                <option value="{{ $status }}"
-                                                                    {{ $request->status === $status ? 'selected' : '' }}>
-                                                                    {{ str_replace('_', ' ', $status) }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-
-                                                        <label class="block text-sm mb-1">Note</label>
-                                                        <textarea name="note" class="w-full border rounded px-3 py-2" rows="3">{{ $request->note }}</textarea>
-
-                                                        <div class="flex justify-end gap-2 mt-4">
-                                                            <button type="button"
-                                                                onclick="closeModal({{ $request->id }})"
-                                                                class="px-4 py-2 bg-gray-200 rounded">
-                                                                Cancel
-                                                            </button>
-                                                            <button class="px-4 py-2 bg-green-600 text-white rounded">
-                                                                Save
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        @empty
-                                            <tr>
-                                                <td colspan="9" class="text-center py-6 text-gray-500">
-                                                    No teacher class requests found
-                                                </td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-emerald-500 to-teal-400">
+                                    <i class="ni ni-paper-diploma text-lg relative top-3.5 text-white"></i>
+                                </div>
                             </div>
                         </div>
 
                     </div>
+                </div>
+            </div>
 
-                    {{-- Pagination --}}
-                    <div class="mt-4">
-                        {{ $requests->links() }}
+            <!-- card4 -->
+            <div class="w-full max-w-full px-3 sm:w-1/2 sm:flex-none xl:w-1/4">
+                <div
+                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p
+                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
+                                        Rejected </p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['rejected']['teachers'] ?? 0 }}</h5>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-orange-500 to-yellow-500">
+                                    <i class="bi bi-ban text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- cards -->
+    <div class="w-full px-6  mx-auto">
+
+        <div class="flex flex-wrap -mx-3 mt-4">
+            <div class="flex-none w-full max-w-full px-3">
+                <div
+                    class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+
+
+                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                        <div class="flex flex-col border-bottom mb-2">
+                            <div class="w-full max-w-full mb-3 flex justify-between">
+                                <h6 class="dark:text-white">Course Requests (Leads)</h6>
+
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col">
+                            @php
+                                $activeTab = request('tab', 'pending');
+                            @endphp
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div class="flex mb-4 mt-2">
+                                <a href="{{ route('company.requests.courses.index', array_merge(request()->query(), ['tab' => 'pending'])) }}"
+                                    class="px-4 py-2  text-sm font-semibold
+                                    {{ $activeTab === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
+                                    Pending
+                                </a>
+
+                                <a href="{{ route('company.requests.courses.index', array_merge(request()->query(), ['tab' => 'approved'])) }}"
+                                    class="px-4 py-2  text-sm font-semibold
+                                    {{ $activeTab === 'approved' ? 'bg-emerald-500/50 text-white' : 'bg-gray-200' }}">
+                                    Converted
+                                </a>
+
+                                <a href="{{ route('company.requests.courses.index', array_merge(request()->query(), ['tab' => 'rejected'])) }}"
+                                    class="px-4 py-2  text-sm font-semibold
+                                    {{ $activeTab === 'rejected' ? 'bg-red-500 text-white' : 'bg-gray-200' }}">
+                                    Rejected
+                                </a>
+                            </div>
+                            <div class="">
+                                <form method="GET" action="{{ route('company.requests.courses.index') }}"
+                                    class="mb-4 flex flex-wrap gap-3 items-end">
+                                    <input type="hidden" name="tab" value="{{ $activeTab }}" />
+                                    <!-- 🔍 Search (name, email, mobile) -->
+                                    <div class="flex gap-2 items-center">
+                                        <label class="block text-sm font-medium mb-1">Search</label>
+                                        <input type="text" name="search" value="{{ request('search') }}"
+                                            placeholder="Search name, email, mobile" class="border rounded px-3 py-2 w-64">
+                                    </div>
+
+                                    <!-- Submit + Reset -->
+                                    <div class="flex gap-2">
+                                        <button type="submit"
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm"><i
+                                                class="bi bi-search"></i> Apply</button>
+                                        <a href="{{ route('company.requests.form-class.index') }}"
+                                            class="px-4 py-2 bg-gradient-to-tl from-emerald-500 to-teal-400  rounded text-white text-sm"><i
+                                                class="bi bi-arrow-clockwise"></i> Reset </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @php
+                        $activeFilters = collect(
+                            request()->only(['search', 'teaching_mode', 'account_status', 'current_account_stage']),
+                        )->filter(fn($value) => filled($value)); // remove null/empty
+                    @endphp
+
+                    @if ($activeFilters->isNotEmpty())
+                        <div class="mb-4 pl-9 flex flex-wrap gap-2">
+                            @foreach ($activeFilters as $key => $value)
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
+                                    <span class="mr-2 capitalize">{{ str_replace('_', ' ', $key) }}:
+                                        {{ $value }}</span>
+                                    <a href="{{ request()->fullUrlWithQuery([$key => null]) }}"
+                                        class="text-red-500 hover:text-red-700 font-bold">×</a>
+                                </div>
+                            @endforeach
+                            <a href="{{ route('company.teachers.index') }}" class="ml-3 mt-2.5 text-sm text-red-600">Clear
+                                All</a>
+                        </div>
+                    @endif
+
+
+
+
+                    <div class="flex flex-wrap -mx-3 mt-4">
+
+                        <div class="flex-none w-full max-w-full px-3">
+
+                            {{-- Table --}}
+                            <div
+                                class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+
+
+                                <div class="flex-auto px-0 pt-0 pb-2">
+                                    <div class="p-4 overflow-x-auto">
+                                        <table
+                                            class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
+                                            <thead class="align-bottom">
+                                                <tr>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        #</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Course</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        User</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Requested At</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Status</th>
+                                                    <th
+                                                        class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                        Action</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody class="divide-y">
+                                                @forelse ($requests ?? [] as $key => $request)
+                                                    <tr class="hover:bg-gray-50">
+                                                        <td class="px-4 py-2">
+                                                            {{ $requests->firstItem() + $key }}
+                                                        </td>
+
+                                                        <td class="px-4 py-2">
+                                                            {{ $request->course->title ?? 'N/A' }}
+                                                        </td>
+
+                                                        <td class="px-4 py-2 capitalize">
+                                                            {{ $request->name }}/{{ $request->phone }}
+                                                        </td>
+
+                                                        <td class="px-4 py-2 text-gray-500">
+                                                            {{ $request->created_at }}
+                                                        </td>
+                                                        <td class="px-4 py-2 text-gray-500">
+                                                            {!! $request->status_badge !!}
+                                                        </td>
+
+                                                        <td>
+                                                            <button onclick="openModal({{ $request->id }})"
+                                                                class="px-3 py-1 text-xs bg-indigo-600 text-white rounded">
+                                                                Update
+                                                            </button>
+                                                        </td>
+
+                                                    </tr>
+
+                                                    {{-- MODAL --}}
+                                                    <div id="modal_{{ $request->id }}"
+                                                        class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                                                        <div class="bg-white rounded-xl p-5 w-96">
+                                                            <h3 class="font-semibold mb-3">Update Lead</h3>
+
+                                                            <form method="POST"
+                                                                action="{{ route('company.requests.courses.update', $request->id) }}">
+                                                                @method('PUT')
+                                                                @csrf
+
+                                                                <label class="block text-sm mb-1">Status</label>
+                                                                <select name="status"
+                                                                    class="w-full border rounded px-3 py-2 mb-3">
+                                                                    @foreach (array_keys($statusColors) as $status)
+                                                                        <option value="{{ $status }}"
+                                                                            {{ $request->status === $status ? 'selected' : '' }}>
+                                                                            {{ str_replace('_', ' ', $status) }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+
+                                                                {{-- <label class="block text-sm mb-1">Note</label> --}}
+                                                                {{-- <textarea name="note" class="w-full border rounded px-3 py-2" rows="3">{{ $request->note }}</textarea> --}}
+
+                                                                <div class="flex justify-end gap-2 mt-4">
+                                                                    <button type="button"
+                                                                        onclick="closeModal({{ $request->id }})"
+                                                                        class="px-4 py-2 bg-gray-200 rounded">
+                                                                        Cancel
+                                                                    </button>
+                                                                    <button
+                                                                        class="px-4 py-2 bg-green-600 text-white rounded">
+                                                                        Save
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="9" class="text-center py-6 text-gray-500">
+                                                            No teacher class requests found
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            {{-- Pagination --}}
+                            <div class="mt-4">
+                                {{ $requests->links() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         function openModal(id) {

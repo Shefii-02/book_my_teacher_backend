@@ -610,6 +610,11 @@
                                                             <span x-text="device.fcm_token"></span>
                                                         </div>
 
+                                                        <div class="text-xs break-all">
+                                                            Last Modified:
+                                                            <span x-text="device.updated_at"></span>
+                                                        </div>
+
                                                     </div>
 
                                                 </div>

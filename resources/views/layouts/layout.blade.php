@@ -261,7 +261,7 @@
                             </a>
 
                             <ul
-                                class="submenu pl-6 {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') ? '' : 'hidden' }}">
+                                class="submenu pl-6 {{ Request::routeIs('company.coupons.*') || Request::routeIs('company.admissions.*') || Request::routeIs('company.custom.invoices.*') || Request::routeIs('company.transactions.*') || Request::routeIs('company.collect-cash.*') ? '' : 'hidden' }}">
                                 <li class="mt-0.5 w-full">
                                     <a class=" dark:text-white {{ Request::routeIs('company.admissions.create') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
                                         href="{{ route('company.admissions.create') }}">
@@ -287,8 +287,8 @@
                                     </a>
                                 </li>
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.admissions.index') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.admissions.index') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.transactions.index') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.transactions.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -335,8 +335,8 @@
                                     </a>
                                 </li>
                                 <li class="mt-0.5 w-full">
-                                    <a class=" dark:text-white {{ Request::routeIs('company.course-swap.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
-                                        href="{{ route('company.course-swap.index') }}">
+                                    <a class=" dark:text-white {{ Request::routeIs('company.collect-cash.*') ? 'bg-blue-500/13' : '' }} dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.collect-cash.index') }}">
                                         <div
                                             class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
                                             <i
@@ -1457,27 +1457,7 @@
         });
     </script> --}}
 
-    <script>
-        function getUrl() {
-            let baseUrl = config.url;
 
-            // get current URL params (tab=pending etc)
-            let urlParams = new URLSearchParams(window.location.search);
-
-            // also include form params
-            let formParams = new URLSearchParams(form.serialize());
-
-            // merge both
-            formParams.forEach((value, key) => {
-                urlParams.set(key, value);
-            });
-
-            // set page
-            urlParams.set('page', page);
-
-            return baseUrl + '?' + urlParams.toString();
-        }
-    </script>
 </body>
 
 </html>

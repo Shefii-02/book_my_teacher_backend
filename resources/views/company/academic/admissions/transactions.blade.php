@@ -12,29 +12,31 @@
                 <a class="text-white" href="javascript:;">Dashboard</a>
             </li>
             <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">Recent Enroll List</li>
+                aria-current="page">Transaction List</li>
         </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">Recent Enroll List</h6>
+        <h6 class="mb-0 font-bold text-white capitalize">Transaction List</h6>
     </nav>
 @endsection
 
 @section('content')
 
+
+
     <!-- cards -->
-    <div class="w-full px-6  mx-auto">
+    <div class="w-full px-6 p-2 mx-auto">
 
-
-        <div
-            class="relative flex flex-col min-w-0 my-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+         <div
+            class="relative flex flex-col min-w-0 mb-3 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
             <div class="p-4 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                 <div class="flex">
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                        <h6 class="dark:text-white">Recent Enroll Lists</h6>
+                        <h6 class="dark:text-white">Transaction Lists</h6>
                     </div>
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 
                     </div>
                     <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
+
                         <a href="{{ route('company.admissions.create') }}"
                             class="px-4 py-2 bg-gradient-to-tl  from-emerald-500 to-teal-400  text-white  text-sm">
                             <i class="bi bi-plus me-1"></i> Create Admission</a>
@@ -42,6 +44,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- row 1 -->
         <div class="flex flex-wrap -mx-3">
@@ -55,8 +58,8 @@
                                 <div class="">
                                     <p
                                         class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        Total Enroll</p>
-                                    <h5 class="mb-2 font-bold dark:text-white">{{ $stats['enrolls']['total'] ?? 0 }}</h5>
+                                        Transactions</p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $stats['total']['count'] ?? 0 }}</h5>
 
                                 </div>
                             </div>
@@ -70,19 +73,19 @@
                         <div class="flex gap-2 justify-between">
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Course</span><br>
-                                <span class="text-emerald-500">{{ $stats['enrolls']['course'] }}</span>
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Online</span><br>
+                                <span class="text-emerald-500">{{ $stats['total']['online'] ?? 0 }}</span>
                             </p>
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Workshop</span><br>
-                                <span class="text-emerald-500">{{ $stats['enrolls']['workshop'] }}</span>
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Manually</span><br>
+                                <span class="text-emerald-500">{{ $stats['total']['manual'] ?? 0 }}</span>
                             </p>
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Webinar
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">In-Cash
                                 </span><br>
-                                <span class="text-emerald-500">{{ $stats['enrolls']['webinar'] }}</span>
+                                <span class="text-emerald-500">{{ $stats['total']['cash'] ?? 0 }}</span>
                             </p>
                         </div>
                     </div>
@@ -99,8 +102,8 @@
                                 <div>
                                     <p
                                         class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        Teachers </p>
-                                    <h5 class="mb-2 font-bold dark:text-white">{{ $stats['teachers']['total'] }}</h5>
+                                        Paid </p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $stats['paid']['count'] ?? 0 }}</h5>
 
                                 </div>
                             </div>
@@ -114,19 +117,19 @@
                         <div class="flex gap-2 justify-between">
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Course</span><br>
-                                <span class="text-emerald-500">{{ $stats['teachers']['course'] }}</span>
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Online</span><br>
+                                <span class="text-emerald-500">{{ $stats['paid']['online'] ?? 0 }}</span>
                             </p>
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Workshop</span><br>
-                                <span class="text-emerald-500">{{ $stats['teachers']['workshop'] }}</span>
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Manually</span><br>
+                                <span class="text-emerald-500">{{ $stats['paid']['manual'] ?? 0 }}</span>
                             </p>
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Webinar
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">In-Cash
                                 </span><br>
-                                <span class="text-emerald-500">{{ $stats['teachers']['webinar'] }}</span>
+                                <span class="text-emerald-500">{{ $stats['paid']['cash'] ?? 0 }}</span>
                             </p>
                         </div>
                     </div>
@@ -143,8 +146,8 @@
                                 <div>
                                     <p
                                         class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        Student </p>
-                                    <h5 class="mb-2 font-bold dark:text-white">{{ $stats['students']['total'] }}</h5>
+                                        Unpaid </p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $stats['pending']['count'] ?? 0 }}</h5>
 
                                 </div>
                             </div>
@@ -158,19 +161,19 @@
                         <div class="flex gap-2 justify-between">
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Course</span><br>
-                                <span class="text-emerald-500">{{ $stats['students']['course'] }}</span>
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Online</span><br>
+                                <span class="text-emerald-500">{{ $stats['pending']['online'] ?? 0 }}</span>
                             </p>
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Workshop</span><br>
-                                <span class="text-emerald-500">{{ $stats['students']['workshop'] }}</span>
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Manually</span><br>
+                                <span class="text-emerald-500">{{ $stats['pending']['manual'] ?? 0 }}</span>
                             </p>
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Webinar
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">In-Cash
                                 </span><br>
-                                <span class="text-emerald-500">{{ $stats['students']['webinar'] }}</span>
+                                <span class="text-emerald-500">{{ $stats['pending']['cash'] ?? 0 }}</span>
                             </p>
                         </div>
                     </div>
@@ -187,9 +190,8 @@
                                 <div>
                                     <p
                                         class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        Revenue </p>
-                                    <h5 class="mb-2 font-bold dark:text-white"> ₹
-                                        {{ number_format($stats['revenue']['total'], 2) }}</h5>
+                                        Rejected </p>
+                                    <h5 class="mb-2 font-bold dark:text-white">{{ $stats['rejected']['count'] }}</h5>
                                 </div>
                             </div>
                             <div class="px-3 text-right basis-1/3">
@@ -202,21 +204,19 @@
                         <div class="flex gap-2 justify-between">
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Course</span><br>
-                                <span class="text-emerald-500">₹ {{ number_format($stats['revenue']['course'], 2) }}</span>
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Online</span><br>
+                                <span class="text-emerald-500">{{ $stats['rejected']['online'] }}</span>
                             </p>
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Workshop</span><br>
-                                <span class="text-emerald-500">₹
-                                    {{ number_format($stats['revenue']['workshop'], 2) }}</span>
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Manually</span><br>
+                                <span class="text-emerald-500">{{ $stats['rejected']['manual'] }}</span>
                             </p>
                             <p class="mb-0 dark:text-white dark:opacity-60">
                                 <span
-                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">Webinar
+                                    class="font-bold text-neutral-900 dark:text-white text-sm text-emerald-500 mr-2">In-Cash
                                 </span><br>
-                                <span class="text-emerald-500">₹
-                                    {{ number_format($stats['revenue']['webinar'], 2) }}</span>
+                                <span class="text-emerald-500">{{ $stats['rejected']['cash'] }}</span>
                             </p>
                         </div>
                     </div>
@@ -225,55 +225,16 @@
         </div>
 
 
-
         <!-- table 1 -->
         <div class="flex flex-wrap -mx-3 mt-4">
             <div class="flex-none w-full max-w-full px-3">
                 <div
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-
-                        @php
-                            $activeTab = request('tab', 'all');
-                        @endphp
-
-
-
-                        <div class="flex justify-between items-center pb-2">
-
-                            <div class="flex mb-4 mt-2">
-                                <a href="{{ route('company.admissions.index') }}?tab=all"
-                                    class="px-4 py-2  text-sm font-semibold
-                                    {{ $activeTab === 'all' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
-                                    All
-                                </a>
-
-                                <a href="{{ route('company.admissions.index') }}?tab=courses"
-                                    class="px-4 py-2  text-sm font-semibold
-                                    {{ $activeTab === 'courses' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
-                                    Courses
-                                </a>
-
-                                <a href="{{ route('company.admissions.index') }}?tab=workshops"
-                                    class="px-4 py-2  text-sm font-semibold
-                                    {{ $activeTab === 'workshops' ? 'bg-red-500 text-white' : 'bg-gray-200' }}">
-                                    Workshops
-                                </a>
-
-                                <a href="{{ route('company.admissions.index') }}?tab=webinars"
-                                    class="px-4 py-2  text-sm font-semibold
-                                    {{ $activeTab === 'webinars' ? 'bg-emerald-500/50 text-white' : 'bg-gray-200' }}">
-                                    Webinars
-                                </a>
-                            </div>
-
-                        </div>
-
                         <div class="flex1">
 
                             <div class="w-full max-w-full ">
-                                <form method="GET" action="{{ route('company.admissions.index') }}"
-                                    class="mb-6 flex flex-wrap gap-4 items-end" id="filterForm">
+                                <form method="GET" action="" class="mb-6 flex flex-wrap gap-4 items-end">
 
                                     <!-- SEARCH -->
                                     <div>
@@ -282,31 +243,21 @@
                                             placeholder="Name / Email / Mobile" class="border rounded px-3 py-2 w-56">
                                     </div>
 
-                                    <!-- ACC TYPE -->
-                                    {{-- <div>
-                                        <label class="block text-sm font-semibold mb-1">Acc Type</label>
-                                        <select name="type" class="border rounded px-3 py-2 w-40">
-                                            <option value="all">All</option>
-                                            <option value="student" {{ request('type') == 'student' ? 'selected' : '' }}>
-                                                Student</option>
-                                            <option value="teacher" {{ request('type') == 'teacher' ? 'selected' : '' }}>
-                                                Teacher</option>
-                                        </select>
-                                    </div> --}}
-
                                     <!-- STATUS -->
-                                    {{-- <div>
+                                    <div>
                                         <label class="block text-sm font-semibold mb-1">Status</label>
                                         <select name="type" class="border rounded px-3 py-2 w-40">
                                             <option value="all">All</option>
-                                            <option value="active" {{ request('type') == 'paid' ? 'selected' : '' }}>
-                                                Active</option>
-                                            <option value="suspended"
-                                                {{ request('type') == 'pending' ? 'selected' : '' }}>Suspended</option>
-                                            <option value="deleted"{{ request('type') == 'rejected' ? 'selected' : '' }}>
-                                                Deleted</option>
+                                            <option value="paid" {{ request('type') == 'paid' ? 'selected' : '' }}>Paid
+                                            </option>
+                                            <option value="pending" {{ request('type') == 'pending' ? 'selected' : '' }}>
+                                                Unpaid
+                                            </option>
+                                            <option value="rejected"
+                                                {{ request('type') == 'rejected' ? 'selected' : '' }}>
+                                                Rejected</option>
                                         </select>
-                                    </div> --}}
+                                    </div>
 
                                     <!-- START DATE -->
                                     <div>
@@ -330,7 +281,7 @@
                                             Search
                                         </button>
 
-                                        <a href="{{ route('company.teachers.ranking.index') }}"
+                                        <a href="{{ route('company.admissions.index') }}"
                                             class="px-4 py-2 bg-gray-500 text-white rounded text-sm">
                                             Reset
                                         </a>
@@ -361,10 +312,10 @@
                                 All</a>
                         </div>
                     @endif
-                    <!-- Table -->
-                    <div id="enrollTable">
-                        @include('company.academic.admissions.enroll-table')
-                    </div>
+
+
+                  @include('company.academic.admissions.transaction-table')
+
                 </div>
             </div>
         </div>
@@ -387,6 +338,9 @@
 @endsection
 
 
+
+
+
 @push('scripts')
     <script>
         function openRejectModal(id) {
@@ -397,18 +351,5 @@
         function closeRejectModal() {
             document.getElementById('rejectModal').classList.add('hidden');
         }
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            initInfiniteTable({
-                container: '#enrollTable',
-                form: '#filterForm',
-                url: "{{ route('company.admissions.index') }}",
-                tab: "{{ $activeTab }}",
-                liveSearch: true,
-
-            });
-        });
     </script>
 @endpush

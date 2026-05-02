@@ -167,7 +167,7 @@
 
 
                 </div>
-                <div>
+                {{-- <div>
                     <label class="font-medium">Certificates (Select Multi Select)</label>
 
                     <!-- File Input -->
@@ -203,7 +203,7 @@
                             @endforeach
                         </div>
                     @endif
-                </div>
+                </div> --}}
 
 
 
@@ -316,21 +316,43 @@
                     </div>
                 </div> --}}
 
-                <div>
+                {{-- <div>
                     <div class="flex items-center gap-3">
                         <label class="font-medium">
                             <input type="checkbox" class="border pe-3" name="published" value="1"
                                 @checked(old('published', $teacher->published ?? false))> Publish</label>
                     </div>
-                </div>
+                </div> --}}
 
                 <div>
-                        <h6>Current Account Status : {{ $teacher->user->status == 1 ? 'Active' : 'Deactive' }} </h6>
+                    <h6>Current Account Status :
+                        <span class="fw-bold text-info">
+                            {{ $teacher->published == 1 ? 'Active' : ($teacher->published == 0 ? 'Deactive' : 'Suspended') }}</span>
+                    </h6>
+
                     <div class="flex items-center gap-3">
-                      <h6>Account Status : </h6>
-                        <label class="font-medium">
-                            <input type="checkbox" class="border pe-3" name="status" value="1"
-                                @checked(old('status', $teacher->user->status == 1 ?? false))> Active</label>
+                        <h6>Account Status : </h6>
+                        <div>
+                            <label class="font-medium">
+                                <input type="radio" class="border" name="status" value="1" @checked(old('status', $teacher->published) == 1)>
+                                Active
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="font-medium">
+                                <input type="radio" class="border" name="status" value="0" @checked(old('status', $teacher->published) == 0)>
+                                Inactive
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="font-medium">
+                                <input type="radio" class="border" name="status" value="-1" @checked(old('status', $teacher->published) == -1)>
+                                Suspended
+                            </label>
+                        </div>
+
                     </div>
                 </div>
 
@@ -445,7 +467,7 @@
 
             document.getElementById('certificate_' + id).remove();
 
-            let checkbox = document.getElementById('remove-checkbox_'+id)
+            let checkbox = document.getElementById('remove-checkbox_' + id)
             checkbox.checked = !checkbox.checked;
 
 

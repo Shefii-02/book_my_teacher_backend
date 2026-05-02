@@ -366,12 +366,13 @@
     <script>
 
         $(document).ready(function() {
-             alert(getUrl());
+
             initInfiniteTable({
                 container: '#studentTable',
                 form: '#filterForm',
-                // url: "{{ route('company.students.index') }}",
-                url: getUrl(),
+                url: "{{ route('company.students.index') }}",
+                 tab : "{{ $activeTab }}",
+                // url: getUrl(),
                 liveSearch: true,
 
             });

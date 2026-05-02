@@ -36,7 +36,7 @@ class Teacher extends Model
     'time_slots'         => 'array',
     'commission_enabled' => 'boolean',
     'include_top_teachers' => 'boolean',
-    'published'          => 'boolean',
+    // 'published'          => 'boolean',
   ];
 
   public function subjectRates()
@@ -127,16 +127,16 @@ class Teacher extends Model
   //   return $this->hasMany(TeacherCourse::class, 'teacher_id', 'id');
   // }
 
-   public function courses()
+  public function courses()
   {
 
     return $this->belongsToMany(
-        Course::class,
-        'teacher_courses',
-        'teacher_id', // Pivot column referencing Teacher
-        'course_id',  // Pivot column referencing Course
-        'id',         // Local key on Teacher table
-        'id'          // Local key on Course table
+      Course::class,
+      'teacher_courses',
+      'teacher_id', // Pivot column referencing Teacher
+      'course_id',  // Pivot column referencing Course
+      'id',         // Local key on Teacher table
+      'id'          // Local key on Course table
     );
   }
 
@@ -152,9 +152,9 @@ class Teacher extends Model
   }
 
 
-    public function teachingDetails()
+  public function teachingDetails()
   {
-    return $this->hasMany(TeachersTeachingGradeDetail::class,'user_id');
+    return $this->hasMany(TeachersTeachingGradeDetail::class, 'user_id');
   }
 
   public function thumbnailMedia()
@@ -177,8 +177,18 @@ class Teacher extends Model
     return $this->mainImageMedia ? asset('storage/' . $this->mainImageMedia->file_path) : null;
   }
 
-    public function professionalInfo()
+  public function professionalInfo()
   {
-    return $this->hasOne(TeacherProfessionalInfo::class, 'teacher_id','user_id');
+    return $this->hasOne(TeacherProfessionalInfo::class, 'teacher_id', 'user_id');
+  }
+
+
+  public function getStatusLabelAttribute()
+  {
+    return match ($this->published) {
+      1 => 'Active',
+      0 => 'Deactive',
+      default => 'Suspended',
+    };
   }
 }

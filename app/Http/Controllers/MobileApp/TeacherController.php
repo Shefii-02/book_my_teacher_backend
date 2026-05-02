@@ -29,7 +29,7 @@ class TeacherController extends Controller
   {
     $company_id = auth()->user()->company_id;
     // $teachers = Teacher::with('courses')->orderBy('id', 'desc')->paginate(15);
-    $tab = $request->get('tab', 'pending');
+    $tab = $request->get('tab', 'inactive');
 
 
     $query = Teacher::with(['user', 'teachingGrades', 'teachingBoards', 'subjectRates'])
@@ -517,10 +517,11 @@ class TeacherController extends Controller
 
   public function update(UpdateTeacherRequest $request, Teacher $teacher)
   {
+
+
     $data = $request->validated();
     $company_id = auth()->user()->company_id;
     try {
-
       // Upload Thumbnail
       $thumbnailPath = null;
       if ($request->hasFile('thumb')) {
@@ -576,7 +577,7 @@ class TeacherController extends Controller
       // booleans normalization
       $data['is_commission'] = !empty($data['is_commission']);
       $data['is_top'] = !empty($data['is_top']);
-      $data['published'] = !empty($data['published']);
+      $data['published'] = $request->status;
 
 
       // $timeSlots = [];
@@ -643,6 +644,8 @@ class TeacherController extends Controller
       }
 
       DB::commit();
+
+
       return redirect()->route('company.app.teachers.index')->with('success', 'Teacher updated');
     } catch (Exception $e) {
       DB::rollBack();

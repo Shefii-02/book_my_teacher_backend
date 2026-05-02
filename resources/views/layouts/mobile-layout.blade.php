@@ -237,6 +237,18 @@
                                             Teachers</span>
                                     </a>
                                 </li>
+                                <li class="mt-0.5 w-full">
+                                    <a class="{{ Request::routeIs('company.app.teachers.ranking.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap transition-colors"
+                                        href="{{ route('company.app.teachers.ranking') }}">
+                                        <div
+                                            class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
+                                            <i
+                                                class="relative top-0 leading-normal text-cyan-500  text-sm  bi bi-person-video3"></i>
+                                        </div>
+                                        <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">
+                                            Teachers Ranking</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="mt-0.5 w-full">
@@ -714,6 +726,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+     <script src="{{ asset('assets/js/infinite-table.js') }}"></script>
+
     <script type="text/javascript">
         toastr.options = {
             "closeButton": true,

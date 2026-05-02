@@ -101,6 +101,9 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::resource('top-teachers', 'TopTeacherController')->names('top-teachers');
     Route::get('teachers/search', 'TeacherController@teachersSearch')->name('teachers.search');
 
+    Route::get('teachers/ranking', 'TopTeacherController@teachersRanking')->name('teachers.ranking');
+    Route::post('teachers/ranking/update/{id}', 'TopTeacherController@updateTeacherRanking')->name('teachers.ranking.update');
+
     Route::resource('teachers', 'TeacherController')->names('teachers');
 
     Route::resource('grades', 'Academic\GradeController')->names('grades');
@@ -390,6 +393,10 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   Route::get('admissions/course-search', 'LMS\AdmissionController@courseSearch')->name('admissions.course.search');
   Route::get('admissions/course-info/{id}', 'LMS\AdmissionController@courseInfo')->name('admissions.course.info');
   Route::post('admissions/validate-coupon', 'LMS\AdmissionController@validateCoupon')->name('admissions.coupon.validate');
+
+  Route::resource('transactions', 'LMS\TransactionController')->names('transactions');
+  Route::resource('collect-cash', 'LMS\CollectCashController')->names('collect-cash');
+
 
 
 

@@ -14,74 +14,290 @@ use App\Models\Purchase;
 use App\Models\PurchaseInstallment;
 use App\Models\PurchasePayment;
 use App\Models\User;
+use App\Models\WebinarRegistration;
+use App\Models\WorkshopRegistration;
 use Carbon\Carbon;
 use Google\Service\Adsense\Payment;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 
 class AdmissionController extends Controller
 {
 
+
+
   public function index(Request $request)
   {
-    $query = Purchase::with([
-      'student:id,name,email,mobile',
-      'course:id,title',
-      'payments'
-    ]);
+    $type = $request->get('tab', 'all'); // courses | webinars | workshops | all
 
-    /* ========= STATUS FILTER ========= */
+    /* ===============================
+        COURSE ENROLLMENTS
+    =============================== */
+    $courseQuery = DB::table('course_enrollments as ce')
+      ->leftJoin('users as u', 'u.id', '=', 'ce.user_id')
+      ->leftJoin('courses as c', 'c.id', '=', 'ce.course_id')
+      // ->where(function ($q) {
+      //   $q->whereNull('u.deleted_at')
+      //     ->orWhereNull('u.id');
+      // })
+      ->select([
+        'ce.id',
+        DB::raw("'course' as section"),
+        'u.name as user_name',
+        'u.email',
+        'u.mobile',
+        'u.acc_type',
+        'c.title',
+        'ce.final_price as amount',
+        DB::raw("'backend' as trans_type"),
+        'ce.created_at as reg_at',
+        'ce.created_at',
+        'ce.status'
+      ]);
 
-    if ($request->filled('type') && $request->type !== 'all') {
-      $query->where('status', $request->type);
+
+
+
+    /* ===============================
+        WEBINARS
+    =============================== */
+    $webinarQuery = DB::table('webinar_registrations as wr')
+      ->leftJoin('users as u', 'u.id', '=', 'wr.user_id')
+      ->leftJoin('webinars as w', 'w.id', '=', 'wr.webinar_id')
+      // ->where(function ($q) {
+      //   $q->whereNull('u.deleted_at')
+      //     ->orWhereNull('u.id');
+      // })
+      ->select([
+        'wr.id',
+        DB::raw("'webinar' as section"),
+        DB::raw('COALESCE(u.name, wr.name) as user_name'),
+        DB::raw('COALESCE(u.email, wr.email) as email'),
+        DB::raw('COALESCE(u.mobile, wr.phone) as mobile'),
+        DB::raw("COALESCE(u.acc_type, 'guest') as acc_type"),
+        'w.title',
+        DB::raw('0 as amount'),
+        DB::raw("'web' as trans_type"),
+        'wr.created_at as reg_at',
+        'wr.created_at',
+        DB::raw("'registered' as status")
+      ]);
+
+
+
+    /* ===============================
+        WORKSHOPS
+    =============================== */
+    $workshopQuery = DB::table('workshop_registrations as wrk')
+      ->leftJoin('users as u', 'u.id', '=', 'wrk.user_id')
+      ->leftJoin('workshops as ws', 'ws.id', '=', 'wrk.workshop_id')
+      // ->where(function ($q) {
+      //   $q->whereNull('u.deleted_at')
+      //     ->orWhereNull('u.id');
+      // })
+      ->select([
+        'wrk.id',
+        DB::raw("'workshop' as section"),
+        DB::raw('COALESCE(u.name, wrk.name) as user_name'),
+        DB::raw('COALESCE(u.email, wrk.email) as email'),
+        DB::raw('COALESCE(u.mobile, wrk.phone) as mobile'),
+        DB::raw("COALESCE(u.acc_type, 'guest') as acc_type"),
+        'ws.title',
+        DB::raw('0 as amount'),
+        DB::raw("'web' as trans_type"),
+        'wrk.created_at as reg_at',
+        'wrk.created_at',
+        DB::raw("'registered' as status")
+      ]);
+
+
+
+    /* ===============================
+        APPLY TYPE FILTER
+    =============================== */
+    if ($type == 'courses') {
+      $query = $courseQuery;
+    } elseif ($type == 'webinars') {
+      $query = $webinarQuery;
+    } elseif ($type == 'workshops') {
+      $query = $workshopQuery;
+    } else {
+      $query = $courseQuery
+        ->unionAll($webinarQuery)
+        ->unionAll($workshopQuery);
     }
 
-    /* ========= SEARCH FILTER ========= */
+    /* ===============================
+        WRAP UNION FOR FILTERS
+    =============================== */
+    $finalQuery = DB::query()->fromSub($query, 'combined');
 
+    /* ===============================
+        SEARCH FILTER
+    =============================== */
     if ($request->filled('search')) {
-
       $search = $request->search;
 
-      $query->whereHas('student', function ($q) use ($search) {
-
-        $q->where('name', 'like', "%$search%")
+      $finalQuery->where(function ($q) use ($search) {
+        $q->where('user_name', 'like', "%$search%")
           ->orWhere('email', 'like', "%$search%")
           ->orWhere('mobile', 'like', "%$search%");
       });
     }
 
-    /* ========= DATE FILTER ========= */
-
+    /* ===============================
+        DATE FILTER
+    =============================== */
     if ($request->filled('start_date')) {
-      $query->whereDate('created_at', '>=', $request->start_date);
+      $finalQuery->whereDate('created_at', '>=', $request->start_date);
     }
 
     if ($request->filled('end_date')) {
-      $query->whereDate('created_at', '<=', $request->end_date);
+      $finalQuery->whereDate('created_at', '<=', $request->end_date);
     }
 
-    /* ========= PAGINATION ========= */
+    /* ===============================
+        ORDER
+    =============================== */
+    $finalQuery->orderBy('created_at', 'desc');
 
-    $transactions = $query
-      ->latest()
-      ->paginate(15)
-      ->withQueryString();
+    /* ===============================
+        PAGINATION (MANUAL)
+    =============================== */
+    $perPage = 10;
+    $page = $request->get('page', 1);
 
-    /* ========= DASHBOARD STATS ========= */
+
+    $total = $finalQuery->count();
+
+    $results = $finalQuery
+      ->forPage($page, $perPage)
+      ->get();
+
+    $transactions = new LengthAwarePaginator(
+      $results,
+      $total,
+      $perPage,
+      $page,
+      ['path' => request()->url(), 'query' => request()->query()]
+    );
+
+    /* ===============================
+        AJAX RESPONSE
+    =============================== */
+    if ($request->ajax()) {
+      return view('company.academic.admissions.enroll-table', compact('transactions'))->render();
+    }
+
+    /* ===============================
+    COURSES
+=============================== */
+
+    $courseEnrolls = CourseEnrollment::count();
+
+    $courseStudents = DB::table('course_enrollments as ce')
+      ->join('users as u', 'u.id', '=', 'ce.user_id')
+      ->whereIn('u.acc_type', ['student', 'company'])
+      ->distinct('ce.user_id')
+      ->count('ce.user_id');
+
+    $courseTeachers = DB::table('course_enrollments as ce')
+      ->join('users as u', 'u.id', '=', 'ce.user_id')
+      ->where('u.acc_type', 'teacher')
+      ->distinct('ce.user_id')
+      ->count('ce.user_id');
+
+    $courseRevenue = DB::table('purchases')
+      ->where('status', 'paid')
+      ->sum('grand_total');
+
+
+    /* ===============================
+    WEBINARS
+=============================== */
+
+    $webinarEnrolls = WebinarRegistration::count();
+
+    $webinarStudents = DB::table('webinar_registrations as wr')
+      ->join('users as u', 'u.id', '=', 'wr.user_id')
+      ->whereIn('u.acc_type', ['student', 'company'])
+      // ->distinct('wr.user_id')
+      ->count('wr.user_id');
+
+    $webinarTeachers = DB::table('webinar_registrations as wr')
+      ->join('users as u', 'u.id', '=', 'wr.user_id')
+      ->where('u.acc_type', 'teacher')
+      // ->distinct('wr.user_id')
+      ->count('wr.user_id');
+
+    $webinarRevenue = 0;
+
+
+    /* ===============================
+    WORKSHOPS
+=============================== */
+
+    $workshopEnrolls = WorkshopRegistration::count();
+
+    $workshopStudents = DB::table('workshop_registrations as wr')
+      ->join('users as u', 'u.id', '=', 'wr.user_id')
+      ->whereIn('u.acc_type', ['student', 'company'])
+      // ->distinct('wr.user_id')
+      ->count('wr.user_id');
+
+    $workshopTeachers = DB::table('workshop_registrations as wr')
+      ->join('users as u', 'u.id', '=', 'wr.user_id')
+      ->where('u.acc_type', 'teacher')
+      // ->distinct('wr.user_id')
+      ->count('wr.user_id');
+
+    $workshopRevenue = 0;
+
+
+    /* ===============================
+    FINAL STRUCTURE
+=============================== */
 
     $stats = [
-      'total'    => $this->statsByStatus(),
-      'paid'     => $this->statsByStatus('paid'),
-      'pending'  => $this->statsByStatus('pending'),
-      'rejected' => $this->statsByStatus('rejected'),
+      'enrolls' => [
+        'course' => $courseEnrolls,
+        'webinar' => $webinarEnrolls,
+        'workshop' => $workshopEnrolls,
+        'total' => $courseEnrolls + $webinarEnrolls + $workshopEnrolls,
+      ],
+
+      'teachers' => [
+        'course' => $courseTeachers,
+        'webinar' => $webinarTeachers,
+        'workshop' => $workshopTeachers,
+        'total' => $courseTeachers + $webinarTeachers + $workshopTeachers,
+      ],
+
+      'students' => [
+        'course' => $courseStudents,
+        'webinar' => $webinarStudents,
+        'workshop' => $workshopStudents,
+        'total' => $courseStudents + $webinarStudents + $workshopStudents,
+      ],
+
+      'revenue' => [
+        'course' => $courseRevenue,
+        'webinar' => $webinarRevenue,
+        'workshop' => $workshopRevenue,
+        'total' => $courseRevenue + $webinarRevenue + $workshopRevenue,
+      ],
     ];
 
-    return view('company.academic.admissions.index', compact(
-      'transactions',
-      'stats'
-    ));
+    // dd($transactions);
+    return view('company.academic.admissions.index', compact('transactions', 'stats'));
   }
+
+
+
+
+
   // public function index(Request $request)
   // {
   //   $query = Purchase::with([
@@ -134,18 +350,7 @@ class AdmissionController extends Controller
   //   ));
   // }
 
-  private function statsByStatus($status = null)
-  {
-    $q = Purchase::query();
-    if ($status) $q->where('status', $status);
 
-    return [
-      'count'   => $q->count(),
-      'online'  => (clone $q)->where('payment_method', 'online')->count(),
-      'manual'  => (clone $q)->whereIn('payment_method', ['bank', 'manual'])->count(),
-      'cash'    => (clone $q)->where('payment_method', 'cash')->count(),
-    ];
-  }
 
   public function downloadInvoice($id)
   {

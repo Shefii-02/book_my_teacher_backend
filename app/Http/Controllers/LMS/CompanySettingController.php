@@ -17,6 +17,7 @@ use App\Models\SocialLink;
 use App\Models\User;
 use App\Models\UserPlatform;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class CompanySettingController extends Controller
 {
@@ -324,13 +325,18 @@ class CompanySettingController extends Controller
                 '/',
 
                 'type' =>
-                'admin_test'
+                'admin_test',
+                'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
               ],
 
               'android' => [
                 'priority' => 'high',
+                'ttl' => '86400s',
                 'notification' => [
                   'channel_id'         => 'high_importance_channel',
+                  'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
+                  'visibility' => 'public',
+                  'notification_priority' => 'PRIORITY_MAX',
                   'sound'              => 'default',
                   'default_vibrate_timings' => true,
                 ],
@@ -339,7 +345,13 @@ class CompanySettingController extends Controller
               'apns' => [
                 'payload' => [
                   'aps' => [
-                    'sound' => 'default'
+                    'alert' => [
+                      'title' => $request->title,
+                      'body'  => $request->message,
+                    ],
+                    'sound' => 'default',
+                    'badge' => 1,
+                    'content-available' => 1, // Helps with background handling
                   ]
                 ]
               ]
@@ -355,9 +367,9 @@ class CompanySettingController extends Controller
               'headers' => [
                 'Authorization' =>
                 "Bearer {$accessToken}",
-
                 'Content-Type' =>
-                'application/json'
+                'application/json',
+                'Urgency'       => 'high',
               ],
 
               'json' => $payload
@@ -367,7 +379,7 @@ class CompanySettingController extends Controller
           $success++;
         } catch (\Exception $e) {
 
-          \Log::error(
+          Log::error(
             'Push failed: ' .
               $e->getMessage()
           );
@@ -382,7 +394,7 @@ class CompanySettingController extends Controller
       );
     } catch (\Exception $e) {
 
-      \Log::error(
+      Log::error(
         'FCM error: ' .
           $e->getMessage()
       );

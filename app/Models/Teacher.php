@@ -135,7 +135,7 @@ class Teacher extends Model
       'teacher_courses',
       'teacher_id', // Pivot column referencing Teacher
       'course_id',  // Pivot column referencing Course
-      'id',         // Local key on Teacher table
+      'user_id',         // Local key on Teacher table
       'id'          // Local key on Course table
     );
   }
@@ -190,5 +190,24 @@ class Teacher extends Model
       0 => 'Deactive',
       default => 'Suspended',
     };
+  }
+
+
+  public function getTotalCoursesAttribute()
+  {
+    return $this->courses()
+      ->whereNull('deleted_at')
+      ->get();
+  }
+  public function getOngoingCoursesAttribute()
+  {
+    return $this->courses()
+      ->whereNull('deleted_at')
+      ->where('started_at', '<=', now())
+      ->where(function ($q) {
+        $q->whereNull('ended_at')
+          ->orWhere('ended_at', '>=', now());
+      })
+      ->get();
   }
 }

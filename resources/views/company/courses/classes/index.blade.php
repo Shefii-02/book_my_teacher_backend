@@ -33,7 +33,8 @@
                             </div>
                             <div class="w-full text-right max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-2/4 mb-3">
 
-                                <a href="#" data-url="{{ route('company.courses.schedule-class.create', $course->course_identity) }}"
+                                <a href="#"
+                                    data-url="{{ route('company.courses.schedule-class.create', $course->course_identity) }}"
                                     class="px-4 py-2 open-drawer bg-gradient-to-tl from-emerald-500 to-teal-400  text-white rounded text-sm">
                                     <i class=" bi bi-plus me-1"></i>
                                     Create Class</a>
@@ -214,22 +215,60 @@
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
                                                 {{ $class->created_at->format('d M Y') }}</td>
                                             <td
-                                                class="px-6 flex  gap-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                                <a href="#" data-url="{{ route('company.courses.schedule-class.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
-                                                    class="open-drawer px-3 py-1 text-blue rounded text-xs">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
+                                                class="p-3 text-start">
 
-                                                <form
-                                                    action="{{ route('company.courses.schedule-class.destroy', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
-                                                    method="POST" class="inline-block"
-                                                    onsubmit="return confirm('Are you sure?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="px-3 py-1  text-red rounded text-xs">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </form>
+                                                <button id="dropdownBottomButton"
+                                                    data-dropdown-toggle="dropdownBottom_{{ $key }}"
+                                                    data-dropdown-placement="bottom" class="" type="button">
+                                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        fill="none" viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                                            d="M12 6h.01M12 12h.01M12 18h.01" />
+                                                    </svg>
+                                                </button>
+                                                <!-- Dropdown menu -->
+                                                <div id="dropdownBottom_{{ $key }}"
+                                                    class="z-10 hidden  text-left  bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 text-start"
+                                                        aria-labelledby="dropdownBottomButton">
+                                                        <li>
+                                                            <a href="#"
+                                                                data-url="{{ route('company.courses.schedule-class.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
+                                                                class="block open-drawer px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">
+                                                                Edit </a>
+                                                        </li>
+
+                                                        @if(strtotime($class->end_time) < now()->timestamp)
+                                                        <li>
+                                                            <a href="#"
+                                                                data-url="{{ route('company.courses.schedule-class.attendance.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
+                                                                class="block open-drawer px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">
+                                                                Attendance </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a href="#"
+                                                                data-url="{{ route('company.courses.schedule-class.duration.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
+                                                                class="block open-drawer px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">
+                                                                Duration </a>
+                                                        </li>
+                                                        @endif
+
+                                                        <li>
+                                                            <form id="form_{{ $class->id }}" class="m-0 p-0"
+                                                                action="{{ route('company.courses.schedule-class.destroy', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
+                                                                method="POST" class="inline-block">
+                                                                @csrf @method('DELETE') </form>
+                                                            <a role="button" href="javascript:;"
+                                                                class="block px-4 py-2 hover:bg-gray-100 capitalize dark:hover:bg-white dark:hover:text-white"
+                                                                onclick="confirmDelete({{ $class->id }})">Delete</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+
+
 
                                             </td>
                                         </tr>
@@ -250,8 +289,7 @@
 
 
 @push('scripts')
-
-{{-- <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
 <script>
     new TomSelect("#select-tags", {
@@ -273,6 +311,4 @@
         }
     });
 </script> --}}
-
-
 @endpush

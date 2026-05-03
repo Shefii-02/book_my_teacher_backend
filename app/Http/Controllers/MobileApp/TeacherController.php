@@ -29,7 +29,7 @@ class TeacherController extends Controller
   {
     $company_id = auth()->user()->company_id;
     // $teachers = Teacher::with('courses')->orderBy('id', 'desc')->paginate(15);
-    $tab = $request->get('tab', 'inactive');
+    $tab = $request->get('tab', 'active');
 
 
     $query = Teacher::with(['user', 'teachingGrades', 'teachingBoards', 'subjectRates'])

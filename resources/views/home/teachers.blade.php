@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('home.layouts')
 @section('content')
     <!-- SEARCH HERO -->
     <div class="search-hero">

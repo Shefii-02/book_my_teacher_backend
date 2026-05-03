@@ -49,16 +49,17 @@
                     @endphp
 
                     <div class="flex mb-4 mt-2">
-                        <a href="{{ route('company.app.teachers.index', array_merge(request()->query(), ['tab' => 'inactive'])) }}"
-                            class="px-4 py-2  text-sm font-semibold
-                                    {{ $activeTab === 'inactive' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
-                            In Active
-                        </a>
 
                         <a href="{{ route('company.app.teachers.index', array_merge(request()->query(), ['tab' => 'active'])) }}"
                             class="px-4 py-2  text-sm font-semibold
                                     {{ $activeTab === 'active' ? 'bg-emerald-500/50 text-white' : 'bg-gray-200' }}">
                             Active
+                        </a>
+
+                        <a href="{{ route('company.app.teachers.index', array_merge(request()->query(), ['tab' => 'inactive'])) }}"
+                            class="px-4 py-2  text-sm font-semibold
+                                    {{ $activeTab === 'inactive' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}">
+                            In Active
                         </a>
 
                         <a href="{{ route('company.app.teachers.index', array_merge(request()->query(), ['tab' => 'suspended'])) }}"

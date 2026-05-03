@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('home.layouts')
 @section('content')
     <!-- HERO + CALCULATOR -->
     <div class="fee-hero">

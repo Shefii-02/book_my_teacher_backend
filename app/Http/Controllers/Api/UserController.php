@@ -1120,9 +1120,7 @@ class UserController extends Controller
       $rating = 0;
 
 
-
     foreach ($courseTeachers ?? [] as $teacher) {
-
 
       $review = SubjectReview::where('user_id', $user->id)->where('course_id', $course_id)->where('teacher_id', $teacher->teacher_id)->first();
 

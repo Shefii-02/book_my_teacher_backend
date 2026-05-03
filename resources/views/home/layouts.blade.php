@@ -72,7 +72,8 @@
                 <div class="footer-col">
                     <h4>Get Tuitions</h4>
                     <div class="footer-links">
-                        <a href="{{ route('home.teachers') }}"><i class="fas fa-chevron-right" style="font-size:.68rem"></i>
+                        <a href="{{ route('home.teachers') }}"><i class="fas fa-chevron-right"
+                                style="font-size:.68rem"></i>
                             Find
                             Teachers</a>
                         <a href="{{ route('home.index') }}"><i class="fas fa-chevron-right"
@@ -384,6 +385,19 @@
             var subject = document.getElementById('eq_subject').value || '(not selected)';
             var mode = document.getElementById('eq_mode').value || '(not selected)';
             var city = document.getElementById('eq_city').value || '(not provided)';
+
+            // ✅ REQUIRED VALIDATION
+            if (name === "" || phone === "" || city === "") {
+                alert("Please fill Name, Phone, and City before sending.");
+                return; // STOP execution
+            }
+
+            // ✅ OPTIONAL: Phone validation (basic)
+            if (!/^[0-9]{10}$/.test(phone)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return;
+            }
+
             var msg = "Hello BookMyTeacher Team \uD83D\uDC4B\n" +
                 "I'm looking for a teacher.\n" +
                 "Name: " + name + "\n" +

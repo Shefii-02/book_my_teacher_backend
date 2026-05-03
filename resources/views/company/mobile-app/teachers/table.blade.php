@@ -67,10 +67,10 @@
                     <div class="text-base font-semibold text-gray-900">
                         {{ $t->name }} <p class="text-xxs">
                             {{ $t->user->email }}<br>{{ $t->user->mobile }}</p>
+                        <p class="text-xxs">Last activated :<br> {{ timeAgo($t->user->last_activation) }}</p>
                     </div>
-
-
                 </div>
+
 
                 <p class="text-xs text-gray-500 mt-1">{{ $t->email }}</p>
 
@@ -93,19 +93,19 @@
                     <div>
                         <p class="text-gray-400">Courses</p>
                         <p class="font-medium text-gray-700">
-                            {{ $t->courses->count() }} Total
-                            • {{ $t->courses->where('ended_at', '>=', date('Y-m-d'))->count() }}
+                            {{ $t->total_courses->count() }} Total
+                            • {{ $t->ongoing_courses->count() }}
                             Ongoing
                         </p>
                     </div>
 
                     <div>
-                        <p class="text-gray-400">Earnings</p>
-                        <p class="font-semibold text-gray-900">
+                        {{-- <p class="text-gray-400">Earnings</p> --}}
+                        {{-- <p class="font-semibold text-gray-900">
                             Total: ₹{{ number_format($t->earnings_total, 0) }} &nbsp; &nbsp; &nbsp;
-                            Payout: ₹{{ number_format($t->earnings_payout, 0) }} &nbsp; &nbsp; &nbsp;
+                            Payout: ₹{{ number_format($t->earnings_payout, 0) }} &nbsp; &nbsp; &nbsp;<br>
                             Balance: ₹{{ number_format($t->earnings_balance, 0) }}
-                        </p>
+                        </p> --}}
                     </div>
 
                 </div>

@@ -45,7 +45,7 @@
                 </div>
                 <div class="flex justify-between items-center">
                     @php
-                        $activeTab = request('tab', 'inactive');
+                        $activeTab = request('tab', 'active');
                     @endphp
 
                     <div class="flex mb-4 mt-2">

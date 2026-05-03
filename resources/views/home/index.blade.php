@@ -212,7 +212,7 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <p class="text-muted fst-italic small capitalize text-capitalize">
+                                    <p class="text-muted fst-italic small capitalize text-capitalize text-limit">
                                         "{{ $appReview->feedback }}"
                                     </p>
                                 </div>

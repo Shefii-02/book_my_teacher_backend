@@ -307,6 +307,8 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
       ->name('courses.search-conversation-user');
 
 
+
+
     Route::post('admission/suspend/{id}', 'LMS\CourseController@suspendAdmission')->name('courses.admissions.suspend');
     Route::delete('admission/{id}', 'LMS\CourseController@removeAdmission')->name('courses.enrollments.destroy');
 

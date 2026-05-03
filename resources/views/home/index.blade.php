@@ -538,7 +538,7 @@
                 @foreach ($top_teachers ?? [] as $teacher)
                     <div class="tutor-card" onclick="location.href='teacher-profile?id=1'">
                         <div class="tutor-cover" style="background:linear-gradient(135deg,#0f7a3c,#1db954)">
-                            <img src="{{ $teacher->thumbnail_url }}" class=" mx-auto">
+                            <img src="{{ $teacher->thumbnail_url }}" class=" mx-auto" style="height: 216px">
                         </div>
                         <div class="tutor-body">
                             <div class="tutor-name">{{ $teacher->name }}</div>

@@ -78,7 +78,7 @@ class TeacherController extends Controller
     }
 
 
-    $teachers = $query->paginate(50)
+    $teachers = $query->paginate(10)
       ->withQueryString();
 
     if ($request->ajax()) {

@@ -310,6 +310,12 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     Route::post('admission/suspend/{id}', 'LMS\CourseController@suspendAdmission')->name('courses.admissions.suspend');
     Route::delete('admission/{id}', 'LMS\CourseController@removeAdmission')->name('courses.enrollments.destroy');
 
+    Route::get('schedule-class/attendance/{id}', 'LMS\CourseClassController@attendanceTake')->name('courses.schedule-class.attendance.edit');
+    Route::post('schedule-class/attendance/{id}', 'LMS\CourseClassController@attendanceUpdate')->name('courses.schedule-class.attendance.update');
+    Route::get('schedule-class/duration/{id}', 'LMS\CourseClassController@durationEdit')->name('courses.schedule-class.duration.edit');
+    Route::post('schedule-class/duration/{id}', 'LMS\CourseClassController@durationUpdate')->name('courses.schedule-class.duration.update');
+
+
 
     Route::resource('schedule-class', 'LMS\CourseClassController')
       ->names('courses.schedule-class');

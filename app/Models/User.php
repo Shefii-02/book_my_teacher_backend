@@ -221,6 +221,7 @@ class User extends Authenticatable
     return $this->wallet_balance ?? 0;
   }
 
+
   public function getCoursesLaunchedCountAttribute()
   {
     return $this->courses_count ?? 0;
@@ -320,8 +321,24 @@ class User extends Authenticatable
 
   public function walletHistories()
   {
-    return $this->hasMany(\App\Models\WalletHistory::class);
+    return $this->hasMany(WalletHistory::class);
   }
+
+  public function getWalletGreenCoinTotalEarningAttribute()
+  {
+    return $this->hasMany(WalletHistory::class)->where('type','credit')->where('wallet_type', 'green')->sum('amount') ?? 0;
+  }
+
+  public function getWalletRupeesTotalEarningAttribute()
+  {
+    return $this->hasMany(WalletHistory::class)->where('type','credit')->where('wallet_type', 'rupee')->sum('amount') ?? 0;
+  }
+
+  public function getWalletRupeesWithdrawnAttribute()
+  {
+    return $this->hasMany(WalletHistory::class)->where('type','debit')->where('wallet_type', 'rupee')->sum('amount') ?? 0;
+  }
+
 
   public function registrations()
   {
@@ -342,6 +359,16 @@ class User extends Authenticatable
   public function courseEnrolled()
   {
     return $this->hasMany(CourseEnrollment::class, 'user_id', 'id');
+  }
+
+  public function webinarEnrolled()
+  {
+    return $this->hasMany(WebinarRegistration::class, 'user_id', 'id');
+  }
+
+  public function workshopEnrolled()
+  {
+    return $this->hasMany(WorkshopRegistration::class, 'user_id', 'id');
   }
 
   public function attendance()
@@ -382,5 +409,11 @@ class User extends Authenticatable
   public function reviews()
   {
     return $this->hasMany(AppReview::class, 'user_id', 'id');
+  }
+
+
+  public function purchases()
+  {
+    return $this->hasMany(Purchase::class, 'student_id', 'id');
   }
 }

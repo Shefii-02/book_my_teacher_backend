@@ -4,18 +4,24 @@ namespace App\Http\Controllers\LMS;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Board;
 use App\Models\Course;
 use App\Models\CourseEnrollment;
 use App\Models\Grade;
 use App\Models\MediaFile;
+use App\Models\Purchase;
 use App\Models\StudentAvailableDay;
 use App\Models\StudentAvailableHour;
 use App\Models\StudentGrade;
 use App\Models\StudentPersonalInfo;
 use App\Models\StudentRecommendedSubject;
 use App\Models\Subject;
+use App\Models\SubjectReview;
 use App\Models\User;
+use App\Models\UserPlatform;
+use App\Models\Wallet;
+use App\Models\WalletHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -707,22 +713,12 @@ class StudentController extends Controller
 
     // ================= OVERVIEW =================
     $overview = (object) [
-      'courses' => $student->courseEnrolled?->count() ?? 0,
-      'completed' => $student->courseEnrolled?->where('status', 'completed')->count() ?? 0,
-      'pending' => $student->courseEnrolled?->where('status', 'pending')->count() ?? 0,
-      'certificates' => $student->certificates?->count() ?? 0,
+      'courses'   => $student->courseEnrolled?->count() ?? 0,
+      'webinars'  => $student->webinarEnrolled?->count() ?? 0,
+      'workshops' => $student->workshopEnrolled?->count() ?? 0,
 
-      'watch_time' => 0,
-      'daily_avg' => 0,
-      'last_active' => timeAgo($student->last_activation),
-
-      'total_spent' => 0,
-      'last_payment' => formatDateTime($student->payments?->last()?->created_at),
-      'payment_mode' => $student->payments?->last()?->mode ?? '--',
-
-      'score' => $student->myScore?->avg('score') ?? 0,
-      'assignments' => $student->assignments?->count() ?? 0,
-      'tests' => $student->tests?->count() ?? 0,
+      'total_spent' => $student->purchases?->sum('grand_total') ?? 0,
+      'last_payment' => formatDateTime($student->purchases?->last()?->created_at),
 
       'attendance' => $student->attendance?->count() ?? 0,
       'attended' => $student->attendance?->where('status', 'attended')->count() ?? 0,
@@ -730,8 +726,6 @@ class StudentController extends Controller
 
       'referrals' => $student->referrals?->count() ?? 0,
       'referral_bonus' => $student->referrals?->sum('bonus') ?? 0,
-
-      'avg_rating' =>    0,
     ];
 
     // ================= COURSES =================
@@ -779,152 +773,78 @@ class StudentController extends Controller
       'bonus' => 0,
     ];
 
-    $transactions = [
-      // (object) [
-      //   'date' => '10 Apr',
-      //   'type' => 'credit',
-      //   'category' => 'class',
-      //   'sub_type' => 'live_class',
-      //   'description' => 'Math Live Class Earnings',
-      //   'amount' => 3000,
-      //   'status' => 'completed',
-      // ],
-      // (object) [
-      //   'date' => '09 Apr',
-      //   'type' => 'credit',
-      //   'category' => 'referral',
-      //   'sub_type' => 'student_referral',
-      //   'description' => 'Referral Bonus',
-      //   'amount' => 500,
-      //   'status' => 'completed',
-      // ],
-      // (object) [
-      //   'date' => '08 Apr',
-      //   'type' => 'credit',
-      //   'category' => 'bonus',
-      //   'sub_type' => 'performance',
-      //   'description' => 'Top Performer Bonus',
-      //   'amount' => 2000,
-      //   'status' => 'completed',
-      // ],
-      // (object) [
-      //   'date' => '07 Apr',
-      //   'type' => 'debit',
-      //   'category' => 'withdrawal',
-      //   'sub_type' => 'bank_transfer',
-      //   'description' => 'Withdrawal Request',
-      //   'amount' => 4000,
-      //   'status' => 'pending',
-      // ],
-    ];
 
     $paymentsSummary = (object) [
-      'total_paid' => 0,
-      'pending' => 0,
-      'failed' => 0,
-      'last_payout_date' => '',
+      'total_paid' => $student->purchases?->where('status', 'paid')->sum('grand_total'),
+      'pending' => $student->purchases?->where('status', 'pending')->sum('grand_total'),
+      'failed' => $student->purchases?->where('status', 'failed')->sum('grand_total'),
+      'last_payout_date' => formatDateTime($student->purchases?->last()?->created_at),
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | PAYMENT TRANSACTIONS
+    |--------------------------------------------------------------------------
+    */
+    $transactions = Purchase::where('student_id', $student->id)->get();
 
-    $payouts = [
-      // (object) [
-      //   'date' => '10 Apr',
-      //   'amount' => 5000,
-      //   'method' => 'Bank Transfer',
-      //   'status' => 'pending',
-      //   'reference' => 'PO12345',
-      // ],
-      // (object) [
-      //   'date' => '05 Apr',
-      //   'amount' => 8000,
-      //   'method' => 'UPI',
-      //   'status' => 'completed',
-      //   'reference' => 'PO12344',
-      // ],
-    ];
+    /*
+    |--------------------------------------------------------------------------
+    | INSTALLMENTS + PROGRESS
+    |--------------------------------------------------------------------------
+    */
+    $installmentPurchases = Purchase::where('student_id', $student->id)
+        ->where('is_installment', 1)
+        ->get();
 
-    $payments = [
-      // (object) [
-      //   'date' => '05 Apr',
-      //   'amount' => 8000,
-      //   'type' => 'Payout',
-      //   'status' => 'Success',
-      //   'txn_id' => 'TXN999',
-      // ],
-    ];
+    $installmentProgress = $installmentPurchases->map(function ($purchase) {
 
-    $activities = [
-      // (object) [
-      //   'title' => 'Logged in from mobile',
-      //   'description' => 'Android device - Kerala',
-      //   'type' => 'login',
-      //   'time' => 'Today, 10:30 AM',
-      // ],
-      // (object) [
-      //   'title' => 'Completed Algebra Class',
-      //   'description' => 'Duration: 60 mins',
-      //   'type' => 'class',
-      //   'time' => 'Yesterday',
-      // ],
-      // (object) [
-      //   'title' => 'Received Payment',
-      //   'description' => '₹5000 credited',
-      //   'type' => 'payment',
-      //   'time' => '08 Apr 2026',
-      // ],
-      // (object) [
-      //   'title' => 'Referred a student',
-      //   'description' => 'Bonus ₹500 earned',
-      //   'type' => 'referral',
-      //   'time' => '07 Apr 2026',
-      // ],
-    ];
+        $installments = PurchaseInstallment::where('purchase_id', $purchase->id)->get();
 
-    $lastLogin = $student->last_login_at ? $student->last_login_at->format('d M Y, h:i A') : 'N/A';
+        $total = $installments->sum('amount');
+        $paid  = $installments->where('is_paid', 1)->sum('paid_amount');
 
-    $logins = [
-      // (object) [
-      //   'date' => '12 Apr 2026, 10:30 AM',
-      //   'ip' => '103.45.22.10',
-      //   'device' => 'Android - Chrome',
-      //   'location' => 'Kerala, India',
-      //   'status' => 'safe',
-      // ],
-      // (object) [
-      //   'date' => '11 Apr 2026, 08:15 PM',
-      //   'ip' => '192.168.1.1',
-      //   'device' => 'Windows - Chrome',
-      //   'location' => 'Kerala, India',
-      //   'status' => 'safe',
-      // ],
-      // (object) [
-      //   'date' => '10 Apr 2026, 02:00 AM',
-      //   'ip' => '85.23.11.9',
-      //   'device' => 'Unknown Device',
-      //   'location' => 'Unknown',
-      //   'status' => 'suspicious',
-      // ],
-    ];
+        if ($paid == 0) {
+            $paid = $installments->where('is_paid', 1)->sum('amount');
+        }
+
+        $progress = $total > 0 ? round(($paid / $total) * 100) : 0;
+
+        $nextDue = $installments->where('is_paid', 0)->sortBy('due_date')->first();
+
+        return (object)[
+            'course' => optional($purchase->course)->title ?? 'Course',
+            'total' => $total,
+            'paid' => $paid,
+            'remaining' => $total - $paid,
+            'progress' => $progress,
+            'paid_count' => $installments->where('is_paid', 1)->count(),
+            'count' => $installments->count(),
+            'next_due' => $nextDue?->due_date
+                ? Carbon::parse($nextDue->due_date)->format('d M Y')
+                : null,
+        ];
+    });
 
 
 
-    $reviews = [
-      // (object) [
-      //   'student' => 'Rahul',
-      //   'rating' => 5,
-      //   'comment' => 'Excellent teaching style!',
-      //   'course' => 'Algebra',
-      //   'date' => '10 Apr 2026',
-      // ],
-      // (object) [
-      //   'student' => 'Aisha',
-      //   'rating' => 4,
-      //   'comment' => 'Very helpful sessions',
-      //   'course' => 'Physics',
-      //   'date' => '08 Apr 2026',
-      // ],
-    ];
 
-    return view('company.students.detailed-information', compact('student', 'overview', 'courses', 'performance', 'wallet', 'transactions', 'paymentsSummary', 'payouts', 'payments', 'activities', 'lastLogin', 'logins', 'reviews'));
+       /*
+    |--------------------------------------------------------------------------
+    | WALLET
+    |--------------------------------------------------------------------------
+    */
+    $walletHistories = WalletHistory::where('user_id', $student->id)->get();
+
+    $activities = ActivityLog::where('user_id',$student->id)->get();
+
+
+    $logins =  UserPlatform::where('user_id', $student->id)->get();
+
+
+
+    $reviews = SubjectReview::where('user_id',$student->id)->get();
+
+    return view('company.students.detailed-information', compact('student', 'overview', 'courses', 'performance', 'transactions', 'paymentsSummary', 'activities', 'logins', 'reviews','walletHistories'));
   }
 }

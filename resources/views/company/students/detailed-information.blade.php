@@ -17,12 +17,23 @@
         }
 
         .metric-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             background: #fff;
             padding: 15px;
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
+           .metric-card  p{
+ font-size: 15px !important;
+ margin-bottom:0 !important;
+           }
+           .metric-card  h3{
+              font-size: 18px !important;
+              font-weight: 800;
+           }
 
         .tab-content {
             margin-top: 20px;

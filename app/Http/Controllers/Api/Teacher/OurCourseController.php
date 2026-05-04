@@ -122,7 +122,6 @@ class OurCourseController extends Controller
       ];
     });
 
-    Log::info($students);
 
     return response()->json([
       'success' => true,

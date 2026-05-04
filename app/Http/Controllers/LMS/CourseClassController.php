@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\LMS;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attendance;
+use App\Models\ClassDuration;
 use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\TeacherClass;
 use App\Models\User;
 use App\Notifications\NotificationActions;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,9 +19,9 @@ use Illuminate\Support\Facades\Log;
 class CourseClassController extends Controller
 {
 
-    public function __construct(
-        protected NotificationActions $notificationActions
-    ) {}
+  public function __construct(
+    protected NotificationActions $notificationActions
+  ) {}
 
 
   public function index($identity)
@@ -154,5 +157,191 @@ class CourseClassController extends Controller
     $class = CourseClass::where('course_id', $course->id)->where('id', $course_class)->first() ?? abort(404);
     $class->delete();
     return redirect()->route('company.courses.schedule-class.index', $identity)->with('success', 'Course class deleted successfully.');
+  }
+
+
+
+  public function attendanceTake($identity, $classId)
+  {
+
+    // Load class with attendance and student user
+    $class = CourseClass::with([
+      'attendance.user'
+    ])->findOrFail($classId);
+
+    /*
+      If attendance already exists, use existing records
+    */
+    if ($class->attendance->count() > 0) {
+
+      $students = $class->attendance->map(function ($item) {
+
+        return [
+          'id'         => $item->id,
+          "student_id" => $item->student_id,
+          "name" => $item->user->name ?? '',
+          "roll_number" => $item->user->roll_number ?? '',
+          "initials" => $this->getInitials($item->user->name ?? ''),
+          "avatar_color" => "#4A47B0",
+          "status" => $item->status ?? "none",
+        ];
+      });
+
+
+      return view('company.courses.classes.attendance', compact('students', 'class'));
+    }
+
+    /*
+      No attendance found:
+      Get enrolled students from course and create attendance rows
+    */
+
+    // Example assumes class belongs to a course
+    // and course has enrolled students relation
+
+    $course = $class->course; // class belongsTo course
+
+    $members = $course->students;
+    /*
+      Example relation:
+      Course -> belongsToMany(User::class,'course_students','course_id','student_id')
+    */
+
+    foreach ($members ?? [] as $student) {
+
+
+      Attendance::firstOrCreate([
+        'course_id' => $class->course_id,
+        'class_id' => $class->id,
+        'student_id' => $student->id
+      ], [
+        'status' => 'none'
+      ]);
+    }
+
+    /*
+      Reload attendance after insert
+    */
+
+    $class->load('attendance.user');
+
+    $students = $class->attendance->map(function ($item) {
+
+      return [
+        "id"        => $item->id,
+        "student_id" => $item->student_id,
+        "name" => $item->user->name ?? '',
+        "roll_number" => $item->user->roll_number ?? '',
+        "initials" => $this->getInitials($item->user->name ?? ''),
+        "avatar_color" => "#4A47B0",
+        "status" => $item->status ?? "none",
+      ];
+    });
+
+
+    return view('company.courses.classes.attendance', compact('students', 'class'));
+  }
+
+  /*
+Helper
+*/
+  private function getInitials($name)
+  {
+    return collect(explode(' ', $name))
+      ->map(fn($part) => strtoupper(substr($part, 0, 1)))
+      ->take(2)
+      ->implode('');
+  }
+
+  public function attendanceUpdate(Request $request, $identity, $classId)
+  {
+
+    $class = CourseClass::findOrFail($classId);
+
+    foreach ($request->records ?? [] as $student) {
+
+      Attendance::updateOrCreate(
+        [
+          'class_id'   => $class->id,
+          'student_id' => $student['user_id'],
+        ],
+        [
+          'status' => $student['status'],
+          'attendance_date' => now(), // optional column
+          'marked_by' =>  auth()->user()->id, // optional
+        ]
+      );
+    }
+
+    // $class->load('attendance.user');
+
+    return redirect()->back()->with('success', 'Attendance saved successfully');
+  }
+
+
+  public function durationEdit($identity, $classId)
+  {
+    $class = CourseClass::findOrFail($classId);
+    return view('company.courses.classes.duration',compact('class'));
+  }
+
+  public function durationUpdate(Request $request,$identity,  $classId)
+  {
+
+    $class = CourseClass::findOrFail($classId);
+
+    $startedAt = Carbon::parse($request->actual_start);
+    $endedAt   = Carbon::parse($request->actual_end);
+
+    // actual conducted minutes
+    $actualMinutes = $startedAt->diffInMinutes($endedAt);
+
+    /*
+      Planned class duration
+      based on scheduled start_time and end_time
+    */
+    $plannedMinutes = 0;
+
+    if ($class->start_time && $class->end_time) {
+      $plannedMinutes =
+        Carbon::parse($class->start_time)
+        ->diffInMinutes(
+          Carbon::parse($class->end_time)
+        );
+    }
+
+    /*
+      Extra minutes beyond planned duration
+    */
+    $extraMinutes = max(
+      $actualMinutes - $plannedMinutes,
+      0
+    );
+
+    $duration = ClassDuration::updateOrCreate(
+      [
+        'class_id' => $class->id
+      ],
+      [
+        'course_id' => $class->course_id,
+        'started_at' => $startedAt,
+        'ended_at' => $endedAt,
+
+        'duration' => $plannedMinutes,
+
+        'actual_duration' => $actualMinutes,
+
+        'extra_minutes' => $extraMinutes,
+
+        'note' => $request->note,
+
+        'verified_by' => auth()->user()->id,
+        'verified_at' => now(),
+
+        'status' => 'completed'
+      ]
+    );
+
+    return back()->with('success', 'Attendance saved successfully');
   }
 }

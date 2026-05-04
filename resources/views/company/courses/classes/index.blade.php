@@ -244,14 +244,14 @@
                                                             <a href="#"
                                                                 data-url="{{ route('company.courses.schedule-class.attendance.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
                                                                 class="block open-drawer px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">
-                                                                Attendance </a>
+                                                               {{ $class->attendance?->count() ? 'Edit' : 'Take' }} Attendance </a>
                                                         </li>
 
                                                         <li>
                                                             <a href="#"
                                                                 data-url="{{ route('company.courses.schedule-class.duration.edit', ['identity' => $course->course_identity, 'schedule_class' => $class->id]) }}"
                                                                 class="block open-drawer px-4 py-2 capitalize hover:bg-gray-100 dark:hover:bg-white dark:hover:text-white">
-                                                                Duration </a>
+                                                               {{ $class->classDuration?->count() ? 'Edit' : 'Mark' }}  Duration </a>
                                                         </li>
                                                         @endif
 

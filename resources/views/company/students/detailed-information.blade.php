@@ -203,14 +203,14 @@
                     <div class="col-lg-3">
                         <div class="metric-card success">
                             <p>Total Referrals</p>
-                            <h3>{{ $overview->referrals ?? 0 }} hrs</h3>
+                            <h3>{{ $overview->referrals ?? 0 }} </h3>
                         </div>
                     </div>
 
                     <div class="col-lg-3">
                         <div class="metric-card success">
                             <p>Total Referral Bonus</p>
-                            <h3>{{ $overview->referral_bonus ?? 0 }} hrs</h3>
+                            <h3>{{ $overview->referral_bonus ?? 0 }} </h3>
                         </div>
                     </div>
 
@@ -225,7 +225,7 @@
                     <div class="col-lg-3">
                         <div class="metric-card success">
                             <p>Total Attendance</p>
-                            <h3>{{ $overview->attended ?? 0 }} hrs</h3>
+                            <h3>{{ $overview->attended ?? 0 }} </h3>
                         </div>
                     </div>
 

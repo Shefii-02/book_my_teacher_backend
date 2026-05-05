@@ -289,6 +289,24 @@
         </div>
     </div>
 
+     <div class="card border mb-3" style="border-radius:12px;">
+        <div class="card-body py-3 px-3">
+            <label class="dur-label">
+                Teacher
+            </label>
+            <div class="dur-input-wrap">
+              <select class="form-control border" name="teacher_id">
+
+               @foreach ($class->course->teachers ?? [] as $teacher)
+
+                    <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                @endforeach
+              </select>
+            </div>
+        </div>
+    </div>
+
+
     {{-- Submit --}}
     <button type="submit" class="dur-btn">
         {!! $saveIcon !!}

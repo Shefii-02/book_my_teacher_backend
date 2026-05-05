@@ -324,7 +324,9 @@ Helper
       ],
       [
         'course_id' => $class->course_id,
+
         'started_at' => $startedAt,
+
         'ended_at' => $endedAt,
 
         'duration' => $plannedMinutes,
@@ -336,7 +338,10 @@ Helper
         'note' => $request->note,
 
         'verified_by' => auth()->user()->id,
+
         'verified_at' => now(),
+
+        'teacher_id'  => $request->teacher_id ?? null,
 
         'status' => 'completed'
       ]

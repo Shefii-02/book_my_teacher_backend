@@ -21,6 +21,7 @@ protected $casts = [
         'note',
         'verified_by',
         'verified_at',
-        'status'
+        'status',
+        'teacher_id'
     ];
 }

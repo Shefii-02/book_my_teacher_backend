@@ -213,8 +213,14 @@ class User extends Authenticatable
 
   public function getTotalTeachingHoursAttribute()
   {
-    return $this->total_teaching_hours ?? 0;
+    return $this->hasMany(ClassDuration::class,'teacher_id','id')->sum('actual_duration');
   }
+
+  public function getTotalSpendHoursAttribute()
+  {
+    return $this->total_spend_hours ?? 0;
+  }
+
 
   public function getWalletBalanceAttribute()
   {
@@ -222,9 +228,9 @@ class User extends Authenticatable
   }
 
 
-  public function getCoursesLaunchedCountAttribute()
+  public function getCoursesLaunchedAttribute()
   {
-    return $this->courses_count ?? 0;
+    return $this->hasMany(TeacherCourse::class,'teacher_id','id');
   }
 
   public function additionalInfo()

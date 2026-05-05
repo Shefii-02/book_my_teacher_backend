@@ -154,6 +154,10 @@ class Course extends Model
     return $this->hasMany(Purchase::class, 'course_id')->selectRaw('course_id, SUM(grand_total) as total_revenue')->groupBy('course_id')->where('status', 'paid');
   }
 
+  public function getRevenueAttribute(){
+    return $this->hasMany(Purchase::class, 'course_id')->where('status', 'paid')->sum('grand_total');
+  }
+
   public function conversation()
   {
     return $this->hasMany(Conversation::class, 'course_id', 'id');

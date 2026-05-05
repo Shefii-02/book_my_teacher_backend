@@ -1374,6 +1374,7 @@
                 // 🔥 Loop dynamically (cleaner)
                 const sections = {
                     Students: data.students,
+                    selectedTeachers: data.selectedTeachers,
                     Teachers: data.teachers,
                     Staff: data.staff,
                     "Quick Links": data.links

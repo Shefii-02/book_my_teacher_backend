@@ -242,13 +242,10 @@ Route::post('/test/store',function(Request $request){
     Route::post('/notifications/mark-read/{id}', 'NotificationController@markRead');
     Route::post('/notifications/mark-all-read', 'NotificationController@markAllRead');
 
-
-
-    Route::get('/provide-courses', 'StudentController@courseStore');
-
+    Route::get('/provide-courses', 'CourseController@courseStore');
 
     Route::post('/student-home', 'StudentController@home');
-    Route::post('/my-classes', 'StudentController@myClasses');
+    Route::post('/my-classes', 'CourseController@myClasses');
     Route::post('/class-detail', 'StudentController@fetchClassDetail');
 
     Route::post('/webinar-detail', 'StudentController@fetchWebinarDetail');

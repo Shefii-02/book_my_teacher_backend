@@ -19,8 +19,17 @@ class TeachersTeachingGradeDetail extends Model
 
   ];
 
+  // public function teacher()
+  // {
+  //   return $this->belongsTo(Teacher::class,'user_id','user_id');
+  // }
   public function teacher()
-  {
-    return $this->belongsTo(Teacher::class,'user_id','user_id');
-  }
+{
+    return $this->belongsTo(
+        Teacher::class,
+        'user_id',
+        'id'
+    );
+}
+
 }

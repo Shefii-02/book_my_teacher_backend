@@ -62,8 +62,10 @@ class Teacher extends Model
   {
     return $this->belongsToMany(
       Subject::class,
-      'teacher_selected_subjects', // table name
-      'teacher_id',
+      TeachersTeachingGradeDetail::class,
+      'user_id', // table name
+      'id',
+      'user_id',
       'subject_id'
     );
   }

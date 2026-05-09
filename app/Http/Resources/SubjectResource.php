@@ -18,8 +18,13 @@ class SubjectResource extends JsonResource
       // Nested Reviews
       'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
       // Nested Teachers
+      // 'available_teachers' => AvailableTeacherResource::collection(
+      //   $this->whenLoaded('providingTeachers')->map->teacher
+      // ),
       'available_teachers' => AvailableTeacherResource::collection(
-        $this->whenLoaded('providingTeachers')->map->teacher
+        $this->providingTeachers
+          ->pluck('teacher')
+          ->filter()
       ),
     ];
   }

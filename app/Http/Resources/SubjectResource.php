@@ -22,10 +22,12 @@ class SubjectResource extends JsonResource
       //   $this->whenLoaded('providingTeachers')->map->teacher
       // ),
       'available_teachers' => AvailableTeacherResource::collection(
-        $this->providingTeachers
-          ->pluck('teacher')
-          ->filter()
-      ),
+    $this->providingTeachers
+        ->pluck('teacher')
+        ->filter()
+        ->unique('id')
+        ->values()
+),
     ];
   }
 }

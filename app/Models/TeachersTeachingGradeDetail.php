@@ -10,14 +10,17 @@ class TeachersTeachingGradeDetail extends Model
   use HasFactory;
 
   protected $fillable = [
-   'user_id',	'grade_id',	'board_id',	'subject_id',	'online',	'offline'
+    'user_id',
+    'grade_id',
+    'board_id',
+    'subject_id',
+    'online',
+    'offline'
 
   ];
 
-   public function teacher()
-    {
-        return $this->belongsTo(Teacher::class);
-    }
-
-
+  public function teacher()
+  {
+    return $this->belongsTo(Teacher::class);
+  }
 }

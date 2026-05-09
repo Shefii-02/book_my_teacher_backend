@@ -38,17 +38,12 @@ class Subject extends Model
     return $this->belongsToMany(Board::class, 'board_subject');
   }
 
+
+
   public function providingSubjects()
   {
-    // return $this->hasOne(ProvidingSubject::class);
-    return $this->hasOne(TeachersTeachingGradeDetail::class);
+    return $this->hasOne(ProvidingSubject::class);
   }
-
-
-  // public function providingSubjects()
-  // {
-  //   return $this->hasOne(ProvidingSubject::class);
-  // }
 
 
    public function reviews()
@@ -63,6 +58,7 @@ class Subject extends Model
 
   public function providingTeachers()
   {
-    return $this->hasMany(TeacherSubjectRate::class);
+        return $this->hasMany(TeachersTeachingGradeDetail::class,'subject_id','id');
+    // return $this->hasMany(TeacherSubjectRate::class);
   }
 }

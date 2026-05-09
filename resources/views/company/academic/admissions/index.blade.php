@@ -330,7 +330,7 @@
                                             Search
                                         </button>
 
-                                        <a href="{{ route('company.teachers.ranking.index') }}"
+                                        <a href="{{ route('company.admissions.index') }}"
                                             class="px-4 py-2 bg-gray-500 text-white rounded text-sm">
                                             Reset
                                         </a>

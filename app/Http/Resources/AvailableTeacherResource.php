@@ -14,7 +14,7 @@ class AvailableTeacherResource extends JsonResource
       'qualification' => $this->qualifications ?? '',
       // 'subjects' => is_array($this->subjects) ? implode(',',$this->subjects) : '',
       'subjects' =>  $this->whenLoaded('selectedSubjects', function () {
-        return $this->selectedSubjects->pluck('name')->implode(',');
+        return $this->selectedSubjects->distinct('name')->pluck('name')->implode(',');
       }),
       'ranking' => intval($this->ranking ?? '1'),
       'rating' => floatval($this->rating ?? '4.5'),

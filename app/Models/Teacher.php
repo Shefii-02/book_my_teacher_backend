@@ -60,7 +60,7 @@ class Teacher extends Model
 
   public function selectedSubjects()
   {
-    return $this->belongsToMany(
+    return $this->hasManyThrough(
       Subject::class,
       TeachersTeachingGradeDetail::class,
       'user_id', // table name

@@ -58,7 +58,7 @@ class Subject extends Model
 
   public function providingTeachers()
   {
-        return $this->hasMany(TeachersTeachingGradeDetail::class,'id','subject_id');
+        return $this->hasMany(TeachersTeachingGradeDetail::class,'subject_id','id');
     // return $this->hasMany(TeacherSubjectRate::class);
   }
 }

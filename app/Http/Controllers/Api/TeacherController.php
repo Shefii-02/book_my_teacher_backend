@@ -1861,7 +1861,10 @@ class TeacherController extends Controller
       ->get()
       // ->map(fn($c) => tap($c)->is_enrolled = false);
       ->map(function ($item) use ($user) {
-        $item->is_enrolled = $item->registrations->isNotEmpty();
+        // $item->is_enrolled = $item->registrations->isNotEmpty();
+
+        $item->is_registered = $item->registrations->isNotEmpty();
+        $item->is_enrolled = $item->studentEnrolled->isNotEmpty();
         return $item;
       });
 

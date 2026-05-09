@@ -46,15 +46,25 @@ class Teacher extends Model
 
 
   // Direct access to Subjects through TeacherSubjectRate
+  // public function selectedSubjects()
+  // {
+  //   return $this->hasManyThrough(
+  //     Subject::class,
+  //     TeacherSubjectRate::class,
+  //     'teacher_id',   // FK on teacher_subject_rates
+  //     'id',           // FK on subjects table
+  //     'id',           // local key on teachers
+  //     'subject_id'    // local key on teacher_subject_rates
+  //   );
+  // }
+
   public function selectedSubjects()
   {
-    return $this->hasManyThrough(
+    return $this->belongsToMany(
       Subject::class,
-      TeacherSubjectRate::class,
-      'teacher_id',   // FK on teacher_subject_rates
-      'id',           // FK on subjects table
-      'id',           // local key on teachers
-      'subject_id'    // local key on teacher_subject_rates
+      'teacher_selected_subjects', // table name
+      'teacher_id',
+      'subject_id'
     );
   }
 

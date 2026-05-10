@@ -63,7 +63,7 @@
                                 </div>
                             </td>
                             <td class="p-2">{{ $a->payment_source }}</td>
-                            <td class="p-2">{{ $a->course->title }}</td>
+                            <td class="p-2">{{ $a->course?->title ?? '--' }}</td>
                             <td class="p-2 font-semibold">₹{{ $a->grand_total }}</td>
                             <td class="p-2 font-semibold">₹{{ $a->payment_method }}</td>
 

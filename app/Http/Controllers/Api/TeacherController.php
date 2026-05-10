@@ -1855,9 +1855,15 @@ class TeacherController extends Controller
     $user = $request->user();
     $courses = Course::with('institute')
       ->where('company_id', 1)
-      ->with(['registrations' => function ($q) use ($user) {
-        $q->where('user_id', $user->id);
-      }])
+      ->with([
+        'registrations' => function ($q) use ($user) {
+          $q->where('user_id', $user->id);
+        },
+
+        'studentEnrolled' => function ($q) use ($user) {
+          $q->where('user_id', $user->id);
+        }
+      ])
       ->get()
       // ->map(fn($c) => tap($c)->is_enrolled = false);
       ->map(function ($item) use ($user) {

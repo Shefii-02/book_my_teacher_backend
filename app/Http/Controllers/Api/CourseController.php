@@ -47,9 +47,15 @@ class CourseController extends Controller
     $courses = Course::with('institute')
       ->where('company_id', 1)
       ->where('is_public', 1)
-      ->with(['registrations' => function ($q) use ($user) {
-        $q->where('user_id', $user->id);
-      }])
+      ->with([
+        'registrations' => function ($q) use ($user) {
+          $q->where('user_id', $user->id);
+        },
+
+        'studentEnrolled' => function ($q) use ($user) {
+          $q->where('user_id', $user->id);
+        }
+      ])
       ->orderBy('created_at', 'desc')
       ->get()
       // ->map(fn($c) => tap($c)->is_enrolled = false);
@@ -59,10 +65,10 @@ class CourseController extends Controller
         return $item;
       });
 
-      // ->map(function ($item) use ($user) {
-      //   $item->is_enrolled = $item->registrations->isNotEmpty();
-      //   return $item;
-      // });
+    // ->map(function ($item) use ($user) {
+    //   $item->is_enrolled = $item->registrations->isNotEmpty();
+    //   return $item;
+    // });
 
 
 

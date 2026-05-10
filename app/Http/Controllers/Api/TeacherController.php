@@ -1000,7 +1000,7 @@ class TeacherController extends Controller
     // Dummy class data
     $courseDetail = [
       'id' => (int)$id,
-      'title' => $course->title,
+      'title' => $course->title ?? '',
       'thumbnail_url' => $course->main_image_url,
       'main_image' => $course->main_image_url,
       'description' => $course->description ?? '',

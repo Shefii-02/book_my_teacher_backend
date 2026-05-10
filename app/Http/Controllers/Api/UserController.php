@@ -701,7 +701,7 @@ class UserController extends Controller
         ->with(['course.courseClasses'])
         ->get()
         ->flatMap(function ($enrollment) {
-          return $enrollment->course->courseClasses->map(function ($courseClass) {
+          return $enrollment->course?->courseClasses->map(function ($courseClass) {
             return $this->formatEvent($courseClass, 'Course');
           });
         })
@@ -754,7 +754,7 @@ class UserController extends Controller
         ->with(['course.courseClasses'])
         ->get()
         ->flatMap(function ($enrollment) {
-          return $enrollment->course->courseClasses->map(function ($courseClass) {
+          return $enrollment->course?->courseClasses->map(function ($courseClass) {
             return $this->formatEvent($courseClass, 'Course');
           });
         })

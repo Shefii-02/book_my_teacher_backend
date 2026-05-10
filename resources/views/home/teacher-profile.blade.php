@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('home.layouts')
 @section('content')
     <!-- PROFILE HERO -->
     <div class="profile-hero">

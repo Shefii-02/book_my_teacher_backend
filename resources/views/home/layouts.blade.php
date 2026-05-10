@@ -126,7 +126,7 @@
     <script>
         // ── THEME ──────────────────────────────────────────────────────────
         (function() {
-            var t = localStorage.getItem('bmt_theme') || 'light';
+            var t = localStorage.getItem('bmt_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', t);
             var ic = document.getElementById('themeIcon');
             if (ic) ic.className = 'fas ' + (t === 'dark' ? 'fa-sun' : 'fa-moon');

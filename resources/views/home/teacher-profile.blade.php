@@ -59,7 +59,7 @@
             <div class="tab" onclick="showTab('subjects',this)">Subjects</div>
             <div class="tab" onclick="showTab('availability',this)">Availability</div>
             <div class="tab" onclick="showTab('reviews',this)">Reviews</div>
-            <div class="tab" onclick="showTab('booking',this)">Book Class</div>
+            <div class="tab" onclick="showTab('subjects',this)">Book Class</div>
         </div>
     </div>
 

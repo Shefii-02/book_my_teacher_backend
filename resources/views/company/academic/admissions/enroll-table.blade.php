@@ -31,6 +31,10 @@
                 </tr>
             </thead>
             <tbody>
+              @php
+                dd($transactions);
+              @endphp
+              @endphp
                 @foreach ($transactions ?? [] as $key => $transaction)
                 @php
                       $key = ($transactions->currentPage() - 1) * $transactions->perPage() + $loop->iteration;

@@ -28,14 +28,12 @@ class RegisterController extends Controller
   public function teacherSignup(Request $request)
   {
 
-
-
     DB::beginTransaction();
     $company_id = 1;
     $teacher_id = $request->teacher_id;
 
 
-    // )->
+
     $source = $request->header('X-Request-Source', 'Unknown');
 
 
@@ -144,18 +142,49 @@ class RegisterController extends Controller
         //   }
         // }
 
+        // if ($request->filled('teaching_data')) {
+        //   TeachersTeachingGradeDetail::where('user_id', $user->id)->delete();
+        //   foreach (json_decode($request->teaching_data, true) ?? [] as $gradeId => $boards) {
+        //     foreach ($boards as $boardId => $subjects) {
+        //       foreach ($subjects as $subjectId => $modes) {
+        //         TeachersTeachingGradeDetail::create([
+        //           'user_id'    => $user->id,
+        //           'grade_id'   => $gradeId,
+        //           'board_id'   => $boardId,
+        //           'subject_id' => $subjectId,
+        //           'online'     => !empty($modes['online']) && $modes['online'] == true  ? 1 : 1,
+        //           'offline'    => !empty($modes['offline']) && $modes['offline'] == true ? 1 : 0,
+        //         ]);
+        //       }
+        //     }
+        //   }
+        // }
+        Log::info($request->teaching_data);
         if ($request->filled('teaching_data')) {
+
           TeachersTeachingGradeDetail::where('user_id', $user->id)->delete();
+
           foreach (json_decode($request->teaching_data, true) ?? [] as $gradeId => $boards) {
+
             foreach ($boards as $boardId => $subjects) {
+
               foreach ($subjects as $subjectId => $modes) {
+
+                $online  = !empty($modes['online']) ? 1 : 0;
+                $offline = !empty($modes['offline']) ? 1 : 0;
+
+                // Skip if no mode selected
+                if (!$online && !$offline) {
+                  continue;
+                }
+
                 TeachersTeachingGradeDetail::create([
                   'user_id'    => $user->id,
                   'grade_id'   => $gradeId,
                   'board_id'   => $boardId,
                   'subject_id' => $subjectId,
-                  'online'     => !empty($modes['online']) && $modes['online'] == true  ? 1 : 1,
-                  'offline'    => !empty($modes['offline']) && $modes['offline'] == true ? 1 : 0,
+                  'online'     => $online,
+                  'offline'    => $offline,
                 ]);
               }
             }

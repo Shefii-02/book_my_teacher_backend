@@ -164,14 +164,13 @@
 
 
 @push('scripts')
-
     <script>
         $(document).ready(function() {
             initInfiniteTable({
                 container: '#teacherTable',
                 form: '#filterForm',
                 url: "{{ route('company.app.teachers.index') }}",
-                tab : "{{ $activeTab }}",
+                tab: "{{ $activeTab }}",
                 liveSearch: true,
             });
         });
@@ -203,4 +202,146 @@
 
         });
     </script>
+<script>
+
+    $(document).ready(function () {
+
+        // =========================================
+        // Toggle All Button
+        // =========================================
+        $('body').on('click', '#toggleAllBtn', function () {
+
+            let checkboxes = $('.subject-checkbox');
+
+            // Check if all checked
+            let allChecked = true;
+
+            checkboxes.each(function () {
+
+                if (!$(this).prop('checked')) {
+
+                    allChecked = false;
+
+                }
+
+            });
+
+            // Toggle All
+            checkboxes.each(function () {
+
+                $(this).prop('checked', !allChecked).trigger('change');
+
+            });
+
+            // Button UI
+            updateToggleButton();
+
+        });
+
+        // =========================================
+        // Subject Checkbox Change
+        // =========================================
+        $('body').on('change', '.subject-checkbox', function () {
+
+            // Closest Subject Item
+            let parentBox = $(this).closest('.subject-item');
+
+            // Find Toggles
+            let onlineToggle = parentBox.find('.online-toggle');
+
+            let offlineToggle = parentBox.find('.offline-toggle');
+
+            // Checked
+            if ($(this).prop('checked')) {
+
+                onlineToggle.prop('disabled', false);
+
+                offlineToggle.prop('disabled', false);
+
+            } else {
+
+                // Uncheck + Disable
+                onlineToggle
+                    .prop('checked', false)
+                    .prop('disabled', true);
+
+                offlineToggle
+                    .prop('checked', false)
+                    .prop('disabled', true);
+            }
+
+            // Update Main Button
+            updateToggleButton();
+
+        });
+
+        // =========================================
+        // Update Toggle Button
+        // =========================================
+        function updateToggleButton() {
+
+            let allChecked = true;
+
+            $('.subject-checkbox').each(function () {
+
+                if (!$(this).prop('checked')) {
+
+                    allChecked = false;
+
+                }
+
+            });
+
+            if (allChecked) {
+
+                $('#toggleAllBtn')
+                    .text('Uncheck All')
+                    .removeClass('btn-primary')
+                    .addClass('btn-danger');
+
+            } else {
+
+                $('#toggleAllBtn')
+                    .text('Check All')
+                    .removeClass('btn-danger')
+                    .addClass('btn-primary');
+            }
+
+        }
+
+        // =========================================
+        // Initial Page Load
+        // =========================================
+        $('.subject-checkbox').each(function () {
+
+            let parentBox = $(this).closest('.subject-item');
+
+            let onlineToggle = parentBox.find('.online-toggle');
+
+            let offlineToggle = parentBox.find('.offline-toggle');
+
+            if ($(this).prop('checked')) {
+                onlineToggle.prop('disabled', false);
+
+                offlineToggle.prop('disabled', false);
+
+            } else {
+
+                onlineToggle
+                    .prop('checked', false)
+                    .prop('disabled', true);
+
+                offlineToggle
+                    .prop('checked', false)
+                    .prop('disabled', true);
+            }
+
+        });
+
+        // Initial Button State
+        updateToggleButton();
+
+    });
+
+</script>
 @endpush

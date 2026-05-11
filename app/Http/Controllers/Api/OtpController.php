@@ -74,8 +74,14 @@ class OtpController extends Controller
       ]);
     }
 
+    if ($mobile == env('TEST_MOBILE') ||  $mobile == "918075261300") {
+      return $this->success('OTP sent successfully', ['mobile' => $mobile]);
+    }
+
     // send otp
     $response = $this->SmsApiFunction($mobile, $otp, $expTime);
+
+
 
     if ($response && $response->successful()) {
       return $this->success('OTP sent successfully', ['mobile' => $mobile]);
@@ -278,7 +284,7 @@ class OtpController extends Controller
     }
 
     // Mark OTP as verified (skip for test number)
-    if (($mobile == env('TEST_MOBILE') && $request->otp == env('TEST_OTP')) || ( $mobile == "918075261300" && $request->otp == '7878')) {
+    if (($mobile == env('TEST_MOBILE') && $request->otp == env('TEST_OTP')) || ($mobile == "918075261300" && $request->otp == '7878')) {
       $otpRecord->update(['verified' => 0]); // keep unverified for testing
     } else {
       $otpRecord->update(['verified' => 1]);
@@ -297,7 +303,7 @@ class OtpController extends Controller
       $user->last_login = now();
       $user->save();
     } else {
-      $user->update(['mobile_verified' => true,'last_login' => now()]);
+      $user->update(['mobile_verified' => true, 'last_login' => now()]);
     }
 
     // Revoke all existing tokens
@@ -409,7 +415,7 @@ class OtpController extends Controller
     ]);
 
     $mobile = '91' . $request->mobile;
-    $company_id =1;
+    $company_id = 1;
 
     $otpRecord = Otp::where('mobile', $mobile)
       ->where('company_id', $company_id)

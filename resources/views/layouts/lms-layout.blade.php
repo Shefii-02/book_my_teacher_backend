@@ -1107,7 +1107,7 @@
         @endif
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('assets/js/infinite-table.js') }}"></script>
+    <script src="{{ asset('assets/js/infinite-table.js?v=1.0') }}"></script>
 
     <script>
         function confirmDelete(Idd) {

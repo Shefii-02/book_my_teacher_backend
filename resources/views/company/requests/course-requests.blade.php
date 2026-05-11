@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.lms-layout')
 @php
     $statusColors = [
         'PENDING' => 'bg-gray-200 text-gray-800',

@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.lms-layout')
 
 @section('title', 'Feature Unavailable')
 

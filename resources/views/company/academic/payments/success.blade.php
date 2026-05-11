@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.lms-layout')
 
 @section('content')
     <div class="min-h-screen bg-gradient-to-br from-emerald-50 to-emerald-100 py-10">

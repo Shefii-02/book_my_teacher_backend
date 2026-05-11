@@ -81,7 +81,7 @@ window.initInfiniteTable = function (config) {
     loadMoreBtn.addClass('hidden');
 
     $.ajax({
-      url: config.url,
+      url: getUrl(),
       type: config.method || "GET",
       data: form.serialize(),
       success: function (data) {

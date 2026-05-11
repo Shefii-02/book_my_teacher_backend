@@ -14,7 +14,7 @@ class TeacherResource extends JsonResource
       'name' => $this->name,
       'qualification' => $this->qualifications ?? '',
       'subjects'      => $this->whenLoaded('selectedSubjects', function () {
-        return $this->selectedSubjects->pluck('name')->implode(',');
+        return $this->selectedSubjects->pluck('name')->unique()->implode(',');
       }),
       'courses' => [],
       'ranking' => intval($this->ranking ?? '1'),

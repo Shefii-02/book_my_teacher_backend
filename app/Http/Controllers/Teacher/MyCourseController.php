@@ -3,52 +3,124 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
-use App\Helpers\MediaHelper;
-use App\Models\Teacher;
-use App\Models\TopTeacher;
-use App\Models\Company;
 use App\Models\Course;
-use App\Models\MediaFile;
-use App\Models\SubjectCourse;
+use App\Models\Teacher;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class MyCourseController extends Controller
 {
-  public function index()
-  {
-    $user = User::where('id', auth()->user()->id)->first() ?? abort(404);
-    $teacher = Teacher::where('user_id', $user->id)->first();
+    public function index()
+    {
+        $user = auth()->user();
 
-    $my_courses = Course::whereHas('teacherCourses', function ($q) use ($teacher) {
-      $q->where('teacher_id', $teacher->id);
-    })->get();
+        $teacher = Teacher::where(
+            'user_id',
+            $user->id
+        )->first();
 
+        /*
+        |--------------------------------------------------------------------------
+        | MY COURSES
+        |--------------------------------------------------------------------------
+        */
 
-    $data['courses']['total'] = $my_courses->count();
+        $my_courses = Course::whereHas(
+            'teacherCourses',
+            function ($q) use ($user) {
 
-    $data['on_going']['total'] = 0;
+                $q->where('teacher_id', $user->id);
 
-    $data['completed']['total'] = 0;
+            }
+        )
+        ->latest()
+        ->get();
 
-    $data['draft']['total'] = 0;
+        /*
+        |--------------------------------------------------------------------------
+        | COUNTS
+        |--------------------------------------------------------------------------
+        */
 
-    return view('teacher.my_courses.index', compact('my_courses'));
-  }
+        // Total
+        $data['courses']['total'] =
+            $my_courses->count();
 
-  public function show($course_id)
-  {
-    $user = User::where('id', auth()->user()->id)->first() ?? abort(404);
-    $teacher = Teacher::where('user_id', $user->id)->first();
-    $course = Course::whereHas('teacherCourses', function ($q) use ($teacher) {
-      $q->where('teacher_id', $teacher->id);
-    })->where('course_identity',$course_id)->first() ?? abort(404);
-    return view('teacher.my_courses.show', compact('course'));
+        // Ongoing
+        $data['on_going']['total'] =
+            $my_courses
+                ->where('started_at', '<=', now())
+                ->filter(function ($course) {
 
-  }
+                    return is_null($course->ended_at)
+                        || $course->ended_at >= now();
+                })
+                ->count();
+
+        // Completed
+        $data['completed']['total'] =
+            $my_courses
+                ->whereNotNull('ended_at')
+                ->where('ended_at', '<', now())
+                ->count();
+
+        // Draft
+        $data['draft']['total'] =
+            $my_courses
+                ->where('status', 'draft')
+                ->count();
+
+        /*
+        |--------------------------------------------------------------------------
+        | RECENT COURSES
+        |--------------------------------------------------------------------------
+        */
+
+        $recent_courses =
+            $my_courses->take(5);
+
+        /*
+        |--------------------------------------------------------------------------
+        | RETURN
+        |--------------------------------------------------------------------------
+        */
+
+        return view(
+            'teacher.my_courses.index',
+            compact(
+                'my_courses',
+                'data',
+                'recent_courses'
+            )
+        );
+    }
+
+    public function show($course_id)
+    {
+        $user = auth()->user();
+
+        $teacher = Teacher::where(
+            'user_id',
+            $user->id
+        )->first();
+
+        $course = Course::whereHas(
+            'teacherCourses',
+            function ($q) use ($user) {
+
+                $q->where('teacher_id', $user->id);
+
+            }
+        )
+        ->where(
+            'course_identity',
+            $course_id
+        )
+        ->first() ?? abort(404);
+
+        return view(
+            'teacher.my_courses.show',
+            compact('course')
+        );
+    }
 }

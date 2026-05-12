@@ -12,7 +12,7 @@
 
 
 
-    <form method="POST" action="{{ route('company.app.teachers.grades.update', $teacher->id) }}">
+    <form method="POST" action="{{ route('teacher.settings.teachers.grades.update', $teacher->id) }}">
         @csrf
 
         @foreach ($grades as $grade)

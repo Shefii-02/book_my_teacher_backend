@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\DemoClass;
 use App\Models\TeacherClass;
 use App\Models\Webinar;
-use App\Models\Workshop;
 use App\Models\WorkshopClass;
 use Carbon\Carbon;
 
@@ -16,159 +15,392 @@ class MyScheduleController extends Controller
   {
     $user = auth()->user();
 
-    $month = now()->format('Y-m');
-    // $start = Carbon::parse($month)->subMonths(2)->startOfMonth();
     $start = Carbon::today();
+    $end   = Carbon::today()->addMonths(2)->endOfMonth();
 
-    $end   = Carbon::parse($month)->addMonths(2)->endOfMonth();
+    /*
+        |--------------------------------------------------------------------------
+        | WEBINARS
+        |--------------------------------------------------------------------------
+        */
 
-    /* ------------------------------
-         | Webinars
-         |------------------------------*/
-    $webinars = Webinar::
-      where('host_id', $user->id)->
-      // whereBetween('started_at', [$start, $end])
-      // ->
-      get()
-      ->map(fn($w) => $this->directFormatEvent($w, 'Webinar'));
-
-
-    /* ------------------------------
-         | Workshops
-         |------------------------------*/
-    $workshops = WorkshopClass::
-      whereHas('workshop', function ($q) use ($user) {
-        $q->where('host_id', $user->id);
-      })->
-      // whereBetween('scheduled_at', [$start, $end])->
-      get()
-      ->map(fn($w) => $this->formatEvent($w, 'Workshop'));
-
-    /* ------------------------------
-         | Course / Individual Classes
-         |------------------------------*/
-    $courses = TeacherClass::where('teacher_id', $user->id)
-      ->whereHas('course_classes', function ($q) use ($start, $end) {
-        $q->whereBetween('scheduled_at', [$start, $end]);
-      })
-      ->with(['course_classes' => function ($q) use ($start, $end) {
-        $q->whereBetween('scheduled_at', [$start, $end]);
-      }])
+    $webinars = Webinar::where('host_id', $user->id)
+      ->whereBetween('started_at', [$start, $end])
       ->get()
-      ->flatMap(function ($teacherClass) {
-        return $teacherClass->course_classes->map(function ($class) {
-          return $this->formatEvent($class, 'Course Class');
-        });
+      ->map(fn($item) => $this->directFormatEvent($item, 'Webinar'));
+
+    /*
+        |--------------------------------------------------------------------------
+        | WORKSHOPS
+        |--------------------------------------------------------------------------
+        */
+
+    $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
+
+      $q->where('host_id', $user->id);
+    })
+      ->whereBetween('scheduled_at', [$start, $end])
+      ->get()
+      ->map(fn($item) => $this->formatEvent($item, 'Workshop'));
+
+    /*
+        |--------------------------------------------------------------------------
+        | COURSE CLASSES
+        |--------------------------------------------------------------------------
+        */
+
+    $courses = TeacherClass::where('teacher_id', $user->id)
+      ->with([
+        'course_classes'
+      ])
+      ->get()
+      ->flatMap(function ($teacherClass) use ($start, $end) {
+
+        return $teacherClass->course_classes
+          ->whereBetween('scheduled_at', [$start, $end])
+          ->map(function ($class) {
+
+            return $this->formatEvent($class, 'Course');
+          });
       });
 
+    /*
+        |--------------------------------------------------------------------------
+        | DEMO CLASSES
+        |--------------------------------------------------------------------------
+        */
 
-    /* ------------------------------
-         | Demo Classes
-         |------------------------------*/
-    $demoClasses = DemoClass::
-      // where('host_id', $user->id)->
-      whereBetween('started_at', [$start, $end])
+    $demoClasses = DemoClass::where('host_id', $user->id)
+      ->whereBetween('started_at', [$start, $end])
       ->get()
-      ->map(fn($d) => $this->directFormatEvent($d, 'Demo Class'));
+      ->map(fn($item) => $this->directFormatEvent($item, 'Demo'));
 
-    /* ------------------------------
-         | Merge & Group by Date
-         |------------------------------*/
+    /*
+        |--------------------------------------------------------------------------
+        | MERGE EVENTS
+        |--------------------------------------------------------------------------
+        */
+
     $events = collect()
       ->merge($webinars)
       ->merge($workshops)
       ->merge($courses)
       ->merge($demoClasses)
-      ->groupBy('date')
-      ->sortKeys();
+      ->sortBy('started_at_raw')
+      ->values();
 
-    $month      = $month;
-    $first_day = $start->toDateString();
-    $last_day  = $end->toDateString();
-    $events    = $events;
+    /*
+        |--------------------------------------------------------------------------
+        | COUNTS
+        |--------------------------------------------------------------------------
+        */
 
+    $data['total'] = $events->count();
 
-    return view('teacher.my_schedules.index', compact('first_day', 'last_day', 'events'));
+    $data['today'] = $events->filter(function ($event) {
+
+      return Carbon::parse($event['started_at_raw'])->isToday();
+    })->count();
+
+    $data['upcoming'] = $events->filter(function ($event) {
+
+      return Carbon::parse($event['started_at_raw'])->isFuture();
+    })->count();
+
+    $data['completed'] = $events->filter(function ($event) {
+
+      return Carbon::parse($event['ended_at_raw'])->isPast();
+    })->count();
+
+    $data['live'] = $events->filter(function ($event) {
+
+      return now()->between(
+        Carbon::parse($event['started_at_raw']),
+        Carbon::parse($event['ended_at_raw'])
+      );
+    })->count();
+
+    return view(
+      'teacher.my_schedules.index',
+      compact('events', 'data')
+    );
   }
 
+  /*
+    |--------------------------------------------------------------------------
+    | FORMAT DIRECT EVENTS
+    |--------------------------------------------------------------------------
+    */
 
   private function directFormatEvent($model, string $type): array
   {
-
     return [
-      "schedule_date" => Carbon::parse($model->started_at)->format('d-m-Y'),
-      "started_at"    => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
-      "ended_at"      => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
-      "title"         => $model->title,
-      "description"   => $model->description,
-      "type"          => $type,
-      "mode"          => 'online',
-      "source"        => $model->provider?->name,
-      "class_link"    => $model->meeting_url,
-      "students_count" => $model->registrations?->count(),
+
+      'schedule_date' => Carbon::parse($model->started_at)->format('d M Y'),
+
+      'started_at' => Carbon::parse($model->started_at)->format('d M Y h:i A'),
+
+      'ended_at' => Carbon::parse($model->ended_at)->format('d M Y h:i A'),
+
+      'started_at_raw' => $model->started_at,
+
+      'ended_at_raw' => $model->ended_at,
+
+      'title' => $model->title,
+
+      'description' => $model->description,
+
+      'type' => $type,
+
+      'mode' => 'Online',
+
+      'source' => $model->provider?->name ?? 'Internal',
+
+      'class_link' => $model->meeting_url,
+
+      'students_count' => $model->registrations?->count() ?? 0,
+
+      'status' => $model->status,
+
     ];
   }
+
+  /*
+    |--------------------------------------------------------------------------
+    | FORMAT COURSE / WORKSHOP EVENTS
+    |--------------------------------------------------------------------------
+    */
 
   private function formatEvent($model, string $type): array
   {
-
     return [
-      "schedule_date" => Carbon::parse($model->started_at)->format('d-m-Y'),
-      "started_at"    => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
-      "ended_at"      => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
-      "title"         => $model->title,
-      "description"   => $model->description,
-      "type"          => $type,
-      "mode"          => 'online',
-      "source"        => $model->provider?->name,
-      "class_link"    => $model->meeting_link,
-      "students_count" => $model->courses ? $model->courses?->registrations?->count() : $model->workshop?->registrations?->count(),
+
+      'schedule_date' => Carbon::parse($model->started_at)->format('d M Y'),
+
+      'started_at' => Carbon::parse($model->started_at)->format('d M Y h:i A'),
+
+      'ended_at' => Carbon::parse($model->ended_at)->format('d M Y h:i A'),
+
+      'started_at_raw' => $model->started_at,
+
+      'ended_at_raw' => $model->ended_at,
+
+      'title' => $model->title,
+
+      'description' => $model->description,
+
+      'type' => $type,
+
+      'mode' => $model->class_mode ?? 'Online',
+
+      'source' => $model->provider?->name ?? 'Internal',
+
+      'class_link' => $model->meeting_link,
+
+      'students_count' => $model->courses
+        ? $model->courses?->registrations?->count()
+        : ($model->workshop?->registrations?->count() ?? 0),
+
+      'status' => $model->status,
+
     ];
   }
 
-  // private function formatEvent($model, string $type): array
-  // {
 
-  //   return [
+  // Controller
+  public function todayClasses()
+  {
+    $user = auth()->user();
 
-  //     "schedule_date" => '',
-  //     "started_at"    => '',
-  //     "ended_at"      => '',
-  //     "type"          => '',
-  //     "mode"          => '',
-  //     "source"        => '',
-  //     "class_link"          => '',
-  //     "students_count" => '',
+    $todayStart = Carbon::today()->startOfDay();
+    $todayEnd   = Carbon::today()->endOfDay();
+    $now        = now();
 
-  //     "id" => $model->id,
-  //     "date" => Carbon::parse($model->started_at)->format('d-m-Y'),
+    /*
+        |--------------------------------------------------------------------------
+        | WEBINARS
+        |--------------------------------------------------------------------------
+        */
 
-  //     "type" => $type,
-  //     "topic" => $model->title ?? $model->topic,
-  //     "description" => $model->description,
+    $webinars = Webinar::where('host_id', $user->id)
+      ->whereBetween('started_at', [$todayStart, $todayEnd])
+      ->get()
+      ->map(function ($item) use ($now) {
 
-  //     "time_start" => Carbon::parse($model->started_at)->format('d-m-Y H:i'),
-  //     "time_end" => Carbon::parse($model->ended_at)->format('d-m-Y H:i'),
-  //     "duration" => $model->duration,
+        return [
+          'title' => $item->title,
+          'description' => $item->description,
+          'type' => 'Webinar',
 
-  //     "course_id" => $model->course_id ?? null,
+          'start_time' => Carbon::parse($item->started_at),
+          'end_time' => Carbon::parse($item->ended_at),
 
-  //     "class_link" => $model->meeting_link ?? null,
-  //     "meeting_password" => $model->meeting_password ?? null,
+          'meeting_link' => $item->meeting_url,
+          'recording_url' => $item->recording_url,
 
-  //     "host_name" => $model->host->name ?? $model->teacher->name ?? 'Admin',
+          'students_count' => $item->registrations?->count() ?? 0,
 
-  //     "class_status" => $model->status, // upcoming | live | completed
-  //     "attendance_required" => (bool) ($model->attendance_required ?? false),
+          'status' => $this->getStatus(
+            $item->started_at,
+            $item->ended_at,
+            $now
+          ),
+        ];
+      });
 
-  //     "subject_name" => $model->subject->name ?? null,
-  //     "thumbnail_url" => $model->thumbnail ?? null,
+    /*
+        |--------------------------------------------------------------------------
+        | WORKSHOPS
+        |--------------------------------------------------------------------------
+        */
 
-  //     "class_type" => $model->mode ?? 'online',
-  //     "source" => $model->source ?? '',
-  //     "location" => $model->location ?? 'Online',
+    $workshops = WorkshopClass::whereHas('workshop', function ($q) use ($user) {
 
-  //     "students" => $model->students_count ?? 0,
-  //   ];
-  // }
+      $q->where('host_id', $user->id);
+    })
+      ->whereBetween('scheduled_at', [$todayStart, $todayEnd])
+      ->get()
+      ->map(function ($item) use ($now) {
+
+        return [
+          'title' => $item->title,
+          'description' => $item->description,
+          'type' => 'Workshop',
+
+          'start_time' => Carbon::parse($item->start_time),
+          'end_time' => Carbon::parse($item->end_time),
+
+          'meeting_link' => $item->meeting_link,
+          'recording_url' => $item->recording_url,
+
+          'students_count' => $item->workshop?->registrations?->count() ?? 0,
+
+          'status' => $this->getStatus(
+            $item->start_time,
+            $item->end_time,
+            $now
+          ),
+        ];
+      });
+
+    /*
+        |--------------------------------------------------------------------------
+        | COURSE CLASSES
+        |--------------------------------------------------------------------------
+        */
+
+    $courses = TeacherClass::where('teacher_id', $user->id)
+      ->with('course_classes.courses.registrations')
+      ->whereHas('course_classes', function ($q) use ($todayStart, $todayEnd) {
+
+        $q->whereBetween('scheduled_at', [$todayStart, $todayEnd]);
+      })
+      ->get()
+      ->flatMap(function ($teacherClass) use ($now) {
+
+        return $teacherClass->course_classes->map(function ($item) use ($now) {
+
+          return [
+            'title' => $item->title,
+            'description' => $item->description,
+            'type' => 'Course Class',
+
+            'start_time' => Carbon::parse($item->start_time),
+            'end_time' => Carbon::parse($item->end_time),
+
+            'meeting_link' => $item->meeting_link,
+            'recording_url' => $item->recording_url,
+
+            'students_count' => $item->courses?->registrations?->count() ?? 0,
+
+            'status' => $this->getStatus(
+              $item->start_time,
+              $item->end_time,
+              $now
+            ),
+          ];
+        });
+      });
+
+    /*
+        |--------------------------------------------------------------------------
+        | DEMO CLASSES
+        |--------------------------------------------------------------------------
+        */
+
+    $demoClasses = DemoClass::where('host_id', $user->id)
+      ->whereBetween('started_at', [$todayStart, $todayEnd])
+      ->get()
+      ->map(function ($item) use ($now) {
+
+        return [
+          'title' => $item->title,
+          'description' => $item->description,
+          'type' => 'Demo Class',
+
+          'start_time' => Carbon::parse($item->started_at),
+          'end_time' => Carbon::parse($item->ended_at),
+
+          'meeting_link' => $item->meeting_url,
+          'recording_url' => $item->recording_url,
+
+          'students_count' => $item->registrations?->count() ?? 0,
+
+          'status' => $this->getStatus(
+            $item->started_at,
+            $item->ended_at,
+            $now
+          ),
+        ];
+      });
+
+    /*
+        |--------------------------------------------------------------------------
+        | MERGE
+        |--------------------------------------------------------------------------
+        */
+
+    $events = collect()
+      ->merge($webinars)
+      ->merge($workshops)
+      ->merge($courses)
+      ->merge($demoClasses)
+      ->sortBy('start_time')
+      ->values();
+
+    /*
+        |--------------------------------------------------------------------------
+        | COUNTS
+        |--------------------------------------------------------------------------
+        */
+
+    $data['total'] = $events->count();
+
+    $data['live'] = $events->where('status', 'live')->count();
+
+    $data['upcoming'] = $events->where('status', 'upcoming')->count();
+
+    $data['completed'] = $events->where('status', 'completed')->count();
+
+    return view(
+      'teacher.my_schedules.today_classes',
+      compact('events', 'data')
+    );
+  }
+
+  private function getStatus($start, $end, $now)
+  {
+    $start = Carbon::parse($start);
+    $end = Carbon::parse($end);
+
+    if ($now->between($start, $end)) {
+      return 'live';
+    }
+
+    if ($now->lt($start)) {
+      return 'upcoming';
+    }
+
+    return 'completed';
+  }
 }

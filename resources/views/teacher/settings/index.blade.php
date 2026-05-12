@@ -1,6 +1,21 @@
 @extends('layouts.teacher')
 
 @section('content')
+<style>
+  .input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background: white;
+}
+
+.dark .input {
+    background: #1e293b;
+    border-color: #334155;
+    color: white;
+}
+</style>
 <div class="max-w-7xl mx-auto p-6">
     <div class="flex flex-col md:flex-row gap-6">
 
@@ -10,12 +25,12 @@
 
                 @php
                     $tabs = [
-                        'profile'  => ['Profile', 'person'],
-                        // 'security' => ['Security', 'lock'],
-                        // 'activity' => ['Activity Logs', 'clock'],
-                        // 'support'  => ['Support', 'chat'],
-                        // 'delete'   => ['Account Delete', 'trash'],
-                        // 'feedback' => ['Feedback & Suggestions', 'ui-checks-grid'],
+                        'profile'  => ['Personal Information', 'person'],
+                        'teaching_details'  => ['Teaching Details', 'person'],
+                        'extra_information'  => ['Extra Information', 'person'],
+                        'teaching_grade' => ['Teaching Grade', 'clock'],
+                        'time_slots'  => ['Time Slots', 'chat'],
+                        'security' => ['Security', 'lock']
                     ];
                 @endphp
 
@@ -40,26 +55,24 @@
                     @include('teacher.settings.tabs.profile')
                 </div>
 
-                {{-- <div id="security" class="tab-content hidden">
+               <div id="teaching_details" class="tab-content hidden">
+                    @include('teacher.settings.tabs.teaching_details')
+                </div>
+
+                <div id="extra_information" class="tab-content hidden">
+                    @include('teacher.settings.tabs.extra_information')
+                </div>
+
+                <div id="teaching_grade" class="tab-content hidden">
+                    @include('teacher.settings.tabs.teaching_grade')
+                </div>
+
+                <div id="time_slots" class="tab-content hidden">
+                    @include('teacher.settings.tabs.time_slots')
+                </div>
+                <div id="security" class="tab-content hidden">
                     @include('teacher.settings.tabs.security')
                 </div>
-
-                <div id="activity" class="tab-content hidden">
-                    @include('teacher.settings.tabs.activity')
-                </div>
-
-                <div id="support" class="tab-content hidden">
-                    @include('teacher.settings.tabs.support')
-                </div>
-
-                <div id="delete" class="tab-content hidden">
-                    @include('teacher.settings.tabs.account-delete')
-                </div> --}}
-
-
-                {{-- <div id="feedback" class="tab-content hidden">
-                    @include('teacher.settings.tabs.feedback')
-                </div> --}}
 
             </div>
         </div>
@@ -92,6 +105,20 @@
         const hash = window.location.hash.replace('#','');
         activateTab(hash);
     });
+
+
+
+    function toggleModal(id) {
+        const modal = document.getElementById(id);
+
+        if (modal.classList.contains('hidden')) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        } else {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    }
 </script>
 
 @endpush

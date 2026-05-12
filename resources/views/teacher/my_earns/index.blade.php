@@ -1,255 +1,506 @@
 @extends('layouts.teacher')
 
 @section('nav-options')
-    <nav>
-        <!-- breadcrumb -->
-        <ol class="flex flex-wrap pt-1  bg-transparent rounded-lg sm:mr-16">
-            <li class="text-neutral-900 text-sm">
-                <a class="text-white " href="javascript:;">Home</a>
-            </li>
-            <li
-                class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="javascript:;">Dashboard</a>
-            </li>
-            <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">My Earns</li>
-        </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">My Earns List</h6>
-    </nav>
+<nav>
+
+    <ol class="flex flex-wrap pt-1 bg-transparent rounded-lg sm:mr-16">
+
+        <li class="text-sm">
+            <a class="text-white" href="#">
+                Home
+            </a>
+        </li>
+
+        <li class="text-sm pl-2 text-white before:content-['/'] before:pr-2">
+            Dashboard
+        </li>
+
+        <li class="text-sm pl-2 font-bold text-white before:content-['/'] before:pr-2">
+            My Earnings
+        </li>
+
+    </ol>
+
+    <h6 class="mb-0 font-bold text-white capitalize">
+        My Earnings
+    </h6>
+
+</nav>
 @endsection
 
 @section('content')
-    <!-- cards -->
-    <div class="w-full px-6 py-6 mx-auto">
-        <!-- row 1 -->
-        <div class="flex flex-wrap -mx-3">
-            <!-- card1 -->
-            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                <div
-                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="flex-auto p-4">
-                        <div class="flex flex-row -mx-3">
-                            <div class="flex-none w-2/3 max-w-full px-3">
-                                <div class="">
-                                    <p
-                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        From Courses</p>
-                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['courses']['total'] }}</h5>
 
-                                </div>
-                            </div>
-                            <div class="px-3 text-right basis-1/3">
-                                <div
-                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-blue-500 to-violet-500">
-                                    <i class="ni ni-money-coins text-lg relative top-3.5 text-white"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="w-full px-3 py-6 mx-auto">
+
+    {{-- TOP STATS --}}
+    <div class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-5 gap-3 mb-5">
+
+        {{-- AVAILABLE --}}
+        <div class="rounded-2xl p-6 bg-gradient-to-br from-emerald-500 to-teal-400 shadow-2xl text-white">
+
+            <div class="flex justify-between">
+
+                <div>
+
+                    <p class="uppercase text-xs opacity-70">
+                        Available
+                    </p>
+
+                    <h2 class="text-3xl font-black mt-3">
+                        ₹{{ number_format($data['available_balance'],2) }}
+                    </h2>
+
                 </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+                    <i class="ni ni-money-coins text-2xl"></i>
+                </div>
+
             </div>
 
-            <!-- card2 -->
-            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                <div
-                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="flex-auto p-4">
-                        <div class="flex flex-row -mx-3">
-                            <div class="flex-none w-2/3 max-w-full px-3">
-                                <div>
-                                    <p
-                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        From Material's </p>
-                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['materials']['total'] }}</h5>
-
-                                </div>
-                            </div>
-                            <div class="px-3 text-right basis-1/3">
-                                <div
-                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-red-600 to-orange-600">
-                                    <i class="ni ni-world text-lg relative top-3.5 text-white"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- card3 -->
-            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                <div
-                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="flex-auto p-4">
-                        <div class="flex flex-row -mx-3">
-                            <div class="flex-none w-2/3 max-w-full px-3">
-                                <div>
-                                    <p
-                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        From Refferal </p>
-                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['refferal']['total'] }}</h5>
-
-                                </div>
-                            </div>
-                            <div class="px-3 text-right basis-1/3">
-                                <div
-                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-emerald-500 to-teal-400">
-                                    <i class="ni ni-paper-diploma text-lg relative top-3.5 text-white"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- card4 -->
-            <div class="w-full max-w-full px-3 sm:w-1/2 sm:flex-none xl:w-1/4">
-                <div
-                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="flex-auto p-4">
-                        <div class="flex flex-row -mx-3">
-                            <div class="flex-none w-2/3 max-w-full px-3">
-                                <div>
-                                    <p
-                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        Total Earns </p>
-                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['earns']['total'] }}</h5>
-                                </div>
-                            </div>
-                            <div class="px-3 text-right basis-1/3">
-                                <div
-                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-orange-500 to-yellow-500">
-                                    <i class="bi bi-ban text-lg relative top-3.5 text-white"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <!-- table 1 -->
+        {{-- TOTAL --}}
+        <div class="rounded-2xl p-6 bg-gradient-to-br from-blue-500 to-cyan-400 shadow-2xl text-white">
 
-        <div class="flex flex-wrap -mx-3 mt-4">
-            <div class="flex-none w-full max-w-full px-3">
-                <div
-                    class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex1">
-                            <div class="w-full max-w-full ">
-                                <h6 class="dark:text-white">Earning History</h6>
-                            </div>
-                            <div class="w-full max-w-full ">
+            <div class="flex justify-between">
 
-                            </div>
-                        </div>
-                    </div>
+                <div>
 
+                    <p class="uppercase text-xs opacity-70">
+                        Total Earned
+                    </p>
 
-
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table
-                                class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Course</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Title</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Type</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Date</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Earn</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Verified At</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Verified By</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                             Status</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($earnings ?? [] as $key => $earn)
-
-                                        <tr>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-
-                                            </td>
-
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-
-                                            </td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-
-                                            </td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-
-                                            </td>
-                                            <td
-                                                class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-
-                                            </td>
-                                            <td
-                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"></span>
-                                            </td>
-                                            <td
-                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent capitalize">
-
-
-                                                <span
-                                                    class="bg-gradient-to-tl capitalize bg-red-900 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Rejected</span>
-                                            </td>
-                                            <td
-                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent capitalize">
-
-
-                                                <span
-                                                    class="bg-gradient-to-tl capitalize bg-red-900 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Rejected</span>
-                                            </td>
-
-                                        </tr>
-                                    @empty
-                                    <tr>
-                                      <td colspan="8">
-                                          <h6 class="text-center my-4">No Data Found</h6>
-                                      </td>
-                                    </tr>
-                                    @endforelse
-
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    {{-- <div class="d-flex justify-content-center m-4">
-                        {!! $teachers->links() !!}
-                    </div>
-                    <p class="p-3">Showing {{ $teachers->firstItem() }} to {{ $teachers->lastItem() }} of
-                        {{ $teachers->total() }} users.</p> --}}
+                    <h2 class="text-3xl font-black mt-3">
+                        ₹{{ number_format($data['total_earnings'],2) }}
+                    </h2>
 
                 </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+                    <i class="ni ni-chart-bar-32 text-2xl"></i>
+                </div>
+
             </div>
+
         </div>
+
+        {{-- MONTH --}}
+        <div class="rounded-2xl p-6 bg-gradient-to-br from-violet-500 to-purple-500 shadow-2xl text-white">
+
+            <div class="flex justify-between">
+
+                <div>
+
+                    <p class="uppercase text-xs opacity-70">
+                        This Month
+                    </p>
+
+                    <h2 class="text-3xl font-black mt-3">
+                        ₹{{ number_format($data['this_month_earnings'],2) }}
+                    </h2>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+                    <i class="ni ni-calendar-grid-58 text-2xl"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- PAYOUT --}}
+        <div class="rounded-2xl p-6 bg-gradient-to-br from-orange-500 to-yellow-400 shadow-2xl text-white">
+
+            <div class="flex justify-between">
+
+                <div>
+
+                    <p class="uppercase text-xs opacity-70">
+                        Total Payout
+                    </p>
+
+                    <h2 class="text-3xl font-black mt-3">
+                        ₹{{ number_format($data['total_payout'],2) }}
+                    </h2>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+                    <i class="ni ni-send text-2xl"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
     </div>
+
+    {{-- TABS --}}
+    <div class="flex flex-wrap gap-3 mb-6">
+
+        <button class="earnTabBtn activeEarnTab px-5 py-3 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-bold"
+            data-tab="earnings">
+
+            Earnings
+
+        </button>
+
+        <button class="earnTabBtn px-5 py-3 rounded-2xl bg-white dark:bg-slate-900 shadow-lg font-bold"
+            data-tab="payouts">
+
+            Payout Requests
+
+        </button>
+
+    </div>
+
+    {{-- EARNINGS TABLE --}}
+    <div id="earningsSection"
+        class="rounded-2xl bg-white dark:bg-slate-900 shadow-2xl overflow-hidden mb-8">
+
+        <div class="p-6 border-b dark:border-slate-800">
+
+            <h3 class="text-2xl font-black dark:text-white">
+                Earnings History
+            </h3>
+
+        </div>
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full">
+
+                <thead class="bg-slate-50 dark:bg-slate-800">
+
+                    <tr>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            #
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Title
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Type
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Amount
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Earned Date
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @forelse($earns as $key => $earn)
+
+                    <tr>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+                            {{ $key + 1 }}
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+
+                            <div class="font-bold dark:text-white">
+                                {{ $earn->title }}
+                            </div>
+
+                            <div class="text-xs text-slate-500 mt-1">
+                                {{ $earn->remarks }}
+                            </div>
+
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800 capitalize">
+                            {{ $earn->type }}
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+
+                            <span class="font-black text-emerald-500">
+                                ₹{{ number_format($earn->amount,2) }}
+                            </span>
+
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+
+                            {{ $earn->earned_at
+                                ? \Carbon\Carbon::parse($earn->earned_at)->format('d M Y h:i A')
+                                : '-' }}
+
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+
+                            @php
+
+                                $statusColor = match($earn->status) {
+                                    'completed' => 'bg-emerald-500',
+                                    'pending' => 'bg-orange-500',
+                                    'processing' => 'bg-blue-500',
+                                    'rejected' => 'bg-red-500',
+                                    default => 'bg-slate-500'
+                                };
+
+                            @endphp
+
+                            <span class="px-3 py-1 rounded-full text-xs text-white font-bold {{ $statusColor }}">
+                                {{ ucfirst($earn->status) }}
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    @empty
+
+                    <tr>
+
+                        <td colspan="6">
+
+                            <div class="text-center py-20">
+
+                                <div class="text-6xl mb-4">
+                                    💸
+                                </div>
+
+                                <h4 class="text-2xl font-black dark:text-white">
+                                    No Earnings Found
+                                </h4>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    {{-- PAYOUTS --}}
+    <div id="payoutSection"
+        class="hidden rounded-2xl bg-white dark:bg-slate-900 shadow-2xl overflow-hidden">
+
+        <div class="p-6 border-b dark:border-slate-800">
+
+            <h3 class="text-2xl font-black dark:text-white">
+                Payout Requests
+            </h3>
+
+        </div>
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full">
+
+                <thead class="bg-slate-50 dark:bg-slate-800">
+
+                    <tr>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Transfer No
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Method
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Amount
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Charge
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Final Amount
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Requested At
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @forelse($transfers as $transfer)
+
+                    <tr>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+                            {{ $transfer->transfer_no }}
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800 capitalize">
+                            {{ $transfer->transfer_method }}
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+                            ₹{{ number_format($transfer->amount,2) }}
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+                            ₹{{ number_format($transfer->charge_amount,2) }}
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800 font-black text-emerald-500">
+                            ₹{{ number_format($transfer->final_amount,2) }}
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+
+                            {{ $transfer->requested_at
+                                ? \Carbon\Carbon::parse($transfer->requested_at)->format('d M Y h:i A')
+                                : '-' }}
+
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+
+                            @php
+
+                                $statusColor = match($transfer->status) {
+                                    'completed' => 'bg-emerald-500',
+                                    'pending' => 'bg-orange-500',
+                                    'processing' => 'bg-blue-500',
+                                    'rejected' => 'bg-red-500',
+                                    default => 'bg-slate-500'
+                                };
+
+                            @endphp
+
+                            <span class="px-3 py-1 rounded-full text-xs text-white font-bold {{ $statusColor }}">
+                                {{ ucfirst($transfer->status) }}
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    @empty
+
+                    <tr>
+
+                        <td colspan="7">
+
+                            <div class="text-center py-20">
+
+                                <div class="text-6xl mb-4">
+                                    🏦
+                                </div>
+
+                                <h4 class="text-2xl font-black dark:text-white">
+                                    No Payout Requests
+                                </h4>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
 @endsection
+
+@push('scripts')
+
+<script>
+
+    const earnTabBtns = document.querySelectorAll('.earnTabBtn');
+
+    const earningsSection = document.getElementById('earningsSection');
+
+    const payoutSection = document.getElementById('payoutSection');
+
+    earnTabBtns.forEach(btn => {
+
+        btn.addEventListener('click', function () {
+
+            earnTabBtns.forEach(item => {
+
+                item.classList.remove(
+                    'bg-gradient-to-r',
+                    'from-blue-500',
+                    'to-cyan-400',
+                    'text-white'
+                );
+
+                item.classList.add(
+                    'bg-white',
+                    'dark:bg-slate-900'
+                );
+
+            });
+
+            this.classList.add(
+                'bg-gradient-to-r',
+                'from-blue-500',
+                'to-cyan-400',
+                'text-white'
+            );
+
+            const tab = this.dataset.tab;
+
+            if(tab === 'earnings') {
+
+                earningsSection.classList.remove('hidden');
+                payoutSection.classList.add('hidden');
+
+            } else {
+
+                payoutSection.classList.remove('hidden');
+                earningsSection.classList.add('hidden');
+
+            }
+
+        });
+
+    });
+
+</script>
+
+@endpush

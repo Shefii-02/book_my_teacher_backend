@@ -19,6 +19,25 @@ class TeachersTeachingGradeDetail extends Model
 
   ];
 
+
+    protected $guarded = [];
+
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class, 'grade_id');
+    }
+
+    public function board()
+    {
+        return $this->belongsTo(Board::class, 'board_id');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+
   public function teacher()
   {
     return $this->belongsTo(Teacher::class,'user_id','user_id');

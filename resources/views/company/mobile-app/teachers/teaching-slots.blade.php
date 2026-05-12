@@ -18,7 +18,7 @@
 
             {{-- RIGHT SIDE SLOTS --}}
             <div class="col-md-9">
-                <form method="POST" action="{{ route('company.app.teachers.slots.update', $teacherId) }}">
+                <form method="POST" action="{{ route('teacher.settings.teachers.slots.update', $teacherId) }}">
                     @csrf
 
                     <div class="tab-content">

@@ -1,202 +1,338 @@
 @extends('layouts.teacher')
 
 @section('nav-options')
-    <nav>
-        <!-- breadcrumb -->
-        <ol class="flex flex-wrap pt-1 bg-transparent rounded-lg sm:mr-16">
-            <li class="text-neutral-900 text-sm">
-                <a class="text-white " href="javascript:;">Home</a>
-            </li>
-            <li
-                class="ltext-sm pl-2 capitalize text-neutral-900 text-white before:float-left before:pr-2 before:text-white before:content-['/']">
-                <a class="text-white" href="javascript:;">Dashboard</a>
-            </li>
-            <li class="text-sm pl-2  font-bold capitalize  text-white before:float-left before:pr-2 before:text-white before:content-['/']"
-                aria-current="page">My Referral</li>
-        </ol>
-        <h6 class="mb-0 font-bold text-white capitalize">My Referral</h6>
-    </nav>
+
+<nav>
+
+    <ol class="flex flex-wrap pt-1 bg-transparent rounded-lg sm:mr-16">
+
+        <li class="text-sm">
+            <a class="text-white" href="javascript:;">
+                Home
+            </a>
+        </li>
+
+        <li class="text-sm pl-2 text-white before:content-['/'] before:pr-2">
+            Dashboard
+        </li>
+
+        <li class="text-sm pl-2 font-bold text-white before:content-['/'] before:pr-2">
+            My Referral
+        </li>
+
+    </ol>
+
+    <h6 class="mb-0 font-bold text-white capitalize">
+        My Referral
+    </h6>
+
+</nav>
+
 @endsection
 
 @section('content')
-    <div class="w-full px-6 pt-6 mx-auto">
-        <!-- row 1 -->
-        <div class="flex flex-wrap -mx-3">
-            <!-- card1 -->
-            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/2">
-                <div
-                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="flex-auto p-4">
-                        <div class="flex flex-row -mx-3">
-                            <div class="flex-none w-2/3 max-w-full px-3">
-                                <div class="">
-                                    <p
-                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        Total Referral</p>
-                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['courses']['total'] }}</h5>
 
-                                </div>
-                            </div>
-                            <div class="px-3 text-right basis-1/3">
-                                <div
-                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-blue-500 to-violet-500">
-                                    <i class="ni ni-money-coins text-lg relative top-3.5 text-white"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="w-full px-6 py-6 mx-auto">
+
+    {{-- TOP CARDS --}}
+    <div class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-4 gap-6 mb-8">
+
+        {{-- TOTAL REFERRALS --}}
+        <div class="rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 p-6 shadow-2xl text-white">
+
+            <div class="flex justify-between items-start">
+
+                <div>
+
+                    <p class="uppercase text-xs opacity-70 tracking-wider">
+                        Total Referrals
+                    </p>
+
+                    <h2 class="text-4xl font-black mt-3">
+                        {{ $data['total_referrals'] }}
+                    </h2>
+
                 </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+                    <i class="ni ni-single-02 text-2xl"></i>
+                </div>
+
             </div>
 
-            <!-- card2 -->
-            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/2">
-                <div
-                    class="relative flex flex-col min-w-0 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-                    <div class="flex-auto p-4">
-                        <div class="flex flex-row -mx-3">
-                            <div class="flex-none w-2/3 max-w-full px-3">
-                                <div>
-                                    <p
-                                        class="mb-0 font-petro font-semibold text-neutral-900 uppercase dark:text-white dark:opacity-60 text-sm">
-                                        Total Coins </p>
-                                    <h5 class="mb-2 font-bold dark:text-white">{{ $data['materials']['total'] }}</h5>
-
-                                </div>
-                            </div>
-                            <div class="px-3 text-right basis-1/3">
-                                <div
-                                    class="inline-block w-12 h-12 text-center rounded-circle bg-gradient-to-tl from-red-600 to-orange-600">
-                                    <i class="ni ni-world text-lg relative top-3.5 text-white"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
-    <!-- cards -->
-    <div class="w-full px-6 py-6 mx-auto">
 
-        <!-- table 1 -->
-        <div class="flex flex-wrap -mx-3 mt-4">
-            <div class="flex-none w-full max-w-full px-3">
-                <div
-                    class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+        {{-- TOTAL COINS --}}
+        <div class="rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-400 p-6 shadow-2xl text-white">
 
+            <div class="flex justify-between items-start">
 
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex1">
-                            <div class="w-full max-w-full ">
-                                <h6 class="dark:text-white">My Referral history</h6>
-                            </div>
-                            <div class="w-full max-w-full ">
+                <div>
 
-                            </div>
-                        </div>
-                    </div>
+                    <p class="uppercase text-xs opacity-70 tracking-wider">
+                        Total Coins
+                    </p>
 
-
-
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table
-                                class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            #</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Name</th>
-                                        <th
-                                            class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Mobile No</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Visit Time</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Credited Coin</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Created At</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Verified At</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Approved By</th>
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none  text-slate-400 opacity-70">
-                                            Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($referrals ?? [] as $key => $referral)
-                                        <tr>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-
-                                            </td>
-
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-
-                                            </td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-
-                                            </td>
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-
-                                            </td>
-                                            <td
-                                                class="p-2 text-sm text-neutral-900 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-
-                                            </td>
-                                            <td
-                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"></span>
-                                            </td>
-                                            <td
-                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent capitalize">
-                                                <span
-                                                    class="bg-gradient-to-tl capitalize bg-red-900 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Rejected</span>
-                                            </td>
-                                            <td
-                                                class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40  shadow-transparent capitalize">
-                                                <span
-                                                    class="bg-gradient-to-tl capitalize bg-red-900 px-2.5 text-xs rounded-1.8 py-1.4 inline-block  text-center align-baseline font-bold  leading-none text-white">Rejected</span>
-                                            </td>
-
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="8">
-                                                <h6 class="text-center my-4">No Data Found</h6>
-                                            </td>
-                                        </tr>
-                                    @endforelse
-
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    {{-- <div class="d-flex justify-content-center m-4">
-                        {!! $teachers->links() !!}
-                    </div>
-                    <p class="p-3">Showing {{ $teachers->firstItem() }} to {{ $teachers->lastItem() }} of
-                        {{ $teachers->total() }} users.</p> --}}
+                    <h2 class="text-4xl font-black mt-3">
+                        {{ number_format($data['total_coins'],2) }}
+                    </h2>
 
                 </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+                    <i class="ni ni-money-coins text-2xl"></i>
+                </div>
+
             </div>
+
         </div>
+
+        {{-- APPROVED --}}
+        <div class="rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 p-6 shadow-2xl text-white">
+
+            <div class="flex justify-between items-start">
+
+                <div>
+
+                    <p class="uppercase text-xs opacity-70 tracking-wider">
+                        Approved Coins
+                    </p>
+
+                    <h2 class="text-4xl font-black mt-3">
+                        {{ number_format($data['approved_coins'],2) }}
+                    </h2>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+                    <i class="ni ni-check-bold text-2xl"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- PENDING --}}
+        <div class="rounded-2xl bg-gradient-to-br from-orange-500 to-yellow-400 p-6 shadow-2xl text-white">
+
+            <div class="flex justify-between items-start">
+
+                <div>
+
+                    <p class="uppercase text-xs opacity-70 tracking-wider">
+                        Pending Coins
+                    </p>
+
+                    <h2 class="text-4xl font-black mt-3">
+                        {{ number_format($data['pending_coins'],2) }}
+                    </h2>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+                    <i class="ni ni-time-alarm text-2xl"></i>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+
+    {{-- HISTORY TABLE --}}
+    <div class="rounded-2xl bg-white dark:bg-slate-900 shadow-2xl overflow-hidden">
+
+        <div class="p-6 border-b border-slate-100 dark:border-slate-800">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <h3 class="text-2xl font-black text-slate-800 dark:text-white">
+                        Referral History
+                    </h3>
+
+                    <p class="text-slate-500 text-sm mt-1">
+                        Referral coin credit history
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full">
+
+                <thead class="bg-slate-50 dark:bg-slate-800">
+
+                    <tr>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            #
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Title
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Wallet
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-black uppercase">
+                            Type
+                        </th>
+
+                        <th class="px-6 py-4 text-center text-xs font-black uppercase">
+                            Coins
+                        </th>
+
+                        <th class="px-6 py-4 text-center text-xs font-black uppercase">
+                            Date
+                        </th>
+
+                        <th class="px-6 py-4 text-center text-xs font-black uppercase">
+                            Notes
+                        </th>
+
+                        <th class="px-6 py-4 text-center text-xs font-black uppercase">
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @forelse($referrals as $key => $referral)
+
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+                            {{ $key + 1 }}
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+
+                            <div class="font-bold text-slate-800 dark:text-white">
+                                {{ $referral->title }}
+                            </div>
+
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800">
+
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-600">
+                                Green Coins
+                            </span>
+
+                        </td>
+
+                        <td class="px-6 py-5 border-b dark:border-slate-800 capitalize">
+
+                            @if($referral->type == 'credit')
+
+                            <span class="text-emerald-500 font-bold">
+                                Credit
+                            </span>
+
+                            @else
+
+                            <span class="text-red-500 font-bold">
+                                Debit
+                            </span>
+
+                            @endif
+
+                        </td>
+
+                        <td class="px-6 py-5 text-center border-b dark:border-slate-800">
+
+                            <span class="font-black text-emerald-500">
+                                {{ number_format($referral->amount,2) }}
+                            </span>
+
+                        </td>
+
+                        <td class="px-6 py-5 text-center border-b dark:border-slate-800 text-sm">
+
+                            {{ \Carbon\Carbon::parse($referral->date)->format('d M Y') }}
+
+                            <div class="text-xs text-slate-500 mt-1">
+                                {{ \Carbon\Carbon::parse($referral->created_at)->format('h:i A') }}
+                            </div>
+
+                        </td>
+
+                        <td class="px-6 py-5 text-center border-b dark:border-slate-800 text-sm text-slate-500">
+
+                            {{ $referral->notes ?? '-' }}
+
+                        </td>
+
+                        <td class="px-6 py-5 text-center border-b dark:border-slate-800">
+
+                            @php
+
+                                $statusColor = match($referral->status) {
+                                    'approved' => 'bg-emerald-500',
+                                    'pending' => 'bg-orange-500',
+                                    'rejected' => 'bg-red-500',
+                                    default => 'bg-slate-500'
+                                };
+
+                            @endphp
+
+                            <span class="px-3 py-1 rounded-full text-white text-xs font-bold {{ $statusColor }}">
+
+                                {{ ucfirst($referral->status) }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    @empty
+
+                    <tr>
+
+                        <td colspan="8">
+
+                            <div class="text-center py-5">
+
+                                <div class="text-7xl mb-4">
+                                    🎁
+                                </div>
+
+                                <h3 class="text-2xl font-black text-slate-700 dark:text-white">
+                                    No Referral History
+                                </h3>
+
+                                <p class="text-slate-500 mt-2">
+                                    No referral rewards found.
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
 @endsection

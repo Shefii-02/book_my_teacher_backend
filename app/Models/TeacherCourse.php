@@ -27,4 +27,12 @@ class TeacherCourse extends Model
   {
     return $this->hasOne(Teacher::class, 'id', 'teacher_id');
   }
+
+  public function enrollments()
+{
+    return $this->hasMany(
+        CourseEnrollment::class,
+        'course_id'
+    );
+}
 }

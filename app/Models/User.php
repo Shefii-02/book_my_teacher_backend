@@ -213,7 +213,7 @@ class User extends Authenticatable
 
   public function getTotalTeachingHoursAttribute()
   {
-    return $this->hasMany(ClassDuration::class,'teacher_id','id')->sum('actual_duration');
+    return $this->hasMany(ClassDuration::class, 'teacher_id', 'id')->sum('actual_duration');
   }
 
   public function getTotalSpendHoursAttribute()
@@ -230,7 +230,7 @@ class User extends Authenticatable
 
   public function getCoursesLaunchedAttribute()
   {
-    return $this->hasMany(TeacherCourse::class,'teacher_id','id');
+    return $this->hasMany(TeacherCourse::class, 'teacher_id', 'id');
   }
 
   public function additionalInfo()
@@ -314,7 +314,6 @@ class User extends Authenticatable
     return $rolename;
   }
 
-
   public function payroll()
   {
     return $this->hasOne(PayrollDetail::class, 'user_id', 'id');
@@ -332,17 +331,17 @@ class User extends Authenticatable
 
   public function getWalletGreenCoinTotalEarningAttribute()
   {
-    return $this->hasMany(WalletHistory::class)->where('type','credit')->where('wallet_type', 'green')->sum('amount') ?? 0;
+    return $this->hasMany(WalletHistory::class)->where('type', 'credit')->where('wallet_type', 'green')->sum('amount') ?? 0;
   }
 
   public function getWalletRupeesTotalEarningAttribute()
   {
-    return $this->hasMany(WalletHistory::class)->where('type','credit')->where('wallet_type', 'rupee')->sum('amount') ?? 0;
+    return $this->hasMany(WalletHistory::class)->where('type', 'credit')->where('wallet_type', 'rupee')->sum('amount') ?? 0;
   }
 
   public function getWalletRupeesWithdrawnAttribute()
   {
-    return $this->hasMany(WalletHistory::class)->where('type','debit')->where('wallet_type', 'rupee')->sum('amount') ?? 0;
+    return $this->hasMany(WalletHistory::class)->where('type', 'debit')->where('wallet_type', 'rupee')->sum('amount') ?? 0;
   }
 
 
@@ -409,7 +408,7 @@ class User extends Authenticatable
 
   public function referredBy()
   {
-    return $this->belongsTo(AppReferral::class, 'id', 'referred_user_id');
+    return $this->belongsTo(AppReferral::class, 'id', 'applied_user_id');
   }
 
   public function reviews()
@@ -422,4 +421,22 @@ class User extends Authenticatable
   {
     return $this->hasMany(Purchase::class, 'student_id', 'id');
   }
+
+  public function teacherEarnings()
+  {
+    return $this->hasMany(TeacherEarning::class, 'teacher_id')->where('status', 'completed');
+  }
+
+  public function teacherTransfers()
+  {
+    return $this->hasMany(TeacherPaymentTransfer::class, 'teacher_id')->whereIn('status', ['pending', 'processing', 'completed']);
+  }
+
+    public function teacherCurrentBalance()
+  {
+      return $this->teacherEarnings->sum('amount') - $this->teacherTransfers->sum('amount');
+  }
+
+
+
 }

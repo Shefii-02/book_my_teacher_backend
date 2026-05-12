@@ -273,7 +273,7 @@ Helper
       );
     }
 
-    // $class->load('attendance.user');
+    $class->load('attendance.user');
 
     return redirect()->back()->with('success', 'Attendance saved successfully');
   }

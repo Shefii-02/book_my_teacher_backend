@@ -93,102 +93,242 @@
             <div class="w-full">
                 <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav-test grow basis-full">
                     <ul class="flex flex-col pl-2 mb-0">
-                        <li class="mt-0.5 w-full">
-                            <a class="py-2.7  {{ Request::routeIs('admin.dashboard') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap rounded-lg  font-semibold text-slate-700 transition-colors"
-                                href="{{ route('admin.dashboard.index') }}">
+
+                        <!-- DASHBOARD -->
+                        <li class="mt-2 mb-2 px-4">
+                            <h6 class="text-xs font-bold uppercase text-slate-400 dark:text-slate-300">
+                                Dashboard
+                            </h6>
+                        </li>
+
+                        <li class="w-full">
+                            <a class=" {{ Request::routeIs('teacher.dashboard.*') ? 'bg-emerald-500/10 text-emerald-500' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
+                                href="{{ route('teacher.dashboard.index') }}">
+
                                 <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i class="relative top-0 leading-normal text-emerald-500 ni ni-tv-2 text-sm"></i>
+                                    class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
+                                    <i class="ni ni-tv-2 text-emerald-500 text-sm"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Dashboard</span>
+
+                                <span>Dashboard</span>
                             </a>
                         </li>
 
-                        <li class="mt-0.5 w-full">
-                            <a class="py-2.7  {{ Request::routeIs('teacher.my-courses.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap rounded-lg  font-semibold text-slate-700 transition-colors"
+
+                        <!-- TEACHING -->
+                        <li class="mt-2 mb-2 px-4">
+                            <h6 class="text-xs font-bold uppercase text-slate-400 dark:text-slate-300">
+                                Teaching
+                            </h6>
+                        </li>
+
+                        <li class="w-full">
+                            <a class=" {{ Request::routeIs('teacher.my-courses.*') ? 'bg-blue-500/10 text-blue-500' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
                                 href="{{ route('teacher.my-courses.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i class="relative top-0 leading-normal text-emerald-500 ni ni-album-2 text-sm"></i>
+
+                                <div class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10">
+                                    <i class="ni ni-books text-blue-500 text-sm"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">My Courses</span>
+
+                                <span>My Courses</span>
                             </a>
                         </li>
 
+                        <li class="w-full mt-1">
+                            <a class=" {{ Request::routeIs('teacher.demo-classes.*') ? 'bg-blue-500/10 text-emerald-500' : '' }}
+                                dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
+                                href="{{ route('teacher.demo-classes.index') }}">
 
-                        <li class="mt-0.5 w-full">
-                            <a class="py-2.7  {{ Request::routeIs('teacher.my-earns.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap rounded-lg  font-semibold text-slate-700 transition-colors"
-                                href="{{ route('teacher.my-earns.index') }}">
                                 <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 ni ni-support-16 text-sm"></i>
+                                    class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10">
+                                    <i class="ni ni-single-copy-04 text-purple-500 text-sm"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">My Earns</span>
+
+                                <span>Demo Classes</span>
                             </a>
                         </li>
 
-                        <li class="mt-0.5 w-full">
-                            <a class="py-2.7  {{ Request::routeIs('teacher.my-schedules.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap rounded-lg  font-semibold text-slate-700 transition-colors"
+                        <li class="w-full mt-1">
+                            <a class=" {{ Request::routeIs('teacher.my-schedules.*') ? 'bg-orange-500/10 text-orange-500' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
                                 href="{{ route('teacher.my-schedules.index') }}">
+
                                 <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 ni ni-button-play text-sm"></i>
+                                    class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500/10">
+                                    <i class="ni ni-calendar-grid-58 text-orange-500 text-sm"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">My Schedules</span>
+
+                                <span>My Schedule</span>
                             </a>
                         </li>
 
-                        <li class="mt-0.5 w-full">
-                            <a class="py-2.7  {{ Request::routeIs('teacher.wallets.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap rounded-lg  font-semibold text-slate-700 transition-colors"
+                        <li class="w-full mt-1">
+                            <a class=" {{ Request::routeIs('teacher.today-sessions.*') ? 'bg-red-500/10 text-red-500' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
+                                href="{{ route('teacher.today-sessions.index') }}">
+
+                                <div class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/10">
+                                    <i class="ni ni-button-play text-red-500 text-sm"></i>
+                                </div>
+
+                                <span>Today Sessions</span>
+                            </a>
+                        </li>
+
+
+                        <!-- FINANCE -->
+                        <li class="mt-2 mb-2 px-4">
+                            <h6 class="text-xs font-bold uppercase text-slate-400 dark:text-slate-300">
+                                Finance
+                            </h6>
+                        </li>
+
+                        <li class="w-full">
+                            <a class=" {{ Request::routeIs('teacher.wallets.*') ? 'bg-green-500/10 text-green-500' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
                                 href="{{ route('teacher.wallets.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 ni ni-money-coins text-sm"></i>
+
+                                <div class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-green-500/10">
+                                    <i class="ni ni-money-coins text-green-500 text-sm"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">My Wallet</span>
+
+                                <span>Wallet & Payouts</span>
                             </a>
                         </li>
 
-                        <li class="mt-0.5 w-full">
-                            <a class="py-2.7  {{ Request::routeIs('teacher.referral.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap rounded-lg  font-semibold text-slate-700 transition-colors"
+                        <li class="w-full mt-1">
+                            <a class=" {{ Request::routeIs('teacher.my-earns.*') ? 'bg-cyan-500/10 text-cyan-500' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
+                                href="{{ route('teacher.my-earns.index') }}">
+
+                                <div class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/10">
+                                    <i class="ni ni-chart-bar-32 text-cyan-500 text-sm"></i>
+                                </div>
+
+                                <span>Earnings</span>
+                            </a>
+                        </li>
+
+                        <li class="w-full mt-1">
+                            <a class=" {{ Request::routeIs('teacher.referral.*') ? 'bg-green-500/10 text-red-600' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
                                 href="{{ route('teacher.referral.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i class="relative top-0 leading-normal text-emerald-500 ni ni-send text-sm"></i>
+
+                                <div class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-pink-500/10">
+                                    <i class="ni ni-send text-pink-500 text-sm"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Referral</span>
+
+                                <span>Referral</span>
                             </a>
                         </li>
-                        <li class="mt-0.5 w-full">
-                            <a class="py-2.7  {{ Request::routeIs('teacher.performance.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap rounded-lg  font-semibold text-slate-700 transition-colors"
+
+
+                        <!-- ANALYTICS -->
+                        <li class="mt-2 mb-2 px-4">
+                            <h6 class="text-xs font-bold uppercase text-slate-400 dark:text-slate-300">
+                                Analytics
+                            </h6>
+                        </li>
+
+                        <li class="w-full">
+                            <a class=" {{ Request::routeIs('teacher.statistics.*') ? 'bg-green-500/10 text-red-600' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
+                                href="{{ route('teacher.statistics.index') }}">
+
+                                <div
+                                    class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10">
+                                    <i class="ni ni-chart-pie-35 text-indigo-500 text-sm"></i>
+                                </div>
+
+                                <span>Statistics</span>
+                            </a>
+                        </li>
+
+                        <li class="w-full mt-1">
+                            <a class=" {{ Request::routeIs('teacher.reviews.*') ? 'bg-green-500/10 text-red-600'  : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
+                                href="{{ route('teacher.reviews.index') }}">
+
+                                <div
+                                    class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-500/10">
+                                    <i class="ni ni-like-2 text-yellow-500 text-sm"></i>
+                                </div>
+
+                                <span>Reviews & Ratings</span>
+                            </a>
+                        </li>
+
+                        <li class="w-full mt-1">
+                            <a class=" {{ Request::routeIs('teacher.performance.*') ?  'bg-green-500/10 text-red-600'  : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
                                 href="{{ route('teacher.performance.index') }}">
-                                <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 ni ni-chart-bar-32 text-sm"></i>
+
+                                <div class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-teal-500/10">
+                                    <i class="ni ni-chart-bar-32 text-teal-500 text-sm"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">My
-                                    Performance</span>
+
+                                <span>My Performance</span>
                             </a>
                         </li>
 
-                        <li class="mt-0.5 w-full">
-                            <a class="py-2.7  {{ Request::routeIs('admin.settings.*') ? 'bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0  flex items-center whitespace-nowrap rounded-lg  font-semibold text-slate-700 transition-colors"
+
+                        <!-- SYSTEM -->
+                        <li class="mt-2 mb-2 px-4">
+                            <h6 class="text-xs font-bold uppercase text-slate-400 dark:text-slate-300">
+                                System
+                            </h6>
+                        </li>
+
+                        <li class="w-full">
+                            <a class=" {{ Request::routeIs('teacher.notifications.*') ? 'bg-amber-500/10 text-amber-500' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
+                                href="{{ route('teacher.notifications.index') }}">
+
+                                <div
+                                    class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10">
+                                    <i class="ni ni-bell-55 text-amber-500 text-sm"></i>
+                                </div>
+
+                                <span>Notifications</span>
+                            </a>
+                        </li>
+
+                        <li class="w-full mt-1">
+                            <a class=" {{ Request::routeIs('teacher.activity-logs.*') ? 'bg-gray-500/10 text-gray-500' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
+                                href="{{ route('teacher.activity-logs.index') }}">
+
+                                <div class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-gray-500/10">
+                                    <i class="ni ni-time-alarm text-gray-500 text-sm"></i>
+                                </div>
+
+                                <span>Activity Logs</span>
+                            </a>
+                        </li>
+
+
+                        <!-- ACCOUNT -->
+                        <li class="mt-2 mb-2 px-4">
+                            <h6 class="text-xs font-bold uppercase text-slate-400 dark:text-slate-300">
+                                Account
+                            </h6>
+                        </li>
+
+                        <li class="w-full">
+                            <a class=" {{ Request::routeIs('teacher.settings.*') ? 'bg-slate-500/10 text-slate-500' : '' }}
+            dark:text-white dark:opacity-80 text-sm flex items-center rounded-xl font-semibold transition-all"
                                 href="{{ route('teacher.settings.index') }}">
+
                                 <div
-                                    class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                                    <i
-                                        class="relative top-0 leading-normal text-emerald-500 ni ni-settings-gear-65 text-sm"></i>
+                                    class="mr-2 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-500/10">
+                                    <i class="ni ni-settings-gear-65 text-slate-500 text-sm"></i>
                                 </div>
-                                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Settings</span>
+
+                                <span>Profile & Settings</span>
                             </a>
                         </li>
-
-
-
 
                     </ul>
 
@@ -379,7 +519,7 @@
                                 <!-- fixed-plugin-button-nav  -->
                             </a>
                         </li> --}}
-                         <li class="flex items-center pl-4 xl:hidden">
+                        <li class="flex items-center pl-4 xl:hidden">
                             <a href="javascript:;" class="block p-0 text-white transition-all ease-nav-brand text-sm"
                                 sidenav-trigger>
                                 <div class="w-4.5 overflow-hidden">

@@ -1,68 +1,99 @@
-<h2 class="text-xl font-bold mb-4 dark:text-white">Profile</h2>
+{{-- PROFILE TAB --}}
+<div class="mb-6 flex justify-between items-center">
 
-<p class="text-gray-600 dark:text-gray-300 mb-6">
-    Update your personal information.
-</p>
-<form action="{{ route('company.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-    @csrf
-    @method('PUT')
-
-    <div class="flex items-center gap-6">
-        <!-- Avatar Upload -->
-        <div class="flex flex-col items-center text-center">
-            <img class="w-24 h-24 object-cover rounded-full border-4 border-indigo-200"
-                src="{{ auth()->user()->avatar_url }}" id="imagePreview" alt="Profile Picture">
-            <label
-                class="mt-3 cursor-pointer px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow">
-                Change Picture
-                <input type="file" id="avatarInput" accept="image/*" class="hidden" name="avatar"
-                    onchange="previewImage(event)">
-            </label>
-            @error('avatar')
-                <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <!-- User Details -->
-        <div class="grid grid-cols-1 md:grid-cols-1 gap-6 flex-1">
-            <div>
-                <label for="first_name" class="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
-                <input type="text" id="first_name" name="name" value="{{ auth()->user()->name }}"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                @error('first_name')
-                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email</label>
-                <input type="email" id="email" name="email" value="{{ auth()->user()->email }}"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                @error('email')
-                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                @enderror
-            </div>
-        </div>
+    <div>
+        <h3 class="text-2xl font-black text-slate-800 dark:text-white">
+            Personal Information
+        </h3>
+        <p class="text-slate-500 text-sm">
+            Teacher basic profile details
+        </p>
     </div>
 
-    <div class="flex justify-end">
-        <button type="submit"
-            class="px-6 py-2.5 bg-emerald-500/50 hover:bg-emerald-700 text-white rounded-lg shadow font-medium">
-            Save Changes
-        </button>
-    </div>
-</form>
-<script>
-        function previewImage(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('imagePreview');
+    <button onclick="toggleModal('profileModal')"
+        class="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-bold">
+        <i class="bi bi-pencil"></i> Edit
+    </button>
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
+</div>
+
+{{-- VIEW --}}
+<div id="profileViewBox">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+        <x-info label="Full Name" :value="$teacher->user->name ?? '-'" />
+        <x-info label="Email" :value="$teacher->user->email ?? '-'" />
+        <x-info label="Phone" :value="$teacher->user->mobile ?? '-'" />
+        <x-info label="City" :value="$teacher->user->city ?? '-'" />
+        <x-info label="State" :value="$teacher->user->state ?? '-'" />
+        <x-info label="Country" :value="$teacher->user->country ?? '-'" />
+
+    </div>
+</div>
+
+
+   <!-- PROFILE EDIT MODAL -->
+<div id="profileModal"
+     class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-[#050708] w-1/2 dark:bg-slate-800 w-full  rounded-2xl shadow-xl p-6">
+
+        <div class="flex justify-between items-center mb-4">
+
+            <h2 class="text-xl font-black text-slate-800 dark:text-white">
+                Edit Profile
+            </h2>
+
+            <button onclick="toggleModal('profileModal')"
+                    class="text-red-500 text-2xl font-bold">
+                ×
+            </button>
+
+        </div>
+
+        <form method="POST" action="{{ route('teacher.settings.profile.update') }}">
+            @csrf
+
+            <div class="grid md:grid-cols-2 gap-4">
+
+                <input name="name" value="{{ $teacher->user->name ?? '' }}" placeholder="Name"
+                       class="input">
+
+                <input name="email" value="{{ $teacher->user->email ?? '' }}" placeholder="Email"
+                       class="input">
+
+                <input name="phone" value="{{ $teacher->user->mobile ?? '' }}" placeholder="Phone"
+                       class="input">
+
+                <input name="city" value="{{ $teacher->user->city ?? '' }}" placeholder="City"
+                       class="input">
+
+                <input name="state" value="{{ $teacher->user->state ?? '' }}" placeholder="State"
+                       class="input">
+
+                <input name="country" value="{{ $teacher->user->country ?? '' }}" placeholder="Country"
+                       class="input">
+
+            </div>
+
+            <div class="flex justify-end mt-6 gap-3">
+
+                <button type="button"
+                        onclick="toggleModal('profileModal')"
+                        class="px-5 py-2 bg-slate-200 rounded-xl font-bold">
+
+                    Cancel
+                </button>
+
+                <button class="px-5 py-2 bg-blue-500 text-white rounded-xl font-bold">
+
+                    Save
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

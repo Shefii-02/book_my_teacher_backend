@@ -14,6 +14,8 @@ use Google\Auth\Credentials\ServiceAccountCredentials;
 use App\Http\Controllers\ChatModule\ChatController;
 use App\Http\Controllers\ChatModule\MessageController;
 use App\Http\Controllers\ChatModule\LabelController;
+use App\Http\Controllers\LMS\TeacherEarningController;
+use App\Http\Controllers\LMS\TeacherPaymentTransferController;
 use App\Http\Controllers\PushNotificationController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -81,7 +83,15 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
   );
 
 
+  Route::resource(
+    'teacher-earnings',
+    TeacherEarningController::class
+  );
 
+  Route::resource(
+    'teacher-payment-transfers',
+    TeacherPaymentTransferController::class
+  );
 
 
   Route::prefix('analytics')->name('analytics.')->group(function () {

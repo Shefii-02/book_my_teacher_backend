@@ -43,7 +43,7 @@
             <div class="flex flex-col gap-2 ">
 
                 {{-- Profile --}}
-                <img src="{{ $t->thumbnail_url }}" class="h-16 w-16 rounded-xl object-cover shadow" />
+                <img src="{{ $t->thumbnail_url }}"  loading="lazy" class="h-16 w-16 rounded-xl object-cover shadow" />
                 @if ($t->published == 1)
                     <span class="bg-success text-center text-light px-2 py-0.5 rounded text-xxs font-semibold">
                         Active

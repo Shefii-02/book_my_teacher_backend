@@ -327,6 +327,18 @@ class PushNotificationController extends Controller
         ],
         'android' => [
           'priority' => 'high',
+          'ttl' => '30s',
+        ],
+        'apns' => [
+          'headers' => [
+            'apns-priority' => '10',
+          ],
+          'payload' => [
+            'aps' => [
+              'content-available' => 1,
+              'sound' => 'default',
+            ]
+          ]
         ],
       ]
       // 'message' => [

@@ -666,6 +666,9 @@ Route::group(['prefix' => 'company', 'as' => 'company.', 'middleware' => ['auth'
     }
   });
 
+  Route::get('/fcm-test/{token}', [PushNotificationController::class, 'sendClassNotification']);
+
+
   Route::get('/send-notification', [PushNotificationController::class, 'sendPush']);
   Route::get('/send-notification-to-user', [PushNotificationController::class, 'sendToUser']);
   Route::get('/send-notification-to-topic', [PushNotificationController::class, 'sendToTopic']);

@@ -49,22 +49,22 @@ class PushNotificationController extends Controller
     $url = "https://fcm.googleapis.com/v1/projects/{$config['project_id']}/messages:send";
 
 
-      $response = $client->post($url, [
-        'headers' => [
-          'Authorization' => "Bearer $accessToken",
-          'Content-Type'  => 'application/json',
-        ],
-        'json' => [
-          'message' => [
-            'token' => $this->fcmTokenIos,
-            'notification' => [
-              'title' => 'Test',
-              'body' => 'It works!'
-            ]
+    $response = $client->post($url, [
+      'headers' => [
+        'Authorization' => "Bearer $accessToken",
+        'Content-Type'  => 'application/json',
+      ],
+      'json' => [
+        'message' => [
+          'token' => $this->fcmTokenIos,
+          'notification' => [
+            'title' => 'Test',
+            'body' => 'It works!'
           ]
         ]
-      ]);
-      dd($response);
+      ]
+    ]);
+    dd($response);
     try {
       return json_decode($response->getBody(), true);
     } catch (\GuzzleHttp\Exception\RequestException $e) {
@@ -296,6 +296,102 @@ class PushNotificationController extends Controller
       return response()->json(['message' => 'Topic notification sent successfully!']);
     } else {
       return response()->json(['message' => 'Failed to send topic notification.'], 500);
+    }
+  }
+
+
+  ///////////////////////////////////////////////////////
+
+  public function sendClassNotification(string $token)
+  {
+    $jsonPath = storage_path('app/json/fcm-file.json');
+
+    // 1. Get Access Token
+    $scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
+    $credentials = new ServiceAccountCredentials($scopes, $jsonPath);
+    $authToken = $credentials->fetchAuthToken();
+    $accessToken = $authToken['access_token'];
+
+    $config = json_decode(file_get_contents($jsonPath), true);
+    $projectId = $config['project_id'];
+
+    // 2. Payload (v1 format)
+    $payload = [
+      'message' => [
+        'token' => $token,
+        'data' => [
+          'type' => 'incoming_call',
+          'call_id' => '123456',
+          'caller_name' => 'Math Teacher',
+          'subject' => 'Physics',
+        ],
+        'android' => [
+          'priority' => 'high',
+        ],
+      ]
+      // 'message' => [
+      //   'token' => $token,
+
+      //   'notification' => [
+      //     'title' => '📚 Class in 5 minutes!',
+      //     'body'  => 'Mathematics with Prof. Test at 10:00',
+      //   ],
+
+      //   'data' => [
+      //     'type'       => 'class_alert',
+      //     'subject'    => 'Mathematics',
+      //     'teacher'    => 'Prof. Test',
+      //     'start_time' => '10:00',
+      //     'class_id'   => '999',
+      //     'click_action' => 'FLUTTER_NOTIFICATION_CLICK'
+      //   ],
+
+      //   'android' => [
+      //     'priority' => 'high',
+      //     'notification' => [
+      //       'channel_id' => 'class_alert_channel'
+      //     ]
+      //   ],
+
+      //   'apns' => [
+      //     'payload' => [
+      //       'aps' => [
+      //         'sound' => 'default'
+      //       ]
+      //     ]
+      //   ]
+      // ]
+    ];
+
+    // 3. Send
+    $client = new Client();
+
+    try {
+      $response = $client->post(
+        "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send",
+        [
+          'headers' => [
+            'Authorization' => 'Bearer ' . $accessToken,
+            'Content-Type'  => 'application/json',
+          ],
+          'json' => $payload,
+        ]
+      );
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Notification sent successfully',
+        'response' => json_decode($response->getBody(), true)
+      ]);
+    } catch (\GuzzleHttp\Exception\RequestException $e) {
+
+      return response()->json([
+        'status' => 'error',
+        'details' => json_decode(
+          $e->getResponse()->getBody()->getContents(),
+          true
+        )
+      ], 500);
     }
   }
 }

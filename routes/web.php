@@ -97,6 +97,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('privacy-policy', function () {
           return view('privacy-policy');
         });
+        Route::get('nexus/privacy-policy', function () {
+          return view('nexus/privacy-policy');
+        });
         Route::get('terms-conditions', function () {
           return view('terms-conditions');
         });
